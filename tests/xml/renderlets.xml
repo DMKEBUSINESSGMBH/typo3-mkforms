@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<formidable version="2.0.287">
+	<!--
+	
+			ACHTUNG:
+			Diese XML wird für die FormBase  Action genutzt!
+	
+	-->
+	<meta>
+		<name>Standard XML file</name>
+		<form formid="radioTestForm" />
+		
+		<codeBehind type="php" name="cbphp"
+			path="EXT:mkforms/tests/xml/class.tx_mkforms_tests_xml_UserObjects.php:tx_mkforms_tests_xml_UserObjects"
+		/>
+	</meta>
+	
+	<control>
+	
+		<datahandler:RAW>
+			<record><userobj extension="tx_mkforms_util_FormBase" method="fillForm" /></record>
+			<callback><userobj extension="tx_mkforms_util_FormBase" method="processForm" /></callback>
+		</datahandler:RAW>
+	
+		<datasources>
+			<datasource:PHPARRAY name="dslisterdata">
+				<bindsto>
+					<userobj>
+						<php><![CDATA[/*<?php*/
+			
+							$aData = array(
+										1 => 'Zeile 1',
+										2 => 'Zeile 2',
+										3 => 'Zeile 3',
+										5 => 'Zeile 5');
+			
+							$aDataSource = array();
+							foreach ($aData as $k => $v) {
+								$aDataSource[] = array(  
+									"listerdata-uid" => $k,  
+									"listerdata-title" => $v,
+									"listerdata-selected" => intval($k) === 1,
+								);
+							}
+							return $aDataSource;
+					
+						/*?>*/]]></php>
+					</userobj>
+				</bindsto>
+			</datasource:PHPARRAY>
+		</datasources>
+	
+	</control>
+
+	<elements>
+		
+		<renderlet:BOX mode="fieldset" name="fieldset">
+			<childs>
+		
+				<renderlet:BOX mode="div" name="texte">
+					<childs>
+					
+						<renderlet:BOX mode="div" name="input">
+							<childs>
+								<renderlet:TEXT name="widget-text" />
+								<renderlet:TEXT name="widget1-widget2-text" />
+							</childs>
+						</renderlet:BOX>
+					
+						<renderlet:BOX mode="div" name="area">
+							<childs>
+								<renderlet:TEXTAREA name="textarea" />
+							</childs>
+						</renderlet:BOX>
+						
+					</childs>
+				</renderlet:BOX>
+				
+				<renderlet:RADIOBUTTON name="widget-radiobutton">
+					<data>
+						<items>
+							<item value="1" caption="Feld 1" />
+							<item value="2" caption="Feld 2" />
+							<item value="3" caption="Feld 3" />
+							<item value="4" caption="Feld 4" />
+							<item value="5" caption="Feld 5" />
+							<item value="6" caption="Feld 6" />
+							<item value="7" caption="Feld 7" />
+							<item value="8" caption="Feld 8" />
+							<item value="9" caption="Feld 9" />
+						</items>
+					</data>
+				</renderlet:RADIOBUTTON>
+				
+				<renderlet:LISTBOX name="widget-listbox">
+					<data>
+						<items>
+							<item value="1" caption="Feld 1" />
+							<item value="2" caption="Feld 2" />
+							<item value="3" caption="Feld 3" />
+							<item value="4" caption="Feld 4" />
+							<item value="5" caption="Feld 5" />
+							<item value="6" caption="Feld 6" />
+							<item value="7" caption="Feld 7" />
+							<item value="8" caption="Feld 8" />
+							<item value="9" caption="Feld 9" />
+						</items>
+					</data>
+				</renderlet:LISTBOX>
+				
+				<renderlet:CHECKBOX name="widget-checkbox">
+					<data>
+						<items>
+							<item value="1" caption="Feld 1" />
+							<item value="2" caption="Feld 2" />
+							<item value="3" caption="Feld 3" />
+							<item value="4" caption="Feld 4" />
+							<item value="5" caption="Feld 5" />
+							<item value="6" caption="Feld 6" />
+							<item value="7" caption="Feld 7" />
+							<item value="8" caption="Feld 8" />
+							<item value="9" caption="Feld 9" />
+						</items>
+					</data>
+				</renderlet:CHECKBOX>
+				
+				<renderlet:CHECKSINGLE name="widget-checksingle" dependsOn="fieldset__widget-listbox"/>
+				
+				<renderlet:CHOOSER name="widget-chooser" />
+				
+				<!-- @TODO
+				<renderlet:DAMUPLOAD name="widget-damupload" />
+				 -->
+				 
+				<renderlet:DATE name="widget-date" />
+				
+				<renderlet:LISTER name="widgetlister" uidColumn="listerdata-uid" >
+					<datasource use="dslisterdata" />
+					<columns>
+						<column name="listerdata-uid" listHeader="UID" type="renderlet:HIDDEN" />
+						<column name="listerdata-title" listHeader="Title" type="renderlet:TEXT" />
+						<column name="selected" listHeader="Select" type="renderlet:LISTERSELECT" />
+					</columns>
+				</renderlet:LISTER>
+				
+			</childs>
+		</renderlet:BOX>
+		
+		<renderlet:BUTTON name="btnCall" class="button" label="do ajax call">
+			<onclick
+				runat="ajax"
+				cache="false"
+				validate="true"
+				exec="cbphp.getParams4Ajax()"
+				>
+				<params>
+					<param get="fieldset__*" />
+					<param get="deep::1" />
+					<param get="flatten::1" />
+					<param get="multiple::1" />
+					<param get="majixActionsAfterFinish::
+								fieldset__texte__input__widget1-widget2-text|setValue|Vom Call gefüllt,
+								fieldset__texte__area__textarea|refresh,
+							" />
+				</params>
+			</onclick>
+		</renderlet:BUTTON>
+		
+		<renderlet:SUBMIT name="widget-submit" />
+
+	</elements>
+
+</formidable>

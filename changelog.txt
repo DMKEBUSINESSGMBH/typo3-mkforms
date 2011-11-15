@@ -1,0 +1,14 @@
+Erstellung eines Fork der Extension ameos_formidable
+----------------------------------------------------
+
+Ziele:
+- Umbau zur Verwendung in Cluster-Umgebungen (keine Verwendung der PHP-Session)
+- Support von verschiedenen JS-Frameworks
+- Support von Autoloading
+- Refactoring der Klassenstruktur. Besseres OO-Design
+
+
+Vorgehen:
+- Anpassung der ext_localconf.php um Includefehler zu vermeiden
+- TSFE-Hook nach tx_mkforms_hooks_TSFE verlegt
+- Includes in tx_ameosformidable.php angepaßt

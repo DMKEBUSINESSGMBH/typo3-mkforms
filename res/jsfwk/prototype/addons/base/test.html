@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title> Javascript inheritance </title>
+		<script type="text/javascript" src="Base.js"></script>
+		<script>
+
+			var Animal = Base.extend({
+				name: "",
+				constructor: function(name) {
+					this.name = name;
+				},
+				eat: function() {
+					this.say("Yum!");
+				},
+				say: function(message) {
+					document.write("<p><b>" + this.name + "</b>: " + message + "</p>");
+				}
+			});
+			
+			var Cat = Animal.extend({
+				constructor: function(name) {
+					this.base(name);
+					this.name += " extended";
+				},
+				eat: function(food) {
+					if (food instanceof Mouse) this.base();
+					else this.say("Yuk! I dont like " + food);
+				}
+			});
+			
+			var CanibalCat = Cat.extend({
+				constructor: function(name) {
+					this.base(name);
+					this.name += " re-extended";
+				},
+				eat: function(food) {
+					if(food instanceof Cat) {
+						this.say("Yum! I love eating cat");
+					} else {
+						this.base(food);
+					}
+				}
+			});
+
+			var Mouse = Animal.extend();
+			
+			// test
+			var tom = new Cat("Tom");
+			var jerry = new Mouse("Jerry");
+			var felix = new CanibalCat("Felix the canibal");
+
+			jerry.eat("cheese");
+			tom.eat("cheese");
+			tom.eat(jerry);
+
+			felix.eat("cheese");
+			felix.eat(jerry);
+			felix.eat(tom);
+			felix.eat(felix);
+		</script>
+	</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<?php
+/** 
+ * Plugin 'rdt_box' for the 'ameos_formidable' extension.
+ *
+ * @author	Jerome Schneider <typo3dev@ameos.com>
+ */
+
+
+class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
+	
+	var $aLibs = array(
+		"rdt_modalbox_class" => "res/js/modalbox.js",
+	);
+
+	var $bCustomIncludeScript = TRUE;
+	var $sMajixClass = "ModalBox";
+
+	function _render() {
+		
+		// allowed because of $bCustomIncludeScript = TRUE
+		$this->includeScripts(
+			array(
+				"followScrollVertical" => $this->defaultTrue("/followscrollvertical"),
+				"followScrollHorizontal" => $this->_defaultTrue("/followscrollhorizontal"),
+			)
+		);
+
+		return "";
+	}
+
+	function _renderReadOnly()	{ return $this->_render();}
+	function _readOnly()		{ return TRUE;}
+	function _renderOnly()		{ return TRUE;}
+	function mayHaveChilds()	{ return TRUE;}
+
+	function majixShowFreshBox($aConfig = array(), $aTags = array()) {
+
+		$this->initChilds(
+			TRUE	// existing renderlets in $this->oForm->aORenderlets will be overwritten
+		);	// re-init childs before rendering
+
+		$this->oForm->oDataHandler->refreshAllData();
+
+		return $this->majixShowBox($aConfig, $aTags);
+	}
+	
+	function majixShowBox($aConfig = array(), $aTags = array()) {
+
+		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
+			#$bOldValue = $this->oForm->bInlineEvents;
+			#$this->oForm->bInlineEvents = TRUE;
+			$aEventsBefore = array_keys($this->oForm->aRdtEvents);
+			//debug($aEventsBefore);
+		}
+
+		$aChildsBag = $this->renderChildsBag();
+		$aChildsBag = t3lib_div::array_merge_recursive_overrule($aChildsBag, $aTags);
+
+		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
+			#$this->oForm->bInlineEvents = $bOldValue;
+			$aEventsAfter = array_keys($this->oForm->aRdtEvents);
+			$aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
+			$aAddedEvents = array();
+			reset($aAddedKeys);
+			while(list(, $sKey) = each($aAddedKeys)) {
+				$aAddedEvents[$sKey] = $this->oForm->aRdtEvents[$sKey];
+				unset($this->oForm->aRdtEvents[$sKey]);
+				// unset because if rendered in a lister,
+					// we need to be able to detect the new events even if they were already declared by other loops in the lister
+			}
+
+			//debug($aAddedEvents);
+			$aConfig["attachevents"] = $aAddedEvents;
+		}
+
+		$sCompiledChilds = $this->renderChildsCompiled(
+			$aChildsBag
+		);
+
+		$aConfig["html"] = $sCompiledChilds;
+
+		return $this->buildMajixExecuter(
+			"showBox",
+			$aConfig
+		);
+	}
+
+	function majixCloseBox() {
+
+		return $this->buildMajixExecuter(
+			"closeBox"
+		);
+	}
+
+	function loadModalBox(&$oForm) {
+		$oJsLoader = $this->getForm()->getJSLoader();
+		$oJsLoader->loadScriptaculous();
+		//$this->loadNiftyCube();
+
+		$sPath = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . t3lib_extMgm::siteRelPath("ameos_formidable") . "api/base/rdt_modalbox/res/js/modalbox.js";
+
+		$oForm->additionalHeaderData(
+			"<script type=\"text/javascript\" src=\"" . $oJsLoader->getScriptPath($sPath) . "\"></script>",
+			"rdt_modalbox_class"
+		);
+	}
+
+	// this has to be static !!!
+	function loaded(&$aParams) {
+		$aParams["form"]->getJSLoader()->loadScriptaculous();
+	}
+
+	function majixRepaint() {
+		return $this->buildMajixExecuter(
+			"repaint",
+			$this->renderChildsCompiled(
+				$this->renderChildsBag()
+			)
+		);
+	}
+}
+
+
+	if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php"])	{
+		include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php"]);
+	}
+
+?>

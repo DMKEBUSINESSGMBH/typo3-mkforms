@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<skin>
+	<!-- This is a test skin for formidable -->
+	<renderlets>
+
+		<renderlet:BUTTON modes="active, readonly, list">
+			<resources>
+				<css>
+					<file src="res/css/nicebutton.css" />
+					<file src="res/css/nicebutton-iefix.css">
+						<wrap><![CDATA[
+							
+							<!--[if IE]>|<![endif]-->
+
+						]]></wrap>
+					</file>
+				</css>
+				<template subpart="###BUTTON###">
+					<file src="res/html/template.html" />
+					<channels>
+						<channel name="innerspan" />
+						<channel name="input" />
+					</channels>
+				</template>
+			</resources>
+		</renderlet:BUTTON>
+
+		<renderlet:TEXT modes="active">
+			<resources>
+				<template subpart="###TEXT###">
+					<file src="res/html/template.html" />
+					<channels>
+						<channel name="input" />
+					</channels>
+				</template>
+			</resources>
+		</renderlet:TEXT>
+
+	</renderlets>
+</skin>

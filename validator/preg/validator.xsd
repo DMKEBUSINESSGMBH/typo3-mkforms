@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<xsd:schema
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:validator="http://www.ameos.com/formidable/050/validator"
+	targetNamespace="http://www.ameos.com/formidable/050/validator"
+	elementFormDefault="unqualified">
+
+	<xsd:group name="validatorGroup">
+		<xsd:sequence>
+			<xsd:element ref="validator:PREG" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:element name="PREG">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="conf" minOccurs="1" maxOccurs="1">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:choice>
+
+								<xsd:element name="pattern">
+									<xsd:complexType>
+										<xsd:sequence>
+											<xsd:element name="value"	type="xsd:string" minOccurs="1" maxOccurs="1" />
+											<xsd:element name="message"	type="xsd:string" minOccurs="1" maxOccurs="1" />
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+
+							</xsd:choice>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

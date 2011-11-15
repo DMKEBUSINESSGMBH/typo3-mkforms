@@ -1,0 +1,3 @@
+/* style exceptions for all IE browsers */
+button { width:auto; overflow:visible; }
+button span { margin-top:1px; }

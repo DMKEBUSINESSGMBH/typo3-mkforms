@@ -1,0 +1,34 @@
+UL.jstree {
+	padding: 0;
+	margin: 0;
+}
+
+.jstree ul {
+	margin:0;
+	padding:0 0 0 10px;
+}
+
+.jstree li {
+	list-style-type:none;
+	list-style-image: none;
+	margin:0;
+	padding:0;
+}
+
+.jstree-node,
+.jstree-node-handle {
+	cursor:pointer;
+}
+
+.jstree-node-dropon > .jstree-node-handle {
+	border-bottom:2px solid #000000;
+	border-right:2px solid #000000;
+}
+
+.jstree-node-dropafter > .jstree-node-handle {
+	border-right-color:#FFFFFF;
+}
+
+.jstree-node-active {
+	font-weight: bold;
+}

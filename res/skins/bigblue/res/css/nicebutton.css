@@ -1,0 +1,39 @@
+/*blue buttons*/
+button.bigblue { 
+	background:url(../images/btn_blue_right.gif) right no-repeat; 
+	font-size:1.3em;
+	border:0; 
+	cursor:pointer; 
+	font-weight:bold; 
+	padding:0 20px 0 0; 
+	text-align:center; 
+}
+
+button.bigblue span {
+	position:relative; 
+	display:block; 
+	white-space:nowrap; 
+	padding:0 0 0 20px; 
+	height:50px; 
+	line-height:50px;
+	background:url(../images/btn_blue_left.gif) left no-repeat;
+	color:#fff; 
+}
+
+button.bigblue:hover {
+	background:url(../images/btn_blue_right_hover.gif) right no-repeat; 
+}
+
+button.bigblue:hover span {
+	background:url(../images/btn_blue_left_hover.gif) left no-repeat; 
+}
+
+span.bigblue-button-hover {
+	visibility: hidden;
+	background:url(../images/btn_blue_right_hover.gif) right no-repeat; 
+}
+
+span.bigblue-span-hover {
+	visibility: hidden;
+	background:url(../images/btn_blue_left_hover.gif) left no-repeat;
+}

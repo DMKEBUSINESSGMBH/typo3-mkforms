@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tab.common</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<action>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.action</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="16" type="array">
+										<numIndex index="0">LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.action.FormBase</numIndex>
+										<numIndex index="1">tx_mkforms_action_FormBase</numIndex>
+									</numIndex>
+								</items>
+								<multiple>0</multiple>
+								<maxitems>6</maxitems>
+								<size>6</size>
+							</config>
+						</TCEforms>
+					</action>
+				</el>
+			</ROOT>
+		</sDEF>
+		<s_generic>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tab.generic</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<genericTemplate>
+						<TCEforms>
+						<exclude>1</exclude>
+						<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.template</label>
+						<config>
+							<type>input</type>
+							<size>50</size>
+							<max>256</max>
+							<eval>trim</eval>
+							<default>EXT:mkforms/templates/formonly.html</default>
+							<wizards type="array">
+								<_PADDING>2</_PADDING>
+								<link type="array">
+									<type>popup</type>
+									<title>Link</title>
+									<icon>link_popup.gif</icon>
+									<script>browse_links.php?mode=wizard&amp;act=file</script>
+									<params type="array">
+										<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+										<allowedExtensions>htm,html</allowedExtensions>
+									</params>
+									<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+								</link>
+							</wizards>
+						</config>
+					</TCEforms>
+					</genericTemplate>
+					<generic.xml>
+						<TCEforms>
+						<exclude>1</exclude>
+						<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.xml</label>
+						<config>
+							<type>input</type>
+							<size>50</size>
+							<max>256</max>
+							<eval>trim</eval>
+							<wizards type="array">
+								<_PADDING>2</_PADDING>
+								<link type="array">
+									<type>popup</type>
+									<title>Link</title>
+									<icon>link_popup.gif</icon>
+									<script>browse_links.php?mode=wizard&amp;act=file</script>
+									<params type="array">
+										<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+										<allowedExtensions>xml</allowedExtensions>
+									</params>
+									<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+								</link>
+							</wizards>
+						</config>
+					</TCEforms>
+					</generic.xml>
+
+					<generic.redirect>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.redirect</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</generic.redirect>
+					<generic.redirect.pid>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.redirect.pid</label>
+							<config>
+								<type>input</type>
+								<size>50</size>
+								<max>256</max>
+								<eval>trim</eval>
+								<wizards type="array">
+									<_PADDING type="integer">2</_PADDING>
+                                 	<link type="array">
+	                                    <type>popup</type>
+	                                    <title>Link</title>
+	                                    <icon>link_popup.gif</icon>
+	                                    <script>browse_links.php?mode=wizard</script>
+	                                    <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+                                 	</link>
+                             	</wizards>
+							</config>
+						</TCEforms>
+					</generic.redirect.pid>
+				</el>
+			</ROOT>
+		</s_generic>
+		<s_tssetup>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tab.TSSetup</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<flexformTS>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tssetup</label>
+							<config>
+								<type>text</type>
+								<cols>80</cols>
+								<rows>10</rows>
+							</config>
+						</TCEforms>
+					</flexformTS>
+				</el>
+			</ROOT>
+		</s_tssetup>
+	</sheets>
+</T3DataStructure>

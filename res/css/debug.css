@@ -1,0 +1,26 @@
+DIV.ameosformidable_debugcontainer {
+	clear: none;
+	border: 1px dotted #666666;
+}
+
+DIV.ameosformidable_debughandler {
+	clear: none;
+	display: compact;
+	float: right;
+	font-family: Arial;
+	font-weight: bold;
+	font-size: 9px;
+	background-color: yellow;
+	border-left: 1px dotted #666666;
+	border-bottom: 1px dotted #666666;
+	padding: 1 0 0 1;
+	color: #000000;
+}
+
+DIV.ameosformidable_debugcontainer_void {
+	border: 0px;
+}
+
+DIV.ameosformidable_debughandler_void {
+	display: none;
+}

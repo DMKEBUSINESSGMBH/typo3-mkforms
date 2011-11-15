@@ -1,0 +1,11 @@
+<imageconf>
+	<userobj>
+		<ts><![CDATA[
+
+			10 < config.tx_mkforms.res.shared.xml.imageprocess.shaded
+			10.file.50.file < params.relwebpath
+			10.file.50.file.width = 200m
+
+		]]></ts>
+	</userobj>
+</imageconf>

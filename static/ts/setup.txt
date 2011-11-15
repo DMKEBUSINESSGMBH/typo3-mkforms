@@ -1,0 +1,313 @@
+includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
+
+plugin.tx_mkforms                = USER_INT
+plugin.tx_mkforms.flexform       = flexform_main.xml
+plugin.tx_mkforms.userFunc       = tx_rnbase_controller->main
+plugin.tx_mkforms.defaultAction  = tx_mkforms_action_FormBase
+plugin.tx_mkforms.qualifier      = mkforms
+plugin.tx_mkforms.templatePath   = EXT:mkforms/templates
+#plugin.tx_mkforms.locallangFilename = EXT:mkforms/locallang.xml
+
+tt_content.list.20.tx_mkforms =< plugin.tx_mkforms
+
+lib.mkforms.formbase {
+	
+	### wird nur für tests genutzt. verhindet beispielseise das cachen des formulars.
+	testmode = 0
+
+	### die Basiskonfiguration für mkforms!
+	formconfig =< config.tx_mkforms
+
+	### XML form - set per action. overwrite this!!!
+	xml = 
+
+
+	addfields {
+#		### setzt den wert title, wenn er noch nicht existiert
+#		tabelle-title = neue Tabelle
+#		### setzt den wert draft oder überschreibt ihn.
+#		tabelle-draft = 1
+#		tabelle-draft.override = 1
+#		### entfernt den Wert. 'unset' führt unset() aus, 'null' setzt den Wert auf null
+#		tabelle-uid = unset
+	}
+
+	### Table <-> field separator in xml file
+	fieldSeparator = -
+
+	### Fügt die PostVars zu dem Daten Array hinzu. 
+	addPostVars = 0
+
+	### Redirect options on successfully filled form. If not set, no redirect takes place!
+	redirect {
+		### Page ID - set this to the target page id
+		pid = 0
+		### redirect imer an eine absolute url, um browserprobleme zu vermeiden
+		absurl = 1
+		### To be defined on necessity
+		parameters {
+		}
+	}
+}
+
+plugin.tx_mkforms {
+	### Allgemeine Formulare ###
+	genericTemplate = EXT:mkforms/templates/formonly.html
+	generic =< lib.mkforms.formbase
+}
+
+config.tx_mkforms {
+
+	renderlets {
+		tx_mkforms_widgets_img_Main {
+			image = IMAGE
+			image {
+				file {
+					width = 100m
+					height = 100m
+				}
+			}
+		}
+	}
+
+	actionlets {
+	}
+
+	datasources {
+	}
+
+	datahandlers {
+	}
+
+	renderers {
+	}
+
+	validators {
+	}
+
+	misc {
+		safelockseed = MysteriousHashValue
+	}
+
+	cache {
+		### cache tsSetup
+		tsPaths =  0
+		### wir cachen den inhalt von lib. und plugin.tx_mkforms.
+		tsPaths {
+			lib = 1
+			plugin.tx_mkforms = 1
+		}
+		enabled = 1
+	}
+
+	minify {
+		enabled = 0
+		gzip = 1
+	}
+	
+	### wird im jquery oder prototype ts aktiviert!
+	loadJsFramework = 0
+	mayLoadScriptaculous = 0
+	
+	debugSendMail =
+	injectHeadersInContentAtMarker = 
+	injectHeadersManually = 0
+
+	### deaktiviert exceptions, welche durch ein user object erzeugt werden.
+	disableMaydayOnUserObjExceptions = 0
+
+	quickconf {
+		
+		parts.rootConf {
+			version = 2.0.436
+			meta {
+				name = Default form name
+				form.formid = noformid
+				displaylabels = true
+				debug = false
+			}
+			
+			control {
+			}
+			
+			elements {
+			}
+		}
+
+		parts.renderer.void = renderer:VOID
+		parts.renderer.standard = renderer:STANDARD
+		parts.renderer.template = renderer:TEMPLATE
+		parts.renderer.template {
+			template.path = ...
+			template.subpart = ...
+		}
+
+		parts.datahandler.void = datahandler:VOID
+		parts.datahandler.standard = datahandler:STANDARD
+		parts.datahandler.db = datahandler:DB
+		parts.datahandler.db {
+			tablename = ...
+			keyname = ...
+			labelname = ...
+		}
+
+		nodb < .parts.rootConf
+		nodb.control.datahandler < .parts.datahandler.void
+		nodb.control.renderer < .parts.renderer.standard
+	}
+
+	res {
+		shared {
+			xml {
+				imageprocess {
+
+					rounded = IMAGE
+					rounded {
+						
+						file = GIFBUILDER
+						file {
+							XY = [10.w], [10.h]
+							
+							10 = IMAGE
+							10.file = ...
+							
+							20 = IMAGE
+							20.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+							20.offset = 0,0
+							
+							30 = IMAGE
+							30.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+							30.file.params = -rotate 90
+							30.offset = [10.w] - [30.w], 0
+							
+							40 = IMAGE
+							40.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+							40.file.params = -rotate -90
+							40.offset = 0, [10.h] - [40.h]
+							
+							50 = IMAGE
+							50.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+							50.file.params = -rotate 180
+							50.offset = [10.w] - [50.w], [10.h] - [50.h]
+						}
+					}
+
+
+
+
+					shaded = IMAGE
+					shaded {
+						file = GIFBUILDER
+						file {
+							backColor = white
+							XY = [50.w] + 10 + 10 + 15, [50.h] + 10 + 10 + 15
+							
+							5 = BOX
+							5 {
+								dimensions = 10, 10, [50.w] + 10 + 10, [50.h] + 10 + 10
+								color = silver
+							}
+							
+							10 = EFFECT
+							10.value = blur=60 | gamma=1.5
+							
+							15 = BOX
+							15 {
+								dimensions = 0, 0, [50.w]+ 10 + 10 + 2, [50.h] + 10 + 10 + 2
+								color = silver
+							}
+							
+							20 = BOX
+							20 {
+								dimensions = 1, 1, [50.w]+ 10 + 10, [50.h] + 10 + 10
+								color = white
+							}
+							
+							50 = IMAGE
+							50.file = ...
+							50.offset = 10, 10
+						}
+					}
+
+					fixedwidth = IMAGE
+					fixedwidth {
+						file = GIFBUILDER
+						
+						file {
+							
+							backColor = white
+							XY = [10.w],[10.h]
+
+							10 = IMAGE
+							10{
+								file = ...
+								file.width = ...
+							}
+
+						}
+
+					}
+
+					fixedheight = IMAGE
+					fixedheight {
+						file = GIFBUILDER
+						
+						file {
+							
+							backColor = white
+							XY = [10.w],[10.h]
+
+							10 = IMAGE
+							10{
+								file = ...
+								file.height = ...
+							}
+
+						}
+
+					}
+
+					maxwh = IMAGE
+					maxwh {
+						file = GIFBUILDER
+						
+						file {
+							
+							backColor = white
+							XY = [10.w],[10.h]
+
+							10 = IMAGE
+							10{
+								file = ...
+								file.maxH = ...
+								file.maxW = ...
+							}
+
+						}
+
+					}
+
+					fixedwh = IMAGE
+					fixedwh {
+						file = GIFBUILDER
+						
+						file {
+							
+							backColor = white
+							XY = [10.w],[10.h]
+
+							10 = IMAGE
+							10{
+								file = ...
+								file.height = ...
+								file.width = ...
+							}
+
+						}
+
+					}
+				}
+			}
+		}
+	}
+}

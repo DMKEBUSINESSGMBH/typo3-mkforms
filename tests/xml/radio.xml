@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<formidable version="2.0.287">
+	
+	<meta>
+		<name>Standard XML file</name>
+		<form formid="radioTestForm" />
+	</meta>
+	
+	<control>
+	</control>
+
+	<elements>
+		
+		<renderlet:RADIOBUTTON name="test">
+			<data>
+				<items>
+					<item value="1" caption="Feld 1" />
+					<item value="2" caption="Feld 2" />
+					<item value="3" caption="Feld 3" />
+					<item value="4" caption="Feld 4" />
+					<item value="5" caption="Feld 5" />
+					<item value="6" caption="Feld 6" />
+					<item value="7" caption="Feld 7" />
+					<item value="8" caption="Feld 8" />
+					<item value="9" caption="Feld 9" />
+				</items>
+			</data>
+		</renderlet:RADIOBUTTON>
+		
+
+	</elements>
+
+</formidable>

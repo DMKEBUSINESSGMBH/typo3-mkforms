@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<formidable version="2.0.296">
+
+	<meta>
+		<name>Editing in a modalbox</name>
+		<form formid="test-modaledit"/>
+		<codeBehind type="php" name="cb1" path="EXT:mkhogafe/forms/test/class.editmodalbox.php" />
+	</meta>
+
+	<control>
+			<datasources>
+				<datasource:DB name="simplesource">
+					<sql><![CDATA[
+						SELECT uid, pid, title from pages
+					]]></sql>
+				</datasource:DB>
+				<datasource:DB name="prefixsource">
+					<sql><![CDATA[
+						SELECT uid AS 'prefix-uid', pid AS 'prefix-pid', title AS 'prefix-title' from pages
+					]]></sql>
+				</datasource:DB>
+			</datasources>
+	</control>
+
+	<elements>
+		<renderlet:LISTER name="thelist" uidColumn="prefix-uid">
+			<datasource use="prefixsource" />
+			<columns>
+				<column type="renderlet:TEXT" name="prefix-title" listHeader="Title" />
+				<column type="renderlet:BUTTON" label="Edit" name="btnEdit" sort="false">
+			<!--onclick runat="client">
+            <userobj>
+							<js><![CDATA[
+              console.debug('Klick');
+                ]]></js>
+            </userobj>
+      </onclick-->
+					<onclick
+						runat="ajax"
+						params="rowData::uid"
+						cache="false"
+						exec="cb1.btnEdit_click()"
+					/>
+				</column>
+			</columns>
+		</renderlet:LISTER>
+	</elements>
+</formidable>

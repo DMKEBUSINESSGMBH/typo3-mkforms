@@ -1,0 +1,2 @@
+# cat=bugs; type=boolean; label=Lister name id BugFix ignorieren: Die RowId steht doppelt im Nemen des Formular-Elements (nur wichtig, wenn Lister zur Bearbeitung ohne Ajax genutzt werden).
+listerNameId = 0

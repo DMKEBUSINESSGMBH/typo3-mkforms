@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<title>Default template for renderlet:LISTER</title>
+	</head>
+	<body>
+<!-- ###LIST### begin-->
+	<!--###STYLES### begin note: no STYLE tag here -->
+	/* TABLE LAYOUT */
+	{PREFIX} .lister-table { width: 100%;}
+	{PREFIX} .lister-table TD { padding: 2px; margin: 0px;}
+
+	/* SORTING HEADERS */
+	{PREFIX} .top-row { font-weight: bold; background-color: #ff6d05;}
+	{PREFIX} .top-row TD A { color: white;}
+	{PREFIX} .top-row TD A.sort-act-asc,
+	{PREFIX} .top-row TD A.sort-act-desc { font-style: bold; padding-right: 15px; background-repeat: no-repeat; background-position: right;}
+
+	/* normal sorting header */
+	{PREFIX} .top-row TD A.sort-no {}
+
+	/* active sorting header, sort ASC */
+	{PREFIX} .top-row TD A.sort-act-asc	{ background-image: url({EXTPATH}res/img/aasc.gif);}
+
+	/* active sorting header, sort DESC */
+	{PREFIX} .top-row TD A.sort-act-desc	{ background-image: url({EXTPATH}res/img/adesc.gif);}
+
+	/* DATA ROWS */
+	{PREFIX} .data-row-1 { background-color: #faf0c6;}	/* aspect for even rows */
+	{PREFIX} .data-row-2 { background-color: #fff48b;}	/* aspect for odd rows */
+	{PREFIX} .data-row-act { background-color: #ffd700;}	/* aspect for active row */
+	{PREFIX} .bottom-row { background-color: transparent;}
+	<!--###STYLES### end-->
+
+	<table class="lister-table" cellspacing="0">
+		<tr class="top-row">
+			<!-- ###TOPCOLUMN### begin--><td class="col-{COLNAME}">{COLCONTENT}</td>
+			<!-- ###TOPCOLUMN### end-->
+		</tr>
+
+		<!-- ###ROWS### begin-->
+
+			<!-- ###ROW1### begin-->
+			<tr class="data-row-1 {rowclass}">
+				<!-- ###DATACOLUMN1### begin--><td class="col-{COLNAME}">{COLCONTENT}</td>
+				<!-- ###DATACOLUMN1### end-->
+			</tr>
+			<!-- ###ROW1### end-->
+
+			<!-- ###ROW2### begin-->
+			<tr class="data-row-2 {rowclass}">
+				<!-- ###DATACOLUMN2### begin--><td class="col-{COLNAME}">{COLCONTENT}</td>
+				<!-- ###DATACOLUMN2### end-->
+			</tr>
+			<!-- ###ROW2### end-->
+
+		<!-- ###ROWS### end-->
+
+		<tr class = "bottom-row">
+			<td colspan = "{NBCOLS}" align = "center">
+				{PAGER}
+			</td>
+		</tr>
+	</table>
+
+<!-- ###LIST### end-->
+
+
+<!-- ###LISTPAGER### begin-->
+
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		<tr>
+			<td style="width: 40%;" align="left">
+				<!-- ###LINKFIRST### begin-->
+					<a	id="{linkid}"
+						title="{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.first.title}"
+						href="{link}">{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.first}</a>
+				<!-- ###LINKFIRST### end-->
+                <!-- ###LINKPREV### begin-->
+					<a	id="{linkid}"
+						title="{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.previous.title}"
+						href="{link}">{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.previous}</a>
+				<!-- ###LINKPREV### end-->
+			</td>
+			<td align="center">{page} / {pagemax}</td>
+			<td style="width: 40%;" align="right">
+				<!-- ###LINKNEXT### begin-->
+					<a	id="{linkid}"
+						title="{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.next.title}"
+						href="{link}">{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.next}</a>
+				<!-- ###LINKNEXT### end-->
+                <!-- ###LINKLAST### begin-->
+					<a	id="{linkid}"
+						title="{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.last.title}"
+						href="{link}">{LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.last}</a>
+				<!-- ###LINKLAST### end-->
+			</td>
+		</tr>
+	</table>
+
+<!-- ###LISTPAGER### end-->
+
+	</body>
+</html>

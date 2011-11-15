@@ -1,0 +1,12 @@
+Minify Release History
+
+Version 1.0.2 (2007-06-21)
+  * Converted everything to work with PHP 4.3.21+
+
+Version 1.0.1 (2007-05-05)
+  * Fixed various problems resolving pathnames when hosted on an NFS mount.
+  * Fixed 'undefined constant' notice.
+  * Replaced old JSMin library with a much faster custom implementation.
+
+Version 1.0.0 (2007-05-02)
+  * First release.

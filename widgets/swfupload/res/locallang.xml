@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for renderlet:SWFUPLOAD</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="filetypedesc.allfiles"><![CDATA[All files]]></label>
+			<label index="buttonbrowse.image_url"><![CDATA[EXT:mkforms/widgets/swfupload/res/img/XPButtonBrowseText_61x22.png]]></label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="filetypedesc.allfiles"><![CDATA[Tous les fichiers]]></label>
+			<label index="buttonbrowse.image_url"><![CDATA[EXT:mkforms/widgets/swfupload/res/img/XPButtonBrowseText_61x22_fr.png]]></label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="filetypedesc.allfiles"><![CDATA[Alle Dateien]]></label>
+			<label index="buttonbrowse.image_url"><![CDATA[EXT:mkforms/widgets/swfupload/res/img/XPButtonBrowseText_61x22_de.png]]></label>
+		</languageKey>
+	</data>
+</T3locallang>
