@@ -637,10 +637,11 @@ class tx_mkforms_util_FormBase {
 
 	/**
 	 * Macht aus arrays eine kommaseparierte Liste
+	 * 
 	 * @param array $aData
 	 * @return void
 	 */
-	protected function implodeListerData(&$aData) {
+	public static function implodeListerData(&$aData) {
 		foreach ($aData as &$aTempData) {
 			if(is_array($aTempData)){
 				foreach ($aTempData as &$mValue){
