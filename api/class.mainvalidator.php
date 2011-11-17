@@ -384,10 +384,12 @@ class formidable_mainvalidator extends formidable_mainobject {
 
 			if($widget) {
 					
+				$negate = false;
 				//@TODO: dependsonifnot integrieren
 				if(($aDependsOnIf = $this->_navConf('/' . $sKey . '/dependsonif')) !== FALSE) {
 					$aDependsOnIf = $this->getForm()->getRunnable()->callRunnable($aDependsOnIf);
 					$aDependsOnIf = is_array($aDependsOnIf) ? $aDependsOnIf : t3lib_div::trimExplode(',', $aDependsOnIf, 1);
+					$negate = true;
 				} else {
 					// default false values
 					$aDependsOnIf = array('', 0, '0', null, false, array());
@@ -403,7 +405,8 @@ class formidable_mainvalidator extends formidable_mainobject {
 				// die iterating Id wieder löschen!
 				$widget->setIteratingId();
 					
-				if(!in_array($mValue, $aDependsOnIf)) {
+				$inArray = in_array($mValue, $aDependsOnIf);
+				if(($inArray != $negate)) {
 					return false;
 				}
 			}
