@@ -405,7 +405,20 @@ class formidable_mainvalidator extends formidable_mainobject {
 				// die iterating Id wieder löschen!
 				$widget->setIteratingId();
 					
-				$inArray = in_array($mValue, $aDependsOnIf);
+				//bei einem array von Werten (zb select mit multiple = 1) 
+				//prüfen wir ob einer der array Werte dem Wert in 
+				//dependsonif entspricht
+				if(is_array($mValue)){
+					$inArray = false;
+					foreach ($mValue as $mTempValue)
+						if(in_array($mTempValue, $aDependsOnIf)){
+							$inArray = true;//treffer?
+							continue;
+						}
+						
+				}else 
+					$inArray = in_array($mValue, $aDependsOnIf);
+					
 				if(($inArray != $negate)) {
 					return false;
 				}
