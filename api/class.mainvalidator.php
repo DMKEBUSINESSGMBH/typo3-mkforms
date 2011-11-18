@@ -413,7 +413,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 					foreach ($mValue as $mTempValue)
 						if(in_array($mTempValue, $aDependsOnIf)){
 							$inArray = true;//treffer?
-							continue;
+							break;
 						}
 						
 				}else 
