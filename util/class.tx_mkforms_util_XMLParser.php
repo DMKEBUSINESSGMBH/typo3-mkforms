@@ -25,7 +25,7 @@
 
 /**
  * Loading classes.
- * 
+ *
  */
 class tx_mkforms_util_XMLParser {
 	static $cache = array();
@@ -42,12 +42,12 @@ class tx_mkforms_util_XMLParser {
 			if($isSubXml === FALSE) {
 				tx_mkforms_util_Div::smartMayday_XmlFile($sPath);
 			} else {
-				tx_mkforms_util_Div::mayday("FORMIDABLE CORE - The given XML file path (<b>'" . $sPath . "'</b>) doesn't exists.");
+				tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) doesn't exists.");
 			}
 		} elseif(is_dir($sPath)) {
-			tx_mkforms_util_Div::mayday("FORMIDABLE CORE - The given XML file path (<b>'" . $sPath . "'</b>) is a directory, and should be a file.");
+			tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) is a directory, and should be a file.");
 		} elseif(!is_readable($sPath)) {
-			tx_mkforms_util_Div::mayday("FORMIDABLE CORE - The given XML file path (<b>'" . $sPath . "'</b>) exists but is not readable.");
+			tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) exists but is not readable.");
 		}
 	}
 	/**
@@ -70,19 +70,22 @@ class tx_mkforms_util_XMLParser {
 
 		if(self::$useCache) {
 			// TODO: Das muss noch extern gesetzt werden
-//		if($this->conf["cache."]["enabled"] == 1) {
-			$sProtection = "<?php die('MK Forms - Cache protected'); ?><!--MKFORMS_CACHE-->";
+//		if($this->conf['cache.']['enabled'] == 1) {
+			$sProtection = '<?php die(\'MK Forms - Cache protected\'); ?><!--MKFORMS_CACHE-->';
 
 			//debug(stat($sPath));
 			$sHash = md5($sPath . '-' . @filemtime($sPath) . '-' . tx_mkforms_util_Div::getVersion());
-			$sFile = "formidablexmlcache_" . $sHash . '.php';
-			$sCacheDir = "ameos_formidable/cache/";
-			$sCachePath = PATH_site . "typo3temp/" . $sCacheDir . $sFile;
+			$sFile = 'xmlcache_' . $sHash . '.php';
+			$sCacheDir = 'mkforms/cache/';
+			$sCachePath = PATH_site . 'typo3temp/' . $sCacheDir . $sFile;
 
 			if(file_exists($sCachePath)) {
 				$aConf = unserialize(
 					base64_decode(
-						substr(tx_mkforms_util_Div::fileReadBin($sCachePath), strlen($sProtection) + 3)		/* 3 is size of UTF8-header, aka BOM or Byte Order Mark */
+						substr(
+							tx_mkforms_util_Div::fileReadBin($sCachePath),
+							strlen($sProtection) + 3 // 3 is size of UTF8-header, aka BOM or Byte Order Mark
+						)
 					)
 				);
 				if(is_array($aConf)) {
@@ -94,17 +97,17 @@ class tx_mkforms_util_XMLParser {
 		if(empty($aConf)) {
 
 			$sXmlData = tx_mkforms_util_Div::fileReadBin($sPath);
-			if(trim($sXmlData) === "") {
-				tx_mkforms_util_Div::smartMayday_XmlFile($sPath, "FORMIDABLE CORE - The given XML file path (<b>'" . $sPath . "'</b>) exists but is empty.");
+			if(trim($sXmlData) === '') {
+				tx_mkforms_util_Div::smartMayday_XmlFile($sPath, "MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) exists but is empty.");
 			}
 
 			$aMatches = array();
-			preg_match("/^<\?xml(.*)\?>/", $sXmlData, $aMatches);
+			preg_match('/^<\?xml(.*)\?>/', $sXmlData, $aMatches);
 
 			// Check result
 			if(!empty($aMatches)) {
 				$sXmlProlog = $aMatches[0];
-				$sXmlData = preg_replace("/^<\?xml(.*)\?>/", "", $sXmlData);
+				$sXmlData = preg_replace('/^<\?xml(.*)\?>/', '', $sXmlData);
 
 				/*ereg('^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"',$sXmlProlog, $aParts);
 
@@ -122,7 +125,7 @@ class tx_mkforms_util_XMLParser {
 			}
 
 			if($isSubXml) {
-				$sXmlData = $sXmlProlog . "\n" . "<phparray>" . $sXmlData . "</phparray>";
+				$sXmlData = $sXmlProlog . "\n" . '<phparray>' . $sXmlData . '</phparray>';
 			} else {
 				$sXmlData = $sXmlProlog . "\n" . $sXmlData;
 			}
@@ -135,21 +138,21 @@ class tx_mkforms_util_XMLParser {
 
 
 			if(is_array($aConf)) {
-				if($isSubXml && array_key_exists("phparray", $aConf) && is_array($aConf["phparray"])) {
-					$aConf = $aConf["phparray"];
+				if($isSubXml && array_key_exists('phparray', $aConf) && is_array($aConf['phparray'])) {
+					$aConf = $aConf['phparray'];
 				}
 				reset($aConf);
 			} else {
-				tx_mkforms_util_Div::mayday("FORMIDABLE CORE - The given XML file (<b>'" . $sPath . "'</b>) isn't well-formed XML<br>Parser says : <b>" . $aConf . "</b>");
+				tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file (<b>'" . $sPath . "'</b>) isn't well-formed XML<br>Parser says : <b>" . $aConf . "</b>");
 			}
 
 			if(self::$useCache) {
 
-				if(!@is_dir(PATH_site . "typo3temp/" . $sCacheDir)) {
+				if(!@is_dir(PATH_site . 'typo3temp/' . $sCacheDir)) {
 					if(function_exists('t3lib_div::mkdir_deep')) {
-						t3lib_div::mkdir_deep(PATH_site . "typo3temp/", $sCacheDir);
+						t3lib_div::mkdir_deep(PATH_site . 'typo3temp/', $sCacheDir);
 					} else {
-						tx_mkforms_util_Div::mkdirDeep(PATH_site . "typo3temp/", $sCacheDir);
+						tx_mkforms_util_Div::mkdirDeep(PATH_site . 'typo3temp/', $sCacheDir);
 					}
 				}
 				tx_mkforms_util_Div::fileWriteBin(
@@ -293,8 +296,8 @@ class tx_mkforms_util_XMLParser {
 					// lower-case on tagName
 					$val['tag'] = strtolower($val['tag']);
 					// lower-case on attribute name
-					if(array_key_exists("attributes", $val)) {
-						$val["attributes"] = array_change_key_case($val["attributes"], CASE_LOWER);
+					if(array_key_exists('attributes', $val)) {
+						$val['attributes'] = array_change_key_case($val['attributes'], CASE_LOWER);
 					}
 				}
 
@@ -381,13 +384,13 @@ class tx_mkforms_util_XMLParser {
 						} else {
 							// Add value (force string)
 							if(
-								array_key_exists("value", $val) != ""
+								array_key_exists('value', $val) != ''
 								&&
-								$tagName != "0"
+								$tagName != '0'
 							) {
 								$xml[$tagName] = (string) $val['value'];
 							} else {
-								$xml[$tagName] = "";
+								$xml[$tagName] = '';
 							}
 							// Support for value types
 							switch((string)$val['attributes'][$type]) {
@@ -422,7 +425,7 @@ class tx_mkforms_util_XMLParser {
 								$xml[$tagName] = array_merge(
 									$val['attributes'],
 									array(
-										"__value" => $val["value"]
+										'__value' => $val['value']
 									)
 								);
 							}
