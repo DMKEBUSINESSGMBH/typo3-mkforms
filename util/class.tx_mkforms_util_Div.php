@@ -25,7 +25,7 @@
 
 /**
  * Some static util functions.
- * 
+ *
  */
 class tx_mkforms_util_Div {
 
@@ -281,7 +281,7 @@ class tx_mkforms_util_Div {
 		// email senden
 		$addr = tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'sendEmailOnException');
 		if($addr) {
-			$exception = tx_rnbase::makeInstance('tx_rnbase_util_Exception', $msg, -1, $sDebug);
+			$exception = tx_rnbase::makeInstance('tx_mkforms_exception_Mayday', $msg, -1, $sDebug);
 			tx_rnbase_util_Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : get_class($this), $exception);
 		}
 		
@@ -665,7 +665,7 @@ ERRORMESSAGE;
 	
 	/**
 	 * Returns eID for Ajax calls
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getAjaxEId() {
@@ -806,7 +806,7 @@ ERRORMESSAGE;
 	 *
 	 * @param array $params
 	 * @param string $prefix
-	 * @return array ein Array mit den gefundenen Keys 
+	 * @return array ein Array mit den gefundenen Keys
 	 */
 	public static function findKeysWithPrefix($params, $prefix) {
 		$ret = array();
@@ -915,7 +915,7 @@ ERRORMESSAGE;
 	}
 	
 	/**
-	 * Durchläuft ein Array rekursiv und wendet auf jedes Element 
+	 * Durchläuft ein Array rekursiv und wendet auf jedes Element
 	 * urlDecodeByReference an
 	 * @param $aArray
 	 */
