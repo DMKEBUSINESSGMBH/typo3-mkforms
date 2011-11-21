@@ -54,7 +54,8 @@ class tx_mkforms_exception_Mayday extends tx_rnbase_util_Exception {
 	 * @return 	string
 	 */
 	public function getAdditional() {
-		return is_array($this->additional) ? print_r($this->additional, true) : $this->additional;
+		$additional = parent::getAdditional();
+		return is_array($additional) ? print_r($additional, true) : $additional;
 	}
 }
 
