@@ -92,7 +92,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 * @param 	tx_lib_spl_arrayObject		$viewData
 	 * @return 	string
 	 */
-	public function handleRequest(&$parameters,&$configurations, &$viewData) {
+	public function handleRequest(&$parameters, &$configurations, &$viewData) {
 		$this->configurations =& $configurations;
 		$this->parameters =& $parameters;
 		$this->form = tx_mkforms_forms_Factory::createForm('generic');
@@ -111,7 +111,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	    
 		$this->form->init(
 				$this,
-				$this->getXmlPath(),
+				$this->getXmlPath($configurations, $confId),
 				$this->getPrefillUid(),
 				$configurations,
 				$confId.'formconfig.'
@@ -134,23 +134,33 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	
 	/**
 	 * Gibt den Pfad zum XML zurück
+	 *
+	 * @param 	tx_rnbase_configurations 	$configurations
+	 * @param 	string 							$confId
 	 * @return string
 	 */
-	protected function getXmlPath() {
-		return $this->getConfigurations()->get($this->getConfId().'xml');
+	protected function getXmlPath(&$configurations, $confId) {
+		return $configurations->get($confId.'xml');
 	}
 
 	/**
 	 * Wir prüfen die Konfiguration
 	 *
 	 * @param 	tx_rnbase_configurations 	$configurations
-	 * @param 	string 						$confId
+	 * @param 	string 							$confId
+	 * @return 	array
 	 */
-	protected function configCheck($configurations, $confId) {
+	protected function configCheck(&$configurations, $confId) {
+		
+		// wir prüfen die configuration wenn configCheck nicht gesetzt oder wahr ist.
+		if(!(is_null($configCheck = $configurations->get('configCheck')) || $configCheck)) {
+			return false;
+		}
 		
 		if(!empty($this->errors)) {
 			return '<div style="border:2px solid red; padding:10px; margin: 10px 0; color:red; background: wheat;">'.
 				'<h1>MKFORMS - ACTION - FORMBASE</h1>'.
+				'<p>incomplete typoscript configuration found for "'.$confId.'"</p>'.
 				'<ul><li>'.implode('</li><li>', $this->errors).'</li><ul>'.
 			'</div>';
 		}

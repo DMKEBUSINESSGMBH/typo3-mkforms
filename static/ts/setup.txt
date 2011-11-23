@@ -51,6 +51,9 @@ lib.mkforms.formbase {
 }
 
 plugin.tx_mkforms {
+	### solll die config geprüft werden?
+	configCheck = 1
+
 	### Allgemeine Formulare ###
 	genericTemplate = EXT:mkforms/templates/formonly.html
 	generic =< lib.mkforms.formbase
