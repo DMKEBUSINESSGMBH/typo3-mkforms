@@ -14,7 +14,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 	 *
 	 * @param array		$aData
 	 * @param string	$path	Absolute renderlet path
-	 * @return array			Cleaned-up array 
+	 * @return array			Cleaned-up array
 	 */
 	private function eleminateRequireOnlies($aData, $path='') {
 		if ($path) $path .= '__';
@@ -25,7 +25,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 					unset($aData[$key]);
 				}
 			} else {
-				// Restart the dance recursively:				
+				// Restart the dance recursively:
 				$aData[$key] = $this->eleminateRequireOnlies($aData[$key], $path.$key);
 			}
 		}
@@ -33,8 +33,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 	}
 	
 	public function _doTheMagic($bShouldProcess = TRUE) {
-
-		if(!($bShouldProcess && $this->_allIsValid())) return;
+		if(!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())) return;
 
 		$aData = $this->getFormData();
 		
@@ -66,9 +65,9 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 
 	/**
 	 * Liefert die Ursprungsdaten des Formulars. Für den DH RAW kann ein PHP-Array bereitgestellt werden.
-	 * Wenn ein Parameter übergeben wird, dann wird der konkrete Wert eines Widgets geliefert. Ohne Parameter 
+	 * Wenn ein Parameter übergeben wird, dann wird der konkrete Wert eines Widgets geliefert. Ohne Parameter
 	 * wird der gesamte Record geliefert.
-	 * 
+	 *
 	 * @param string $sName der Name eines Widgets oder false
 	 * @return array oder String
 	 */
