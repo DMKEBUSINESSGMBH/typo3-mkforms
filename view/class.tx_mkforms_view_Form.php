@@ -64,7 +64,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 		if ($data =& $viewData->offsetGet('formData')) {
 			// Successfully filled in form?
 			if (is_array($data)) {
-				$this->handleRedirect($data,$viewData,$configurations);
+				$this->handleRedirect($data, $viewData, $configurations);
 				// else:
 
 				$markerArrays = array();
@@ -98,24 +98,28 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 	/**
 	 * Gibt es einen Redirect? Bei Bedarf kann diese Methode
 	 * in einem eigenen View überschrieben werden
-	 * 
+	 *
 	 * @param array $data
 	 * @param tx_lib_spl_arrayObject $viewData
 	 * @param tx_rnbase_configurations $configurations
-	 * 
+	 *
 	 * @return void
 	 */
-	protected function handleRedirect($data,$viewData,$configurations) {
+	protected function handleRedirect($data, &$viewData, &$configurations) {
 		$confId = $this->getController()->getConfId();
 		if (
 			// redirect if fully submitted
 			$viewData->offsetGet('fullySubmitted')
 			// and redirect configured
 			&& (
-				$configurations->get($confId.'redirect') ||
+				$configurations->getBool($confId.'redirect') ||
 				$configurations->get($confId.'redirect.pid')
 			)
 		) {
+			// Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verlorgen gehen!
+			if($configurations->getBool($confId.'redirect.storeSessionData'))
+				$GLOBALS['TSFE']->fe_user->storeSessionData();
+			
 			$link = $configurations->createLink();
 			$link->initByTS($configurations, $confId.'redirect.', array());
 			$link->redirect();
