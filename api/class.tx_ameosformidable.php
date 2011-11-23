@@ -127,13 +127,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 	
 	protected $_useGP 		= FALSE;
-	protected $_useGPWithUrlDecode 		= FALSE;	
+	protected $_useGPWithUrlDecode 		= FALSE;
 	
 	var $bRendered			= FALSE;
 	var $aSteps				= FALSE;	// array of steps for multi-steps forms
 	var $_aStep				= FALSE;	// current step extracted from session and stored for further user
-
-	var $sXmlVersion		= FALSE;
 
 	var $iForcedEntryId		= FALSE;
 	var $_aInjectedData		= array();	// contains data to inject in the form at init
@@ -224,7 +222,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 	/**
 	 * Liefert ein cObj
-	 * 
+	 *
 	 * @return tslib_cObj
 	 */
 	public function &getCObj(){
@@ -232,7 +230,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 			// Das cObj schein beim cachen verloren zu gehen
 			if(is_object($this->configurations)) {
 				$this->cObj = $this->configurations->getCObj();
-			} 
+			}
 			if(!is_object($this->cObj)) {
 				$this->cObj = tx_rnbase::makeInstance('tslib_cObj');
 			}
@@ -315,7 +313,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	 *
 	 * @param	object		Parent extension using FORMidable
 	 * @param	mixed		Absolute path to the XML configuration file
-	 * @param	int $iForcedEntryId: 
+	 * @param	int $iForcedEntryId:
 	 * @param tx_rnbase_configurations $configurations TS-Configuration
 	 * @param string $confid;
 	 * @return	void
@@ -330,7 +328,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 		$this->makeHtmlParser();
 
-		//In tests brauchen wir das nicht da es bei installiertem 
+		//In tests brauchen wir das nicht da es bei installiertem
 		//ameos nur zu fehler führen würde wegen dem cache
 		if(tx_mkforms_util_Div::getEnvExecMode() !== 'FE' && !$this->bTestMode) {	// virtualizing FE for BE and eID (ajax) modes
 			tx_mkforms_util_Div::virtualizeFE();
@@ -343,7 +341,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		$this->sExtWebPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms');
 
 
-		// TODO: Der Zugriff auf conf wird durch tx_rnbase_configurations ersetzt 
+		// TODO: Der Zugriff auf conf wird durch tx_rnbase_configurations ersetzt
 		$this->setConfigurations($configurations, $confid);
 		$this->_oParent =& $oParent;
 		$this->oParent =& $oParent;
@@ -409,7 +407,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 		// CHECKING FORMID COLLISION IN PAGE
 		if(!(!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms']) ||
-				!array_key_exists($this->formid, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms']) || 
+				!array_key_exists($this->formid, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms']) ||
 				!$this->_defaultFalse('/meta/formwrap'))) {
 			$this->mayday('Two (or more) Formidable are using the same formid \'<b>' . $this->formid . '</b>\' on this page - cannot continue');
 		}
@@ -1857,17 +1855,17 @@ SANDBOXCLASS;
 
 	
 	function resolveForInlineConf($sPath, $oRdt = FALSE) {
-		return $this->getTemplateTool()->resolveScripting('inlineconfmethods',$sPath,$oRdt);	
+		return $this->getTemplateTool()->resolveScripting('inlineconfmethods',$sPath,$oRdt);
 	}
 	
 	/**
-	 * 
+	 *
 	 * @param string $sPath
 	 * @param formidable_mainrenderlet $oRdt
 	 * @return formidable_mainrenderlet
 	 */
 	function resolveForMajixParams($sPath, $oRdt = FALSE) {
-		return $this->getTemplateTool()->resolveScripting('majixmethods',$sPath,$oRdt);	
+		return $this->getTemplateTool()->resolveScripting('majixmethods',$sPath,$oRdt);
 	}
 	
 
@@ -1951,9 +1949,9 @@ SANDBOXCLASS;
 					$curZone = t3lib_div::array_merge_recursive_overrule(
 						$curZone,
 						$mValue
-					);	
+					);
 				} else {
-					$curZone=$mValue;	
+					$curZone=$mValue;
 				}
 				
 				return $mBackup;
@@ -2419,7 +2417,7 @@ SANDBOXCLASS;
 				);
 			} else {
 				$this->additionalHeaderData(
-					"<!-- BEGIN:Formidable '" . $this->formid . "' initialization-->\n" . 
+					"<!-- BEGIN:Formidable '" . $this->formid . "' initialization-->\n" .
 					"<script type=\"text/javascript\">\n" . $sJs . "\n</script>\n" .
 					"<!-- END:Formidable '" . $this->formid . "' initialization-->\n"
 				);
@@ -2435,7 +2433,7 @@ SANDBOXCLASS;
 				);
 			} else {
 				$this->additionalHeaderData(
-					"<!-- BEGIN:Formidable '" . $this->formid . "' post-initialization-->\n" . 
+					"<!-- BEGIN:Formidable '" . $this->formid . "' post-initialization-->\n" .
 					"<script type=\"text/javascript\">\n" . $sJs . "\n</script>\n" .
 					"<!-- END:Formidable '" . $this->formid . "' post-initialization-->\n"
 				);
@@ -2793,7 +2791,7 @@ JAVASCRIPT;
 
 
 	/**
-	 * @deprecated 
+	 * @deprecated
 	 * Returns system informations about an object-type
 	 *
 	 * @param	string		$type: something like TEXT, IMAGE, ...
@@ -3864,7 +3862,7 @@ JAVASCRIPT;
 		if(trim($sDebugSendMail) !== '') {
 			$sAdresseOld = $sAdresse;
 			$sAdresse = $sDebugSendMail;
-			$sMessage .= '<hr />Formidable /meta/debugSendMail: This mail would be sent to ' . $sAdresseOld;	
+			$sMessage .= '<hr />Formidable /meta/debugSendMail: This mail would be sent to ' . $sAdresseOld;
 		}
 
 		$oMail = t3lib_div::makeInstance('t3lib_htmlmail');
@@ -3969,7 +3967,7 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param $aData
 	 * @param $sCaptionMap
 	 * @param $sValueMap
@@ -4400,7 +4398,7 @@ JAVASCRIPT;
 			$sesMgr = tx_mkforms_session_Factory::getSessionManager();
 			$form = $sesMgr->restoreForm($sFormId);
 			return is_object($form) ? $form : false;
-		} 
+		}
 		return false;
 	}
 
@@ -4546,7 +4544,7 @@ JAVASCRIPT;
 
 	function majixForceDownload($sFilePath) {
 
-		$sWebPath = (!tx_mkforms_util_Div::isAbsWebPath($sFilePath)) ? 
+		$sWebPath = (!tx_mkforms_util_Div::isAbsWebPath($sFilePath)) ?
 				tx_mkforms_util_Div::toWebPath($sFilePath) : $sFilePath;
 
 		$aParams = array();
@@ -4990,7 +4988,7 @@ JAVASCRIPT;
 			while(list($sKey, $sLine) = each($aHeaders)) {
 				if($sKey === 0) {
 					$aRes['Status'] = $sLine;
-				} else {			
+				} else {
 					if(trim($sLine) !== '') {
 						$aHeaderLine = explode(':', $sLine);
 						$sHeaderKey = trim(array_shift($aHeaderLine));
@@ -5160,8 +5158,8 @@ JAVASCRIPT;
 		return array_keys($this->aORenderlets);
 	}
 	/**
-	 * Liefert das gewünschte Widget. 
-	 * Der Name kann dabei auch nicht qualifiziert angegeben werden. Es wird dann das erste Widget 
+	 * Liefert das gewünschte Widget.
+	 * Der Name kann dabei auch nicht qualifiziert angegeben werden. Es wird dann das erste Widget
 	 * mit dem entsprechenden Namen geliefert.
 	 *
 	 * @param string $name
@@ -5237,7 +5235,7 @@ JAVASCRIPT;
 	/**
 	 * Im HTTP-Request auch die GET-Daten auslesen. Dies wird benötigt, falls
 	 * Daten über den Pager angezeigt werden.
-	 * 
+	 *
 	 * @param bool $bUrlDecode
 	 */
 	function useGP($bUrlDecode = false) {
@@ -5247,7 +5245,7 @@ JAVASCRIPT;
 	
 	/**
 	 * Gab es Validierungsfehle
-	 * 
+	 *
 	 * @return 	boolean
 	 */
 	public function hasValidationErrors() {
