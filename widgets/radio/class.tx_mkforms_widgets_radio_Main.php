@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_radio' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -47,7 +47,10 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 					$selected = ' checked="checked" ';
 				}
 
-				$sCaption = $this->oForm->getConfigXML()->getLLLabel($aItem['caption']);
+				$sCaption = isset($aItem['caption'])
+						? $this->getForm()->getConfig()->getLLLabel($aItem['caption'])
+						: $aItem['value']
+					;
 
 				$sId = $this->_getElementHtmlId() . '_' . $itemindex;
 				$aSubRdts[] = $sId;
@@ -106,7 +109,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 		);
 
 		$sInput = $this->_implodeElements($aHtml);
-		$aHtmlBag['input'] = $sInput; 
+		$aHtmlBag['input'] = $sInput;
 		$aHtmlBag['__compiled'] = $this->_displayLabel( $this->getLabel() ) . $sRadioGroup;
 
 		reset($aHtmlBag);

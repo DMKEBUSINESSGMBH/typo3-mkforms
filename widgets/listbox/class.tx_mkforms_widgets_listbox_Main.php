@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_listbox' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -42,9 +42,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 
 				$sSelected = '';
 				$value = $aItem['value'];
-				$sCaption = $this->oForm->getConfig()->getLLLabel(
-					$aItem['caption']
-				);
+				$sCaption = isset($aItem['caption'])
+						? $this->getForm()->getConfig()->getLLLabel($aItem['caption'])
+						: $aItem['value']
+					;
 				
 				if($this->_isMultiple()) {
 					if(is_array($sValue)) {
