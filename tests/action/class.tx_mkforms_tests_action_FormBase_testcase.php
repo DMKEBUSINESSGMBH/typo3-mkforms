@@ -27,6 +27,7 @@
 ***************************************************************/
 
 tx_rnbase::load('tx_mkforms_forms_Factory');
+tx_rnbase::load('tx_mklib_tests_Util');
 
 //$res = register_shutdown_function('shutdown');
 //function shutdown(){
@@ -94,38 +95,19 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	 * @return tx_mkforms_action_FormBase
 	 */
 	private static function &getAction($execute = true) {
-		$action = tx_rnbase::makeInstance('tx_mkforms_action_FormBase');
-		
-		if($execute) {
-			$configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
-			$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
-			
-			$configArray = array(
-					'testmode' => 1,
-					'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
-					'addfields.' => array(
-							'widget-addfield' => 'addfield feld',
-							'widget-remove' => 'unset',
-						),
-					'fieldSeparator' => '-',
-					'addPostVars' => 1,
-					'formconfig.' => array('loadJsFramework' => 0), // formconfig für config check setzen.
-				);
-			$configArray = array('generic.' => $configArray);
-			//@TODO: warum wird die klasse tslib_cObj nicht gefunden!? (mw: eternit local)
-			require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
-			$configurations->init(
-					$configArray,
-					$configurations->getCObj(1),
-					'mkforms', 'mkforms'
-				);
-			$configurations->setParameters($parameters);
-			$action->setConfigurations($configurations);
-			
-//			$action->execute($parameters, $configurations);
-			$out = $action->handleRequest($parameters, $configurations, $configurations->getViewData());
-		}
-		return $action;
+		$configArray = array(
+				'testmode' => 1,
+				'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
+				'addfields.' => array(
+						'widget-addfield' => 'addfield feld',
+						'widget-remove' => 'unset',
+					),
+				'fieldSeparator' => '-',
+				'addPostVars' => 1,
+				'formconfig.' => array('loadJsFramework' => 0), // formconfig für config check setzen.
+			);
+		$configArray = array('generic.' => $configArray);
+		return tx_mklib_tests_Util::getAction('tx_mkforms_action_FormBase',$configArray,'mkforms');
 	}
 	public function test_handleRequest() {
 		$action = $this->getAction();
