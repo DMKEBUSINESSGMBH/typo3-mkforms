@@ -42,7 +42,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	protected $sCachefile;
 	
 	/**
-	 * 
+	 *
 	 */
 	public function setUp() {
 		//aktuelle Konfiguration sichern
@@ -74,7 +74,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		 * on line 66:
 		 * Message:
 		 * Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\typo3\typo3conf\ext\phpunit\mod1\class.tx_phpunit_module1.php:112)
-		 * 
+		 *
 		 * Diese Fehler passiert, wenn die usersession ausgelesen wird. der feuser hat natürlich keine.
 		 * Das Ganze passiert in der t3lib_userauth->fetchUserSession.
 		 * Dort wird t3lib_userauth->logoff aufgerufen, da keine session vorhanden ist.
@@ -89,7 +89,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	}
 	
 	/**
-	 * 
+	 *
 	 * @param 	boolean 		$execute
 	 * @return tx_mkforms_action_FormBase
 	 */
@@ -120,6 +120,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 					'mkforms', 'mkforms'
 				);
 			$configurations->setParameters($parameters);
+			$action->setConfigurations($configurations);
 			
 //			$action->execute($parameters, $configurations);
 			$out = $action->handleRequest($parameters, $configurations, $configurations->getViewData());
