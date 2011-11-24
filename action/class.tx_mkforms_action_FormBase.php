@@ -55,16 +55,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	protected $preFilledForm = false;
 
 	/**
-	 * @var tx_rnbase_configurations
-	 */
-	private $configurations;
-	
-	/**
-	 * @var tx_rnbase_parameters
-	 */
-	private $parameters;
-
-	/**
 	 * @var tx_ameosformidable
 	 */
 	private $form;
@@ -93,8 +83,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 * @return 	string
 	 */
 	public function handleRequest(&$parameters, &$configurations, &$viewData) {
-		$this->configurations =& $configurations;
-		$this->parameters =& $parameters;
 		$this->form = tx_mkforms_forms_Factory::createForm('generic');
 		$confId = $this->getConfId();
 		
@@ -215,7 +203,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		// wir suchen für jede Tabelle eine Update Methode in der Kindklasse
 		if($flattenData) {
 			foreach($data as $sTable => $aFields){
-				$method = 'process'.self::underscoreToCamelCase($sTable).'Data';
+				$method = 'process'.tx_mkforms_util_Div::toCamelCase($sTable).'Data';
 				if(method_exists($this, $method)) {
 					$data[$sTable] = $this->{$method}($aFields);
 				}
@@ -229,18 +217,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 			
 		// Fill $this->filledForm with all the post-processed and possibly completed data
 		$this->setFormData($data);
-	}
-	
-	/**
-	 * @todo: in util div auslagern!
-	 * @param unknown_type $sTable
-	 */
-	protected static function underscoreToCamelCase($sTable){
-		$sCamelCase = '';
-		foreach(explode('_', $sTable) as $sPart) {
-			$sCamelCase .= ucfirst($sPart);
-		}
-		return $sCamelCase;
 	}
 	
 	/**
@@ -342,7 +318,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		// Of course, the respective data handler has to handle
 		// complex data types in the right way.
 		$sParamName = ($this->useTemplateNameAsPrefillParamName()) ? $this->getTemplateName() : 'uid';
-		$uid = $this->getConfigurations()->getParameters()->get($sParamName);
+		$uid = $this->getParameters()->get($sParamName);
 		// Use parameter "uid", if available
 		return $uid ? $uid : false;		// FALSE as default - DON'T use NULL!!!
 	}
@@ -356,19 +332,11 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	}
 
 	/**
-	 * Returns the config of the action to use in form
-	 * @return 	tx_rnbase_configurations
-	 */
-	public function getConfigurations(){
-		return $this->configurations;
-	}
-	
-	/**
 	 * Returns the parameters of the action to use in form
 	 * @return 	tx_rnbase_parameters
 	 */
 	public function getParameters(){
-		return $this->parameters;
+		return $this->getConfigurations()->getParameters();
 	}
 
 	/**
