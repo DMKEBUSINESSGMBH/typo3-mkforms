@@ -35,8 +35,15 @@ tx_rnbase::load('tx_mkforms_util_Div');
  */
 class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 	
+	public function testToCamelCase() {
+		$this->assertEquals('FeUsers',tx_mkforms_util_Div::toCamelCase('fe_users'));
+		$this->assertEquals('feUsers',tx_mkforms_util_Div::toCamelCase('fe_users', '_', true));
+		$this->assertEquals('TxMklibWordlist',tx_mkforms_util_Div::toCamelCase('tx_mklib_wordlist'));
+		$this->assertEquals('TxMklibTestsUtilStringTestcase',tx_mkforms_util_Div::toCamelCase('tx_mklib_tests_util_String_testcase'));
+		
+	}
 	public function testGetSetupByKeys(){
-		$aConfig = array(	
+		$aConfig = array(
 				'lib.' => array(
 					'mkforms.' => array(
 						'formbase.' => array(
@@ -64,7 +71,7 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 					),
 				),
 			);
-		$aWill = array(	
+		$aWill = array(
 				'lib' => 1,
 				'plugin.' => array(
 					'tx_mkforms' => 1,

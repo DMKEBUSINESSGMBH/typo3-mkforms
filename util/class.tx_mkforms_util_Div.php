@@ -934,7 +934,25 @@ ERRORMESSAGE;
 	public static function urlDecodeByReference(&$item, $key = null) {
 		$item = urldecode($item);
 	}
-	
+
+
+	/**
+	 * Wandelt einen String anhand eines Trennzeichens in CamelCase um.
+	 * @param 	string 	$sString
+	 * @param 	string 	$sDelimiter
+	 * @return string
+	 */
+	public static function toCamelCase($sString, $sDelimiter='_', $bLcFirst = false){
+		//$sCamelCase = implode('', array_map('ucfirst', explode($sDelimiter, $sString)));
+		// das ist schneller als die array_map methode!
+		$sCamelCase = '';
+		foreach(explode($sDelimiter, $sString) as $sPart) {
+			$sCamelCase .= ucfirst($sPart);
+		}
+		// lcfirst gibt es erst ab php 5.3!
+		if($bLcFirst) $sCamelCase{0} = strtolower($sCamelCase{0});
+		return $sCamelCase;
+	}
 
 	/**
 	 * Liefert bestimmte Pfade
@@ -963,4 +981,3 @@ ERRORMESSAGE;
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Div.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Div.php']);
 }
-?>
