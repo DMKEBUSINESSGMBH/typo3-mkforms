@@ -175,12 +175,22 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 			if($configurations->getBool($confId.'redirect.storeSessionData'))
 				$GLOBALS['TSFE']->fe_user->storeSessionData();
 			
-			$link = $configurations->createLink();
-			$link->initByTS($configurations, $confId.'redirect.', array());
+			$link = $this->createRedirectLink($viewData, $configurations, $confId);
 			$link->redirect();
 			// Und tschüss, ab hier passiert nix mehr.
 			exit('REDIRECTED!');
 		}
+	}
+	/**
+	 * Erzeugt den Link für den Redirect. Kind-Klassen haben die Möglchkeit diese Methode zu überschreiben.
+	 * @param ArrayObject $viewData
+	 * @param tx_rnbase_configurations $configurations
+	 * @param string $confId
+	 */
+	protected function createRedirectLink($viewData, $configurations, $confId) {
+		$link = $configurations->createLink();
+		$link->initByTS($configurations, $confId.'redirect.', array());
+		return $link;
 	}
 
 	/**
