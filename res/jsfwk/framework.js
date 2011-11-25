@@ -891,8 +891,24 @@ Formidable.Classes.FormBaseClass = Base.extend({
 	},
 	sendToPage: function(sUrl) {
 		this.displayLoader();
+		if(sUrl.substr(0,window.location.protocol.length) != window.location.protocol) {
+			sUrl =  this.getBaseUrl() + sUrl;
+		}
 		document.location.href = sUrl;
 	},
+	getBaseUrl: function(){
+		var baseAddr = '';
+		if( document.getElementsByTagName ) {
+			var elems = document.getElementsByTagName( 'base' );
+			if( elems.length ) {
+				baseAddr = elems[0].href;
+			}
+		}
+		if(baseAddr == '') {
+			baseAddr = window.location.protocol + '//' + window.location.host;
+		}
+		return baseAddr;
+	},	
 	openPopup: function(mUrl) {
 		if(typeof mUrl["url"] != 'undefined') {
 			// it's an array of parameters

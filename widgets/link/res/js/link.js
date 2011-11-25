@@ -14,18 +14,7 @@ Formidable.Classes.Link = Formidable.Classes.RdtBaseClass.extend({
 			return;
 		}
 		if(href.substr(0,window.location.protocol.length) != window.location.protocol)
-			href =  this.getBaseUrl() + href;
+			href =  this.oForm.getBaseUrl() + href;
 		window.location.href = href;
-	},
-	getBaseUrl: function(){
-		var baseAddr = '';
-		if( document.getElementsByTagName ) {
-			var elems = document.getElementsByTagName( 'base' );
-			if( elems.length )
-				baseAddr = elems[0].href;
-		}
-		if(baseAddr == '')
-			baseAddr = window.location.protocol + '//' + window.location.host
-		return baseAddr;
 	}
 });
