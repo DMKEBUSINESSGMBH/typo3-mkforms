@@ -93,10 +93,10 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		}
 		
 		// befinden wir uns in einem Test?
-	    if($configurations->get($confId.'testmode')) {
-	    	$this->form->setTestMode();
-	    }
-	    
+		if($configurations->get($confId.'testmode')) {
+			$this->form->setTestMode();
+		}
+
 		$this->form->init(
 				$this,
 				$this->getXmlPath($configurations, $confId),
@@ -107,17 +107,16 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		
 		$viewData->offsetSet('form', $this->form->render());
 		$viewData->offsetSet('fullySubmitted', $this->form->isFullySubmitted());
-		
+
 		if (is_array($this->filledForm)) {
 			$viewData->offsetSet('formData', $this->filledForm);
 		}
-		
+
 		// Needed in generic view! @todo: sure???
 		$viewData->offsetSet('actionConfId', $confId);
 
 		// Set Errors
 		$viewData->offsetSet('errors', !empty($this->errors) ? $this->configCheck($configurations, $confId) : false);
-		
 	}
 	
 	/**
