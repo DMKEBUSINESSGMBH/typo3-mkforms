@@ -171,9 +171,8 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 				$configurations->get($confId.'redirect.pid')
 			)
 		) {
-			// Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verlorgen gehen!
-			if($configurations->getBool($confId.'redirect.storeSessionData'))
-				$GLOBALS['TSFE']->fe_user->storeSessionData();
+			// Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
+			$GLOBALS['TSFE']->fe_user->storeSessionData();
 			
 			$link = $this->createRedirectLink($viewData, $configurations, $confId);
 			$link->redirect();

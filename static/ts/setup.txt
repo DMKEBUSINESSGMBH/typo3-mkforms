@@ -44,8 +44,6 @@ lib.mkforms.formbase {
 		pid = 0
 		### redirect imer an eine absolute url, um browserprobleme zu vermeiden
 		absurl = 1
-		### die feuser session daten müssen vor dem redirect gespeichert werden!
-		storeSessionData = 1
 		### To be defined on necessity
 		parameters {
 		}
