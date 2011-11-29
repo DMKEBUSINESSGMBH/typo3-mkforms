@@ -58,31 +58,35 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 		$sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
 		$sInput .= '<input type="hidden" name="' . $this->_getElementHtmlName() . '[backup]" value="' . $this->getValueForHtml($sValue) . '" />';
 		
-		$aValues = t3lib_div::trimExplode(',', $this->getValueForHtml($sValue));
+		if(!empty($sValue) && $this->defaultTrue('showfilelist')) {
+			$aValues = t3lib_div::trimExplode(',', $this->getValueForHtml($sValue));
 		
-		reset($aValues);
-		$sLinks = array();
-		while(list($sKey,) = each($aValues)) {
-			$sWebPath = tx_mkforms_util_Div::toWebPath(
-				$this->getServerPath($aValues[$sKey])
-			);
-			$aLinks[] = '<a href="' . $sWebPath . '" target="_blank">' . $aValues[$sKey] . '</a>';
-		}
+			reset($aValues);
 		
-		$sLis = '<li>' . implode('</li><li>', $aValues) . '</li>';
-		$sLinkLis = '<li>' . implode('</li><li>', $aLinks) . '</li>';
-		$sValueCvs = implode(', ', $aValues);
-		$sLinkCvs = implode(', ', $aLinks);
-		
-		$sValuePreview = '';
-		
-		if((trim($sValue) !== '') && ($this->defaultTrue('showlink') === TRUE)) {
-			if(trim($sLinkCvs) !== '') {
-				$sValuePreview = $sLinkCvs . '<br />';
+			$sLinks = array();
+			while(list($sKey,) = each($aValues)) {
+				$sWebPath = tx_mkforms_util_Div::toWebPath(
+					$this->getServerPath($aValues[$sKey])
+				);
+				$aLinks[] = '<a href="' . $sWebPath . '" target="_blank">' . $aValues[$sKey] . '</a>';
 			}
-		} else {
-			if(trim($sValueCvs) !== '') {
-				$sValuePreview = $sValueCvs . '<br />';
+			
+			$sLis = '<li>' . implode('</li><li>', $aValues) . '</li>';
+			$sLinkLis = '<li>' . implode('</li><li>', $aLinks) . '</li>';
+			$sValueCvs = implode(', ', $aValues);
+			$sLinkCvs = implode(', ', $aLinks);
+			
+			$sValuePreview = '';
+			
+	
+			if((trim($sValue) !== '') && ($this->defaultTrue('showlink') === TRUE)) {
+				if(trim($sLinkCvs) !== '') {
+					$sValuePreview = $sLinkCvs . '<br />';
+				}
+			} else {
+				if(trim($sValueCvs) !== '') {
+					$sValuePreview = $sValueCvs . '<br />';
+				}
 			}
 		}
 		
