@@ -26,7 +26,7 @@ tx_rnbase::load('tx_mkforms_session_IManager');
 
 /**
  * A session manager that uses php session to store data
- * 
+ *
  * Relevante Daten:
  * - ajax_services:  Widgets, die Ajax nutzen
  * - hibernate: Das serialisierte Formular
@@ -34,7 +34,7 @@ tx_rnbase::load('tx_mkforms_session_IManager');
  *   object - das serialisierte Formular
  *   runningobjects - alle verwendeten Formobjekte inklusive Datahandler und Renderer
  *   tsfe_config - das Typoscript-Array
- * 
+ *
  */
 class tx_mkforms_session_PHPSessionManager implements tx_mkforms_session_IManager {
 	private $form;
@@ -161,8 +161,9 @@ class tx_mkforms_session_PHPSessionManager implements tx_mkforms_session_IManage
 			if($sessionLen > 900000) {
 				tx_rnbase_util_Logger::notice('Alert: Large session size!', 'mkforms', array('Size'=>$sessionLen, 'PHP-SessionID'=> session_id(), 'FormId' => $formId));
 			}
-			if ($_REQUEST['debug']==1) 
-				t3lib_div::debug($sessionLen,'Das ganze _SESSION in Bytes in ' . $formId );
+// 			// nicht gut für den live betrieb, lieber mal in die devlog schauen!
+// 			if ($_REQUEST['debug']==1)
+// 				t3lib_div::debug($sessionLen,'Das ganze _SESSION in Bytes in ' . $formId );
 		}
 	}
 }
