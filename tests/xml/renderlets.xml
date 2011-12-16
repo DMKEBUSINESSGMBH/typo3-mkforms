@@ -63,6 +63,7 @@
 						<renderlet:BOX mode="div" name="input">
 							<childs>
 								<renderlet:TEXT name="widget-text" />
+								<renderlet:TEXT name="widget-text2" sanitize="false" />
 								<renderlet:TEXT name="widget1-widget2-text" />
 							</childs>
 						</renderlet:BOX>

@@ -962,8 +962,20 @@
 			// Bei Widgets aus dem Lister haben wir eine IteratingId und als Ergebnis ein Array
 			if(is_array($ret) && $this->getIteratingId()) {
 				return $ret[$this->getIteratingId()];
-			}
+			//wir müssen XSS nur bei strings entfernen und wenn es gewünscht ist
+			}elseif (is_string($ret) && $this->sanitize()) {
+				$ret = t3lib_div::removeXSS($ret);
+			} 
 			return $ret;
+		}
+		
+		/**
+		 * Soll bei getValue XSS entfernt werden? 
+		 * default ja
+		 * @return boolean
+		 */
+		protected function sanitize() {
+			return $this->defaultTrue('/sanitize');
 		}
 		
 		function getValueForHtml($mValue = FALSE) {
