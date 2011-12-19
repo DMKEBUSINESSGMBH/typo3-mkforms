@@ -961,7 +961,7 @@
 			$ret = $this->getForm()->getDataHandler()->getRdtValue($this->getAbsName());
 			// Bei Widgets aus dem Lister haben wir eine IteratingId und als Ergebnis ein Array
 			if(is_array($ret) && $this->getIteratingId()) {
-				return $ret[$this->getIteratingId()];
+				$ret = $ret[$this->getIteratingId()];
 			//wir müssen XSS nur bei strings entfernen und wenn es gewünscht ist
 			}elseif (is_string($ret) && $this->sanitize()) {
 				$ret = t3lib_div::removeXSS($ret);
