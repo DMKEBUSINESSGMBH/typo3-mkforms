@@ -353,8 +353,9 @@ class formidable_mainvalidator extends formidable_mainobject {
 				return false;
 			}
 		}
-		if(($mSkipIf = $this->_defaultFalse('/' . $sKey . '/skipif')) !== FALSE) {
-			if($mSkipIf == $mValue) {
+		if(($mSkipIf = $this->_navConf('/' . $sKey . '/skipif')) !== FALSE) {
+			$mSkipIf = t3lib_div::trimExplode(',', $mSkipIf);
+			if(in_array($mValue,$mSkipIf)) {
 				return false;
 			}
 		}
