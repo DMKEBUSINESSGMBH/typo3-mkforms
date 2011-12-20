@@ -68,6 +68,42 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		$this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
 		$this->assertEquals('<script>alert("ohoh");</script>',$this->oForm->getWidget('widget-text2')->getValue(),'JS wurde nicht entfernt bei widget-text2!');
 	}
+	
+	/**
+	 * Performance bei hundertfachen aufruf von getvalue testen
+	 * mit bereinigung
+	 * sollte 3 mal so langsam wie ohne bereinigung sein
+	 */
+	public function testPerformanceOfSetValueWithSanitizingString() {
+		$this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
+		
+		$dTime = microtime(true);
+		for ($i = 0; $i < 99; $i++) {
+			$value = $this->oForm->getWidget('widget-text')->getValue();	
+		}
+		$dUsedtime = microtime(true) -$dTime;
+		
+		//der grenzwert sollte nicht überschritten werden
+		$this->assertLessThanOrEqual('0.1200000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
+	}
+	
+	/**
+	 * Performance bei hundertfachen aufruf von getvalue testen
+	 * ohne bereinigung
+	 * sollte 3 mal so schnell wie mit bereinigung sein
+	 */
+	public function testPerformanceOfSetValueWithoutSanitizingString() {
+		$this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
+		
+		$dTime = microtime(true);
+		for ($i = 0; $i < 99; $i++) {
+			$value = $this->oForm->getWidget('widget-text2')->getValue();	
+		}
+		$dUsedtime = microtime(true) -$dTime;
+		
+		//der grenzwert sollte nicht überschritten werden
+		$this->assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
