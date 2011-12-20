@@ -4239,9 +4239,10 @@ JAVASCRIPT;
 		//installiert ist, sind im CObj Hooks enthalten, die zu Fehlern beim
 		//wiederherstellen der Form führen.
 		unset($this->oJs->jsWrapper);
+		unset($this->oJs->oForm);
+		unset($this->oJs); // wir brauchen den ganzen js loader nicht!
 		unset($this->_oParent);
 		unset($this->oParent);
-		unset($this->oJs->oForm);
 		unset($this->oMajixEvent);
 		
 		// wir müssen das config array mit cachen,
