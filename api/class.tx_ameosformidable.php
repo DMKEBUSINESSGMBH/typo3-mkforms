@@ -584,7 +584,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	 */
 	public function getJSLoader() {
 		if(!is_object($this->oJs)) {
-			tx_rnbase::load('tx_mkforms_js_Loader');
+			$this->getObjectLoader()->load('tx_mkforms_js_Loader');
 			$this->oJs = tx_mkforms_js_Loader::createInstance($this);
 		}
 		return $this->oJs;
@@ -4240,7 +4240,6 @@ JAVASCRIPT;
 		//wiederherstellen der Form führen.
 		unset($this->oJs->jsWrapper);
 		unset($this->oJs->oForm);
-		unset($this->oJs); // wir brauchen den ganzen js loader nicht!
 		unset($this->_oParent);
 		unset($this->oParent);
 		unset($this->oMajixEvent);
