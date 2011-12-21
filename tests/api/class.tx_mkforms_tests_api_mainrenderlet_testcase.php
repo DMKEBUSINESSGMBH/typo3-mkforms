@@ -78,9 +78,10 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
 			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
 		}
-		$this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
+		$this->oForm->getWidget('widget-text')->setValue('<script type="text/javascript">alert("XSS");</script>');
 		
 		$dTime = microtime(true);
+		// sind 100 aufrufe real? es sind sicher um einiges mehr.
 		for ($i = 0; $i < 99; $i++) {
 			$value = $this->oForm->getWidget('widget-text')->getValue();
 		}
@@ -99,14 +100,14 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
 			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
 		}
-		$this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
+		$this->oForm->getWidget('widget-text2')->setValue('<script type="text/javascript">alert("XSS");</script>');
 		
 		$dTime = microtime(true);
+		// sind 100 aufrufe real? es sind sicher um einiges mehr.
 		for ($i = 0; $i < 99; $i++) {
 			$value = $this->oForm->getWidget('widget-text2')->getValue();
 		}
 		$dUsedtime = microtime(true) -$dTime;
-		
 		//der grenzwert sollte nicht überschritten werden
 		$this->assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
 	}
