@@ -75,11 +75,14 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	 * sollte 3 mal so langsam wie ohne bereinigung sein
 	 */
 	public function testPerformanceOfSetValueWithSanitizingString() {
+		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
+			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
+		}
 		$this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
 		
 		$dTime = microtime(true);
 		for ($i = 0; $i < 99; $i++) {
-			$value = $this->oForm->getWidget('widget-text')->getValue();	
+			$value = $this->oForm->getWidget('widget-text')->getValue();
 		}
 		$dUsedtime = microtime(true) -$dTime;
 		
@@ -93,11 +96,14 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	 * sollte 3 mal so schnell wie mit bereinigung sein
 	 */
 	public function testPerformanceOfSetValueWithoutSanitizingString() {
+		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
+			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
+		}
 		$this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
 		
 		$dTime = microtime(true);
 		for ($i = 0; $i < 99; $i++) {
-			$value = $this->oForm->getWidget('widget-text2')->getValue();	
+			$value = $this->oForm->getWidget('widget-text2')->getValue();
 		}
 		$dUsedtime = microtime(true) -$dTime;
 		
