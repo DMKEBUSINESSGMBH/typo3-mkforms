@@ -25,7 +25,7 @@ require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 
 /**
  * Loading classes.
- * 
+ *
  */
 class tx_mkforms_util_Loader {
 	private $formId = false;
@@ -93,7 +93,7 @@ class tx_mkforms_util_Loader {
 	}
 
 	/**
-	 * Hier wird eine PHP-Klasse für ein Form-Element geladen. Diese Methode ist static. Sie wird bei der 
+	 * Hier wird eine PHP-Klasse für ein Form-Element geladen. Diese Methode ist static. Sie wird bei der
 	 * normalen Form-Erstellung verwendet und bei Ajax-Calls.
 	 *
 	 * @param string $objectKey
@@ -216,7 +216,7 @@ class tx_mkforms_util_Loader {
 	public static function loadLoadedClasses(array &$aRObjects) {
 		reset($aRObjects);
 		while(list($sClass, $sPath) = each($aRObjects)) {
-			if($sPath) require_once($sPath);
+			if(is_string($sPath)) require_once($sPath);
 			tx_rnbase::load($sClass);
 		}
 	}
