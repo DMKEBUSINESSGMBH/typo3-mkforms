@@ -1,4 +1,9 @@
 Formidable.Classes.CheckBox = Formidable.Classes.RdtBaseClass.extend({
+	aStoredEvents: [],
+	constructor: function(oConfig) {
+		this.aStoredEvents = [];
+		this.base(oConfig);
+	},
 	isParentObj: function() {
 		return this.config.bParentObj === true;
 	},
@@ -91,7 +96,6 @@ Formidable.Classes.CheckBox = Formidable.Classes.RdtBaseClass.extend({
 
 		return sObjectId;
 	},
-	aStoredEvents: [],
 	attachEvent: function(sEventHandler, fFunc) {
 		var event = {
 				'event': sEventHandler,
@@ -109,6 +113,7 @@ Formidable.Classes.CheckBox = Formidable.Classes.RdtBaseClass.extend({
 				MKWrapper.attachEvent(oObj, this.aStoredEvents[i].event+'.fEvent',this.aStoredEvents[i].func,oObj);
 			}
 		}
+		this.aStoredEvents = [];
 	},
 	getItem: function(sValue) {
 		var oParent = this.getParentObj();
