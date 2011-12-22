@@ -259,7 +259,12 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		$cache = tx_rnbase_cache_Manager::getCache('mkforms');
 		$serForm = $cache->get($this->getUserFormKey($formid));
 		if(!$serForm) return false;
-		
+
+		if(TYPO3_UseCachingFramework) {
+			// Zur Sicherheit den Cache initialisieren. Sonst kann es zu Exceptions kommen.
+			$c = tx_rnbase_cache_Manager::getCache('cache_hash');
+		}
+
 		/* @var $oForm tx_ameosformidable */
 		$oForm = unserialize(gzuncompress($serForm));
 		
