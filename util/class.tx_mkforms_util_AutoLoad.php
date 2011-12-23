@@ -26,14 +26,14 @@
 /**
  * Wenn Klassen noch nicht geladen wurden, gibt es PHP-Warnungen!
  * Also laden wir die jeweiligen Klassen nach.
- * 
+ *
  * ACHTUNG: dies ist nur ein Fallback!
  * 	idealerweise sollten solche Klassen mit dem Loader geladen werden.
  * 	Mit dem Loader geladene oder instanzierte Objekte
  * 	werden automatich vor dem Wiederherstellen geladen:
  * 		$form->getObjectLoader()->load($sClass, $sPath = false);
  * 		$form->getObjectLoader()->makeInstance($sClass, $sPath = false);
- * 
+ *
  * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
  */
 class tx_mkforms_util_AutoLoad {
@@ -46,13 +46,21 @@ class tx_mkforms_util_AutoLoad {
 	 * @var 	string 	der alte php.ini wert für unserialize_callback_func.
 	 */
 	private static $sUnserializeCallbackFuncOld = false;
+	/**
+	 * @var 	string 	wird als Message im log ausgegeben
+	 */
+	private static $sMessage = false;
+	
+	public static function setMessage($msg='') {
+		self::$sMessage = $msg;
+	}
 	
 	/**
 	 * registriert eine unserialize_callback_func
 	 */
 	public static function registerUnserializeCallbackFunc(){
 		if(!self::$sUnserializeCallbackFuncOld)
-			self::$sUnserializeCallbackFuncOld = ini_get('unserialize_callback_func'); 
+			self::$sUnserializeCallbackFuncOld = ini_get('unserialize_callback_func');
 		ini_set('unserialize_callback_func', 'mkformsUnserializeCallbackFunc');
 	}
 	
@@ -76,7 +84,7 @@ class tx_mkforms_util_AutoLoad {
 //				|| t3lib_div::isFirstPartOfStr($sKey, 'tslib')
 //			)
 //			{	require_once($sPath); }
-//			
+//
 //		}
 //		self::$bXclassLoaded = true;
 //	}
@@ -90,10 +98,10 @@ class tx_mkforms_util_AutoLoad {
 		// welche überschrieben werden nicht zwangsläufig geladen sein müssen > fatal error
 //		self::loadXClasses();
 		
-		$msg = false; 
+		$msg = false;
 		try { // klasse laden
 			
-			// Hook um andere klassen zu laden, xclasses beispielsweise. 
+			// Hook um andere klassen zu laden, xclasses beispielsweise.
 			tx_rnbase_util_Misc::callHook('mkforms','autoload_unserialize_callback_func',
 				array('class' => &$sClassName), $this);
 			
@@ -105,11 +113,13 @@ class tx_mkforms_util_AutoLoad {
 		}
 		
 		// nachricht bauen
-		$msg = $msg ? $msg : (
-				$sClassName . ( class_exists($sClassName)
-					? ' musste mit der unserializeCallbackFunc geladen werden.'
-					// fallback, msg wird sicher durch die exception bereits gesetzt sein
-					: ' konnte mit der unserializeCallbackFunc nicht geladen werden!'
+		$msg = (self::$sMessage ? self::$sMessage.LF : '') .
+				($msg ? $msg : (
+					$sClassName . ( class_exists($sClassName)
+						? ' musste mit der unserializeCallbackFunc geladen werden.'
+						// fallback, msg wird sicher durch die exception bereits gesetzt sein
+						: ' konnte mit der unserializeCallbackFunc nicht geladen werden!'
+					)
 				)
 			);
 		

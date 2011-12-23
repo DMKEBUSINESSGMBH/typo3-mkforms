@@ -266,13 +266,15 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		}
 
 		/* @var $oForm tx_ameosformidable */
+		tx_mkforms_util_AutoLoad::setMessage('Unserialize form object.');
 		$oForm = unserialize(gzuncompress($serForm));
-		
 		$oForm->_includeSandBox();	// rebuilding class
+		tx_mkforms_util_AutoLoad::setMessage('Unserialize sandbox object.');
 		$oForm->oSandBox = unserialize($oForm->oSandBox);
 		$oForm->oSandBox->oForm =& $oForm;
 
 		// konfiguration wieder herstellen
+		tx_mkforms_util_AutoLoad::setMessage('Unserialize configuration array.');
 		$aConfigArray = unserialize(gzuncompress($oForm->getConfigurations()));
 		$config = tx_rnbase::makeInstance('tx_rnbase_configurations');
 		$config->init($aConfigArray, $oForm->getCObj(), 'mkforms', 'mkforms');
@@ -281,6 +283,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		$oForm->oDataHandler->oForm =& $oForm;
 		$oForm->oRenderer->oForm =& $oForm;
 		$oForm->oJs->oForm =& $oForm;
+		tx_mkforms_util_AutoLoad::setMessage('Unserialize code behind objects.');
 		$oForm->getRunnable()->initCodeBehinds();
 
 		// stellt die alte unserialize_callback_func wieder her
