@@ -935,7 +935,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	 * @return	mixed		FALSE or name of the sandbox class
 	 */
 	function _includeSandBox() {
-		$aBox = $this->getConfig()->get('/control/sandbox');
+		$aBox = $this->getConfigXML('/control/sandbox');
 	
 		$sExtends= ($aBox !== FALSE && is_array($aBox) && array_key_exists('extends', $aBox)) ?
 			 (string)$aBox['extends'] : 'EXT:mkforms/res/shared/php/class.defaultsandbox.php::formidable_defaultsandbox';
@@ -986,7 +986,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		if(!$this->isUserObj($aBox))
 			return $sClass;
 
-		if(($sPhp = $this->getConfig()->get('/userobj/php', $aBox)) !== FALSE) {
+		if(($sPhp = $this->getConfigXML('/userobj/php', $aBox)) !== FALSE) {
 
 			if(class_exists($sClass)) {
 				$sExtends = ' extends ' . $sClass;
