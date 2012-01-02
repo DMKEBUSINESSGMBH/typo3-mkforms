@@ -235,7 +235,15 @@ class tx_mkforms_util_Runnable {
 			$sObject = ($extension == 'this') ? '\$this (<b>' . get_class($this->getForm()->getParent()) . '</b>)' : $extension;
 			tx_mkforms_util_Div::mayday($this->getConfig()->get('/type/', $aElement) . ' <b>' . $this->getConfig()->get('/name/', $aElement) . '</b> : callback method <b>' . $method . '</b> of the Object <b>' . $sObject . '</b> doesn\'t exist');
 		}
-
+		
+		//damit werden auftretende exceptions direkt an rn_base weitergeleitet ohne
+		//mayday aufzurufen
+		if($this->getForm()->getConfTS('disableMaydayOnUserObjExceptions')){
+			$newData = $oExtension->{$method}($aParams,  $contextObj);
+			//das wars in jedem fall
+			return;
+		}
+		//else mayday aufrufen
 		try {
 			$newData = $oExtension->{$method}($aParams,  $contextObj);
 		} catch(Exception  $e){
@@ -247,8 +255,7 @@ class tx_mkforms_util_Runnable {
 			}
 			$ret .= "\r\n" . $e->getMessage();
 			
-			if(!$this->getForm()->getConfTS('disableMaydayOnUserObjExceptions'))
-				$this->getForm()->mayday($ret);
+			$this->getForm()->mayday($ret);
 			
 			// set msg to return;
 			$newData = $ret;

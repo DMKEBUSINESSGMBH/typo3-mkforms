@@ -117,7 +117,7 @@ config.tx_mkforms {
 	injectHeadersManually = 0
 
 	### deaktiviert exceptions, welche durch ein user object erzeugt werden.
-	disableMaydayOnUserObjExceptions = 0
+	disableMaydayOnUserObjExceptions = 1
 
 	quickconf {
 		
