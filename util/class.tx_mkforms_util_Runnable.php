@@ -236,18 +236,16 @@ class tx_mkforms_util_Runnable {
 			tx_mkforms_util_Div::mayday($this->getConfig()->get('/type/', $aElement) . ' <b>' . $this->getConfig()->get('/name/', $aElement) . '</b> : callback method <b>' . $method . '</b> of the Object <b>' . $sObject . '</b> doesn\'t exist');
 		}
 		
-		//damit werden auftretende exceptions direkt an rn_base weitergeleitet ohne
-		//mayday aufzurufen
-		if($this->getForm()->getConfTS('disableMaydayOnUserObjExceptions')){
-			$newData = $oExtension->{$method}($aParams,  $contextObj);
-			//das wars in jedem fall
-			// @FIXME: nein, das wars nicht, ich will ja $newData haben!!!!!
-			return;
-		}
-		//else mayday aufrufen
 		try {
 			$newData = $oExtension->{$method}($aParams,  $contextObj);
 		} catch(Exception  $e){
+			
+			// wir leiten die Exception direkt an rn_base weiter,
+			// ohne den Mayday aufzurufen.
+			if($this->getForm()->getConfTS('disableMaydayOnUserObjExceptions')) {
+				throw $e;
+			}
+			
 			$ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
 			
 			tx_rnbase::load('tx_rnbase_util_Logger');
