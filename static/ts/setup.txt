@@ -17,6 +17,19 @@ lib.mkforms.formbase {
 
 	### die Basiskonfiguration für mkforms!
 	formconfig =< config.tx_mkforms
+	formconfig.defaultXml {
+		control.datahandler {
+			type = RAW
+			record.userobj {
+				extension = tx_mkforms_util_FormBase
+				method = fillForm
+			}
+			callback.userobj {
+				extension = tx_mkforms_util_FormBase
+				method = processForm
+			}
+		}
+	}
 
 	### XML form - set per action. overwrite this!!!
 	xml = 
@@ -61,6 +74,11 @@ plugin.tx_mkforms {
 
 config.tx_mkforms {
 
+	### default Werte gelten für jedes XML.
+	defaultXml {
+		version = 0.20.0
+	}
+	
 	renderlets {
 		tx_mkforms_widgets_img_Main {
 			image = IMAGE
@@ -119,10 +137,11 @@ config.tx_mkforms {
 	### deaktiviert exceptions, welche durch ein user object erzeugt werden.
 	disableMaydayOnUserObjExceptions = 1
 
+	### wird das irgendwo verwendet oder ist das nur ein beispiel!?
 	quickconf {
 		
 		parts.rootConf {
-			version = 2.0.436
+			version = 0.20.0
 			meta {
 				name = Default form name
 				form.formid = noformid
@@ -158,7 +177,7 @@ config.tx_mkforms {
 		nodb.control.datahandler < .parts.datahandler.void
 		nodb.control.renderer < .parts.renderer.standard
 	}
-
+	
 	res {
 		shared {
 			xml {

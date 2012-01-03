@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<formidable version="2.0.287">
+<mkforms version="0.20.0">
 	<!--
 	
 			ACHTUNG:
@@ -17,10 +17,10 @@
 	
 	<control>
 	
-		<datahandler:RAW>
+		<!--datahandler:RAW>
 			<record><userobj extension="tx_mkforms_util_FormBase" method="fillForm" /></record>
 			<callback><userobj extension="tx_mkforms_util_FormBase" method="processForm" /></callback>
-		</datahandler:RAW>
+		</datahandler:RAW-->
 	
 		<datasources>
 			<datasource:PHPARRAY name="dslisterdata">
@@ -171,4 +171,4 @@
 
 	</elements>
 
-</formidable>
+</mkforms>

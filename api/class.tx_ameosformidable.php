@@ -3771,7 +3771,6 @@ JAVASCRIPT;
 
 		if($sStr === FALSE) {
 			$sStr = $this->getConfTS('misc.safelockseed');
-//			$sStr = $this->conf['misc.']['safelockseed'];
 		}
 
 		return t3lib_div::shortMD5(

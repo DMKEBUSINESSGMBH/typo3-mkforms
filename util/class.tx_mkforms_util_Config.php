@@ -213,19 +213,21 @@ class tx_mkforms_util_Config {
 
 		// processing meta
 		$aTemp['meta'] = array();
-		reset($aConf['meta.']);
-		while(list($sKey,) = each($aConf['meta.'])) {
-			if(is_string($aConf['meta.'][$sKey]) && $aConf['meta.'][$sKey] === 'codebehind') {
-				if(array_key_exists($sKey . '.', $aConf['meta.'])) {
-					$aTemp['meta']['codebehind-' . $sKey] = $aConf['meta.'][$sKey . '.'];
-				}
-				unset($aConf['meta.'][$sKey . '.']);
-			} else {
-				if(is_array($aConf['meta.'][$sKey])) {
-					$sPlainKey = substr($sKey, 0, -1);
-					$aTemp['meta'][$sPlainKey] = $this->_removeDots($aConf['meta.'][$sKey]);
+		if (isset($aConf['meta.']) && is_array($aConf['meta.'])) {
+			reset($aConf['meta.']);
+			while(list($sKey,) = each($aConf['meta.'])) {
+				if(is_string($aConf['meta.'][$sKey]) && $aConf['meta.'][$sKey] === 'codebehind') {
+					if(array_key_exists($sKey . '.', $aConf['meta.'])) {
+						$aTemp['meta']['codebehind-' . $sKey] = $aConf['meta.'][$sKey . '.'];
+					}
+					unset($aConf['meta.'][$sKey . '.']);
 				} else {
-					$aTemp['meta'][$sKey] = $aConf['meta.'][$sKey];
+					if(is_array($aConf['meta.'][$sKey])) {
+						$sPlainKey = substr($sKey, 0, -1);
+						$aTemp['meta'][$sPlainKey] = $this->_removeDots($aConf['meta.'][$sKey]);
+					} else {
+						$aTemp['meta'][$sKey] = $aConf['meta.'][$sKey];
+					}
 				}
 			}
 		}
@@ -233,93 +235,97 @@ class tx_mkforms_util_Config {
 
 		// processing control
 		$aTemp['control'] = array();
-		reset($aConf['control.']);
-		while(list($sKey, ) = each($aConf['control.'])) {
-			if(is_string($aConf['control.'][$sKey])) {
-				if($sKey === 'datahandler') {
-					$aTemp['control']['datahandler'] = array(
-						'type' => substr($aConf['control.'][$sKey], strlen('datahandler:'))
-					);
-
-					if(array_key_exists($sKey . '.', $aConf['control.'])) {
-						$aTemp['control']['datahandler'] = t3lib_div::array_merge_recursive_overrule(
-							$aTemp['control']['datahandler'],
-							$this->_removeDots($aConf['control.'][$sKey . '.'])
+		if (isset($aConf['control.']) && is_array($aConf['control.'])) {
+			reset($aConf['control.']);
+			while(list($sKey, ) = each($aConf['control.'])) {
+				if(is_string($aConf['control.'][$sKey])) {
+					if($sKey === 'datahandler') {
+						$aTemp['control']['datahandler'] = array(
+							'type' => substr($aConf['control.'][$sKey], strlen('datahandler:'))
 						);
-					}
-				} elseif($sKey === 'renderer') {
-					$aTemp['control']['renderer'] = array(
-						'type' => substr($aConf['control.'][$sKey], strlen('renderer:'))
-					);
-
-					if(array_key_exists($sKey . '.', $aConf['control.'])) {
-						$aTemp['control']['renderer'] = t3lib_div::array_merge_recursive_overrule(
-							$aTemp['control']['renderer'],
-							$this->_removeDots($aConf['control.'][$sKey . '.'])
-						);
-					}
-				}
-			} else {
-				if($sKey === 'actionlets.') {
-					$aTemp['control']['actionlets'] = array();
-
-					reset($aConf['control.'][$sKey]);
-					while(list($sActKey, ) = each($aConf['control.'][$sKey])) {
-						if(is_string($aConf['control.'][$sKey][$sActKey])) {
-							$aTemp['control']['actionlets']['actionlet-' . $sActKey] = array(
-								'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('actionlet:'))
+	
+						if(array_key_exists($sKey . '.', $aConf['control.'])) {
+							$aTemp['control']['datahandler'] = t3lib_div::array_merge_recursive_overrule(
+								$aTemp['control']['datahandler'],
+								$this->_removeDots($aConf['control.'][$sKey . '.'])
 							);
-
-							if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-								$aTemp['control']['actionlets']['actionlet-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
-									$aTemp['control']['actionlets']['actionlet-' . $sActKey],
-									$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
-								);
-							}
+						}
+					} elseif($sKey === 'renderer') {
+						$aTemp['control']['renderer'] = array(
+							'type' => substr($aConf['control.'][$sKey], strlen('renderer:'))
+						);
+	
+						if(array_key_exists($sKey . '.', $aConf['control.'])) {
+							$aTemp['control']['renderer'] = t3lib_div::array_merge_recursive_overrule(
+								$aTemp['control']['renderer'],
+								$this->_removeDots($aConf['control.'][$sKey . '.'])
+							);
 						}
 					}
-				} elseif($sKey === 'datasources.') {
-					$aTemp['control']['datasources'] = array();
-
-					reset($aConf['control.'][$sKey]);
-					while(list($sActKey, ) = each($aConf['control.'][$sKey])) {
-						if(is_string($aConf['control.'][$sKey][$sActKey])) {
-							$aTemp['control']['datasources']['datasource-' . $sActKey] = array(
-								'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('datasource:'))
-							);
-
-							if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-								$aTemp['control']['datasources']['datasource-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
-									$aTemp['control']['datasources']['datasource-' . $sActKey],
-									$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+				} else {
+					if($sKey === 'actionlets.') {
+						$aTemp['control']['actionlets'] = array();
+	
+						reset($aConf['control.'][$sKey]);
+						while(list($sActKey, ) = each($aConf['control.'][$sKey])) {
+							if(is_string($aConf['control.'][$sKey][$sActKey])) {
+								$aTemp['control']['actionlets']['actionlet-' . $sActKey] = array(
+									'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('actionlet:'))
 								);
+	
+								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
+									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
+										$aTemp['control']['actionlets']['actionlet-' . $sActKey],
+										$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+									);
+								}
 							}
 						}
+					} elseif($sKey === 'datasources.') {
+						$aTemp['control']['datasources'] = array();
+	
+						reset($aConf['control.'][$sKey]);
+						while(list($sActKey, ) = each($aConf['control.'][$sKey])) {
+							if(is_string($aConf['control.'][$sKey][$sActKey])) {
+								$aTemp['control']['datasources']['datasource-' . $sActKey] = array(
+									'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('datasource:'))
+								);
+	
+								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
+									$aTemp['control']['datasources']['datasource-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
+										$aTemp['control']['datasources']['datasource-' . $sActKey],
+										$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+									);
+								}
+							}
+						}
+					} elseif($sKey === 'sandbox.') {
+						$aTemp['control']['sandbox'] = $this->_removeDots($aConf['control.']['sandbox.']);
 					}
-				} elseif($sKey === 'sandbox.') {
-					$aTemp['control']['sandbox'] = $this->_removeDots($aConf['control.']['sandbox.']);
 				}
 			}
 		}
 
 		// processing renderlets
 		$aTemp['elements'] = array();
-		reset($aConf['elements.']);
-		while(list($sKey, ) = each($aConf['elements.'])) {
-			if(is_string($aConf['elements.'][$sKey])) {
-
-				$aType = explode(':', $aConf['elements.'][$sKey]);
-
-				if($aType[0] === 'renderlet') {
-					if(array_key_exists($sKey . '.', $aConf['elements.'])) {
-
-						$aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = $this->refineTS_renderlet(
-							$aConf['elements.'][$sKey],
-							$aConf['elements.'][$sKey . '.']
-						);
-
-					} else {
-						$aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = array('type' => $aType[1]);
+		if (isset($aConf['elements.']) && is_array($aConf['elements.'])) {
+			reset($aConf['elements.']);
+			while(list($sKey, ) = each($aConf['elements.'])) {
+				if(is_string($aConf['elements.'][$sKey])) {
+	
+					$aType = explode(':', $aConf['elements.'][$sKey]);
+	
+					if($aType[0] === 'renderlet') {
+						if(array_key_exists($sKey . '.', $aConf['elements.'])) {
+	
+							$aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = $this->refineTS_renderlet(
+								$aConf['elements.'][$sKey],
+								$aConf['elements.'][$sKey . '.']
+							);
+	
+						} else {
+							$aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = array('type' => $aType[1]);
+						}
 					}
 				}
 			}
@@ -406,6 +412,35 @@ class tx_mkforms_util_Config {
 		return $aRdt;
 	}
 
+	/**
+	 * Fügt die default xml config zur aktuellen hinzu.
+	 * @TODO: testcase integrieren!
+	 *
+	 * @param array $aXmlConf
+	 * @param array $aDefaultXml
+	 * @return array
+	 */
+	private function loadDefaultXmlConf(&$aXmlConf = false, $aDefaultXml = false) {
+		$aDefaultXml = $aDefaultXml ? $aDefaultXml : $this->getForm()->getConfTS('defaultXml.');
+		if (!is_array($aDefaultXml)) return;
+		if (!is_array($aXmlConf)) {
+			// als referenz, damit die default werte hinzugefügt werden können.
+			$aXmlConf = &$this->config;
+		}
+		// die default config durchlaufen und der aktuellen hinzufügen.
+		foreach($aDefaultXml as $key => $value) {
+			if (substr($key, strlen($key)-1, 1) == '.'){
+				$key_1 = substr($key, 0, strlen($key)-1);
+				if(!is_array($aXmlConf[$key_1])) $aXmlConf[$key_1] = array();
+				$aXmlConf[$key_1] = $this->loadDefaultXmlConf($aXmlConf[$key_1], $value);
+			}
+			elseif (!array_key_exists($key, $aXmlConf)) {
+				$aXmlConf[$key] = $value;
+			}
+		}
+		return $aXmlConf;
+	}
+	
 	/**
 	 * [Describe function...]
 	 *
@@ -1091,6 +1126,8 @@ class tx_mkforms_util_Config {
 	public static function createInstanceByPath($path, $form) {
 		$cfg = new tx_mkforms_util_Config($form);
 		$cfg->loadXmlConf(t3lib_div::getFileAbsFileName($path));
+		// default config laden hinzufügen
+		$cfg->loadDefaultXmlConf();
 		return $cfg;
 	}
 	/**
@@ -1102,6 +1139,8 @@ class tx_mkforms_util_Config {
 	public static function createInstanceByTS($confArr, $form) {
 		$cfg = new tx_mkforms_util_Config($form);
 		$cfg->refineTS(t3lib_div::getFileAbsFileName($confArr));
+		// default config laden hinzufügen
+		$cfg->loadDefaultXmlConf();
 		return $cfg;
 	}
 }
