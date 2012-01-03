@@ -25,7 +25,7 @@
 
 /**
  * Execute code within XML.
- * 
+ *
  */
 class tx_mkforms_util_Runnable {
 	private $config;
@@ -58,8 +58,8 @@ class tx_mkforms_util_Runnable {
 	}
 
 	/**
-	 * Aufruf eines UserObj im XML. Neben dem XML-Pfad können weitere Parameter übergeben werden, die 
-	 * dann als Parameter durchgereicht werden 
+	 * Aufruf eines UserObj im XML. Neben dem XML-Pfad können weitere Parameter übergeben werden, die
+	 * dann als Parameter durchgereicht werden
 	 *
 	 * @param mixed $mMixed
 	 * @return unknown
@@ -67,7 +67,7 @@ class tx_mkforms_util_Runnable {
 	public function callRunnable($mMixed) {
 		if(!self::isRunnable($mMixed))
 			return $mMixed;
-		// NOTE: for userobj, only ONE argument may be passed			
+		// NOTE: for userobj, only ONE argument may be passed
 		$aArgs = func_get_args();
 		
 		if(self::isUserObj($mMixed)) {
@@ -86,7 +86,7 @@ class tx_mkforms_util_Runnable {
 		return $mMixed;
 	}
 	/**
-	 * Führt das Runnable für ein bestimmtes Widget aus. Die Methode stammt ursprünglich 
+	 * Führt das Runnable für ein bestimmtes Widget aus. Die Methode stammt ursprünglich
 	 * aus der Klasse mainrenderlet.
 	 * @param mainrenderlet $widget
 	 * @param mixed $mMixed
@@ -104,7 +104,7 @@ class tx_mkforms_util_Runnable {
 
 	/**
 	 * [Describe function...]
-	 * 
+	 *
 	 * @param 	array 	$aUserObjParams
 	 * @param 	array 	$aParams
 	 * @return 	array
@@ -118,8 +118,8 @@ class tx_mkforms_util_Runnable {
 				// Treat deep structures aka arrays:
 				unset($aParam['name']);
 				
-				if (array_key_exists('__value', $aParam)) unset($aParam['__value']); 
-				$value = $aParam; 
+				if (array_key_exists('__value', $aParam)) unset($aParam['__value']);
+				$value = $aParam;
 			}
 			
 			// Finally set this parameter
@@ -241,6 +241,7 @@ class tx_mkforms_util_Runnable {
 		if($this->getForm()->getConfTS('disableMaydayOnUserObjExceptions')){
 			$newData = $oExtension->{$method}($aParams,  $contextObj);
 			//das wars in jedem fall
+			// @FIXME: nein, das wars nicht, ich will ja $newData haben!!!!!
 			return;
 		}
 		//else mayday aufrufen
@@ -290,7 +291,7 @@ class tx_mkforms_util_Runnable {
 		$oParser->tt_track = 0;	// Do not log time-performance information
 		$oParser->setup = $GLOBALS['TSFE']->tmpl->setup;
 
-		if(array_key_exists('params.', $oParser->setup)) { 
+		if(array_key_exists('params.', $oParser->setup)) {
 			unset($oParser->setup['params.']);
 		}
 		$oParser->setup['params.'] = tx_mkforms_util_Div::addDots($aParams);
@@ -432,7 +433,7 @@ class tx_mkforms_util_Runnable {
 						"codebehind-default-php" => $aDefaultCB
 					),
 					$aMetas
-				);	
+				);
 			}
 			
 			// default js CB
@@ -452,7 +453,7 @@ class tx_mkforms_util_Runnable {
 						"codebehind-default-js" => $aDefaultCB
 					),
 					$aMetas
-				);	
+				);
 			}
 		}
 		
@@ -608,16 +609,16 @@ class tx_mkforms_util_Runnable {
 		$sCBRef = $aCB['exec'];
 		$aExec = $this->getForm()->getTemplateTool()->parseForTemplate($sCBRef);
 		$aInlineArgs = $this->getForm()->getTemplateTool()->parseTemplateMethodArgs($aExec[1]['args']);
-		// $aExec enthält ein Array mit zwei Einträgen. Der erste ist ein Array mit 
+		// $aExec enthält ein Array mit zwei Einträgen. Der erste ist ein Array mit
 		// mit dem CodeBehind-Namen und der zweite ein Array mit der eigentlichen Aufrufmethode
-		// array([expr] => btnUserSave_click,  [rec] => '', [args] => '') 
+		// array([expr] => btnUserSave_click,  [rec] => '', [args] => '')
 
 		// Es gibt anscheinend den Sonderfall von rdt( als CB -Code...
 		if(t3lib_div::isFirstPartOfStr($sCBRef, 'rdt(')) {
 			$bCbRdt = TRUE;
 			$aCbRdtArgs = $this->getForm()->getTemplateTool()->parseTemplateMethodArgs($aExec[0]['args']);
 			if(($oRdt =& $this->getForm()->getWidget($aCbRdtArgs[0])) === FALSE) {
-				tx_mkforms_util_Div::mayday('CodeBehind ' . $sCBRef . ': Refers to an undefined renderlet', $this->getForm());	
+				tx_mkforms_util_Div::mayday('CodeBehind ' . $sCBRef . ': Refers to an undefined renderlet', $this->getForm());
 			}
 		}
 
@@ -634,7 +635,7 @@ class tx_mkforms_util_Runnable {
 		}
 
 		// $aArgs enthält zwei Einträge. Der erste ist ein Array mit der Config des CB aus dem XML
-		// im zweiten Eintrag liegen die Parameter aus dem Request 
+		// im zweiten Eintrag liegen die Parameter aus dem Request
 
 		$sName = $aExec[0]['expr'];
 		$sMethod = $aExec[1]['expr'];
@@ -716,7 +717,7 @@ class tx_mkforms_util_Runnable {
 								die($ret);
 							else
 								echo($ret);
-						}		
+						}
 					}
 
 				} else {
@@ -765,7 +766,7 @@ class tx_mkforms_util_Runnable {
 	
 	/**
 	 * Liefert den codeBehind
-	 * 
+	 *
 	 * @param $sNname
 	 * @param $sType
 	 */
