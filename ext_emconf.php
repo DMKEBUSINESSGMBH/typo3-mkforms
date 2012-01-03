@@ -1,5 +1,5 @@
 <?php
- 
+
 ########################################################################
 # Extension Manager/Repository config file for ext: "mkforms"
 #
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Making HTML forms for TYPO3',
 	'category' => 'misc',
 	'shy' => 0,
-	'version' => '0.20.2',
+	'version' => '0.20.3',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
