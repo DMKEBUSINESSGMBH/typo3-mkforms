@@ -27,7 +27,6 @@
 ***************************************************************/
 
 tx_rnbase::load('tx_mkforms_forms_Factory');
-tx_rnbase::load('tx_mklib_tests_Util');
 
 //$res = register_shutdown_function('shutdown');
 //function shutdown(){
@@ -38,7 +37,7 @@ tx_rnbase::load('tx_mklib_tests_Util');
 //    }
 //}
 
-
+// @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
 class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	protected $sCachefile;
 	
@@ -51,6 +50,8 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$this->sCachefile = $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'];
 		//und für den test löschen
 		$GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] = null;
+		
+		$this->init();
 	}
 	
 	public function tearDown() {
@@ -58,11 +59,11 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		//@todo funktionen aus mklib_tests_Util nutzen
 		$GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] = $this->sCachefile;
 	}
-	
 	/**
-	 * constructor
+	 * wir verwenden nicht mehr den constructor, da dieser zu oft aufgerufen wird.
 	 */
-	public function tx_mkforms_tests_action_FormBase_testcase(){
+	public function init() {
+		static $bInit = false; if ($bInit) return; $bInit = true;
 		/*
 		 * t3lib_lock::acquire
 		 * wenn in den looks die datei bereits existiert, kann es sein, das wir einen execution timeout bekommen
@@ -82,11 +83,33 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		 * phpmyadmin klingt sich da ein und schreibt daten in die session.
 		 */
 		if(is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing']))
-		foreach($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'] as $k=>$v){
-			if($v = 'tx_phpmyadmin_utilities->pmaLogOff'){
-				unset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][$k]);
+			foreach($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'] as $k=>$v){
+				if($v = 'tx_phpmyadmin_utilities->pmaLogOff'){
+					unset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][$k]);
+				}
 			}
-		}
+		
+		// ts laden
+		self::getStaticTS();
+	}
+	
+	private static function getStaticTS(){
+		static $configArray = false;
+		if(is_array($configArray)) return $configArray;
+		t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
+		
+		tx_rnbase::load('tx_rnbase_configurations');
+		tx_rnbase::load('tx_rnbase_util_Misc');
+		
+		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+		
+		$tsConfig = t3lib_BEfunc::getPagesTSconfig(0);
+		$configArray = $tsConfig['plugin.']['tx_mkforms.'];
+		// für referenzen im TS!
+		$GLOBALS['TSFE']->tmpl->setup['lib.']['mkforms.'] = $tsConfig['lib.']['mkforms.'];
+		$GLOBALS['TSFE']->tmpl->setup['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
+		$GLOBALS['TSFE']->config['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
+		return $configArray;
 	}
 	
 	/**
@@ -95,19 +118,36 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	 * @return tx_mkforms_action_FormBase
 	 */
 	private static function &getAction($execute = true) {
-		$configArray = array(
-				'testmode' => 1,
-				'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
-				'addfields.' => array(
-						'widget-addfield' => 'addfield feld',
-						'widget-remove' => 'unset',
-					),
-				'fieldSeparator' => '-',
-				'addPostVars' => 1,
-				'formconfig.' => array('loadJsFramework' => 0), // formconfig für config check setzen.
+		
+		$configArray = self::getStaticTS();
+		
+		$configArray['generic.']['testmode'] = 1;
+		$configArray['generic.']['xml'] = 'EXT:mkforms/tests/xml/renderlets.xml';
+		$configArray['generic.']['addfields.']['widget-addfield'] = 'addfield feld';
+		$configArray['generic.']['addfields.']['widget-remove'] = 'unset';
+		$configArray['generic.']['addPostVars'] = 1;
+		$configArray['generic.']['formconfig.']['loadJsFramework'] = 0;
+		
+		$action = tx_rnbase::makeInstance('tx_mkforms_action_FormBase');
+		
+		$configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
+		$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+		
+		//@TODO: warum wird die klasse tslib_cObj nicht gefunden!? (mw: eternit local)
+		require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
+		$configurations->init(
+				$configArray,
+				$configurations->getCObj(1),
+				'mkforms', 'mkforms'
 			);
-		$configArray = array('generic.' => $configArray);
-		return tx_mklib_tests_Util::getAction('tx_mkforms_action_FormBase',$configArray,'mkforms');
+		
+		$configurations->setParameters($parameters);
+		$action->setConfigurations($configurations);
+		if($execute) {
+			//$action->execute($parameters, $configurations);
+			$out = $action->handleRequest($parameters, $configurations, $configurations->getViewData());
+		}
+		return $action;
 	}
 	public function test_handleRequest() {
 		$action = $this->getAction();
