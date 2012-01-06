@@ -1549,8 +1549,6 @@ ERRORMESSAGE;
 					$oChild->setIteratingId();
 				}
 			}
-		} else {
-			parent::validate();
 		}
 		return !$errors;
 	}
