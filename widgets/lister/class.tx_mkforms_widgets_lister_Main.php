@@ -1528,12 +1528,13 @@ ERRORMESSAGE;
 	 * @return boolean true wenn kein Fehler vorliegt
 	 */
 	function validate() {
+		// immer erst den Lister selbst validieren
+		$errors = !parent::validate();
 		$this->aListerData = FALSE;
 		$aData = $this->fetchListerData();
 
 		$aChilds = $this->getChilds();
 		
-		$errors = false;
 		if($this->getForm()->getDataHandler()->isIterating()) {
 			foreach($aData['results'] as $curRow => $aFields) {
 				foreach($aChilds as $sName => $oChild) {
@@ -1553,6 +1554,15 @@ ERRORMESSAGE;
 		}
 		return !$errors;
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see api/formidable_mainrenderlet::getValue()
+	 */
+	function getValue() {
+		return $this->fetchListerData();
+	}
+	
 	/**
 	 * @param array $aRow
 	 * @return array
