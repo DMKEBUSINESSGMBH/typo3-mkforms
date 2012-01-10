@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_lister' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -103,7 +103,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 					// einen wrap um die leer nachricht?
 					if(($mWrap = $this->_navConf('/wrap', $mEmpty)) !== FALSE) {
 						$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
-						$sOut = str_replace('|', $sOut, $mWrap); 
+						$sOut = str_replace('|', $sOut, $mWrap);
 					}
 				} else {
 					// nur die nachricht ausgeben
@@ -430,7 +430,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				}
 				
 			
-				for($k = $iStart; $k <= $iEnd; $k++) {					
+				for($k = $iStart; $k <= $iEnd; $k++) {
 					if($k <= $iPageMax) {
 						$aWindow[$k] = $this->_buildLink(array(
 							"page" => $k
@@ -576,7 +576,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 	
 		$aFilters = is_array($aFilters) ? $aFilters : array();
 		
-		// zusätzliche parameter besorgen 
+		// zusätzliche parameter besorgen
 		$aParams = $this->_navConf('/datasource/config');
 		$aParams = $aParams === false ? $this->_navConf('/datasource/params') : $aParams;
 		$aConfig = is_array($aParams)
@@ -938,7 +938,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 
 			$sPager = t3lib_parsehtml::substituteSubpart($sPager, '###WINDOW###', $sWindow, FALSE, FALSE);
 
-			$sPager = '<div id="'.$sPagerHtmlId.'">'.$sPager.'</div>'; 
+			$sPager = '<div id="'.$sPagerHtmlId.'">'.$sPager.'</div>';
 		} else {
 			$sPager = '';
 		}
@@ -975,7 +975,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 					$sNewDir = 'asc';
 					$sLabelDir = '';
 					$sCssClass = 'sort-no';
-					$sSortSymbol = ''; 
+					$sSortSymbol = '';
 
 					if(($this->aLimitAndSort['sortby'] === $sColumn)) {
 						
@@ -991,7 +991,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 							$sNewDir = 'desc';
 							$sLabelDir = (($this->aTemplate['default'] === TRUE) ? ' [a-Z]' : '');
 							$sCssClass = 'sort-act-asc';
-							$sSortSymbol = '&#x25B2;'; 
+							$sSortSymbol = '&#x25B2;';
 						}
 					}
 
@@ -1054,12 +1054,12 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 			}
 		} else {
 			
-			if($this->oForm->isRunneable($aTemplate)) { 
+			if($this->oForm->isRunneable($aTemplate)) {
 				$aTemplate = $this->getForm()->getRunnable()->callRunnableWidget($this, $aTemplate);
 			}
 			
 			if(is_array($aTemplate) && array_key_exists('path', $aTemplate)) {
-				if($this->oForm->isRunneable($aTemplate['path'])) { 
+				if($this->oForm->isRunneable($aTemplate['path'])) {
 					$aTemplate['path'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aTemplate['path']);
 				}
 			} else {
@@ -1127,7 +1127,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 			if(($aPagerTemplate = $this->_navConf('/pager/template')) !== FALSE) {
 
 				if(is_array($aPagerTemplate) && array_key_exists('path', $aPagerTemplate)) {
-					if($this->oForm->isRunneable($aPagerTemplate['path'])) { 
+					if($this->oForm->isRunneable($aPagerTemplate['path'])) {
 						$aPagerTemplate['path'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aPagerTemplate['path']);
 					}
 				} else {
@@ -1479,7 +1479,7 @@ ERRORMESSAGE;
 				$uidColumn = $this->getUidColumn();
 				$htmlId .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $this->__aCurRow[$uidColumn] . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
 			} elseif(strlen($child->getIteratingId())){
-				$htmlId .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $child->getIteratingId() . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;				
+				$htmlId .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $child->getIteratingId() . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
 			}
 		}
 		$htmlId .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $childId . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
@@ -1515,7 +1515,7 @@ ERRORMESSAGE;
 				$uidColumn = $this->getUidColumn();
 				$htmlId .= '[' . $this->__aCurRow[$uidColumn] . ']';
 			} elseif(strlen($child->getIteratingId())){
-				$htmlId .= '[' . $child->getIteratingId() . ']';				
+				$htmlId .= '[' . $child->getIteratingId() . ']';
 			}
 		}
 		$htmlId .= '[' . $childId . ']';
@@ -1553,14 +1553,6 @@ ERRORMESSAGE;
 		return !$errors;
 	}
 
-	/**
-	 * (non-PHPdoc)
-	 * @see api/formidable_mainrenderlet::getValue()
-	 */
-	function getValue() {
-		return $this->fetchListerData();
-	}
-	
 	/**
 	 * @param array $aRow
 	 * @return array
@@ -1616,7 +1608,7 @@ ERRORMESSAGE;
 				
 				$oWidget->setIteratingId();
 				/*
-		Die alte variante, 
+		Die alte variante,
 		wenn bei activelistlabels werte in den parametern stecken
 		werden diese ignoriert, wenn in der datasource welche vorhanden sind.
 		auserdem viel zu viel code ^^
