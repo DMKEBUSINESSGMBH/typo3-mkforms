@@ -519,7 +519,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 			);
 		}
 
-		if($this->sDefaultLLLPrefix === FALSE && is_a($this->oParent, 'tslib_pibase')) {
+		if($this->sDefaultLLLPrefix === FALSE && ($this->oParent instanceof tslib_pibase)) {
 			if($this->oParent->scriptRelPath) {
 				$sLLPhp = 'EXT:' . $this->oParent->extKey . '/' . dirname($this->oParent->scriptRelPath) . '/locallang.php';
 				$sLLXml = 'EXT:' . $this->oParent->extKey . '/' . dirname($this->oParent->scriptRelPath) . '/locallang.xml';
@@ -1839,7 +1839,7 @@ SANDBOXCLASS;
 		// returns the renderlet object corresponding to what's asked in the template
 			// if none corresponds, then FALSE is returned
 		
-		if((is_object($mData) && is_a($mData, 'formidable_mainrenderlet'))) {
+		if((is_object($mData) && ($mData instanceof formidable_mainrenderlet))) {
 			return $mData;
 		}
 		
@@ -4802,7 +4802,7 @@ JAVASCRIPT;
 	}
 	
 	function isRenderlet(&$mObj) {
-		if(is_object($mObj) && is_a($mObj, 'formidable_mainrenderlet')) {
+		if(is_object($mObj) && ($mObj instanceof formidable_mainrenderlet)) {
 			return TRUE;
 		}
 		
