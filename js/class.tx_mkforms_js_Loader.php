@@ -3,18 +3,18 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_mkforms_util_Json');
 
 /**
- * Diese Klasse bindet das notwendige Javascript ein. Es ist eine neue Fassung der 
+ * Diese Klasse bindet das notwendige Javascript ein. Es ist eine neue Fassung der
  * Klasse formidable_jslayer.
- * 
+ *
  * Änderung im Vorgehen:
- * Die Klasse sollte grundsätzliche JS-Parts zur Verfügung stellen. Danach wird ein JS-Wrapper nach den 
+ * Die Klasse sollte grundsätzliche JS-Parts zur Verfügung stellen. Danach wird ein JS-Wrapper nach den
  * notwendigen Scripten gefragt. Diese werden dann hier eingebunden.
  * Minify und Zip werden hier erledigt.
  * base - prototype
  * effects - scriptaculous
- * tooltip - 
- * dragndrop - 
- * 
+ * tooltip -
+ * dragndrop -
+ *
  *
  */
 class tx_mkforms_js_Loader {
@@ -81,7 +81,7 @@ class tx_mkforms_js_Loader {
 					$this->_includePrototype();
 					$this->_includeJSFramework();
 //				}
-				$this->oForm->additionalHeaderData(
+				$this->additionalHeaderData(
 					'<!-- consider formidable core loaded after this line -->',
 					'tx_ameosformidable_core',
 					$bFirstPos = FALSE,$sBefore = FALSE,$sAfter = 'tx_mkforms_jsbase'
@@ -97,7 +97,7 @@ class tx_mkforms_js_Loader {
 	}
 
 	/**
-	 * Einige Widgets können zusätzliche Bibliotheken benötigen. Diese können mit dieser Methode eingebunden werden 
+	 * Einige Widgets können zusätzliche Bibliotheken benötigen. Diese können mit dieser Methode eingebunden werden
 	 *
 	 */
 	public function includeAdditionalLibraries() {
@@ -179,7 +179,7 @@ JAVASCRIPT;
 	}
 
 	private function includeDebugStyles() {
-		if($this->oForm->bDebug) {					
+		if($this->oForm->bDebug) {
 			
 			$sPath = t3lib_extMgm::siteRelPath('mkforms');
 			$this->getForm()->additionalHeaderData(
@@ -231,7 +231,7 @@ JAVASCRIPT;
 		$includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 		
 		foreach($includes As $include) {
-			$tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' : 
+			$tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
 						'<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
 			$this->getForm()->additionalHeaderData(
 				$tag,$include->getKey(), $include->isFirstPos(), $include->getBeforeKey(),$include->getAfterKey());
@@ -255,7 +255,7 @@ JAVASCRIPT;
 		$includes = $this->getJSFramework()->getEffectIncludes();
 
 		foreach($includes As $include) {
-			$tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' : 
+			$tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
 						'<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
 			$this->getForm()->additionalHeaderData(
 				$tag,$include->getKey(), $include->isFirstPos(), $include->getBeforeKey(),$include->getAfterKey());
@@ -264,7 +264,7 @@ JAVASCRIPT;
 		// scriptaculous
 //		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/scriptaculous/scriptaculous.js';
 //		$sNextAfter = 'tx_mkforms_jsbase_fwk';
-//		
+//
 //		$this->getForm()->additionalHeaderData(
 //			"<script type=\"text/javascript\" src=\"" . $sPath . "\"></script>",
 //			'tx_ameosformidable_scriptaculous',
@@ -543,7 +543,7 @@ JAVASCRIPT;
 			if($sKey === FALSE) {
 				if($bFirstPos === TRUE) {
 					$aHeaders = array(rand() => $sData) + $aHeaders;
-				} 
+				}
 				elseif($sBefore !== FALSE || $sAfter !== FALSE) {
 					$bBefore = ($sBefore !== FALSE);
 					$sLookFor = $bBefore ? $sBefore : $sAfter;
@@ -641,7 +641,7 @@ JAVASCRIPT;
 	/**
 	 * Prüft, ob für dieses Script eine minimierte Version vorligt
 	 * und giebt diese entsprechend der konfiguration zurück.
-	 * 
+	 *
 	 * @param string $sPath
 	 * @return srtring
 	 */
@@ -664,7 +664,7 @@ JAVASCRIPT;
 			}
 			// else, keine minimierte version gefunden, nutze standard Datei
 			
-		} 
+		}
 		return $newPath;
 	}
 }
