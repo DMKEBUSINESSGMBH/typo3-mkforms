@@ -2527,9 +2527,11 @@ JAVASCRIPT;
 				}
 
 				$sCompiled = '';
+				$bRenderErrors = $this->defaultTrue('/rendererrors');
 				
 				reset($aChildsBag);
 				while(list($sName, $aBag) = each($aChildsBag)) {
+					if($sName{0}=='e' && $sName=='errors' && !$bRenderErrors) continue;
 					if(!$this->shouldAutowrap() /*|| !$this->defaultWrap()*/) {
 						$sCompiled .= "\n" . $aBag['__compiled'];
 					} else {
