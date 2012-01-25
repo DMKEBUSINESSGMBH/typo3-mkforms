@@ -576,8 +576,7 @@ MAYDAYPAGE;
 		$sVersion = self::getVersion();
 		$sXml =<<<XMLFILE
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<formidable version="{$sVersion}"
-	xmlns:renderlet="http://formidable.typo3.ug/xmlns/{$sVersion}/renderlet">
+<mkforms version="{$sVersion}">
 
 	<meta>
 		<name>New FML file</name>
@@ -588,7 +587,7 @@ MAYDAYPAGE;
 		<renderlet:TEXT name="mytxt" label="Some text field"/>
 	</elements>
 
-</formidable>
+</mkforms>
 XMLFILE;
 
 		if($sMessage === FALSE) {
