@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_damupload' for the 'ameos_formidable' extension.
  * Based on original rdt_upload from Jerome Schneider <typo3dev@ameos.com>
  * @author	René Nitzsche <rene@system25.de>
@@ -139,7 +139,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	/**
 	 * Returns data about new file on server
 	 *
-	 * @param array $aData 
+	 * @param array $aData
 	 * @return array keys: sTargetDir, sName, sTarget
 	 */
 	function getTargetFileData($aData) {
@@ -181,7 +181,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	}
 	/**
 	 * ALGORITHM of file management
-	 * 
+	 *
 			0: PAGE DISPLAY:
 				1: file has been uploaded
 					1.1: moving file to targetdir and setValue(newfilename)
@@ -197,7 +197,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$sName = $targetData['sName'];
 		$sTargetDir = $targetData['sTargetDir'];
 		$max = $this->getMaxObjects();
-		$count = $this->getReferencedMedia(); 
+		$count = $this->getReferencedMedia();
 
 		if ($max && count($count['files']) >= $max) {
 			$this->setValue(count($count['files']));
@@ -220,6 +220,12 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		// Bei nur einer erlaubten Zuordnung muss die ggf. vorhandene Datei dereferenziert werden
 		// Wir brauchen ein Max-Referenzes
 		// Zuerst prüfen, ob die Datei schon in der DB existiert. Dies kann bei overwrite der Fall sein.
+		// ACHTUNG: wenn die Feld Collation der DB-Felder file_name und file_path
+		// 			in der tx_dam Tabelle auf *_ci (utfa_general_ci) stehen,
+		// 			wird bei der Prüfung Gruß-/Kleinschreibung ignoriert,
+		// 			was bei unix-Systemen zu Fehlern führt!
+		// 			Die einfache Lösung ist, die Collation der beiden Felder
+		// 			auf *_bin (utf8_bin) zu setzen!
 		$damUid = tx_dam::file_isIndexed($sTarget);
 		if(!$damUid) {
 			// process file indexing
@@ -307,7 +313,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 								2.2.1.2.1: setValue to storeddata
 						2.2.2: formdata is an array, and error!=0 ( form submitted but no file given)
 							2.2.2.1: setValue to storeddata
-	 * 
+	 *
 	 */
 	function handleNoUpload($aData) {
 		// $aData ist normalerweise ein Array mit den Daten des Uploads. es kann aber auch ein String sein,
@@ -324,7 +330,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$cValue = $aStoredData[$this->_getName()];
 		if(($this->getDataHandler()->_edition() === FALSE) || (!array_key_exists($this->_getName(), $aStoredData))) {
 			// Keine Bearbeitung oder das Feld ist nicht im aktuellen Record
-			$cValue = (is_array($aData) && array_key_exists('backup', $aData)) ? $aData['backup'] : 
+			$cValue = (is_array($aData) && array_key_exists('backup', $aData)) ? $aData['backup'] :
 								(is_string($aData) ? $aData : '');
 		}
 		$this->setValue($cValue);
@@ -365,7 +371,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @return string
 	 */
 	function getRefTable () {
-		if($this->oForm->isRunneable(($uid = $this->_navConf('/data/reftable/')))) 
+		if($this->oForm->isRunneable(($uid = $this->_navConf('/data/reftable/'))))
 			$tableName = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
 		else
 			$tableName = $this->_navConf("/data/reftable/", $this->aElement);
@@ -404,7 +410,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		return $uid ? $uid : 1;
 	}
 	/**
-	 * allow field to contain multiple files, comma-separated value 
+	 * allow field to contain multiple files, comma-separated value
 	 *
 	 * @return boolean
 	 */
@@ -462,6 +468,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			$GLOBALS['TYPO3_DB']->sql_query($sSql),
 			$sSql
 		);
+		
 		// Now count all items
 		$newSize = 0;
 		$where = 'tablenames=\'' . $tableName . '\' AND ident=\'' . $fieldName .'\' AND uid_foreign=' . $data['uid_foreign'];
@@ -553,7 +560,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	}
 
 	private function includeLibraries() {
-		if($this->getForm()->issetAdditionalHeaderData('mkforms_damupload_includeonce')) 
+		if($this->getForm()->issetAdditionalHeaderData('mkforms_damupload_includeonce'))
 			return;
 
 		if(!$this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) return;
@@ -565,9 +572,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$sFile = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/js/'.$dir.'/ajaxfileupload.js';
 		
 		$oJsLoader->additionalHeaderData(
-			'				
-				<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sFile) . '"></script>
-			',
+			'<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sFile) . '"></script>',
 			'mkforms_damupload_includeonce'
 		);
 	}
@@ -629,7 +634,7 @@ INITSCRIPT;
 		$sFormId = $this->getForm()->getFormId();
 		$sSafeLock = $this->_getSessionDataHashKey();
 		$sUploadUrl = tx_mkforms_util_Div::removeEndingSlash(
-			t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . 
+			t3lib_div::getIndpEnv('TYPO3_SITE_URL')) .
 			'/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
 
 		$GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
@@ -647,8 +652,8 @@ INITSCRIPT;
 		$oFile = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 		$aData = $this->getForm()->getRawFile(FALSE, true);
 
-		//Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen 
-		$path = array(); 
+		//Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen
+		$path = array();
 		$widget = $this;
 		do {
 			$path[] = $widget->getName();
