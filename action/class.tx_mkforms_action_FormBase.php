@@ -92,7 +92,8 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 			return $this->configCheck($configurations, $confId);
 		}
 		
-		// befinden wir uns in einem Test?
+		// befinden wir uns in einem Test? vor allem notwendig wenn
+		// extbase installiert ist
 		if($configurations->get($confId.'testmode')) {
 			$this->form->setTestMode();
 		}
