@@ -2108,6 +2108,11 @@ SANDBOXCLASS;
 		$this->oRenderer->renderStyles();
 		
 		if($this->getDataHandler()->_isSubmitted()) {
+			//jetzt prüfen wir ob das Formular auch vom Nutzer abgeschickt wurde,
+			//der das Formular erstellt hat
+			if(!$this->validateRequestToken())
+				throw new RuntimeException('Das Formular ist nicht valide!', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'].'1');;
+			
 			if($this->getDataHandler()->_isFullySubmitted()) {
 
 				$this->_debug('', 'HANDLING --- FULL --- SUBMIT EVENT');
@@ -5249,6 +5254,36 @@ JAVASCRIPT;
 	 */
 	public function hasValidationErrors() {
 		return count($this->_aValidationErrors) > 0;
+	}
+	
+	/**
+	 * gibt einen token zurück, der aus der session id
+	 * und der form id generiert wird. wird verwendet
+	 * um einen CSRF Schutz zu implementieren.
+	 * Formulare können nur von dem Nutzer abgesendet werden
+	 * der sie erstellt hat
+	 * 
+	 * @return string
+	 */
+	public function getCsrfProtectionToken(){
+		return $this->getSafeLock($GLOBALS['TSFE']->fe_user->id.$this->getFormId());
+	}
+	
+	/**
+	 * Prüft ob der übermittelte request token
+	 * valide ist. (zum aktuellen Nutzer passt) 
+	 * wenn dieser nicht mit dem aktuellen token
+	 *
+	 * @return	boolean
+	 */
+	protected function validateRequestToken() {
+
+		$aPost = $this->_getRawPost();
+
+		return(
+			array_key_exists('MKFORMS_REQUEST_TOKEN', $aPost) &&
+			$aPost['MKFORMS_REQUEST_TOKEN'] == $this->getCsrfProtectionToken()
+		);
 	}
 }
 

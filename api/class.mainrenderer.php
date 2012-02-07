@@ -47,7 +47,7 @@ TEMPLATE;
 			}
 			return $aHtmlBag;
 		}
-
+	
 		function _wrapIntoForm($html) {
 
 			$oForm = &$this->getForm();
@@ -67,7 +67,9 @@ TEMPLATE;
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_ADDPOSTVARS]" id="' . $iFormId . '_AMEOSFORMIDABLE_ADDPOSTVARS" />' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_VIEWSTATE]" id="' . $iFormId . '_AMEOSFORMIDABLE_VIEWSTATE" />' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTED]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTED"  value="'.AMEOSFORMIDABLE_EVENT_SUBMIT_FULL.'"/>' .
-									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTER]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTER" />';
+									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTER]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTER" />'.
+									//CSRF Schutz integrieren
+									'<input type="hidden" name="' . $iFormId . '[MKFORMS_REQUEST_TOKEN]" id="' . $iFormId . '_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />';
 
 			if(($sStepperId = $oForm->_getStepperId()) !== FALSE) {
 				$sSysHidden .=	'<input type="hidden" name="AMEOSFORMIDABLE_STEP" id="AMEOSFORMIDABLE_STEP" value="' . $oForm->_getStep() . '" />' .
@@ -115,7 +117,7 @@ TEMPLATE;
 			reset($aHtmlBag);
 			return $aHtmlBag;
 		}
-
+		
 		function _getFullSubmitEvent() {
 			return "Formidable.f('" . $this->getForm()->getFormId() . "').submitFull();";
 		}

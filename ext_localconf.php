@@ -211,4 +211,10 @@
 			'virtualizeFE'	=> FALSE,
 			'initBEuser'	=> FALSE,
 		);
+		
+//das ist nur eine info für entwickler welcher basis exception code
+//für diese extension verwendet wird. in diesem fall 200.
+//also könnte ein valider exception code dieser extension 2001 sein
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['baseExceptionCode'] = 200;
+		
 ?>

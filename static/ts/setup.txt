@@ -6,7 +6,7 @@ plugin.tx_mkforms.userFunc       = tx_rnbase_controller->main
 plugin.tx_mkforms.defaultAction  = tx_mkforms_action_FormBase
 plugin.tx_mkforms.qualifier      = mkforms
 plugin.tx_mkforms.templatePath   = EXT:mkforms/templates
-#plugin.tx_mkforms.locallangFilename = EXT:mkforms/locallang.xml
+plugin.tx_mkforms.locallangFilename = EXT:mkforms/locallang.xml
 
 tt_content.list.20.tx_mkforms =< plugin.tx_mkforms
 
