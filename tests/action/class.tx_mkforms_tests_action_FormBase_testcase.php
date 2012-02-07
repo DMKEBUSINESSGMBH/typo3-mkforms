@@ -45,6 +45,8 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	 *
 	 */
 	public function setUp() {
+		unset($_POST['radioTestForm']);
+		
 		//aktuelle Konfiguration sichern
 		//@todo funktionen aus mklib_tests_Util nutzen
 		$this->sCachefile = $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'];
@@ -58,6 +60,8 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		//ursprüngliche Konfiguration wieder setzen
 		//@todo funktionen aus mklib_tests_Util nutzen
 		$GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] = $this->sCachefile;
+		
+		unset($_POST['radioTestForm']);
 	}
 	/**
 	 * wir verwenden nicht mehr den constructor, da dieser zu oft aufgerufen wird.
@@ -149,11 +153,13 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		}
 		return $action;
 	}
+	
 	public function test_handleRequest() {
 		$action = $this->getAction();
 		
 		$this->assertEquals('tx_mkforms_action_FormBase', get_class($action), 'Wrong class given.');
 	}
+	
 	public function test_processForm() {
 		$sData = array(
 				'fieldset' => array(
@@ -206,6 +212,165 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 				'AMEOSFORMIDABLE_VIEWSTATE' => '',
 				'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
 				'AMEOSFORMIDABLE_SUBMITTER' => '',
+				'MKFORMS_REQUEST_TOKEN' => $this->getAction()->getForm()->getCsrfProtectionToken()
+			);
+		
+		$_POST['radioTestForm'] = $sData;
+			
+		$action = $this->getAction();
+		
+		// die Daten werden für den view in formData gespeichert
+		$formData = $action->getConfigurations()->getViewData()->offsetGet('formData');
+		
+		$this->assertTrue(isset($formData['submitmode']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['submitmode'], 'full', 'LINE:'.__LINE__);
+		
+		$this->assertTrue(is_array($formData['widget']), 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget']['text']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['text'], 'Eins', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget']['radiobutton']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['radiobutton'], '3', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget']['listbox']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['listbox'], '7', 'LINE:'.__LINE__);
+		$this->assertTrue(is_array($formData['widget']['checkbox']), 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget']['checkbox']['5']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['checkbox']['5'], '6', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget']['checkbox']['8']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['checkbox']['8'], '9', 'LINE:'.__LINE__);
+		$this->assertTrue(is_array($formData['widget1']), 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget1']['text']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget1']['text'], 'Zwei', 'LINE:'.__LINE__);
+		$this->assertTrue(is_array($formData['widget2']), 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget2']['text']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget2']['text'], 'Zwei', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['textarea']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['textarea'], 'Sehr Lang!', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widgetlister']['selected']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widgetlister']['selected'], '5', 'LINE:'.__LINE__);
+		for($i=1; $i <=5 ; $i++) {
+			$this->assertTrue(is_array($formData['widgetlister'][$i]['listerdata']), $i.' LINE:'.__LINE__);
+			$this->assertTrue(isset($formData['widgetlister'][$i]['listerdata']['uid']), $i.' LINE:'.__LINE__);
+			$this->assertEquals($formData['widgetlister'][$i]['listerdata']['uid'], $i, $i.' LINE:'.__LINE__);
+			$this->assertTrue(isset($formData['widgetlister'][$i]['listerdata']['title']), $i.' LINE:'.__LINE__);
+			$this->assertEquals($formData['widgetlister'][$i]['listerdata']['title'], 'Titel '.$i, $i.' LINE:'.__LINE__);
+		}
+		//submit
+		$this->assertTrue(isset($formData['widget']['submit']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['submit'], '1', 'LINE:'.__LINE__);
+		//date
+		$this->assertTrue(isset($formData['widget']['date']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['date'], '426204000', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget']['date_mysql']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['date_mysql'], '1983-07-05', 'LINE:'.__LINE__);
+		//addpostvars
+		$this->assertTrue(is_array($formData['addpostvars']), 'LINE:'.__LINE__);
+		$this->assertEquals($formData['addpostvars'][0]['action'], 'formData', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['addpostvars'][0]['params']['widget']['submit']), 'LINE:'.__LINE__);
+		//addfields
+		$this->assertTrue(isset($formData['widget']['addfield']), 'LINE:'.__LINE__);
+		$this->assertEquals(isset($formData['widget']['addfield']), 'addfield feld', 'LINE:'.__LINE__);
+		$this->assertFalse(isset($formData['widget']['remove']), 'LINE:'.__LINE__);
+	}
+	
+	public function test_fillForm() {
+		$sData['widget']['text'] = 'Default Text';
+		// die vorselektierten Werte für mehrere Checkboxen müssen kommasepariert angegebenw werden!
+		$sData['widget']['checkbox'] = '8,6';
+		
+		$sData['widget']['remove'] = 'sollte entfernt werden';
+		$sData['widget']['radiobutton'] = 7;
+		$sData['widget']['listbox'] = 7;
+		$sData['widget']['checksingle'] = 1;
+		$sData['widget1']['text'] = 'Default Text 1';
+		$sData['widget2']['text'] = 'Default Text 2';
+		$sData['textarea'] = 'Ganz Langer vordefinierter Text';
+		
+		$action = $this->getAction();
+		$fillData = $action->fillForm($sData, $action->getForm());
+		
+		
+		$this->assertTrue(isset($fillData['widget-text']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget-text'], 'Default Text', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['widget-checkbox']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget-checkbox'], '8,6', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['widget-radiobutton']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget-radiobutton'], '7', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['widget-listbox']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget-listbox'], '7', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['widget-checksingle']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget-checksingle'], '1', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['widget1-text']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget1-text'], 'Default Text 1', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['widget2-text']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget2-text'], 'Default Text 2', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['textarea']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['textarea'], 'Ganz Langer vordefinierter Text', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($fillData['widget-widget1-widget2-text']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget-widget1-widget2-text'], 'Default Text', 'LINE:'.__LINE__);
+		
+		//addfields
+		$this->assertTrue(isset($fillData['widget-addfield']), 'LINE:'.__LINE__);
+		$this->assertEquals($fillData['widget-addfield'], 'addfield feld', 'LINE:'.__LINE__);
+		$this->assertFalse(isset($fillData['widget-remove']), 'LINE:'.__LINE__);
+		
+	}
+
+	/**
+	 * @expectedException RuntimeException
+	 */
+	public function test_processFormThrowsExceptionWithInvalidRequestToken() {
+		$sData = array(
+				'fieldset' => array(
+					'texte' => array(
+						'input'=> array(
+							'widget-text' => 'Eins',
+							'widget1-widget2-text' => 'Zwei',
+						),
+						'area'=> array(
+							'textarea' => 'Sehr Lang!'
+						),
+					),
+					'widget-remove' => 'sollte entfernt werden',
+					'widget-radiobutton' => '3',
+					'widget-listbox' => '7',
+					'widget-checkbox' => array(
+						'item-5' => '6',
+						'item-8' => '9',
+					),
+					'widget-date' => '426204000',
+					'widgetlister' => array(
+						1 => array(
+							'listerdata-uid' => 1,
+							'listerdata-title' => 'Titel 1',
+						),
+						2 => array(
+							'listerdata-uid' => 2,
+							'listerdata-title' => 'Titel 2',
+						),
+						3 => array(
+							'listerdata-uid' => 3,
+							'listerdata-title' => 'Titel 3',
+						),
+						4 => array(
+							'listerdata-uid' => 4,
+							'listerdata-title' => 'Titel 4',
+						),
+						5 => array(
+							'listerdata-uid' => 5,
+							'listerdata-title' => 'Titel 5',
+						),
+						'selected' => '5',
+					),
+				),
+				'widget-submit' => 'Daten absenden',
+				'AMEOSFORMIDABLE_SERVEREVENT' => '',
+				'AMEOSFORMIDABLE_SERVEREVENT_PARAMS' => '',
+				'AMEOSFORMIDABLE_SERVEREVENT_HASH' => '',
+				'AMEOSFORMIDABLE_ADDPOSTVARS' => '[{\"action\":\"formData\",\"params\":{\"widget-submit\":\"1\"}}]',
+				'AMEOSFORMIDABLE_VIEWSTATE' => '',
+				'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
+				'AMEOSFORMIDABLE_SUBMITTER' => '',
+				'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid'
 			);
 		
 		$_POST['radioTestForm'] = $sData;
@@ -265,49 +430,6 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(isset($formData['widget']['remove']), 'LINE:'.__LINE__);
 		
 	}
-	public function test_fillForm() {
-		$sData['widget']['text'] = 'Default Text';
-		// die vorselektierten Werte für mehrere Checkboxen müssen kommasepariert angegebenw werden!
-		$sData['widget']['checkbox'] = '8,6';
-		
-		$sData['widget']['remove'] = 'sollte entfernt werden';
-		$sData['widget']['radiobutton'] = 7;
-		$sData['widget']['listbox'] = 7;
-		$sData['widget']['checksingle'] = 1;
-		$sData['widget1']['text'] = 'Default Text 1';
-		$sData['widget2']['text'] = 'Default Text 2';
-		$sData['textarea'] = 'Ganz Langer vordefinierter Text';
-		
-		$action = $this->getAction();
-		$fillData = $action->fillForm($sData, $action->getForm());
-		
-		
-		$this->assertTrue(isset($fillData['widget-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-text'], 'Default Text', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-checkbox']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-checkbox'], '8,6', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-radiobutton']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-radiobutton'], '7', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-listbox']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-listbox'], '7', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-checksingle']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-checksingle'], '1', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget1-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget1-text'], 'Default Text 1', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget2-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget2-text'], 'Default Text 2', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['textarea']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['textarea'], 'Ganz Langer vordefinierter Text', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-widget1-widget2-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-widget1-widget2-text'], 'Default Text', 'LINE:'.__LINE__);
-		
-		//addfields
-		$this->assertTrue(isset($fillData['widget-addfield']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-addfield'], 'addfield feld', 'LINE:'.__LINE__);
-		$this->assertFalse(isset($fillData['widget-remove']), 'LINE:'.__LINE__);
-		
-	}
-	
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']) {
