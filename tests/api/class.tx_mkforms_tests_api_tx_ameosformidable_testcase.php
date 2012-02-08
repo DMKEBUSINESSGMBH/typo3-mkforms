@@ -43,24 +43,28 @@ tx_rnbase::load('tx_mkforms_tests_Util');
 class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testcase {
 
 	/**
-	 * 
+	 *
 	 * @expectedException RuntimeException
+	 * @expectedExceptionCode 2001
+	 * @expectedExceptionMessage Das Formular ist nicht valide
 	 */
 	public function testRenderThrowsExceptionIfRequestTokenIsNotSet() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
 		$oForm = tx_mkforms_tests_Util::getForm()->render();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @expectedException RuntimeException
+	 * @expectedExceptionCode 2001
+	 * @expectedExceptionMessage Das Formular ist nicht valide
 	 */
 	public function testRenderThrowsExceptionIfRequestTokenIsInvalid() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
 		$oForm = tx_mkforms_tests_Util::getForm()->render();
 	}
-	
+
 	/**
 	 */
 	public function testRenderThrowsNoExceptionIfRequestTokenIsValid() {
@@ -68,12 +72,12 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testca
 		//damit wir getCsrfProtectionToken aufrufen können
 		$oForm = tx_mkforms_tests_Util::getForm();
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->getCsrfProtectionToken();
-		
+
 		//jetzt die eigentliche initialisierung
 		$oForm = tx_mkforms_tests_Util::getForm();
-		
+
 		$this->assertContains(
-			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />', 
+			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
 			$oForm->render(),
 			'Es ist nicht der richtige request token enthalten!'
 		);
