@@ -136,6 +136,9 @@ config.tx_mkforms {
 
 	### deaktiviert exceptions, welche durch ein user object erzeugt werden.
 	disableMaydayOnUserObjExceptions = 1
+	
+	### ist der CSRF Schutz aktiv?
+	csrfProtection = 1
 
 	### wird das irgendwo verwendet oder ist das nur ein beispiel!?
 	quickconf {

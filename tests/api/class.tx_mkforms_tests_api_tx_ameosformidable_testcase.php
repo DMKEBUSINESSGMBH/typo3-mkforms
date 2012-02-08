@@ -67,6 +67,20 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testca
 
 	/**
 	 */
+	public function testRenderThrowsNoExceptionIfCsrfProtectionDeactivated() {
+		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
+		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
+		$oForm = tx_mkforms_tests_Util::getForm(false);
+
+		$this->assertContains(
+			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
+			$oForm->render(),
+			'Es ist nicht der richtige request token enthalten!'
+		);
+	}
+
+	/**
+	 */
 	public function testRenderThrowsNoExceptionIfRequestTokenIsValid() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
 		//damit wir getCsrfProtectionToken aufrufen können

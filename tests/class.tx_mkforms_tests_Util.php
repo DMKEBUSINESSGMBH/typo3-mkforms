@@ -43,7 +43,7 @@ class tx_mkforms_tests_Util {
 	 * Liefert ein Form Objekt
 	 * Enter description here ...
 	 */
-	public static function getForm() {
+	public static function getForm($bCsrfProtection = true) {
 		$oForm = tx_mkforms_forms_Factory::createForm('generic');
 		$oForm->setTestMode();
 
@@ -58,7 +58,11 @@ class tx_mkforms_tests_Util {
 					),
 				'fieldSeparator' => '-',
 				'addPostVars' => 1,
-				'formconfig.' => array('loadJsFramework' => 0), // formconfig für config check setzen.
+				'formconfig.' => array(
+					'loadJsFramework' => 0, // formconfig für config check setzen.
+					'csrfProtection' => $bCsrfProtection
+				),
+
 			)
 		);
 		$oConfigurations->init(
@@ -67,7 +71,7 @@ class tx_mkforms_tests_Util {
 			'mkforms', 'mkforms'
 		);
 		$oConfigurations->setParameters($oParameters);
-		
+
 		$oForm->init(
 			$this,
 			$oConfigurations->get('generic.xml'),
@@ -75,15 +79,15 @@ class tx_mkforms_tests_Util {
 			$oConfigurations,
 			'generic.formconfig.'
 		);
-		
+
 		return $oForm;
 	}
-	
+
 	/**
 	 * Setzt die werte aus dem array für die korrespondierenden widgets.
 	 * bei boxen wird rekursiv durchgegangen.
-	 * 
-	 * @param array $aData	|	Die Daten wie sie in processForm ankommen 
+	 *
+	 * @param array $aData	|	Die Daten wie sie in processForm ankommen
 	 * @param $oForm
 	 * @return void
 	 */
