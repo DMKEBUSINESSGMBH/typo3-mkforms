@@ -4,9 +4,13 @@
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
+tx_rnbase::load('tx_mkforms_js_Loader');
 
 
 class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet {
+	
+	var $sMajixClass = "TxtArea";
+	var $bCustomIncludeScript = true;
 	
 	function _render() {
 		
@@ -26,11 +30,23 @@ class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet {
 		if(strpos($sAddInputParams, 'cols') === FALSE) {
 			$sAddInputParams = ' cols="20" ' . $sAddInputParams;
 		}
+		
+		// sollen in der textarea durch das jQuery autoresize Plugin
+		// die evtl. anfallenden scroll balken entfernt werden
+		// es gibt nur eine Unterstützung für jQuery!!!
+		if($this->getForm()->getJSLoader()->getJSFrameworkId() == 'jquery' && $this->defaultFalse('/autoresize')){
+			$this->aLibs["rdt_autoresize_class"] = "res/js/autoresize.min.js";
+			$this->aLibs["rdt_txtarea_class"] = "res/js/txtarea.js";
+			//damit im JS bekannt ist, ob autoresize gesetzt ist
+			$this->includeScripts(array('autoresize' => $this->defaultFalse('/autoresize')));
+		}
 
 		/* */
 		
 		$sValueForHtml = $this->getValueForHtml($sValue);
 		$sInput = '<textarea name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '"' . $sAddInputParams . '>' . $sValueForHtml . '</textarea>';
+		
+		
 		
 		return array(
 			'__compiled' => $this->_displayLabel($sLabel) . $sInput,

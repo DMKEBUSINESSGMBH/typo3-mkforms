@@ -1,0 +1,1 @@
+Formidable.Classes.TxtArea=Formidable.Classes.RdtBaseClass.extend({constructor:function(a){this.base(a);if(this.config.autoresize){MKWrapper.$(this.config.id,false).autoResize()}},});
