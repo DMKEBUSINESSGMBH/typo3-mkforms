@@ -44,20 +44,68 @@ tx_rnbase::load('tx_mkforms_tests_Util');
  */
 class tx_mkforms_tests_api_mainrenderer_testcase extends tx_phpunit_testcase {
 
+	public function setUp() {
+		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
+		$oTestFramework->createFakeFrontEnd();
+	}
+
 	/**
 	 */
-	public function testRenderInsertsCorrectRequestToken() {
+	public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSession() {
 		$oForm = tx_mkforms_tests_Util::getForm();
 		$oRenderer = tx_rnbase::makeInstance('formidable_mainrenderer');
 		$oRenderer->_init($oForm,array(),array(),'');
-		
+
 		$aRendered = $oRenderer->_render(array());
 
 		$this->assertContains(
-			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />', 
+			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
 			$aRendered['HIDDEN'],
 			'Es ist nicht der richtige request token enthalten!'
 		);
+
+
+		//requestToken auch in der session?
+		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+		$this->assertEquals(1,count($aSessionData['requestToken']),'mehr request tokens in der session als erwartet!');
+		$this->assertEquals($aSessionData['requestToken']['radioTestForm'],$oForm->getCsrfProtectionToken(),'falscher request token in der session!');
+	}
+
+	/**
+	 */
+	public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSessionIfRequestTokensExist() {
+		$GLOBALS['TSFE']->fe_user->setKey(
+			'ses', 'mkforms', array(
+				'requestToken' => array(
+					'firstForm' => 'secret',
+					'secondForm' => 'anotherSecret',
+				)
+			)
+		);
+		$GLOBALS['TSFE']->fe_user->storeSessionData();
+
+
+		$oForm = tx_mkforms_tests_Util::getForm();
+		$oRenderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+		$oRenderer->_init($oForm,array(),array(),'');
+
+		$aRendered = $oRenderer->_render(array());
+
+		$this->assertContains(
+			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
+			$aRendered['HIDDEN'],
+			'Es ist nicht der richtige request token enthalten!'
+		);
+
+
+		//requestToken auch in der session?
+		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+		$this->assertEquals(3,count($aSessionData['requestToken']),'mehr request tokens in der session als erwartet!');
+		$this->assertEquals($aSessionData['requestToken']['radioTestForm'],$oForm->getCsrfProtectionToken(),'falscher request token in der session!');
+		//alte request tokens richtig?
+		$this->assertEquals($aSessionData['requestToken']['firstForm'],'secret','falscher request token in der session!');
+		$this->assertEquals($aSessionData['requestToken']['secondForm'],'anotherSecret','falscher request token in der session!');
+
 	}
 }
 

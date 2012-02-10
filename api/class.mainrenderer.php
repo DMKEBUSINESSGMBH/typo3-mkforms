@@ -47,12 +47,12 @@ TEMPLATE;
 			}
 			return $aHtmlBag;
 		}
-	
+
 		function _wrapIntoForm($html) {
 
 			$oForm = &$this->getForm();
 			$iFormId = $oForm->getFormId();
-			
+
 			if(!empty($this->getForm()->getDataHandler()->newEntryId)) {
 				$iEntryId = $this->getForm()->getDataHandler()->newEntryId;
 			} else {
@@ -70,6 +70,13 @@ TEMPLATE;
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTER]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTER" />'.
 									//CSRF Schutz integrieren
 									'<input type="hidden" name="' . $iFormId . '[MKFORMS_REQUEST_TOKEN]" id="' . $iFormId . '_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />';
+
+			//der request token muss noch in die session damit wir ihn prüfen können
+			//mit bestehenden mergen
+			$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+			$aSessionData['requestToken'][$oForm->getFormId()] = $oForm->getCsrfProtectionToken();
+			$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $aSessionData);
+			$GLOBALS['TSFE']->fe_user->storeSessionData();
 
 			if(($sStepperId = $oForm->_getStepperId()) !== FALSE) {
 				$sSysHidden .=	'<input type="hidden" name="AMEOSFORMIDABLE_STEP" id="AMEOSFORMIDABLE_STEP" value="' . $oForm->_getStep() . '" />' .
@@ -117,7 +124,7 @@ TEMPLATE;
 			reset($aHtmlBag);
 			return $aHtmlBag;
 		}
-		
+
 		function _getFullSubmitEvent() {
 			return "Formidable.f('" . $this->getForm()->getFormId() . "').submitFull();";
 		}
@@ -166,7 +173,7 @@ TEMPLATE;
 				reset($aFullEvent['params']);
 				while(list($sKey,) = each($aFullEvent['params'])) {
 					$sParam = $aFullEvent['params'][$sKey]['get'];
-					
+
 					if(array_key_exists($sParam, $aData)) {
 						$aGrabbedParams[$sParam] = $aData[$sParam];
 					} else {
@@ -230,7 +237,7 @@ TEMPLATE;
 				return "Formidable.f('" . $this->getForm()->getFormId() . "').executeServerEvent('" . $sEventId . "', Formidable.SUBMIT_REFRESH , " . $sJsParam . ", " . $sHash . ", " . $sConfirm . ");";
 			}
 		}
-		
+
 		function synthetizeAjaxEvent(&$oRdt, $sEventHandler, $sCb=FALSE, $sPhp=FALSE, $mParams=FALSE, $bCache=TRUE, $bSyncValue=FALSE) {
 			$aEvent = array(
 				'runat' => 'ajax',
@@ -238,7 +245,7 @@ TEMPLATE;
 				'syncvalue' => intval($bSyncValue),	// same reason
 				'params' => $mParams,
 			);
-			
+
 			if($sCb !== FALSE) {
 				$aEvent['exec'] = $sCb;
 			} elseif($sPhp !== FALSE) {
@@ -258,7 +265,7 @@ TEMPLATE;
 				'cache' => intval($bCache),	// because FALSE would be bypassed by navconf
 				'event' => $aEvent,
 			);
-			
+
 			return $this->_getAjaxEvent(
 				$oRdt,
 				$aEvent,
@@ -319,7 +326,7 @@ TEMPLATE;
 					$aParamsCollection = array_values($mParams);
 				}
 				#print_r(array($aParamsCollection, $oRdt->getAbsName()));
-				
+
 				// the new syntax
 				// <params><param get="this()" as="this" /></params>
 
@@ -345,7 +352,7 @@ TEMPLATE;
 						// note: _getAjaxEvent() is called when in rows rendering for list
 						// _getElementHtmlId() on a renderlet is designed to return the correct html id for the input of this row in such a case
 						$sAs = ($sAs === FALSE) ? $sParamName : $sAs;
-						
+
 						if(array_key_exists($sParamName, $this->getForm()->aORenderlets)) {
 							$aParams[] = 'rowInput::' . $sAs . '::' . $this->getForm()->getWidget($sParamName)->_getElementHtmlId();
 						}
@@ -388,12 +395,12 @@ TEMPLATE;
 					}
 				}
 			}
-			
+
 			if($bSyncValue === TRUE) {
 				// Im Lister müssen wir aufpassen. Da muss der Name des Zeilen-Widgets gesetzt werden!
 				$aParams[] = 'rowInput::sys_syncvalue::' . $oRdt->getElementId(false);
 			}
-			
+
 			$aAjaxEventParams = $oRdt->alterAjaxEventParams(array(
 				'eventname' => $sEvent,
 				'eventid' => $sEventId,
@@ -422,11 +429,11 @@ TEMPLATE;
 		}
 
 		function _getClientEvent($sObjectId, $aEvent = array(), $aEventData, $sEvent) {
-		
+
 			if(empty($aEventData)) {
 				$aEventData = array();
 			}
-			
+
 			$aParams = array();
 			if(($mParams = $this->getForm()->_navConf('/params', $aEvent)) !== FALSE) {
 				if(!is_array($mParams))
@@ -652,7 +659,7 @@ TEMPLATE;
 				if($oRdt->_readOnly() && !array_key_exists('readonly', $mHtml)) {
 					$mHtml['readonly'] = TRUE;
 				}
-				
+
 				/*
 				$mHtml = $this->recombineHtmlBag(
 					$mHtml,
@@ -695,36 +702,36 @@ TEMPLATE;
 
 			return $aRendered;
 		}
-		
+
 		function wrapErrorMessage($sMessage) {
-			
+
 			if($this->isTrue('/template/errortagcompilednowrap')) {
 				return $sMessage;
 			}
-			
+
 			if(($sErrWrap = $this->_navConf('/template/errortagwrap')) !== FALSE) {
 
 				if($this->getForm()->isRunneable($sErrWrap)) {
 					$sErrWrap = $this->callRunneable($sErrWrap);
 				}
-				
+
 				$sErrWrap = $this->getForm()->_substLLLInHtml($sErrWrap);
 			} else {
 				$sErrWrap = '<span class="errors">|</span>';
 			}
-			
+
 			return str_replace(
 				'|',
 				$sMessage,
 				$sErrWrap
 			);
 		}
-		
+
 		function compileErrorMessages($aMessages) {
 			if($this->defaultFalse('/template/errortagcompilednobr')) {
 				return implode('', $aMessages);
 			}
-			
+
 			return implode('<br />', $aMessages);
 		}
 

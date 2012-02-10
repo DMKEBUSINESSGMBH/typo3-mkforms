@@ -39,7 +39,7 @@ tx_rnbase::load('tx_mkforms_forms_Factory');
  * @author Michael Wagner
  */
 class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
-	
+
 	/**
 	 * Form data
 	 *
@@ -58,14 +58,14 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 * @var tx_ameosformidable
 	 */
 	private $form;
-	
+
 	/**
 	 * Soll der Name des Templates als Name des Prefill Parameters genommen werden? Wenn nicht
 	 * per default 'uid'
 	 * @var boolean
 	 */
 	protected $bUseTemplateNameAsPrefillParamName = false;
-	
+
 	/**
 	 * Enthält Fehlermeldungen (zurzeit vom configCheck).
 	 * Diese werden im FE immer mit ausgegeben.
@@ -85,13 +85,13 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	public function handleRequest(&$parameters, &$configurations, &$viewData) {
 		$this->form = tx_mkforms_forms_Factory::createForm('generic');
 		$confId = $this->getConfId();
-		
+
 		// wir prüfen die konfiguration
 		$this->configCheck($configurations, $confId);
 		if(!empty($this->errors)) {
 			return $this->configCheck($configurations, $confId);
 		}
-		
+
 		// befinden wir uns in einem Test? vor allem notwendig wenn
 		// extbase installiert ist
 		if($configurations->get($confId.'testmode')) {
@@ -105,7 +105,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 				$configurations,
 				$confId.'formconfig.'
 			);
-		
+
 		$viewData->offsetSet('form', $this->form->render());
 		$viewData->offsetSet('fullySubmitted', $this->form->isFullySubmitted());
 
@@ -119,7 +119,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		// Set Errors
 		$viewData->offsetSet('errors', !empty($this->errors) ? $this->configCheck($configurations, $confId) : false);
 	}
-	
+
 	/**
 	 * Gibt den Pfad zum XML zurück
 	 *
@@ -139,12 +139,12 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 * @return 	array
 	 */
 	protected function configCheck(&$configurations, $confId) {
-		
+
 		// wir prüfen die configuration wenn configCheck nicht gesetzt oder wahr ist.
 		if(!(is_null($configCheck = $configurations->get('configCheck')) || $configCheck)) {
 			return false;
 		}
-		
+
 		if(!empty($this->errors)) {
 			return '<div style="border:2px solid red; padding:10px; margin: 10px 0; color:red; background: wheat;">'.
 				'<h1>MKFORMS - ACTION - FORMBASE</h1>'.
@@ -152,7 +152,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 				'<ul><li>'.implode('</li><li>', $this->errors).'</li><ul>'.
 			'</div>';
 		}
-		
+
 		// wurde ein xml gesetzt
 		$xmlPath = $configurations->get($confId.'xml');
 		if(empty($xmlPath)) {
@@ -163,15 +163,15 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		if(empty($absXmlPath) || !file_exists($absXmlPath)) {
 			$this->errors[] = 'The given XML file path (' . $xmlPath . ') doesn\'t exists.';
 		}
-		
+
 		// ist die formconfig gesetzt
 		if(!is_array($configurations->get($confId.'formconfig.'))) {
 			$this->errors[] = 'Formconfig not set (TS: '.$confId.'formconfig =< config.tx_mkforms).';
 		}
-		
+
 		return $this->errors;
 	}
-	
+
 	/**
 	 * Process form data
 	 *
@@ -189,17 +189,17 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	public function processForm($data, &$form, $flattenData=true) {
 		// Prepare data
 		$confId = $this->getConfId();
-		
+
 		// Flatten array
 		if ($flattenData) {
 			tx_rnbase::load('tx_mkforms_util_FormBase');
 			$data = tx_mkforms_util_FormBase::flatArray2MultipleTableStructure($data, $form, $this->getConfigurations(), $confId);
 		}
-		
+
 		// Hook to handle data
 		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_before_processdata',
 			array('data' => &$data), $this);
-		
+
 		// wir suchen für jede Tabelle eine Update Methode in der Kindklasse
 		if($flattenData) {
 			foreach($data as $sTable => $aFields){
@@ -210,15 +210,15 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 			}
 		}
 		$data = $this->processData($data);
-		
+
 		// Hook to handle data
 		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_after_processdata',
 			array('data' => &$data), $this);
-			
+
 		// Fill $this->filledForm with all the post-processed and possibly completed data
 		$this->setFormData($data);
 	}
-	
+
 	/**
 	 * Actually process the data, e.g. save it to the table...
 	 *
@@ -237,7 +237,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	public function setFormData($data = false){
 		$this->filledForm = is_array($data) ? $data : false;
 	}
-	
+
 	/**
 	 * Fill form data
 	 *
@@ -256,13 +256,13 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		if(is_array($this->preFilledForm) && !$forceFill) {
 			return $this->preFilledForm;
 		}
-		
+
 		// Hook to handle data
 		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_before_filldata',
 			array('data' => &$data), $this);
-		
+
 		$data = $this->fillData($params);
-		
+
 		// Hook to handle data
 		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_after_filldata',
 			array('data' => &$data), $this);
@@ -272,10 +272,10 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		}
 
 		$confId = $this->getConfId();
-		
+
 		tx_rnbase::load('tx_mkforms_util_FormBase');
 		$this->preFilledForm = tx_mkforms_util_FormBase::multipleTableStructure2FlatArray($data, $form, $this->getConfigurations(), $confId);
-		
+
 		return $this->preFilledForm;
 	}
 
@@ -292,7 +292,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		// die vorselektierten Werte für mehrere Checkboxen müssen kommasepariert angegebenw werden!
 		$params['widget']['checkbox'] = array(8,6);
 		$params['widget']['checkbox'] = implode(',',$params['widget']['checkbox']);
-		
+
 		$params['widget']['radiobutton'] = 7;
 		$params['widget']['listbox'] = 7;
 		$params['widget']['checksingle'] = 1;
@@ -322,7 +322,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		// Use parameter "uid", if available
 		return $uid ? $uid : false;		// FALSE as default - DON'T use NULL!!!
 	}
-	
+
 	/**
 	 * Soll der Template name als perfill parameter name herangezogen werden?
 	 * @return bool

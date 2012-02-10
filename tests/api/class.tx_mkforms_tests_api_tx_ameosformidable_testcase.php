@@ -42,6 +42,11 @@ tx_rnbase::load('tx_mkforms_tests_Util');
  */
 class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testcase {
 
+	public function setUp() {
+		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
+		$oTestFramework->createFakeFrontEnd();
+	}
+
 	/**
 	 *
 	 * @expectedException RuntimeException
@@ -86,6 +91,8 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testca
 		//damit wir getCsrfProtectionToken aufrufen können
 		$oForm = tx_mkforms_tests_Util::getForm();
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->getCsrfProtectionToken();
+		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($oForm->getFormId() => $oForm->getCsrfProtectionToken())));
+		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
 		//jetzt die eigentliche initialisierung
 		$oForm = tx_mkforms_tests_Util::getForm();

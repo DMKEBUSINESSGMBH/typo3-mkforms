@@ -5266,7 +5266,7 @@ JAVASCRIPT;
 	 * @return string
 	 */
 	public function getCsrfProtectionToken(){
-		return $this->getSafeLock($GLOBALS['TSFE']->fe_user->id.$this->getFormId());
+		return $this->getSafeLock($GLOBALS['TSFE']->fe_user->id.$this->getFormId().$GLOBALS['EXEC_TIME']);
 	}
 
 	/**
@@ -5277,12 +5277,11 @@ JAVASCRIPT;
 	 * @return	boolean
 	 */
 	protected function validateRequestToken() {
-
 		$aPost = $this->_getRawPost();
-
+		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 		return(
 			array_key_exists('MKFORMS_REQUEST_TOKEN', $aPost) &&
-			$aPost['MKFORMS_REQUEST_TOKEN'] == $this->getCsrfProtectionToken()
+			$aPost['MKFORMS_REQUEST_TOKEN'] == $aSessionData['requestToken'][$this->getFormId()]
 		);
 	}
 }
