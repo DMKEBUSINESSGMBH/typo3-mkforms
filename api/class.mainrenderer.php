@@ -61,6 +61,7 @@ TEMPLATE;
 
 			$hidden_entryid		= $this->_getHiddenEntryId($iEntryId);
 			$hidden_custom		= $this->_getHiddenCustom();
+			$sRequestToken = $oForm->getCsrfProtectionToken();
 			$sSysHidden			=	'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SERVEREVENT]" id="' . $iFormId . '_AMEOSFORMIDABLE_SERVEREVENT" />' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SERVEREVENT_PARAMS]" id="' . $iFormId . '_AMEOSFORMIDABLE_SERVEREVENT_PARAMS" />' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SERVEREVENT_HASH]" id="' . $iFormId . '_AMEOSFORMIDABLE_SERVEREVENT_HASH" />' .
@@ -69,12 +70,12 @@ TEMPLATE;
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTED]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTED"  value="'.AMEOSFORMIDABLE_EVENT_SUBMIT_FULL.'"/>' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTER]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTER" />'.
 									//CSRF Schutz integrieren
-									'<input type="hidden" name="' . $iFormId . '[MKFORMS_REQUEST_TOKEN]" id="' . $iFormId . '_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />';
+									'<input type="hidden" name="' . $iFormId . '[MKFORMS_REQUEST_TOKEN]" id="' . $iFormId . '_MKFORMS_REQUEST_TOKEN" value="'.$sRequestToken.'" />';
 
 			//der request token muss noch in die session damit wir ihn prüfen können
 			//mit bestehenden mergen
 			$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-			$aSessionData['requestToken'][$oForm->getFormId()] = $oForm->getCsrfProtectionToken();
+			$aSessionData['requestToken'][$iFormId] = $sRequestToken;
 			$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $aSessionData);
 			$GLOBALS['TSFE']->fe_user->storeSessionData();
 
