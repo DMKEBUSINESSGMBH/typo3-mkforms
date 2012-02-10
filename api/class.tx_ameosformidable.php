@@ -215,6 +215,13 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	private $validationTool = null;
 	private $templateTool = null;
 
+	/**
+	 * Session id des fe users.
+	 * wird für den request token beim CSRF schutz verwendet.
+	 * @var string
+	 */
+	private $sSessionId;
+
 	function __construct() {
 		require_once(PATH_tslib . 'class.tslib_content.php');
 		require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
@@ -565,6 +572,10 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 		$this->_initDataSources();
 		$this->_initRenderer();
+
+		//wir müssen noch die fe user session id setzen für CSRF schutz
+		//und dessen request token
+		$this->setSessionId($GLOBALS['TSFE']->fe_user->id);
 
 		$this->checkPoint(array('after-init-renderer','before-init-renderlets'));
 
@@ -5257,6 +5268,25 @@ JAVASCRIPT;
 	}
 
 	/**
+	 * setzt die session id für den CSRF schutz
+	 * und dessen request token
+	 * @param string $sSessionId
+	 */
+	public function setSessionId($sSessionId) {
+		$this->sSessionId = $sSessionId;
+	}
+
+	/**
+	 * gibt die gesetzte session id zurück.
+	 * sollte die session id des fe users sein.
+	 * wird für den request token im CSRF schutz verwendet
+	 * @return string
+	 */
+	public function getSessionId() {
+		return $this->sSessionId;
+	}
+
+	/**
 	 * gibt einen token zurück, der aus der session id
 	 * und der form id generiert wird. wird verwendet
 	 * um einen CSRF Schutz zu implementieren.
@@ -5266,7 +5296,7 @@ JAVASCRIPT;
 	 * @return string
 	 */
 	public function getCsrfProtectionToken(){
-		return $this->getSafeLock($GLOBALS['TSFE']->fe_user->id.$this->getFormId().$GLOBALS['EXEC_TIME']);
+		return $this->getSafeLock($this->getSessionId().$this->getFormId());
 	}
 
 	/**
