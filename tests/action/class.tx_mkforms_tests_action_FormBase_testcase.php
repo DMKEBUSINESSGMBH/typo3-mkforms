@@ -27,6 +27,7 @@
 ***************************************************************/
 
 tx_rnbase::load('tx_mkforms_forms_Factory');
+require_once(t3lib_extMgm::extPath('phpunit').'Classes/Framework.php');
 
 //$res = register_shutdown_function('shutdown');
 //function shutdown(){
