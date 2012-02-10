@@ -72,7 +72,7 @@ TEMPLATE;
 									//CSRF Schutz integrieren
 									'<input type="hidden" name="' . $iFormId . '[MKFORMS_REQUEST_TOKEN]" id="' . $iFormId . '_MKFORMS_REQUEST_TOKEN" value="'.$sRequestToken.'" />';
 
-			//der request token muss noch in die session damit wir ihn prüfen können
+			//der request token muss noch in die session damit wir ihn prüfen können.
 			//mit bestehenden mergen
 			$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 			$aSessionData['requestToken'][$iFormId] = $sRequestToken;
