@@ -77,26 +77,6 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		 * wenn in den looks die datei bereits existiert, kann es sein, das wir einen execution timeout bekommen
 		 */
 
-		// logoff für phpmyadmin deaktivieren
-		/*
-		 * Error in test case test_handleRequest
-		 * in file C:\xampp\htdocs\typo3\typo3conf\ext\phpmyadmin\res\class.tx_phpmyadmin_utilities.php
-		 * on line 66:
-		 * Message:
-		 * Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\typo3\typo3conf\ext\phpunit\mod1\class.tx_phpunit_module1.php:112)
-		 *
-		 * Diese Fehler passiert, wenn die usersession ausgelesen wird. der feuser hat natürlich keine.
-		 * Das Ganze passiert in der t3lib_userauth->fetchUserSession.
-		 * Dort wird t3lib_userauth->logoff aufgerufen, da keine session vorhanden ist.
-		 * phpmyadmin klingt sich da ein und schreibt daten in die session.
-		 */
-		if(is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing']))
-			foreach($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'] as $k=>$v){
-				if($v = 'tx_phpmyadmin_utilities->pmaLogOff'){
-					unset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][$k]);
-				}
-			}
-
 		// ts laden
 		self::getStaticTS();
 	}
