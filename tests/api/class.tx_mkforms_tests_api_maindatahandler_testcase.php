@@ -58,21 +58,13 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_phpunit_testcase 
 					'texte' => array(
 						'input'=> array(
 							'widget-text' => 'Eins',
-							'widget1-widget2-text' => 'Zwei',
-						),
-						'area'=> array(
-							'textarea' => 'Sehr Lang!'
 						),
 						'widget-thatDoesNotExistInTheXml1' => 'valueThatShouldBeRemoved1',
 					),
-					'widget-remove' => 'sollte entfernt werden',
-					'widget-radiobutton' => '3',
-					'widget-listbox' => '7',
 					'widget-checkbox' => array(
 						'item-5' => '6',
 						'item-8' => '9',
 					),
-					'widget-date' => '426204000',
 					'widgetlister' => array(
 						1 => array(
 							'listerdata-uid' => 1,
@@ -98,15 +90,7 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_phpunit_testcase 
 					),
 					'widget-thatDoesNotExistInTheXml2' => 'valueThatShouldBeRemoved2',
 				),
-				'widget-submit' => 'Daten absenden',
 				'widget-thatDoesNotExistInTheXml3' => 'valueThatShouldBeRemoved3',
-				'AMEOSFORMIDABLE_SERVEREVENT' => '',
-				'AMEOSFORMIDABLE_SERVEREVENT_PARAMS' => '',
-				'AMEOSFORMIDABLE_SERVEREVENT_HASH' => '',
-				'AMEOSFORMIDABLE_ADDPOSTVARS' => '[{\"action\":\"formData\",\"params\":{\"widget-submit\":\"1\"}}]',
-				'AMEOSFORMIDABLE_VIEWSTATE' => '',
-				'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
-				'AMEOSFORMIDABLE_SUBMITTER' => '',
 			);
 		$_POST['radioTestForm'] = $sData;
 
@@ -121,6 +105,14 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_phpunit_testcase 
 
 		//renderlet box
 		$formData = $oHandler->getRdtValue_submit_edition('fieldset');
+
+		$this->assertTrue(isset($formData['texte']['input']['widget-text'], 'LINE:'.__LINE__);
+		$this->assertEquals($formData['texte']['input']['widget-text'], 'Eins', 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widget-checkbox']), 'LINE:'.__LINE__);
+		$this->assertEquals(array('item-5' => '6','item-8' => '9',),$formData['widget-checkbox'], 'LINE:'.__LINE__);
+		$this->assertTrue(isset($formData['widgetlister']), 'LINE:'.__LINE__);
+		$this->assertEquals(array(1 => array('listerdata-uid' => 1,'listerdata-title' => 'Titel 1',),2 => array('listerdata-uid' => 2,'listerdata-title' => 'Titel 2',),3 => array('listerdata-uid' => 3,'listerdata-title' => 'Titel 3',),4 => array('listerdata-uid' => 4,'listerdata-title' => 'Titel 4',),5 => array('listerdata-uid' => 5,'listerdata-title' => 'Titel 5',),'selected' => '5',),$formData['widgetlister'], 'LINE:'.__LINE__);
+
 		//werte sollte entfernt wurden sein
 		$this->assertFalse(isset($formData['texte']['widget-thatDoesNotExistInTheXml1']),'wert für nicht existentes widget nicht auf null gesetzt');
 		$this->assertFalse(isset($formData['widget-thatDoesNotExistInTheXml2']),'wert für nicht existentes widget nicht auf null gesetzt');
