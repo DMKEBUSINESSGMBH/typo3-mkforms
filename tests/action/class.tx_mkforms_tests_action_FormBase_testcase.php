@@ -251,9 +251,6 @@ public function test_processForm() {
 		$this->assertTrue(isset($formData['widget']['addfield']), 'LINE:'.__LINE__);
 		$this->assertEquals(isset($formData['widget']['addfield']), 'addfield feld', 'LINE:'.__LINE__);
 		$this->assertFalse(isset($formData['widget']['remove']), 'LINE:'.__LINE__);
-
-		//werte, die nicht durch widgets repäsentiert werden, sollten entfernt werden
-		$this->assertTrue(isset($formData['widget']['thatDoesNotExistInTheXml']), 'LINE:'.__LINE__);
 	}
 
 	public function test_handleRequest() {
