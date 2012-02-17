@@ -107,7 +107,7 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_phpunit_testcase 
 		$formData = $oHandler->getRdtValue_submit_edition('fieldset');
 
 		$this->assertTrue(isset($formData['texte']['input']['widget-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['texte']['input']['widget-text']), 'Eins', 'LINE:'.__LINE__);
+		$this->assertEquals($formData['texte']['input']['widget-text'], 'Eins', 'LINE:'.__LINE__);
 		$this->assertTrue(isset($formData['widget-checkbox']), 'LINE:'.__LINE__);
 		$this->assertEquals(array('item-5' => '6','item-8' => '9'),$formData['widget-checkbox'], 'LINE:'.__LINE__);
 		$this->assertTrue(isset($formData['widgetlister']), 'LINE:'.__LINE__);
