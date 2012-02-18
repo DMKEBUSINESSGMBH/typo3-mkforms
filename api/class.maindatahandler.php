@@ -762,6 +762,9 @@ class formidable_maindatahandler extends formidable_mainobject {
 			//wenn das übergeben renderlet gar keine childs hat
 			//dann gibt es auch nix zu prüfen. 
 			//@todo auch lister prüfen ob alle columns auch im xml enthalten sind
+			//@todo was ist mit check-, listboxen und radiobuttons? sollte es bei
+			//denen nicht verhindert werden dass werte übermittelt werden, die initial
+			//nicht im xml enthalten waren? wenn, die tests anpassen!!!
 			if(
 				!$this->getForm()->aORenderlets[$sAbsName]->hasChilds() ||
 				//ich muss wieder raus sobald das mit listern funktioniert
