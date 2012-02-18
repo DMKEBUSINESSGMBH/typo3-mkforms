@@ -69,6 +69,7 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_phpunit_testcase 
 						1 => array(
 							'listerdata-uid' => 1,
 							'listerdata-title' => 'Titel 1',
+							'listerdata-thatdoednotexists' => 'Titel 1',
 						),
 						2 => array(
 							'listerdata-uid' => 2,
@@ -87,6 +88,7 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_phpunit_testcase 
 							'listerdata-title' => 'Titel 5',
 						),
 						'selected' => '5',
+						'listerdata-thatdoednotexists' => 'Titel 1',
 					),
 					'widget-thatDoesNotExistInTheXml2' => 'valueThatShouldBeRemoved2',
 				),

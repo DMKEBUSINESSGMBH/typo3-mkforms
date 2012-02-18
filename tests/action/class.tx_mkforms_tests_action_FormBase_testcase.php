@@ -162,6 +162,7 @@ public function test_processForm() {
 						1 => array(
 							'listerdata-uid' => 1,
 							'listerdata-title' => 'Titel 1',
+							'listerdata-notInXml' => 'Titel 1',
 						),
 						2 => array(
 							'listerdata-uid' => 2,
@@ -180,6 +181,7 @@ public function test_processForm() {
 							'listerdata-title' => 'Titel 5',
 						),
 						'selected' => '5',
+						'notInXml' => 'Titel 1',
 					),
 				),
 				'widget-submit' => 'Daten absenden',
@@ -228,12 +230,15 @@ public function test_processForm() {
 		$this->assertEquals($formData['textarea'], 'Sehr Lang!', 'LINE:'.__LINE__);
 		$this->assertTrue(isset($formData['widgetlister']['selected']), 'LINE:'.__LINE__);
 		$this->assertEquals($formData['widgetlister']['selected'], '5', 'LINE:'.__LINE__);
+		$this->assertFalse(isset($formData['widgetlister']['notInXml']), 'LINE:'.__LINE__);
 		for($i=1; $i <=5 ; $i++) {
 			$this->assertTrue(is_array($formData['widgetlister'][$i]['listerdata']), $i.' LINE:'.__LINE__);
 			$this->assertTrue(isset($formData['widgetlister'][$i]['listerdata']['uid']), $i.' LINE:'.__LINE__);
 			$this->assertEquals($formData['widgetlister'][$i]['listerdata']['uid'], $i, $i.' LINE:'.__LINE__);
 			$this->assertTrue(isset($formData['widgetlister'][$i]['listerdata']['title']), $i.' LINE:'.__LINE__);
 			$this->assertEquals($formData['widgetlister'][$i]['listerdata']['title'], 'Titel '.$i, $i.' LINE:'.__LINE__);
+			//sollte entfernt werden da nicht im xml
+			$this->assertFalse(isset($formData['widgetlister'][$i]['listerdata']['notInXml']), $i.' LINE:'.__LINE__);
 		}
 		//submit
 		$this->assertTrue(isset($formData['widget']['submit']), 'LINE:'.__LINE__);

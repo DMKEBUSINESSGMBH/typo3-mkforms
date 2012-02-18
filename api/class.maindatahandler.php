@@ -750,6 +750,7 @@ class formidable_maindatahandler extends formidable_mainobject {
 		 * @param array $aGP das array mit den widgets und deren wert. für geöhnlich $_GET und $_POST
 		 * @param string $sAbsName der absolute name des aktuellen widgets
 		 * @return void
+		 * @todo auch bei listern prüfen ob übergebene daten auch als column im xml sind. tests bereits erstellt und schlagen aktuell fehl!
 		 */
 		protected function checkWidgetsExist(&$aGP,$sAbsName) {
 			//wenn es kein widget ist, dann setzen wir den wert auf null
@@ -759,8 +760,13 @@ class formidable_maindatahandler extends formidable_mainobject {
 			}
 
 			//wenn das übergeben renderlet gar keine childs hat
-			//dann gibt es auch nix zu prüfen
-			if(!$this->getForm()->aORenderlets[$sAbsName]->hasChilds())
+			//dann gibt es auch nix zu prüfen. 
+			//@todo auch lister prüfen ob alle columns auch im xml enthalten sind
+			if(
+				!$this->getForm()->aORenderlets[$sAbsName]->hasChilds() ||
+				//ich muss wieder raus sobald das mit listern funktioniert
+				$this->getForm()->aORenderlets[$sAbsName]->isIterable()
+			)
 				return;
 
 			foreach ($aGP as $rdtName => $rdtValue) {
