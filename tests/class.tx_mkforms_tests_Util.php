@@ -60,7 +60,8 @@ class tx_mkforms_tests_Util {
 				'addPostVars' => 1,
 				'formconfig.' => array(
 					'loadJsFramework' => 0, // formconfig für config check setzen.
-					'csrfProtection' => $bCsrfProtection
+					'csrfProtection' => $bCsrfProtection,
+					'checkWidgetsExist' => 1,
 				),
 
 			)
