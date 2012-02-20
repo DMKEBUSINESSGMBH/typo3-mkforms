@@ -803,7 +803,8 @@ class formidable_maindatahandler extends formidable_mainobject {
 			$aGP = $this->_GP();
 			// Das ist für die einfachen Widgets ohne Boxen
 			if(array_key_exists($sAbsName, $aGP)) {
-				$this->checkWidgetsExist($aGP[$sAbsName], $sAbsName);
+				if($this->getForm()->getConfTS('checkWidgetsExist'))
+					$this->checkWidgetsExist($aGP[$sAbsName], $sAbsName);
 				return $aGP[$sAbsName];
 			}
 

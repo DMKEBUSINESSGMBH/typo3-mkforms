@@ -139,6 +139,9 @@ config.tx_mkforms {
 	
 	### ist der CSRF Schutz aktiv?
 	csrfProtection = 1
+	
+	### Wir reduzieren die Parameter auf die im XML vorhandenen Widgets
+	checkWidgetsExist = 1
 
 	### wird das irgendwo verwendet oder ist das nur ein beispiel!?
 	quickconf {
