@@ -140,7 +140,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 					break;
 				}
 			}
-			
+
 			/***********************************************************************
 				*
 				*	/onerdthasalvaue
@@ -384,7 +384,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 			$widget = &$this->getForm()->getWidget($mDependsOn);
 
 			if($widget) {
-					
+
 				$negate = false;
 				//@TODO: dependsonifnot integrieren
 				if(($aDependsOnIf = $this->_navConf('/' . $sKey . '/dependsonif')) !== FALSE) {
@@ -395,19 +395,19 @@ class formidable_mainvalidator extends formidable_mainobject {
 					// default false values
 					$aDependsOnIf = array('', 0, '0', null, false, array());
 				}
-					
+
 				// IteratingId bei einem Renderlet im Lister setzen.
 				if($widget->getParent()->iteratingChilds) {
 					$widget->setIteratingId( $oRdt->getIteratingId() );
 				}
 
 				$mValue = $widget->getValue();
-					
+
 				// die iterating Id wieder löschen!
 				$widget->setIteratingId();
-					
-				//bei einem array von Werten (zb select mit multiple = 1) 
-				//prüfen wir ob einer der array Werte dem Wert in 
+
+				//bei einem array von Werten (zb select mit multiple = 1)
+				//prüfen wir ob einer der array Werte dem Wert in
 				//dependsonif entspricht
 				if(is_array($mValue)){
 					$inArray = false;
@@ -416,10 +416,10 @@ class formidable_mainvalidator extends formidable_mainobject {
 							$inArray = true;//treffer?
 							break;
 						}
-						
-				}else 
+
+				}else
 					$inArray = in_array($mValue, $aDependsOnIf);
-					
+
 				if(($inArray != $negate)) {
 					return false;
 				}
@@ -440,11 +440,11 @@ class formidable_mainvalidator extends formidable_mainobject {
 	 * @param $maxSize
 	 */
 	function _isTooLong($mValue, $maxSize) {
-			
+
 		if(is_array($mValue)) {
 			return (count($mValue) > $maxSize);
 		}
-			
+
 		return (strlen(trim($mValue)) > $maxSize);
 	}
 
@@ -460,7 +460,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 	function _isTooLongByChars($mValue, $iMaxSize, $sEncoding = 'utf8') {
 		//zur Sicherheit weiterer Fallback :)
 		$sEncoding = (empty($sEncoding)) ? 'utf8' : $sEncoding;
-			
+
 		if(is_array($mValue)) {
 			return (count($mValue) > $iMaxSize);
 		}
@@ -473,7 +473,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 		if(is_array($mValue)) {
 			return (count($mValue) < $minSize);
 		}
-			
+
 		return (strlen(trim($mValue)) < $minSize);
 	}
 
@@ -482,7 +482,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 		if(is_array($mValue)) {
 			return (count($mValue) == intval($iSize));
 		}
-			
+
 		return (strlen(trim($mValue)) == $iSize);
 	}
 
@@ -543,7 +543,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 				$sWhere = $sField . " = '" . $mValue . "'" . $sDeleted;
 			}
 		}
-			
+
 		$sSql = $GLOBALS['TYPO3_DB']->SELECTquery(
 			'count(*) as nbentries',
 			$sTable,
@@ -556,16 +556,16 @@ class formidable_mainvalidator extends formidable_mainobject {
 				$sSql
 			)
 		);
-			
+
 		if($rs['nbentries'] > 0) {
 			return FALSE;
 		}
-			
+
 		return TRUE;
 	}
 
 	/**
-	 * Validiert das mindestens eines der beiden Elemente einen Wert hat (renderlet, welches in "rdt" 
+	 * Validiert das mindestens eines der beiden Elemente einen Wert hat (renderlet, welches in "rdt"
 	 * angegeben wurde oder selbst)
 	 *
 	 * @param array $params
@@ -574,7 +574,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 	 */
 	public function _oneRdtHasAValue($mValue, $sRdt){
 		$widget = &$this->getForm()->getWidget($sRdt);
-		
+
 		//abhähniges feld existiert, ist geklickt oder widget selbst ist nicht leer
 		if(($widget && $widget->getValue()) || !empty($mValue))return false;
 		else return true;

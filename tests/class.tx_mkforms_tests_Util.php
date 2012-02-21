@@ -43,29 +43,31 @@ class tx_mkforms_tests_Util {
 	 * Liefert ein Form Objekt
 	 * Enter description here ...
 	 */
-	public static function getForm($bCsrfProtection = true) {
+	public static function getForm($bCsrfProtection = true, $aConfigArray = array()) {
 		$oForm = tx_mkforms_forms_Factory::createForm('generic');
 		$oForm->setTestMode();
 
 		$oParameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
 		$oConfigurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
-		$aConfigArray = array(
-			'generic.' => array(
-				'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
-				'addfields.' => array(
-						'widget-addfield' => 'addfield feld',
-						'widget-remove' => 'unset',
+		if(!$aConfigArray){
+			$aConfigArray = array(
+				'generic.' => array(
+					'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
+					'addfields.' => array(
+							'widget-addfield' => 'addfield feld',
+							'widget-remove' => 'unset',
+						),
+					'fieldSeparator' => '-',
+					'addPostVars' => 1,
+					'formconfig.' => array(
+						'loadJsFramework' => 0, // formconfig für config check setzen.
+						'csrfProtection' => $bCsrfProtection,
+						'checkWidgetsExist' => 1,
 					),
-				'fieldSeparator' => '-',
-				'addPostVars' => 1,
-				'formconfig.' => array(
-					'loadJsFramework' => 0, // formconfig für config check setzen.
-					'csrfProtection' => $bCsrfProtection,
-					'checkWidgetsExist' => 1,
-				),
 
-			)
-		);
+				)
+			);
+		}
 		$oConfigurations->init(
 			$aConfigArray,
 			$oConfigurations->getCObj(1),
@@ -80,7 +82,7 @@ class tx_mkforms_tests_Util {
 			$oConfigurations,
 			'generic.formconfig.'
 		);
-		
+
 		// logoff für phpmyadmin deaktivieren
 		/*
 		 * Error in test case test_handleRequest

@@ -49,14 +49,14 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 	 * @var formidable_mainvalidator
 	 */
 	protected $oMainValidator;
-	
+
 	/**
 	 * Form
 	 * @var tx_ameosformidable
 	 */
 	protected $oForm;
-	
-	
+
+
 	/**
 	 * setUp() = init DB etc.
 	 */
@@ -64,6 +64,9 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 		$this->oMainValidator = tx_rnbase::makeInstance('formidable_mainvalidator');
 		$this->oForm = tx_mkforms_tests_Util::getForm();
 		$this->oMainValidator->_init($this->oForm,null,null,null);
+
+		//evtl. aus vorherigen Tests
+		$_POST = null;
 	}
 
 	/**

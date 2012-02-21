@@ -754,36 +754,13 @@ class formidable_maindatahandler extends formidable_mainobject {
 		 */
 		protected function checkWidgetsExist(&$aGP,$sAbsName) {
 			//wenn es kein widget ist, dann setzen wir den wert auf null
+			//um manipulationen zu verhindern. Sonst könnten willkürlich
+			//werte mitgeschickt werden
 			if(!isset($this->getForm()->aORenderlets[$sAbsName])){
 				$aGP = null;
 				return;
-			}
-
-			//wenn das übergeben renderlet gar keine childs hat
-			//dann gibt es auch nix zu prüfen. 
-			//@todo auch lister prüfen ob alle columns auch im xml enthalten sind
-			//@todo was ist mit check-, listboxen und radiobuttons? sollte es bei
-			//denen nicht verhindert werden dass werte übermittelt werden, die initial
-			//nicht im xml enthalten waren? wenn, die tests anpassen!!!
-			if(
-				!$this->getForm()->aORenderlets[$sAbsName]->hasChilds() ||
-				//ich muss wieder raus sobald das mit listern funktioniert
-				$this->getForm()->aORenderlets[$sAbsName]->isIterable()
-			)
-				return;
-
-			foreach ($aGP as $rdtName => $rdtValue) {
-				$absRdtName = $sAbsName . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN .$rdtName;
-				//gibt es wieder childs auf ein renderlet?
-				if(is_array($aGP[$rdtName])){
-					$this->checkWidgetsExist($aGP[$rdtName],$absRdtName);
-				}
-
-				//wenn in der übergeben array ein eintrag enthalten ist, der nicht
-				//durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
-				//zu verhinden
-				if(!isset($this->getForm()->aORenderlets[$absRdtName]))
-					unset($aGP[$rdtName]);
+			}else{
+				$this->getForm()->aORenderlets[$sAbsName]->checkValue($aGP);
 			}
 		}
 
@@ -803,8 +780,11 @@ class formidable_maindatahandler extends formidable_mainobject {
 			$aGP = $this->_GP();
 			// Das ist für die einfachen Widgets ohne Boxen
 			if(array_key_exists($sAbsName, $aGP)) {
+
+				//es werden nur Renderlets akzeptiert, die auch im XML vorhanden sind!!!
 				if($this->getForm()->getConfTS('checkWidgetsExist'))
 					$this->checkWidgetsExist($aGP[$sAbsName], $sAbsName);
+
 				return $aGP[$sAbsName];
 			}
 
@@ -818,6 +798,11 @@ class formidable_maindatahandler extends formidable_mainobject {
 				// converting id to data path
 				$sAbsPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sHtmlId);
 				if(($aRes = $this->getForm()->navDeepData($sAbsPath, $aGP)) !== FALSE) {
+
+					//es werden nur Renderlets akzeptiert, die auch im XML vorhanden sind!!!
+					if($this->getForm()->getConfTS('checkWidgetsExist'))
+						$this->checkWidgetsExist($aRes, $sAbsName);
+
 					return $aRes;
 				} elseif($this->bDataHandlerOnSubmit) {
 					// Es wurde keine Daten für dieses Feld submitted (modalbax!)

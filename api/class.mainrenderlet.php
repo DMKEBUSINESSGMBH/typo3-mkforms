@@ -19,7 +19,7 @@
 
 		var $iteratingId = null;
 		var $iteratingChilds = false;
-		
+
 		var $sCustomElementId = FALSE;		// if != FALSE, will be used instead of generated HTML id ( useful for checkbox-group renderlet )
 		var $aPossibleCustomEvents = array();
 		var $aCustomEvents = array();
@@ -41,12 +41,12 @@
 		var $sDataBridge = FALSE;		// hibernation state
 		var $aDataBridged = array();
 		var $aDataSetSignatures = array();	// dataset signature, hash on this rdt-htmlid for sliding accross iterations in lister (as it contains the current row uid when iterating)
-		
+
 		var $sDefaultLabelClass = 'label';
 		var $bVisible = TRUE;	// should the renderlet be visible in the page ?
 
 		var $bArrayValue = false; // the value can be an array or not
-	
+
 		var $aStatics = array(
 			'type' => AMEOSFORMIDABLE_VALUE_NOT_SET,
 			'namewithoutprefix' => AMEOSFORMIDABLE_VALUE_NOT_SET,
@@ -62,7 +62,7 @@
 		);
 
 		protected static $token = ''; // enthält einen eindeutigen String, um beispielsweise link tags zu trennen
-		
+
 		var $aEmptyStatics = array();
 
 		function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
@@ -70,7 +70,7 @@
 			$this->aEmptyStatics = $this->aStatics;
 
 			$this->sDefaultLabelClass = $oForm->sDefaultWrapClass.'-'.$this->sDefaultLabelClass;
-			
+
 			$this->initDataSource();
 			if(($this->oDataBridge =& $this->getDataBridgeAncestor()) !== FALSE) {
 				$this->bHasDataBridge = TRUE;
@@ -104,10 +104,10 @@
 		function initDependancies() {
 			if(($sDeps = $this->_navConf('/dependson')) === FALSE) return;
 			$aDeps = t3lib_div::trimExplode(',', trim($sDeps));
-			
+
 			reset($aDeps);
 			while(list(, $sDep) = each($aDeps)) {
-				
+
 				if(array_key_exists($sDep, $this->oForm->aORenderlets)) {
 					$this->aDependsOn[] = $sDep;
 					$this->oForm->aORenderlets[$sDep]->aDependants[] = $this->getAbsName();
@@ -145,7 +145,7 @@
 			$this->aStatics['dbridge_getSubmitterAbsName'] = $this->aEmptyStatics['dbridge_getSubmitterAbsName'];
 			$this->aStatics['dsetMapping'] = $this->aEmptyStatics['dsetMapping'];
 //t3lib_div::debug($this->aStatics['elementHtmlId'], $this->getName(). ' CLEANSTATICS ######### - class.mainrenderlet.php'); // TODO: remove me
-			
+
 		}
 
 		function doBeforeIteration(&$oIterating) {
@@ -181,7 +181,7 @@
 		function doAfterNonIteratingRender(&$oIterating) {
 
 		}
-		
+
 		function doBeforeListRender(&$oListObject) {
 			// nothing here
 		}
@@ -251,7 +251,7 @@
 				self::$token = md5(microtime());
 			return self::$token;
 		}
-		
+
 		/**
 		 * Liefert das Parent-Widget
 		 * @return formidable_mainrenderlet
@@ -401,7 +401,7 @@
 		return $this->bCustomIncludeScript;
 	}
 		function render($bForceReadonly = FALSE) {
-			
+
 			if((($oIterating = $this->getIteratingAncestor()) !== FALSE)) {
 				$this->doBeforeIteratingRender($oIterating);
 			} else {
@@ -413,13 +413,13 @@
 			} else {
 				$mRendered = $this->_render();
 			}
-			
+
 			$this->includeLibs();
-			
+
 			if(!$this->isCustomIncludeScript()) {
 				$this->includeScripts();
 			}
-			
+
 			$this->attachCustomEvents();
 
 			if($oIterating !== FALSE) {
@@ -464,7 +464,7 @@
 
 			$mValue = $this->getValue();
 			$mHuman = $this->_getHumanReadableValue($mValue);
-			
+
 			$value = 1;
 			if($this->hasParent() && $this->getParent()->hasIteratingChilds()) {
 				// Im Lister schreiben wir bei readOnly den echten Wert in das hidden-Feld.
@@ -483,7 +483,7 @@
 					'humanreadable' => $mHuman,
 				)
 			);
-			
+
 			if(($sListHeader = $this->_navConf('/listheader')) !== FALSE) {
 				$mHtml['listheader'] = $this->oForm->getConfig()->getLLLabel($sListHeader);
 			}
@@ -491,7 +491,7 @@
 			if(!is_array($mHtml['__compiled'])) {
 				$mHtml['__compiled'] = $this->_displayLabel($this->getLabel()) . $mHtml['__compiled'];
 			}
-			
+
 			$this->includeLibs();
 
 			return $mHtml;
@@ -540,12 +540,12 @@
 			if(trim($sRes) === '' && $sDefault !== FALSE) {
 				$sRes = $this->getLabel($sDefault);
 			}
-			
+
 			if(($sLabelWrap = $this->_navConf('/labelwrap')) !== FALSE) {
 				if($this->oForm->isRunneable($sLabelWrap)) {
 					$sLabelWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $sLabelWrap);
 				}
-				
+
 				if(!$this->oForm->_isFalseVal($sLabelWrap)) {
 					$sRes = str_replace('|', $sRes, $sLabelWrap);
 				}
@@ -561,12 +561,12 @@
 			if($this->_navConf("/addnolabeltag") === TRUE || $this->_navConf("/addnolabeltag") == 'true'){
 				return $sLabel;
 			}
-			
+
 			$sHtmlId = ($aConfig !== FALSE && $aConfig['sId']) ? $aConfig['sId'] : $this->_getElementHtmlId();
 			$sLabelId = $sHtmlId . '_label';
 			$aClasses = array();
 			$aClasses[] = $this->sDefaultLabelClass;
-			
+
 			if(($sLabelClass = $this->defaultTrue('/labelidclass', $aConfig)) !== FALSE) {
 				$aClasses[] = $sLabelId;
 			}
@@ -579,7 +579,7 @@
 			if(($sLabelCustom = $this->_navConf('/labelcustom', $aConfig)) !== FALSE) {
 				$sLabelCustom .= ' '.trim($sLabelCustom);
 			} else { $sLabelCustom = ''; }
-				
+
 			if(($sLabelClass = $this->_navConf('/labelclass', $aConfig)) !== FALSE) {
 				if($this->oForm->isRunneable($sLabelClass)) {
 					$aClasses[] = $this->getForm()->getRunnable()->callRunnable($sLabelClass);
@@ -587,11 +587,11 @@
 					$aClasses[] = $sLabelClass;
 				}
 			}
-			
+
 			if($this->getForm()->getRenderer()->defaultFalse('autordtclass') === TRUE) {
 				$aClasses[] = $this->getName() . '_label';
 			}
-			
+
 			$aClasses = array_unique($aClasses);
 
 			if($this->hasError()) {
@@ -601,16 +601,16 @@
 			}
 
 			$sClassAttribute = (count($aClasses) === 0) ? '' : ' ' . implode(' ', $aClasses);
-		
+
 			if(($sLabelStyle = $this->_navConf('/labelstyle', $aConfig)) !== FALSE) {
 				$sLabelStyle = $this->getForm()->getRunnable()->callRunnable($sLabelStyle);
 			}
-			
+
 			if($this->isVisible() === FALSE || $this->_shouldHideBecauseDependancyEmpty()) {
 				$sLabelStyle .= 'display: none;';
 			}
 			$sLabelStyle = empty($sLabelStyle) ? '' : ' style="'.$sLabelStyle.'"';
-//			if(!empty($sLabelStyle)) 
+//			if(!empty($sLabelStyle))
 //tx_mkforms_util_Div::debug4ajax(array(
 //		$sLabelStyle,
 //		' style="'.$sLabelStyle.'"',
@@ -723,7 +723,7 @@
 					$this->aStatics['elementHtmlName'][$sName] = $sPrefix . '[' . $sName . ']';
 				}
 			}
-			
+
 			return $this->aStatics['elementHtmlName'][$sName];
 		}
 
@@ -762,8 +762,8 @@
 	}
 
 	/**
-	 * Liefert die ID des Widgets. Diese ist normalerweise gleich der HTML-ID. Es gibt aber den Sonderfall im 
-	 * ListerSelect. Da haben die einzelnen RadioButtons eine andere HTML-ID als die ButtonGroup. Für die 
+	 * Liefert die ID des Widgets. Diese ist normalerweise gleich der HTML-ID. Es gibt aber den Sonderfall im
+	 * ListerSelect. Da haben die einzelnen RadioButtons eine andere HTML-ID als die ButtonGroup. Für die
 	 * Übernahme der Daten im DataHandler wird die ID der Group benötigt.
 	 * Bisher ein Aufruf im main_datahandler::getRdtValue_submit_edition
 	 * @param $sId
@@ -790,34 +790,34 @@
 			$sId = AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $this->getIteratingId() . AMEOSFORMIDABLE_NESTED_SEPARATOR_END .
 				AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $sId . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
 		}
-		
+
 		$cacheKey = $sId . '-' . intval($withForm) . '-' . intval($withIteratingId);
 		if(!array_key_exists($cacheKey, $this->aStatics['elementHtmlId'])) {
 			$this->aStatics['elementHtmlId'][$cacheKey] = $this->buildHtmlId($withForm, $withIteratingId);
 		}
-		
+
 		return $this->aStatics['elementHtmlId'][$cacheKey];
 	}
-	
+
 	public function setIteratingId($id=null){
 		$this->iteratingId = $id;
 	}
 	public function getIteratingId(){
 		return $this->iteratingId;
 	}
-	
+
 	protected function buildHtmlId($withForm = true, $withIteratingId = true) {
 		$sId = $this->_getNameWithoutPrefix();
-		
+
 		$ret = '';
 		if($this->hasParent()) {
 			$parent = $this->getParent();
 			$ret = $parent->getElementHtmlId4Child($this, $withForm, $withIteratingId);
-		} else { 
+		} else {
 			$sPrefix = $withForm ? $this->oForm->formid . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN : '';
 			$ret = $sPrefix . $sId . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
 		}
-		
+
 		return $ret;
 	}
 
@@ -965,29 +965,30 @@
 			//wir müssen XSS nur bei strings entfernen und wenn es gewünscht ist
 			}elseif (is_string($ret) && $this->sanitize()) {
 				$ret = t3lib_div::removeXSS($ret);
-			} 
+			}
+
 			return $ret;
 		}
-		
+
 		/**
-		 * Soll bei getValue XSS entfernt werden? 
+		 * Soll bei getValue XSS entfernt werden?
 		 * default ja
 		 * @return boolean
 		 */
 		protected function sanitize() {
 			return $this->defaultTrue('/sanitize');
 		}
-		
+
 		function getValueForHtml($mValue = FALSE) {
 			if($mValue === FALSE) {
-				$mValue = $this->getValue();	
+				$mValue = $this->getValue();
 			}
-			
+
 			if(is_string($mValue)) {
 				tx_rnbase::load('tx_mkforms_util_Templates');
 				tx_mkforms_util_Templates::sanitizeStringForTemplateEngine(htmlspecialchars($mValue));
 			}
-			
+
 			return $mValue;
 		}
 
@@ -1021,11 +1022,11 @@
 			if(!array_key_exists('style', $aAdditional)) {
 				$aAdditional['style'] = '';
 			}
-			
+
 			if(!array_key_exists('class', $aAdditional)) {
 				$aAdditional['class'] = '';
 			}
-			
+
 			if(($sClass = trim($this->_getClasses(false,true,$aAdditional['class']))) !== '') {
 				$aAddParams[] = $sClass;
 			}
@@ -1082,7 +1083,7 @@ TOOLTIP;
 					}
 				}
 			}
-			
+
 			if(($sHtmlAutoComplete = $this->htmlAutocomplete()) !== '' && !array_key_exists('autocomplete', $aAdditional)) {
 				$aAddParams[] = $sHtmlAutoComplete;
 			}
@@ -1094,13 +1095,13 @@ TOOLTIP;
 		function _getAddInputParams($aAdditional = array()) {
 
 			$aAddParams = $this->_getAddInputParamsArray($aAdditional);
-			
+
 			if(count($aAddParams) > 0) {
 				$sRes = ' ' . implode(' ', $aAddParams) . ' ';
 			} else {
 				$sRes = '';
 			}
-			
+
 			return $sRes;
 		}
 
@@ -1116,10 +1117,10 @@ TOOLTIP;
 
 			return '';
 		}
-		
+
 		/**
 		 * Prüft, ob der Wert $mValue im Array $aHideIf enthalten ist.
-		 * 
+		 *
 		 * @param mixed $mValue
 		 * @param array $aHideIf
 		 * @return boolean
@@ -1138,7 +1139,7 @@ TOOLTIP;
 			}
 			return FALSE;
 		}
-		
+
 		function _shouldHideBecauseDependancyEmpty($bCheckParent=false) {
 			$bOrZero = $sIs = $sIsNot = FALSE;
 			if(
@@ -1162,7 +1163,7 @@ TOOLTIP;
 							|| ($sIsHiddenD && $oRdt->_shouldHideBecauseDependancyEmpty(true))
 								// der Wert leer ist
 							|| ( $bEmpty && $oRdt->isValueEmpty())
-								// der Wert 0 ist 
+								// der Wert 0 ist
 							|| ($bOrZero === TRUE && (intval($oRdt->getValue()) === 0))
 								// der Wert eines der angegebenen Werte hat
 							|| ($sIs !== FALSE && $this->_isDependancyValue($oRdt->getValue(), $sIs) )
@@ -1179,25 +1180,25 @@ TOOLTIP;
 			}
 			return FALSE;
 		}
-		
+
 		function _getStyleArray($aConf=FALSE, $sAddStyle='') {
-			
+
 			$sStyle = '';
-			
+
 			if(($mStyle = $this->_navConf('/style/', $aConf)) !== FALSE) {
 				if($this->oForm->isRunneable($mStyle)) {
 					$mStyle = $this->getForm()->getRunnable()->callRunnableWidget($this, $mStyle);
 				}
-				
+
 				$sStyle = str_replace('"', "'", $mStyle);
 			}
 
 			if($this->isVisible() === FALSE || $this->_shouldHideBecauseDependancyEmpty()) {
 				$sAddStyle .= 'display: none;';
 			}
-			
+
 			$aStyles = $this->explodeStyle($sStyle);
-			
+
 			if(trim($sAddStyle) !== '') {
 				$aStyles = array_merge(
 					$aStyles,
@@ -1227,32 +1228,32 @@ TOOLTIP;
 			reset($aStyles);
 			return $aStyles;
 		}
-		
+
 		function buildStyleProp($aStyles) {
 			$aRes = array();
-			
+
 			reset($aStyles);
 			while(list($sProp, $sVal) = each($aStyles)) {
-				$aRes[] = $sProp . ': ' . $sVal;	
+				$aRes[] = $sProp . ': ' . $sVal;
 			}
-			
+
 			reset($aRes);
 			if(count($aRes) > 0) {
 				return ' style="' . implode('; ', $aRes) . ';" ';
 			}
-			
-			return '';			
+
+			return '';
 		}
-		
+
 		function _getStyle($aConf = FALSE, $sAddStyle = '') {
-			
+
 			$aStyles = $this->_getStyleArray($aConf = FALSE, $sAddStyle = '');
 			return $this->buildStyleProp($aStyles);
 		}
 
 	/**
 	 * Prüft die Option hideIf. Damit kann man Widgets ausblenden, wenn sie einen bestimmten Wert haben
-	 * 
+	 *
 	 * @param formidable_mainrenderlet $widget
 	 * @return boolean
 	 */
@@ -1269,11 +1270,11 @@ TOOLTIP;
 	function isVisible() {
 		return $this->bVisible && $this->defaultTrue('/visible') && !$this->isHideIf($this);
 	}
-		
+
 		function setVisible() {
 			$this->bVisible = TRUE;
 		}
-		
+
 		function setInvisible() {
 			$this->bVisible = FALSE;
 		}
@@ -1298,7 +1299,7 @@ TOOLTIP;
 					$aClasses = t3lib_div::trimExplode(' ', $mClass);
 				}
 			}
-			
+
 			if($bIsRdt === TRUE) {
 				if($this->oForm->oRenderer->defaultFalse('autordtclass') === TRUE) {
 					$aClasses[] = $this->getName();
@@ -1321,7 +1322,7 @@ TOOLTIP;
 
 			if(strlen($sAdditional))
 				$aClasses[] = $sAdditional;
-			
+
 			if(count($aClasses) === 0) {
 				$sClassAttribute = '';
 			} else {
@@ -1373,7 +1374,7 @@ TOOLTIP;
 
 							if(array_key_exists('params', $mEvent)) {
 								if(is_string($mEvent['params'])) {
-									
+
 									$aTemp = t3lib_div::trimExplode(',', $mEvent['params']);
 									reset($aTemp);
 									while(list($sKey,) = each($aTemp)) {
@@ -1388,7 +1389,7 @@ TOOLTIP;
 									$aNeededParams = $mEvent['params'];
 								}
 							}
-							
+
 							reset($aNeededParams);
 
 							$sWhen = $this->oForm->_navConf('/when', $mEvent);
@@ -1432,22 +1433,22 @@ TOOLTIP;
 			$aEvents = array();
 
 			$aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
-			
+
 			reset($aGrabbedEvents);
 			while(list(, $sEvent) = each($aGrabbedEvents)) {
 
 				if(($mEvent = $this->_navConf('/' . $sEvent . '/')) !== FALSE) {
-					
+
 					if(is_array($mEvent)) {
 
 						$sRunAt = (array_key_exists('runat', $mEvent) && in_array($mEvent['runat'], array('js', 'inline', 'client', 'ajax', 'server'))) ? $mEvent['runat'] : 'client';
-						
+
 						if(($iPos = strpos($sEvent, '-')) !== FALSE) {
 							$sEventName = substr($sEvent, 0, $iPos);
 						} else {
 							$sEventName = $sEvent;
 						}
-						
+
 						switch($sRunAt) {
 							case 'server': {
 								$sEventId = $this->oForm->_getServerEventId(
@@ -1526,7 +1527,7 @@ TOOLTIP;
 
 									if($sEventName !== 'onload'){
 										$aEvent = $this->getForm()->getRunnable()->callRunnableWidget($this, $mEvent);
-	
+
 										$aEvent = $this->oForm->oRenderer->_getClientEvent(
 											$this->_getElementHtmlId(),
 											$mEvent,
@@ -1539,14 +1540,14 @@ TOOLTIP;
 										} else {
 											$aEvent = $mEvent;
 										}
-										
+
 										$this->oForm->aOnloadEvents['client']['onload:' . $this->_getElementHtmlIdWithoutFormId()] = array(
 											'name' => $this->_getElementHtmlId(),
 											'event' => $mEvent,
 											'eventdata' => $aEvent
 										);
 									}
-									
+
 								}
 								break;
 							}
@@ -1621,15 +1622,15 @@ TOOLTIP;
 					}
 
 					if($sEventName !== 'onload' && !$this->isCustomEventHandler($sEventName)) {
-												
+
 						if(!$this->oForm->isDomEventHandler($sEventName)) {
 							$sEventName = 'formidable:' . $sEventName;
 						}
-						
+
 						if(!array_key_exists($sEventName, $aEvents)) {
 							$aEvents[$sEventName] = array();
 						}
-						
+
 						$aEvents[$sEventName][] = $aEvent;
 					} elseif($this->isCustomEventHandler($sEventName)) {
 
@@ -1640,7 +1641,7 @@ TOOLTIP;
 
 			if($this->aSkin && $this->skin_declaresHook('geteventsarray')) {
 
-				$aEvents = $this->getForm()->getRunnable()->callRunnableWidget($this, 
+				$aEvents = $this->getForm()->getRunnable()->callRunnableWidget($this,
 					$this->aSkin['submanifest']['hooks']['geteventsarray'],
 					array(
 						'object' => &$this,
@@ -1714,7 +1715,7 @@ JAVASCRIPT;
 				$this->oForm->aRdtEvents[$sEvent . '-' . $sElementId] = $sEvents;
 			}
 		}
-		
+
 		function attachCustomEvents() {
 
 			$sHtmlId = $this->_getElementHtmlId();
@@ -1804,20 +1805,20 @@ JAVASCRIPT;
 				while(list($sKey, ) = each($aXmlItems)) {
 
 					if($this->oForm->isRunneable($aXmlItems[$sKey]['caption'])) {
-						$aXmlItems[$sKey]['caption'] = $this->getForm()->getRunnable()->callRunnableWidget($this, 
+						$aXmlItems[$sKey]['caption'] = $this->getForm()->getRunnable()->callRunnableWidget($this,
 							$aXmlItems[$sKey]['caption']
 						);
 					}
 
 					if($this->oForm->isRunneable($aXmlItems[$sKey]['value'])) {
-						$aXmlItems[$sKey]['value'] = $this->getForm()->getRunnable()->callRunnableWidget($this, 
+						$aXmlItems[$sKey]['value'] = $this->getForm()->getRunnable()->callRunnableWidget($this,
 							$aXmlItems[$sKey]['value']
 						);
 					}
 
 					if(array_key_exists('custom', $aXmlItems[$sKey])) {
 						if($this->oForm->isRunneable($aXmlItems[$sKey]['custom'])) {
-							$aXmlItems[$sKey]['custom'] = $this->getForm()->getRunnable()->callRunnableWidget($this, 
+							$aXmlItems[$sKey]['custom'] = $this->getForm()->getRunnable()->callRunnableWidget($this,
 								$aXmlItems[$sKey]['custom']
 							);
 						}
@@ -1825,7 +1826,7 @@ JAVASCRIPT;
 
 					if(array_key_exists('labelcustom', $aXmlItems[$sKey])) {
 						if($this->oForm->isRunneable($aXmlItems[$sKey]['labelcustom'])) {
-							$aXmlItems[$sKey]['labelcustom'] = $this->getForm()->getRunnable()->callRunnableWidget($this, 
+							$aXmlItems[$sKey]['labelcustom'] = $this->getForm()->getRunnable()->callRunnableWidget($this,
 								$aXmlItems[$sKey]['labelcustom']
 							);
 						}
@@ -1911,7 +1912,7 @@ JAVASCRIPT;
 				} else {
 					$sCaption = $this->getForm()->getConfig()->getLLLabel($mAddBlank);
 				}
-				
+
 				if(($mBlankValue = $this->_defaultFalseMixed('/blankvalue')) === FALSE) {
 					$mBlankValue = '';
 				}
@@ -2019,7 +2020,7 @@ JAVASCRIPT;
 						reset($aFields);
 						while(list(, $sField) = each($aFields)) {
 
-							$aSql[] = $this->getForm()->getRunnable()->callRunnableWidget($this, 
+							$aSql[] = $this->getForm()->getRunnable()->callRunnableWidget($this,
 								$aConf['overridesql'],
 								array(
 									'name'		=> $sField,
@@ -2045,7 +2046,7 @@ JAVASCRIPT;
 
 					$sSql = str_replace('|', $sValue, $sSql);
 				} else {
-					
+
 					if(array_key_exists('mode', $aConf)) {
 						if((is_array($aConf['mode']) && array_key_exists('startswith', $aConf['mode'])) || $aConf['mode'] == 'startswith') {
 							// on effectue la recherche sur le dbut des champs avec LIKE A%
@@ -2242,7 +2243,7 @@ JAVASCRIPT;
 				// events should always start with on
 				$sEvent = 'on' . $sEvent;
 			}
-			
+
 			if(array_key_exists($sEvent, $this->aElement) && array_key_exists('runat', $this->aElement[$sEvent]) && $this->aElement[$sEvent]['runat'] == 'server') {
 				$aEvent = $this->aElement[$sEvent];
 			} elseif(($aProgEvents = $this->_getProgServerEvents()) !== FALSE && array_key_exists($sEvent, $aProgEvents)) {
@@ -2250,18 +2251,18 @@ JAVASCRIPT;
 			} else {
 				return FALSE;
 			}
-			
+
 			if($sWhen === FALSE || $aEvent[$sEvent]['when'] == $sWhen) {
 
 				$aP = $this->oForm->_getRawPost();
-				
+
 				if(array_key_exists('AMEOSFORMIDABLE_SERVEREVENT', $aP)) {
 					if(array_key_exists($aP['AMEOSFORMIDABLE_SERVEREVENT'], $this->oForm->aServerEvents)) {
 						$sEventId = $this->oForm->_getServerEventId(
 							$this->getAbsName(),
 							$this->oForm->aServerEvents[$aP['AMEOSFORMIDABLE_SERVEREVENT']]['raw']
 						);
-						
+
 						return ($sEventId === $aP['AMEOSFORMIDABLE_SERVEREVENT']);
 					}
 				}
@@ -2398,13 +2399,13 @@ JAVASCRIPT;
 							// AND value is a nested array of values
 							// AND subvalue for current child exists in the data array
 								// => forcing subvalue for this child
-								
+
 						// Prüfen, ob dieses Renderlet bereits eine ForcedValue hat,
 						// wenn ja merken wir uns diese
 						$mOldForceValue = $oRdt->bForcedValue ? $oRdt->mForcedValue : false;
 						$oRdt->forceValue($this->mForcedValue[$sName]);
 						$aRendered[$sName] = $this->oForm->_renderElement($oRdt);
-						
+
 						if($mOldForceValue == FALSE) {	// Das Renderlet hatte keine eigene ForcedValue
 							$oRdt->unForceValue();
 						} else { 						// Die eigene ForcedValue zurücksetzen
@@ -2416,12 +2417,12 @@ JAVASCRIPT;
 
 				}
 			}
-			
+
 			// adding prerendered renderlets in the html bag
 			$sAbsName = $this->getAbsName();
 			$sAbsPath = str_replace('.', '.childs.', $sAbsName);
 			$sAbsPath = str_replace('.', '/', $sAbsPath);
-			
+
 			if(($mValue = $this->oForm->navDeepData($sAbsPath, $this->oForm->aPreRendered)) !== FALSE) {
 				if(is_array($mValue) && array_key_exists('childs', $mValue)) {
 					$aRendered = t3lib_div::array_merge_recursive_overrule(
@@ -2442,7 +2443,7 @@ JAVASCRIPT;
 					// mechanism:
 					// childs can be templated if name of parent renderlet is present in template as a subpart marker
 					// like for instance with renderlet:BOX name="mybox", subpart will be <!-- ###mybox### begin--> My childs here <!-- ###mybox### end-->
-				
+
 				$aTemplate = $this->_navConf('/childs/template');
 
 				$sPath = $this->oForm->toServerPath($this->oForm->_navConf('/path', $aTemplate));
@@ -2490,7 +2491,7 @@ JAVASCRIPT;
 						$this->oForm->oRenderer->getTemplateHtml(),
 						'###' . $sSubpartName . '###'
 					);
-					
+
 #					debug($aChildsBag, "aChildsBag:" . $this->getAbsName());
 					#$aErrors = $this->getDeepErrorRelative();
 					#debug($aErrors, "getDeepError");
@@ -2499,18 +2500,18 @@ JAVASCRIPT;
 					$aDeepErrors = $this->getDeepErrorRelative();
 					reset($aDeepErrors);
 					while(list($sKey,) = each($aDeepErrors)) {
-						
+
 						$sTag = $this->oForm->oRenderer->wrapErrorMessage($aDeepErrors[$sKey]['message']);
-						
+
 						$aCompiledErrors[] = $sTag;
-						
+
 						$aTemplateErrors[$sKey] = $aDeepErrors[$sKey]['message'];
 						$aTemplateErrors[$sKey . '.'] = array(
 							'tag' => $sTag,
 							'info' => $aDeepErrors[$sKey]['info'],
 						);
 					}
-					
+
 					$aChildsBag['errors'] = $aTemplateErrors;
 					$aChildsBag['errors']['__compiled'] = $this->oForm->oRenderer->compileErrorMessages($aCompiledErrors);
 
@@ -2521,14 +2522,14 @@ JAVASCRIPT;
 							array(),
 							FALSE
 						);
-						
+
 						return $sRes;
 					}
 				}
 
 				$sCompiled = '';
 				$bRenderErrors = $this->defaultTrue('/rendererrors');
-				
+
 				reset($aChildsBag);
 				while(list($sName, $aBag) = each($aChildsBag)) {
 					if($sName{0}=='e' && $sName=='errors' && !$bRenderErrors) continue;
@@ -2542,7 +2543,7 @@ JAVASCRIPT;
 				return $sCompiled;
 			}
 		}
-		
+
 		function shouldAutowrap() {
 			return $this->_defaultTrue('/childs/autowrap/');
 		}
@@ -2662,36 +2663,36 @@ JAVASCRIPT;
 				'removeErrorStatus'
 			);
 		}
-		
-		
+
+
 		function majixSubmitSearch() {
 			return $this->buildMajixExecuter(
 				'triggerSubmit',
 				'search'
 			);
 		}
-		
+
 		function majixSubmitFull() {
 			return $this->buildMajixExecuter(
 				'triggerSubmit',
 				'full'
 			);
 		}
-		
+
 		function majixSubmitClear() {
 			return $this->buildMajixExecuter(
 				'triggerSubmit',
 				'clear'
 			);
 		}
-		
+
 		function majixSubmitRefresh() {
 			return $this->buildMajixExecuter(
 				'triggerSubmit',
 				'refresh'
 			);
 		}
-		
+
 		function majixSubmitDraft() {
 			return $this->buildMajixExecuter(
 				'triggerSubmit',
@@ -2911,9 +2912,9 @@ JAVASCRIPT;
 		}
 
 		function baseCleanBeforeSession() {
-			
+
 			$sThisAbsName = $this->getAbsName();	// keep it before being unable to calculate it
-			
+
 			if($this->hasChilds() && isset($this->aChilds) && is_array($this->aChilds)) {
 				$aChildKeys = array_keys($this->aChilds);
 				reset($aChildKeys);
@@ -2948,7 +2949,7 @@ JAVASCRIPT;
 			unset($this->aStatics);
 			$this->aStatics = $this->aEmptyStatics;
 			$this->aCustomEvents = array();
-			
+
 /*			if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
 				debug($this->getName(), "baseCleanBeforeSession");
 			}
@@ -3007,8 +3008,8 @@ JAVASCRIPT;
 
 			$mPostValue = $this->getRawPostValue($sFormId, $sAbsName);
 
-			if($sFormId === FALSE && $sAbsName === FALSE) {				
-				$sElementHtmlId = $this->_getElementHtmlId();		
+			if($sFormId === FALSE && $sAbsName === FALSE) {
+				$sElementHtmlId = $this->_getElementHtmlId();
 				if(array_key_exists($sElementHtmlId, $this->aStatics['hasSubmitted'])) {
 					return $this->aStatics['hasSubmitted'][$sElementHtmlId];
 				}
@@ -3028,7 +3029,7 @@ JAVASCRIPT;
 					}
 				}
 			}
-			
+
 			if($sFormId === FALSE && $sAbsName === FALSE) {
 				$this->aStatics['hasSubmitted'][$sElementHtmlId] = $bRes;
 			}
@@ -3120,7 +3121,7 @@ JAVASCRIPT;
 
 			return TRUE;
 		}
-		
+
 		function handleAjaxRequest(&$oRequest) {
 			/* specialize me */
 		}
@@ -3177,7 +3178,7 @@ JAVASCRIPT;
 		 * @return	void
 		 */
 		function unsetRdt() {
-			
+
 
 			if($this->mayHaveChilds() && $this->hasChilds()) {
 
@@ -3220,7 +3221,7 @@ JAVASCRIPT;
 
 			//unset($this->oForm->_aValidationErrors[$sName]);	// removes potentialy thrown validation errors
 			$this->cancelError();
-			
+
 			if($this->hasParent()) {
 				unset($this->oRdtParent->aChilds[$this->getName()]);
 			}
@@ -3231,7 +3232,7 @@ JAVASCRIPT;
 
 			// pre-setting it's render to void
 			#$this->oForm->aPreRendered[$sName] = '';
-			
+
 			$sDeepPath = str_replace('.', '.childs.', $sName);
 			$sDeepPath = str_replace('.', '/', $sDeepPath);
 			$this->oForm->setDeepData(
@@ -3240,7 +3241,7 @@ JAVASCRIPT;
 				array(),
 				TRUE	// $bMergeIfArray
 			);
-			
+
 			#debug($this->oForm->aPreRendered);
 		}
 
@@ -3264,7 +3265,7 @@ JAVASCRIPT;
 			$sHtml = '';
 			foreach($aHtmlBag['childs'] as $child)
 				$sHtml .= $child['__compiled'];
-		
+
 			return $this->buildMajixExecuter(
 				'repaintInner',
 				$sHtml
@@ -3297,7 +3298,7 @@ JAVASCRIPT;
 				// this is a php-hack to allow optional yet passed-by-ref arguments
 				$aTasks =& $aTasks[0];
 			}
-			
+
 			if(!is_array($aTasks)) {
 				$aTasks = array();
 			}
@@ -3545,7 +3546,7 @@ JAVASCRIPT;
 
 			return $this->aStatics['dsetMapping'];
 		}
-		
+
 		function _isSubmittedForValidation() {
 			return $this->_isSubmitted() && (
 				$this->_isFullySubmitted() ||
@@ -3628,7 +3629,7 @@ JAVASCRIPT;
 			if($this->isDataBridge()) {
 				return $this->dbridge_edition();
 			}
-			
+
 			if($this->hasDataBridge()) {
 				return $this->dbridged_edition();
 			}
@@ -3767,7 +3768,7 @@ JAVASCRIPT;
 			unset($this->oForm->_aValidationErrorsInfos[$sHtmlId]);
 			//unset($this->oForm->_aValidationErrorsTypes[$sAbsName]);
 		}
-		
+
 		function majixAddClass($sClass) {
 			return $this->buildMajixExecuter(
 				'addClass',
@@ -3813,7 +3814,7 @@ JAVASCRIPT;
 
 				return $bHasErrors;
 			}
-			
+
 			return $this->hasError();
 		}
 
@@ -3844,31 +3845,31 @@ JAVASCRIPT;
 
 			return FALSE;
 		}
-		
+
 		function getDeepError() {
 			$aErrors = array();
 			$aErrors = $this->getDeepError_rec($aErrors);
 			reset($aErrors);
 			return $aErrors;
 		}
-		
+
 		function getDeepErrorRelative() {
 			$aErrors = array();
 			$aErrorsRel = array();
-			
+
 			$aErrors = $this->getDeepError_rec($aErrors);
-			
+
 			reset($aErrors);
 			while(list($sAbsName,) = each($aErrors)) {
 				$aErrorsRel[$this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this)] = $aErrors[$sAbsName];
 			}
-			
+
 			reset($aErrorsRel);
 			return $aErrorsRel;
 		}
-		
+
 		function getDeepError_rec($aErrors) {
-			
+
 			if($this->mayHaveChilds() && $this->hasChilds()) {
 				$aChildKeys = array_keys($this->aChilds);
 				reset($aChildKeys);
@@ -3876,15 +3877,15 @@ JAVASCRIPT;
 					if($this->aChilds[$sKey]->hasError()) {
 						$aErrors[$this->aChilds[$sKey]->getAbsName()] = $this->aChilds[$sKey]->getError();
 					}
-					
+
 					$aErrors = $this->aChilds[$sKey]->getDeepError_rec($aErrors);
 				}
 			}
-			
+
 			if(($aThisError = $this->getError()) !== FALSE) {
 				$aErrors[$this->getAbsName()] = $aThisError;
 			}
-			
+
 			reset($aErrors);
 			return $aErrors;
 		}
@@ -3981,8 +3982,8 @@ JAVASCRIPT;
 				}
 			}*/
 		}
-		
-		
+
+
 		function synthetizeAjaxEventUserobj($sEventHandler, $sPhp, $mParams=FALSE, $bCache=TRUE, $bSyncValue=FALSE) {
 			return $this->oForm->oRenderer->synthetizeAjaxEvent(
 				$this,
@@ -3994,7 +3995,7 @@ JAVASCRIPT;
 				$bSyncValue
 			);
 		}
-		
+
 		function synthetizeAjaxEventCb($sEventHandler, $sCb, $mParams=FALSE, $bCache=TRUE, $bSyncValue=FALSE) {
 			return $this->oForm->oRenderer->synthetizeAjaxEvent(
 				$this,
@@ -4006,7 +4007,7 @@ JAVASCRIPT;
 				$bSyncValue
 			);
 		}
-		
+
 		function htmlAutocomplete() {
 			if($this->mayHtmlAutocomplete()) {
 				if($this->shouldHtmlAutocomplete()) {
@@ -4015,16 +4016,43 @@ JAVASCRIPT;
 					return ' autocomplete="off" ';
 				}
 			}
-			
+
 			return '';	// if rdt may not htmlautocomplete, no need to counter-indicate it
 		}
 
 		function shouldHtmlAutocomplete() {
 			return $this->defaultFalse('/htmlautocomplete');
 		}
-		
+
 	function mayHtmlAutocomplete() {
 		return FALSE;
+	}
+
+	/**
+	 * übermittelte werte überprüfen. z.b. sollten alle Felder
+	 * auch als Renderlet im XML vorhanden sein.
+	 *
+	 * @param array $aGP | merged $_GET , $_POST
+	 */
+	public function checkValue(&$aGP) {
+		//wenn das übergeben renderlet gar keine childs hat
+		//dann gibt es auch nix zu prüfen. da das rdt offentsichtlich vorhanden ist!
+		if(!$this->hasChilds()){
+			return;
+		}
+
+		//Jeden übermittelten überprüfen ob es dazu ein widget gibt. wenn der wert ein array
+		foreach ($aGP as $rdtName => $rdtValue) {
+			$absRdtName = $this->getAbsName() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN .$rdtName;
+
+			//wenn in der übergeben array ein eintrag enthalten ist, der nicht
+			//durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
+			//zu verhinden
+			if(!isset($this->getForm()->aORenderlets[$absRdtName]))
+				unset($aGP[$rdtName]);
+			else
+				$this->getForm()->aORenderlets[$absRdtName]->checkValue($aGP[$rdtName]);
+		}
 	}
 }
 
