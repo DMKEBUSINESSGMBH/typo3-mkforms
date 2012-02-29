@@ -2121,8 +2121,9 @@ SANDBOXCLASS;
 		if($this->getDataHandler()->_isSubmitted()) {
 			//jetzt prüfen wir ob das Formular auch vom Nutzer abgeschickt wurde,
 			//der das Formular erstellt hat
-			if($this->getConfTS('csrfProtection') && !$this->validateRequestToken())
-				throw new RuntimeException('Das Formular ist nicht valide!', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'].'1');;
+			if($this->getConfTS('csrfProtection') && !$this->validateRequestToken()){
+				throw new RuntimeException('Das Formular ist nicht valide! erwarteter Token: '.$this->getRequestTokenFromSession(), $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'].'1');;
+			}
 
 			if($this->getDataHandler()->_isFullySubmitted()) {
 
@@ -5308,11 +5309,20 @@ JAVASCRIPT;
 	 */
 	protected function validateRequestToken() {
 		$aPost = $this->_getRawPost();
-		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 		return(
 			array_key_exists('MKFORMS_REQUEST_TOKEN', $aPost) &&
-			$aPost['MKFORMS_REQUEST_TOKEN'] == $aSessionData['requestToken'][$this->getFormId()]
+			$aPost['MKFORMS_REQUEST_TOKEN'] == $this->getRequestTokenFromSession()
 		);
+	}
+	
+	/**
+	 * leifert den in der Session gespeicherten request token.
+	 * also der, der erwartet wird
+	 * @return string
+	 */
+	protected function getRequestTokenFromSession() {
+		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+		return $aSessionData['requestToken'][$this->getFormId()];
 	}
 }
 
