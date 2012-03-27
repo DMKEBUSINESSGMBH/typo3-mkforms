@@ -111,6 +111,9 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 			MKWrapper.attachEvent(this.oText, 'blur', this.checkSelection, this);
 			MKWrapper.attachEvent(this.oText, 'keydown', this.textChange, this);
 		}
+		else if(this.config.hideItemListOnLeave) {
+			MKWrapper.attachEvent(document.getElementsByTagName('body')[0], 'click', this.hideItemListOnLeave, this);
+		}
 	},
 	loaderShow: function(){
 		MKWrapper.setStyle(this.oLoader,{"display": "block"});
@@ -345,6 +348,10 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		obj.oText.focus();
 		if(this.config.selectionRequired) this.disableButtons();
 		obj.itemSelect(obj, obj.itemSelected);
+	},
+	
+	hideItemListOnLeave: function() {
+		this.hideItemList(this);
 	},
 	
 	hideItemList: function(obj) {

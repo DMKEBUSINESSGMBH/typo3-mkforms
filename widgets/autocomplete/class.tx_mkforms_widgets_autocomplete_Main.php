@@ -122,6 +122,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			"selectedItemClass" => $sSelectedItemClass,
 			"jsExtend" => $this->_navConf("/jsextend", false),
 			"selectionRequired" => $this->defaultFalse("/selectionrequired"),
+			"hideItemListOnLeave" => $this->defaultTrue("/hideitemlistonleave"),
 		);
 		$this->includeScripts($this->aConfig);
 
