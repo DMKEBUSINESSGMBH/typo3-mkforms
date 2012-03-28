@@ -11,6 +11,9 @@ class formidableajax {
 	var $aConf		= FALSE;
 	var $aSession	= array();
 	var $aHibernation = array();
+	/**
+	 * @var tx_ameosformidable
+	 */
 	var $oForm		= null;
 
 	public function getRequestData() {
@@ -199,13 +202,20 @@ class formidableajax {
 			$ttTimes = array();
 			foreach ($this->ttTimes as $key => $time)
 				$ttTimes[$key] = strval($time);
-				
+
 			$sJson = tx_mkforms_util_Json::getInstance()->encode (
 				array(
 					'init' => $this->oForm->aInitTasksAjax,
 					'postinit' => $this->oForm->aPostInitTasksAjax,
 					'attachevents' => $this->oForm->aRdtEventsAjax,
-					'attachheaders' => $this->oForm->getJSLoader()->getAjaxHeaders(),
+					// wenn die header als html (ajax damupload) ausgeliefert werden,
+					// machen die script tags das json kaputt, wir müssen diese also encoden.
+					// wir ersetzen nur die klammern
+					'attachheaders' => str_replace(
+							array('<', '>'),
+							array('%3C', '%3E'),
+							$this->oForm->getJSLoader()->getAjaxHeaders()
+						),
 					'tasks' => $aData,
 					'time' => $ttTimes,
 				)
@@ -229,7 +239,7 @@ class formidableajax {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return tx_ameosformidable
 	 */
 	public function getForm() {

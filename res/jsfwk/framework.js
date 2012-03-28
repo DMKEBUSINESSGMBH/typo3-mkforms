@@ -715,12 +715,15 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		// Achtung. In dem String können mehrere Scripte stehen. Diese müssen dann auch einzeln 
 		// geladen werden!
 		for(var sKey in oAttach) {
-			if(Formidable.indexOf(this.aDynHeadersLoaded,oAttach[sKey]) > -1) {
-				console.log("AJAX attach header avoided:" + oAttach[sKey]);
+			// wenn die header als html (ajax damupload) ausgeliefert werden,
+			// machen die script tags das json kaputt. wir ersetzen nur die klammern
+			var script = oAttach[sKey].replace(/%3C/g, '<').replace(/%3E/g, '>');
+			if(Formidable.indexOf(this.aDynHeadersLoaded, script) > -1) {
+				console.log("AJAX attach header avoided:" + script);
 			} else if(Formidable.isScriptLoaded(sKey)) {
 				console.log("AJAX2 attach header avoided:" + sKey);
 			} else {
-				var aMatches = oAttach[sKey].match(/src=["|'].+["|']/g);	// js headers only
+				var aMatches = script.match(/src=["|'].+["|']/g);	// js headers only
 				
 				if(aMatches && aMatches.length > 0) {
 					for(var i=0; i<aMatches.length; i++) {
@@ -729,14 +732,14 @@ Formidable.Classes.FormBaseClass = Base.extend({
 						MKWrapper.loadScript(sSrc, function(scope) {
 								scope = typeof scope != 'undefined' ? scope : this;
 								// CHANGE: der Aufruf von globalEval ist in den Prototype-Wrapper verlagert
-								scope.aDynHeadersLoaded.push(oAttach[sKey]);
+								scope.aDynHeadersLoaded.push(script);
 							},
 							this
 						);
 					}
 				} 
 				// Jetzt noch nach CSS suchen
-				aMatches = oAttach[sKey].match(/<link rel=["|']stylesheet["|'] type=["|']text\/css["|'].+href=["|'](.+)["|'] \/>/);	// css headers only
+				aMatches = script.match(/<link rel=["|']stylesheet["|'] type=["|']text\/css["|'].+href=["|'](.+)["|'] \/>/);	// css headers only
 				if(aMatches && aMatches.length > 0) {
 					sSrc = aMatches[1];
 					Formidable.includeStylesheet(sSrc);
