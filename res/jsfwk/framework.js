@@ -867,12 +867,13 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		// submitting Main form
 		MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SUBMITTED").value=iMode;
 
-		if(this.ViewState.length > 0) {
-			// saving viewstate
-			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_VIEWSTATE").value=JSONstring.make(this.ViewState, true);
-		} else {
-			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_VIEWSTATE").value="";
-		}
+		// wozu wird der viewstate auf dem server benötigt?
+//		if(this.ViewState.length > 0) {
+//			// saving viewstate
+//			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_VIEWSTATE").value=JSONstring.make(this.ViewState, true);
+//		} else {
+//			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_VIEWSTATE").value="";
+//		}
 		
 		this.domNode().submit();
 	},
