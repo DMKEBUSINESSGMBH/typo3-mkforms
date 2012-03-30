@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_link' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -11,7 +11,8 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 	var $aLibs = array(
 		"rdt_link_class" => "res/js/link.js",
 	);
-
+	var $bCustomIncludeScript = TRUE;
+	
 	var $sMajixClass = "Link";
 
 	function _render() {
@@ -167,6 +168,12 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		}
 
 		$aHtmlBag["__compiled"] = $sCompiled;
+		
+		$this->includeScripts(array(
+			// Timeout in ms
+			'followTimeout' => ($timeout = $this->_navConf('/followtimeout')) === false ? 0 : intval($timeout),
+		));
+		
 		return $aHtmlBag;
 	}
 	
