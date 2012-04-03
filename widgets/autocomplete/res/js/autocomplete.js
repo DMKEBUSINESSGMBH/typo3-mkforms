@@ -320,21 +320,11 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 	},
 	
 	disableButtons: function() {
-		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.oForm.sFormId),'input[type=submit]'),function(o,i){
-			MKWrapper.$(o).disabled = true;
-		});
-		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.oForm.sFormId),'input[type=button]'),function(o,i){
-			MKWrapper.$(o).disabled = true;
-		});
+		this.oForm.disableButtons();
 	},
 	
 	enableButtons: function() {
-		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.oForm.sFormId),'input[type=submit]'),function(o,i){
-			MKWrapper.$(o).disabled = false;
-		});
-		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.oForm.sFormId),'input[type=button]'),function(o,i){
-			MKWrapper.$(o).disabled = false;
-		});
+		this.oForm.enableButtons();
 	},
 	
 	setDbEntryState: function(b) {
