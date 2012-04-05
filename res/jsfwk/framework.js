@@ -877,8 +877,30 @@ Formidable.Classes.FormBaseClass = Base.extend({
 //		} else {
 //			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_VIEWSTATE").value="";
 //		}
+		if(this.Misc.disableButtonsOnSubmit) {
+			this.disableButtons();
+		}
+		if(this.Misc.displayLoaderOnSubmit) {
+			this.displayLoader();
+		}
 		
 		this.domNode().submit();
+	},
+	disableButtons: function() {
+		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.sFormId),'input[type=submit]'),function(o,i){
+			MKWrapper.$(o).disabled = true;
+		});
+		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.sFormId),'input[type=button]'),function(o,i){
+			MKWrapper.$(o).disabled = true;
+		});
+	},
+	enableButtons: function() {
+		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.sFormId),'input[type=submit]'),function(o,i){
+			MKWrapper.$(o).disabled = false;
+		});
+		MKWrapper.each(MKWrapper.findChilds(MKWrapper.$(this.sFormId),'input[type=button]'),function(o,i){
+			MKWrapper.$(o).disabled = false;
+		});
 	},
 	doNothing: function(oSource) {
 		return true;

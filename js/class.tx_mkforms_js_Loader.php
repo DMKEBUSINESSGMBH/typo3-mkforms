@@ -150,6 +150,8 @@ class tx_mkforms_js_Loader {
 				),
 				'MajixSpinner' => (($aSpinner = $this->oForm->_navConf('/meta/majixspinner')) !== FALSE) ? $aSpinner : array(),
 				'useUserChange' => $this->getForm()->_defaultFalse('/meta/form/useuserchange'),
+				'disableButtonsOnSubmit' => $this->getForm()->_defaultTrue('/meta/form/disablebuttonsonsubmit'),
+				'displayLoaderOnSubmit' => $this->getForm()->_defaultFalse('/meta/form/displayloaderonsubmit'),
 			),
 		);
 
