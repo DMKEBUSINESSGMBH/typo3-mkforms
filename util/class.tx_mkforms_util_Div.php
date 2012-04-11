@@ -43,7 +43,7 @@ class tx_mkforms_util_Div {
 	}
 
 	/**
-	 * Returns the current TYPO3 Mode: FE, BE or EID
+	 * Returns the current TYPO3 Mode: CLI, FE, BE or EID
 	 *
 	 * @return string
 	 */
