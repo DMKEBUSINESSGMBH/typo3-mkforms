@@ -26,7 +26,7 @@ class tx_mkforms_js_Loader {
 	var $bLoadScriptaculousBuilder = FALSE;
 	var $bLoadtooltip = FALSE;
 	var $headerKeys = array(); // Hier sammeln wir die Keys der zusatzlichen JS-Scripte
-	
+
 	var $aHeadersAjax		= array();	// stores the headers that are added to the page via ajax
 	var $aHeadersWhenInjectNonStandard = array();	// stores the headers when they have to be injected in the page content at given marker
 
@@ -55,7 +55,7 @@ class tx_mkforms_js_Loader {
 		require_once(PATH_tslib . 'class.tslib_pagegen.php');
 		$this->oForm =& $oForm;
 	}
-	
+
 
 	/**
 	 * Genau ein Aufruf in formidable_mainrenderer
@@ -69,7 +69,7 @@ class tx_mkforms_js_Loader {
 	 */
 	public function includeBaseLibraries() {
 		if(!$this->useJs()) return;
-		
+
 //t3lib_div::debug('inclOnceLibs', 'tx_mkforms_util_JSLoader :: _includeOnceLibs'); // TODO: remove me
 		if($this->mayLoadJsFramework()) {
 			if(!self::$isLoaded) {
@@ -86,7 +86,7 @@ class tx_mkforms_js_Loader {
 					'tx_ameosformidable_core',
 					$bFirstPos = FALSE,$sBefore = FALSE,$sAfter = 'tx_mkforms_jsbase'
 				);
-				
+
 				self::$isLoaded = TRUE;
 			}
 			$this->includeFormidablePath();
@@ -106,10 +106,10 @@ class tx_mkforms_js_Loader {
 		$this->includeTooltip();
 
 	}
-	
+
 	private function includeAdditional() {
 		if(($sLibs = $this->getForm()->getConfig()->get('/meta/libs')) === FALSE) return;
-		
+
 		//debug($sLibs);
 		$aLibs = t3lib_div::trimExplode(',', $sLibs);
 		reset($aLibs);
@@ -163,7 +163,7 @@ Formidable.Context.Forms["{$this->oForm->formid}"] = new Formidable.Classes.Form
 );
 
 JAVASCRIPT;
-			
+
 			if(isset($GLOBALS['BE_USER']) && method_exists($GLOBALS['BE_USER'], 'isAdmin') && $GLOBALS['BE_USER']->isAdmin() && $this->oForm->bDebug) {
 				$sScript .= <<<JAVASCRIPT
 
@@ -182,7 +182,7 @@ JAVASCRIPT;
 
 	private function includeDebugStyles() {
 		if($this->oForm->bDebug) {
-			
+
 			$sPath = t3lib_extMgm::siteRelPath('mkforms');
 			$this->getForm()->additionalHeaderData(
 				"<link rel='stylesheet' type='text/css' href='" . $sPath . "res/css/debug.css' />",
@@ -231,7 +231,7 @@ JAVASCRIPT;
 		$pagePath = $server . t3lib_extMgm::siteRelPath($ext) . 'res/jsfwk/json/json.js';
 		$serverPath = t3lib_extMgm::extPath($ext) . 'res/jsfwk/json/json.js';
 		$includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
-		
+
 		foreach($includes As $include) {
 			$tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
 						'<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
@@ -319,7 +319,7 @@ JAVASCRIPT;
 	}
 
 	private function _includeJSFramework() {
-		
+
 //		wird in $this->getScriptPath() erledigt,
 //		das ganze framework in einer js ist duch den wrapper (prototype, jquery) nich mehr möglich
 //		if(false && $this->minified()) {
@@ -331,7 +331,7 @@ JAVASCRIPT;
 //		} else {
 			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/framework.js';
 //		}
-		
+
 //		$tag = '<script type="text/javascript" src="' . $sPath . '"></script>';
 		$tag = '<script type="text/javascript" src="' . $this->getScriptPath($sPath) . '"></script>';
 		$this->oForm->additionalHeaderData(
@@ -341,7 +341,7 @@ JAVASCRIPT;
 			$sBefore = FALSE,
 			$sAfter = 'tx_mkforms_jsbase_fwk'
 		);
-		
+
 	}
 
 	/**
@@ -597,7 +597,7 @@ JAVASCRIPT;
 		$keys = array_keys($this->headerKeys);
 		$script = '';
 		foreach($keys As $key) {
-			$script .= "Formidable.addScript('$key') \n";
+			$script .= 'Formidable.addScript(\''.$key.'\'); '."\n";
 		}
 		$this->getForm()->attachInitTask($script,'Set loaded scripts','finalTask');
 	}
@@ -627,17 +627,17 @@ JAVASCRIPT;
 		) {
 			return $sHeaderMarker;
 		}
-		
+
 		return FALSE;
 	}
 	function manuallyInjectHeaders() {
 		return intval($this->getForm()->getConfTS('injectHeadersManually')) > 0;
-		
+
 		if(isset($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersManually"])) {
 			// notnot returns real boolean
 			return !!intval($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersManually"]);
 		}
-		
+
 		return FALSE;
 	}
 	/**
@@ -665,7 +665,7 @@ JAVASCRIPT;
 				$newPath = $sMinPath;
 			}
 			// else, keine minimierte version gefunden, nutze standard Datei
-			
+
 		}
 		return $newPath;
 	}
