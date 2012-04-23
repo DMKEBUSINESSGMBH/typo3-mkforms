@@ -304,6 +304,17 @@ class tx_mkforms_util_Json {
                             $ascii .= '\\'.$var{$c};
                             break;
 
+
+                        // http://www.fileformat.info/info/unicode/char/2028/index.htm
+                        // Unicode Character 'LINE SEPARATOR' (U+2028)
+                        // Dieser Char zerstört das Javascript
+                        // und wird erstmal durch einen normalen umbruch ersetzt!
+                        // @TODO: spezielles encoding fürs javascript?
+                        case $ord_var_c == 0xe2 && ord($var{$c+1}) == 0x80 && ord($var{$c+2}) == 0xa8:
+                        	$c += 2;
+                        	$ascii .= '\n';
+                        	break;
+
                         case (($ord_var_c >= 0x20) && ($ord_var_c <= 0x7F)):
 						default:
                             // characters U-00000000 - U-0000007F (same as ASCII)
@@ -674,7 +685,7 @@ class tx_mkforms_util_Json {
                                 // element in an associative array,
                                 // for now
                                 $parts = array();
-                                
+
                                 if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
                                     // "name":value pair
                                     $key = $this->decode($parts[1]);
@@ -809,5 +820,5 @@ else {
 if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/mkforms/util/class.tx_mkforms_util_Json.php"])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/mkforms/util/class.tx_mkforms_util_Json.php"]);
 }
-    
+
 ?>
