@@ -30,7 +30,7 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 /**
  * Some static util functions.
- * 
+ *
  * @package tx_mkforms
  * @subpackage tx_mkforms_util
  * @author Michael Wagner
@@ -40,7 +40,7 @@ class tx_mkforms_util_FormBase {
 	/**
 	 * Liefert das Parent-Objekt.
 	 * Wahlweise wird nach einer existierenden Methode geprüft.
-	 * 
+	 *
 	 * @param 	tx_ameosformidable 	$form
 	 * @param 	string 				$method
 	 * @return 	tx_mkforms_action_FormBase
@@ -52,10 +52,10 @@ class tx_mkforms_util_FormBase {
 		}
 		return $oParent;
 	}
-	
+
 	/**
 	 * Der Datahandler!
-	 * 
+	 *
 	 * Wenn in einem Formular ein Datahandler mittels this->fillform integriert wurde,
 	 * (@see tx_mkforms_action_FormBase::fillForm)
 	 * Kann this bei AjaxCalls nicht mehr gefunden werden.
@@ -72,7 +72,7 @@ class tx_mkforms_util_FormBase {
 		return is_object($oParent = self::getParent($form, 'fillForm'))
 					? $oParent->fillForm($params, $form) : array();
 	}
-	
+
 	/**
 	 * ruft processForm auf, wenn ein Parent object gesetzt ist
 	 * @param 	array					$params
@@ -84,17 +84,17 @@ class tx_mkforms_util_FormBase {
 			$oParent->processForm($params, $form);
 		}
 	}
-	
+
 	/**
 	 * Flatten a deep array to one single level
-	 * 
+	 *
 	 * This method traverses an array recursively and
 	 * simply collects all fields.
-	 * 
+	 *
 	 * Note that there is no collision protection,
 	 * meaning that fields with the exactly same name
 	 * overwrite each other.
-	 * 
+	 *
 	 * This however is accepted as there is usually no
 	 * reason to use one single, fully table-qualified
 	 * field multiple.
@@ -124,9 +124,9 @@ class tx_mkforms_util_FormBase {
 	 * @return 	tx_rnbase_configurations
 	 */
 	protected static function &getConfigurations(tx_ameosformidable &$form, tx_rnbase_configurations &$configurations = null){
-		
+
 		if(!is_object($configurations)){
-			$configurations = (is_object($oParent = self::getParent($form, 'getConfiguration'))) 
+			$configurations = (is_object($oParent = self::getParent($form, 'getConfiguration')))
 								? $oParent->getConfiguration() : $form->getConfigurations();
 		}
 
@@ -139,7 +139,7 @@ class tx_mkforms_util_FormBase {
 	 * @return 	string
 	 */
 	protected static function getConfId(tx_ameosformidable &$form, &$confId = ''){
-		
+
 		if(empty($confId)) {
 			$confId = (is_object($oParent = self::getParent($form, 'getConfId')))
 								? $oParent->getConfId() : $form->getConfId();
@@ -148,12 +148,12 @@ class tx_mkforms_util_FormBase {
 				$confId = substr($confId,0, strlen($confId) - strlen('formconfig.'));
 			}
 		}
-		
+
 		return $confId;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param 	tx_rnbase_configurations 	$configurations
 	 * @param 	string 						$confId
 	 * @return 	string
@@ -162,11 +162,11 @@ class tx_mkforms_util_FormBase {
 		$separator = $configurations->get($confId.'fieldSeparator');
 		return $separator ? $separator : '-';
 	}
-	
+
 	/**
 	 * Convert flat array of data (e.g. received on a save event) into an array of subarrays
-	 * with each subarray containing a table's data 
-	 * 
+	 * with each subarray containing a table's data
+	 *
 	 * @param 	array 						$data
 	 * @param 	tx_ameosformidable 			$form
 	 * @param 	tx_rnbase_configurations 	$configurations
@@ -183,10 +183,10 @@ class tx_mkforms_util_FormBase {
 		// Konfiguration und Id besorgen, falls nicht übergeben.
 		$configurations = self::getConfigurations($form, $configurations);
 		$confId = self::getConfId($form, $confId);
-		
+
 		$aWidgets = $flattenData = array();
-		
-		/* 
+
+		/*
 		 * Wir müssen die widgets durchgehen,
 		 * da wir ein Flaches Array benötigen,
 		 * aber Boxen vorhanden sein können.
@@ -195,7 +195,7 @@ class tx_mkforms_util_FormBase {
 		 * @TODO: 	was ist besser, (performance testen!)
 		 * 			auf das Widget ein getValue um den Wert zu bekommen
 		 * 			oder flattenArray aufrufen, um die daten aus $data zu holen.
-		 * 
+		 *
 		 * 		Vorteile getValue():
 		 * 			# wird eh für zusätzliche angaben etc benötigt (datum, submit)
 		 * 			# es werden auch felder angegeben, welche leer sind, checkboxen etc.
@@ -229,12 +229,12 @@ class tx_mkforms_util_FormBase {
 				$flattenData[$sWidget] = $mValue;
 			}
 		}
-			
+
 		// @TODO: siehe todo oben
 //		if(count($splitData) === 0 && count($data) && count($aWidgets)) {
 //			$splitData = self::flattenArray($data, $aWidgets);
 //		}
-		
+
 		/* Beispiel:
 		 * confid.addfields {
 		 * 		### setzt den wert title, wenn er noch nicht existiert
@@ -251,18 +251,18 @@ class tx_mkforms_util_FormBase {
 		if (is_array($aAddFields) && count($aAddFields)) {
 			$flattenData = self::addFields($flattenData, $aAddFields);
 		}
-		
+
 		if ($configurations->get($confId.'addPostVars', true) || $data['addPostVars']) {
 			$flattenData['addpostvars'] = $form->getAddPostVars();
 		}
-		
+
 		$separator = self::getFieldSeparator($configurations, $confId);
 		// Die Felder in Ihre Tabellennamen aufsplitten
 		$flattenData = self::explodeArrayWithArrayKeys($flattenData, $separator);
-		
+
 		return $flattenData;
 	}
-	
+
 	/**
 	 * Convert data of several tables into a flat array of fields, e.g. used by data handlers
 	 *
@@ -276,31 +276,31 @@ class tx_mkforms_util_FormBase {
 							tx_rnbase_configurations &$configurations = null,
 							$confId = ''
 						) {
-		
-		
+
+
 		// Konfiguration und Id besorgen, falls nicht übergeben.
 		$configurations = self::getConfigurations($form, $configurations);
 		$confId = self::getConfId($form, $confId);
-		
+
 		$separator = self::getFieldSeparator($configurations, $confId);
 		// @TODO: Werte für beispielsweise die checkbox müssen kommasepariert für den datahandler angegeben werden.
 		$flattenData = self::flattenMultipleArrays($data, $separator);
-						
+
 		// @see self::flatArray2MultipleTableStructure -> addfields
 		$aAddFields = $configurations->get($confId.'addfields.', true);
 		// Felder setzen, überschreiben oder löschen
 		if (is_array($aAddFields) && count($aAddFields)) {
 			$flattenData = self::addFields($flattenData, $aAddFields);
 		}
-		
+
 		return $flattenData;
 	}
-	
+
 
 	/**
 	 * Convert data of several tables into a deep array of fields to deeply fill a renderlet
 	 *
-	 * @param 	array					$data	Data of several tables, each table's data in an own subarray		
+	 * @param 	array					$data	Data of several tables, each table's data in an own subarray
 	 * @param 	tx_ameosformidable		$form
 	 * @param 	mixed 					$mTargetRenderlet Kann das Objekt oder den Namen enthalten
 	 * @return 	array
@@ -315,14 +315,14 @@ class tx_mkforms_util_FormBase {
 						$data,
 						$form,
 						$mTargetRenderlet
-					);					
-		
+					);
+
 		return $data;
 	}
 
 	/**
 	 * Merge still FLATTENED(!) data of several tables into a deep renderlet structure
-	 * 
+	 *
 	 * Resulting field name format: tablename-fieldname, with "-" being the given $sep.
 	 * Fields defined in more than one table are represented multiple:
 	 * * Once per table:
@@ -333,7 +333,7 @@ class tx_mkforms_util_FormBase {
 	 *   * Table names are sorted alphabetically!
 	 *   * If more than one table returns a non-empty value, the first non-empty one
 	 *     is used where "first" is based on the order of the tables in $data.
-	 * 
+	 *
 	 * ### Note that fields from several tables with identical field names
 	 * 		overwrite each other in the multiple table field! ###
 	 *
@@ -353,7 +353,7 @@ class tx_mkforms_util_FormBase {
 		// Just return this scalar value!
 		if (array_key_exists($trName, $srcData)) return $srcData[$trName];
 		// else
-		
+
 		foreach ($targetRenderlet->getChilds() as $child) {
 			$childData = self::convertFlatDataToRenderletStructure($srcData, $form, $child);
 			if (!is_null($childData)) $res[$child->getName()] = $childData;
@@ -361,13 +361,13 @@ class tx_mkforms_util_FormBase {
 		if (empty($res)) return null;
 		return $res;
 	}
-	
+
 	/**
 	 * Splittet die Formdaten in ihre Tabellennamen auf
-	 * 
+	 *
 	 * Die Tabelle steht immer vor dem Feld (tabelle-spalte)
 	 * Expected field name format: tablename-fieldname, with "-" being the given $sep.
-	 * It is also possible to give more than one table for a field: table1-table2-table3-fieldname 
+	 * It is also possible to give more than one table for a field: table1-table2-table3-fieldname
 	 *
 	 * @param array		$data
 	 * @param string	$separator		Wie wurde Feld von Tebelle getrennt.
@@ -390,14 +390,14 @@ class tx_mkforms_util_FormBase {
 			if (count($keys) > 1) {
 				// Bei z.B. Checkboxen werden die Werte immer in einen zusätzlichem Array, item-n übergeben.
 				if(count($keys) === 2 && is_numeric($fieldKey) && $keys[0] == 'item') {
-					$splitData[$fieldKey] = $value;	
+					$splitData[$fieldKey] = $value;
 				}
 				// Den Feldnamen in die Tabellen umsetzen.
 				else {
 					for ($i = 0; $i < count($keys)-1; $i++) {
 						$k = $keys[$i];
 						if (!isset($splitData[$k])) $splitData[$k] = array();
-						$splitData[$k][$fieldKey] = $value;	
+						$splitData[$k][$fieldKey] = $value;
 					}
 				}
 			}
@@ -414,7 +414,7 @@ class tx_mkforms_util_FormBase {
 	}
 	/**
 	 * @TODO: fertig umsetzen und integrieren, fals nötig!
-	 * 
+	 *
 	 * @param 	array $data
 	 * @param 	mixed $value
 	 * @param 	string $key
@@ -430,7 +430,7 @@ class tx_mkforms_util_FormBase {
 			$keyData = &$keyData[$key];
 			$key = $subKey;
 		}
-		
+
 		// Wurde bereits gesetzt
 		if(array_key_exists($key, $keyData)){
 			// in ein Array umwandeln, wenn noch nicht geschehen
@@ -444,10 +444,10 @@ class tx_mkforms_util_FormBase {
 			$keyData[$subKey] = $value;
 		}
 	}
-	
+
 	/**
 	 * Merge data of several arrays into one single data array
-	 * 
+	 *
 	 * Resulting field name format: arrayname-fieldname, with "-" being the given $sep.
 	 * Fields defined in more than one array are represented multiple:
 	 * * Once per array:
@@ -458,13 +458,13 @@ class tx_mkforms_util_FormBase {
 	 *   * Array names are sorted alphabetically!
 	 *   * If more than one array returns a non-empty value, the first non-empty one
 	 *     is used where "first" is based on the order of the arrays in $data.
-	 * 
+	 *
 	 * ### Note that fields from several arrays with identical field names
 	 * 		overwrite each other in the multiple table field! ###
 	 *
 	 * @param array		$data			Nested data array, each array with its own key
 	 * @param string	$separator		Separator string which divides array name from field name
-	 * @return array	
+	 * @return array
 	 */
 	public static function flattenMultipleArrays(array $data, $separator='-') {
 		$tmp = array();
@@ -485,8 +485,8 @@ class tx_mkforms_util_FormBase {
 				$res[$table] = $fields;
 			}
 		}
-		
-		
+
+
 		foreach ($tmp as $fieldname => $data) {
 			if (count($data['tables']) == 1 && $data['tables'][0] == $defaultPrefix)
 				$res[$fieldname] = $data['value'];
@@ -500,13 +500,13 @@ class tx_mkforms_util_FormBase {
 				 * 	tabelle1-tabelle2-feld
 				 * 	tabelle1-tabelle3-feld
 				 * 	tabelle2-tabelle3-feld
-				 */ 
+				 */
 				$res[implode($separator, $data['tables']).$separator.$fieldname] = $data['value'];
 			}
 		}
 		return $res;
 	}
-	
+
 	/**
 	 * Fügt zu einem Array werte hinzu oder löscht diese.
 	 * Zum löschen unset oder null übergeben!
@@ -515,7 +515,7 @@ class tx_mkforms_util_FormBase {
 	 * @return rray
 	 */
 	public function addFields(array $data, array $fields){
-		
+
 		foreach ($fields as $fieldKey => $fieldValue) {
 			// sub config gefunden, weiter machen!
 			if((substr($sPath, -1) === '.')) {
@@ -543,10 +543,10 @@ class tx_mkforms_util_FormBase {
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Liefert die Daten aus dem gegebenen Widget für einen Lister
-	 * 
+	 *
 	 * @param array $aParams
 	 * @param tx_ameosformidable $oForm
 	 */
@@ -554,7 +554,7 @@ class tx_mkforms_util_FormBase {
 		$aStoredData = $oForm->getDataHandler()->_getStoredData($aParams['rdt']);
 		return (!empty($aStoredData)) ? array($aStoredData) : null;
 	}
-	
+
 	/**
 	* Bestimmte Datensätze aus der DB auslesen
 	*
@@ -600,20 +600,20 @@ class tx_mkforms_util_FormBase {
 		}else{
 			if ($widget = $form->getWidget($params['dependsOn']['formfield'])) {
 				$val = $widget->getValue();
-	
+
 				// Use another table?
 				$tab = isset($params['dependsOn']['dbtable']) ? $params['dependsOn']['dbtable'] :
 				(is_array($table) ? $table['tablename'] : $table);
 				if (isset($params['options']['where']) && $params['options']['where'])
 				$params['options']['where'] .= ' AND ';
 				else $params['options']['where'] = '';
-	
+
 				global $GLOBALS;
 				$params['options']['where'] .= $params['dependsOn']['dbfield'] . '=' .
 				$GLOBALS['TYPO3_DB']->fullQuoteStr($val, $tab);
 			}
 		}
-	
+
 		if (is_array($params['table'])) {
 			$table = array(
 			$params['table']['from'],
@@ -622,7 +622,7 @@ class tx_mkforms_util_FormBase {
 			);
 		}
 		else $table = $params['table'];
-	
+
 		// wenn der Wert von dem wir abhängen leer ist, suchen wir nicht
 		if(empty($params['dependsOn']) || (!empty($params['dependsOn']) && !empty($val)))
 		$rows = tx_rnbase_util_DB::doSelect(
@@ -631,13 +631,13 @@ class tx_mkforms_util_FormBase {
 		isset($params['options']) ? $params['options'] : null,
 		isset($params['debug']) ? $params['debug'] : null
 		);
-	
+
 		return tx_mkforms_util_Div::arrayToRdtItems($rows, '__caption__', '__value__');
 	}
 
 	/**
 	 * Macht aus arrays eine kommaseparierte Liste
-	 * 
+	 *
 	 * @param array $aData
 	 * @return void
 	 */

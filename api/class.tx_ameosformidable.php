@@ -328,7 +328,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	function init(&$oParent, $mXml, $iForcedEntryId = FALSE, $configurations=false, $confid='') {
 		$this->start_tstamp	= t3lib_div::milliseconds();
 
-		if (!$this->bTestMode) {
+		if (!$this->isTestMode()) {
 			$sesMgr = tx_mkforms_session_Factory::getSessionManager();
 			$sesMgr->setForm($this);
 		}
@@ -337,7 +337,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 		//In tests brauchen wir das nicht da es bei installiertem
 		//ameos nur zu fehler führen würde wegen dem cache
-		if(tx_mkforms_util_Div::getEnvExecMode() !== 'FE' && !$this->bTestMode) {	// virtualizing FE for BE and eID (ajax) modes
+		if(tx_mkforms_util_Div::getEnvExecMode() !== 'FE' && !$this->isTestMode()) {	// virtualizing FE for BE and eID (ajax) modes
 			tx_mkforms_util_Div::virtualizeFE();
 		}
 	/***** BASE INIT *****
@@ -2473,7 +2473,7 @@ SANDBOXCLASS;
 		//submit mode merken
 		$this->setIsFullySubmitted();
 
-		if($this->bStoreFormInSession === TRUE && $this->bTestMode === FALSE) {
+		if($this->bStoreFormInSession === TRUE && !$this->isTestMode()) {
 			$sesMgr = tx_mkforms_session_Factory::getSessionManager();
 			$sesMgr->persistForm();
 		} else {
@@ -2508,6 +2508,10 @@ SANDBOXCLASS;
 	 */
 	public function setTestMode() {
 		$this->bTestMode = TRUE;
+	}
+
+	public function isTestMode() {
+		return $this->bTestMode;
 	}
 
 	function fetchAjaxServices() {
@@ -5314,7 +5318,7 @@ JAVASCRIPT;
 			$aPost['MKFORMS_REQUEST_TOKEN'] == $this->getRequestTokenFromSession()
 		);
 	}
-	
+
 	/**
 	 * leifert den in der Session gespeicherten request token.
 	 * also der, der erwartet wird

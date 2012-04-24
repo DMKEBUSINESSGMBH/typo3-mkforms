@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'act_redct' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -9,12 +9,12 @@
 require_once(PATH_t3lib . 'class.t3lib_htmlmail.php');
 
 class tx_mkforms_action_redirect_Main extends formidable_mainactionlet {
-	
+
 	function _doTheMagic($aRendered, $sForm) {
 		if(!$this->getForm()->getDataHandler()->_allIsValid()) {
 			return;
 		}
-		
+
 		$sUrl = '';
 		if(($mPage = $this->_navConf('/pageid')) !== FALSE) {
 			$mPage = $this->callRunneable($mPage);
@@ -27,7 +27,9 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet {
 			$sUrl = $this->callRunneable($sUrl);
 		}
 
-		if(is_string($sUrl) && trim($sUrl) !== '') {
+		if($this->getForm()->isTestMode()){
+			return $sUrl;
+		}else if(is_string($sUrl) && trim($sUrl) !== '') {
 			header('Location: ' . $sUrl);
 			exit();
 		}

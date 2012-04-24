@@ -82,22 +82,8 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	}
 
 	private static function getStaticTS(){
-		static $configArray = false;
-		if(is_array($configArray)) return $configArray;
-		t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
-
-		tx_rnbase::load('tx_rnbase_configurations');
-		tx_rnbase::load('tx_rnbase_util_Misc');
-
-		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
-
-		$tsConfig = t3lib_BEfunc::getPagesTSconfig(0);
-		$configArray = $tsConfig['plugin.']['tx_mkforms.'];
-		// für referenzen im TS!
-		$GLOBALS['TSFE']->tmpl->setup['lib.']['mkforms.'] = $tsConfig['lib.']['mkforms.'];
-		$GLOBALS['TSFE']->tmpl->setup['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
-		$GLOBALS['TSFE']->config['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
-		return $configArray;
+		tx_rnbase::load('tx_mkforms_tests_Util');
+		return tx_mkforms_tests_Util::getStaticTS();
 	}
 
 	/**
