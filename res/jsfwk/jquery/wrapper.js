@@ -225,18 +225,18 @@ MKWrapper.ajaxCall = function(url, options, scope) {
 };
 MKWrapper.loadScript = function(url, callback, scope) {
 	jQuery.ajax({
-		  url: url,
-		  dataType: 'script',
-		  async: false,
-		  success: function() {
-				callback(scope);
-			}
+		url : url,
+		dataType : 'script',
+		async : false,
+		success : function(data, textStatus, jqXHR) {
+			callback(scope);
+		}
 	});
-// Der Call wird u.U. ansynchron ausgeführt.
-// Ob die Einbindung manuell aber korrekt ist, steht leider nicht fest...
-//	jQuery.getScript(url, function() {
-//		callback(scope);
-//	});
+	// Der Call wird u.U. ansynchron ausgeführt.
+	// Ob die Einbindung manuell aber korrekt ist, steht leider nicht fest...
+	// jQuery.getScript(url, function() {
+	// callback(scope);
+	// });
 };
 
 MKWrapper.strStrip = function(str) {
