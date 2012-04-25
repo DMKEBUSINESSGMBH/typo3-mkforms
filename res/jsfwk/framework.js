@@ -922,6 +922,10 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		}
 		document.location.href = sUrl;
 	},
+	isAbsUrl: function(sUrl) {
+		// wenn die URL ein Protokoll (http,  https, ftp, ...) enthält, ist sie absolut!
+		return sUrl.substr(0, window.location.protocol.length) === window.location.protocol;
+	},
 	getBaseUrl: function(){
 		var baseAddr = '';
 		if( document.getElementsByTagName ) {
