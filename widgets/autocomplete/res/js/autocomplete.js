@@ -129,8 +129,8 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		if(sScript !== false) {
 			window.setTimeout(function(){
 				sScript = sScript.split(':');
-				if(!this.isAbsUrl(sScript[0])) {
-					sScript[0] = this.getBaseUrl() + sScript[0];
+				if(!obj.oForm.isAbsUrl(sScript[0])) {
+					sScript[0] = obj.oForm.getBaseUrl() + sScript[0];
 				}
 				MKWrapper.loadScript(sScript[0], function(){
 					Formidable.Classes.Autocomplete[sScript[1]](obj, sScript[2]);

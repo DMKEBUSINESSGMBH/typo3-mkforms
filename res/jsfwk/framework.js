@@ -917,7 +917,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 	},
 	sendToPage: function(sUrl) {
 		this.displayLoader();
-		if(sUrl.substr(0,window.location.protocol.length) != window.location.protocol) {
+		if(!this.isAbsUrl()) {
 			sUrl =  this.getBaseUrl() + sUrl;
 		}
 		document.location.href = sUrl;
