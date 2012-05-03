@@ -4042,16 +4042,18 @@ JAVASCRIPT;
 		}
 
 		//Jeden übermittelten überprüfen ob es dazu ein widget gibt. wenn der wert ein array
-		foreach ($aGP as $rdtName => $rdtValue) {
-			$absRdtName = $this->getAbsName() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN .$rdtName;
-
-			//wenn in der übergeben array ein eintrag enthalten ist, der nicht
-			//durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
-			//zu verhinden
-			if(!isset($this->getForm()->aORenderlets[$absRdtName]))
-				unset($aGP[$rdtName]);
-			else
-				$this->getForm()->aORenderlets[$absRdtName]->checkValue($aGP[$rdtName]);
+		if(!empty($aGP)){
+			foreach ($aGP as $rdtName => $rdtValue) {
+				$absRdtName = $this->getAbsName() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN .$rdtName;
+	
+				//wenn in der übergeben array ein eintrag enthalten ist, der nicht
+				//durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
+				//zu verhinden
+				if(!isset($this->getForm()->aORenderlets[$absRdtName]))
+					unset($aGP[$rdtName]);
+				else
+					$this->getForm()->aORenderlets[$absRdtName]->checkValue($aGP[$rdtName]);
+			}
 		}
 	}
 }
