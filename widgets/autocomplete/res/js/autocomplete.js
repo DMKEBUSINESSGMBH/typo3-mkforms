@@ -107,9 +107,9 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 				this.config.timeObserver,
 				this.execAjaxRequest.bind(this)
 		);
+		MKWrapper.attachEvent(this.oText, 'keydown', this.textChange, this);
 		if(this.config.selectionRequired) {
 			MKWrapper.attachEvent(this.oText, 'blur', this.checkSelection, this);
-			MKWrapper.attachEvent(this.oText, 'keydown', this.textChange, this);
 		}
 		else if(this.config.hideItemListOnLeave) {
 			MKWrapper.attachEvent(document.getElementsByTagName('body')[0], 'click', this.hideItemListOnLeave, this);
@@ -191,7 +191,7 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		);
 	},
 	executeAjaxTasks: function(tasks) {
-		if (tasks.results > 0) {
+		if (tasks.results > 0 && document.activeElement===this.domNode()) {
 			this.generateItemList(this, Formidable.objValues(tasks.html));
 		} else {
 			// TODO: was passiert mit der liste,
@@ -201,7 +201,6 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		}
 	},
 	textChange: function(event) {
-		if (event.keyCode == 9) return; //Tab
 		if (event.keyCode == 40) {//Down
 			if(this.oList.style.visibility === 'visible'){
 				this.itemSelect(this, MKWrapper.next(this.itemSelected));
@@ -222,9 +221,9 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 			}
 			return true;
 		}
-		if (event.keyCode == 27) { //ESC
+		if (event.keyCode == 27 || event.keyCode == 9) { //ESC || Tab
 			var obj = this;
-			if(!this.config.isDbEntry) {
+			if(!this.config.isDbEntry && this.config.selectionRequired) {
 				if(typeof(obj.onlistselect) != 'undefined' && obj.onlistselect !== null) obj.onlistselect('');
 				setTimeout(function() { obj.oText.value = ''; }, 50);
 			}
