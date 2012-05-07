@@ -479,6 +479,13 @@ INITSCRIPT;
 		$this->getForm()->attachPostInitTask($sInitScript,'postinit Autocomplete initialization', $this->_getElementHtmlId());
 	}
 
+	/**
+	 * Methode muss überschrieben werden, da Autocomplete als Kindelement gewertet werden
+	 * Sonst gibt es eine Exception!
+	 */
+	public function checkValue(&$aGP) {
+		return;
+	}
 }
 
 
