@@ -69,23 +69,7 @@ class tx_mkforms_tests_Util {
 		$oParameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
 		$oConfigurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
 		if(!$aConfigArray){
-			$aConfigArray = array(
-				'generic.' => array(
-					'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
-					'addfields.' => array(
-							'widget-addfield' => 'addfield feld',
-							'widget-remove' => 'unset',
-						),
-					'fieldSeparator' => '-',
-					'addPostVars' => 1,
-					'formconfig.' => array(
-						'loadJsFramework' => 0, // formconfig für config check setzen.
-						'csrfProtection' => $bCsrfProtection,
-						'checkWidgetsExist' => 1,
-					),
-
-				)
-			);
+			$aConfigArray = self::getDefaultFormConfig();
 		}
 		$oConfigurations->init(
 			$aConfigArray,
@@ -123,6 +107,26 @@ class tx_mkforms_tests_Util {
 			}
 
 		return $oForm;
+	}
+
+	public static function getDefaultFormConfig() {
+		return array(
+			'generic.' => array(
+				'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
+				'addfields.' => array(
+						'widget-addfield' => 'addfield feld',
+						'widget-remove' => 'unset',
+					),
+				'fieldSeparator' => '-',
+				'addPostVars' => 1,
+				'formconfig.' => array(
+					'loadJsFramework' => 0, // formconfig für config check setzen.
+					'csrfProtection' => $bCsrfProtection,
+					'checkWidgetsExist' => 1,
+				),
+
+			)
+		);
 	}
 
 	/**
