@@ -69,7 +69,7 @@ class tx_mkforms_tests_Util {
 		$oParameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
 		$oConfigurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
 		if(!$aConfigArray){
-			$aConfigArray = self::getDefaultFormConfig();
+			$aConfigArray = self::getDefaultFormConfig($bCsrfProtection);
 		}
 		$oConfigurations->init(
 			$aConfigArray,
@@ -109,7 +109,7 @@ class tx_mkforms_tests_Util {
 		return $oForm;
 	}
 
-	public static function getDefaultFormConfig() {
+	public static function getDefaultFormConfig($bCsrfProtection = true) {
 		return array(
 			'generic.' => array(
 				'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
