@@ -29,6 +29,9 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	var $aConfig = FALSE;
 	var $aLimitAndSort = FALSE;
 	var $aFilters = FALSE;
+	
+	// Damit über die Felder iteriert wird, muss iteratingChilds=true sein
+	var $iteratingChilds = TRUE;
 
 	
 	function _render() {
