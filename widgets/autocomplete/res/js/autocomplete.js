@@ -134,10 +134,9 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 				}
 				MKWrapper.loadScript(sScript[0], function(){
 					Formidable.Classes.Autocomplete[sScript[1]](obj, sScript[2]);
+					//events laden
+					obj.execEvents();
 				});
-				//events laden
-				obj.execEvents();
-				
 			},500);
 		} else {
 			//events laden
