@@ -1,20 +1,20 @@
 <?php
 /***************************************************************
 *  Copyright notice
-*  
+*
 *  (c) 2006 Radu Cocieru <radu@cocieru.com>
 *  (c) 2006 Luc Muller <l.muller@ameos.com>
 *  All rights reserved
 *
-*  This script is part of the TYPO3 project. The TYPO3 project is 
+*  This script is part of the TYPO3 project. The TYPO3 project is
 *  free software; you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
 *  the Free Software Foundation; either version 2 of the License, or
 *  (at your option) any later version.
-* 
+*
 *  The GNU General Public License can be found at
 *  http://www.gnu.org/copyleft/gpl.html.
-* 
+*
 *  This script is distributed in the hope that it will be useful,
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,7 +22,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-/** 
+/**
  * Plugin 'rdt_captcha' for the 'ameos_formidable' extension.
  *
  * @author	Luc Muller <l.muller@ameos.com>
@@ -44,7 +44,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 
 		$_SESSION['cryptdir'] = $this->sExtRelPath.'res/lib/';
 		$iSID = session_id();
-		
+
 		$aCaptcha = array();
 		$aCaptcha['img']='<img id="' . $this->_getElementHtmlId() . 'img" src="'.$_SESSION['cryptdir'].'cryptographp.php?cfg=0&amp;'.$iSID.'" alt="captcha" />';
 
@@ -92,17 +92,17 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 			$this->chk_crypt($this->getValue());
 		}
 	}
-	
+
 	function _getPathReload() {
-		
+
 		if(($sPath = $this->_navConf('/reloadpic/')) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($sPath)) {
 				$sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
 			}
 
 			if(t3lib_div::isFirstPartOfStr($sPath, 'EXT:')) {
-				
+
 				$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') .
 					str_replace(
 						t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
@@ -111,30 +111,30 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 					);
 			}
 		}
-		
+
 		return $sPath;
 	}
 
 	function chk_crypt($code) {
 		// V�rifie si le code est correct
-		
+
 		$code = addslashes ($code);
 		$code = ($_SESSION['rdt_captcha']['config']['difuplow']=='true' ? $code : strtoupper($code));
-		
+
 		switch(strtoupper($_SESSION['rdt_captcha']['config']['cryptsecure'])) {
 			case 'MD5'  : $code = md5($code); break;
 			case 'SHA1' : $code = sha1($code); break;
 		}
-		
+
 		if($_SESSION['cryptcode'] and ($_SESSION['cryptcode'] == $code)) {
 			unset($_SESSION['cryptreload']);
 			return true;
 		} else {
-			
+
 			//thanks to Hauke Hain : localisation of error message;
 			$sAutoKey = 'LLL:' . $this->getAbsName() . '.error.nomatch';
 			$sError = $this->getLabel($this->_navConf('/errormessage'), $sAutoKey);
-		
+
 			$_SESSION['cryptreload']= true;
 			$this->oForm->_declareValidationError(
 				$this->getAbsName(),
@@ -144,9 +144,9 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 			return false;
 		}
 	}
-	
+
 	function _MakeCaptchaConfig() {
-		
+
 		($this->aElement['width'])?$_SESSION['rdt_captcha']['config']['width'] = $this->aElement['width']:$_SESSION['rdt_captcha']['config']['width'] = 100;
 		($this->aElement['height'])?$_SESSION['rdt_captcha']['config']['height'] = $this->aElement['height']:$_SESSION['rdt_captcha']['config']['height'] = 30;
 
@@ -168,7 +168,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 				$_SESSION['rdt_captcha']['config']['bgG'] = 255;
 				$_SESSION['rdt_captcha']['config']['bgB'] = 255;
 			}
-			
+
 			$_SESSION['rdt_captcha']['config']['bgR'] = trim($aBgColors['red']);
 			$_SESSION['rdt_captcha']['config']['bgG'] = trim($aBgColors['green']);
 			$_SESSION['rdt_captcha']['config']['bgB'] = trim($aBgColors['blue']);
@@ -187,7 +187,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 		} else {
 			$_SESSION['rdt_captcha']['config']['bgClear'] = false;
 		}
-		
+
 		if(trim($this->aElement['frame']) != '') {
 			if(strtolower($this->aElement['frame']) == 'true') {
 				$_SESSION['rdt_captcha']['config']['bgFrame'] = true;
@@ -390,7 +390,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 			}
 
 			if($this->_navConf('/noise/noisecolor') !== FALSE) {
-				
+
 				switch($this->aElement['noise']['noisecolor']) {
 					case 'charcolor':
 						$_SESSION['rdt_captcha']['config']['noisecolorchar'] = true;
@@ -481,7 +481,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 						$_SESSION['rdt_captcha']['config']['cryptusertimererror'] = 1;
 					}
 				} else {
-					$_SESSION['rdt_captcha']['config']['cryptusetimer'] = 3; 
+					$_SESSION['rdt_captcha']['config']['cryptusetimer'] = 3;
 				}
 			} else {
 				$_SESSION['rdt_captcha']['config']['cryptusetimer'] = 3;
