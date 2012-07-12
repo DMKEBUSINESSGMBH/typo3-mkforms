@@ -61,7 +61,7 @@ TEMPLATE;
 
 			$hidden_entryid		= $this->_getHiddenEntryId($iEntryId);
 			$hidden_custom		= $this->_getHiddenCustom();
-			
+
 			$sSysHidden			=	'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SERVEREVENT]" id="' . $iFormId . '_AMEOSFORMIDABLE_SERVEREVENT" />' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SERVEREVENT_PARAMS]" id="' . $iFormId . '_AMEOSFORMIDABLE_SERVEREVENT_PARAMS" />' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SERVEREVENT_HASH]" id="' . $iFormId . '_AMEOSFORMIDABLE_SERVEREVENT_HASH" />' .
@@ -70,7 +70,7 @@ TEMPLATE;
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTED]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTED"  value="'.AMEOSFORMIDABLE_EVENT_SUBMIT_FULL.'"/>' .
 									'<input type="hidden" name="' . $iFormId . '[AMEOSFORMIDABLE_SUBMITTER]" id="' . $iFormId . '_AMEOSFORMIDABLE_SUBMITTER" />';
 
-			//CSRF Schutz integrieren			
+			//CSRF Schutz integrieren
 			if($this->getForm()->getConfTS('csrfProtection')){
 				$sRequestToken = $oForm->getCsrfProtectionToken();
 				$sSysHidden .= '<input type="hidden" name="' . $iFormId . '[MKFORMS_REQUEST_TOKEN]" id="' . $iFormId . '_MKFORMS_REQUEST_TOKEN" value="'.$sRequestToken.'" />';
@@ -121,9 +121,12 @@ TEMPLATE;
 				if(($sClass = $oForm->_navConf('/meta/form/class')) !== FALSE) {
 					$formcustom .= ' class="'.$sClass. '" ';
 				}
-
-				$aHtmlBag['FORMBEGIN']	=	'<form enctype="multipart/form-data" ' . $formid . $formaction . $formonsubmit . $formcustom . ' method="post">';
-				$aHtmlBag['FORMEND']	=	'</form>';
+				$wrapForm = array('','');
+				if(($sWrap = $oForm->getConfigXML()->get('/meta/form/wrap')) !== FALSE) {
+					$wrapForm = t3lib_div::trimExplode('|', $sWrap);
+				}
+				$aHtmlBag['FORMBEGIN'] = $wrapForm[0].'<form enctype="multipart/form-data" ' . $formid . $formaction . $formonsubmit . $formcustom . ' method="post">';
+				$aHtmlBag['FORMEND'] = '</form>'.$wrapForm[1];
 			}
 			reset($aHtmlBag);
 			return $aHtmlBag;
