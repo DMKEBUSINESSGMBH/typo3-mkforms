@@ -240,7 +240,7 @@ public function test_processForm() {
 		$this->assertTrue(isset($formData['addpostvars'][0]['params']['widget']['submit']), 'LINE:'.__LINE__);
 		//addfields
 		$this->assertTrue(isset($formData['widget']['addfield']), 'LINE:'.__LINE__);
-		$this->assertEquals(isset($formData['widget']['addfield']), 'addfield feld', 'LINE:'.__LINE__);
+		$this->assertEquals($formData['widget']['addfield'], 'addfield feld', 'LINE:'.__LINE__);
 		$this->assertFalse(isset($formData['widget']['remove']), 'LINE:'.__LINE__);
 
 		//sollte entfernt werden
