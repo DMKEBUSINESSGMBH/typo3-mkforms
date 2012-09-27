@@ -550,6 +550,14 @@ class tx_mkforms_util_Config {
 	public function compileConfig(&$aTempDebug) {
 		$this->config = $this->compileConf($this->config, $aTempDebug);
 	}
+	
+	/**
+	 * @return array
+	 */
+	public function getConfigArray() {
+		return $this->config;
+	}
+	
 	private function compileConf($aConf, &$aTempDebug) {
 		$aTempDebug['aIncHierarchy'] = array();
 
