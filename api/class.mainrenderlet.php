@@ -4042,7 +4042,7 @@ JAVASCRIPT;
 		}
 
 		//Jeden übermittelten überprüfen ob es dazu ein widget gibt. wenn der wert ein array
-		if(!empty($aGP)){
+		if(!empty($aGP) && is_array($aGP)){
 			foreach ($aGP as $rdtName => $rdtValue) {
 				$absRdtName = $this->getAbsName() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN .$rdtName;
 	
