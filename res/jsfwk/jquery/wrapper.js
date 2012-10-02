@@ -165,7 +165,7 @@ MKWrapper.showParents = function(element) {
     if (!jQuery(element).is(':visible')) {
         var el = jQuery(element).parent();
         var aHiden = new Array();
-        while (!el.is(':visible')) {
+        while (!el.is(':visible') && el.length > 0) {
         	aHiden.push(el);
             el = el.parent();
         }
