@@ -308,6 +308,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 							'$aStoredData'			=> $aStoredData,
 							'$sStoredData' 			=> $sStoredData,
 							'$aData' 				=> $aData,
+							'getValue' 				=> $this->getValue(),
 							'Validierungsfehler'	=> $this->getForm()->_aValidationErrors,
 							'$GET'					=> t3lib_div::_GET(),
 							'$POST'					=> t3lib_div::_POST(),
