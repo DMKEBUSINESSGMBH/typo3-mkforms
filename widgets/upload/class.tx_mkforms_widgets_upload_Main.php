@@ -56,23 +56,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 		$sValue = $this->getValue();
 		
 		//@FIXME manchmal steckt ein array im value, was nie passieren darf!!!
-		//@TODO logging entfernen wenn bug gefixed!
 		if(!is_string($sValue)){
-			tx_rnbase::load('tx_rnbase_util_Logger');
-			tx_rnbase_util_Logger::fatal(
-				'Der value des Uploadfelds ist kein string, was nie passieren darf!', 
-				'mkforms',
-				array(
-					'widget'				=> $this->_getName(),
-					'value' 				=> $sValue,
-					'XML config'			=> $this->getForm()->getConfig()->getConfigArray(),
-					'TS config'				=> $this->getForm()->getConfigurations()->getConfigArray(),
-					'events'				=> $this->_getEventsArray(),
-					'Validierungsfehler'	=> $this->getForm()->_aValidationErrors,
-					'$GET'					=> t3lib_div::_GET(),
-					'$POST'					=> t3lib_div::_POST(),
-				)
-			);
 			$sValue = 0;
 		}
 		
@@ -314,6 +298,22 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 			} else {
 				
 				$sStoredData = $aStoredData[$this->_getName()];
+				if(!is_string($sStoredData)){
+					tx_rnbase::load('tx_rnbase_util_Logger');
+					tx_rnbase_util_Logger::fatal(
+						'Der value des Uploadfelds ist kein string, was nie passieren darf!', 
+						'mkforms',
+						array(
+							'widget'				=> $this->_getName(),
+							'$aStoredData'			=> $aStoredData,
+							'$sStoredData' 			=> $sStoredData,
+							'$aData' 				=> $aData,
+							'Validierungsfehler'	=> $this->getForm()->_aValidationErrors,
+							'$GET'					=> t3lib_div::_GET(),
+							'$POST'					=> t3lib_div::_POST(),
+						)
+					);
+				}
 
 				if(is_string($aData)) {
 					// $aData is a string
