@@ -59,7 +59,7 @@
 	}
 
 	
-	if(!array_key_exists($_EXTKEY, $GLOBALS['EM_CONF'])) {
+	if(!is_array($GLOBALS['EM_CONF']) || !array_key_exists($_EXTKEY, $GLOBALS['EM_CONF'])) {
 		require_once(t3lib_extMgm::extPath('mkforms', 'ext_emconf.php'));
 	}
 	
