@@ -271,7 +271,7 @@ class tx_mkforms_util_Div {
 		$aDebug[] = "<br />";
 
 		$aDebug[] = '<span class="notice"><strong>debug trail: </strong></span><ol>';
-		foreach(t3lib_div::trimExplode('//',t3lib_div::debug_trail()) as $bt) {
+		foreach(t3lib_div::trimExplode('//',tx_rnbase_util_Misc::getDebugTrailDependendOnTypo3Version()) as $bt) {
 			$aDebug[] = "\t<li>".$bt."</li>";
 		}
 		$aDebug[] = "</ol>";
