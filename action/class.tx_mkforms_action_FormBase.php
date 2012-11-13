@@ -382,10 +382,19 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 */
 	public function getConfId() {
 		return 'generic.';
-//		return $this->getTemplateName().'.';
 	}
+	
 	/**
-	 * Gibt den Name des zugehörigen Templates zurück
+	 * Gibt den Name des zugehörigen Templates zurück.
+	 * 
+	 * Das kann so bleiben da dann immer das form template (formonly)
+	 * von mkforms genutzt wird. Also eigentlich NIE überschreiben.
+	 * Nur das TS in die eigene ConfId übernehmen:
+	 * 
+	 * plugin.tx_myext {
+	 *		genericTemplate =< plugin.tx_mkforms.genericTemplate
+	 *		myConfId =< lib.mkforms.formbase
+	 * }
 	 *
 	 * @return 	string
 	 */
