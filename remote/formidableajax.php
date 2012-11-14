@@ -96,7 +96,7 @@ class formidableajax {
 		$this->oForm =& $sesMgr->restoreForm($this->aRequest['formid']);
 		$this->ttTimes['frest'] = microtime(true) - $start;
 		if(!$this->oForm) {
-			$this->denyService('no hibernate; Check: that you have cookies enabled; that the formidable is NOT CACHED;');
+			$this->denyService('no hibernate; Check: that you have cookies enabled; that the formidable is NOT CACHED; Please configure the Cache for mkforms. @see ext_localconf.php');
 		}
 		
 		$sesMgr->setForm($this->oForm);

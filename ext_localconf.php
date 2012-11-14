@@ -7,14 +7,13 @@
 	
 	// Predefine cache
 	// This section has to be included in typo3conf/localconf.php!!
-//	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations'] = array(
-//	    'mkforms' => array(
-//	        'backend' => 't3lib_cache_backend_DbBackend',
-//	        'options' => array(
-//	            'cacheTable' => 'tx_mkforms_cache',
-//	            'tagsTable' => 'tx_mkforms_tags',
-//	        )
-//	    )
+//	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
+//		'frontend' => 't3lib_cache_frontend_VariableFrontend',
+//      'backend' => 't3lib_cache_backend_DbBackend',
+//      'options' => array(
+//          'cacheTable' => 'cf_mkforms',
+//          'tagsTable' => 'cf_mkforms_tags',
+//      )
 //	);
 	#define("PATH_formidable", t3lib_extMgm::extPath("ameos_formidable"));
 	#define("PATH_formidableapi", PATH_formidable . "api/class.tx_ameosformidable.php");

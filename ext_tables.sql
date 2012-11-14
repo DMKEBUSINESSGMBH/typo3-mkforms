@@ -2,7 +2,7 @@
 #
 # Table for mkforms session cache
 #
-CREATE TABLE tx_mkforms_cache (
+CREATE TABLE cf_mkforms (
 	id int(11) NOT NULL auto_increment,
 	identifier varchar(128) DEFAULT '' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE tx_mkforms_cache (
 #
 # Unused dummy table for TYPO3 caching framework
 #
-CREATE TABLE tx_mkforms_tags (
+CREATE TABLE cf_mkforms_tags (
 	id int(11) NOT NULL auto_increment,
 	identifier varchar(128) DEFAULT '' NOT NULL,
 	tag varchar(128) DEFAULT '' NOT NULL,
