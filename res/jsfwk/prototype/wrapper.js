@@ -206,3 +206,7 @@ MKWrapper.isJSON = function (str) {
 MKWrapper.evalJSON = function(str,sanitize) {
 	return str.evalJSON(sanitize);
 }
+
+MKWrapper.filter = function(element, callback) {
+	return element.findAll(callback);
+};

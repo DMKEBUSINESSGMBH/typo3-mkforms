@@ -6,34 +6,22 @@
  * @url http://livepipe.net/projects/control_tabs/
  * @version 2.1.1
  */
-
 if(typeof(Control) == 'undefined')
 	var Control = {};
-Control.Tabs = Class.create();
-Object.extend(Control.Tabs,{
-	instances: [],
-	findByTabId: function(id){
-		return Control.Tabs.instances.find(function(tab){
-			return tab.links.find(function(link){
-				return link.key == id;
-			});
-		});
-	}
-});
-Object.extend(Control.Tabs.prototype,{
-	initialize: function(tab_list_container,options){
-		if(!$(tab_list_container)) {
+Control.Tabs =Base.extend({
+	constructor: function(tab_list_container,options){
+		if(!MKWrapper.$(tab_list_container)) {
 			return;
 		}
 
 		this.activeContainer = false;
 		this.activeLink = false;
-		this.containers = $H({});
+		this.containers = {};
 		this.links = [];
 		Control.Tabs.instances.push(this);
 		this.options = {
-			beforeChange: Prototype.emptyFunction,
-			afterChange: Prototype.emptyFunction,
+			beforeChange: function(){},
+			afterChange: function(){},
 			hover: false,
 			linkSelector: 'li a',
 			setClassOnContainer: false,
@@ -41,43 +29,53 @@ Object.extend(Control.Tabs.prototype,{
 			defaultTab: 'first',
 			autoLinkExternal: true,
 			targetRegExp: /#(.+)$/,
-			showFunction: Element.show,
-			hideFunction: Element.hide
+			showFunction: MKWrapper.fxAppear,
+			hideFunction: MKWrapper.fxHide
 		};
-		Object.extend(this.options,options || {});
-		(typeof(this.options.linkSelector == 'string')
-			? $(tab_list_container).getElementsBySelector(this.options.linkSelector)
-			: this.options.linkSelector($(tab_list_container))
-		).findAll(function(link){
-			return (/^#/).exec(link.href.replace(window.location.href.split('#')[0],''));
-		}).each(function(link){
-			this.addTab(link);
-		}.bind(this));
-		this.containers.values().each(this.options.hideFunction);
+		MKWrapper.extend(this.options,options || {});
+		var tabs = typeof(this.options.linkSelector) == 'string'
+				? MKWrapper.findChilds(
+					MKWrapper.$(tab_list_container),this.options.linkSelector
+				) 
+				: this.options.linkSelector(MKWrapper.$(tab_list_container));
+			
+		MKWrapper.each(
+			MKWrapper.filter(
+				tabs,
+				function(link){
+					return (/^#/).exec(link.href.replace(window.location.href.split('#')[0],''));
+				}
+			),
+			function(link){
+				this.addTab(link);
+			}.bind(this)
+		);
+		MKWrapper.each(Formidable.objValues(this.containers),this.options.hideFunction);
 		if(this.options.defaultTab == 'first')
-			this.setActiveTab(this.links.first());
+			this.setActiveTab(this.links[0]);
 		else if(this.options.defaultTab == 'last')
-			this.setActiveTab(this.links.last());
+			this.setActiveTab(this.links[this.links.length - 1]);
 		else if(this.options.defaultTab != 'none')
 			this.setActiveTab(this.options.defaultTab);
 		var targets = this.options.targetRegExp.exec(window.location);
 		if(targets && targets[1]){
-			targets[1].split(',').each(function(target){
-				this.links.each(function(target,link){
+			MKWrapper.each(targets[1].split(','),function(target){
+				MKWrapper.each(this.links,function(target,link){
 					if(link.key == target){
 						this.setActiveTab(link);
-						throw $break;
+//						throw $break;
+						return false;
 					}
 				}.bind(this,target));
 			}.bind(this));
 		}
 		if(this.options.autoLinkExternal){
-			$A(document.getElementsByTagName('a')).each(function(a){
+			MKWrapper.each([document.getElementsByTagName('a')],function(a){
 				if(!this.links.include(a)){
 					var clean_href = a.href.replace(window.location.href.split('#')[0],'');
 					if(clean_href.substring(0,1) == '#'){
 						if(this.containers.keys().include(clean_href.substring(1))){
-							$(a).observe('click',function(event,clean_href){
+							MKWrapper.$(a).observe('click',function(event,clean_href){
 								this.setActiveTab(clean_href.substring(1));
 							}.bindAsEventListener(this,clean_href));
 						}
@@ -88,8 +86,9 @@ Object.extend(Control.Tabs.prototype,{
 	},
 	addTab: function(link){
 		this.links.push(link);
-		link.key = link.getAttribute('href').split('#').last();
-		this.containers.set(link.key, $(link.key));
+		var hrefParts = link.getAttribute('href').split('#');
+		link.key = hrefParts[hrefParts.length - 1];
+		this.containers[link.key] = MKWrapper.$(link.key);
 		link[this.options.hover ? 'onmouseover' : 'onclick'] = function(link){
 			if(window.event)
 				Event.stop(window.event);
@@ -101,40 +100,43 @@ Object.extend(Control.Tabs.prototype,{
 		if(!link)
 			return;
 		if(typeof(link) == 'string'){
-			this.links.each(function(_link){
+			MKWrapper.each(this.links,function(_link){
 				if(_link.key == link){
 					this.setActiveTab(_link);
-					throw $break;
+//					throw $break;
+					return false;
 				}
 			}.bind(this));
 		}else{
 			this.notify('beforeChange',this.activeContainer);
 			if(this.activeContainer)
 				this.options.hideFunction(this.activeContainer);
-			this.links.each(function(item){
-				(this.options.setClassOnContainer ? $(item.parentNode) : item).removeClassName(this.options.activeClassName);
+			MKWrapper.each(this.links,function(item){
+				MKWrapper.removeClass((this.options.setClassOnContainer ? MKWrapper.$(item.parentNode) : item),this.options.activeClassName);
 			}.bind(this));
-			(this.options.setClassOnContainer ? $(link.parentNode) : link).addClassName(this.options.activeClassName);
-			this.activeContainer = this.containers.get(link.key);
+			MKWrapper.addClass((this.options.setClassOnContainer ? MKWrapper.$(link.parentNode) : link),this.options.activeClassName);
+			this.activeContainer = this.containers[link.key];
 			this.activeLink = link;
-			this.options.showFunction(this.containers.get(link.key));
-			this.notify('afterChange',this.containers.get(link.key));
+			this.options.showFunction(this.containers[link.key]);
+			this.notify('afterChange',this.containers[link.key]);
 		}
 	},
 	next: function(){
-		this.links.each(function(link,i){
+		MKWrapper.each(this.links,function(link,i){
 			if(this.activeLink == link && this.links[i + 1]){
 				this.setActiveTab(this.links[i + 1]);
-				throw $break;
+//				throw $break;
+				return false;
 			}
 		}.bind(this));
 		return false;
 	},
 	previous: function(){
-		this.links.each(function(link,i){
+		MKWrapper.each(this.links,function(link,i){
 			if(this.activeLink == link && this.links[i - 1]){
 				this.setActiveTab(this.links[i - 1]);
-				throw $break;
+//				throw $break;
+				return false;
 			}
 		}.bind(this));
 		return false;
@@ -152,12 +154,20 @@ Object.extend(Control.Tabs.prototype,{
 			if(this.options[event_name])
 				return [this.options[event_name].apply(this.options[event_name],$A(arguments).slice(1))];
 		}catch(e){
-			if(e != $break)
-				throw e;
-			else
-				return false;
+			return false;
 		}
 	}
 });
-if(typeof(Object.Event) != 'undefined')
-	Object.Event.extend(Control.Tabs);
+MKWrapper.extend(
+	Control.Tabs,{
+	instances: [],
+	findByTabId: function(id){
+		return Control.Tabs.instances.find(function(tab){
+			return tab.links.find(function(link){
+				return link.key == id;
+			});
+		});
+	}
+});
+//if(typeof(Object.Event) != 'undefined')
+//	Object.Event.extend(Control.Tabs);

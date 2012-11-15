@@ -410,3 +410,9 @@ MKWrapper.handleValidationErrors = function(oErrors, form, msgDiv) {
 MKWrapper._changeHandler = function() {
 	jQuery(this).removeClass('hasError');
 };
+
+MKWrapper.filter = function(element, callback) {
+	return jQuery(element).filter(function(index, object) {
+		return callback(object);
+	});
+};
