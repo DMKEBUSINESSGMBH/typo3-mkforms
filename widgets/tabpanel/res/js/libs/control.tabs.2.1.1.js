@@ -129,11 +129,12 @@ Control.Tabs =Base.extend({
 	next: function(){
 		MKWrapper.each(this.links,function(link,i){
 			if(this.activeLink == link && this.links[i + 1]){
-				this.setActiveTab(this.links[i + 1]);
-//				throw $break;
-				return false;
+				linkToShow = this.links[i + 1];
+				return;
 			}
 		}.bind(this));
+		
+		this.setActiveTab(linkToShow);
 		return false;
 	},
 	previous: function(){
@@ -141,7 +142,6 @@ Control.Tabs =Base.extend({
 			if(this.activeLink == link && this.links[i - 1]){
 				this.setActiveTab(this.links[i - 1]);
 //				throw $break;
-				return false;
 			}
 		}.bind(this));
 		return false;
