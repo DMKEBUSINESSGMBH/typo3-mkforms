@@ -70,14 +70,19 @@ Control.Tabs =Base.extend({
 			}.bind(this));
 		}
 		if(this.options.autoLinkExternal){
-			MKWrapper.each([document.getElementsByTagName('a')],function(a){
-				if(!this.links.include(a)){
+			MKWrapper.each(document.getElementsByTagName('a'),function(a){
+				if(!MKWrapper.inArray(a, this.links)){
 					var clean_href = a.href.replace(window.location.href.split('#')[0],'');
 					if(clean_href.substring(0,1) == '#'){
-						if(this.containers.keys().include(clean_href.substring(1))){
-							MKWrapper.$(a).observe('click',function(event,clean_href){
-								this.setActiveTab(clean_href.substring(1));
-							}.bindAsEventListener(this,clean_href));
+						if(this.containers[clean_href.substring(1)]){
+							MKWrapper.attachEvent(
+								MKWrapper.$(a),
+								'click',
+								function(event,clean_href){
+									this.setActiveTab(clean_href.substring(1));
+								},
+								this
+							);
 						}
 					}
 				}

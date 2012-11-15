@@ -210,3 +210,7 @@ MKWrapper.evalJSON = function(str,sanitize) {
 MKWrapper.filter = function(element, callback) {
 	return element.findAll(callback);
 };
+
+MKWrapper.inArray = function(needle, haystack) {
+	return haystack.include(needle);
+};

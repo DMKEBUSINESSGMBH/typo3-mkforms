@@ -416,3 +416,7 @@ MKWrapper.filter = function(element, callback) {
 		return callback(object);
 	});
 };
+
+MKWrapper.inArray = function(needle, haystack) {
+	return jQuery.inArray(needle, haystack);
+};
