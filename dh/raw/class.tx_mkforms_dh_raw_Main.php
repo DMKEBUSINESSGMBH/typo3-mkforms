@@ -33,7 +33,16 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 	}
 	
 	public function _doTheMagic($bShouldProcess = TRUE) {
-		if(!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())) return;
+		if(!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())){
+			if($this->getForm()->isTestMode()){
+				tx_rnbase::load('tx_rnbase_util_Debug');
+				tx_rnbase_util_Debug::debug(array(
+					'es gab Validierungsfehler' => $this->getForm()->_aValidationErrors
+				),__METHOD__.__LINE__);
+				exit;
+			}
+				return;
+		}
 
 		$aData = $this->getFormData();
 		
