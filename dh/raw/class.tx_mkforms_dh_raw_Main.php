@@ -34,14 +34,8 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 	
 	public function _doTheMagic($bShouldProcess = TRUE) {
 		if(!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())){
-			if($this->getForm()->isTestMode()){
-				tx_rnbase::load('tx_rnbase_util_Debug');
-				tx_rnbase_util_Debug::debug(array(
-					'es gab Validierungsfehler' => $this->getForm()->_aValidationErrors
-				),__METHOD__.__LINE__);
-				exit;
-			}
-				return;
+			$this->showValidationErrorsInTestMode();
+			return;
 		}
 
 		$aData = $this->getFormData();
@@ -70,6 +64,25 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 			} else {
 				tx_mkforms_util_Div::mayday('DATAHANDLER RAW : the callback method ' . $callback . ' doesn\'t exists in the definition of the Parent object', $this->getForm());
 			}
+		}
+	}
+	
+	/**
+	 * @return void
+	 */
+	private function showValidationErrorsInTestMode() {
+		if(
+			$this->getForm()->isTestMode() &&
+			!empty($this->getForm()->_aValidationErrors)
+		){
+			tx_rnbase::load('tx_rnbase_util_Debug');
+			tx_rnbase_util_Debug::debug(array(
+				'es gab Validierungsfehler' => 
+					$this->getForm()->_aValidationErrors
+			),__METHOD__.__LINE__);
+			
+			//ohne exit kommt seit phpunit 3.6 kein output im browser an
+			exit;
 		}
 	}
 
