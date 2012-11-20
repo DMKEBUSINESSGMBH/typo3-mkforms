@@ -282,23 +282,10 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	/**
 	 * Actually process the data, e.g. save it to the table...
 	 *
-	 * @param 	array 	&$data Form data splitted by tables
+	 * @param 	array $params Parameters from the form
 	 * @return 	array
 	 */
 	protected function fillData(array $params) {
-		return $params;
-		// Test zum vorfüllen: EXT:mkforms/tests/xml/renderlets.xml
-		$params['widget']['text'] = 'Default Text';
-		// die vorselektierten Werte für mehrere Checkboxen müssen kommasepariert angegebenw werden!
-		$params['widget']['checkbox'] = array(8,6);
-		$params['widget']['checkbox'] = implode(',',$params['widget']['checkbox']);
-
-		$params['widget']['radiobutton'] = 7;
-		$params['widget']['listbox'] = 7;
-		$params['widget']['checksingle'] = 1;
-		$params['widget1']['text'] = 'Default Text 1';
-		$params['widget2']['text'] = 'Default Text 2';
-		$params['textarea'] = 'Ganz Langer vordefinierter Text';
 		return $params;
 	}
 
