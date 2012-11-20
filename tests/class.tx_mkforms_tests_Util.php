@@ -39,6 +39,9 @@ tx_rnbase::load('tx_mkforms_forms_Factory');
  */
 class tx_mkforms_tests_Util {
 
+	/**
+	 * @param boolean $force
+	 */
 	public static function getStaticTS($force = false){
 		static $configArray = false;
 		if(is_array($configArray) && !$force) {
