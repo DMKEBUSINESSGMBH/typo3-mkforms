@@ -39,9 +39,11 @@ tx_rnbase::load('tx_mkforms_forms_Factory');
  */
 class tx_mkforms_tests_Util {
 
-	public static function getStaticTS(){
+	public static function getStaticTS($force = false){
 		static $configArray = false;
-		if(is_array($configArray)) return $configArray;
+		if(is_array($configArray) && !$force) {
+			return $configArray;
+		} 
 		t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
 
 		tx_rnbase::load('tx_rnbase_configurations');
