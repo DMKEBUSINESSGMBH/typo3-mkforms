@@ -148,6 +148,27 @@ class tx_mkforms_tests_Util {
 			else $oForm->getWidget($sName)->setValue($mValue);
 		}
 	}
+	
+	/**
+	 * @param string $formId
+	 * @param array $formData
+	 * @param string $requestToken
+	 */
+	public static function setRequestTokenForFormId(
+		$formId, array &$formData, $requestToken = 's3cr3tT0k3n'
+	) {
+		$formData['MKFORMS_REQUEST_TOKEN'] = $requestToken;
+		
+		$GLOBALS['TSFE']->fe_user->setKey(
+			'ses', 'mkforms', 
+			array('requestToken' => 
+				array(
+					$formId => $requestToken
+				)
+			)
+		);
+		$GLOBALS['TSFE']->fe_user->storeSessionData();
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']) {
