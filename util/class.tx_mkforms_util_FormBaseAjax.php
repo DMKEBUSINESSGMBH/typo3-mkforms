@@ -421,8 +421,10 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 	 * @param $form
 	 *
 	 * @return widget
+	 * 
+	 * @throws tx_mklib_exception_InvalidConfiguration
 	 */
-	private static function checkDependsOnFlag(array $params, $form){
+	public static function checkDependsOnFlag(array $params, $form){
 		// Der Validator wird nur ausgeführt, wenn das Flag-Widget einen Wert hat.
 		if(empty($params['dependsonflag']))
 			throw tx_rnbase::makeInstance(
