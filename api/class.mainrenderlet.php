@@ -525,6 +525,7 @@
 
 			if($sLabel === FALSE) {
 				if(($sLabel = $this->_navConf('/label')) !== FALSE) {
+					$sLabel = $this->getForm()->getRunnable()->callRunnable($sLabel);
 					$sRes = $this->getForm()->getConfig()->getLLLabel($sLabel);
 				} else {
 					if($this->getForm()->sDefaultLLLPrefix !== FALSE) {
@@ -4045,7 +4046,7 @@ JAVASCRIPT;
 		if(!empty($aGP) && is_array($aGP)){
 			foreach ($aGP as $rdtName => $rdtValue) {
 				$absRdtName = $this->getAbsName() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN .$rdtName;
-	
+
 				//wenn in der übergeben array ein eintrag enthalten ist, der nicht
 				//durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
 				//zu verhinden
