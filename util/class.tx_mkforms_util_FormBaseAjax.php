@@ -421,13 +421,14 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 	 * @param $form
 	 *
 	 * @return widget
-	 * 
-	 * @throws InvalidArgumentException
+	 *
+	 * @throws tx_mklib_exception_InvalidConfiguration
 	 */
-	private static function checkDependsOnFlag(array $params, $form){
+	public static function checkDependsOnFlag(array $params, $form){
 		// Der Validator wird nur ausgeführt, wenn das Flag-Widget einen Wert hat.
 		if(empty($params['dependsonflag']))
-			throw new InvalidArgumentException(
+			throw tx_rnbase::makeInstance(
+	        	'tx_mklib_exception_InvalidConfiguration',
 				__METHOD__.': Der Parameter $params[\'dependsonflag\'] wurde nicht gesetzt!'
 			);
 
@@ -438,4 +439,3 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBaseAjax.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBaseAjax.php']);
 }
-?>

@@ -17,6 +17,7 @@
 			<label index="plugin.mkforms.flexform.template">Template</label>
 			<label index="plugin.mkforms.flexform.action">Action</label>
 			<label index="plugin.mkforms.flexform.action.FormBase">Generic Form</label>
+			<label index="plugin.mkforms.flexform.viewClassName">View</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 		</languageKey>

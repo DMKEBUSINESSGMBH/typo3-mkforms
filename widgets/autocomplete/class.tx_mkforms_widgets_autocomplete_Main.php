@@ -275,17 +275,22 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			if ($bReplaced) {
 				$sValue = $aData[$sName];
 			} else {				
-				$sValue = preg_replace_callback(
-					$sPattern,
-					array(
-						$this,
-						'highlightSearch',
-					),
-					$aData[$sName],
-					1		// replace only the first occurence
-				); 
-
-				if ($sValue != $aData[$sName]) {
+				if($this->_defaultTrue('highlightresults')) {
+					$sValue = preg_replace_callback(
+						$sPattern,
+						array(
+							$this,
+							'highlightSearch',
+						),
+						$aData[$sName],
+						1		// replace only the first occurence
+					); 
+	
+					if ($sValue != $aData[$sName]) {
+						$bReplaced = true;
+					}
+				} else {
+					$sValue = $aData[$sName];
 					$bReplaced = true;
 				}
 			}
@@ -294,6 +299,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			$this->setChildValue($this->aChilds[$sName],$sValue);
 //			$this->aChilds[$sName]->setValue($sValue);
 		}
+		
 		$aCurRow = $this->renderChildsBag();
 		array_pop($this->getForm()->getDataHandler()->__aListData);
 		return $aCurRow;
@@ -311,6 +317,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	}
 
 	private function highlightSearch($aMatches) {
+//		return $aMatches[0];
 		return '<strong>' .$aMatches[0]. '</strong>';
 	}
 	
