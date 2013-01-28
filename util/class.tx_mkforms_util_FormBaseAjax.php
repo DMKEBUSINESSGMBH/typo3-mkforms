@@ -421,6 +421,8 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 	 * @param $form
 	 *
 	 * @return widget
+	 * 
+	 * @throws InvalidArgumentException
 	 */
 	private static function checkDependsOnFlag(array $params, $form){
 		// Der Validator wird nur ausgeführt, wenn das Flag-Widget einen Wert hat.
