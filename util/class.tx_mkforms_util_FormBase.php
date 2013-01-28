@@ -588,14 +588,14 @@ class tx_mkforms_util_FormBase {
 	public static function getItemsFromDb(array $params, tx_ameosformidable $form){
 		//erstmal prüfen ob alle notwendigen params gesetzt wurden
 		if(empty($params['table']) || empty($params['valueField']) || empty($params['captionField']))
-		throw tx_rnbase::makeInstance(
-			        'tx_mklib_exception_InvalidConfiguration',
-			        'tx_mkforms_util_FormBaseAjax->getItemsFromDb(): Bitte gib die Parameter "table", "valueField" und "captionField" an.'
-		);
+			throw new InvalidArgumentException(
+				'tx_mkforms_util_FormBaseAjax->getItemsFromDb():'.
+				' Bitte gib die Parameter "table", "valueField" und "captionField" an.'
+			);
 		if (isset($params['dependsOn']) && (empty($params['dependsOn']['dbfield']) || empty($params['dependsOn']['formfield']))){
-			throw tx_rnbase::makeInstance(
-			        'tx_mklib_exception_InvalidConfiguration',
-			        'tx_mkforms_util_FormBaseAjax->getItemsFromDb(): Wenn du $params["dependsOn"] angibst musst du auch $params["dependsOn"]["dbfield"] und $params["dependsOn"]["formfield"] angeben.'
+			throw new InvalidArgumentException(
+				'tx_mkforms_util_FormBaseAjax->getItemsFromDb():'.
+				' Wenn du $params["dependsOn"] angibst musst du auch $params["dependsOn"]["dbfield"] und $params["dependsOn"]["formfield"] angeben!'
 			);
 		}else{
 			if ($widget = $form->getWidget($params['dependsOn']['formfield'])) {
