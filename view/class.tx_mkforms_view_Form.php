@@ -56,7 +56,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 		$confId = $this->getController()->getConfId();
 
 		$markerArray = $subpartArray  = $wrappedSubpartArray = array();
-		
+
 		// Wir holen die Daten von der Action ab
 		// @TODO: mal auslagern! (handleFormData)
 		if ($data =& $viewData->offsetGet('formData')) {
@@ -70,12 +70,21 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 				foreach ($data as $key => $values) {
 					$currentMarkerPrefix = strtoupper($key).'_';
 					$currentConfId = $confId.$key.'.';
-					// @TODO: Lister ausgeben
-					// @TODO: sollte über markerklassen geregelt werden!
+					/*
+					 * @TODO: Lister ausgeben
+					 * @TODO: sollte über markerklassen geregelt werden!
+					 *
+					 * mwagner: Das hier ist eine generische Ausgabe.
+					 * Markerklassen oder Listen sind nicht nötig.
+					 * Wenn spezielle Markerklassen und Listen benötigt werden,
+					 * müssen für den speziellen Fall die add Methoden
+					 * oder die globale addAdditionalMarkers Methode angelegt werden!
+					 */
 					if(tx_rnbase_util_BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
 						$currentSubpartArray = $currentWrappedSubpartArray = array();
-						$currentMarkerArray = $formatter->getItemMarkerArrayWrapped($values, $currentConfId, 0, $currentMarkerPrefix, null);
-						
+						$currentMarkerArray = $formatter->getItemMarkerArrayWrapped(
+								$values, $currentConfId, 0, $currentMarkerPrefix, null);
+
 						// wir suchen für jede Tabelle eine parse Methode in der Kindklasse!
 						$method = 'add'.tx_mkforms_util_Div::toCamelCase($key).'Markers';
 						if(method_exists($this, $method)) {
@@ -85,29 +94,33 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 									$currentConfId, $formatter, $template
 								);
 						}
-						if(!empty($currentMarkerArray)) 				$markerArrays[] = $currentMarkerArray;
-						if(!empty($currentSubpartArray)) 			$subpartArrays[] = $currentSubpartArray;
-						if(!empty($currentWrappedSubpartArray)) 	$wrappedSubpartArrays[] = $currentWrappedSubpartArray;
+						if(!empty($currentMarkerArray))
+							$markerArrays[] = $currentMarkerArray;
+						if(!empty($currentSubpartArray))
+							$subpartArrays[] = $currentSubpartArray;
+						if(!empty($currentWrappedSubpartArray))
+							$wrappedSubpartArrays[] = $currentWrappedSubpartArray;
 					}
 				}
 				// die marker arrays zusammenführen
-				$markerArray = 			empty($markerArrays) ? array()
-												: call_user_func_array('array_merge', $markerArrays);
-				$subpartArray = 			empty($subpartArrays) ? array()
-												: call_user_func_array('array_merge', $subpartArrays);
-				$wrappedSubpartArray = 	empty($wrappedSubpartArrays) ? array()
-												: call_user_func_array('array_merge', $wrappedSubpartArrays);
+				$markerArray = empty($markerArrays) ? array()
+					: call_user_func_array('array_merge', $markerArrays);
+				$subpartArray =	empty($subpartArrays) ? array()
+					: call_user_func_array('array_merge', $subpartArrays);
+				$wrappedSubpartArray = empty($wrappedSubpartArrays) ? array()
+					: call_user_func_array('array_merge', $wrappedSubpartArrays);
 			}
 		}
 
 		//
 		$template = $this->addAdditionalMarkers($data, 'DATA',
-				$markerArray, $subpartArray, $wrappedSubpartArray,
-				$confId, $formatter, $template
+			$markerArray, $subpartArray, $wrappedSubpartArray,
+			$confId, $formatter, $template
 		);
 
 		$markerArray['###FORM###'] = $viewData->offsetGet('form');
-		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+		$out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
+				$template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
 		// Fehler ausgeben, wenn gesetzt.
 		if(strlen($errors = $viewData->offsetGet('errors')) > 0){
@@ -133,8 +146,8 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 			$data, $markerPrefix,
 			&$markerArray, &$subpartArray, &$wrappedSubpartArray,
 			$confId, &$formatter, $template) {
-		
-		
+
+
 		// links parsen
 		// @TODO: über rnbase simple marker parsen?
 		$linkIds = $formatter->getConfigurations()->getKeyNames($confId.'links.');
@@ -147,11 +160,11 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 					$template
 				);
 		}
-		
+
 // 		$markerArray['###'.$markerPrefix.'_TEST###'] = 'Das ist die Ausgabe meines Testmarkers :)';
 		return $template;
 	}
-	
+
 	/**
 	 * Gibt es einen Redirect? Bei Bedarf kann diese Methode
 	 * in einem eigenen View überschrieben werden
@@ -173,7 +186,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 		) {
 			// Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
 			$GLOBALS['TSFE']->fe_user->storeSessionData();
-			
+
 			$link = $this->createRedirectLink($viewData, $configurations, $confId);
 			$link->redirect();
 			// Und tschüss, ab hier passiert nix mehr.
