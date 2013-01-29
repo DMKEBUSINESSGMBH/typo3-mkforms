@@ -14,10 +14,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 	);
 
 	function _render() {
-		
+
 		$sLabel = $this->getLabel();
 		$sValue = $this->getValue();
-		
+
 		$sOptionsList = '';
 
 		$aItems = $this->_getItems();
@@ -36,7 +36,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 
 			$aHtml = array();
 			$sOptionsListBag = array();
-			
+
 			reset($aItems);
 			while(list(, $aItem) = each($aItems)) {
 
@@ -46,7 +46,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 						? $this->getForm()->getConfig()->getLLLabel($aItem['caption'])
 						: $aItem['value']
 					;
-				
+
 				if($this->_isMultiple()) {
 					if(is_array($sValue)) {
 						if(in_array($value, $sValue)) {
@@ -65,11 +65,11 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 				$sCustom = $this->_getCustom($aItem);
 				$sClass = $this->_getClasses($aItem, FALSE);
 				$sStyle = $this->_getStyle($aItem);
-				
+
 				#$aHtml[] = "<option value=\"" . $aItem["value"] . "\" " . $sSelected . $sClass . $sStyle . $sCustom . ">" . $sCaption . "</option>";
 				$sInput = '<option value="' . $aItem['value'] . '" ' . $sSelected . $sClass . $sCustom . '>' . $sCaption . '</option>';
 				$aHtml[] = $sInput;
-				
+
 //				$sOptionsListBag[$aItem['value']] = $sInput;
 				$sOptionsListBag[$aItem['value'].'.'] = array(
 					'input' => $sInput,
@@ -80,7 +80,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 					'custom' => $sCustom
 				);
 			}
-			
+
 			reset($aHtml);
 			$sOptionsList = implode('', $aHtml);
 		}
@@ -103,9 +103,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 			'caption' => implode(', ', $aSelectedCaptions),
 			'input' => $sInput,
 			'select.' => array('begin' => $sInputBegin, 'end' => $sInputEnd),
+			'itemcount' => count($sOptionsListBag),
 			'items.' => $sOptionsListBag,
 		);
-		
+
 		return $aHtmlBag;
 	}
 
@@ -118,12 +119,12 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 		if($this->_isMultiple() && !is_array($data)) {
 			$data = t3lib_div::trimExplode(",", $data);
 		}
-		
+
 		if(is_array($data)) {
 
 			$aLabels = array();
 			$aItems = $this->_getItems();
-			
+
 			reset($data);
 			while(list(, $selectedItemValue) = each($data)) {
 
@@ -137,13 +138,13 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 					}
 				}
 			}
-			
+
 			return implode(", ", $aLabels);
-			
+
 		} else {
-			
+
 			$aItems = $this->_getItems();
-			
+
 			reset($aItems);
 			while(list(, $aItem) = each($aItems)) {
 
@@ -166,7 +167,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 		if($sFieldName === "") {
 			$sFieldName = $this->_getName();
 		}
-		
+
 		if(sizeof($aValues) > 0) {
 
 			$sTableName = $this->oForm->_navConf("/tablename", $this->oForm->oDataHandler->aElement);
@@ -216,7 +217,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 		$aItems = $this->_getItems();
 
 		if(!empty($aItems)) {
-			
+
 			$aFirst = array_shift($aItems);
 			return $this->_substituteConstants($aFirst["value"]);
 		}
@@ -225,7 +226,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 	}
 
 	function majixReplaceData($aData) {
-		
+
 		$iKey = array_shift(array_keys($aData));
 
 		if(is_array($aData[$iKey])) {
@@ -248,7 +249,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 			$aData
 		);
 	}
-	
+
 	function majixSetSelected($sData) {
 		return $this->buildMajixExecuter(
 			"setSelected",
@@ -277,7 +278,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 			"moveSelectedTop"
 		);
 	}
-	
+
 	function majixMoveSelectedUp() {
 		return $this->buildMajixExecuter(
 			"moveSelectedUp"
@@ -295,7 +296,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 			"moveSelectedBottom"
 		);
 	}
-	
+
 	function majixAddItem($sCaption, $sValue) {
 		return $this->buildMajixExecuter(
 			"addItem",
