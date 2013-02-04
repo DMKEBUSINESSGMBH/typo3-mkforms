@@ -53,6 +53,9 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 	 * @return 	mixed						Ready rendered output or HTTP redirect
 	 */
 	public function createOutput($template, &$viewData, &$configurations, &$formatter, $redirectToLogin = false) {
+		// Wrnn konfiguriert, einen redirekt nach erfolgreichem absenden der form durchführen
+		$this->handleRedirect($viewData, $configurations);
+
 		$confId = $this->getController()->getConfId();
 
 		$markerArray = $subpartArray  = $wrappedSubpartArray = array();
@@ -62,7 +65,6 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 		if ($data =& $viewData->offsetGet('formData')) {
 			// Successfully filled in form?
 			if (is_array($data)) {
-				$this->handleRedirect($viewData, $configurations);
 				// else:
 
 				$markerArrays = $subpartArrays  = $wrappedSubpartArrays = array();
@@ -200,8 +202,9 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 	 * @param string $confId
 	 */
 	protected function createRedirectLink($viewData, $configurations, $confId) {
+		$params	= $viewData->offsetGet('redirect_parameters');
 		$link = $configurations->createLink();
-		$link->initByTS($configurations, $confId.'redirect.', array());
+		$link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : array());
 		return $link;
 	}
 
