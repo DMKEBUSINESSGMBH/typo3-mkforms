@@ -108,6 +108,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 
 		$viewData->offsetSet('form', $this->form->render());
 		$viewData->offsetSet('fullySubmitted', $this->form->isFullySubmitted());
+		$viewData->offsetSet('hasValidationErrors', $this->form->hasValidationErrors());
 
 		if (is_array($this->filledForm)) {
 			$viewData->offsetSet('formData', $this->filledForm);

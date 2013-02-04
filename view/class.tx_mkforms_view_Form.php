@@ -180,6 +180,8 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 		if (
 			// redirect if fully submitted
 			$viewData->offsetGet('fullySubmitted')
+			// if there are no validation errors
+			&& !$viewData->offsetGet('hasValidationErrors')
 			// and redirect configured
 			&& (
 				$configurations->getBool($confId.'redirect') ||
