@@ -14,6 +14,7 @@
 			<label index="plugin.mkforms.flexform.xml">XML</label>
 			<label index="plugin.mkforms.flexform.redirect">Redirect after full submit</label>
 			<label index="plugin.mkforms.flexform.redirect.pid">Redirect page</label>
+			<label index="plugin.mkforms.flexform.redirect.qualifier">Redirect qualifier</label>
 			<label index="plugin.mkforms.flexform.template">Template</label>
 			<label index="plugin.mkforms.flexform.action">Action</label>
 			<label index="plugin.mkforms.flexform.action.FormBase">Generic Form</label>

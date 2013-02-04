@@ -125,6 +125,19 @@
 							</config>
 						</TCEforms>
 					</generic.redirect.pid>
+					<generic.redirect.qualifier>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.redirect.qualifier</label>
+							<config>
+								<type>input</type>
+								<size>50</size>
+								<max>256</max>
+								<eval>trim</eval>
+								<default>mkforms</default>
+							</config>
+						</TCEforms>
+					</generic.redirect.qualifier>
 					<generic.viewClassName>
 						<TCEforms>
 							<exclude>1</exclude>
