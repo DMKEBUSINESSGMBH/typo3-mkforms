@@ -34,11 +34,13 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
+			'rn_base' => '',
 		),
 		'conflicts' => array(
 			'ameos_formidable'
 		),
 		'suggests' => array(
+			'mkmailer' => '0.7.6-',
 		),
 	),
 	'_md5_values_when_last_written' => '',

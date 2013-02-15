@@ -103,7 +103,7 @@ class tx_mkforms_util_Config {
 		} else {
 			$sPath = $sExtConf;
 		}
-		
+
 		$sPath = str_replace('.', '/', $sExtConf);
 		$sRes = $this->get($sPath, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']);
 		return $sRes;
@@ -140,7 +140,7 @@ class tx_mkforms_util_Config {
 		if(is_array($mLabel)) {
 			return $mLabel;
 		}
-		
+
 		// Wenn im meta der XML Form ein defaultLLL gesetzt ist,
 		// wird versucht anand des absoluten namens vom renderlet ein label zu finden.
 		if($this->getForm()->sDefaultLLLPrefix !== FALSE) {
@@ -173,7 +173,7 @@ class tx_mkforms_util_Config {
 
 		tx_rnbase::load('tx_mkforms_util_XMLParser');
 		$this->config = tx_mkforms_util_XMLParser::getXml($xmlPath);
-		
+
 		// root sollte mkforms sein!
 		$sRoot = 'mkforms';
 		if(!array_key_exists('mkforms', $this->config)){
@@ -183,10 +183,10 @@ class tx_mkforms_util_Config {
 				tx_mkforms_util_Div::mayday('Root "mkforms" not found in XML. ('.$xmlPath.')');
 			}
 		}
-		
+
 		$this->config = $this->config[$sRoot];	// the root is deleted
 		$this->sXmlVersion = $this->get('/version', $this->config);
-		
+
 		if(($this->sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== FALSE) {
 			if(tx_mkforms_util_Div::getVersionInt() < t3lib_div::int_from_ver($this->sXmlMinVersion)) {
 				tx_mkforms_util_Div::mayday('The given XML requires a version of Formidable (<b>' . $this->sXmlMinVersion . '</b> or above) more recent than the one installed (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).');
@@ -243,7 +243,7 @@ class tx_mkforms_util_Config {
 						$aTemp['control']['datahandler'] = array(
 							'type' => substr($aConf['control.'][$sKey], strlen('datahandler:'))
 						);
-	
+
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
 							$aTemp['control']['datahandler'] = t3lib_div::array_merge_recursive_overrule(
 								$aTemp['control']['datahandler'],
@@ -254,7 +254,7 @@ class tx_mkforms_util_Config {
 						$aTemp['control']['renderer'] = array(
 							'type' => substr($aConf['control.'][$sKey], strlen('renderer:'))
 						);
-	
+
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
 							$aTemp['control']['renderer'] = t3lib_div::array_merge_recursive_overrule(
 								$aTemp['control']['renderer'],
@@ -265,14 +265,14 @@ class tx_mkforms_util_Config {
 				} else {
 					if($sKey === 'actionlets.') {
 						$aTemp['control']['actionlets'] = array();
-	
+
 						reset($aConf['control.'][$sKey]);
 						while(list($sActKey, ) = each($aConf['control.'][$sKey])) {
 							if(is_string($aConf['control.'][$sKey][$sActKey])) {
 								$aTemp['control']['actionlets']['actionlet-' . $sActKey] = array(
 									'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('actionlet:'))
 								);
-	
+
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
 									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
 										$aTemp['control']['actionlets']['actionlet-' . $sActKey],
@@ -283,14 +283,14 @@ class tx_mkforms_util_Config {
 						}
 					} elseif($sKey === 'datasources.') {
 						$aTemp['control']['datasources'] = array();
-	
+
 						reset($aConf['control.'][$sKey]);
 						while(list($sActKey, ) = each($aConf['control.'][$sKey])) {
 							if(is_string($aConf['control.'][$sKey][$sActKey])) {
 								$aTemp['control']['datasources']['datasource-' . $sActKey] = array(
 									'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('datasource:'))
 								);
-	
+
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
 									$aTemp['control']['datasources']['datasource-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
 										$aTemp['control']['datasources']['datasource-' . $sActKey],
@@ -312,17 +312,17 @@ class tx_mkforms_util_Config {
 			reset($aConf['elements.']);
 			while(list($sKey, ) = each($aConf['elements.'])) {
 				if(is_string($aConf['elements.'][$sKey])) {
-	
+
 					$aType = explode(':', $aConf['elements.'][$sKey]);
-	
+
 					if($aType[0] === 'renderlet') {
 						if(array_key_exists($sKey . '.', $aConf['elements.'])) {
-	
+
 							$aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = $this->refineTS_renderlet(
 								$aConf['elements.'][$sKey],
 								$aConf['elements.'][$sKey . '.']
 							);
-	
+
 						} else {
 							$aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = array('type' => $aType[1]);
 						}
@@ -440,7 +440,7 @@ class tx_mkforms_util_Config {
 		}
 		return $aXmlConf;
 	}
-	
+
 	/**
 	 * [Describe function...]
 	 *
@@ -550,14 +550,14 @@ class tx_mkforms_util_Config {
 	public function compileConfig(&$aTempDebug) {
 		$this->config = $this->compileConf($this->config, $aTempDebug);
 	}
-	
+
 	/**
 	 * @return array
 	 */
 	public function getConfigArray() {
 		return $this->config;
 	}
-	
+
 	private function compileConf($aConf, &$aTempDebug) {
 		$aTempDebug['aIncHierarchy'] = array();
 
@@ -570,7 +570,7 @@ class tx_mkforms_util_Config {
 		tx_mkforms_util_Div::debug($aIncHierarchy, 'MKFORMS CORE - INCLUSION HIERARCHY', $this->form);
 		return $aConf;
 	}
-	
+
 	/**
 	 * Executes and inserts conf generated by xmlbuilders, if any declared
 	 *
@@ -629,7 +629,7 @@ class tx_mkforms_util_Config {
 					}
 
 					$sPath = $this->getForm()->getRunnable()->callRunnable($sPath);
-					
+
 					$bInclude = TRUE;
 
 					if(array_key_exists('condition', $val)) {
@@ -670,7 +670,7 @@ class tx_mkforms_util_Config {
 								tx_mkforms_util_Div::mayday('<b>XPATH:' . $sXPath . '</b> is not valid, or matched nothing.<br />XPATH breaked on: <b>' . $this->sLastXPathError . '</b>');
 							}
 						}
-						
+
 						if(array_key_exists('debug', $val) && $this->_isTrueVal($val['debug'])) {
 							$this->debug(array('include' => $val, 'result' => $aXml));
 						}
@@ -1124,7 +1124,7 @@ class tx_mkforms_util_Config {
 	private function getForm() {
 		return $this->form;
 	}
-	
+
 	/**
 	 * Erstellt eine Instanz auf Basis einer XML-Datei
 	 *

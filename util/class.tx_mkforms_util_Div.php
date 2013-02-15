@@ -65,12 +65,12 @@ class tx_mkforms_util_Div {
 	public static function arrayToRdtItems($aData, $sCaptionMap = FALSE, $sValueMap = FALSE) {
 
 		$aItems = array();
-		
+
 		//wenn wir kein Array haben dann gibts nix zu tun
 		//sonst knallts bei reset() in tests!!!
 		if(!is_array($aData))
 			return $aItems;
-			
+
 		reset($aData);
 
 		if($sCaptionMap !== FALSE && $sValueMap !== FALSE) {
@@ -203,7 +203,7 @@ class tx_mkforms_util_Div {
 			t3lib_div::_GP('jumpurl'),
 			t3lib_div::_GP('MP'),
 			t3lib_div::_GP('RDCT'));
-	
+
 //		$GLOBALS['TSFE'] = new $temp_TSFEclassName(
 //			$GLOBALS['TYPO3_CONF_VARS'],
 //			t3lib_div::_GP('id'),
@@ -261,7 +261,7 @@ class tx_mkforms_util_Div {
 		// Wir nutzen die Mayday-Methode von rn_base.
 		// Konfigurationen wie forceException4Mayday,
 		// verboseMayday und dieOnMayday werden so mit beachtet.
-		
+
 		$aDebug = array('<h2>MK Forms:</h2><p><strong>'.$msg.'</strong></p>');
 		if($form) {
 			$aDebug[] = "<span class='notice'><strong>XML: </strong> " . $form->_xmlPath . "</span><br />";
@@ -271,37 +271,37 @@ class tx_mkforms_util_Div {
 		$aDebug[] = "<br />";
 
 		$aDebug[] = '<span class="notice"><strong>debug trail: </strong></span><ol>';
-		
+
 		tx_rnbase::load('tx_rnbase_util_Debug');
 		foreach(t3lib_div::trimExplode('//',tx_rnbase_util_Debug::getDebugTrail()) as $bt) {
 			$aDebug[] = "\t<li>".$bt."</li>";
 		}
 		$aDebug[] = "</ol>";
-		
+
 		$sDebug = implode('', $aDebug);
-	
+
 		// email senden
 		$addr = tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'sendEmailOnException');
 		if($addr) {
 			$exception = tx_rnbase::makeInstance('tx_mkforms_exception_Mayday', $msg, -1, $sDebug);
 			tx_rnbase_util_Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : get_class($this), $exception);
 		}
-		
+
 		// beim ajaxcall nur die meldung ausgeben und fertig!
 		if(tx_mkforms_util_Div::getEnvExecMode() === 'EID') {
 			die("Formidable::Mayday\n\n" . trim(strip_tags($msg)));
 		}
-		
+
 		tx_rnbase_util_Misc::mayday($sDebug, 'mkforms');
 		return;
-		
+
 		$aTrace		= debug_backtrace();
 		$aLocation	= array_shift($aTrace);
 		$aTrace1	= array_shift($aTrace);
 		$aTrace2	= array_shift($aTrace);
 		$aTrace3	= array_shift($aTrace);
 		$aTrace4	= array_shift($aTrace);
-		
+
 		$aDebug[] = "<h2 id='backtracetitle'>Call stack</h2>";
 		$aDebug[] = "<div class='backtrace'>";
 		$aDebug[] = "<span class='notice'><b>Call 0: </b>" . str_replace(PATH_site, "/", $aLocation["file"]) . ":" . $aLocation["line"]  . " | <b>" . $aTrace1["class"] . $aTrace1["type"] . $aTrace1["function"] . "</b></span><br/>With parameters: " . (!empty($aTrace1["args"]) ? self::viewMixed($aTrace1["args"]) : " no parameters");
@@ -381,6 +381,7 @@ MAYDAYPAGE;
 		//@todo
 		//müssen wir hier wirklich die() verwenden? In Tests werden fehler
 		//somit verschluckt.
+		// mw: wie wäre es mit $form->isTestMode()?
 		die($sPage);
 	}
 
@@ -494,7 +495,7 @@ MAYDAYPAGE;
 		$aDebug[] = "Call -2: " . str_replace(PATH_site, "/", $aTrace2['file']) . ':' . $aTrace2['line']  . ' | ' . $aTrace3['class'] . $aTrace3['type'] . $aTrace3['function'];
 		$aDebug[] = "Call -3: " . str_replace(PATH_site, "/", $aTrace3['file']) . ':' . $aTrace3['line']  . ' | ' . $aTrace4['class'] . $aTrace4['type'] . $aTrace4['function'];
 		$aDebug[] = "Call -4: " . str_replace(PATH_site, "/", $aTrace4['file']) . ':' . $aTrace4['line']  . ' | ' . $aTrace5['class'] . $aTrace5['type'] . $aTrace5['function'];
-		
+
 		$aDebug[] = "Call -5: " . str_replace(PATH_site, "/", $aTrace5['file']) . ':' . $aTrace5['line']  . ' | ' . $aTrace6['class'] . $aTrace6['type'] . $aTrace6['function'];
 		$aDebug[] = "Call -6: " . str_replace(PATH_site, "/", $aTrace6['file']) . ':' . $aTrace6['line']  . ' | ' . $aTrace7['class'] . $aTrace7['type'] . $aTrace7['function'];
 		$aDebug[] = "Call -7: " . str_replace(PATH_site, "/", $aTrace7['file']) . ':' . $aTrace7['line']  . ' | ' . $aTrace8['class'] . $aTrace8['type'] . $aTrace8['function'];
@@ -502,7 +503,7 @@ MAYDAYPAGE;
 		$aDebug[] = "Call -9: " . str_replace(PATH_site, "/", $aTrace9['file']) . ':' . $aTrace9['line']  . ' | ' . $aTrace0['class'] . $aTrace0['type'] . $aTrace0['function'];
 		self::debug4ajax($aDebug);
 	}
-	
+
 	/**
 	 * Internal debug function
 	 * Calls the TYPO3 debug function if the XML conf sets /formidable/meta/debug/ to TRUE
@@ -514,7 +515,7 @@ MAYDAYPAGE;
 	 * @return	void
 	 */
 	public static function debug($variable, $name, $form, $bAnalyze = TRUE) {
-		
+
 		if($form->getConfig()->isDebug() || $form->bDebug) {
 
 			$aTrace		= debug_backtrace();
@@ -613,19 +614,19 @@ ERRORMESSAGE;
 
 		self::mayday($sMayday);
 	}
-	
+
 	public static function smartMayday_CBJavascript($sPath, $sClassName, $sMessage = FALSE) {
 
 		$sJs =<<<XMLFILE
 Formidable.Classes.{$sClassName} = Formidable.Classes.CodeBehindClass.extend({
-	
+
 	init: function() {
 		// your init code here
 	},
 	doSomething: function() {
 		// your implementation here
 	}
-	
+
 });
 XMLFILE;
 
@@ -663,7 +664,7 @@ ERRORMESSAGE;
 	public static function getVersionInt() {
 		return t3lib_div::int_from_ver(self::getVersion());
 	}
-	
+
 	/**
 	 * Returns eID for Ajax calls
 	 *
@@ -819,7 +820,7 @@ ERRORMESSAGE;
 		}
 		return $ret;
 	}
-	
+
 	/**
 	 * Removes dots in typoscript configuration arrays
 	 * TODO: Die Methode ist eventuell obsolete, wenn die Configurations für den TS-Zugriff verwendet wird.
@@ -882,7 +883,7 @@ ERRORMESSAGE;
 		}
 		return $filename;
 	}
-	
+
 	public static function isExtensionPath($filename) {
 		return (substr($filename,0,4)=='EXT:');
 	}
@@ -914,7 +915,7 @@ ERRORMESSAGE;
 		}
 		return $aParamsCollection;
 	}
-	
+
 	/**
 	 * Durchläuft ein Array rekursiv und wendet auf jedes Element
 	 * urlDecodeByReference an
@@ -924,7 +925,7 @@ ERRORMESSAGE;
 		if(is_array($aArray))//nur wenn ein array vorliegt
 			array_walk_recursive( $aArray , array('tx_mkforms_util_Div','urlDecodeByReference'));
 	}
-	
+
 	/**
 	 * Wendet urldecode auf das gegebene Element an. Dabei ist
 	 * das Element im gegensatz zum original eine referenz

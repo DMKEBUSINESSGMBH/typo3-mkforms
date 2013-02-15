@@ -1,10 +1,10 @@
 <?php
-	
+
 	if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 	require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 	tx_rnbase::load('tx_mkforms_util_Div');
-	
+
 	// Predefine cache
 	// This section has to be included in typo3conf/localconf.php!!
 //	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
@@ -22,7 +22,7 @@
 //	if(file_exists(PATH_site . "typo3conf/ext/ameos_formidable") && is_dir(PATH_site . "typo3conf/ext/ameos_formidable")) {
 //		define("PATH_formidable", PATH_site . "typo3conf/ext/ameos_formidable/");
 //	}
-//	
+//
 //	define("PATH_formidableapi", PATH_formidable . "api/class.tx_ameosformidable.php");
 
 
@@ -33,7 +33,7 @@
 	// defines the Formidable ajax content-engine ID
 	// TODO: Anpassen!
 	$TYPO3_CONF_VARS['FE']['eID_include'][tx_mkforms_util_Div::getAjaxEId()] = 'EXT:mkforms/remote/formidableajax.php';
-	
+
 	if(TYPO3_MODE === 'FE') {
 		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'EXT:mkforms/hooks/class.tx_mkforms_hooks_TSFE.php:&tx_mkforms_hooks_TSFE->contentPostProc_output';
 	}
@@ -57,11 +57,11 @@
 		}
 	}
 
-	
+
 	if(!is_array($GLOBALS['EM_CONF']) || !array_key_exists($_EXTKEY, $GLOBALS['EM_CONF'])) {
 		require_once(t3lib_extMgm::extPath('mkforms', 'ext_emconf.php'));
 	}
-	
+
 // TODO: Prüfen!
 //	if(!array_key_exists('mkforms', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'])) {
 //			require_once(t3lib_extMgm::extPath('mkforms', 'ext_emconf.php'));
@@ -106,12 +106,13 @@
 			#'LISTER'	=> array('key' => 'dh_lister',	'base' => TRUE),		// deprecated
 			'RAW'		=> array('key' => 'tx_mkforms_dh_raw_Main'),
 			'STANDARD'	=> array('key' => 'tx_mkforms_dh_std_Main'),
+			'MAIL'		=> array('key' => 'tx_mkforms_dh_mail_Main'),
 			'VOID'		=> array('key' => 'tx_mkforms_dh_void_Main'),
 		);
 
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['renderers'] = array(
 			'STANDARD'	=> array('key' => 'tx_mkforms_renderer_std_Main',		'base' => TRUE),
-			'BACKEND'	=> array('key' => 'tx_mkforms_renderer_be_Main',			'base' => TRUE),
+			'BACKEND'	=> array('key' => 'tx_mkforms_renderer_be_Main',		'base' => TRUE),
 			'TEMPLATE'	=> array('key' => 'tx_mkforms_renderer_template_Main',	'base' => TRUE),
 			'VOID'		=> array('key' => 'tx_mkforms_renderer_void_Main',		'base' => TRUE),
 			'FLUID'		=> array('key' => 'tx_mkforms_renderer_fluid_Main',		'base' => TRUE),
@@ -173,7 +174,7 @@
 			TRUE,				// virtualize FE
 			FALSE				// init BE USER
 		);
-		
+
 		tx_ameosformidable::declareAjaxService(
 			'rdt_ajaxlist',		// ajaxlist handling this service
 			'content',			// service key (for this object)
@@ -185,7 +186,7 @@
 			'virtualizeFE'	=> TRUE,
 			'initBEuser'	=> FALSE,
 		);
-		
+
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['tx_ameosformidable']['ajaxservice']['conf'] = array(
 			'virtualizeFE'	=> TRUE,
 			'initBEuser'	=> FALSE,
@@ -210,10 +211,10 @@
 			'virtualizeFE'	=> FALSE,
 			'initBEuser'	=> FALSE,
 		);
-		
+
 //das ist nur eine info für entwickler welcher basis exception code
 //für diese extension verwendet wird. in diesem fall 200.
 //also könnte ein valider exception code dieser extension 2001 sein
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['baseExceptionCode'] = 200;
-		
+
 ?>

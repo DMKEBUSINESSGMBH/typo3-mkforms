@@ -18,7 +18,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 	 */
 	private function eleminateRequireOnlies($aData, $path='') {
 		if ($path) $path .= '__';
-		
+
 		foreach (array_keys($aData) as $key) {
 			if (!is_array($aData[$key])) {
 				if (is_object($this->oForm->aORenderlets[$path.$key]) && $this->oForm->aORenderlets[$path.$key]->_renderOnly()) {
@@ -31,27 +31,29 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 		}
 		return $aData;
 	}
-	
+
 	public function _doTheMagic($bShouldProcess = TRUE) {
+		// @TODO: mw, das gehört hier nicht her!
 		if(!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())){
 			$this->showValidationErrorsInTestMode();
 			return;
 		}
 
 		$aData = $this->getFormData();
-		
+
 		// @todo Insert this option into documentation!!!
 		if ($this->_defaultTrue('/ignorerenderonly')) {
 			$aData = $this->eleminateRequireOnlies($aData);
 		}
-		
+
 		// calling back
 		$callback = $this->getForm()->getConfig()->get('/control/datahandler/parentcallback/');
 		if($callback === FALSE) {
 			$callback = $this->getForm()->getConfig()->get('/control/datahandler/callback/');
 		}
 
-		// @TODO: sicher, was ist mit formularen, die nur etwas anzeigen, aber nichts verarbeiten!?
+		// sicher, was ist mit formularen, die nur etwas anzeigen, aber nichts verarbeiten!?
+		// ja, wenn die nix verarbeiten, darf der callback nicht definiert werden.
 		if($callback === FALSE)
 			tx_mkforms_util_Div::mayday('DATAHANDLER RAW : you MUST declare a callback method on the Parent Object <b>' . get_class($this->oForm->_oParent) . '</b> in the section <b>/control/datahandler/parentcallback/</b> of the XML conf for this DATAHANDLER ( RAW )', $this->getForm());
 
@@ -66,8 +68,12 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 			}
 		}
 	}
-	
+
 	/**
+	 * @TODO: mw, das gehört hier nicht her!
+	 * Wenn dan sollte es in den dh main,
+	 * damit es sich auf alle datahandler auswirkt!
+	 *
 	 * @return void
 	 */
 	private function showValidationErrorsInTestMode() {
@@ -77,10 +83,10 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 		){
 			tx_rnbase::load('tx_rnbase_util_Debug');
 			tx_rnbase_util_Debug::debug(array(
-				'es gab Validierungsfehler' => 
+				'es gab Validierungsfehler' =>
 					$this->getForm()->_aValidationErrors
 			),__METHOD__.__LINE__);
-			
+
 			//ohne exit kommt seit phpunit 3.6 kein output im browser an
 			exit;
 		}
