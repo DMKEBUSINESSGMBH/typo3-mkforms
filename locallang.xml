@@ -12,7 +12,7 @@
 		<languageKey index="default" type="array">
 			<!-- Fehlermeldungen -->
 			<label index="ERROR_default">Leider ist ein Fehler aufgetreten!</label>
-			<label index="ERROR_2001">Das Formular ist nicht valide! Bitte laden Sie die Seite neu und schicken Sie das Formular erneut ab!</label>
+			<label index="ERROR_2001">Das Formular ist nicht valide. Bitte laden Sie die Seite neu und füllen Sie das Formular erneut aus.</label>
 		</languageKey>
 	</data>
 </T3locallang>
