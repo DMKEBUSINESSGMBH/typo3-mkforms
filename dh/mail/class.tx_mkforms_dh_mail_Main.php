@@ -192,6 +192,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		// den E-Mail-Empfänger erzeugen
 		/* @var $receiver tx_mkmailer_receiver_Email */
 		$receiver = tx_rnbase::makeInstance(
+			// @TODO: den receiver konfigurierbar machen!
 			'tx_mkmailer_receiver_Email',
 			$this->getMailTo()
 		);
@@ -212,6 +213,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		$itemName = $this->_navConf('/mkmailer/itemname');
 		$itemName = $itemName ? $itemName : 'item';
 
+		//@TODO: auslagern! Das Parsen muss sicher auch in anderen methoden gemacht werden!
 		$job->setSubject( // Betreff rendern.
 			$markerClass->parseTemplate(
 				$job->getSubject(),
