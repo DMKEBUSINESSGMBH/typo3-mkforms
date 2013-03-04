@@ -28,7 +28,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		"onajaxstart",
 		"onajaxcomplete",
 	);
-	
+
 	var $aUploaded = FALSE;	// array if file has just been uploaded
 
 	function _render() {
@@ -37,13 +37,13 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 
 		$sValue = $this->getValue();
-		
+
 		//@FIXME manchmal steckt ein array im value, was nie passieren darf!!!
 		//@TODO logging entfernen wenn bug gefixed!
 		if(!is_string($sValue)){
 			tx_rnbase::load('tx_rnbase_util_Logger');
 			tx_rnbase_util_Logger::fatal(
-				'Der value des Uploadfelds ist kein string, was nie passieren darf!', 
+				'Der value des Uploadfelds ist kein string, was nie passieren darf!',
 				'mkforms',
 				array(
 					'widget'				=> $this->_getName(),
@@ -58,7 +58,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			);
 			$sValue = 0;
 		}
-		
+
 //		$sLabel = $this->oForm->getConfig()->getLLLabel($this->aElement['label']);
 		$sLabel = $this->getLabel();
 		$sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
@@ -129,7 +129,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		// Bei Validierunfs-Fehlern muss die Referenz und die Datei wieder gelöscht werden!
 		if(in_array('after-validation-nok', $aPoints))
 			$this->manageFile(false);
-		
+
 		// Die Value setzen, wenn Validierung OK war.
 		if(in_array('after-validation-ok', $aPoints))
 			$this->setValue($this->aUploaded['newSize']);
@@ -183,7 +183,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 //				$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 //				$sName = strtolower($oFileTool->cleanFileName($sName));
 			}
-			
+
 			$sTarget = $sTargetDir . $sName;
 			if(!$this->oForm->_defaultFalse('/data/overwrite', $this->aElement)) {
 				// rename the file if same name already exists
@@ -253,14 +253,14 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			$damData = tx_dam::index_process($sTarget);
 			$damUid = $damData[0]['uid'];
 		}
-		
+
 		// save damuid
 		$this->aUploaded['damid'] = $damUid;
-		
+
 		// Wir haben nun die UID des Bildes und müssen prüfen, ob es bereits zugeordnet ist
 		$refPics = $this->getReferencedMedia();
 		$refFiles = $refPics['files'];
-		
+
 		if(is_array($refFiles) && array_key_exists($damUid, $refFiles)) {
 			// The file is already referenced. Nothing to do
 			$this->setValue($aData['backup']);
@@ -281,10 +281,10 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			// Set the new reference
 			$newSize = $this->addReference($damUid);
 		}
-		
+
 		// save size
 		$this->aUploaded['newSize'] = $newSize;
-		
+
 		// darf hier noch nicht gesetzt werden,
 		// da sonst der file validator nicht funktioniert.
 		// wird in checkPoint gesetzt!
@@ -297,7 +297,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @return uid
 	 */
 	function getEntryId() {
-		
+
 		$entryId = $this->getForm()->getConfig()->get('/data/refuid/', $this->aElement);
 		if($entryId) {
 			$entryId = $this->getForm()->getRunnable()->callRunnable($entryId);
@@ -344,7 +344,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			// Nothing to do here
 			return;
 		}
-		
+
 		// Hier holen wir den kompletten Record.
 		$aStoredData = $this->getDataHandler()->_getStoredData();
 		$cValue = $aStoredData[$this->_getName()];
@@ -372,7 +372,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			)
 		);
 	}
-	
+
 	function getTargetFile() {
 		if(($mTargetFile = $this->_navConf('/data/targetfile')) !== FALSE) {
 			if($this->oForm->isRunneable($mTargetFile)) {
@@ -395,10 +395,10 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			$tableName = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
 		else
 			$tableName = $this->_navConf("/data/reftable/", $this->aElement);
-			
+
 		return (strlen($tableName)) ? $tableName : $this->getDataHandler()->tableName();
 	}
-	
+
 	/**
 	 * Returns the a parameter maxobjects from the xml
 	 *
@@ -454,14 +454,14 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	function getDataHandler() {
 		return $this->getForm()->oDataHandler;
 	}
-	
+
 	function deleteFile($sFile) {
 		$mValues = t3lib_div::trimExplode(',', $this->getValue());
 		if(is_array($mValues))
 			unset($mValues[array_search($sFile, $mValues)]);
-		
+
 		@unlink($this->getFullServerPath($sFile));
-		
+
 		if(is_array($mValues))
 			$this->setValue(implode(',', $mValues));
 	}
@@ -488,7 +488,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			$GLOBALS['TYPO3_DB']->sql_query($sSql),
 			$sSql
 		);
-		
+
 		// Now count all items
 		$newSize = 0;
 		$where = 'tablenames=\'' . $tableName . '\' AND ident=\'' . $fieldName .'\' AND uid_foreign=' . $data['uid_foreign'];
@@ -502,7 +502,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			tx_rnbase::load('tx_rnbase_util_DB');
 			$res = tx_rnbase_util_DB::doUpdate($tableName, $where, $values);
 		}
-		
+
 		return $newSize;
 	}
 	/**
@@ -547,7 +547,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 */
 	function initBE4DAM($beUserId) {
 		global $PAGES_TYPES, $BE_USER, $TCA;
-		if(!is_array($PAGES_TYPES) || !array_key_exists(254)) {
+		if(!is_array($PAGES_TYPES) || !array_key_exists(254, $PAGES_TYPES)) {
 			// SysFolder als definieren
 			$PAGES_TYPES[254] = array(
 				'type' => 'sys',
@@ -576,7 +576,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
 			$GLOBALS['LANG']->init($BE_USER->uc['lang']);
 		}
-		
+
 	}
 
 	private function includeLibraries() {
@@ -590,7 +590,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		// JS-Lib ermitteln
 		$dir = $oJsLoader->getJSFrameworkId();
 		$sFile = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/js/'.$dir.'/ajaxfileupload.js';
-		
+
 		$oJsLoader->additionalHeaderData(
 			'<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sFile) . '"></script>',
 			'mkforms_damupload_includeonce'
@@ -638,11 +638,11 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 
 		$sAbsName = $this->_getElementHtmlIdWithoutFormId();
-		
+
 		$sInitScript =<<<INITSCRIPT
 		Formidable.f("{$this->getForm()->getFormId()}").o("{$sAbsName}").initAjaxUpload('{$button}');
 INITSCRIPT;
-		
+
 		$this->getForm()->attachPostInitTask($sInitScript,'postinit Ajax upload initialization', $this->_getElementHtmlId());
 	}
 
@@ -668,7 +668,7 @@ INITSCRIPT;
 
 	function handleAjaxRequest($oRequest) {
 		require_once(PATH_t3lib.'class.t3lib_basicfilefunc.php');
-	
+
 		$oFile = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 		$aData = $this->getForm()->getRawFile(FALSE, true);
 
@@ -681,7 +681,7 @@ INITSCRIPT;
 		} while (is_object($widget));
 		$myData = $aData;
 		foreach(array_reverse($path) as $p) $myData = $myData[$p];
-	
+
 		//Validieren
 		if($validate = $this->_navConf('/validate')) {
 			$errors = $this->getForm()->getValidationTool()->validateWidgets4Ajax(
