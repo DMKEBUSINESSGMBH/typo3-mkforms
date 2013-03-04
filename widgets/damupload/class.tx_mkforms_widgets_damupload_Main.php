@@ -38,25 +38,14 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 		$sValue = $this->getValue();
 
-		//@FIXME manchmal steckt ein array im value, was nie passieren darf!!!
-		//@TODO logging entfernen wenn bug gefixed!
-		if(!is_string($sValue)){
-			tx_rnbase::load('tx_rnbase_util_Logger');
-			tx_rnbase_util_Logger::fatal(
-				'Der value des Uploadfelds ist kein string, was nie passieren darf!',
-				'mkforms',
-				array(
-					'widget'				=> $this->_getName(),
-					'value' 				=> $sValue,
-					'XML config'			=> $this->getForm()->getConfig()->getConfigArray(),
-					'TS config'				=> $this->getForm()->getConfigurations()->getConfigArray(),
-					'events'				=> $this->_getEventsArray(),
-					'Validierungsfehler'	=> $this->getForm()->_aValidationErrors,
-					'$GET'					=> t3lib_div::_GET(),
-					'$POST'					=> t3lib_div::_POST(),
-				)
-			);
-			$sValue = 0;
+		//wenn die datei hochgeladen wurde und der value wurde nicht richtig
+		//gesetzt, dann holen wir das nach. das kann z.B. passieren wenn ein
+		//anderes widget nicht validiert wurde weil dann der checkpoint in checkPoint()
+		//nicht anspringt, der den value setzt. Das liegt am eigentlichen Bug beim setzen der
+		//checkpoints. after-validation-ok wird NACH dem render der widgets gesetzt. Also
+		//nachdem wir hier waren. Wir brauchen den value aber hier!
+		if(!is_string($sValue) && $this->aUploaded){
+			$this->setValue($this->aUploaded['newSize']);
 		}
 
 //		$sLabel = $this->oForm->getConfig()->getLLLabel($this->aElement['label']);

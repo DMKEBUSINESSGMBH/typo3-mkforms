@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_upload' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -10,11 +10,11 @@ require_once(PATH_t3lib.'class.t3lib_basicfilefunc.php');
 tx_rnbase::load('tx_mkforms_util_Div');
 
 class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
-	
+
 	var $bArrayValue = true;
 	var $aUploaded = FALSE;	// array if file has just been uploaded
 	var $bUseDam = null;	// will be set to TRUE or FALSE, depending on /dam/use=boolean, default FALSE
-	
+
 	function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
 		parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
 		$this->aEmptyStatics['targetdir'] = AMEOSFORMIDABLE_VALUE_NOT_SET;
@@ -46,28 +46,30 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 		return FALSE;
 	}
-	
+
 	function _render() {
-		
+
 		if(($this->_navConf('/data/targetdir') === FALSE) && ($this->_navConf('/data/targetfile') === FALSE)) {
 			$this->oForm->mayday("renderlet:UPLOAD[name=" . $this->_getName() . "] You have to provide either <b>/data/targetDir</b> or <b>/data/targetFile</b> for renderlet:UPLOAD to work properly.");
 		}
-		
+
 		$sValue = $this->getValue();
-		
+
 		//@FIXME manchmal steckt ein array im value, was nie passieren darf!!!
+		//@see tx_mkforms_widgets_damupload_Main::_render() Zeile 47
+		//evtl. hilt dieser bugfix auch
 		if(!is_string($sValue)){
 			$sValue = 0;
 		}
-		
+
 		$sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
 		$sInput .= '<input type="hidden" name="' . $this->_getElementHtmlName() . '[backup]" value="' . $this->getValueForHtml($sValue) . '" />';
-		
+
 		if(!empty($sValue) && $this->defaultTrue('showfilelist')) {
 			$aValues = t3lib_div::trimExplode(',', $this->getValueForHtml($sValue));
-		
+
 			reset($aValues);
-		
+
 			$sLinks = array();
 			while(list($sKey,) = each($aValues)) {
 				$sWebPath = tx_mkforms_util_Div::toWebPath(
@@ -75,15 +77,15 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 				);
 				$aLinks[] = '<a href="' . $sWebPath . '" target="_blank">' . $aValues[$sKey] . '</a>';
 			}
-			
+
 			$sLis = '<li>' . implode('</li><li>', $aValues) . '</li>';
 			$sLinkLis = '<li>' . implode('</li><li>', $aLinks) . '</li>';
 			$sValueCvs = implode(', ', $aValues);
 			$sLinkCvs = implode(', ', $aLinks);
-			
+
 			$sValuePreview = '';
-			
-	
+
+
 			if((trim($sValue) !== '') && ($this->defaultTrue('showlink') === TRUE)) {
 				if(trim($sLinkCvs) !== '') {
 					$sValuePreview = $sLinkCvs . '<br />';
@@ -94,7 +96,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 				}
 			}
 		}
-		
+
 		$aRes = array(
 			'__compiled' => $this->_displayLabel($this->getLabel()) . $sValuePreview . $sInput,
 			'input' => $sInput,
@@ -192,7 +194,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 						$oFileTool->cleanFileName($sName)
 					);
 				}
-				
+
 				$sTarget = $sTargetDir . $sName;
 				if(!file_exists($sTargetDir)) {
 					if($this->defaultFalse('/data/targetdir/createifneeded') === TRUE) {
@@ -201,10 +203,10 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					}
 				}
 
-				
+
 				if(!$this->oForm->_defaultFalse('/data/overwrite', $this->aElement)) {
 					// rename the file if same name already exists
-					
+
 					$sExt = ((strpos($sName,'.') === FALSE) ? '' : '.' . substr(strrchr($sName, '.'), 1));
 
 					for($i=1; file_exists($sTarget); $i++) {
@@ -230,13 +232,13 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 						$this->getServerPath($sName)
 					);
 				}
-				
+
 				$sCurFile = $sName;
 
 
 				if($this->isMultiple()) {
 					// csv string of file names
-					
+
 					if($this->oForm->oDataHandler->_edition() === FALSE || $this->_renderOnly()) {
 						//$aPost = $this->oForm->oDataHandler->_P();
 						$sCurrent = $aData['backup'];
@@ -245,12 +247,12 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					}
 
 					if($sCurrent !== '') {
-						
+
 						$aCurrent = t3lib_div::trimExplode(',', $sCurrent);
 						if(!in_array($sCurFile, $aCurrent)) {
 							$aCurrent[] = $sCurFile;
 						}
-						
+
 						// adding filename to list
 						$this->setValue(implode(',', $aCurrent));
 					} else {
@@ -264,16 +266,16 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					$this->setValue($sCurFile);
 				}
 			}
-			
+
 			$this->handleDam();
-			
+
 		} else {
 
 			$aStoredData = $this->oForm->oDataHandler->_getStoredData();
 
 			if(($this->oForm->oDataHandler->_edition() === FALSE) || (!array_key_exists($this->_getName(), $aStoredData))) {
 				//$aPost = $this->oForm->oDataHandler->_P();
-				
+
 
 				if(is_string($aData)) {
 					if($this->bForcedValue === TRUE) {
@@ -296,12 +298,12 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					$this->setValue($sBackup);
 				}
 			} else {
-				
+
 				$sStoredData = $aStoredData[$this->_getName()];
 				if(!is_string($sStoredData)){
 					tx_rnbase::load('tx_rnbase_util_Logger');
 					tx_rnbase_util_Logger::fatal(
-						'Der value des Uploadfelds ist kein string, was nie passieren darf!', 
+						'Der value des Uploadfelds ist kein string, was nie passieren darf!',
 						'mkforms',
 						array(
 							'widget'				=> $this->_getName(),
@@ -386,7 +388,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 	}
 
 	function useDam() {
-		
+
 		if(is_null($this->bUseDam)) {
 			if($this->oForm->_defaultFalse('/dam/use', $this->aElement) === TRUE) {
 				if(!t3lib_extmgm::isLoaded('dam')) {
@@ -405,7 +407,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 	function handleDam() {
 		if($this->useDam()) {
-			
+
 			if($this->isMultiple()) {
 				$aFiles = t3lib_div::trimExplode(',', $this->getValue());
 			} else {
@@ -415,10 +417,10 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 			reset($aFiles);
 			while(list(, $sFileName) = each($aFiles)) {
 				$sFilePath = $this->getServerPath($sFileName);
-				
+
 				tx_dam::notify_fileChanged($sFilePath);
 				$oMedia = tx_dam::media_getForFile($sFilePath);
-				
+
 				if($this->oForm->_defaultTrue('/dam/trackusage', $this->aElement) !== FALSE) {
 					/*$aFileUsages = tx_dam_db::getMediaUsageReferences(
 						$oMedia,
@@ -454,7 +456,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					}
 
 					if($this->oForm->isRunneable($mCategories)) {
-						$mCategories = $this->getForm()->getRunnable()->callRunnableWidget($this, 
+						$mCategories = $this->getForm()->getRunnable()->callRunnableWidget($this,
 							$mCategories,
 							array(
 								'filename' => $sFileName,
@@ -492,29 +494,29 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 	function damify($sAbsPath) {
 		if($this->useDam()) {
-			
+
 			global $PAGES_TYPES;
 			if(!isset($PAGES_TYPES)) {
 				require_once(PATH_t3lib.'stddb/tables.php');
 			}
-			
+
 			$bSimulatedUser = FALSE;
 			global $BE_USER;
 
 			// Simulate a be user to allow DAM to write in DB
 				// see http://lists.typo3.org/pipermail/typo3-project-dam/2009-October/002751.html
 				// and http://lists.netfielders.de/pipermail/typo3-project-dam/2006-August/000481.html
-				
+
 			if(!isset($BE_USER) || !is_object($BE_USER) || intval($GLOBALS['BE_USER']->user['uid']) === 0) {
 				// no be_user available
 					// we are using the one created for formidable+dam, named _formidable+dam
-				
+
 				$rSql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'uid',
 					'be_users',
 					'LOWER(username)=\'_formidable+dam\''	// no enableFields, as this user may should disabled for security reasons
 				);
-				
+
 				if(($aRs = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($rSql)) !== FALSE) {
 					// we found user _formidable+dam
 						// simulating user
@@ -532,23 +534,23 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 				}
 			}
 
-			
+
 			tx_dam::notify_fileChanged($sAbsPath);
 				// previous line don't work anymore for some obscure reason.
 					// Error seems to be in tx_dam::index_autoProcess()
 					// at line 1332 while checking config value of setup.indexing.auto
 					// EDIT: works now, http://lists.typo3.org/pipermail/typo3-project-dam/2009-October/002749.html
-			
-			
+
+
 			if($bSimulatedUser === TRUE) {
 				unset($BE_USER);
 				unset($GLOBALS['BE_USER']);
 			}
-					
+
 			$oMedia = tx_dam::media_getForFile($sAbsPath);
 			return $oMedia->meta['uid'];
 		}
-		
+
 		return basename($sAbsPath);
 	}
 }
