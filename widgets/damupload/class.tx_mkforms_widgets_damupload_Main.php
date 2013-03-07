@@ -49,11 +49,9 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			$sValue = $this->aUploaded['newSize'];
 		}
 
-//		$sLabel = $this->oForm->getConfig()->getLLLabel($this->aElement['label']);
 		$sLabel = $this->getLabel();
 		$sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
-		$sInput .= '<input type="hidden" name="' . $this->_getElementHtmlName() . '[backup]" value="' . $sValue . '" />';
-		$sLis = '<li>' . implode('</li><li>', t3lib_div::trimExplode(',', htmlspecialchars($sValue))) . '</li>';
+
 		// Das Value ist die Liste der Dateinamen
 		// Wir brauchen den Tabellennamen und den Spaltennamen
 		$sValuePreview = '';
@@ -70,11 +68,6 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$aRes = array(
 			'__compiled' =>  $this->_displayLabel($sLabel) . $sValuePreview . $sInput,
 			'input' => $sInput,
-			'filelist.' => array(
-				'csv' => $sValue,
-				'ol' => '<ol>' . $sLis . '</ol>',
-				'ul' => '<ul>' . $sLis . '</ul>',
-			),
 			'value' => $sValue,
 			'value.' => array(
 				'preview' => $sValuePreview,
