@@ -46,6 +46,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		//nachdem wir hier waren. Wir brauchen den value aber hier!
 		if(!is_string($sValue) && $this->aUploaded){
 			$this->setValue($this->aUploaded['newSize']);
+			$sValue = $this->aUploaded['newSize'];
 		}
 
 //		$sLabel = $this->oForm->getConfig()->getLLLabel($this->aElement['label']);
