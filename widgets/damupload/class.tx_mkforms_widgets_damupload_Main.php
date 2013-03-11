@@ -157,14 +157,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 //			$sName = basename($aData['name']);
 			$sName = $aData['name'];
 			if($this->getForm()->_defaultTrue('/data/cleanfilename', $this->aElement)) {
-				// Bug 548: Sonderzeichen beim Upload werden nicht ersetzt.
-				// Die TYPO3 Filefunktions wirken nicht wie gewünscht...
-				setlocale (LC_ALL, 'de_DE@euro');
-				$sName = preg_replace('/[äÄüÜöÖß]/','_',trim($sName));
-//				$sName = preg_replace('/[^.[:alnum:]_-]/','_',trim($sName));
-				$sName = preg_replace('/\.*$/','',$sName);
-//				$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-//				$sName = strtolower($oFileTool->cleanFileName($sName));
+				$sName = tx_mkforms_util_Div::cleanupFileName($sName);
 			}
 
 			$sTarget = $sTargetDir . $sName;

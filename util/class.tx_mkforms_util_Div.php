@@ -957,6 +957,42 @@ ERRORMESSAGE;
 	}
 
 	/**
+	 * Wir lassen als Dateinamen nur Buchstaben, Zahlen,
+	 * Bindestrich, Unterstrich und Punkt zu.
+	 * Umlaute und Sonderzeichen werden versucht in lesbare Buchstaben zu parsen.
+	 * Nicht zulässige Zeichen werden in einen Unterstrich umgewandelt.
+	 * Der Dateiuname wird immer in Kleinbuchstaben umgewandelt!
+	 *
+	 * @param string $name
+	 * @return string
+	 */
+	public static function cleanupFileName($name) {
+		$cleaned = $name;
+		if (function_exists('iconv')) {
+			tx_rnbase::load('tx_rnbase_util_Strings');
+			$charset = tx_rnbase_util_Strings::isUtf8String($cleaned)
+				? 'UTF-8' : 'ISO-8859-1';
+			$oldLocal = setlocale(LC_ALL, 0);
+			setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'deu_deu', 'de', 'ge');
+			$cleaned = iconv($charset, 'ASCII//TRANSLIT', $cleaned);
+			setlocale(LC_ALL, $oldLocal);
+		}
+		$cleaned = preg_replace('/[^A-Za-z0-9-_.]/', '_', $cleaned);
+		return strtolower($cleaned);
+		### Das ist der Alte Code aus dem Uploadwidget ###
+		##################################################
+		// Bug 548: Sonderzeichen beim Upload werden nicht ersetzt.
+		// Die TYPO3 Filefunktions wirken nicht wie gewünscht...
+//		setlocale (LC_ALL, 'de_DE@euro');
+//		$sName = preg_replace('/[äÄüÜöÖß]/','_',trim($sName));
+//		$sName = preg_replace('/[^.[:alnum:]_-]/','_',trim($sName));
+//		$sName = preg_replace('/\.*$/','',$sName);
+//		/* @var $oFileTool t3lib_basicFileFunctions */
+// 		$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+// 		$sName = strtolower($oFileTool->cleanFileName($sName));
+	}
+
+	/**
 	 * Liefert bestimmte Pfade
 	 */
 	public static function getSetupByKeys($tsSetup, $keys){

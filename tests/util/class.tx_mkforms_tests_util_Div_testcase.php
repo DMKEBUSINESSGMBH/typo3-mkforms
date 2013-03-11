@@ -27,20 +27,20 @@
  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
 tx_rnbase::load('tx_mkforms_util_Div');
-	
+
 /**
  * Array util tests
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
 class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
-	
+
 	public function testToCamelCase() {
 		$this->assertEquals('FeUsers',tx_mkforms_util_Div::toCamelCase('fe_users'));
 		$this->assertEquals('feUsers',tx_mkforms_util_Div::toCamelCase('fe_users', '_', true));
 		$this->assertEquals('TxMklibWordlist',tx_mkforms_util_Div::toCamelCase('tx_mklib_wordlist'));
 		$this->assertEquals('TxMklibTestsUtilStringTestcase',tx_mkforms_util_Div::toCamelCase('tx_mklib_tests_util_String_testcase'));
-		
+
 	}
 	public function testGetSetupByKeys(){
 		$aConfig = array(
@@ -86,16 +86,46 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(array_key_exists('mkextension.', $aArray['lib.']), 'lib.mkextension. not found in array.');
 		$this->assertTrue(array_key_exists('installed', $aArray['lib.']['mkextension.']), 'lib.mkextension.installed not found in array.');
 		$this->assertTrue((bool) $aArray['lib.']['mkextension.']['installed'], 'lib.mkextension.installed is not true.');
-		
+
 		$this->assertTrue(array_key_exists('plugin.', $aArray), 'plugin. not found in array.');
 		$this->assertTrue(array_key_exists('tx_mkforms', $aArray['plugin.']), 'plugin.tx_mkforms not found in array.');
 		$this->assertEquals('USER_INT', $aArray['plugin.']['tx_mkforms'], 'plugin.tx_mkforms not USER_INT.');
 		$this->assertTrue(array_key_exists('tx_mkforms.', $aArray['plugin.']), 'plugin.tx_mkforms. not found in array.');
 		$this->assertTrue(array_key_exists('genericTemplate', $aArray['plugin.']['tx_mkforms.']), 'plugin.tx_mkforms.genericTemplate not found in array.');
 		$this->assertEquals('EXT:mkforms/templates/formonly.html', $aArray['plugin.']['tx_mkforms.']['genericTemplate'], 'plugin.tx_mkforms.genericTemplate has wrong value.');
-		
+
 		$this->assertFalse(array_key_exists('tx_mkextension.', $aArray['plugin.']), 'plugin.tx_mkextension. found in array.');
 		$this->assertFalse(array_key_exists('config.', $aArray), 'config. found in array.');
+	}
+
+	/**
+	 * @dataProvider providerCleanupFileName
+	 */
+	public function testCleanupFileName($actual, $expected) {
+		$cleaned = tx_mkforms_util_Div::cleanupFileName($actual);
+		$this->assertEquals($expected, $cleaned);
+	}
+	public function providerCleanupFileName() {
+		return array(
+			'Line ' . __LINE__ => array(
+				'Süß_&_Snack.pdf', 's_uss___snack.pdf',
+			),
+			'Line ' . __LINE__ => array(
+				'Lebenslauf.pdf', 'lebenslauf.pdf',
+			),
+			'Line ' . __LINE__ => array(
+				'ABCDEFGHIJKLMNOPQRSTUVWXYZ.0987654321.jpg', 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
+			),
+			'Line ' . __LINE__ => array(
+				'abcdefghijklmnopqrstuvwxyz.0987654321.jpg', 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
+			),
+			'Line ' . __LINE__ => array(
+				'ÄÖÜ&äöü.gif', '_a_o_u__a_o_u.gif',
+			),
+			'Line ' . __LINE__ => array(
+				'-_!"§$%&/()=?²³{[]}\^@€.jpg', '-___ss_________2_3_______eur.jpg',
+			),
+		);
 	}
 }
 
