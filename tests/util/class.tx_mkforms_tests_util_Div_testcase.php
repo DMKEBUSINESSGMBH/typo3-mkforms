@@ -102,17 +102,19 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 	 * @dataProvider providerCleanupFileName
 	 */
 	public function testCleanupFileName($actual, $expected) {
+		if (strpos(t3lib_div::getHostname(),'project.dmknet.de') === FALSE) {
+			// die Tests wurden direct für die locales konfig auf dmknet abgestimmt!
+			$this->markTestSkipped('Dieser Test kann wegen den locale' .
+				' Einstellungen nur auf project.dmknet.de ausgeführt werden.');
+		}
 		$cleaned = tx_mkforms_util_Div::cleanupFileName($actual);
 		$this->assertEquals($expected, $cleaned);
 	}
 	public function providerCleanupFileName() {
-		// @TODO: Umlaute und einige Sonderzeichen erzeugen auf
-		// verschiedenen Systemen unterschiedliche ergebnisse.
-		// Schuld ist hier die locale einstellung, die von System abhängig ist.
 		return array(
-// 			'Line ' . __LINE__ => array(
-// 				'Süß_&_Snack.pdf', 's_uss___snack.pdf',
-// 			),
+			'Line ' . __LINE__ => array(
+				'Süß_&_Snack.pdf', 'suess___snack.pdf',
+			),
 			'Line ' . __LINE__ => array(
 				'Lebenslauf.pdf', 'lebenslauf.pdf',
 			),
@@ -122,12 +124,12 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 			'Line ' . __LINE__ => array(
 				'abcdefghijklmnopqrstuvwxyz.0987654321.jpg', 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
 			),
-// 			'Line ' . __LINE__ => array(
-// 				'ÄÖÜ&äöü.gif', '_a_o_u__a_o_u.gif',
-// 			),
-// 			'Line ' . __LINE__ => array(
-// 				'-_!"§$%&/()=?²³{[]}\^@€.jpg', '-___ss_________2_3_______eur.jpg',
-// 			),
+			'Line ' . __LINE__ => array(
+				'ÄÖÜ&äöü.gif', 'aeoeue_aeoeue.gif',
+			),
+			'Line ' . __LINE__ => array(
+				'-_!"§$%&/()=?²³{[]}\^@€.jpg', '-_____________________eur.jpg',
+			),
 		);
 	}
 }
