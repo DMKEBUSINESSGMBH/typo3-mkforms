@@ -1944,6 +1944,10 @@ INITSCRIPT;
 	 * @see formidable_mainrenderlet::checkValue()
 	 */
 	public function checkValue(&$aGP) {
+		if(empty($aGP)) {
+			return;
+		}
+		
 		$aAllowedRdts = $this->getChilds();
 		//in $aGP sind alle möglichen Lister Elemente.
 		foreach ($aGP as $sRdtKey => &$aListerData) {
