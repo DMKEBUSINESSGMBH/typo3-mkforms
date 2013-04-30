@@ -126,8 +126,8 @@ TEMPLATE;
 					$wrapForm = t3lib_div::trimExplode('|', $sWrap);
 				}
 				$formMethod = 'post';
-				if(($formMethod = $oForm->getConfigXML()->get('/meta/form/method')) !== FALSE) {
-					$formMethod = trim($formMethod);
+				if(($formMethodFromXml = $oForm->getConfigXML()->get('/meta/form/method')) !== FALSE) {
+					$formMethod = trim($formMethodFromXml);
 				}
 				$aHtmlBag['FORMBEGIN'] = $wrapForm[0].'<form enctype="multipart/form-data" ' . $formid . $formaction . $formonsubmit . $formcustom . ' method="'.$formMethod.'">';
 				$aHtmlBag['FORMEND'] = '</form>'.$wrapForm[1];
