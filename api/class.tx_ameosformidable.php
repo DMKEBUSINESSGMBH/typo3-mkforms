@@ -2110,6 +2110,9 @@ SANDBOXCLASS;
 		#$this->fetchServerEvents();	// moved just after call to initRenderlets()
 
 		$this->checkPoint(array('before-render',));
+		
+		//submit mode merken
+		$this->setIsFullySubmitted();
 
 		$this->bRendered = TRUE;
 
@@ -2469,9 +2472,6 @@ SANDBOXCLASS;
 
 		//debug($this->aAjaxEvents);
 		$this->bStoreFormInSession = ($this->bStoreFormInSession || $this->_defaultFalse('/meta/keepinsession'));
-
-		//submit mode merken
-		$this->setIsFullySubmitted();
 
 		if($this->bStoreFormInSession === TRUE && !$this->isTestMode()) {
 			$sesMgr = tx_mkforms_session_Factory::getSessionManager();
