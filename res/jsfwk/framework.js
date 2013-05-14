@@ -549,7 +549,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 					sId = aInfo[2];
 				}
 				
-				if(sName.indexOf('::')) {
+				if(sName.indexOf('::') && sName.slice(0, 10) != "rowInput::") {
 					// Freie Parameterübergabe
 					aInfo = sName.split("::");
 					sKey = aInfo[0];
