@@ -987,7 +987,8 @@
 
 			if(is_string($mValue)) {
 				tx_rnbase::load('tx_mkforms_util_Templates');
-				tx_mkforms_util_Templates::sanitizeStringForTemplateEngine(htmlspecialchars($mValue));
+				$mValue = 
+					tx_mkforms_util_Templates::sanitizeStringForTemplateEngine(htmlspecialchars($mValue));
 			}
 
 			return $mValue;
