@@ -1587,8 +1587,14 @@ ERRORMESSAGE;
 					$this->aRdtByRow[$sUid][$sName] = $oWidget->_getElementHtmlId();
 
 					// Den Wert zuerst aus den Parametern holen, danach die datasource fragen
-					$mValue = $bUseGP ? $oWidget->getValue() : false;
-					if (is_null($mValue) && array_key_exists($sName, $aRow)) {
+					$mValue = ($bUseGP && $oWidget->_activeListable()) ? $oWidget->getValue() : null;
+					
+					// wenn das Formular nicht abgeschickt wurde aber $bUseGP && $oWidget->_activeListable() 
+					// gesetzt ist, dann ist $mValue null. Wenn das Formular abgeschickt wurde mit einem 
+					// leeren Wert dann ist $mValue nicht null sondern ein leerer string. Somit wird die
+					// datasource bei gesetztem $bUseGP nur noch angesprochen wenn das Formular
+					// nicht abgeschickt wurde oder !$oWidget->_activeListable(). 
+					if (is_null($mValue)  && array_key_exists($sName, $aRow)) {
 						$mValue = $aRow[$sName];
 					}
 
