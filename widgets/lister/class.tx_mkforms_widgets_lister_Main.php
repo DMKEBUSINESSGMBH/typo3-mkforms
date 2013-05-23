@@ -1588,7 +1588,7 @@ ERRORMESSAGE;
 
 					// Den Wert zuerst aus den Parametern holen, danach die datasource fragen
 					$mValue = $bUseGP ? $oWidget->getValue() : false;
-					if (!$mValue && array_key_exists($sName, $aRow)) {
+					if (is_null($mValue) && array_key_exists($sName, $aRow)) {
 						$mValue = $aRow[$sName];
 					}
 
