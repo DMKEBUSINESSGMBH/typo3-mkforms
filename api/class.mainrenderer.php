@@ -125,7 +125,11 @@ TEMPLATE;
 				if(($sWrap = $oForm->getConfigXML()->get('/meta/form/wrap')) !== FALSE) {
 					$wrapForm = t3lib_div::trimExplode('|', $sWrap);
 				}
-				$aHtmlBag['FORMBEGIN'] = $wrapForm[0].'<form enctype="multipart/form-data" ' . $formid . $formaction . $formonsubmit . $formcustom . ' method="post">';
+				$formMethod = 'post';
+				if(($formMethodFromXml = $oForm->getConfigXML()->get('/meta/form/method')) !== FALSE) {
+					$formMethod = trim($formMethodFromXml);
+				}
+				$aHtmlBag['FORMBEGIN'] = $wrapForm[0].'<form enctype="multipart/form-data" ' . $formid . $formaction . $formonsubmit . $formcustom . ' method="'.$formMethod.'">';
 				$aHtmlBag['FORMEND'] = '</form>'.$wrapForm[1];
 			}
 			reset($aHtmlBag);

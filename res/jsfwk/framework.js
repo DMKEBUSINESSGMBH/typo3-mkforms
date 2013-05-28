@@ -548,20 +548,20 @@ Formidable.Classes.FormBaseClass = Base.extend({
 					sReturnName = aInfo[1];
 					sId = aInfo[2];
 				}
-
-				if((oElement = this.o(sId))) {
+				
+				if(sName.indexOf('::') && sName.slice(0, 10) != "rowInput::") {
+					// Freie Parameterübergabe
+					aInfo = sName.split("::");
+					sKey = aInfo[0];
+					sName = aInfo[1];
+					aValues[sKey] = sName; // should be the value itselves
+				} else if((oElement = this.o(sId))) {
 					aValues[sReturnName] = oElement.getParamsForMajix(
 							oElement.getValue(), sEventName, aParams, aRowParams, aLocalArguments
 						);
 				} else if((oElement = MKWrapper.$(this.rdtIdByName(sName)))) {
 					aValues[sReturnName] = MKWrapper.$F(oElement);
 				} else {
-					if(sName.indexOf('::')) {
-						// Freie Parameterübergabe
-						aInfo = sName.split("::");
-						sKey = aInfo[0];
-						sName = aInfo[1];
-					}
 					aValues[sKey] = sName; // should be the value itselves
 				}
 			}

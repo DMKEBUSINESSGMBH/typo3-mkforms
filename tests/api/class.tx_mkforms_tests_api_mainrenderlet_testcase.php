@@ -111,6 +111,39 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		//der grenzwert sollte nicht überschritten werden
 		$this->assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
 	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testGetValueForHtmlConvertsHtmlSpecialCharsCorrectIfIsString() {
+		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+
+		$this->assertEquals(
+			'&quot;test&quot;',$mainRenderlet->getValueForHtml('"test"'), 'falsche bereinigt'
+		);
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testGetValueForHtmlConvertsCurlyBracketsCorrect() {
+		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+
+		$this->assertEquals(
+			'&#123;test&#125;',$mainRenderlet->getValueForHtml('{test}'), 'falsche bereinigt'
+		);
+	}
+	
+	/**
+	 * @group unit
+	 */
+	public function testGetValueForHtmlConvertsNotHtmlSpecialCharsCorrectIfIsArray() {
+		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+
+		$this->assertEquals(
+			array('test'),$mainRenderlet->getValueForHtml(array('test')), 'array bereinigt'
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
