@@ -127,7 +127,7 @@ config.tx_mkforms {
 	}
 
 	minify {
-		enabled = 0
+		enabled = 1
 		gzip = 1
 	}
 	
