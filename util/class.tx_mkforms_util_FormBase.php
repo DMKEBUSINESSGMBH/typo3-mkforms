@@ -47,7 +47,7 @@ class tx_mkforms_util_FormBase {
 	 */
 	protected static function getParent(tx_ameosformidable $form, $method = false){
 		$oParent = $form->getParent();
-		if($method && !method_exists($oParent, $method)){
+		if($method && (!method_exists($oParent, $method) || !is_callable(array($oParent, $method)))) {
 			return null;
 		}
 		return $oParent;
