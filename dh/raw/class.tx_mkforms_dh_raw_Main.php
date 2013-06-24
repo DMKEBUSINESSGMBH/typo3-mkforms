@@ -88,7 +88,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 			),__METHOD__.__LINE__);
 
 			//ohne exit kommt seit phpunit 3.6 kein output im browser an
-			exit;
+			exit(1);
 		}
 	}
 
