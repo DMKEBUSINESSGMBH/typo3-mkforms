@@ -382,6 +382,21 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 			$this->config = tx_mkforms_util_Config::createInstanceByTS($mXml, $this);
 		}
 
+		// usegp gesetzt?
+		if ($this->getConfigXML()->get('/meta/form/usegp') !== FALSE) {
+			// usegp aktiviert?
+			if ($this->getConfigXML()->defaultFalse('/meta/form/usegp')) {
+				$this->useGP(
+					$this->getConfigXML()->defaultTrue('/meta/form/usegpwithurldecode')
+				);
+			}
+		}
+		// use gp abhängig von der form method setzen
+		elseif ($this->getFormMethod() === tx_mkforms_util_Constants::FORM_METHOD_GET) {
+			$this->useGP(
+				$this->getConfigXML()->defaultTrue('/meta/form/usegpwithurldecode')
+			);
+		}
 
 	/***** DEBUG INIT *****
 	*
@@ -2110,7 +2125,7 @@ SANDBOXCLASS;
 		#$this->fetchServerEvents();	// moved just after call to initRenderlets()
 
 		$this->checkPoint(array('before-render',));
-		
+
 		//submit mode merken
 		$this->setIsFullySubmitted();
 
@@ -5328,6 +5343,43 @@ JAVASCRIPT;
 		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 		return $aSessionData['requestToken'][$this->getFormId()];
 	}
+
+
+
+	/**
+	 * Liefert die Methode, mit der das Formular abgesendetw erden soll
+	 *
+	 * @return string GET or POST
+	 */
+	public function getFormMethod() {
+		$method = strtoupper(trim($this->getConfigXML()->get('/meta/form/method')));
+		return $method === tx_mkforms_util_Constants::FORM_METHOD_GET
+			? tx_mkforms_util_Constants::FORM_METHOD_GET
+			: tx_mkforms_util_Constants::FORM_METHOD_POST
+		;
+	}
+	/**
+	 * Liefert den content type, mit der das Formular abgesendet werden soll
+	 *
+	 * @return string
+	 */
+	public function getFormEnctype() {
+		$enctype = trim($this->getConfigXML()->get('/meta/form/enctype'));
+		switch($enctype) {
+			case tx_mkforms_util_Constants::FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED:
+				return tx_mkforms_util_Constants::FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED;
+			case tx_mkforms_util_Constants::FORM_ENCTYPE_TEXT_PLAIN:
+				return tx_mkforms_util_Constants::FORM_ENCTYPE_TEXT_PLAIN;
+			case tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA:
+				return tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA;
+			default:
+				return  $this->getFormMethod() === tx_mkforms_util_Constants::FORM_METHOD_POST
+					? tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA
+					: tx_mkforms_util_Constants::FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED
+				;
+		}
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php'])	{

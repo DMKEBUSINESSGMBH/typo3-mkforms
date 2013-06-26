@@ -4,11 +4,12 @@
 
 	require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 	tx_rnbase::load('tx_mkforms_util_Div');
+	tx_rnbase::load('tx_mkforms_util_Constants');
 
 	if(t3lib_extMgm::isLoaded('mksanitizedparameters')){
 		require_once(t3lib_extMgm::extPath($_EXTKEY).'ext_rules.php');
 	}
-	
+
 	// Predefine cache
 	// This section has to be included in typo3conf/localconf.php!!
 //	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(

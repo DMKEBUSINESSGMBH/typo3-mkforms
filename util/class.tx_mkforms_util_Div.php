@@ -22,6 +22,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
+// @TODO: remove in 2 or 4 versions! it is only a localconf caching workaround
+tx_rnbase::load('tx_mkforms_util_Constants');
+
 
 /**
  * Some static util functions.

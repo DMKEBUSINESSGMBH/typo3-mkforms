@@ -111,6 +111,7 @@ TEMPLATE;
 
 				$formaction = ' action="' . $oForm->xhtmlUrl($oForm->getFormAction()) . '" ';
 
+				// @TODO: support für Codebehind implementieren!
 				if(($sOnSubmit = $oForm->_navConf('/meta/form/onsubmit')) !== FALSE) {
 					$formonsubmit = ' onSubmit="' . $sOnSubmit . '" ';
 				}
@@ -118,18 +119,20 @@ TEMPLATE;
 				if(($sCustom = $oForm->_navConf('/meta/form/custom')) !== FALSE) {
 					$formcustom = ' ' . $sCustom . ' ';
 				}
+
 				if(($sClass = $oForm->_navConf('/meta/form/class')) !== FALSE) {
 					$formcustom .= ' class="'.$sClass. '" ';
 				}
+
 				$wrapForm = array('','');
 				if(($sWrap = $oForm->getConfigXML()->get('/meta/form/wrap')) !== FALSE) {
 					$wrapForm = t3lib_div::trimExplode('|', $sWrap);
 				}
-				$formMethod = 'post';
-				if(($formMethodFromXml = $oForm->getConfigXML()->get('/meta/form/method')) !== FALSE) {
-					$formMethod = trim($formMethodFromXml);
-				}
-				$aHtmlBag['FORMBEGIN'] = $wrapForm[0].'<form enctype="multipart/form-data" ' . $formid . $formaction . $formonsubmit . $formcustom . ' method="'.$formMethod.'">';
+
+				$aHtmlBag['FORMBEGIN'] = $wrapForm[0]
+					. '<form enctype="'.$oForm->getFormEnctype().'" '
+					. $formid . $formaction . $formonsubmit . $formcustom
+					. ' method="'.$oForm->getFormMethod().'">';
 				$aHtmlBag['FORMEND'] = '</form>'.$wrapForm[1];
 			}
 			reset($aHtmlBag);
