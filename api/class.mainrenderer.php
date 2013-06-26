@@ -158,6 +158,7 @@ TEMPLATE;
 		 * @return string
 		 */
 		protected function getHiddenFieldsForUrlParams(&$url) {
+			$formId = $this->getForm()->getFormId();
 			$sysHidden = '';
 			$params = array();
 
@@ -166,7 +167,13 @@ TEMPLATE;
 				$params = t3lib_div::explodeUrl2Array($params);
 				$url = substr($url, 0, strpos($url, '?'));
 			}
+			// alle Parameter als Hidden Felder bereitstellen
 			foreach ($params as $name => $value) {
+				// nur für die Parameter, die nicht zum Formular gehören
+				// @TODO: die widgets prüfen, nicht nur den parametername!
+				if (t3lib_div::isFirstPartOfStr($name, $formId.'[')) {
+					continue;
+				}
 				$name = t3lib_div::removeXSS($name);
 				$value = t3lib_div::removeXSS($value);
 				$sysHidden .= '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
