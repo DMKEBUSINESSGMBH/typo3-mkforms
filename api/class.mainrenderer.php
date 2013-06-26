@@ -87,17 +87,6 @@ TEMPLATE;
 								'<input type="hidden" name="AMEOSFORMIDABLE_STEP_HASH" id="AMEOSFORMIDABLE_STEP_HASH" value="' . $oForm->_getSafeLock($oForm->_getStep()) . '" />';
 			}
 
-			$aHtmlBag =
-				array(
-					'SCRIPT'		=> '',
-					'FORMBEGIN'		=> '',
-					'CONTENT'		=> $html,
-					/*'HIDDEN'		=> $hidden_entryid . $hidden_custom . $sSysHidden,*/
-					// in P for XHTML validation
-					'HIDDEN'		=> '<p style="position:absolute; top:-5000px; left:-5000px;">' . $hidden_entryid . $hidden_custom . $sSysHidden . '</p>',
-					'FORMEND'		=> '',
-				);
-
 			if($this->bFormWrap) {
 
 				$formid			= '';
@@ -109,7 +98,7 @@ TEMPLATE;
 				/*$formid = " id=\"" . $iFormId . "\" name=\"" . $iFormId . "\" ";*/
 				$formid = ' id="' . $iFormId . '" ';
 
-				$formaction = ' action="' . $oForm->xhtmlUrl($oForm->getFormAction()) . '" ';
+				$formAction = $oForm->getFormAction();
 
 				// @TODO: support für Codebehind implementieren!
 				if(($sOnSubmit = $oForm->_navConf('/meta/form/onsubmit')) !== FALSE) {
@@ -129,14 +118,60 @@ TEMPLATE;
 					$wrapForm = t3lib_div::trimExplode('|', $sWrap);
 				}
 
-				$aHtmlBag['FORMBEGIN'] = $wrapForm[0]
+				if ($oForm->getFormMethod() === tx_mkforms_util_Constants::FORM_METHOD_GET) {
+					$sSysHidden .= $this->getHiddenFieldsForUrlParams($formAction);
+				}
+
+				$formBegin = $wrapForm[0]
 					. '<form enctype="'.$oForm->getFormEnctype().'" '
-					. $formid . $formaction . $formonsubmit . $formcustom
+					. ' action="'.$oForm->xhtmlUrl($formAction).'" '
+					. $formid . $formonsubmit . $formcustom
 					. ' method="'.$oForm->getFormMethod().'">';
-				$aHtmlBag['FORMEND'] = '</form>'.$wrapForm[1];
+				$formEnd = $hiddenFields . '</form>'.$wrapForm[1];
 			}
+			else {
+				$formBegin = $formEnd = '';
+			}
+
+			$aHtmlBag = array(
+					'SCRIPT'		=> '',
+					'FORMBEGIN'		=> $formBegin,
+					'CONTENT'		=> $html,
+					/*'HIDDEN'		=> $hidden_entryid . $hidden_custom . $sSysHidden,*/
+					// in P for XHTML validation
+					'HIDDEN'		=> '<p style="position:absolute; top:-5000px; left:-5000px;">' . $hidden_entryid . $hidden_custom . $sSysHidden . '</p>',
+					'FORMEND'		=> $formEnd,
+				);
+
 			reset($aHtmlBag);
 			return $aHtmlBag;
+		}
+
+		/**
+		 * Erzeugt anhand von einer URL hidden Felder, welche mit übergeben werden.
+		 * Dabei werden die Get-Parameter aus der Action URL entfernt.
+		 * Das ist wichtig, wenn das Formular mit GET abgeschickt wird
+		 * und die Action URL bereits GET Paremeter enthält.
+		 * Die in der URL enthaltenen Parameter gehen verloren!
+		 *
+		 * @param string $url
+		 * @return string
+		 */
+		protected function getHiddenFieldsForUrlParams(&$url) {
+			$sysHidden = '';
+			$params = array();
+
+			if (strpos($url, '?') !== FALSE) {
+				$params = substr($url, strpos($url, '?') + 1);
+				$params = t3lib_div::explodeUrl2Array($params);
+				$url = substr($url, 0, strpos($url, '?'));
+			}
+			foreach ($params as $name => $value) {
+				$name = t3lib_div::removeXSS($name);
+				$value = t3lib_div::removeXSS($value);
+				$sysHidden .= '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
+			}
+			return $sysHidden;
 		}
 
 		function _getFullSubmitEvent() {
