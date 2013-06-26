@@ -152,6 +152,17 @@ class tx_mkforms_util_Config {
 		if($mLabel{0} === "L" && t3lib_div::isFirstPartOfStr($mLabel, "LLL:")) {
 			if(TYPO3_MODE == "FE") {
 				// front end
+				if(!$GLOBALS["TSFE"]){
+					$message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann ' . 
+						'aus folgenden Grund passieren. Man hat ein autocomplete mit childs, ' .
+						'ein default LL aber keine label für die childs. Entweder wird kein ' . 
+						'default LL verwendet oder den childs wird ein label gegeben, die es' . 
+						'gar nicht geben muss da diese nicht gerendered werden.';
+					throw new Exception(
+						$message,
+						$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] . 2
+					);
+				}
 				return $GLOBALS["TSFE"]->sL($mLabel);
 			}
 			else {
