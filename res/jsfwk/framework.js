@@ -105,6 +105,7 @@ var Formidable = {
 				this.os = "linux";
 			}
 			else if (this.checkIt('safari')) 	{ this.name = "safari"; }
+			else if (this.checkIt('chrome')) 	{ this.name = "chrome"; }
 			else if (this.checkIt('omniweb')) 	{ this.name = "omniweb"; }
 			else if (this.checkIt('opera')) 	{ this.name = "opera"; }
 			else if (this.checkIt('webtv')) 	{ this.name = "webtv"; }
