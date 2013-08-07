@@ -85,47 +85,144 @@ var Formidable = {
 		sMessage = sMessage.replace(/^\s+|\s+$/g,"");
 		alert(sMessage);
 	},
+	//genommen von http://www.quirksmode.org/js/detect.html Stand 07.08.2013
+	//init Methode ist unsere getBrowserInfo Methode.
+	//Variablennamen anpassen (klein schreiben) und alle Browser identities/OS identities
+	//kleinschreiben
+	//
+	//notwendige/mögliche Bezeichner aus dem Original (sollten immer vorhanden bleiben):
+	//konqueror
+	//safari
+	//omniweb
+	//opera
+	//webtv
+	//icab
+	//internet explorer
+	//netscape
+	//
+	//OS:	
+	//linux
+	//unix
+	//mac
+	//windows
 	Browser: {
 		name: "",
 		version: "",
 		os: "",
 		total: "",
-		thestring: "",
-		place: "",
-		detect: navigator.userAgent.toLowerCase(),
-		checkIt: function(string) {
-			this.place = this.detect.indexOf(string) + 1;
-			this.thestring = string;
-			return this.place;
-		},
 		getBrowserInfo: function() {
-			//Browser detect script originally created by Peter Paul Koch at http://www.quirksmode.org/
-			if (this.checkIt('konqueror')) {
-				this.name = "konqueror";
-				this.os = "linux";
+			this.name = this.searchString(this.dataBrowser) || "An unknown browser";
+			this.version = this.searchVersion(navigator.userAgent)
+				|| this.searchVersion(navigator.appVersion)
+				|| "an unknown version";
+			this.os = this.searchString(this.dataOS) || "an unknown OS";
+		},
+		searchString: function (data) {
+			for (var i=0;i<data.length;i++)	{
+				var dataString = data[i].string;
+				var dataProp = data[i].prop;
+				this.versionSearchString = data[i].versionSearch || data[i].identity;
+				if (dataString) {
+					if (dataString.indexOf(data[i].subString) != -1)
+						return data[i].identity;
+				}
+				else if (dataProp)
+					return data[i].identity;
 			}
-			else if (this.checkIt('safari')) 	{ this.name = "safari"; }
-			else if (this.checkIt('chrome')) 	{ this.name = "chrome"; }
-			else if (this.checkIt('omniweb')) 	{ this.name = "omniweb"; }
-			else if (this.checkIt('opera')) 	{ this.name = "opera"; }
-			else if (this.checkIt('webtv')) 	{ this.name = "webtv"; }
-			else if (this.checkIt('icab')) 		{ this.name = "icab"; }
-			else if (this.checkIt('msie')) 		{ this.name = "internet explorer"; }
-			else if (!this.checkIt('compatible'))
-												{ this.name = "netscape";
-												  this.version = this.detect.charAt(8); }
-			else 								{ this.name = "unknown"; }
-
-			if (!this.version) { this.version = this.detect.charAt(this.place + this.thestring.length); }
-
-			if (!this.os) {
-				if (this.checkIt('linux')) 		{ this.os = "linux"; }
-				else if (this.checkIt('x11')) 	{ this.os = "unix"; }
-				else if (this.checkIt('mac')) 	{ this.os = "mac"; }
-				else if (this.checkIt('win')) 	{ this.os = "windows"; }
-				else 							{ this.os = "unknown"; }
+		},
+		searchVersion: function (dataString) {
+			var index = dataString.indexOf(this.versionSearchString);
+			if (index == -1) return;
+			return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+		},
+		dataBrowser: [
+			{
+				string: navigator.userAgent,
+				subString: "Chrome",
+				identity: "chrome"
+			},
+			{ 	string: navigator.userAgent,
+				subString: "OmniWeb",
+				versionSearch: "OmniWeb/",
+				identity: "omniweb"
+			},
+			{
+				string: navigator.vendor,
+				subString: "Apple",
+				identity: "safari",
+				versionSearch: "Version"
+			},
+			{
+				prop: window.opera,
+				identity: "opera",
+				versionSearch: "Version"
+			},
+			{
+				string: navigator.vendor,
+				subString: "iCab",
+				identity: "icab"
+			},
+			{
+				string: navigator.vendor,
+				subString: "KDE",
+				identity: "konqueror"
+			},
+			{
+				string: navigator.userAgent,
+				subString: "Firefox",
+				identity: "firefox"
+			},
+			{
+				string: navigator.vendor,
+				subString: "Camino",
+				identity: "camino"
+			},
+			{		// for newer Netscapes (6+)
+				string: navigator.userAgent,
+				subString: "Netscape",
+				identity: "netscape"
+			},
+			{
+				string: navigator.userAgent,
+				subString: "MSIE",
+				identity: "internet explorer",
+				versionSearch: "MSIE"
+			},
+			{
+				string: navigator.userAgent,
+				subString: "Gecko",
+				identity: "mozilla",
+				versionSearch: "rv"
+			},
+			{ 		// for older Netscapes (4-)
+				string: navigator.userAgent,
+				subString: "Mozilla",
+				identity: "netscape",
+				versionSearch: "Mozilla"
 			}
-		}
+		],
+		dataOS : [
+			{
+				string: navigator.platform,
+				subString: "Win",
+				identity: "windows"
+			},
+			{
+				string: navigator.platform,
+				subString: "Mac",
+				identity: "mac"
+			},
+			{
+				   string: navigator.userAgent,
+				   subString: "iPhone",
+				   identity: "iPhone/iPod"
+		    },
+			{
+				string: navigator.platform,
+				subString: "Linux",
+				identity: "linux"
+			}
+		]
 	},
 	Position: {
 		/* caught at http://textsnippets.com/tag/dimensions */
