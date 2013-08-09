@@ -30,6 +30,15 @@
 
 class tx_mkforms_validator_preg_Main extends formidable_mainvalidator {
 
+	/**
+	 * Beispiel Regex:
+	 * 
+	 * keine Zahlen erlaubt: !/[0-9]/
+	 * nur Zahlen erlaubt: /[0-9]/
+	 * 
+	 * (non-PHPdoc)
+	 * @see formidable_mainvalidator::validate()
+	 */
 	function validate(&$oRdt) {
 
 		$sAbsName = $oRdt->getAbsName();
