@@ -22,21 +22,21 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.tx_ameosformidable.php');
+require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 /**
  * Factory for forms.
- * 
+ *
  */
 class tx_mkforms_forms_Factory {
 	/**
 	 * Create form instance
 	 *
 	 * @param string $name
-	 * @return tx_ameosformidable
+	 * @return tx_mkforms_forms_Base
 	 */
 	public static function createForm($name) {
-		return new tx_ameosformidable($name);
+		return tx_rnbase::makeInstance('tx_mkforms_forms_Base', $name);
 	}
 }
 
