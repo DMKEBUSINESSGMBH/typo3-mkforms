@@ -71,33 +71,18 @@ class tx_mkforms_util_AutoLoad {
 		ini_set('unserialize_callback_func', self::$sUnserializeCallbackFuncOld);
 	}
 	
-//	/**
-//	 * lädt xclasses
-//	 */
-//	public static function loadXClasses(){
-//		if(self::$bXclassLoaded) { return; }
-//		global $TYPO3_CONF_VARS;
-//		foreach($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS'] as $sKey => $sPath) {
-//			// xclasses nur von den basisextensions laden!?
-//			if(
-//				t3lib_div::isFirstPartOfStr($sKey, 't3lib')
-//				|| t3lib_div::isFirstPartOfStr($sKey, 'tslib')
-//			)
-//			{	require_once($sPath); }
-//
-//		}
-//		self::$bXclassLoaded = true;
-//	}
 	
 	/**
-	 * Wird von serialize aufgerufen, wenn eine Klasse nicht geladen ist
+	 * Wird von serialize aufgerufen, wenn eine Klasse nicht geladen ist.
+	 * das sollte nicht passieren. wenn diese meldung auftritt, dann muss geprüft werden
+	 * warum die Klasse in den Cache geschrieben wurde.
+	 * In tx_mkforms_session_MixedSessionManager::persistForm bzw. in
+	 * tx_ameosformidable::cleanBeforeSession sollte eigentlich alles rausfliegen
+	 * was Probleme macht.
+	 * 
 	 * @param string $sClassName
 	 */
 	public static function unserializeCallbackFunc($sClassName){
-		// das funktioniert so nicht, da die Klassen,
-		// welche überschrieben werden nicht zwangsläufig geladen sein müssen > fatal error
-//		self::loadXClasses();
-		
 		$msg = false;
 		try { // klasse laden
 			
@@ -122,13 +107,6 @@ class tx_mkforms_util_AutoLoad {
 					)
 				)
 			);
-		
-//		print_r(array(
-//				$sClassName,
-//				class_exists($sClassName),
-//				$msg,
-//				'DEBUG: '.__METHOD__.' Line: '.__LINE__
-//			)); // @TODO: remove me
 		
 		//noch loggen
 		tx_rnbase::load('tx_rnbase_util_Logger');
