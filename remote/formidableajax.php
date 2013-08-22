@@ -1,12 +1,12 @@
 <?php
-	
+
 //	die("<b>NOT IMPLEMENTED FOR THE MOMENT !!!</b>");
 
 // Exit, if script is called directly (must be included via eID in index_ts.php)
 if (!defined ('PATH_typo3conf')) 	die ('Could not access this script directly!');
 
 class formidableajax {
-	
+
 	var $aRequest	= array();
 	var $aConf		= FALSE;
 	var $aSession	= array();
@@ -83,7 +83,7 @@ class formidableajax {
 
 		global $TYPO3_CONF_VARS; // wichtig für xclasses
 		require_once(PATH_tslib . 'class.tslib_content.php');
-		require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.tx_ameosformidable.php');
+		tx_rnbase::load('tx_mkforms_forms_Base');
 		tx_rnbase::load('tx_mkforms_util_Div');
 		tx_rnbase::load('tx_mkforms_util_Config');
 		tx_rnbase::load('tx_mkforms_util_Validation');
@@ -98,7 +98,7 @@ class formidableajax {
 		if(!$this->oForm) {
 			$this->denyService('no hibernate; Check: that you have cookies enabled; that the formidable is NOT CACHED; Please configure the Cache for mkforms. @see ext_localconf.php');
 		}
-		
+
 		$sesMgr->setForm($this->oForm);
 		$formid = $this->oForm->getFormId();
 //$start = microtime(true);
@@ -156,7 +156,7 @@ class formidableajax {
 			$this->oForm->aODataSources[$sKey]->awakeInSession($this->oForm);
 		}
 		$this->ttTimes['dsrest'] = microtime(true) - $start;
-		
+
 		$this->aRequest['params'] = $this->oForm->json2array($this->aRequest['value']);
 		$this->aRequest['trueargs'] = $this->oForm->json2array($this->aRequest['trueargs']);
 
@@ -169,7 +169,7 @@ class formidableajax {
 	function _initFeUser() {
 		tslib_eidtools::initFeUser();
 	}
-	
+
 	public function handleRequest() {
 		$this->oForm->aInitTasksAjax = array();
 		$this->oForm->aPostInitTasksAjax = array();
@@ -189,7 +189,7 @@ class formidableajax {
 				if(!$widget) throw new Exception('Widget '.htmlspecialchars($thrower) . ' not found!');
 				$aData = $widget->handleAjaxRequest($this);
 			}
-			
+
 			if(!is_array($aData)) {
 				$aData = array();
 			}
@@ -221,7 +221,7 @@ class formidableajax {
 				)
 			);
 		}
-		
+
 		$this->archiveRequest($this->aRequest);
 
 		if(($sCharset = $this->oForm->_navConf('charset', $this->oForm->aAjaxEvents[$this->aRequest['eventid']]['event'])) === FALSE) {
@@ -229,7 +229,7 @@ class formidableajax {
 				$sCharset = 'UTF-8';
 			}
 		}
-		
+
 		$sesMgr = tx_mkforms_session_Factory::getSessionManager();
 		$sesMgr->persistForm(true);
 
@@ -251,7 +251,7 @@ class formidableajax {
 	 * @param String $sMessage
 	 */
 	public function denyService($sMessage) {
-		
+
 		header('Content-Type: text/plain; charset=UTF-8');
 		die('{/* SERVICE DENIED: ' . $sMessage . ' */}');
 	}
@@ -362,7 +362,7 @@ class formidableajax {
 
 		$sThrower = $this->aRequest['thrower'];
 		$aWho = explode(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, $sThrower);
-		
+
 		if(count($aWho) > 1) {
 			array_shift($aWho);
 			return implode(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, $aWho);
@@ -392,15 +392,15 @@ class formidableajax {
 
 		return FALSE;
 	}
-	
+
 	function archiveRequest($aRequest) {
 		$this->getForm()->archiveAjaxRequest($aRequest);
 	}
-	
+
 	function getPreviousRequest() {
 		return $this->oForm->getPreviousAjaxRequest();
 	}
-	
+
 	function getPreviousParams() {
 		return $this->oForm->getPreviousAjaxParams();
 	}
@@ -413,7 +413,7 @@ try {
 		die();
 	}
 	$ret = $oAjax->handleRequest();
-	
+
 } catch(Exception $e) {
 	tx_rnbase::load('tx_rnbase_util_Logger');
 	if(tx_rnbase_util_Logger::isWarningEnabled()) {
