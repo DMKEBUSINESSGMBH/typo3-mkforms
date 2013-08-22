@@ -62,6 +62,11 @@
 		);
 
 		protected static $token = ''; // enthält einen eindeutigen String, um beispielsweise link tags zu trennen
+		
+		/**
+		 * @var boolean
+		 */
+		protected $wasValidated = false;
 
 		var $aEmptyStatics = array();
 
@@ -927,6 +932,7 @@
 
 			$this->mForcedValue = $mValue;
 			$this->bForcedValue = TRUE;
+			$this->wasValidated = FALSE;//falls Abhängigkeiten bestehen
 		}
 
 		function _getListValue() {
@@ -3899,9 +3905,14 @@ JAVASCRIPT;
 		 * @return boolean true wenn kein Fehler vorliegt
 		 */
 		function validate() {
-			$this->validateByPath('/');
-			$this->validateByPath('/validators');
-			$this->declareCustomValidationErrors();
+			
+			if(!$this->wasValidated) {
+				$this->validateByPath('/');
+				$this->validateByPath('/validators');
+				$this->declareCustomValidationErrors();
+				$this->wasValidated = TRUE;
+			}
+			
 			return !$this->hasError();
 		}
 
