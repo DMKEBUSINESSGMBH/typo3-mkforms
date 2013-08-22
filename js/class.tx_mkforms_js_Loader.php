@@ -131,7 +131,11 @@ class tx_mkforms_js_Loader {
 	 * @return boolean
 	 */
 	public function useJs() {
-		return $this->getForm()->_defaultTrue('/meta/accessibility/usejs');
+		return
+			// js nur laden, wenn das framework aktiviert ist
+			$this->mayLoadJsFramework()
+			// nur laden, wenn im formular nicht deaktiviert.
+			&& $this->getForm()->_defaultTrue('/meta/accessibility/usejs');
 	}
 
 	/**
