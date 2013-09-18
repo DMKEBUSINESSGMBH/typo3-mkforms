@@ -67,7 +67,9 @@ class tx_mkforms_tests_Util {
 	 * Liefert ein Form Objekt
 	 * Enter description here ...
 	 */
-	public static function getForm($bCsrfProtection = true, $aConfigArray = array()) {
+	public static function getForm(
+		$bCsrfProtection = true, $aConfigArray = array(), $parent = null
+	) {
 		$oForm = tx_mkforms_forms_Factory::createForm('generic');
 		$oForm->setTestMode();
 
@@ -83,8 +85,12 @@ class tx_mkforms_tests_Util {
 		);
 		$oConfigurations->setParameters($oParameters);
 
+		if(!$parent) {
+			$parent = $this;
+		}
+		
 		$oForm->init(
-			$this,
+			$parent,
 			$oConfigurations->get('generic.xml'),
 			0,
 			$oConfigurations,
