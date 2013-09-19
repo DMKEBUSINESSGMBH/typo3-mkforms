@@ -11,7 +11,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	 */
 	private function getCache(){
 		if (is_null(self::$cache))
-			self::$cache = tx_rnbase::makeInstance('tx_rnbase_cache_TYPO3Cache', 'mkforms_rdt_tmpl');
+			self::$cache = tx_rnbase_cache_Manager::getCache('mkforms_rdt_tmpl');
 		return self::$cache;
 	}
 	
@@ -43,7 +43,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 	/**
 	 * gets the html bag of a Widget, include caching for template methods
-	 * 
+	 *
 	 * @param formidable_mainrenderlet $oRdt
 	 * @return array
 	 */
@@ -212,7 +212,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_implode($mData, $aParams) {
-		//man kann nicht direkt ein komma angegeben da dieses in 
+		//man kann nicht direkt ein komma angegeben da dieses in
 		//mkforms_util_Templates rausgeparsed wird. wenn also nichts
 		//gesetzt wird, dann nehmen wir das komma als connector
 		if(!isset($aParams[0])) $aParams[0] = ', ';
@@ -510,7 +510,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	
 	/**
 	 * cheacks if a property exists in htmlbag
-	 * 
+	 *
 	 * @param mixed $mData
 	 * @param array $aParams
 	 * @return boolean
