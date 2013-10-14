@@ -39,7 +39,9 @@ class formidableajax {
 		}
 		// requested service exists
 
-		if(!array_key_exists($this->aRequest['safelock'], $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']])) {
+		if(	!is_array($GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']]) ||
+			!array_key_exists($this->aRequest['safelock'], $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']])
+		) {
 			$this->denyService('no safelock');
 		}
 	}
