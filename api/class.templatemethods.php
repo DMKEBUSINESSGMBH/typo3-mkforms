@@ -1,6 +1,7 @@
 <?php
 
 require_once(t3lib_extMgm::extPath('mkforms') . "api/class.mainscriptingmethods.php");
+tx_rnbase::load('tx_rnbase_cache_Manager');
 
 class formidable_templatemethods extends formidable_mainscriptingmethods {
 	
