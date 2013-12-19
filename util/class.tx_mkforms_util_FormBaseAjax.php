@@ -161,8 +161,12 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 											$data, $form, $action['renderlet']
 										);
 
+							if (empty($aData) && isset($params[$widget->getName()])) {
+								$aData = $params[$widget->getName()];
+							}
+
 							// If data available for that renderlet, fill it:
-							if (!empty($aData)) {
+							if (!empty($aData) || !is_array($aData)) {
 								self::setValueToWidget($widget, $aData, $widget->_isSubmitted());
 							}
 //							if (!empty($aData)) $widget->setValue($aData);
