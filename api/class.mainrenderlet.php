@@ -62,7 +62,7 @@
 		);
 
 		protected static $token = ''; // enthält einen eindeutigen String, um beispielsweise link tags zu trennen
-		
+
 		/**
 		 * @var boolean
 		 */
@@ -993,7 +993,7 @@
 
 			if(is_string($mValue)) {
 				tx_rnbase::load('tx_mkforms_util_Templates');
-				$mValue = 
+				$mValue =
 					tx_mkforms_util_Templates::sanitizeStringForTemplateEngine(htmlspecialchars($mValue));
 			}
 
@@ -1148,7 +1148,7 @@ TOOLTIP;
 			return FALSE;
 		}
 
-		function _shouldHideBecauseDependancyEmpty($bCheckParent=false) {
+		function _shouldHideBecauseDependancyEmpty($bCheckParent=FALSE) {
 			$bOrZero = $sIs = $sIsNot = FALSE;
 			if(
 				   (($bEmpty = $this->_defaultFalse('/hideifdependancyempty')) === TRUE)
@@ -1159,6 +1159,9 @@ TOOLTIP;
 				if($this->hasDependancies()) {
 				   	// bei hideIfDependancyIs & hideIfDependancyIsNot sind mehrere Werte Kommasepariert möglich.
 				   	$sIs = $sIs ? t3lib_div::trimExplode(',', trim($sIs)) : FALSE;
+				   	$sOperator = $this->_navConf('/hideifoperator');
+				   	$sOperator = ($sOperator === FALSE || strtoupper($sOperator) != 'OR') ? 'AND' : 'OR';
+				   	$bHide = FALSE;
 				   	$sIsNot = $sIsNot ? t3lib_div::trimExplode(',', trim($sIsNot)) : FALSE;
 				   	$sIsHiddenD = $this->_defaultFalse('/hideifdependancyishiddenbecausedependancy');
 					reset($this->aDependsOn);
@@ -1178,9 +1181,20 @@ TOOLTIP;
 								// der Wert eines der angegebenen Werte nicht hat
 							|| ($sIsNot !== FALSE && !$this->_isDependancyValue($oRdt->getValue(), $sIsNot) )
 						   ) {
-							return TRUE;
+							$bHide = TRUE;
+							if ($sOperator == 'AND') break;
+						}
+						elseif (
+							$sOperator == 'OR'
+							&& array_key_exists($sKey, $this->oForm->aORenderlets)
+							&& is_object($oRdt = $this->oForm->aORenderlets[$sKey])
+						) {
+							$bHide = FALSE;
+							break;
 						}
 					}
+					if ($bHide)
+						return $bHide;
 				}
 			}
 			if($bCheckParent && $this->hasParent()){
@@ -3905,14 +3919,14 @@ JAVASCRIPT;
 		 * @return boolean true wenn kein Fehler vorliegt
 		 */
 		function validate() {
-			
+
 			if(!$this->wasValidated) {
 				$this->validateByPath('/');
 				$this->validateByPath('/validators');
 				$this->declareCustomValidationErrors();
 				$this->wasValidated = TRUE;
 			}
-			
+
 			return !$this->hasError();
 		}
 
