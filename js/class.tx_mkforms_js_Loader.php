@@ -495,12 +495,12 @@ JAVASCRIPT;
 			switch($ext) {
 				case 'js': {
 
-					$script = 'typo3temp/javascript_'.substr(md5($str),0,10).'.js';
+					$script = 'typo3temp/mkforms/javascript_'.substr(md5($str),0,10).'.js';
 					$output = $sDesc . "\n" . '<script type="text/javascript" src="'.htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $script).'"></script>' . "\n\n";
 					break;
 				}
 				case 'css': {
-					$script = 'typo3temp/stylesheet_'.substr(md5($str),0,10).'.css';
+					$script = 'typo3temp/mkforms/stylesheet_'.substr(md5($str),0,10).'.css';
 					$output = $sDesc . "\n" . '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $script).'" />' . "\n\n";
 					break;
 				}
