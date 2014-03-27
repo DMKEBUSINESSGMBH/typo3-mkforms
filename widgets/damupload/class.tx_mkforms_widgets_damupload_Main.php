@@ -33,7 +33,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 	private $uploadsWithoutReferences = array();
 
-	private $damPics = array();
+	private $uploadedDamPics = array();
 
 	/**
 	 * folgendes brauch man um eine Liste der DAM Uploads auszugeben:
@@ -120,8 +120,15 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @see formidable_mainrenderlet::_render()
 	 */
 	function _render() {
-		$this->includeLibraries();
+		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+		$sessionIdForCurrentWidget = $this->getSessionIdForCurrentWidget();
+		// hochgeladene Dateien in Session löschen wenn nicht submitted
+		if(!$this->getForm()->getDataHandler()->_isSubmitted()) {
+			$sessionData[$sessionIdForCurrentWidget . '_fileIds'] = '';
+			$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
+		}
 
+		$this->includeLibraries();
 
 		$sValue = $this->getValue();
 
@@ -157,11 +164,17 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	}
 
 	/**
+	 * @return string
+	 */
+	private function getSessionIdForCurrentWidget() {
+		return $GLOBALS['TSFE']->id . $this->_getElementHtmlId();
+	}
+	/**
 	 *
 	 * @return array
 	 */
-	public function getDamPics() {
-		return $this->damPics;
+	public function getUploadedDamPics() {
+		return $this->uploadedDamPics;
 	}
 
 	function getServerPath($sFileName = FALSE) {
@@ -224,16 +237,9 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		// einem lister ausgeben können
 		$uploadedFileIds = array();
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-		$sessionIdForCurrentWidget = $GLOBALS['TSFE']->id . $this->_getElementHtmlId();
-		// nur aus session holen wenn form abgeschickt
-		if(
-			$this->getForm()->getDataHandler()->_isSubmitted() &&
-			$uploadedFileIdsFromSession = $sessionData[$sessionIdForCurrentWidget . '_fileIds']
-		) {
+		$sessionIdForCurrentWidget = $this->getSessionIdForCurrentWidget();
+		if($uploadedFileIdsFromSession = $sessionData[$sessionIdForCurrentWidget . '_fileIds']) {
 			$uploadedFileIds = t3lib_div::trimExplode(',', $uploadedFileIdsFromSession);
-		} else { // hochgeladene Dateien in Session löschen wenn nicht submitted
-			$sessionData[$sessionIdForCurrentWidget . '_fileIds'] = '';
-			$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
 		}
 
 		// aktuellen upload hinzufügen
@@ -284,7 +290,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 		// wird von tx_mkforms_util_DamUpload::getUploadsByWidget benötigt um die Liste
 		// der DAM Uploads ausgeben zu können
-		$this->damPics = $damPics;
+		$this->uploadedDamPics = $damPics;
 	}
 
 	/**

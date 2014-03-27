@@ -47,7 +47,13 @@ class tx_mkforms_util_DamUpload {
 			);
 		}
 
-		$damPics = $form->getWidget($formParameters['damWidget'])->getDamPics();
+		$damWidget = $form->getWidget($formParameters['damWidget']);
+
+		if($form->getDataHandler()->_isSubmitted()) {
+			$damPics = $damWidget->getUploadedDamPics();
+		} else {
+			$damPics = $damWidget->getReferencedMedia();
+		}
 
 		return isset($damPics['rows']) ? $damPics['rows'] : array();
 	}
