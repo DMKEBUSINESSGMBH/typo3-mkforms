@@ -262,6 +262,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 		// jetzt kümmern wir uns um die Dateien, die gelöscht werden sollen
 		$currentFileIds = array();// die DAM Ids, welche übrig sind nachdem gelöscht wurde
+		// sollte eine checkbox sein
 		$deleteWidgetName = $this->getForm()->_navConf('/deletewidget', $this->aElement);
 		if($damPics['rows']) {
 			foreach ($damPics['rows'] as $uid => $damPic) {
