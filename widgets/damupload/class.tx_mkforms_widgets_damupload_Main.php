@@ -58,7 +58,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 				<beuser><userobj extension="tx_mklib_util_MiscTools" method="getProxyBeUserId" /></beuser>
 			</data>
 
-			<!-- damit können uploads gelöscht werden -->
+			<!-- damit können uploads gelöscht werden. sollte eine checkbox sein -->
 			<deleteWidget>tab_step1__lister-mediaUploadList__delete</deleteWidget>
 
 			<validators>
