@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_submit' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
-	
+
 	function _render() {
 		// return "<input type=\"button\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" value=\"" . $this->oForm->getConfigXML()->getLLLabel($this->_navConf("/label")) . "\"" . $this->_getAddInputParams() . " />";
 		$sLabel = $this->getLabel();
@@ -40,7 +40,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 	function _getEventsArray() {
 
 		$aEvents = parent::_getEventsArray();
-		
+
 		if(!array_key_exists('onclick', $aEvents)) {
 			$aEvents['onclick'] = array();
 		}
@@ -52,7 +52,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 		$aAddPost = array(
 			$this->_getElementHtmlNameWithoutFormId() => '1'		// to simulate default browser behaviour
 		);
-		
+
 		/*
 			$sJson = '';
 			if($aAddPost !== FALSE) {
@@ -76,10 +76,10 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 		} else {
 			$sOnclick = $this->oForm->oRenderer->_getFullSubmitEvent();
 		}
-		
+
 		$sAddPostVars = "Formidable.f('" . $this->oForm->formid . "').addFormData(" . $this->oForm->array2json($aAddPost) . ");";
 		$sAddPostVars .= $sOnclick;
-		
+
 		// prüfe Confirm und füge if hinzu
 		if(($sConfirm = $this->_navConf('/confirm')) !== FALSE) {
 			$sAddPostVars = 'if(confirm(\''.$sConfirm.'\')){'.$sAddPostVars.'}';
@@ -88,7 +88,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 		// Nach dem JavaScript-Submit schickt der IE nochmal den richtigen Submit des Submit-Buttons ab
 		// was dazu führt das das Formular 2x abgeschickt wird. ein return false sollte das problem beheben.
 		$sAddPostVars .= ' return false;';
-		
+
 		$aEvents['onclick'][] = $sAddPostVars;
 
 		reset($aEvents);
@@ -116,7 +116,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 	function isNaturalSubmitter() {
 		return TRUE;
 	}
-	
+
 	function _activeListable() {
 		return $this->_defaultTrue('/activelistable');
 	}

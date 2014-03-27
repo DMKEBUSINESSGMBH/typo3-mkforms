@@ -31,8 +31,95 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 	var $aUploaded = FALSE;	// array if file has just been uploaded
 
-	function _render() {
+	private $uploadsWithoutReferences = array();
 
+	private $damPics = array();
+
+	/**
+	 * folgendes brauch man um eine Liste der DAM Uploads auszugeben:
+	 *
+	    <datasources>
+			<datasource:PHPARRAY name="mediaUploadList">
+				<bindsto>
+					<userobj extension="tx_mkforms_util_DamUpload" method="getUploadsByWidget">
+						<params>
+							<param name="damWidget" value="locationDescription-mediaUpload" />
+						</params>
+					</userobj>
+				</bindsto>
+			</datasource:PHPARRAY>
+		</datasources>
+
+		<renderlet:DAMUPLOAD name="locationDescription-mediaUpload" label="LLL:label_media">
+			<data multiple="true" showFileList="false" cleanfilename="true">
+				<reftable>tx_a4base_locdescriptions</reftable>
+				<reffield>media</reffield>
+				<targetdir><userobj extension="tx_mklib_util_MiscTools" method="getPicturesUploadPath" /></targetdir>
+				<beuser><userobj extension="tx_mklib_util_MiscTools" method="getProxyBeUserId" /></beuser>
+			</data>
+
+			<!-- damit können uploads gelöscht werden -->
+			<deleteWidget>tab_step1__lister-mediaUploadList__delete</deleteWidget>
+
+			<validators>
+				<validator:FILE>
+					<extension value="gif,jpg,jpeg,bmp,png,pdf" message="LLL:msg_picture_filetype" />
+				</validator:FILE>
+			</validators>
+		</renderlet:DAMUPLOAD>
+
+		<renderlet:LISTER
+			name="lister-mediaUploadList" uidColumn="uid"
+		>
+			<datasource use="mediaUploadList" />
+			<ifEmpty message="" />
+			<template
+				path="EXT:mkaltstadt/Resources/Private/Templates/Html/editAdPurchase.html"
+				subpart="###MEDIAUPLOADLIST###"
+				alternateRows="###ROW###"
+			/>
+			<pager window="10"><rows perpage="-1"/></pager>
+			<columns>
+				<column name="title" type="renderlet:TEXT"/>
+				<column name="file_name" type="renderlet:TEXT"/>
+				<column name="delete" type="renderlet:CHECKSINGLE" activelistable="true" >
+					<data><defaultValue>0</defaultValue></data>
+				</column>
+			</columns>
+		</renderlet:LISTER>
+
+		<renderlet:SUBMIT name="deleteUpload" label="LLL:delete_upload" mode="draft"/>
+		<renderlet:SUBMIT name="upload" label="LLL:upload" mode="draft"/>
+
+		im DAM Widget wird keine refuid gesetzt. Das liegt daran dass diese beim erstellen
+		noch nicht bekannt ist. daher setzen wir diese im formhandler.
+		dazu muss folgendes in processForm und fillForm aufgerufen werden. Vorrausgesetzt
+		es wird von tx_mkforms_util_FormBase geerbt:
+
+		public function fillForm(array $formParameters, tx_mkforms_forms_Base $form) {
+			// DAM Uploads vorbefüllen
+			$form->getDataHandler()->newEntryId = HIER DIE UID DES JEWEILIGEN MODELS BZW. NICHTS;
+
+			return $formData;
+		}
+
+		public function processForm(array $formParameters, tx_mkforms_forms_Base $form) {
+			// damit die Formularverarbeitung bei DAM Uploads nicht anspringt
+			if(!$form->isFullySubmitted()) {
+				return;
+			}
+
+			// UID für DAM Uploads setzen
+			$form->getDataHandler()->newEntryId = HIER DIE UID DES JEWEILIGEN MODELS, DAS GERADE ERSTELLT ODER BEARBEITET WURDE
+			parent::processForm($formParameters, $form);
+		}
+
+
+	 *
+	 * (non-PHPdoc)
+	 * @see formidable_mainrenderlet::_render()
+	 */
+	function _render() {
 		$this->includeLibraries();
 
 
@@ -52,26 +139,10 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$sLabel = $this->getLabel();
 		$sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
 
-		// Das Value ist die Liste der Dateinamen
-		// Wir brauchen den Tabellennamen und den Spaltennamen
-		$sValuePreview = '';
-		if(intval($sValue) > 0 && $this->getForm()->_defaultTrue('/data/showfilelist', $this->aElement)) {
-			// Okay, there is at least one referenced file
-			$damPics = $this->getReferencedMedia();
-			$files = array();
-			while(list($uid, $fileData) = each($damPics['rows'])) {
-				$files[] = $fileData['title'] . ' (' . $fileData['file_name'] . ')';
-			}
-			$sValuePreview = implode(', ', $files) . '<br />';
-		}
-
 		$aRes = array(
-			'__compiled' =>  $this->_displayLabel($sLabel) . $sValuePreview . $sInput,
+			'__compiled' =>  $this->_displayLabel($sLabel) . $sInput,
 			'input' => $sInput,
 			'value' => $sValue,
-			'value.' => array(
-				'preview' => $sValuePreview,
-			),
 		);
 
 		if(!$this->isMultiple()) {
@@ -83,6 +154,14 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		}
 
 		return $aRes;
+	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getDamPics() {
+		return $this->damPics;
 	}
 
 	function getServerPath($sFileName = FALSE) {
@@ -132,11 +211,80 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			// Datei wurde hochgeladen und referenziert,
 			// validation ist allerdings fehlgeschlagen.
 			// Datei und Referenz löschen!
-			if(!empty($this->aUploaded['path']))  $this->deleteFile($this->aUploaded['path']);
+			if(!empty($this->aUploaded['path']))  $this->deleteFile($this->aUploaded['path'], $this->aUploaded['damid']);
 			if(!empty($this->aUploaded['damid'])) $this->deleteReferences($this->aUploaded['damid']);
 		} else {
 			$this->handleNoUpload($aData);
 		}
+
+		// wurden bereits referenzen angelegt?
+		$damPics = $this->getReferencedMedia();
+
+		// die bisher hochgeladenen Dam IDs sammeln, damit wir diese auch in
+		// einem lister ausgeben können
+		$uploadedFileIds = array();
+		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+		$sessionIdForCurrentWidget = $GLOBALS['TSFE']->id . $this->_getElementHtmlId();
+		// nur aus session holen wenn form abgeschickt
+		if(
+			$this->getForm()->getDataHandler()->_isSubmitted() &&
+			$uploadedFileIdsFromSession = $sessionData[$sessionIdForCurrentWidget . '_fileIds']
+		) {
+			$uploadedFileIds = t3lib_div::trimExplode(',', $uploadedFileIdsFromSession);
+		} else { // hochgeladene Dateien in Session löschen wenn nicht submitted
+			$sessionData[$sessionIdForCurrentWidget . '_fileIds'] = '';
+			$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
+		}
+
+		// aktuellen upload hinzufügen
+		if($this->openUid) {
+			$uploadedFileIds[] = $this->openUid;
+		}
+
+		// es wurden wahrscheinlich noch keine referenzen angelegt, sondern nur
+		// dateien hochgeladen
+		if(
+			(empty($damPics) || empty($damPics['rows'])) &&
+			!empty($uploadedFileIds)
+		) {
+			$damPics = tx_mklib_util_DAM::getRecords($uploadedFileIds);
+
+			foreach ($damPics['rows'] as $uid => $damPic) {
+				$this->uploadsWithoutReferences[$uid] = $uid;
+			}
+		}
+
+		// jetzt kümmern wir uns um die Dateien, die gelöscht werden sollen
+		$currentFileIds = array();// die DAM Ids, welche übrig sind nachdem gelöscht wurde
+		$deleteWidgetName = $this->getForm()->_navConf('/deletewidget', $this->aElement);
+		if($damPics['rows']) {
+			foreach ($damPics['rows'] as $uid => $damPic) {
+				if(
+					$deleteWidgetName &&
+					($deleteWidget = $this->getForm()->getWidget($deleteWidgetName))
+				) {
+					$deleteWidget->setIteratingId($uid);
+					if($deleteWidget->getValue()) {
+						unset($damPics['rows'][$uid]);
+						unset($this->uploadsWithoutReferences[$uid]);
+						$this->deleteFile($damPic['file_name'], $uid);
+						$this->deleteReferences($uid);
+						continue;
+					}
+				}
+
+				// kommen zurück in die session um diese nachdem submit anzeigen zu können
+				$currentFileIds[] = $uid;
+			}
+
+			$sessionData[$sessionIdForCurrentWidget . '_fileIds'] = join(',', $currentFileIds);
+			$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
+			$GLOBALS['TSFE']->fe_user->storeSessionData();
+		}
+
+		// wird von tx_mkforms_util_DamUpload::getUploadsByWidget benötigt um die Liste
+		// der DAM Uploads ausgeben zu können
+		$this->damPics = $damPics;
 	}
 
 	/**
@@ -286,8 +434,18 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		return $entryId;
 	}
 	function handleCreation() {
-		if(!$this->openUid) return;
-		$newSize = $this->addReference($this->openUid);
+		if(!$this->openUid && !$this->uploadsWithoutReferences) {
+			return;
+		}
+		if($this->openUid && !$this->uploadsWithoutReferences) {
+			$damUids = array($this->openUid);
+		} else {
+			$damUids = $this->uploadsWithoutReferences;
+		}
+
+		foreach ($damUids as $damUid) {
+			$newSize = $this->addReference($damUid);
+		}
 		$this->openUid = 0;
 	}
 	/**
@@ -431,12 +589,13 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		return $this->getForm()->oDataHandler;
 	}
 
-	function deleteFile($sFile) {
+	function deleteFile($sFile, $damUid) {
 		$mValues = t3lib_div::trimExplode(',', $this->getValue());
 		if(is_array($mValues))
 			unset($mValues[array_search($sFile, $mValues)]);
 
 		@unlink($this->getFullServerPath($sFile));
+		tx_rnbase_util_DB::doDelete('tx_dam', 'tx_dam.uid = '.$damUid);
 
 		if(is_array($mValues))
 			$this->setValue(implode(',', $mValues));

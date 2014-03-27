@@ -218,6 +218,8 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 
 		// Fill $this->filledForm with all the post-processed and possibly completed data
 		$this->setFormData($data);
+
+		$this->handleDamUploads($data);
 	}
 
 	/**
@@ -228,6 +230,34 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 */
 	protected function processData(array $data) {
 		return $data;
+	}
+
+	/**
+	 *
+	 * @param unknown $data
+	 */
+	protected function handleDamUploads($data) {
+		//update newEntryId to create dam references
+		if(array_key_exists('newEntryId', $data)) {
+			// newEntryId steht im creation mode und auch sonst zur verfügung
+			$form->getDataHandler()->newEntryId = $data['newEntryId'];
+		}
+		//update dam references
+		$form = $this->getForm();
+		$tempId = $form->getDataHandler()->entryId;
+		foreach($this->getForm()->getWidgetNames() as $rdtName) {
+			if(
+				( $widget = $form->getWidget($rdtName) ) &&
+				($widget  instanceof tx_mkforms_widgets_damupload_Main) &&
+				method_exists($widget, 'handleCreation')
+			){
+				if($widget->getEntryId()) {
+					$widget->handleCreation();
+				}
+			}
+		}
+		$form->getDataHandler()->entryId = $tempId;
+
 	}
 
 	/**
