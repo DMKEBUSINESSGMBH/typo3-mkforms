@@ -256,6 +256,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			$damPics = tx_mklib_util_DAM::getRecords($uploadedFileIds);
 
 			foreach ($damPics['rows'] as $uid => $damPic) {
+				// wird benötigt um in handleCreation die Referenzen anlegen zu können
 				$this->uploadsWithoutReferences[$uid] = $uid;
 			}
 		}
