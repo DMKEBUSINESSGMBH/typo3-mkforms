@@ -224,8 +224,8 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			// Datei wurde hochgeladen und referenziert,
 			// validation ist allerdings fehlgeschlagen.
 			// Datei und Referenz löschen!
-			if(!empty($this->aUploaded['path']))  $this->deleteFile($this->aUploaded['path'], $this->aUploaded['damid']);
 			if(!empty($this->aUploaded['damid'])) $this->deleteReferences($this->aUploaded['damid']);
+			if(!empty($this->aUploaded['path']))  $this->deleteFile($this->aUploaded['path'], $this->aUploaded['damid']);
 		} else {
 			$this->handleNoUpload($aData);
 		}
@@ -273,8 +273,8 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 					if($deleteWidget->getValue()) {
 						unset($damPics['rows'][$uid]);
 						unset($this->uploadsWithoutReferences[$uid]);
-						$this->deleteFile($damPic['file_name'], $uid);
 						$this->deleteReferences($uid);
+						$this->deleteFile($damPic['file_name'], $uid);
 						continue;
 					}
 				}
@@ -595,13 +595,26 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		return $this->getForm()->oDataHandler;
 	}
 
+	/**
+	 * vorher die referenzen löschen da sonst die datei nicht gelöscht werden kann
+	 *
+	 * @param unknown $sFile
+	 * @param unknown $damUid
+	 */
 	function deleteFile($sFile, $damUid) {
 		$mValues = t3lib_div::trimExplode(',', $this->getValue());
 		if(is_array($mValues))
 			unset($mValues[array_search($sFile, $mValues)]);
 
-		@unlink($this->getFullServerPath($sFile));
-		tx_rnbase_util_DB::doDelete('tx_dam', 'tx_dam.uid = '.$damUid);
+		// wir löschen die Datei nur wenn keine Refrenzen mehr vorhanden sind
+		$fields = tx_dam_db::getMetaInfoFieldList();
+		$res = tx_dam_db::referencesQuery('tx_dam',$damUid, '', '', '', '', $fields);
+
+		if ($res && (!$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))){
+			@unlink($this->getFullServerPath($sFile));
+			tx_rnbase_util_DB::doUpdate('tx_dam', 'tx_dam.uid = '.$damUid, array('deleted' => 1));
+		}
+
 
 		if(is_array($mValues))
 			$this->setValue(implode(',', $mValues));
