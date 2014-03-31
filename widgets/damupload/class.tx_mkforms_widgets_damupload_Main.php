@@ -80,6 +80,34 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			/>
 			<pager window="10"><rows perpage="-1"/></pager>
 			<columns>
+				<column name="thumbnail" listHeader="Image" type="renderlet:IMAGE">
+					<data>
+						<value>
+							<userobj>
+								<php><![CDATA[/*<?php*/
+	/** diese zeile entfernen
+									$currentFile = $this->getWidget('lister-groundplanUploadList')->getCurrentRow();
+									return $currentFile['file_path'] . $currentFile['file_name'];
+								/*?>*/
+	/** diese zeile entfernen
+					]]></php>
+							</userobj>
+						</value>
+					</data>
+					<imageconf>
+						<userobj>
+							<ts><![CDATA[
+								10 = IMAGE
+								10 {
+									file < params.relwebpath
+									file.maxW = 100
+									file.maxH = 100
+									stdWrap = |
+								}
+							]]></ts>
+						</userobj>
+					</imageconf>
+				</column>
 				<column name="title" type="renderlet:TEXT"/>
 				<column name="file_name" type="renderlet:TEXT"/>
 				<column name="delete" type="renderlet:CHECKSINGLE" activelistable="true" >
