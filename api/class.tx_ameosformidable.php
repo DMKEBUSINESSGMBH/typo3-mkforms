@@ -911,30 +911,38 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	 * Similar to hooks
 	 *
 	 * @param	array		$aPoints: names of the checkpoints to consider
+	 * @param 	array 		$options
 	 * @return	void
 	 */
-	function checkPoint($aPoints) {
-		$this->_processServerEvents($aPoints);
-		$this->_processRdtCheckPoints($aPoints);
-		$this->_processMetaCheckPoints($aPoints);
+	function checkPoint($aPoints, array &$options = array()) {
+		$this->_processServerEvents($aPoints, $options);
+		$this->_processRdtCheckPoints($aPoints, $options);
+		$this->_processMetaCheckPoints($aPoints, $options);
 	}
 
 	/**
 	 * Handles checkpoint-calls on renderlets
 	 *
 	 * @param	array		$aPoints: names of the checkpoints to consider
+	 * @param 	array 		$options
 	 * @return	void
 	 */
-	private function _processRdtCheckPoints(&$aPoints) {
+	private function _processRdtCheckPoints(&$aPoints, array &$options = array()) {
 		if(count($this->aORenderlets) > 0) {
 			$aKeys = array_keys($this->aORenderlets);
 			while(list(, $sKey) = each($aKeys)) {
-				$this->aORenderlets[$sKey]->checkPoint($aPoints);
+				$this->aORenderlets[$sKey]->checkPoint($aPoints, $options);
 			}
 		}
 	}
 
-	private function _processMetaCheckPoints($aPoints) {
+	/**
+	 *
+	 * @param	array		$aPoints: names of the checkpoints to consider
+	 * @param 	array 		$options
+	 * @return	void
+	 */
+	private function _processMetaCheckPoints(&$aPoints, array $options = array()) {
 
 		$aMeta = $this->getConfig()->get('/meta');
 
@@ -1217,9 +1225,10 @@ SANDBOXCLASS;
 	 * Called by checkPoint()
 	 *
 	 * @param	array		$aTriggers: array of checkpoints names to consider
+	 * @param 	array 		$options
 	 * @return	void
 	 */
-	private function _processServerEvents($aTriggers) {
+	private function _processServerEvents(&$aTriggers, array &$options = array()) {
 
 		$aP = $this->_getRawPost();
 		if(array_key_exists('AMEOSFORMIDABLE_SERVEREVENT', $aP) && (trim($aP['AMEOSFORMIDABLE_SERVEREVENT']) !== '')) {
@@ -2171,10 +2180,12 @@ SANDBOXCLASS;
 						)
 					);
 				} else {
+					$options = array('renderedRenderlets' => &$aRendered);
 					$this->checkPoint(
 						array(
 							'after-validation-nok',
-						)
+						),
+						$options
 					);
 				}
 
@@ -2297,6 +2308,32 @@ SANDBOXCLASS;
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
+
+				if($this->oDataHandler->_allIsValid()) {
+					$this->checkPoint(
+						array(
+							'after-validation-ok',
+						)
+					);
+				} else {
+					$options = array('renderedRenderlets' => &$aRendered);
+					$this->checkPoint(
+						array(
+							'after-validation-nok',
+						),
+						$options
+					);
+				}
+
+				if(count($this->_aValidationErrors) > 0) {
+					$this->attachErrorsByJS($this->_aValidationErrors, 'errors');
+					$this->_debug($this->_aValidationErrors, 'SOME ELEMENTS ARE NOT VALIDATED');
+				} else {
+					// wenn keine validationsfehler aufgetreten sind,
+					// eventuell vorherige validierungs fehler entfernen
+					$this->_debug('', 'ALL ELEMENTS ARE VALIDATED');
+					$this->attachErrorsByJS(null, 'errors', true);
+				}
 
 				// the renderer is executed
 				$aHtmlBag = $this->oRenderer->_render(

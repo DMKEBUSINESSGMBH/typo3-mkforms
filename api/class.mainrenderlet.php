@@ -356,7 +356,7 @@
 			return $this->bAnonymous !== FALSE;
 		}
 
-		function checkPoint(&$aPoints) {
+		function checkPoint(&$aPoints, array &$options = array()) {
 			/* nothing by default */
 		}
 
