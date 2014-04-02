@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'dh_db' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -14,8 +14,15 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		$tablename	= $this->tableName();
 		$keyname	= $this->keyName();
 
+		if(
+			$this->getForm()->getDataHandler()->_isDraftSubmitted() &&
+			!$this->getForm()->_defaultTrue('/control/datahandler/processondraft')
+		) {
+			$bShouldProcess = false;
+		}
+
 		if($tablename != "" && $keyname != "") {
-			
+
 			if($this->i18n() && ($aNewI18n = $this->newI18nRequested()) !== FALSE) {
 
 				// first check that parent exists
@@ -35,7 +42,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 					$GLOBALS["TYPO3_DB"]->sql_query($sSql),
 					$sSql
 				);
-				
+
 				if($GLOBALS["TYPO3_DB"]->sql_fetch_assoc($rSql) !== FALSE) {
 					$this->oForm->mayday("DATAHANDLER DB cannot create requested i18n for parent:" . $aNewI18n["i18n_parent"] . " with sys_language_uid:" . $aNewI18n["sys_language_uid"] . " ; this version already exists");
 				}
@@ -79,12 +86,12 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 			}
 
 			if($bShouldProcess && $this->_allIsValid()) {
-				
+
 				// il n'y a aucune erreur de validation
 				// on peut traiter les donnes
 				// on met a jour / insere l'enregistrement dans la base de donnees
-				
-				
+
+
 
 				$aRs = array();
 
@@ -97,13 +104,13 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 					$editEntry = $this->_currentEntryId();
 
 					if($editEntry) {
-						
+
 						$aFormData = $this->_processBeforeEdition($aFormData);
 
 						if($this->i18n() && $this->i18n_updateChildsOnSave() && $this->i18n_currentRecordUsesDefaultLang()) {
 
 							// updating non translatable child data
-							
+
 							$aUpdateData = array();
 
 							$this->oForm->_debug("", "DB update, taking care of sys_language_uid " . $this->i18n_getSysLanguageUid());
@@ -127,9 +134,9 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 								}
 
 							}
-							
+
 							if(!empty($aUpdateData)) {
-								
+
 								$this->oForm->_debug($aUpdateData, "EXECUTION OF DATAHANDLER DB - EDITION MODE in " . $tablename . "[" . $keyname . "=" . $editEntry . "] - UPDATING NON TRANSLATED I18N CHILDS");
 
 								$sSql = $GLOBALS["TYPO3_DB"]->UPDATEquery(
@@ -165,14 +172,14 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 						);
 
 						$this->oForm->_debug($GLOBALS["TYPO3_DB"]->debug_lastBuiltQuery, "DATAHANDLER DB - SQL EXECUTED");
-						
+
 						// updating stored data
 						$this->__aStoredData = array_merge($this->__aStoredData, $aFormData);
 						$this->bHasEdited = TRUE;
 						$this->_processAfterEdition($this->_getStoredData());
 
 					} else {
-						
+
 						// creating data
 
 						$aFormData = $this->_processBeforeCreation($aFormData);
@@ -211,12 +218,12 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 								$GLOBALS["TYPO3_DB"]->sql_query($sSql),
 								$sSql
 							);
-							
+
 							$this->oForm->_debug($GLOBALS["TYPO3_DB"]->debug_lastBuiltQuery, "DATAHANDLER DB - SQL EXECUTED");
 
 							$this->newEntryId = $GLOBALS["TYPO3_DB"]->sql_insert_id();
 							$this->oForm->_debug("", "NEW ENTRY ID [" . $keyname . "=" . $this->newEntryId . "]");
-							
+
 							$this->bHasCreated = TRUE;
 
 							// updating stored data
@@ -272,7 +279,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 	}
 
 	function _processBeforeInsertion($aData) {
-		
+
 		if(($aUserObj = $this->_navConf("/process/beforeinsertion/")) !== FALSE) {
 			if($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
 				$aData = $this->getForm()->getRunnable()->callRunnable(
@@ -302,7 +309,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 	}
 
 	function _processBeforeCreation($aData) {
-		
+
 		if(($aUserObj = $this->_navConf("/process/beforecreation/")) !== FALSE) {
 
 			if($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
@@ -333,7 +340,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 	}
 
 	function _processBeforeEdition($aData) {
-		
+
 		if(($aUserObj = $this->_navConf("/process/beforeedition/")) !== FALSE) {
 
 			if($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
@@ -380,7 +387,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 	}
 
 	function __getDbData($sTablename, $sKeyname, $iUid, $sFields = "*") {
-		
+
 		$aRes = array();
 		$options = array();
 		$options['enablefieldsoff'] = 1;
@@ -418,7 +425,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 			$keyname	= $this->keyName();
 
 			$editid = $this->_currentEntryId();
-			
+
 			if($editid !== FALSE) {
 
 				if(($this->__aStoredData = $this->__getDbData($tablename, $keyname, $editid)) !== FALSE) {
@@ -439,7 +446,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		}
 
 		if(is_array($this->__aStoredData)) {
-			
+
 			if($sName !== FALSE) {
 				if(array_key_exists($sName, $this->__aStoredData)) {
 					return $this->__aStoredData[$sName];
@@ -447,7 +454,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 					return "";
 				}
 			}
-			
+
 			reset($this->__aStoredData);
 			return $this->__aStoredData;
 		}
@@ -481,10 +488,10 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		return FALSE;
 
 		/*if(($aReqNewi18n = $this->oForm->_navConf("/formidable_i18n/new/", $GLOBALS)) !== FALSE) {
-			
+
 			$iParentUid = $aReqNewi18n["parentuid"];
 			$iSysLangUid = $aReqNewi18n["languid"];
-			
+
 			return array(
 				"i18n_parent" => $iParentUid,
 				"sys_language_uid" => $iSysLangUid
@@ -516,15 +523,15 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 
 		if($this->i18n() && $this->_edition()) {
 			if($this->__aStoredI18NParent === FALSE) {
-				
+
 				$aData = $this->_getStoredData();
 
 				if($this->i18n_currentRecordUsesDefaultLang()) {
-					
+
 					if($bStrict === TRUE) {
 						return FALSE;
 					}
-					
+
 					$this->__aStoredI18NParent = $aData;
 				} else {
 					$iParent = intval($aData["l18n_parent"]);
@@ -539,7 +546,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 	}
 
 	function i18n_getThisStoredParent($sField, $bStrict = FALSE) {
-		
+
 		$aParent = $this->i18n_getStoredParent($bStrict);
 		if(array_key_exists($sField, $aParent)) {
 			return $aParent[$sField];
