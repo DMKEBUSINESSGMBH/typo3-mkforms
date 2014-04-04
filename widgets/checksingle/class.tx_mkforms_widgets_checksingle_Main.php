@@ -114,20 +114,13 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 		// to determine if checkbox has been checked, we have to look around then
 		return $this->_isSubmitted();
 	}
+
+	function _emptyFormValue($iValue) {
+		return(intval($iValue) === 0);
+	}
 }
 
 
 	if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_checksingle/api/class.tx_rdtchecksingle.php"])	{
 		include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_checksingle/api/class.tx_rdtchecksingle.php"]);
 	}
-
-	function _emptyFormValue($iValue) {
-		//der alte weg ohne JS
-		if ($this->getForm()->getJSLoader()->mayLoadJsFramework()) {
-			return (intval($iValue) === 0);
-		} else {
-			return parent::_emptyFormValue($iValue);
-		}
-	}
-
-?>
