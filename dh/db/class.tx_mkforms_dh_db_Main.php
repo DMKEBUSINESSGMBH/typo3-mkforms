@@ -174,7 +174,12 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 						$this->oForm->_debug($GLOBALS["TYPO3_DB"]->debug_lastBuiltQuery, "DATAHANDLER DB - SQL EXECUTED");
 
 						// updating stored data
-						$this->__aStoredData = array_merge($this->__aStoredData, $aFormData);
+						if(!is_array($this->__aStoredData)) {
+							$storedData = array();
+						} else {
+							$storedData = $this->__aStoredData;
+						}
+						$this->__aStoredData = array_merge($storedData, $aFormData);
 						$this->bHasEdited = TRUE;
 						$this->_processAfterEdition($this->_getStoredData());
 
