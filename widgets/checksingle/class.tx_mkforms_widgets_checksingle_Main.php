@@ -28,15 +28,18 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 		// wenn eine checkbox nicht gecheckt wurde, wird sie nicht übertragen.
 		// um dieses problem zu umgehen, fügen wir ein hidden Feld mit der eigentlichen ID
 		// ein. dieses wird beim klick jeweils gesetzt damit immer der richtige wert übertragen wird
+		$aConfig = FALSE;
 		if ($this->getForm()->getJSLoader()->mayLoadJsFramework()) {
 			$sInput = "<input type=\"checkbox\" name=\"" . $this->_getElementHtmlName() . "[checkbox]\" id=\"" . $this->_getElementHtmlId() . "_checkbox\" " . $sChecked . $this->_getAddInputParams() . " value=\"1\" />";
 			$sInput .= "<input type=\"hidden\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" " . $this->_getAddInputParams() . " value=\"" . $iValue . "\" />";
+			// damit das Label auf die checkbox zeigt
+			$aConfig['sId'] = $this->_getElementHtmlId() . '_checkbox';
 		} else {
 			$sInput = "<input type=\"checkbox\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" " . $sChecked . $this->_getAddInputParams() . " value=\"1\" />";
 		}
 
 		$sLabelFor = $this->_displayLabel(
-			$this->getLabel()
+			$this->getLabel(), $aConfig
 		);
 
 		$aHtmlBag = array(

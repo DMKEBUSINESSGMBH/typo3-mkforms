@@ -517,9 +517,9 @@
 			return '<span id="' . $this->_getElementHtmlId() . '_readonly" '.$this->_getAddInputParams($aAdditionalParams).'>' . $sHtml . '</span>';
 		}
 
-		function _displayLabel($sLabel) {
+		function _displayLabel($sLabel, $aConfig = FALSE) {
 			if($this->oForm->oRenderer->bDisplayLabels) {
-				return $this->getLabelTag($sLabel);
+				return $this->getLabelTag($sLabel, $aConfig);
 			}
 
 			return '';
