@@ -106,6 +106,9 @@ TEMPLATE;
 				}
 
 				if(($sCustom = $oForm->_navConf('/meta/form/custom')) !== FALSE) {
+					if($oForm->isRunneable($sCustom)) {
+						$sCustom = $oForm->getRunnable()->callRunnableWidget($oForm, $sCustom);
+					}
 					$formcustom = ' ' . $sCustom . ' ';
 				}
 
