@@ -6,14 +6,14 @@
  * @url http://livepipe.net/projects/control_tabs/
  * @version 2.1.1
  */
-if(typeof(Control) == 'undefined')
+if(typeof(Control) == 'undefined') {
 	var Control = {};
+}
 Control.Tabs =Base.extend({
 	constructor: function(tab_list_container,options){
 		if(!MKWrapper.$(tab_list_container)) {
 			return;
 		}
-
 		this.activeContainer = false;
 		this.activeLink = false;
 		this.containers = {};
@@ -32,12 +32,11 @@ Control.Tabs =Base.extend({
 			showFunction: MKWrapper.fxAppear,
 			hideFunction: MKWrapper.fxHide
 		};
-		MKWrapper.extend(this.options,options || {});
-		var tabs = typeof(this.options.linkSelector) == 'string'
-				? MKWrapper.findChilds(
-					MKWrapper.$(tab_list_container),this.options.linkSelector
-				) 
-				: this.options.linkSelector(MKWrapper.$(tab_list_container));
+		MKWrapper.extend(this.options, options || {});
+		var tabs = typeof(this.options.linkSelector) == 'string' ?
+				MKWrapper.findChilds(
+					MKWrapper.$(tab_list_container), this.options.linkSelector
+				) : this.options.linkSelector(MKWrapper.$(tab_list_container));
 			
 		MKWrapper.each(
 			MKWrapper.filter(
@@ -63,7 +62,6 @@ Control.Tabs =Base.extend({
 				MKWrapper.each(this.links,function(target,link){
 					if(link.key == target){
 						this.setActiveTab(link);
-//						throw $break;
 						return false;
 					}
 				}.bind(this,target));
@@ -78,7 +76,7 @@ Control.Tabs =Base.extend({
 							MKWrapper.attachEvent(
 								MKWrapper.$(a),
 								'click',
-								function(event,clean_href){
+								function(event, clean_href){
 									this.setActiveTab(clean_href.substring(1));
 								},
 								this
@@ -108,7 +106,6 @@ Control.Tabs =Base.extend({
 			MKWrapper.each(this.links,function(_link){
 				if(_link.key == link){
 					this.setActiveTab(_link);
-//					throw $break;
 					return false;
 				}
 			}.bind(this));
@@ -126,7 +123,8 @@ Control.Tabs =Base.extend({
 			this.notify('afterChange',this.containers[link.key]);
 		}
 	},
-	next: function(){
+	next: function() {
+		var linkToShow = false;
 		MKWrapper.each(this.links,function(link,i){
 			if(this.activeLink == link && this.links[i + 1]){
 				linkToShow = this.links[i + 1];
@@ -141,7 +139,6 @@ Control.Tabs =Base.extend({
 		MKWrapper.each(this.links,function(link,i){
 			if(this.activeLink == link && this.links[i - 1]){
 				this.setActiveTab(this.links[i - 1]);
-//				throw $break;
 			}
 		}.bind(this));
 		return false;
@@ -157,7 +154,7 @@ Control.Tabs =Base.extend({
 	notify: function(event_name){
 		try{
 			if(this.options[event_name])
-				return [this.options[event_name].apply(this.options[event_name],$A(arguments).slice(1))];
+				return [this.options[event_name].apply(this.options[event_name], arguments.slice(1))];
 		}catch(e){
 			return false;
 		}
@@ -174,5 +171,3 @@ MKWrapper.extend(
 		});
 	}
 });
-//if(typeof(Object.Event) != 'undefined')
-//	Object.Event.extend(Control.Tabs);
