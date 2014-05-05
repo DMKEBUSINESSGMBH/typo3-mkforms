@@ -413,7 +413,7 @@ MKWrapper._changeHandler = function() {
 
 MKWrapper.filter = function(element, callback) {
 	return jQuery(element).filter(function(index, object) {
-		return callback(object);
+		return callback(object || this);
 	});
 };
 
