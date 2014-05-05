@@ -110,13 +110,20 @@ Control.Tabs =Base.extend({
 				}
 			}.bind(this));
 		}else{
-			this.notify('beforeChange',this.activeContainer);
-			if(this.activeContainer)
+			this.notify('beforeChange', this.activeContainer);
+			if(this.activeContainer) {
 				this.options.hideFunction(this.activeContainer);
-			MKWrapper.each(this.links,function(item){
-				MKWrapper.removeClass((this.options.setClassOnContainer ? MKWrapper.$(item.parentNode) : item),this.options.activeClassName);
+			}
+			MKWrapper.each(this.links, function(item) {
+				MKWrapper.removeClass(
+					this.options.setClassOnContainer ? MKWrapper.$(item.parentNode) : item,
+					this.options.activeClassName
+				);
 			}.bind(this));
-			MKWrapper.addClass((this.options.setClassOnContainer ? MKWrapper.$(link.parentNode) : link),this.options.activeClassName);
+			MKWrapper.addClass(
+				this.options.setClassOnContainer ? MKWrapper.$(link.parentNode) : link,
+				this.options.activeClassName
+			);
 			this.activeContainer = this.containers[link.key];
 			this.activeLink = link;
 			this.options.showFunction(this.containers[link.key]);

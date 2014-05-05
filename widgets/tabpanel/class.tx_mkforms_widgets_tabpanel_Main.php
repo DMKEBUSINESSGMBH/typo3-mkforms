@@ -41,6 +41,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet {
 
 		$visible = TRUE;
 		$aConfig = array(
+			'setClassOnContainer' => 'false',
 			'activeClassName' => 'active',
 			'defaultTab' => 'first',
 			'linkSelector' => 'li a.rdttab',
@@ -52,6 +53,9 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet {
 
 			if(array_key_exists('activeclassname', $aUserConfig)) {
 				$aConfig['activeClassName'] = $aUserConfig['activeclassname'];
+			}
+			if(array_key_exists('setclassoncontainer', $aUserConfig)) {
+				$aConfig['setclassoncontainer'] = $aUserConfig['setclassoncontainer'];
 			}
 
 			if(array_key_exists('defaulttab', $aUserConfig)) {
