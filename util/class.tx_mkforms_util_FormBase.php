@@ -576,7 +576,7 @@ class tx_mkforms_util_FormBase {
 	*			<where>2=2</where>
 	*			<orderby>uid asc</orderby>
 	*		</param>
-	* 		<param name="dependsOn" formFieldName="-trade" dbField="trade" dbTableName="tx_mkhoga_types" />
+	* 		<param name="dependsOn" formfield="-trade" dbField="trade" dbTableName="tx_mkhoga_types" />
 	*		<param name="debug" value="1" />
 	*	</params
 	*
