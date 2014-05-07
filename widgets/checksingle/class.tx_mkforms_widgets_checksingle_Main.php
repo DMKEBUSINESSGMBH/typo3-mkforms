@@ -112,10 +112,13 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 	}
 
 	function hasBeenPosted() {
-		//return $this->bHasBeenPosted;
-		// problem here: checkbox don't post anything if not checked
-		// to determine if checkbox has been checked, we have to look around then
-		return $this->_isSubmitted();
+		if ($this->getForm()->getJSLoader()->mayLoadJsFramework()) {
+			return $this->bHasBeenPosted;
+		} else {
+			// problem here: checkbox don't post anything if not checked and no JS Framework
+			// to determine if checkbox has been checked, we have to look around then
+			return $this->_isSubmitted();
+		}
 	}
 
 	function _emptyFormValue($iValue) {
