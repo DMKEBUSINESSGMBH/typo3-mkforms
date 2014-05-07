@@ -61,4 +61,17 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 			this.setValue(0);
 		}
 	},
+	
+	attachEvent: function(sEventHandler, fFunc) {
+		oObj = this.getCheckSingleDomNode();
+		if(typeof(oObj) != 'undefined' && oObj != null) {
+			// Vorheriges Event löschen!
+			// Bei ajaxCalls bei denen ein Refresh eines Elements stattfindet
+			// und ein Event besitzt, addieren sie die Events.
+			// On Clicks werden beispielsweise mehrfach ausgeführt.
+			MKWrapper.removeEvent(oObj, sEventHandler+'.fEvent');
+			MKWrapper.attachEvent(oObj, sEventHandler+'.fEvent', fFunc, oObj);
+		}
+	},
+
 });
