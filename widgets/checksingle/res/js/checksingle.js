@@ -67,5 +67,5 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 	// die eigentliche ID liegt auf dem hidden Feld
 	realDomNode: function() {
 		return MKWrapper.domNode(this.config.id);
-	},
+	}
 });
