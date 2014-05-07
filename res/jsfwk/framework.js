@@ -1334,10 +1334,7 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 	},
 	doNothing: function() {},
 	domNode: function() {
-	// TODO: das funktioniert mit jQuery nicht richtig. Warum??
-	// Die Punkte stören. JQuery denkt es sind Klassen... -> Punkte raus!!
 		return MKWrapper.domNode(this.config.id);
-//		return $(this.config.id);
 	},
 	/*
 	 * Ist nur relevant wenn auch angegeben.

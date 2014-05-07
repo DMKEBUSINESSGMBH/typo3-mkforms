@@ -12,10 +12,10 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 		this.setValue(0);
 	},
 	isChecked: function() {
-		return (this.getCheckSingleDomNode().checked == true);
+		return (this.domNode().checked == true);
 	},
 	getValue: function() {
-		if(this.getCheckSingleDomNode() && !this.isChecked()) {
+		if(this.domNode() && !this.isChecked()) {
 			return 0;
 		}
 		
@@ -29,11 +29,11 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 	},
 	setValue: function(value) {
 		if(value == 0) {
-			this.getCheckSingleDomNode().checked = false;
-			this.domNode().value = 0;
+			this.domNode().checked = false;
+			this.realDomNode().value = 0;
 		} else {
-			this.getCheckSingleDomNode().checked = true;
-			this.domNode().value = 1;
+			this.domNode().checked = true;
+			this.realDomNode().value = 1;
 		}
 	},
 	// die eigentliche ID liegt auf dem hidden Feld
@@ -47,7 +47,7 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 	},
 	initialize: function(container, options) {
 		MKWrapper.attachEvent(
-			this.getCheckSingleDomNode(), 
+			container, 
 			'click', 
 			this.redirectClickToAssociatedHiddenField, 
 			this
@@ -61,17 +61,11 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 			this.setValue(0);
 		}
 	},
-	
-	attachEvent: function(sEventHandler, fFunc) {
-		oObj = this.getCheckSingleDomNode();
-		if(typeof(oObj) != 'undefined' && oObj != null) {
-			// Vorheriges Event löschen!
-			// Bei ajaxCalls bei denen ein Refresh eines Elements stattfindet
-			// und ein Event besitzt, addieren sie die Events.
-			// On Clicks werden beispielsweise mehrfach ausgeführt.
-			MKWrapper.removeEvent(oObj, sEventHandler+'.fEvent');
-			MKWrapper.attachEvent(oObj, sEventHandler+'.fEvent', fFunc, oObj);
-		}
+	domNode: function() {
+		return MKWrapper.$(this.config.id + '_checkbox');
 	},
-
+	// die eigentliche ID liegt auf dem hidden Feld
+	realDomNode: function() {
+		return MKWrapper.domNode(this.config.id);
+	},
 });
