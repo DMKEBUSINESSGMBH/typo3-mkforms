@@ -65,7 +65,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 	public function persistForm($fromAjax = false) {
 		$form = $this->getForm();
 		if(!$form) throw new Exception('No form found to persist!');
-		
+
 		// ts und tc cachen, wenn aktiviert.
 		if(!$fromAjax && $form->getConfTS('cache.enabled')) {
 			$this->persistFeConfig($formId);
@@ -172,7 +172,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
 		tx_rnbase::load('tx_rnbase_cache_Manager');
 		$cache = tx_rnbase_cache_Manager::getCache('mkforms');
-		
+
 		// Wir holen uns die pageID von dem Formular.
 		// Bei AjaxCalls steht im TSFE keine oder die falsche ID!
 		$iPageId = $this->getForm()->iPageId;
@@ -186,7 +186,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 //	)); // @TODO: remove me
 		return $feConfig;
 	}
-	
+
 	/**
 	 * Save $GLOBALS['TSFE']->tmpl->setup to cache. This Typoscript data is globally cached. There is no user
 	 * specific data inside.
@@ -223,7 +223,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
 		tx_rnbase::load('tx_rnbase_cache_Manager');
 		$cache = tx_rnbase_cache_Manager::getCache('mkforms');
-		
+
 		// Wir holen uns die pageID von dem Formular.
 		// Bei AjaxCalls steht im TSFE keine oder die falsche ID!
 		$iPageId = $this->getForm()->iPageId;
@@ -244,11 +244,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 	 * @return 	tx_ameosformidable or false
 	 */
 	public function restoreForm($formid) {
-		
+
 		//registriert eine unserialize_callback_func
 		tx_rnbase::load('tx_mkforms_util_AutoLoad');
 		tx_mkforms_util_AutoLoad::registerUnserializeCallbackFunc();
-		
+
 		if(!array_key_exists($formid, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) return false;
 		$aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
 		$this->loadRunningObjects($aHibernation);
@@ -273,13 +273,18 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		$oForm->oSandBox = unserialize($oForm->oSandBox);
 		$oForm->oSandBox->oForm =& $oForm;
 
-		// konfiguration wieder herstellen
+		// konfiguration und parameters wieder herstellen
 		tx_mkforms_util_AutoLoad::setMessage('Unserialize configuration array.');
 		$aConfigArray = unserialize(gzuncompress($oForm->getConfigurations()));
 		$config = tx_rnbase::makeInstance('tx_rnbase_configurations');
 		$config->init($aConfigArray, $oForm->getCObj(), 'mkforms', 'mkforms');
+
+		$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+		$parameters->setQualifier($config->getQualifier());
+		$config->setParameters($parameters);
+
 		$oForm->setConfigurations($config, $oForm->getConfId());
-		
+
 		$oForm->oDataHandler->oForm =& $oForm;
 		$oForm->oRenderer->oForm =& $oForm;
 		$oForm->oJs->oForm =& $oForm;
@@ -288,10 +293,10 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
 		// stellt die alte unserialize_callback_func wieder her
 		tx_mkforms_util_AutoLoad::restoreUnserializeCallbackFunc();
-		
+
 		return $oForm;
 	}
-	
+
 	/**
 	 *
 	 * @param	array		$$aHibernation
