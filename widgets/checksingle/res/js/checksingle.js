@@ -1,4 +1,31 @@
 Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
+	initialize: function() {
+		var element = this.domNode();
+		if (!element) {
+			return;
+		}
+		var event = 'click.redirectCheckToHidden'
+		MKWrapper.removeEvent(
+			element,
+			event
+		);
+		MKWrapper.attachEvent(
+			element, 
+			event, 
+			this.redirectClickToAssociatedHiddenField, 
+			this
+		);
+	},
+	redirectClickToAssociatedHiddenField: function() {
+		if (!this.domNode()) {
+			return;
+		}
+		if(this.isChecked()) {
+			this.setValue(1);
+		} else {
+			this.setValue(0);
+		}
+	},
 	clearValue: function() {
 		this.unCheck();
 	},
@@ -34,31 +61,6 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 		} else {
 			this.domNode().checked = true;
 			this.realDomNode().value = 1;
-		}
-	},
-	// die eigentliche ID liegt auf dem hidden Feld
-	getCheckSingleDomNode: function() {
-		return MKWrapper.$(this.config.id + '_checkbox');
-	},
-	constructor: function(oConfig) {
-		this.base(oConfig);
-		if (typeof(this.domNode()) == "undefined") return;
-		this.initialize(this.domNode(), this.config);
-	},
-	initialize: function(container, options) {
-		MKWrapper.attachEvent(
-			container, 
-			'click', 
-			this.redirectClickToAssociatedHiddenField, 
-			this
-		);
-	},
-	
-	redirectClickToAssociatedHiddenField: function() {
-		if(this.isChecked()) {
-			this.setValue(1);
-		} else {
-			this.setValue(0);
 		}
 	},
 	domNode: function() {

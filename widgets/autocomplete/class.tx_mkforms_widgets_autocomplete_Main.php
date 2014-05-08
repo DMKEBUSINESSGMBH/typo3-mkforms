@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_autocomplete' for the 'ameos_formidable' extension.
  *
  * @author	Loredana Zeca <typo3dev@ameos.com>
@@ -9,11 +9,12 @@
 class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 
 	private static $ignoreCharacters = array('/');
-	
+
 	var $aLibs = array(
 		'widget_autocomplete_class' => 'res/js/autocomplete.js',
 	);
 
+	var $sAttachPostInitTask = 'initialize';
 	var $sMajixClass = 'Autocomplete';
 
 	var $bCustomIncludeScript = TRUE;
@@ -29,14 +30,14 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	var $aConfig = FALSE;
 	var $aLimitAndSort = FALSE;
 	var $aFilters = FALSE;
-	
+
 	// Damit über die Felder iteriert wird, muss iteratingChilds=true sein
 	var $iteratingChilds = TRUE;
 
-	
+
 	function _render() {
 
-		$this->oForm->bStoreFormInSession = TRUE;	// instanciate the Typo3 and formidable context 
+		$this->oForm->bStoreFormInSession = TRUE;	// instanciate the Typo3 and formidable context
 
 		$this->_checkRequiredProperties();		// check if all the required fields are specified into XML
 
@@ -59,7 +60,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 		if(($sItemClass = $this->_navConf('/itemclass')) === FALSE) {
 			$sItemClass = 'mkforms-autocomplete-item';
 		}
-	
+
 		if(($sLoaderClass = $this->_navConf('/loaderclass')) === FALSE) {
 			$sLoaderClass = 'mkforms-autocomplete-loader';
 		}
@@ -78,7 +79,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 		$sSafeLock = $this->_getSessionDataHashKey();
 		// thwoerID without iterating id
 		$sThrower = $this->_getElementHtmlId(false, true, false);
-		
+
 		$sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
 
 		$GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
@@ -109,7 +110,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			"html" => $sInput . $sChilds,
 			"addparams"	=> $this->_getAddInputParams(),
 		);
-		
+
 		// allowed because of $bCustomIncludeScript = TRUE
 		$this->aConfig = array(
 			"timeObserver" => $sTimeObserver,
@@ -207,7 +208,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 		$this->aConfig['searchCounter'] = (int)t3lib_div::_GP('searchCounter');
 
 		$this->renderList($aParts, $aRowsHtml);
-		
+
 		return array(
 			'counter' => $this->aConfig['searchCounter'],
 			'html' => array(
@@ -274,7 +275,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 		foreach($this->aChilds as $sName => $oChild) {
 			if ($bReplaced) {
 				$sValue = $aData[$sName];
-			} else {				
+			} else {
 				if($this->_defaultTrue('highlightresults')) {
 					$sValue = preg_replace_callback(
 						$sPattern,
@@ -284,8 +285,8 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 						),
 						$aData[$sName],
 						1		// replace only the first occurence
-					); 
-	
+					);
+
 					if ($sValue != $aData[$sName]) {
 						$bReplaced = true;
 					}
@@ -299,7 +300,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			$this->setChildValue($this->aChilds[$sName],$sValue);
 //			$this->aChilds[$sName]->setValue($sValue);
 		}
-		
+
 		$aCurRow = $this->renderChildsBag();
 		array_pop($this->getForm()->getDataHandler()->__aListData);
 		return $aCurRow;
@@ -320,25 +321,25 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 //		return $aMatches[0];
 		return '<strong>' .$aMatches[0]. '</strong>';
 	}
-	
+
 	private function stringEncode(){
-		
+
 	}
 	private function stringDecode(){
-		
+
 	}
 
 	private function initSearchDS($aFilters, $aLimitAndSort) {
 		if(($sDsToUse = $this->_navConf('/datasource/use')) === FALSE) return;
-		
-		// zusätzliche parameter besorgen 
+
+		// zusätzliche parameter besorgen
 		$aConfig = $this->_navConf('/datasource/config');
 		$aConfig = $aConfig === false ? $this->_navConf('/datasource/params') : $aConfig;
 		$aConfig = is_array($aConfig)
 			? $this->getForm()->getRunnable()
 				->parseParams($aConfig, $aLimitAndSort)
 			: $aLimitAndSort;
-		
+
 		try {
 			$this->aDatasource = $this->getForm()->getDataSource($sDsToUse)
 									->_fetchData($aConfig, $aFilters);
@@ -351,7 +352,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	private function initLimitAndSort() {
 		// dont set filters if set to false!
 		$aFilters = array();
-		
+
 		if(($sLimit = $this->_navConf('/datasource/limit')) === FALSE) {
 			$sLimit = '5';
 		}
@@ -372,7 +373,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 		if(!$this->isFalseVal($sSortDir)) {
 			$aFilters['sortdirection'] = $sSortDir;
 		}
-		
+
 		return $aFilters;
 	}
 
@@ -411,7 +412,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	}
 
 	function _getElementHtmlName($sName = FALSE) {
-		
+
 		$sRes = parent::_getElementHtmlName($sName);
 		$aData =& $this->oForm->oDataHandler->_getListData();
 
@@ -421,7 +422,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 
 		return $sRes;
 	}
-	
+
 	function _getElementHtmlNameWithoutFormId($sName = FALSE) {
 		$sRes = parent::_getElementHtmlNameWithoutFormId($sName);
 		$aData =& $this->oForm->oDataHandler->_getListData();
@@ -437,7 +438,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	 * Was ist das!?
 	 * warum wird hier nochmal die id des listers mit angehängt!?
 	 * wird doch beireits beim lister gemacht, somal das feld 'uid' in den seltensten fällen stimmt.
-	 * 
+	 *
 	 */
 	 /*
 	function _getElementHtmlId($sId = FALSE, $withForm = true, $withIteratingId = true) {
@@ -472,21 +473,6 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			$this->oForm->mayday('The renderlet:autocomplete <b>' . $this->_getName() . '</b> requires at least one child to be properly set. Please check your XML configuration: define a renderlet:* as child.');
 		}
 
-	}
-
-	/**
-	 * Muss in einen postInit-Task initialisiert werden, sonst klappt es mit Ajax nicht.
-	 * @see api/formidable_mainrenderlet#includeScripts($aConfig)
-	 */
-	function includeScripts($aConf=array()) {
-		parent::includeScripts($aConf);
-		$sAbsName = $this->_getElementHtmlIdWithoutFormId();
-
-		$sInitScript =<<<INITSCRIPT
-		Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").initialize();
-INITSCRIPT;
-
-		$this->getForm()->attachPostInitTask($sInitScript,'postinit Autocomplete initialization', $this->_getElementHtmlId());
 	}
 
 	/**

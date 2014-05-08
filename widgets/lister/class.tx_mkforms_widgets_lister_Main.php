@@ -15,6 +15,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 	var $uidColumn = false;
 
 	var $sMajixClass = 'Lister';
+	var $sAttachPostInitTask = 'init';
 
 	var $iteratingChilds = true;
 
@@ -1871,25 +1872,6 @@ ERRORMESSAGE;
 	function majixRepaintPage($iPage) {
 		$this->setPage($iPage);
 		return $this->majixRepaint();
-	}
-
-	function includeScripts($aConf = array()) {
-		parent::includeScripts($aConf);
-
-//		$sAbsName = $this->getAbsName();
-//		$sInitScript =<<<INITSCRIPT
-//			//Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").init();
-//INITSCRIPT;
-		$sInitScript =<<<INITSCRIPT
-			Formidable.f("{$this->oForm->formid}").o("{$this->_getElementHtmlId()}").init();
-INITSCRIPT;
-
-		# initalization is made post-init
-			# as when rendered in an ajax context in a modalbox,
-			# the HTML is available *after* init tasks
-			# as the modalbox HTML is added to the page using after init tasks !
-
-		$this->oForm->attachPostInitTask($sInitScript, 'Post-init LISTER initialization', $this->_getElementHtmlId());
 	}
 
 	function repaintFirst() {

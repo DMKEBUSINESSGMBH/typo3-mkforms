@@ -13,6 +13,8 @@
 
 		var $aLibs = array();
 		var $sMajixClass = '';
+		// define methodname, if a specific init method in the js should be called, after dom is ready.
+		var $sAttachPostInitTask = '';
 		var $bCustomIncludeScript = FALSE;	// TRUE if the renderlet needs to handle script inclusion itself
 
 		var $aSkin = FALSE;
@@ -2325,61 +2327,71 @@ JAVASCRIPT;
 		}
 	}
 
-		function includeScripts($aConfig = array()) {
+	function includeScripts($aConfig = array()) {
 
-			$sClass = $this->getMajixClass() ? $this->getMajixClass() : 'RdtBaseClass';
-			$aChildsIds = array();
+		$sClass = $this->getMajixClass() ? $this->getMajixClass() : 'RdtBaseClass';
+		$aChildsIds = array();
 
-			if($this->mayHaveChilds() && $this->hasChilds()) {
+		if($this->mayHaveChilds() && $this->hasChilds()) {
 
-				$aKeys = array_keys($this->aChilds);
-				reset($aKeys);
-				while(list(, $sKey) = each($aKeys)) {
-					$aChildsIds[$sKey] = $this->aChilds[$sKey]->_getElementHtmlId();
-				}
+			$aKeys = array_keys($this->aChilds);
+			reset($aKeys);
+			while(list(, $sKey) = each($aKeys)) {
+				$aChildsIds[$sKey] = $this->aChilds[$sKey]->_getElementHtmlId();
 			}
+		}
 
-			if($this->hasParent()) {
-				$sParentId = $this->oRdtParent->_getElementHtmlId();
-			} else {
-				$sParentId = FALSE;
-			}
+		if($this->hasParent()) {
+			$sParentId = $this->oRdtParent->_getElementHtmlId();
+		} else {
+			$sParentId = FALSE;
+		}
 
-			$sHtmlId = $this->_getElementHtmlId();
-			$sJson = tx_mkforms_util_Json::getInstance()->encode(
-				array_merge(
-					array(
-						'id' => $sHtmlId,
-						'localname' => $this->getName(),
-						'name' => $this->_getElementHtmlName(),
-						'namewithoutformid' => $this->_getElementHtmlNameWithoutFormId(),
-//						'idwithoutformid' => $this->_getElementHtmlIdWithoutFormId(),
-						'idwithoutformid' => $this->_getElementHtmlId(),
-						'iteratingid' => strlen($this->getIteratingId()) ? $this->getIteratingId() : false,
-						'formid' => $this->oForm->formid,
-						'_rdts' => $aChildsIds,
-						'parent' => $sParentId,
-						'error' => $this->getError(),
-						'abswebpath' => $this->sExtWebPath,
-					),
-					$aConfig
-				)
-			);
+		$sHtmlId = $this->_getElementHtmlId();
+		$sJson = tx_mkforms_util_Json::getInstance()->encode(
+			array_merge(
+				array(
+					'id' => $sHtmlId,
+					'localname' => $this->getName(),
+					'name' => $this->_getElementHtmlName(),
+					'namewithoutformid' => $this->_getElementHtmlNameWithoutFormId(),
+					// 'idwithoutformid' => $this->_getElementHtmlIdWithoutFormId(),
+					'idwithoutformid' => $this->_getElementHtmlId(),
+					'iteratingid' => strlen($this->getIteratingId()) ? $this->getIteratingId() : false,
+					'formid' => $this->oForm->formid,
+					'_rdts' => $aChildsIds,
+					'parent' => $sParentId,
+					'error' => $this->getError(),
+					'abswebpath' => $this->sExtWebPath,
+				),
+				$aConfig
+			)
+		);
 
-			$sScript =<<<JAVASCRIPT
+		$sScript = 'Formidable.Context.Forms["' . $this->oForm->formid . '"]' .
+			'.Objects["' . $sHtmlId . '"] = new Formidable.Classes.' . $sClass .
+			'(' .PHP_EOL . $sJson . PHP_EOL . ')';
 
-Formidable.Context.Forms["{$this->oForm->formid}"].Objects["{$sHtmlId}"] = new Formidable.Classes.{$sClass}(
-	{$sJson}
-);
+		$this->getForm()->attachInitTask(
+			$sScript,
+			$sClass . ' ' . $sHtmlId . ' initialization',
+			$sHtmlId
+		);
 
-JAVASCRIPT;
 
-			$this->getForm()->attachInitTask(
-				$sScript,
-				$sClass . ' ' . $sHtmlId . ' initialization',
-				$sHtmlId
+		// attach post init script?
+		if (!empty($this->sAttachPostInitTask)) {
+			// Formidable.f("testform").o("formfield").initmethod();
+			$this->getForm()->attachPostInitTask(
+				'Formidable.f("' . $this->oForm->formid . '")' .
+					'.o("' . $this->_getElementHtmlIdWithoutFormId() . '")' .
+					'.' . $this->sAttachPostInitTask . '();' . PHP_EOL,
+				'postinit ' . $sClass . ' ' . $sHtmlId . ' initialization',
+				$this->_getElementHtmlId()
 			);
 		}
+
+	}
 
 		function mayHaveChilds() {
 			return FALSE;

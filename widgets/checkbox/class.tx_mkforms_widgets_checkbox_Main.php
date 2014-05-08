@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_checkbox' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,8 +7,9 @@
 
 
 class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
-	
+
 	var $sMajixClass = 'CheckBox';
+	var $sAttachPostInitTask = 'initialize';
 	var $aLibs = array(
 		'rdt_checkbox_class' => 'res/js/checkbox.js',
 	);
@@ -28,10 +29,10 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 
 		reset($aItems);
 		while(list($index, $aItem) = each($aItems)) {
-			
-			// item configuration 
+
+			// item configuration
 			$aConfig = array_merge($this->aElement, $aItem);
-				
+
 			$value = $aItem['value'];
 			$caption = $this->oForm->getConfigXML()->getLLLabel($aItem['caption']);
 
@@ -74,9 +75,9 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 			$aConfig['sId'] = $sId;
 			$token = self::getToken();
 			$labelTag = $this->getLabelTag($token, $aConfig);
-			$labelTag = explode($token, $labelTag); 
+			$labelTag = explode($token, $labelTag);
 			$sLabelStart = $labelTag[0];
-			
+
 			$aHtmlBag[$value . '.'] = array(
 				'input' => $sInput,
 				'caption' => $caption,
@@ -137,14 +138,14 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	}
 
 	function _unFlatten($sData) {
-		
+
 		if(!$this->_emptyFormValue($sData)) {
 			return t3lib_div::trimExplode(',', $sData);
 		}
 
 		return array();
 	}
-	
+
 	function _getHumanReadableValue($data) {
 
 		if(!is_array($data)) {
@@ -153,7 +154,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 
 		$aLabels = array();
 		$aItems = $this->_getItems();
-		
+
 		reset($data);
 		while(list(, $selectedItemValue) = each($data)) {
 
@@ -167,29 +168,29 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 				}
 			}
 		}
-		
+
 		return implode(', ', $aLabels);
 	}
-	
+
 	function _sqlSearchClause($sValues, $sFieldPrefix = '') {
 
 		$aParts = array();
 		$aValues = t3lib_div::trimExplode(',', $sValues);
-		
+
 		if(sizeof($aValues) > 0) {
 
 			reset($aValues);
-			
+
 			$sFieldName = $this->_navConf('/name');
 			$sTableName = $this->oForm->_navConf('/tablename', $this->oForm->oDataHandler->aElement);
 			$aConf = $this->_navConf('/search');
-			
+
 			if(!is_array($aConf)) {
 				$aConf = array();
 			}
-						
+
 			while(list(, $sValue) = each($aValues)) {
-				
+
 				if(array_key_exists('onfields', $aConf)) {
 
 					if($this->oForm->isRunneable($aConf['onfields'])) {
@@ -203,7 +204,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 				} else {
 					$aFields = array($this->_getName());
 				}
-				
+
 				reset($aFields);
 				while(list(, $sField) = each($aFields)) {
 					$aParts[] = "FIND_IN_SET('" . $GLOBALS["TYPO3_DB"]->quoteStr($sValue, $sTableName) . "', " . $sFieldPrefix . $sField . ")";
@@ -257,7 +258,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 
 		return $mSep;
 	}
-	
+
 	function _implodeElements($aHtml) {
 
 		return implode(
@@ -269,7 +270,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	function _wrapSelected($sHtml) {
 
 		if(($mWrap = $this->_navConf('/wrapselected')) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}
@@ -284,9 +285,9 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	}
 
 	function _wrapItem($sHtml) {
-		
+
 		if(($mWrap = $this->_navConf('/wrapitem')) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}
@@ -298,20 +299,20 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	}
 
 	function _displayLabel($sLabel) {
-		
+
 		// für bestehende projekte, das main label darf nicht die klasse -radio haben!
 		$sDefaultLabelClass = $this->sDefaultLabelClass;
 		$this->sDefaultLabelClass = $this->getForm()->sDefaultWrapClass.'-label';
-		
+
 		$aConfig =  $this->aElement;
 		// via default, kein for tag!
 		if(!isset($aConfig['labelfor'])) $aConfig['labelfor'] = 0;
-		
+
 		$sLabel = $this->getLabelTag($sLabel, $aConfig);
-		
+
 		// label zurücksetzen
 		$this->sDefaultLabelClass = 'label-radio';
-		
+
 		return $sLabel;
 //		$sId = $this->_getElementHtmlId() . '_label';
 //		return ($this->oForm->oRenderer->bDisplayLabels && (trim($sLabel) != '')) ? '<label id="' . $sId . '" class="'.$this->getForm()->sDefaultWrapClass.'-label ' . $sId . '">' . $sLabel . "</label>\n" : '';
@@ -320,27 +321,11 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	/**
 	 * Setzt den/die Werte des Feldes.
 	 * Wir wollen hier immer ein Array.
-	 * 
+	 *
 	 * @param mixed $mValue
 	 */
 	function setValue($mValue) {
 		return parent::setValue(is_array($mValue) || empty($mValue) ? $mValue : array($mValue));
-	}
-	
-	/**
-	 * Muss in einen postInit-Task initialisiert werden, sonst klappt es mit Ajax und radioMode nicht.
-	 * @see api/formidable_mainrenderlet#includeScripts($aConfig)
-	 */
-	function includeScripts($aConf=array()) {
-		parent::includeScripts($aConf);
-		
-		$sAbsName = $this->_getElementHtmlIdWithoutFormId();
-
-		$sInitScript =<<<INITSCRIPT
-		Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").initialize();
-INITSCRIPT;
-
-		$this->getForm()->attachPostInitTask($sInitScript,'postinit CheckBox initialization', $this->_getElementHtmlId());
 	}
 }
 

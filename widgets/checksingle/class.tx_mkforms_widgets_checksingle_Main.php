@@ -9,6 +9,8 @@
 class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 
 	var $sMajixClass = "CheckSingle";
+	// define methodname, if a specific init method in the js should be called, after dom is ready.
+	var $sAttachPostInitTask = 'initialize';
 	var $aLibs = array(
 		"rdt_checksingle_class" => "res/js/checksingle.js",
 	);

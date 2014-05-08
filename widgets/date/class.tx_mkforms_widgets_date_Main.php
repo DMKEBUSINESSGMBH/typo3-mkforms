@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_date' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -13,29 +13,30 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 	);
 
 	var $sMajixClass = 'Date';
+	var $sAttachPostInitTask = 'initCal';
 	var $bCustomIncludeScript = TRUE;
 
 	function _render() {
 
 		$this->_includeLibraries();
-		
+
 		$sUnflattenHscValue = htmlspecialchars(
 			$this->_unFlatten(
 				$this->getValue()
 			)
 		);
-		
+
 		$sUnflattenHscValueForHtml = $this->getValueForHtml($sUnflattenHscValue);
 
 		$iTstamp = $this->_flatten(
 			$this->getValue()
 		);
-		
+
 		$sLabel = $this->getLabel();
 
 		$sTriggerId = $this->getTriggerId();
 		$sTrigger = " <img src='" . t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . "res/lib/js_calendar/img.gif' id='" . $sTriggerId . "' style='cursor: pointer;' alt='Pick date' /> ";
-		
+
 		$this->_initJs();
 
 		if($this->_allowManualEdition()) {
@@ -43,7 +44,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 			$sInput = "<input type=\"text\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" value=\"" . $sUnflattenHscValueForHtml . "\"" . $this->_getAddInputParams() . " />";
 
 		} else {
-			
+
 			$sSpanId = 'showspan_' . $this->_getElementHtmlId();
 
 			if($this->_emptyFormValue($sUnflattenHscValue)) {
@@ -51,16 +52,16 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 			} else {
 				$sDisplayed = $sUnflattenHscValueForHtml;
 			}
-			
-			
+
+
 
 			$sInput =	"<span id='" . $sSpanId . "' " . $this->_getAddInputParams() . '>'
 					.	$sDisplayed
 					.	'</span>'
 					.	'<input type="hidden" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $iTstamp . '" />';
 		}
-		
-		$sCompiled = 
+
+		$sCompiled =
 				$this->_displayLabel($sLabel)
 			.	$sInput
 			.	$sTrigger;
@@ -87,20 +88,20 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 			)
 		);
 	}
-	
+
 	function getEmptyString() {
-		
+
 		if(($sEmptyString = $this->_navConf('/data/datetime/emptystring')) !== FALSE) {
-		
+
 			if($this->oForm->isRunneable($sEmptyString)) {
 				$sEmptyString = $this->getForm()->getRunnable()->callRunnableWidget($this, $sEmptyString);
 			}
-			
+
 			if($sEmptyString !== FALSE) {
 				return $sEmptyString;
 			}
 		}
-		
+
 		return '...';
 	}
 
@@ -168,31 +169,8 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 		));
 	}
 
-	/**
-	 * Im Date muiss der Kalender in einen postInit-Task initialisiert werden, sonst
-	 * klappt es mit Ajax nicht.
-	 * @see api/formidable_mainrenderlet#includeScripts($aConfig)
-	 */
-	function includeScripts($aConf=array()) {
-		parent::includeScripts($aConf);
-		$sAbsName = $this->_getElementHtmlIdWithoutFormId();
-
-		$sInitScript =<<<INITSCRIPT
-		Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").initCal();
-INITSCRIPT;
-		
-		# the SWFUpload initalization is made post-init
-		# as when rendered in an ajax context in a modalbox,
-		# the HTML is available *after* init tasks
-		# as the modalbox HTML is added to the page using after init tasks !
-
-		#$sInitScript = "alert('post-init!');";
-
-		$this->getForm()->attachPostInitTask($sInitScript,'postinit Calendar initialization', $this->_getElementHtmlId());
-	}
-
 	function _flatten($mData) {
-		
+
 		if(!$this->_emptyFormValue($mData)) {
 
 			if($this->shouldConvertToTimestamp()) {
@@ -200,17 +178,17 @@ INITSCRIPT;
 				if(!$this->__isTimestamp($mData)) {
 					// on convertit la date en timestamp
 					// on commence par r�cup�rer la configuration du format de date utilis�
-					
+
 					$sFormat = $this->_getFormat();
 					$result = $this->__date2tstamp($mData, $sFormat);
-					
+
 					return $result;
 				}
 			}
 		} else {
 			return '';
 		}
-		
+
 		return $mData;
 	}
 
@@ -219,20 +197,20 @@ INITSCRIPT;
 		if($this->__isTimestamp($mData)) {
 			return $this->__tstamp2date($mData);
 		}
-		
+
 		return $mData;
 	}
-	
+
 	function __isTimestamp($mData) {
 		return (('' . intval($mData)) === ('' . $mData));
 	}
-	
+
 	function _allowManualEdition() {
 		return
 			$this->_defaultFalse('/data/datetime/allowmanualedition')
 			|| $this->_defaultFalse('/allowmanualedition');
 	}
-	
+
 	function __date2tstamp($strdate, $format) {
 		// strptime
 		$aAvailableTokens = array(
@@ -313,12 +291,12 @@ INITSCRIPT;
 %w        the day of the week (0 ... 6, 0 = SUN)
 %y        year without the century (00 ... 99)
 %Y        year including the century (eg. 1976)
-%%        a literal % character 
+%%        a literal % character
 */
 		// on d�termine les s�parateurs
 		$aSeparateurs = array();
 		$separateurs = str_replace($aAvailableTokens, '', $format);
-		
+
 		if(strlen($separateurs) > 0) {
 			for($k = 0; $k <= strlen($separateurs); $k++) {
 				if(!in_array($separateurs[$k], $aSeparateurs)) {
@@ -334,7 +312,7 @@ INITSCRIPT;
 			$aDate[$format] = $aTokens[$index];
 		}
 		reset($aDate);
-		
+
 		$day = strftime('%d');
 		$month = strftime('%m');
 		$year = strftime('%Y');
@@ -351,7 +329,7 @@ INITSCRIPT;
 		if(array_key_exists('%m', $aDate)) {
 			$month = $aDate['%m'];
 		}
-		
+
 		if(array_key_exists('%Y', $aDate)) {
 			$year = $aDate['%Y'];
 		}
@@ -371,17 +349,17 @@ INITSCRIPT;
 		$tstamp = mktime($hour, $minute, $second, $month, $day , $year);
 		return $tstamp;
 	}
-	
+
 	function _getHumanReadableValue($data) {
 		return $this->_unFlatten($data);
 	}
-	
+
 	function __tstamp2date($data) {
-		
+
 		if($this->shouldConvertToTimestamp()) {
-			
+
 			if(intval($data) != 0) {
-				
+
 				// il s'agit d'un champ timestamp
 				// on convertit le timestamp en date lisible
 
@@ -394,17 +372,17 @@ INITSCRIPT;
 					$sCurrentLocale = setlocale(LC_TIME, 0);
 
 					// From the documentation of setlocale: "If locale is zero or "0", the locale setting
-					// is not affected, only the current setting is returned." 
+					// is not affected, only the current setting is returned."
 
 					setlocale(LC_TIME, $locale);
 				}
-				
+
 				if($this->_defaultFalse('/data/datetime/gmt') === FALSE) {
 					$sDate = strftime($format, $data);
 				} else {
 					$sDate = gmstrftime($format, $data);
 				}
-				
+
 				$this->oForm->_debug($data . ' in ' . $format . ' => ' . $sDate, 'AMEOS_FORMIDABLE_RDT_DATE ' . $elementname . ' - TIMESTAMP TO DATE CONV.');
 
 				if($locale !== FALSE) {
@@ -416,14 +394,14 @@ INITSCRIPT;
 				return '';
 			}
 		}
-		
+
 		return $data;
 	}
-	
+
 	function _emptyFormValue($value) {
 		return intval($value) <= 0;
 	}
-	
+
 	function _sqlSearchClause($sValue, $sFieldPrefix = '', $sName = '', $bRec = TRUE) {
 
 		if($sName === '') {
@@ -451,26 +429,26 @@ INITSCRIPT;
 
 	function _includeLibraries() {
 //t3lib_div::debug('Test','class.tx_mkforms_widgets_date_Main.php : '); // TODO: remove me
-		if($this->oForm->issetAdditionalHeaderData('mkforms_date_includeonce')) 
+		if($this->oForm->issetAdditionalHeaderData('mkforms_date_includeonce'))
 			return;
-			
+
 		$sLang = ($GLOBALS['TSFE']->lang == 'default') ? 'en' : $GLOBALS['TSFE']->lang;
-		
+
 		$sAbsLangFile = $this->sExtPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
-		
+
 		if(!file_exists($sAbsLangFile)) {
 			$sLang = 'en';
 		}
 
 		$sLangFile = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
-		
+
 		//TODO css global konfigurierbar machen!!!
 //		$sCssFile = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . 'res/lib/js_calendar/calendar-win2k-1.css';
 		$sCssFile = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . 'fileadmin/templates/css/template_calendar.css';
-		
+
 		$oJsLoader =$this->getForm()->getJSLoader();
 		$oJsLoader->additionalHeaderData(
-			'				
+			'
 				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath. 'res/lib/js_calendar/calendar.js') . '"></script>
 				<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sLangFile) . '"></script>
 				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . 'res/lib/js_calendar/calendar-setup.js') . '"></script>
@@ -486,10 +464,10 @@ INITSCRIPT;
 			$this->_defaultTrue('/data/datetime/converttotimestamp')
 			&& $this->_defaultTrue('/converttotimestamp');
 	}
-	
+
 	function getValue() {
 		$mValue = parent::getValue();
-		
+
 		if($this->_allowManualEdition() && $this->shouldConvertToTimestamp()) {
 			if(!$this->_emptyFormValue($mValue)) {
 				return $this->__date2tstamp(
@@ -497,10 +475,10 @@ INITSCRIPT;
 					$this->_getFormat()
 				);
 			}
-			
+
 			return '';
 		}
-		
+
 		return $mValue;
 	}
 }
