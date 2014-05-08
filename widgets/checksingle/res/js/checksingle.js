@@ -10,7 +10,7 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 			event
 		);
 		MKWrapper.attachEvent(
-			element, 
+			element,
 			event, 
 			this.redirectClickToAssociatedHiddenField, 
 			this
@@ -20,11 +20,7 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 		if (!this.domNode()) {
 			return;
 		}
-		if(this.isChecked()) {
-			this.setValue(1);
-		} else {
-			this.setValue(0);
-		}
+		this.setValue(this.isChecked() ? 1 : 0);
 	},
 	clearValue: function() {
 		this.unCheck();
@@ -55,13 +51,8 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 		return sRes;
 	},
 	setValue: function(value) {
-		if(value == 0) {
-			this.domNode().checked = false;
-			this.realDomNode().value = 0;
-		} else {
-			this.domNode().checked = true;
-			this.realDomNode().value = 1;
-		}
+		this.domNode().checked = value == 0 ? false : true;
+		this.realDomNode().value = value == 0 ? 0 : 1;
 	},
 	domNode: function() {
 		return MKWrapper.$(this.config.id + '_checkbox');
