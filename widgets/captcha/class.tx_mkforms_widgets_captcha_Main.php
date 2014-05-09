@@ -279,7 +279,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 		if($this->aElement['font']['family'] && trim($this->aElement['font']['family']) != '') {
 			$_SESSION['rdt_captcha']['config']['tfont'] = explode(',',trim($this->aElement['font']['family']));
 		} else {
-			$_SESSION['rdt_captcha']['config']['tfont'][] = 'luggerbu.ttf';
+			$_SESSION['rdt_captcha']['config']['tfont'] = array('luggerbu.ttf', 'WAVY.TTF', 'SCRAWL.TTF');
 		}
 
 		if($this->aElement['authchar']) {

@@ -2,10 +2,10 @@
 
 // -----------------------------------------------
 // Cryptographp v1.3
-// (c) 2006 Sylvain BRISON 
+// (c) 2006 Sylvain BRISON
 //
-// www.cryptographp.com 
-// cryptographp@alphpa.com 
+// www.cryptographp.com
+// cryptographp@alphpa.com
 //
 // Licence CeCILL (Voir Licence_CeCILL_V2-fr.txt)
 // -----------------------------------------------
@@ -26,121 +26,121 @@ $bgB  = $_SESSION["rdt_captcha"]["config"]["bgB"];         // Couleur du fond au
 $bgclear = $_SESSION["rdt_captcha"]["config"]["bgClear"];     // Fond transparent (true/false)
                      // Uniquement valable pour le format PNG
 
-$bgimg = '';          // Le fond du cryptogramme peut-être une image  
+$bgimg = '';          // Le fond du cryptogramme peut-ï¿½tre une image
                              // PNG, GIF ou JPG. Indiquer le fichier image
                              // Exemple: $fondimage = 'photo.gif';
-				                     // L'image sera redimensionnée si nécessaire
+				                     // L'image sera redimensionnï¿½e si nï¿½cessaire
                              // pour tenir dans le cryptogramme
 
 $bgframe = $_SESSION["rdt_captcha"]["config"]["bgFrame"];    // Ajoute un cadre de l'image (true/false)
 
 
 // ----------------------------
-// Configuration des caractères
+// Configuration des caractï¿½res
 // ----------------------------
 
-// Couleur de base des caractères
+// Couleur de base des caractï¿½res
 
-$charR = $_SESSION["rdt_captcha"]["config"]["charR"];     // Couleur des caractères au format RGB: Red (0->255)
-$charG = $_SESSION["rdt_captcha"]["config"]["charG"];     // Couleur des caractères au format RGB: Green (0->255)
-$charB = $_SESSION["rdt_captcha"]["config"]["charB"];     // Couleur des caractères au format RGB: Blue (0->255)
+$charR = $_SESSION["rdt_captcha"]["config"]["charR"];     // Couleur des caractï¿½res au format RGB: Red (0->255)
+$charG = $_SESSION["rdt_captcha"]["config"]["charG"];     // Couleur des caractï¿½res au format RGB: Green (0->255)
+$charB = $_SESSION["rdt_captcha"]["config"]["charB"];     // Couleur des caractï¿½res au format RGB: Blue (0->255)
 
-$charcolorrnd = $_SESSION["rdt_captcha"]["config"]["charcolorrnd"];      // Choix aléatoire de la couleur.
-$charcolorrndlevel = $_SESSION["rdt_captcha"]["config"]["charcolorrndlevel"];    // Niveau de clarté des caractères si choix aléatoire (0->4)
-                           // 0: Aucune sélection
-                           // 1: Couleurs très sombres (surtout pour les fonds clairs)
+$charcolorrnd = $_SESSION["rdt_captcha"]["config"]["charcolorrnd"];      // Choix alï¿½atoire de la couleur.
+$charcolorrndlevel = $_SESSION["rdt_captcha"]["config"]["charcolorrndlevel"];    // Niveau de clartï¿½ des caractï¿½res si choix alï¿½atoire (0->4)
+                           // 0: Aucune sï¿½lection
+                           // 1: Couleurs trï¿½s sombres (surtout pour les fonds clairs)
                            // 2: Couleurs sombres
                            // 3: Couleurs claires
-                           // 4: Couleurs très claires (surtout pour fonds sombres)
+                           // 4: Couleurs trï¿½s claires (surtout pour fonds sombres)
 
-$charclear = $_SESSION["rdt_captcha"]["config"]["charclear"];   // Intensité de la transparence des caractères (0->127)
+$charclear = $_SESSION["rdt_captcha"]["config"]["charclear"];   // Intensitï¿½ de la transparence des caractï¿½res (0->127)
                   // 0=opaques; 127=invisibles
 	                // interessant si vous utilisez une image $bgimg
 	                // Uniquement si PHP >=3.2.1
 
-// Polices de caractères
+// Polices de caractï¿½res
 
-//$tfont[] = 'Alanden_';       // Les polices seront aléatoirement utilisées.
+//$tfont[] = 'Alanden_';       // Les polices seront alï¿½atoirement utilisï¿½es.
 //$tfont[] = 'bsurp___';       // Vous devez copier les fichiers correspondants
 //$tfont[] = 'ELECHA__.TTF';       // sur le serveur.
-//$tfont[] = 'luggerbu.ttf';     // Ajoutez autant de lignes que vous voulez   
-//$tfont[] = 'RASCAL__';     
-//$tfont[] = 'SCRAWL.ttf';  
+//$tfont[] = 'luggerbu.ttf';     // Ajoutez autant de lignes que vous voulez
+//$tfont[] = 'RASCAL__';
+//$tfont[] = 'SCRAWL.ttf';
 //$tfont[] = 'WAVY.ttf';
 
 $tfont = $_SESSION["rdt_captcha"]["config"]["tfont"];
 
 
 
-// Caracteres autorisés
-// Attention, certaines polices ne distinguent pas (ou difficilement) les majuscules 
-// et les minuscules. Certains caractères sont faciles à confondre, il est donc
-// conseillé de bien choisir les caractères utilisés.
+// Caracteres autorisï¿½s
+// Attention, certaines polices ne distinguent pas (ou difficilement) les majuscules
+// et les minuscules. Certains caractï¿½res sont faciles ï¿½ confondre, il est donc
+// conseillï¿½ de bien choisir les caractï¿½res utilisï¿½s.
 
-$charel = $_SESSION["rdt_captcha"]["config"]["charel"];       // Caractères autorisés
+$charel = $_SESSION["rdt_captcha"]["config"]["charel"];       // Caractï¿½res autorisï¿½s
 
-$crypteasy = $_SESSION["rdt_captcha"]["config"]["crypteasy"];       // Création de cryptogrammes "faciles à lire" (true/false)
-                         // composés alternativement de consonnes et de voyelles.
+$crypteasy = $_SESSION["rdt_captcha"]["config"]["crypteasy"];       // Crï¿½ation de cryptogrammes "faciles ï¿½ lire" (true/false)
+                         // composï¿½s alternativement de consonnes et de voyelles.
 
-$charelc = $_SESSION["rdt_captcha"]["config"]["charelc"];   // Consonnes utilisées si $crypteasy = true
-$charelv = $_SESSION["rdt_captcha"]["config"]["charelv"];              // Voyelles utilisées si $crypteasy = true
+$charelc = $_SESSION["rdt_captcha"]["config"]["charelc"];   // Consonnes utilisï¿½es si $crypteasy = true
+$charelv = $_SESSION["rdt_captcha"]["config"]["charelv"];              // Voyelles utilisï¿½es si $crypteasy = true
 
-$difuplow = $_SESSION["rdt_captcha"]["config"]["difuplow"];          // Différencie les Maj/Min lors de la saisie du code (true, false)
+$difuplow = $_SESSION["rdt_captcha"]["config"]["difuplow"];          // Diffï¿½rencie les Maj/Min lors de la saisie du code (true, false)
 
 $charnbmin = $_SESSION["rdt_captcha"]["config"]["charnbmin"];         // Nb minimum de caracteres dans le cryptogramme
 $charnbmax = $_SESSION["rdt_captcha"]["config"]["charnbmax"];         // Nb maximum de caracteres dans le cryptogramme
 
 $charspace = $_SESSION["rdt_captcha"]["config"]["charspace"];        // Espace entre les caracteres (en pixels)
-$charsizemin = $_SESSION["rdt_captcha"]["config"]["charsizemin"];      // Taille minimum des caractères
-$charsizemax = $_SESSION["rdt_captcha"]["config"]["charsizemax"];      // Taille maximum des caractères
+$charsizemin = $_SESSION["rdt_captcha"]["config"]["charsizemin"];      // Taille minimum des caractï¿½res
+$charsizemax = $_SESSION["rdt_captcha"]["config"]["charsizemax"];      // Taille maximum des caractï¿½res
 
 $charanglemax  = $_SESSION["rdt_captcha"]["config"]["charanglemax"];     // Angle maximum de rotation des caracteres (0-360)
-$charup   = $_SESSION["rdt_captcha"]["config"]["charup"];      // Déplacement vertical aléatoire des caractères (true/false)
+$charup   = $_SESSION["rdt_captcha"]["config"]["charup"];      // Dï¿½placement vertical alï¿½atoire des caractï¿½res (true/false)
 
-// Effets supplémentaires
+// Effets supplï¿½mentaires
 
-$cryptgaussianblur = false; // Transforme l'image finale en brouillant: méthode Gauss (true/false)
+$cryptgaussianblur = false; // Transforme l'image finale en brouillant: mï¿½thode Gauss (true/false)
                             // uniquement si PHP >= 5.0.0
-$cryptgrayscal = false;     // Transforme l'image finale en dégradé de gris (true/false)
+$cryptgrayscal = false;     // Transforme l'image finale en dï¿½gradï¿½ de gris (true/false)
                             // uniquement si PHP >= 5.0.0
 
 // ----------------------
 // Configuration du bruit
 // ----------------------
 
-$noisepxmin = $_SESSION["rdt_captcha"]["config"]["noisepxmin"];       // Bruit: Nb minimum de pixels aléatoires
-$noisepxmax = $_SESSION["rdt_captcha"]["config"]["noisepxmax"];       // Bruit: Nb maximum de pixels aléatoires
+$noisepxmin = $_SESSION["rdt_captcha"]["config"]["noisepxmin"];       // Bruit: Nb minimum de pixels alï¿½atoires
+$noisepxmax = $_SESSION["rdt_captcha"]["config"]["noisepxmax"];       // Bruit: Nb maximum de pixels alï¿½atoires
 
-$noiselinemin = $_SESSION["rdt_captcha"]["config"]["noiselinemin"];     // Bruit: Nb minimum de lignes aléatoires
-$noiselinemax = $_SESSION["rdt_captcha"]["config"]["noiselinemax"];     // Bruit: Nb maximum de lignes aléatoires
+$noiselinemin = $_SESSION["rdt_captcha"]["config"]["noiselinemin"];     // Bruit: Nb minimum de lignes alï¿½atoires
+$noiselinemax = $_SESSION["rdt_captcha"]["config"]["noiselinemax"];     // Bruit: Nb maximum de lignes alï¿½atoires
 
-$noisecolorchar  = $_SESSION["rdt_captcha"]["config"]["noisecolorchar"];  // Bruit: La couleur est celle du caractère (true) sinon celle du fond (false)
+$noisecolorchar  = $_SESSION["rdt_captcha"]["config"]["noisecolorchar"];  // Bruit: La couleur est celle du caractï¿½re (true) sinon celle du fond (false)
 
 
 // --------------------------------
-// Configuration système & sécurité
+// Configuration systï¿½me & sï¿½curitï¿½
 // --------------------------------
 
-$cryptformat = $_SESSION["rdt_captcha"]["config"]["cryptformat"];   // Format du fichier image généré "GIF", "PNG" ou "JPG"
+$cryptformat = $_SESSION["rdt_captcha"]["config"]["cryptformat"];   // Format du fichier image gï¿½nï¿½rï¿½ "GIF", "PNG" ou "JPG"
 				                // Si vous souhaitez un fond transparent, utilisez "PNG" (et non "GIF")
 				                // Attention certaines versions de la bibliotheque GD ne gerent pas GIF !!!
 
-$cryptsecure = $_SESSION["rdt_captcha"]["config"]["cryptsecure"];    // Méthode de crytpage utilisée: "md5", "sha1" ou "" (aucune)
+$cryptsecure = $_SESSION["rdt_captcha"]["config"]["cryptsecure"];    // Mï¿½thode de crytpage utilisï¿½e: "md5", "sha1" ou "" (aucune)
                       // "sha1" seulement si PHP>=4.2.0
-                         // Si aucune méthode n'est indiquée, le code du cyptogramme est stocké 
+                         // Si aucune mï¿½thode n'est indiquï¿½e, le code du cyptogramme est stockï¿½
                          // en clair dans la session.
-                       
-$cryptusetimer = $_SESSION["rdt_captcha"]["config"]["cryptusetimer"];        // Temps (en seconde) avant d'avoir le droit de regénérer un cryptogramme
-$cryptusertimererror = $_SESSION["rdt_captcha"]["config"]["cryptusertimererror"];  // Action à réaliser si le temps minimum n'est pas respecté:
+
+$cryptusetimer = $_SESSION["rdt_captcha"]["config"]["cryptusetimer"];        // Temps (en seconde) avant d'avoir le droit de regï¿½nï¿½rer un cryptogramme
+$cryptusertimererror = $_SESSION["rdt_captcha"]["config"]["cryptusertimererror"];  // Action ï¿½ rï¿½aliser si le temps minimum n'est pas respectï¿½:
                            // 1: Ne rien faire, ne pas renvoyer d'image.
-                           // 2: L'image renvoyée est "images/erreur2.png" (vous pouvez la modifier)
+                           // 2: L'image renvoyï¿½e est "images/erreur2.png" (vous pouvez la modifier)
                            // 3: Le script se met en pause le temps correspondant (attention au timeout
-                           //    par défaut qui coupe les scripts PHP au bout de 30 secondes)
+                           //    par dï¿½faut qui coupe les scripts PHP au bout de 30 secondes)
                            //    voir la variable "max_execution_time" de votre configuration PHP
 
-$cryptusemax = $_SESSION["rdt_captcha"]["config"]["cryptusemax"];  // Nb maximum de fois que l'utilisateur peut générer le cryptogramme
-                      // Si dépassement, l'image renvoyée est "images/erreur1.png"
-                      // PS: Par défaut, la durée d'une session PHP est de 180 mn, sauf si 
-                      // l'hebergeur ou le développeur du site en on décidé autrement... 
-                      // Cette limite est effective pour toute la durée de la session. 
+$cryptusemax = $_SESSION["rdt_captcha"]["config"]["cryptusemax"];  // Nb maximum de fois que l'utilisateur peut gï¿½nï¿½rer le cryptogramme
+                      // Si dï¿½passement, l'image renvoyï¿½e est "images/erreur1.png"
+                      // PS: Par dï¿½faut, la durï¿½e d'une session PHP est de 180 mn, sauf si
+                      // l'hebergeur ou le dï¿½veloppeur du site en on dï¿½cidï¿½ autrement...
+                      // Cette limite est effective pour toute la durï¿½e de la session.
 ?>

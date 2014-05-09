@@ -5,7 +5,7 @@ LuggerBug - The lowdown:
 This version of LuggerBug is 18 (days) old, It's come of age. Which means it can drink in pubs, vote and watch adult  videos. These are, of course, three things which should not be attempted in one day. However, I did just that and following an afternoon shuffling between the pub and the video store, I ended up voting for . . . Alicia Silverstone
 
 LuggerBug - whats included
-Uppercase & Lowercase are the same, numerals and some punctuation. The characters [ ] \ have the numbers 99, 95 and 00 on them for better displaying of prices like £24.99 etc.
+Uppercase & Lowercase are the same, numerals and some punctuation. The characters [ ] \ have the numbers 99, 95 and 00 on them for better displaying of prices like ï¿½24.99 etc.
 
 LuggerBug ?!
 I was originaly going to call it BuggerLugs, but I though that might be a bit stupid. You may or may not know what 'Buggerlugs' means, well in Scotland it's a semi-effectionate term to describe someone you know quite well, but at the same time, slag them off without any guilt being attached.
