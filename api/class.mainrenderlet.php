@@ -1003,8 +1003,15 @@
 		}
 
 		function refreshValue() {
+			if ($this->bForcedValue && $this->isForcedValueOnRefresh()) {
+				return;
+			}
 			$value = $this->getForm()->getDataHandler()->getRdtValue_noSubmit_noEdit($this->getAbsName());
 			$this->setValue($value);
+		}
+
+		function isForcedValueOnRefresh() {
+			return $this->isTrue('/data/forcedvalueonrefresh');
 		}
 
 		function _substituteConstants($sValue) {
