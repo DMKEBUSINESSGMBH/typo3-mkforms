@@ -54,8 +54,14 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 
 		// sicher, was ist mit formularen, die nur etwas anzeigen, aber nichts verarbeiten!?
 		// ja, wenn die nix verarbeiten, darf der callback nicht definiert werden.
-		if($callback === FALSE)
+		// mw: super conversation leute, wer korrigiert das jetzt?
+		// hab vorerst skipcallback implementiert.
+		if($callback === FALSE) {
+			if ($this->_defaultFalse('/skipcallback')) {
+				return;
+			}
 			tx_mkforms_util_Div::mayday('DATAHANDLER RAW : you MUST declare a callback method on the Parent Object <b>' . get_class($this->oForm->_oParent) . '</b> in the section <b>/control/datahandler/parentcallback/</b> of the XML conf for this DATAHANDLER ( RAW )', $this->getForm());
+		}
 
 		if($this->getForm()->getRunnable()->isRunnable($callback)) {
 			$this->getForm()->getRunnable()->callRunnable($callback,$aData);
