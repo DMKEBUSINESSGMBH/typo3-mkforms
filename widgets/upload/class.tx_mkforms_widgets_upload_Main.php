@@ -175,7 +175,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 		$aData = $this->getValue();
 
-		if(is_array($aData) && $aData['error'] == 0) {
+		if(is_array($aData) && isset($aData['error']) && $aData['error'] == 0) {
 			// a file has just been uploaded
 
 			$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
