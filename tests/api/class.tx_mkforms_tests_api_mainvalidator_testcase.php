@@ -116,6 +116,54 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 		$this->oForm->getWidget('fieldset__texte__input__widget-text')->setValue(1);
 		$this->assertFalse($this->oMainValidator->_oneRdtHasAValue(2,'fieldset__texte__input__widget-text'),'Es wurde nicht true zurück gegeben!');
 	}
+
+	public function testCheckDependsOnReturnsTrueWhenDependentWidgetHasValue(){
+		$this->oForm->getWidget('fieldset__texte__area__textarea')->setValue('sometext');
+
+		$method = new ReflectionMethod('formidable_mainvalidator', 'checkDependsOn');
+		$method->setAccessible(true);
+
+		$this->oMainValidator->aElement = array(
+			'type' => 'STANDARD',
+			'required' => array(
+ 				'message' => 'Fehlermeldung',
+				'dependson'  =>	'fieldset__texte__area__textarea'
+			)
+		);
+
+		$this->assertTrue(
+			$method->invoke(
+				$this->oMainValidator,
+				$this->oForm->getWidget('fieldset__widget-radiobutton'),
+				'required'
+			),
+			'Es wurde nicht true zurück gegeben!'
+		);
+	}
+
+	public function testCheckDependsOnReturnsFalseWhenDependentWidgetHasNoValue(){
+		$this->oForm->getWidget('fieldset__texte__area__textarea')->setValue('');
+
+		$method = new ReflectionMethod('formidable_mainvalidator', 'checkDependsOn');
+		$method->setAccessible(true);
+
+		$this->oMainValidator->aElement = array(
+			'type' => 'STANDARD',
+			'required' => array(
+				'message' => 'Fehlermeldung',
+				'dependson'  =>	'fieldset__texte__area__textarea'
+			)
+		);
+
+		$this->assertFalse(
+				$method->invoke(
+					$this->oMainValidator,
+					$this->oForm->getWidget('fieldset__widget-radiobutton'),
+					'required'
+				),
+				'Es wurde nicht false zurück gegeben!'
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
