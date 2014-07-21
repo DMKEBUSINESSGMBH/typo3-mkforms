@@ -2775,7 +2775,7 @@ JAVASCRIPT;
 									// getting template and channels
 
 									if(array_key_exists('template', $this->aSkin['submanifest']['resources'])) {
-										$sSrc = $this->aSkin['manifest']['control']['serverpath'] . $this->oForm->_removeStartingSlash($this->aSkin['submanifest']['resources']['template']['file']['src']);
+										$sSrc = $this->aSkin['manifest']['control']['serverpath'] . tx_mkforms_util_Div::removeStartingSlash($this->aSkin['submanifest']['resources']['template']['file']['src']);
 										if(file_exists($sSrc) && is_readable($sSrc)) {
 
 
@@ -2922,7 +2922,7 @@ JAVASCRIPT;
 				reset($aCssFiles);
 				while(list(, $aCssFile) = each($aCssFiles)) {
 
-					$sCssPath = $aManifest['control']['webpath'] . $this->oForm->_removeStartingSlash($aCssFile['src']);
+					$sCssPath = $aManifest['control']['webpath'] . tx_mkforms_util_Div::removeStartingSlash($aCssFile['src']);
 					$sCssTag = '<link rel="stylesheet" type="text/css" media="all" href="' . $sCssPath . '" />';
 
 					if(array_key_exists('wrap', $aCssFile)) {
