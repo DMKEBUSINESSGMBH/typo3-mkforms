@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'ds_db' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -55,10 +55,10 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 				}
 			}
 		}
-		
+
 		$sSignature = $oDataSet->getSignature();
 		$this->aODataSets[$sSignature] =& $oDataSet;
-		
+
 		return $sSignature;
 	}
 
@@ -68,7 +68,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 
 		$iNumRows = 0;
 		$aResults = array();
-		
+
 		$aFilters = $this->beforeSqlFilter($aConfig, $aFilters);
 
 		if(($sSql = $this->_getSql($aConfig, $aFilters)) !== FALSE) {
@@ -85,7 +85,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 			);
 
 			if($rSql) {
-				
+
 				$iNumRows = $this->_getTotalNumberOfRows();
 
 				while(($aRs =& $this->oDb->sql_fetch_assoc($rSql)) !== FALSE) {
@@ -129,13 +129,13 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 			}
 		}
 	}
-	
+
 	function baseCleanBeforeSession() {
 		parent::baseCleanBeforeSession();
 		unset($this->oDb);
-		$this->oDb = FALSE;	
+		$this->oDb = FALSE;
 	}
-	
+
 	function beforeSqlExec($sSql, $aConfig, $aFilters) {
 		if(($mUserobj = $this->_navConf("/beforesqlexec")) !== FALSE) {
 			if($this->oForm->isRunneable($mUserobj)) {
@@ -164,7 +164,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 	}
 
 	function _getSql($aConfig = array(), $aFilters = array()) {
-		
+
 		$sSqlBase = "";
 		$sSqlFilters = "";
 		$sSqlOrderBy = "";
@@ -201,11 +201,10 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 
 			if($mEnableFields === TRUE) {
 				// we have to determine the table name
-				
-				require_once(PATH_t3lib . "class.t3lib_sqlparser.php");
+
 				$oParser = t3lib_div::makeInstance("t3lib_sqlparser");
 				$aParsed = $oParser->parseSQL($sSqlBase);
-				
+
 				if(is_array($aParsed) && count($aParsed["FROM"]) == 1) {
 					$sTable = $aParsed["FROM"][0]["table"];
 				} else {
@@ -247,7 +246,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 		}
 
 		if(array_key_exists("sortcolumn", $aConfig) && trim($aConfig["sortcolumn"]) != "") {
-			
+
 			$sSqlOrderBy = " ORDER BY  " . $aConfig["sortcolumn"] . " ";
 
 			if(array_key_exists("sortdirection", $aConfig) && trim($aConfig["sortdirection"]) != "") {
@@ -281,15 +280,15 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 	}
 
 	function dset_writeDataSet($sSignature) {
-		
+
 		if(!array_key_exists($sSignature, $this->aODataSets)) {
 			return FALSE;
 		}
 
 		if($this->aODataSets[$sSignature]->isFloating()) {
-			
+
 			if($this->aODataSets[$sSignature]->needsToBeWritten()) {
-				
+
 				if(($mBefore = $this->_navConf("/beforecreation")) !== FALSE) {
 					if($this->oForm->isRunneable($mBefore)) {
 						$this->callRunneable(
@@ -299,7 +298,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 						);
 					}
 				}
-				
+
 				$aData = $this->aODataSets[$sSignature]->aChangedCells;
 
 				if($this->defaultTrue("/addsysfields") === TRUE) {
@@ -329,7 +328,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 						$iUid
 					);
 				}
-				
+
 				if(($mAfter = $this->_navConf("/aftercreation")) !== FALSE) {
 					if($this->oForm->isRunneable($mAfter)) {
 						$this->callRunneable(
@@ -343,7 +342,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 		} else {
 
 			if($this->aODataSets[$sSignature]->needsToBeWritten()) {
-				
+
 				if(($mBefore = $this->_navConf("/beforeedition")) !== FALSE) {
 					if($this->oForm->isRunneable($mBefore)) {
 						$this->callRunneable(
@@ -353,7 +352,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 						);
 					}
 				}
-				
+
 				$aData = $this->aODataSets[$sSignature]->aChangedCells;
 				if($this->defaultTrue("/addsysfields") === TRUE) {
 					$aData["tstamp"] = time();
@@ -366,7 +365,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 						$aData
 					)
 				);
-				
+
 				if(($mAfter = $this->_navConf("/afteredition")) !== FALSE) {
 					if($this->oForm->isRunneable($mAfter)) {
 						$this->callRunneable(
@@ -395,9 +394,9 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 	}
 
 	function _getAdditionalWheres($aWheres, $sPrefix = "") {
-		
+
 		$sTempWhere = "";
-		
+
 		if($aWheres !== FALSE && is_array($aWheres) && count($aWheres) > 0) {
 
 			$aClauses = array();
@@ -405,10 +404,10 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 
 			reset($aWheres);
 			while(list($sType, $aWhere) = each($aWheres)) {
-				
+
 				$aTemp = explode("-", $sType); $sType = trim(strtoupper($aTemp[0]));
 				$bProcess = TRUE;
-				
+
 				if(is_array($aWhere) && array_key_exists("process", $aWhere)) {
 					if($this->oForm->isRunneable($aWhere["process"])) {
 						$bProcess = $this->callRunneable(
@@ -420,19 +419,19 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 						}
 					}
 				}
-				
+
 				if($bProcess) {
 					switch($sType) {
 						case "WHERE" : {
-							
+
 							if(($mProcess = $this->oForm->_defaultTrue("/process", $aWhere)) !== FALSE) {
 								if($this->oForm->isRunneable($mProcess)) {
 									$mProcess = $this->callRunneable($mProcess);
 								}
 							}
-							
+
 							if($mProcess === TRUE) {
-								
+
 								if(array_key_exists("value", $aWhere)) {
 									$mValue = $aWhere["value"];
 								} else {
@@ -454,7 +453,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 								$sComparison = strtoupper(trim($aWhere["comparison"]));
 
 								if($bClauses && (($mLogic = $this->oForm->_navConf("/logic", $aWhere)) !== FALSE)) {
-									
+
 									if($this->oForm->isRunneable($mLogic)) {
 										$mLogic = $this->callRunneable($mLogic);
 									}
@@ -477,7 +476,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 							break;
 						}
 						case "LOGIC" : {
-							
+
 							if($bClauses) {
 
 								if(is_array($aWhere) && array_key_exists("value", $aWhere)) {
@@ -485,7 +484,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 								} else {
 									$mValue = $aWhere;
 								}
-								
+
 								if($this->oForm->isRunneable($mValue)) {
 									$mValue = $this->callRunneable($mValue);
 								}
@@ -506,7 +505,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 			return " AND (" . $sTempWhere . ")";
 		}
 
-		return "";     
+		return "";
 	}
 }
 

@@ -6,8 +6,6 @@
  */
 
 
-require_once(PATH_t3lib . 'class.t3lib_htmlmail.php');
-
 class tx_mkforms_action_redirect_Main extends formidable_mainactionlet {
 
 	function _doTheMagic($aRendered, $sForm) {

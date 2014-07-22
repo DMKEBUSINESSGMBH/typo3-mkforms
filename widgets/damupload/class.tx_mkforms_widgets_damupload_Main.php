@@ -5,11 +5,6 @@
  * @author	René Nitzsche <rene@system25.de>
  */
 
-require_once(PATH_t3lib.'class.t3lib_userauth.php');
-require_once(PATH_t3lib.'class.t3lib_userauthgroup.php');
-require_once(PATH_t3lib.'class.t3lib_beuserauth.php');
-
-require_once(PATH_t3lib.'class.t3lib_basicfilefunc.php');
 if(t3lib_extMgm::isLoaded('dam')) {
 	require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam.php');
 	require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam_db.php');
@@ -771,7 +766,6 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		// Check BE User
 		if(!is_object($BE_USER) || !is_array($BE_USER->user)) {
 			if(!$beUserId) $this->getForm()->mayday('NO BE User id given!');
-			require_once(PATH_t3lib.'class.t3lib_tsfebeuserauth.php');
 			unset($BE_USER);
 			$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');
 			$BE_USER->OS = TYPO3_OS;
@@ -880,7 +874,6 @@ INITSCRIPT;
 	}
 
 	function handleAjaxRequest($oRequest) {
-		require_once(PATH_t3lib.'class.t3lib_basicfilefunc.php');
 
 		$oFile = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 		$aData = $this->getForm()->getRawFile(FALSE, true);

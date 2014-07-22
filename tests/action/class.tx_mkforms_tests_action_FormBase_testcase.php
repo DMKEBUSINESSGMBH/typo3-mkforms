@@ -109,7 +109,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
 
 		//@TODO: warum wird die klasse tslib_cObj nicht gefunden!? (mw: eternit local)
-		require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
+		//require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
 		$configurations->init(
 				$configArray,
 				$configurations->getCObj(1),
@@ -119,11 +119,35 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$configurations->setParameters($parameters);
 		$action->setConfigurations($configurations);
 		if($execute) {
+			set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
 			//$action->execute($parameters, $configurations);
 			$out = $action->handleRequest($parameters, $configurations, $configurations->getViewData());
 		}
 		return $action;
 	}
+
+
+	/**
+	 *
+	 * @param integer $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param integer $errline
+	 * @param array $errcontext
+	 */
+	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
+		$ignoreMsg = array(
+				'Cannot modify header information - headers already sent by',
+		);
+		foreach($ignoreMsg as $msg) {
+			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
+				// Don't execute PHP internal error handler
+				return FALSE;
+			}
+		}
+		return NULL;
+	}
+
 public function test_processForm() {
 		$sData = array(
 				'fieldset' => array(

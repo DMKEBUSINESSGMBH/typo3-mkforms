@@ -5,8 +5,6 @@
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
 
-require_once(PATH_t3lib.'class.t3lib_basicfilefunc.php');
-
 tx_rnbase::load('tx_mkforms_util_Div');
 
 class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
@@ -499,7 +497,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 			global $PAGES_TYPES;
 			if(!isset($PAGES_TYPES)) {
-				require_once(PATH_t3lib.'stddb/tables.php');
 			}
 
 			$bSimulatedUser = FALSE;

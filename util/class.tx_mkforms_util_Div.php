@@ -176,15 +176,6 @@ class tx_mkforms_util_Div {
 			}
 		}
 
-		require_once(PATH_tslib.'class.tslib_content.php');
-		require_once(PATH_t3lib.'class.t3lib_timetrack.php');
-		require_once(PATH_tslib.'class.tslib_fe.php');
-		require_once(PATH_t3lib.'class.t3lib_page.php');
-		require_once(PATH_t3lib.'class.t3lib_userauth.php');
-		require_once(PATH_tslib.'class.tslib_feuserauth.php');
-		require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
-		require_once(PATH_t3lib.'class.t3lib_cs.php');
-
 		$GLOBALS['TT'] = new t3lib_timeTrack;
 		$GLOBALS['CLIENT'] = t3lib_div::clientInfo();
 

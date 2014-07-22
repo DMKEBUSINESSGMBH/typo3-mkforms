@@ -271,10 +271,6 @@ class formidableajax {
 		// *********
 		$BE_USER='';
 		if ($_COOKIE['be_typo_user']) {		// If the backend cookie is set, we proceed and checks if a backend user is logged in.
-				require_once (PATH_t3lib.'class.t3lib_befunc.php');
-				require_once (PATH_t3lib.'class.t3lib_userauthgroup.php');
-				require_once (PATH_t3lib.'class.t3lib_beuserauth.php');
-				require_once (PATH_t3lib.'class.t3lib_tsfebeuserauth.php');
 
 					// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
 				$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
@@ -316,14 +312,9 @@ class formidableajax {
 						if (($BE_USER->extAdmModuleEnabled('edit') && $BE_USER->extIsAdmMenuOpen('edit')) || $TSFE->displayEditIcons == 1)	{
 							$TSFE->includeTCA();
 							if ($BE_USER->extIsEditAction())	{
-								require_once (PATH_t3lib.'class.t3lib_tcemain.php');
 								$BE_USER->extEditAction();
 							}
 							if ($BE_USER->extIsFormShown())	{
-								require_once(PATH_t3lib.'class.t3lib_tceforms.php');
-								require_once(PATH_t3lib.'class.t3lib_iconworks.php');
-								require_once(PATH_t3lib.'class.t3lib_loaddbgroup.php');
-								require_once(PATH_t3lib.'class.t3lib_transferdata.php');
 							}
 						}
 
@@ -337,10 +328,6 @@ class formidableajax {
 					$TSFE->beUserLogin=0;
 				}
 		} elseif ($TSFE->ADMCMD_preview_BEUSER_uid)	{
-			require_once (PATH_t3lib.'class.t3lib_befunc.php');
-			require_once (PATH_t3lib.'class.t3lib_userauthgroup.php');
-			require_once (PATH_t3lib.'class.t3lib_beuserauth.php');
-			require_once (PATH_t3lib.'class.t3lib_tsfebeuserauth.php');
 
 				// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
 			$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
