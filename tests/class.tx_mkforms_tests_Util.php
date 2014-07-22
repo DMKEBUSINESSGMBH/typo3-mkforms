@@ -46,7 +46,7 @@ class tx_mkforms_tests_Util {
 		static $configArray = false;
 		if(is_array($configArray) && !$force) {
 			return $configArray;
-		} 
+		}
 		t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
 
 		tx_rnbase::load('tx_rnbase_configurations');
@@ -54,7 +54,14 @@ class tx_mkforms_tests_Util {
 
 		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 
-		$tsConfig = t3lib_BEfunc::getPagesTSconfig(0);
+		/*
+		 * pk: Danke mw
+		 * getPagesTSconfig benutzt static Cache und bearbeitet nicht das was wir mit addPageTSConfig hinzugefügt haben.
+		 * um das umzugehen, kann man das RootLine Parameter leer setzen.
+		 * Siehe: TYPO3\CMS\Backend\Utility\BackendUtility:getPagesTSconfig();
+		 */
+		$tsConfig = t3lib_BEfunc::getPagesTSconfig(0,'');
+
 		$configArray = $tsConfig['plugin.']['tx_mkforms.'];
 		// für referenzen im TS!
 		$GLOBALS['TSFE']->tmpl->setup['lib.']['mkforms.'] = $tsConfig['lib.']['mkforms.'];
@@ -88,7 +95,7 @@ class tx_mkforms_tests_Util {
 		if(!$parent) {
 			$parent = $this;
 		}
-		
+
 		$oForm->init(
 			$parent,
 			$oConfigurations->get('generic.xml'),
@@ -154,7 +161,7 @@ class tx_mkforms_tests_Util {
 			else $oForm->getWidget($sName)->setValue($mValue);
 		}
 	}
-	
+
 	/**
 	 * @param string $formId
 	 * @param array $formData
@@ -164,10 +171,10 @@ class tx_mkforms_tests_Util {
 		$formId, array &$formData, $requestToken = 's3cr3tT0k3n'
 	) {
 		$formData['MKFORMS_REQUEST_TOKEN'] = $requestToken;
-		
+
 		$GLOBALS['TSFE']->fe_user->setKey(
-			'ses', 'mkforms', 
-			array('requestToken' => 
+			'ses', 'mkforms',
+			array('requestToken' =>
 				array(
 					$formId => $requestToken
 				)

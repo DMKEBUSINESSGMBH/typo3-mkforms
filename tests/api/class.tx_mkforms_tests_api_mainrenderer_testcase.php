@@ -48,6 +48,48 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
 		$oTestFramework->createFakeFrontEnd();
+		/*
+		 * warning "Cannot modify header information" abfangen.
+		*
+		* Einige Tests lassen sich leider nicht ausführen:
+		* "Cannot modify header information - headers already sent by"
+		* Diese wird an unterschiedlichen stellen ausgelöst,
+		* meißt jedoch bei Session operationen
+		* Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
+		* Eigentlich gibt es dafür die runInSeparateProcess Anotation,
+		* Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
+		* die GLOBALS in den anderen Prozess zu Übertragen.
+		* Ein Deaktivierend er Übertragung führt dazu,
+		* das Typo3 nicht initialisiert ist.
+		*
+		* Wir gehen also erst mal den Weg, den Fehler abzufangen.
+		*/
+		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+	}
+	public function tearDown() {
+		// error handler zurücksetzen
+		restore_error_handler();
+	}
+
+	/**
+	 *
+	 * @param integer $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param integer $errline
+	 * @param array $errcontext
+	 */
+	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
+		$ignoreMsg = array(
+				'Cannot modify header information - headers already sent by',
+		);
+		foreach($ignoreMsg as $msg) {
+			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
+				// Don't execute PHP internal error handler
+				return FALSE;
+			}
+		}
+		return NULL;
 	}
 
 	/**
