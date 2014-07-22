@@ -46,6 +46,25 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	 *
 	 */
 	public function setUp() {
+
+		/*
+		 * warning "Cannot modify header information" abfangen.
+		 *
+		 * Einige Tests lassen sich leider nicht ausführen:
+		 * "Cannot modify header information - headers already sent by"
+		 * Diese wird an unterschiedlichen stellen ausgelöst,
+		 * meißt jedoch bei Session operationen
+		 * Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
+		 * Eigentlich gibt es dafür die runInSeparateProcess Anotation,
+		 * Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
+		 * die GLOBALS in den anderen Prozess zu Übertragen.
+		 * Ein Deaktivierend er Übertragung führt dazu,
+		 * das Typo3 nicht initialisiert ist.
+		 *
+		 * Wir gehen also erst mal den Weg, den Fehler abzufangen.
+		 */
+		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+
 		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
 		$oTestFramework->createFakeFrontEnd();
 
@@ -66,6 +85,9 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] = $this->sCachefile;
 
 		unset($_POST['radioTestForm']);
+
+		// error handler zurücksetzen
+		restore_error_handler();
 	}
 	/**
 	 * wir verwenden nicht mehr den constructor, da dieser zu oft aufgerufen wird.
@@ -119,7 +141,6 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$configurations->setParameters($parameters);
 		$action->setConfigurations($configurations);
 		if($execute) {
-			set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
 			//$action->execute($parameters, $configurations);
 			$out = $action->handleRequest($parameters, $configurations, $configurations->getViewData());
 		}
