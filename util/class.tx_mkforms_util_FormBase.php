@@ -563,7 +563,7 @@ class tx_mkforms_util_FormBase {
 	* @todo 	Eigene Exceptions nutzen (nicht von mklib)
 	* @return array
 	*/
-	public static function getRowsFromDb(array $params, tx_ameosformidable $form){
+	public static function getRowsFromDataBase(array $params, tx_ameosformidable $form){
 		//erstmal prüfen ob alle notwendigen params gesetzt wurden
 		if(empty($params['table']) || empty($params['valueField']) || empty($params['captionField']))
 			throw new InvalidArgumentException(
