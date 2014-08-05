@@ -46,7 +46,7 @@ class tx_mkforms_tests_Util {
 		static $configArray = false;
 		if(is_array($configArray) && !$force) {
 			return $configArray;
-		} 
+		}
 		t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
 
 		tx_rnbase::load('tx_rnbase_configurations');
@@ -88,7 +88,7 @@ class tx_mkforms_tests_Util {
 		if(!$parent) {
 			$parent = $this;
 		}
-		
+
 		$oForm->init(
 			$parent,
 			$oConfigurations->get('generic.xml'),
@@ -154,7 +154,7 @@ class tx_mkforms_tests_Util {
 			else $oForm->getWidget($sName)->setValue($mValue);
 		}
 	}
-	
+
 	/**
 	 * @param string $formId
 	 * @param array $formData
@@ -164,10 +164,10 @@ class tx_mkforms_tests_Util {
 		$formId, array &$formData, $requestToken = 's3cr3tT0k3n'
 	) {
 		$formData['MKFORMS_REQUEST_TOKEN'] = $requestToken;
-		
+
 		$GLOBALS['TSFE']->fe_user->setKey(
-			'ses', 'mkforms', 
-			array('requestToken' => 
+			'ses', 'mkforms',
+			array('requestToken' =>
 				array(
 					$formId => $requestToken
 				)
