@@ -26,28 +26,46 @@
  * benötigte Klassen einbinden
  */
 require_once(t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php'));
-tx_rnbase::load('tx_mkforms_util_FormBaseAjax');
+tx_rnbase::load('tx_mkforms_util_FormBase');
 tx_rnbase::load('tx_mkforms_tests_Util');
 
 /**
- * Array util tests
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_FormBaseAjax_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 
-	public function testRepaintDependenciesReturnsCorrectArray(){#
-		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
-			$this->markTestSkipped('Geht leider nicht unter CLI.');
-		}
-		$params = array('me' => 'fieldset__widget-listbox');
-		$ret = tx_mkforms_util_FormBaseAjax::repaintDependencies($params, tx_mkforms_tests_Util::getForm());
-		// formidable_mainrenderlet::majixRepaintDependancies liefert immer ein array!
-		$ret = $ret[0];
-		$this->assertEquals('<input type="checkbox" name="radioTestForm[fieldset][widget-checksingle]" id="radioTestForm__fieldset__widget-checksingle"  value="1" />',$ret['data'],'Es wurde nicht die richtige data zurück gegeben!');
-		$this->assertEquals('radioTestForm__fieldset__widget-checksingle',$ret['object'],'Es wurde nicht das richtige object zurück gegeben!');
-		$this->assertEmpty($ret['databag'],'Es wurde doch ein databag zurück gegeben!');
-		$this->assertEquals('repaint',$ret['method'],'Es wurde nicht die richtige Methode zurück gegeben!');
+
+	/**
+	 * @group unit
+	 */
+	public function testGetItemsFromDb() {
+		$formBase = $this->getMockClass(
+			'tx_mkforms_util_FormBase', array('getRowsFromDataBase')
+		);
+		$form = tx_mkforms_tests_Util::getForm();
+		$formBase::staticExpects($this->once())
+			->method('getRowsFromDataBase')
+			->with(array('someParams'), $form)
+			->will($this->returnValue(
+				array(
+					0 => array(
+						'__value__' => 123, '__caption__' => 'first'
+					),
+					1 => array(
+						'__value__' => 456, '__caption__' => 'second'
+					),
+				)
+			));
+
+		$this->assertEquals(
+			array(
+				0 => array('value' => 123, 'caption' => 'first'),
+				1 => array('value' => 456, 'caption' => 'second'),
+			),
+			$formBase::getItemsFromDb(array('someParams'), $form),
+			'rückgabe falsch'
+		);
 	}
 }
 

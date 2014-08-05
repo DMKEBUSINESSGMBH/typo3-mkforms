@@ -646,7 +646,7 @@ class tx_mkforms_util_FormBase {
 	 */
 	public static function getItemsFromDb(array $params, tx_ameosformidable $form){
 		return tx_mkforms_util_Div::arrayToRdtItems(
-			static::getRowsFromDb($params, $form), '__caption__', '__value__'
+			static::getRowsFromDataBase($params, $form), '__caption__', '__value__'
 		);
 	}
 
