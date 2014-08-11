@@ -403,7 +403,6 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 					break;
 				}
 			}
-
 		} else {
 
 			$_SESSION['rdt_captcha']['config']['noisepxmin'] = 0;
@@ -413,6 +412,22 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 			$_SESSION['rdt_captcha']['config']['noiselinemax'] = 0;
 
 			$_SESSION['rdt_captcha']['config']['noisecolorchar'] = true;
+		}
+
+		// Kreise im Captcha
+		if($this->_navConf('/circles') !== FALSE) {
+			if($this->_navConf('/circles/minnumber') !== FALSE) {
+				$_SESSION['rdt_captcha']['config']['nbcirclemin'] =
+				$this->_navConf('/circles/minnumber');
+			} else {
+				$_SESSION['rdt_captcha']['config']['nbcirclemin'] = 1;
+			}
+			if($this->_navConf('/circles/maxnumber') !== FALSE) {
+				$_SESSION['rdt_captcha']['config']['nbcirclemax'] =
+				$this->_navConf('/circles/maxnumber');
+			} else {
+				$_SESSION['rdt_captcha']['config']['nbcirclemax'] = 1;
+			}
 		}
 
 		/***************************************************
