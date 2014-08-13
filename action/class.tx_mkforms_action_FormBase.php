@@ -79,7 +79,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @param 	tx_rnbase_parameters		$parameters
 	 * @param 	tx_rnbase_configurations	$configurations
-	 * @param 	tx_lib_spl_arrayObject		$viewData
+	 * @param 	ArrayObject		$viewData
 	 * @return 	string
 	 */
 	public function handleRequest(&$parameters, &$configurations, &$viewData) {
