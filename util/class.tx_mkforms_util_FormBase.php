@@ -558,34 +558,12 @@ class tx_mkforms_util_FormBase {
 	/**
 	* Bestimmte Datensätze aus der DB auslesen
 	*
-	* Expected parameters in $params:
-	* * 'table':			Mandatory:	String or array of tables with keys 'from' (complete from-clause including aliases etc.), 'tablename' (name of first table) and (optionally) 'alias' (alias of first table)
-	* * 'valueField':		Mandatory:	Field representing the item's value. May be a calculated SQL expression - but WITHOUT 'as fieldalias' part!!! Implicitely used alias is '__value__', can be used e.g. for sorting.
-	* * 'captionField':	Mandatory:	Field representing the item's label aka caption. May be a calculated SQL expression - but WITHOUT 'as fieldalias' part!!! Implicitely used alias is '__caption__', can be used e.g. for sorting.
-	* * 'options':			Optional:	Array of options which are directly passed to tx_rnbase_util_DB::doSelect
-	* * 'dependsOn':		Optional:	Array of options for dependent fields: array('formfieldname' => form fields which's value is used, 'dbfield' => dedicated database field, 'dbtable'(optional) => real name of the table of the dedicated database field (needed for complex searches with JOINs; otherwise $params['table'] is used.)). Note that either used table needs to be defined in $TCA!
-	* * 'debug':			Optional:	Flag whether SQL query is executed in debug mode
-	* @see tx_rnbase_util_DB::doSelect
-	*
-	* Complete example:
-	* 	<params>
-	* 		<param name="table" from="tx_mkhoga_applicants as app join fe_users on app.feuser=fe_users.uid join tx_mkhoga_contacts as c on app.contact=c.uid" tablename="tx_mkhoga_applicants" alias="app" />
-	*		<param name="valueField" value="app.uid" />
-	*		<param name="captionField" value="c.lastname" />
-	*		<param name="options">
-	*			<where>2=2</where>
-	*			<orderby>uid asc</orderby>
-	*		</param>
-	* 		<param name="dependsOn" formfield="-trade" dbField="trade" dbTableName="tx_mkhoga_types" />
-	*		<param name="debug" value="1" />
-	*	</params
-	*
 	* @param array $params
 	* @param tx_ameosformidable $form
 	* @todo 	Eigene Exceptions nutzen (nicht von mklib)
 	* @return array
 	*/
-	public static function getItemsFromDb(array $params, tx_ameosformidable $form){
+	public static function getRowsFromDataBase(array $params, tx_ameosformidable $form){
 		//erstmal prüfen ob alle notwendigen params gesetzt wurden
 		if(empty($params['table']) || empty($params['valueField']) || empty($params['captionField']))
 			throw new InvalidArgumentException(
@@ -616,23 +594,60 @@ class tx_mkforms_util_FormBase {
 
 		if (is_array($params['table'])) {
 			$table = array(
-			$params['table']['from'],
-			$params['table']['tablename'],
-			isset($params['table']['alias']) ? $params['table']['alias'] : null
+				$params['table']['from'],
+				$params['table']['tablename'],
+				isset($params['table']['alias']) ? $params['table']['alias'] : null
 			);
 		}
 		else $table = $params['table'];
 
 		// wenn der Wert von dem wir abhängen leer ist, suchen wir nicht
-		if(empty($params['dependsOn']) || (!empty($params['dependsOn']) && !empty($val)))
-		$rows = tx_rnbase_util_DB::doSelect(
-		$params['valueField'].' as __value__,'.$params['captionField'] . ' as __caption__',
-		$table,
-		isset($params['options']) ? $params['options'] : null,
-		isset($params['debug']) ? $params['debug'] : null
-		);
+		if(empty($params['dependsOn']) || (!empty($params['dependsOn']) && !empty($val))) {
+			$rows = tx_rnbase_util_DB::doSelect(
+				$params['valueField'].' as __value__,'.$params['captionField'] . ' as __caption__',
+				$table,
+				isset($params['options']) ? $params['options'] : null,
+				isset($params['debug']) ? $params['debug'] : null
+			);
+		}
 
-		return tx_mkforms_util_Div::arrayToRdtItems($rows, '__caption__', '__value__');
+		return $rows;
+	}
+
+	/**
+	 * Bestimmte Datensätze aus der DB auslesen und diese für Renderlets aufbereitet zurückgeben
+	 *
+	 * Expected parameters in $params:
+	 * * 'table':			Mandatory:	String or array of tables with keys 'from' (complete from-clause including aliases etc.), 'tablename' (name of first table) and (optionally) 'alias' (alias of first table)
+	 * * 'valueField':		Mandatory:	Field representing the item's value. May be a calculated SQL expression - but WITHOUT 'as fieldalias' part!!! Implicitely used alias is '__value__', can be used e.g. for sorting.
+	 * * 'captionField':	Mandatory:	Field representing the item's label aka caption. May be a calculated SQL expression - but WITHOUT 'as fieldalias' part!!! Implicitely used alias is '__caption__', can be used e.g. for sorting.
+	 * * 'options':			Optional:	Array of options which are directly passed to tx_rnbase_util_DB::doSelect
+	 * * 'dependsOn':		Optional:	Array of options for dependent fields: array('formfieldname' => form fields which's value is used, 'dbfield' => dedicated database field, 'dbtable'(optional) => real name of the table of the dedicated database field (needed for complex searches with JOINs; otherwise $params['table'] is used.)). Note that either used table needs to be defined in $TCA!
+	 * * 'debug':			Optional:	Flag whether SQL query is executed in debug mode
+	 * @see tx_rnbase_util_DB::doSelect
+	 *
+	 * Complete example:
+	 * 	<params>
+	 * 		<param name="table" from="tx_mkhoga_applicants as app join fe_users on app.feuser=fe_users.uid join tx_mkhoga_contacts as c on app.contact=c.uid" tablename="tx_mkhoga_applicants" alias="app" />
+	 *		<param name="valueField" value="app.uid" />
+	 *		<param name="captionField" value="c.lastname" />
+	 *		<param name="options">
+	 *			<where>2=2</where>
+	 *			<orderby>uid asc</orderby>
+	 *		</param>
+	 * 		<param name="dependsOn" formfield="-trade" dbField="trade" dbTableName="tx_mkhoga_types" />
+	 *		<param name="debug" value="1" />
+	 *	</params
+	 *
+	 * @param array $params
+	 * @param tx_ameosformidable $form
+	 * @todo 	Eigene Exceptions nutzen (nicht von mklib)
+	 * @return array
+	 */
+	public static function getItemsFromDb(array $params, tx_ameosformidable $form){
+		return tx_mkforms_util_Div::arrayToRdtItems(
+			static::getRowsFromDataBase($params, $form), '__caption__', '__value__'
+		);
 	}
 
 	/**

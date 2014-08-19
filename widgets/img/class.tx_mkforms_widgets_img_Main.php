@@ -252,7 +252,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 		if(t3lib_div::isFirstPartOfStr($sPath, 'EXT:')) {
 
 			$sPath = $this->oForm->_removeStartingSlash(
-				$this->oForm->toRelPath(
+				tx_mkforms_util_Div::toRelPath(
 					t3lib_div::getFileAbsFileName($sPath)
 				)
 			);
