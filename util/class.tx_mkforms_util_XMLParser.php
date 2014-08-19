@@ -65,7 +65,7 @@ class tx_mkforms_util_XMLParser {
 			return self::$cache[$sHash];
 		}
 		self::checkFile($sPath, $isSubXml);
-		
+
 		$aConf = array();
 
 		if(self::$useCache) {
@@ -264,9 +264,9 @@ class tx_mkforms_util_XMLParser {
 			if ($result[1]) {
 				// Charset found in the XML declaration
 				$charset = $result[1];
-			} else if ($TYPO3_CONF_VARS['BE']['forceCharset']) {
+			} else if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']) {
 				// Force charset to Typo3 configuration if defined
-				$charset = $TYPO3_CONF_VARS['BE']['forceCharset'];
+				$charset = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
 			} else {
 				// Default charset
 				$charset = $php5defCharset;
@@ -441,7 +441,7 @@ class tx_mkforms_util_XMLParser {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_XMLParser.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_XMLParser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_XMLParser.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_XMLParser.php']);
 }
 ?>

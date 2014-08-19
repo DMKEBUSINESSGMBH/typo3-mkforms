@@ -35,8 +35,8 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/action/redirect/class.tx_mkforms_action_redirect_Main.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/action/redirect/class.tx_mkforms_action_redirect_Main.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/redirect/class.tx_mkforms_action_redirect_Main.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/redirect/class.tx_mkforms_action_redirect_Main.php']);
 }
 
 ?>

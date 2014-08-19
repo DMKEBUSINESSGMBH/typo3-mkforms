@@ -93,7 +93,7 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/validator/preg/class.tx_mkforms_validator_preg_Main.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/validator/preg/class.tx_mkforms_validator_preg_Main.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/preg/class.tx_mkforms_validator_preg_Main.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/preg/class.tx_mkforms_validator_preg_Main.php']);
 }
 ?>

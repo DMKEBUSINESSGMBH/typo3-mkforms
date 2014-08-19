@@ -83,7 +83,6 @@ class formidableajax {
 
 
 
-		global $TYPO3_CONF_VARS; // wichtig für xclasses
 		require_once(PATH_tslib . 'class.tslib_content.php');
 		tx_rnbase::load('tx_mkforms_forms_Base');
 		tx_rnbase::load('tx_mkforms_util_Div');
@@ -260,10 +259,10 @@ class formidableajax {
 
 	function _initBeUser() {
 
-		global $BE_USER, $_COOKIE, $TYPO3_CONF_VARS;
+		global $BE_USER, $_COOKIE;
 
 		$temp_TSFEclassName = t3lib_div::makeInstanceClassName('tslib_fe');
-		$TSFE = new $temp_TSFEclassName($TYPO3_CONF_VARS,0,0);
+		$TSFE = new $temp_TSFEclassName($GLOBALS['TYPO3_CONF_VARS'],0,0);
 		$TSFE->connectToDB();
 
 		// *********
@@ -275,7 +274,7 @@ class formidableajax {
 					// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
 				$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
 				$BE_USER->OS = TYPO3_OS;
-				$BE_USER->lockIP = $TYPO3_CONF_VARS['BE']['lockIP'];
+				$BE_USER->lockIP = $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'];
 				$BE_USER->start();			// Object is initialized
 				$BE_USER->unpack_uc('');
 				if ($BE_USER->user['uid'])	{
@@ -412,7 +411,7 @@ try {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']);
 }
 ?>

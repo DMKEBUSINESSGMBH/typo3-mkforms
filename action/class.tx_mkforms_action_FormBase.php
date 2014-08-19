@@ -422,6 +422,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/action/class.tx_mkforms_action_FormBase.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/action/class.tx_mkforms_action_FormBase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/class.tx_mkforms_action_FormBase.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/class.tx_mkforms_action_FormBase.php']);
 }
