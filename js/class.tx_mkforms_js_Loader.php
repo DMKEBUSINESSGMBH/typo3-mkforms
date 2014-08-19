@@ -52,7 +52,9 @@ class tx_mkforms_js_Loader {
 		return new tx_mkforms_js_Loader($form);
 	}
 	private function init(&$oForm) {
-		require_once(PATH_tslib . 'class.tslib_pagegen.php');
+		if(!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			require_once(PATH_tslib . 'class.tslib_pagegen.php');
+		}
 		$this->oForm =& $oForm;
 	}
 

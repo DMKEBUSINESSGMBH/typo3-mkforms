@@ -1,9 +1,7 @@
 <?php
-	
-	require_once(PATH_tslib.'class.tslib_pibase.php');
 
 	class tx_ameosformidable_pi extends tslib_pibase {
-		
+
 		var $extKey = 'ameos_formidable';
 		var $oForm = FALSE;
 		var $aFormConf = FALSE;
@@ -34,7 +32,7 @@
 						return "<strong>Formidable: TS path not found in template</strong>";
 					}
 				}
-				
+
 				$this->aFormConf = $aCurZone;
 			} else {
 
@@ -73,7 +71,7 @@
 					$this->sXmlPath
 				);
 			}
-			
+
 			return $this->pi_wrapInBaseClass($this->oForm->render());
 		}
 	}

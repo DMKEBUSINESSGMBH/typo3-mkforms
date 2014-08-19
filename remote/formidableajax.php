@@ -83,7 +83,9 @@ class formidableajax {
 
 
 
-		require_once(PATH_tslib . 'class.tslib_content.php');
+		if(!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			require_once(PATH_tslib . 'class.tslib_content.php');
+		}
 		tx_rnbase::load('tx_mkforms_forms_Base');
 		tx_rnbase::load('tx_mkforms_util_Div');
 		tx_rnbase::load('tx_mkforms_util_Config');
