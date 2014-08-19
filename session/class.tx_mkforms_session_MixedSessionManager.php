@@ -132,9 +132,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 			if($sessionLen > 300000) {
 				tx_rnbase_util_Logger::notice('Alert: Large session size!', 'mkforms', array('Size'=>$sessionLen, 'PHP-SessionID'=> session_id(), 'FormId' => $formId));
 			}
-// nicht gut für den live betrieb, lieber mal in die devlog schauen!
-// 			if ($_REQUEST['debug']==1)
-// 				t3lib_div::debug($sessionLen,'Das ganze _SESSION in Bytes in ' . $formId );
 		}
 	}
 

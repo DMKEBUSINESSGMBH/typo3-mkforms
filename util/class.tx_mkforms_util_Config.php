@@ -153,10 +153,10 @@ class tx_mkforms_util_Config {
 			if(TYPO3_MODE == "FE") {
 				// front end
 				if(!$GLOBALS["TSFE"]){
-					$message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann ' . 
+					$message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann ' .
 						'aus folgenden Grund passieren. Man hat ein autocomplete mit childs, ' .
-						'ein default LL aber keine label für die childs. Entweder wird kein ' . 
-						'default LL verwendet oder den childs wird ein label gegeben, die es' . 
+						'ein default LL aber keine label für die childs. Entweder wird kein ' .
+						'default LL verwendet oder den childs wird ein label gegeben, die es' .
 						'gar nicht geben muss da diese nicht gerendered werden.';
 					throw new Exception(
 						$message,
@@ -198,14 +198,15 @@ class tx_mkforms_util_Config {
 		$this->config = $this->config[$sRoot];	// the root is deleted
 		$this->sXmlVersion = $this->get('/version', $this->config);
 
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
 		if(($this->sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== FALSE) {
-			if(tx_mkforms_util_Div::getVersionInt() < t3lib_div::int_from_ver($this->sXmlMinVersion)) {
+			if(tx_mkforms_util_Div::getVersionInt() < tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->sXmlMinVersion)) {
 				tx_mkforms_util_Div::mayday('The given XML requires a version of Formidable (<b>' . $this->sXmlMinVersion . '</b> or above) more recent than the one installed (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).');
 			}
 		}
 
 		if(($this->sXmlMaxVersion = $this->get('/maxversion', $this->_aConf)) !== FALSE) {
-			if(tx_mkforms_util_Div::getVersionInt() > t3lib_div::int_from_ver($this->sXmlMaxVersion)) {
+			if(tx_mkforms_util_Div::getVersionInt() > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->sXmlMaxVersion)) {
 				tx_mkforms_util_Div::mayday('The given XML requires a version of Formidable (<b>' . $this->sXmlMaxVersion . '</b> maximum) older than the one installed (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).');
 			}
 		}

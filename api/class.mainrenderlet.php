@@ -151,7 +151,6 @@
 			$this->aStatics['hasSubmitted'] = $this->aEmptyStatics['hasSubmitted'];
 			$this->aStatics['dbridge_getSubmitterAbsName'] = $this->aEmptyStatics['dbridge_getSubmitterAbsName'];
 			$this->aStatics['dsetMapping'] = $this->aEmptyStatics['dsetMapping'];
-//t3lib_div::debug($this->aStatics['elementHtmlId'], $this->getName(). ' CLEANSTATICS ######### - class.mainrenderlet.php'); // TODO: remove me
 
 		}
 
@@ -2938,9 +2937,6 @@ JAVASCRIPT;
 		}
 
 		function defaultWrap() {
-// tx_mkforms_util_Div::debugBT4ajax();
-//t3lib_div::debug(debug_backtrace(), $this->getId(). ' - formidable_mainrenderlet :: defaultWrap'); // TODO: remove me
-//exit();
 			return $this->_defaultTrue('/defaultwrap');
 		}
 

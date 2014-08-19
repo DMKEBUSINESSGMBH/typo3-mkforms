@@ -29,14 +29,6 @@
 tx_rnbase::load('tx_mkforms_forms_Factory');
 require_once(t3lib_extMgm::extPath('phpunit').'Classes/Framework.php');
 
-//$res = register_shutdown_function('shutdown');
-//function shutdown(){
-//    if ($error = error_get_last()) {
-// 			t3lib_div::debug($error, 'DEBUG: '.__METHOD__.' Line: '.__LINE__); // @TODO: remove me
-// 			tx_rnbase::load('tx_rnbase_util_Misc');
-// 			tx_rnbase_util_Misc::mayday('error');
-//    }
-//}
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
 class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {

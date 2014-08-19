@@ -4954,13 +4954,6 @@ JAVASCRIPT;
 
 
 	function devlog($sMessage, $iPad, $bCallStack = FALSE) {
-
-/*		$sCallStack = "";
-		if($bCallStack === TRUE) {
-			$sCallStack = t3lib_div::debug_trail() . "\n";
-		}
-
-		error_log($sCallStack . str_repeat("\t", $iPad) . $sMessage . "\n", 3, tx_mkforms_util_Div::toServerPath("EXT:ameos_formidable/dev.log.txt"));*/
 	}
 
 

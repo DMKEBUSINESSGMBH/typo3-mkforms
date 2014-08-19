@@ -428,7 +428,6 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 	}
 
 	function _includeLibraries() {
-//t3lib_div::debug('Test','class.tx_mkforms_widgets_date_Main.php : '); // TODO: remove me
 		if($this->oForm->issetAdditionalHeaderData('mkforms_date_includeonce'))
 			return;
 

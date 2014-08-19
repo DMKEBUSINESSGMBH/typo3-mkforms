@@ -31,11 +31,9 @@ class tx_mkforms_tests_Lister_testcase extends tx_phpunit_testcase {
 //		$form->init($this, 'EXT:mkforms/tests/fixtures/lister1.xml');
 //		$html = $form->render();
 
-		
-//		t3lib_div::debug($form->getWidget('thelist')->getChilds(),'tx_mkforms_tests_Lister_testcase.php : '); // TODO: remove me
 		self::assertTrue("hello" !== "world", "Hello is not equal to world !");
 	}
-	
+
 }
 
 ?>

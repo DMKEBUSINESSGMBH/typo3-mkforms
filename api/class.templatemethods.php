@@ -355,7 +355,8 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_debug_trail($mData, $aParams) {
-		return t3lib_div::debug_trail();
+		tx_rnbase::load('tx_rnbase_util_Debug');
+		return tx_rnbase_util_Debug::getDebugTrail();
 	}
 
 	function method_hsc($mData, $aParams) {

@@ -104,17 +104,6 @@ class formidableajax {
 
 		$sesMgr->setForm($this->oForm);
 		$formid = $this->oForm->getFormId();
-//$start = microtime(true);
-//tx_rnbase::load('tx_rnbase_cache_Manager');
-//$cache = tx_rnbase_cache_Manager::getCache('mkforms');
-//$test = $this->oForm;
-////$test = gzcompress(serialize($this->oForm),1);
-////$cache->set('form', $test, 3600);
-//t3lib_div::debug($cache->has('form'),(microtime(true) - $start) . 's -formidableajax.php : '); // TODO: remove me
-////t3lib_div::debug(unserialize(gzuncompress($cache->get('form'))),(microtime(true) - $start) . 's -formidableajax.php : '); // TODO: remove me
-
-//		$this->oForm->cObj = t3lib_div::makeInstance('tslib_cObj');
-//tx_mkforms_util_Div::debug4ajax(is_object($this->oForm));
 
 		if($this->aConf['virtualizeFE']) {
 			// Hier wird eine TSFE erstellt. Das hängt vom jeweiligen Ajax-Call ab.
@@ -263,7 +252,7 @@ class formidableajax {
 
 		global $BE_USER, $_COOKIE;
 
-		$temp_TSFEclassName = t3lib_div::makeInstanceClassName('tslib_fe');
+		$temp_TSFEclassName = tx_rnbase::makeInstanceClassName('tslib_fe');
 		$TSFE = new $temp_TSFEclassName($GLOBALS['TYPO3_CONF_VARS'],0,0);
 		$TSFE->connectToDB();
 

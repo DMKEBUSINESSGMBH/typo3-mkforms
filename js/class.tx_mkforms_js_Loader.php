@@ -72,7 +72,6 @@ class tx_mkforms_js_Loader {
 	public function includeBaseLibraries() {
 		if(!$this->useJs()) return;
 
-//t3lib_div::debug('inclOnceLibs', 'tx_mkforms_util_JSLoader :: _includeOnceLibs'); // TODO: remove me
 		if($this->mayLoadJsFramework()) {
 			if(!self::$isLoaded) {
 
@@ -103,7 +102,6 @@ class tx_mkforms_js_Loader {
 	 *
 	 */
 	public function includeAdditionalLibraries() {
-//		t3lib_div::debug('Scriptac', 'tx_ameosformidable :: _render'); // TODO: remove me
 		$this->includeScriptaculous();
 		$this->includeTooltip();
 
@@ -530,7 +528,6 @@ JAVASCRIPT;
 	 */
 	public function additionalHeaderData($sData, $sKey = FALSE, $bFirstPos = FALSE, $sBefore = FALSE, $sAfter = FALSE) {
 		if($sKey && !array_key_exists($sKey, $this->headerKeys)) $this->headerKeys[$sKey] = 1;
-//t3lib_div::debug($sData, $sKey.' - tx_ameosformidable :: additionalHeaderData'); // TODO: remove me
 		if(TYPO3_MODE === 'FE') {
 			if($this->mayUseStandardHeaderInjection()) {
 				$aHeaders =& $GLOBALS["TSFE"]->additionalHeaderData;
@@ -546,7 +543,6 @@ JAVASCRIPT;
 			} else {
 				$this->aHeadersAjax[$sKey] = $sData;
 			}
-//t3lib_div::debug($this->aHeadersAjax,'class.tx_ameosformidable.php : '); // TODO: remove me
 		} else {
 			if($sKey === FALSE) {
 				if($bFirstPos === TRUE) {
