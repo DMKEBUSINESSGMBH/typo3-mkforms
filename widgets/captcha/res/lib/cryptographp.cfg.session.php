@@ -114,6 +114,9 @@ $noisepxmax = $_SESSION["rdt_captcha"]["config"]["noisepxmax"];       // Bruit: 
 $noiselinemin = $_SESSION["rdt_captcha"]["config"]["noiselinemin"];     // Bruit: Nb minimum de lignes al�atoires
 $noiselinemax = $_SESSION["rdt_captcha"]["config"]["noiselinemax"];     // Bruit: Nb maximum de lignes al�atoires
 
+$nbcirclemin = $_SESSION["rdt_captcha"]["config"]["nbcirclemin"];      // Bruit: Nb minimum de cercles al�atoires
+$nbcirclemax = $_SESSION["rdt_captcha"]["config"]["nbcirclemax"];      // Bruit: Nb maximim de cercles al�atoires
+
 $noisecolorchar  = $_SESSION["rdt_captcha"]["config"]["noisecolorchar"];  // Bruit: La couleur est celle du caract�re (true) sinon celle du fond (false)
 
 
