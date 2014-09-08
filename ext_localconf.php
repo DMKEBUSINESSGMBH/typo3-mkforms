@@ -142,6 +142,7 @@
 #			'URL'			=> array('key' => 'rdt_url'),
 			'TEXTAREA'		=> array('key' => 'tx_mkforms_widgets_txtarea_Main'),
 			'BOX'			=> array('key' => 'tx_mkforms_widgets_box_Main'),
+			'LABEL'			=> array('key' => 'tx_mkforms_widgets_label_Main'),
 			'LINK'			=> array('key' => 'tx_mkforms_widgets_link_Main'),
 			'CHOOSER'		=> array('key' => 'tx_mkforms_widgets_chooser_Main'),
 			'CAPTCHA'		=> array('key' => 'tx_mkforms_widgets_captcha_Main'),

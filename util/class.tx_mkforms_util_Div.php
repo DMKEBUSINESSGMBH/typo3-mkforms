@@ -835,7 +835,7 @@ ERRORMESSAGE;
 					$aTemp['cobj'] = $aData['cobj'];
 					$aTemp['cobj.'] = $aData['cobj.'];
 				} else {
-					$aTemp[substr($key, 0, -1)] = $this->_removeDots($val, FALSE, $key);
+					$aTemp[substr($key, 0, -1)] = self::removeDots($val, FALSE, $key);
 				}
 			} else {
 				$aTemp[$key] = $val;

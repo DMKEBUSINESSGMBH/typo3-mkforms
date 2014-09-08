@@ -217,7 +217,6 @@ class tx_mkforms_util_Config {
 	 * Takes an array of typoscript configuration, and adapt it to formidable syntax
 	 *
 	 * @param	array		$aConf: TS array for application
-	 * @return	array		Refined array
 	 */
 	private function refineTS($aConf) {
 
@@ -236,7 +235,7 @@ class tx_mkforms_util_Config {
 				} else {
 					if(is_array($aConf['meta.'][$sKey])) {
 						$sPlainKey = substr($sKey, 0, -1);
-						$aTemp['meta'][$sPlainKey] = $this->_removeDots($aConf['meta.'][$sKey]);
+						$aTemp['meta'][$sPlainKey] = tx_mkforms_util_Div::removeDots($aConf['meta.'][$sKey]);
 					} else {
 						$aTemp['meta'][$sKey] = $aConf['meta.'][$sKey];
 					}
@@ -259,7 +258,7 @@ class tx_mkforms_util_Config {
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
 							$aTemp['control']['datahandler'] = t3lib_div::array_merge_recursive_overrule(
 								$aTemp['control']['datahandler'],
-								$this->_removeDots($aConf['control.'][$sKey . '.'])
+								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
 						}
 					} elseif($sKey === 'renderer') {
@@ -270,7 +269,7 @@ class tx_mkforms_util_Config {
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
 							$aTemp['control']['renderer'] = t3lib_div::array_merge_recursive_overrule(
 								$aTemp['control']['renderer'],
-								$this->_removeDots($aConf['control.'][$sKey . '.'])
+								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
 						}
 					}
@@ -288,7 +287,7 @@ class tx_mkforms_util_Config {
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
 									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
 										$aTemp['control']['actionlets']['actionlet-' . $sActKey],
-										$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
 								}
 							}
@@ -306,13 +305,13 @@ class tx_mkforms_util_Config {
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
 									$aTemp['control']['datasources']['datasource-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
 										$aTemp['control']['datasources']['datasource-' . $sActKey],
-										$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
 								}
 							}
 						}
 					} elseif($sKey === 'sandbox.') {
-						$aTemp['control']['sandbox'] = $this->_removeDots($aConf['control.']['sandbox.']);
+						$aTemp['control']['sandbox'] = tx_mkforms_util_Div::removeDots($aConf['control.']['sandbox.']);
 					}
 				}
 			}
@@ -342,8 +341,7 @@ class tx_mkforms_util_Config {
 				}
 			}
 		}
-
-		return $aTemp;
+		$this->config = $aTemp;
 	}
 
 	/**
@@ -1158,7 +1156,7 @@ class tx_mkforms_util_Config {
 	 */
 	public static function createInstanceByTS($confArr, $form) {
 		$cfg = new tx_mkforms_util_Config($form);
-		$cfg->refineTS(t3lib_div::getFileAbsFileName($confArr));
+		$cfg->refineTS($confArr);
 		// default config laden hinzufügen
 		$cfg->loadDefaultXmlConf();
 		return $cfg;
