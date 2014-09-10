@@ -24,8 +24,8 @@
 
 
 /**
- * Ersatz für einige Methoden aus Ameos. 
- * 
+ * Ersatz für einige Methoden aus Ameos.
+ *
  */
 class tx_mkforms_util_Templates {
 	private $formid;
@@ -44,6 +44,9 @@ class tx_mkforms_util_Templates {
 	public function getFormId() {
 		return $this->formid;
 	}
+	/**
+	 * @return tx_ameosformidable
+	 */
 	public function getForm() {
 		return $this->form;
 	}
@@ -171,9 +174,9 @@ class tx_mkforms_util_Templates {
 	private function processWithAs($sHtml) {
 		$sPattern = '/\<\!\-\-.*(\#\#\#with (.+)\ \bas\b\ \b(.+)\#\#\#).*\-\-\>([^\1]*?)\<\!\-\-.*\1.*\-\-\>/';
 		$sHtml = preg_replace_callback($sPattern,array(&$this,'processWithAsCallBack'),$sHtml,-1);
-		return $sHtml;	
+		return $sHtml;
 	}
-	
+
 	private function processWithAsCallBack($aMatch) {
 
 		$aRes = array();
@@ -188,13 +191,13 @@ class tx_mkforms_util_Templates {
 			if(is_array($mValue)) {
 				reset($mValue);
 			}
-			
+
 /*			$aMarkers = array(
 				"context" => $aTags,
 				"key" => $sKey,
 				trim($aMatch[3]) => $mValue
 			);
-*/			
+*/
 			$aTags[trim($aMatch[3])] = $mValue;
 			$aRes[] = $this->parseTemplateCode($aMatch[4],$aTags,$aExclude = array(),$bClearNotUsed = FALSE);
 		}
@@ -207,20 +210,20 @@ class tx_mkforms_util_Templates {
 	private function processPerimeters($sHtml, $bClearNotUsed = TRUE) {
 		$aMatches = array();
 		$sPattern = '/\<\!\-\-.*(\#\#\#(.+)\ \bperimeter\b\#\#\#).*\-\-\>([^\1]*?)\<\!\-\-.*\1.*\-\-\>/';
-		
+
 		$sCbk = ($bClearNotUsed === TRUE) ? 'processPerimetersCallBackClearNotUsed' : 'processPerimetersCallBackKeepNotUsed';
 		$sHtml = preg_replace_callback($sPattern,array(&$this,$sCbk),$sHtml,-1);
 		return $sHtml;
 	}
-	
+
 	private function processPerimetersCallBackClearNotUsed($aMatch) {
 		return $this->processPerimetersCallBack($aMatch,TRUE);
 	}
-	
+
 	private function processPerimetersCallBackKeepNotUsed($aMatch) {
 		return $this->processPerimetersCallBack($aMatch,FALSE);
 	}
-	
+
 	private function processPerimetersCallBack($aMatch, $bClearNotUsed = TRUE) {
 
 		$sCond = $aMatch[2];
@@ -233,7 +236,7 @@ class tx_mkforms_util_Templates {
 				// that will be evaluable only later in the process
 				// if deletion is not asked, we keep the failed perimeters intact
 				// to give a chance to later passes to catch it
-				
+
 			if($bClearNotUsed === TRUE) {
 				$bDelete = TRUE;	// deletion
 			} else {
@@ -277,7 +280,7 @@ class tx_mkforms_util_Templates {
 				}
 			}
 		}
-		
+
 		reset($aParams);
 		return $aParams;
 	}
@@ -295,10 +298,10 @@ class tx_mkforms_util_Templates {
 		return $array;
 	}
 	public function processMarkersCallBack($aMatch, $bClearNotUsed, $bThrusted) {
-		
+
 		$sCatch = $aMatch[1];
 		$aTags = self::currentTemplateMarkers($this->getFormId());
-		
+
 		if(($sCatch{0} === "L" && $sCatch{1} === "L" && $sCatch{2} === "L") && ($sCatch{3} === ":")) {
 			if(isset($this)) {
 				return $this->getForm()->getConfigXML()->getLLLabel($sCatch);
@@ -310,14 +313,14 @@ class tx_mkforms_util_Templates {
 						if($bThrusted) {
 							return $mVal['__compiled'];
 						} else {
-							return $this->sanitizeStringForTemplateEngine($mVal['__compiled']);	
+							return $this->sanitizeStringForTemplateEngine($mVal['__compiled']);
 						}
 					} else {
 						return '';
 					}
 				} else {
 					if($bThrusted) {
-						return $mVal;	
+						return $mVal;
 					} else {
 						return $this->sanitizeStringForTemplateEngine($mVal);
 					}
@@ -328,7 +331,7 @@ class tx_mkforms_util_Templates {
 					return '';
 				} else {
 					if($bThrusted) {
-						return $aMatch[0];	
+						return $aMatch[0];
 					} else {
 						return $this->sPfxBegin . $aMatch[1] . $this->sPfxEnd;
 					}
@@ -348,19 +351,19 @@ class tx_mkforms_util_Templates {
 		$sHtml = preg_replace_callback($sPattern,array(&$this,$sCbk),$sHtml,-1);
 		return $sHtml;
 	}
-	
+
 	function processMarkersCallBackClearNotUsed($aMatch) {
 		return $this->processMarkersCallBack($aMatch,TRUE,FALSE);
 	}
-	
+
 	function processMarkersCallBackKeepNotUsed($aMatch) {
 		return $this->processMarkersCallBack($aMatch,FALSE,FALSE);
 	}
-	
+
 	function processMarkersCallBackClearNotUsedThrusted($aMatch) {
 		return $this->processMarkersCallBack($aMatch,TRUE,TRUE);
 	}
-	
+
 	function processMarkersCallBackKeepNotUsedThrusted($aMatch) {
 		return $this->processMarkersCallBack($aMatch,FALSE,TRUE);
 	}
@@ -389,7 +392,7 @@ class tx_mkforms_util_Templates {
 		if(!is_array($aTags)) {
 			$aTags = array();
 		}
-		
+
 		if(is_object($this)) {
 			$this->pushTemplateMarkers($aTags);
 		}
@@ -430,7 +433,7 @@ class tx_mkforms_util_Templates {
 /*		if(!isset($GLOBALS["tx_ameosformidable"][$this->formid]["aTags"])) {
 			$GLOBALS["tx_ameosformidable"][$this->formid]["aTags"] = array();
 		}
-		
+
 		$GLOBALS["tx_ameosformidable"][$this->formid]["aTags"][] = $aTags;
 */
 		$sHtml = $this->processForEaches($sHtml);
@@ -439,13 +442,13 @@ class tx_mkforms_util_Templates {
 			$sHtml,
 			$bClearNotUsed
 		);
-		
+
 		$sHtml = $this->processMarkers(
 			$sHtml,
 			$bClearNotUsed,
 			$bThrusted
 		);
-		
+
 		if(count($aExclude) > 0) {
 
 			reset($aExclude);
@@ -458,7 +461,7 @@ class tx_mkforms_util_Templates {
 		if(is_object($this)) {
 			$this->pullTemplateMarkers();
 		}
-		
+
 		if($bClearNotUsed) {
 			$sHtml = str_replace(
 				array(
@@ -469,13 +472,13 @@ class tx_mkforms_util_Templates {
 				),
 				$sHtml
 			);
-			
+
 			$sHtml = preg_replace("|{[^\{\}\n]*}|", "", $sHtml);
 		}
 
 		return $sHtml;
 	}
-	
+
 	/**
 	 * Wird nochmal im mainrenderlet verwendet
 	 *
@@ -490,21 +493,21 @@ class tx_mkforms_util_Templates {
 		if($aConf === FALSE && is_object($this)) {
 			$aConf = self::currentTemplateMarkers($this->getFormId());
 		}
-		return $this->resolveScripting('templatemethods', $sPath, $aConf, $mStackedValue);	
+		return $this->resolveScripting('templatemethods', $sPath, $aConf, $mStackedValue);
 	}
 
 	public function pushTemplateMarkers($aMarkers) {
 		if(!isset($GLOBALS['tx_ameosformidable'][$this->formid]['aTags'])) {
 			$GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags'] = array();
 		}
-		
+
 		$GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags'][] = $aMarkers;
 	}
-	
+
 	public function pullTemplateMarkers() {
 		return array_pop($GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags']);
 	}
-	
+
 	/**
 	 * Liefert Werte aus dem Array $GLOBALS['tx_ameosformidable'][$formId]['aTags']
 	 * @param $formId
@@ -514,11 +517,11 @@ class tx_mkforms_util_Templates {
 		if(!isset($GLOBALS['tx_ameosformidable'][$formId]['aTags'])) {
 			return array();
 		}
-		
+
 		if(empty($GLOBALS['tx_ameosformidable'][$formId]['aTags'])) {
 			return array();
 		}
-		
+
 		$iCount = count($GLOBALS['tx_ameosformidable'][$formId]['aTags']);
 		return $GLOBALS['tx_ameosformidable'][$formId]['aTags'][($iCount-1)];
 	}
@@ -531,7 +534,7 @@ class tx_mkforms_util_Templates {
 		if(!isset($GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags'])) {
 			return array();
 		}
-		
+
 		reset($GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags']);
 		return $GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags'];
 	}
@@ -569,7 +572,7 @@ class tx_mkforms_util_Templates {
 					$aBeforeValue = $aValue;
 
 					$aValue = $this->resolveScripting($sInterpreter,$aExp["args"],$aConf,$aValue);
-					
+
 					if(!is_array($aValue)) {
 						$sExecString = $aExp["expr"] . "(\"" . $aValue . "\")";
 					} else {
@@ -622,14 +625,14 @@ class tx_mkforms_util_Templates {
 		$sArgs = trim(substr(strstr($sCall, '('), 1, -1));
 
 		$sClassPath = 'class.' . $sInterpreter . '.php';
-		
+
 		require_once(t3lib_extMgm::extPath('mkforms') . 'api/' . $sClassPath);
 		// TODO: Was ist das??
 		// wird für template scripting benötigt
 		// Bsp.: <!-- ###jobads-subtype.formData("jobads-maintype").equals(501) perimeter### begin-->
 		$oMethods = t3lib_div::makeInstance('formidable_' . $sInterpreter);
 		$oMethods->_init($this->form);
-		
+
 		return $oMethods->process($sMethod,$mData,$sArgs);
 	}
 
