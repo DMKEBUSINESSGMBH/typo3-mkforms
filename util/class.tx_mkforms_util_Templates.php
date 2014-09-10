@@ -476,6 +476,21 @@ class tx_mkforms_util_Templates {
 			$sHtml = preg_replace("|{[^\{\}\n]*}|", "", $sHtml);
 		}
 
+		// call module markers, so Labels and Modules can be rendered
+		tx_rnbase::load('tx_rnbase_util_BaseMarker');
+		// disable the cache
+		tx_rnbase_util_Templates::disableSubstCache();
+		$markerArray = $subpartArray = $wrappedSubpartArray = $params = array();
+		// check for Module markers
+		tx_rnbase_util_BaseMarker::callModules(
+			$sHtml, $markerArray, $subpartArray, $wrappedSubpartArray, $params,
+			$this->getForm()->getConfigurations()->getFormatter()
+		);
+		// render the module markers
+		$sHtml = tx_rnbase_util_BaseMarker::substituteMarkerArrayCached(
+			$sHtml, $markerArray, $subpartArray, $wrappedSubpartArray
+		);
+
 		return $sHtml;
 	}
 
