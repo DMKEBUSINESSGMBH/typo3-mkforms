@@ -76,7 +76,7 @@ Control.Tabs =Base.extend({
 							MKWrapper.attachEvent(
 								MKWrapper.$(a),
 								'click',
-								function(event, clean_href){
+								function(event){
 									this.setActiveTab(clean_href.substring(1));
 								},
 								this
@@ -88,16 +88,22 @@ Control.Tabs =Base.extend({
 		}
 	},
 	addTab: function(link){
+		var _self = this;
 		this.links.push(link);
 		var hrefParts = link.getAttribute('href').split('#');
 		link.key = hrefParts[hrefParts.length - 1];
 		this.containers[link.key] = MKWrapper.$(link.key);
-		link[this.options.hover ? 'onmouseover' : 'onclick'] = function(link){
-			if(window.event)
-				Event.stop(window.event);
-			this.setActiveTab(link);
-			return false;
-		}.bind(this,link);
+		
+		MKWrapper.attachEvent(
+			MKWrapper.$(link),
+			this.options.hover ? 'mouseover' : 'click',
+			function(event){
+				MKWrapper.stopEvent(event);
+				_self.setActiveTab(link);
+				return false;
+			},
+			this
+		);
 	},
 	setActiveTab: function(link){
 		if(!link)
