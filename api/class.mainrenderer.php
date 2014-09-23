@@ -788,10 +788,15 @@ TEMPLATE;
 
 		function compileErrorMessages($aMessages) {
 			if($this->defaultFalse('/template/errortagcompilednobr')) {
-				return implode('', $aMessages);
+				$errorMessages = implode('', $aMessages);
 			}
-
-			return implode('<br />', $aMessages);
+			else {
+				$errorMessages = implode('<br />', $aMessages);
+			}
+			if ($errorMessages && ($sErrContainerWrap = $this->_navConf('/template/errorcontainerwrap')) !== FALSE) {
+				$errorMessages = str_replace('|', $errorMessages, $sErrContainerWrap);
+			}
+			return $errorMessages;
 		}
 
 	}
