@@ -298,13 +298,20 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_after_filldata',
 			array('data' => &$data), $this);
 
-		if(!is_array($data) || !count($data)){
-			return array();
+		$confId = $this->getConfId();
+		tx_rnbase::load('tx_mkforms_util_FormBase');
+
+		if(!is_array($data) || empty($data)){
+			$data = array();
+			// @see self::flatArray2MultipleTableStructure -> addfields
+			$addFields = $this->getConfigurations()->get($confId.'addfields.', true);
+			// Felder setzen, überschreiben oder löschen
+			if (is_array($addFields) && count($addFields)) {
+				$data = tx_mkforms_util_FormBase::addFields($data, $addFields);
+			}
+			return $data;
 		}
 
-		$confId = $this->getConfId();
-
-		tx_rnbase::load('tx_mkforms_util_FormBase');
 		$this->preFilledForm = tx_mkforms_util_FormBase::multipleTableStructure2FlatArray($data, $form, $this->getConfigurations(), $confId);
 
 		return $this->preFilledForm;
