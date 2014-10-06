@@ -1455,17 +1455,20 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 		if(oDomNode=this.domNode()) {
 			MKWrapper.setStyle(oDomNode, {'display':'block'});
 			this.displayBlockLabel();
+			this.displayBlockReadonly();
 		}
 	},
 	displayNone: function() {
 		if(oDomNode=this.domNode()) {
 			MKWrapper.setStyle(oDomNode, {'display':'none'});
 			this.displayNoneLabel();
+			this.displayNoneReadonly();
 		}
 	},
 	displayDefault: function() {
 		this.domNode().style.display="";
 		this.displayDefaultLabel();
+		this.displayDefaultReadonly();
 	},
 	displayNoneLabel: function() {
 		if(this.getLabel()) {
@@ -1480,6 +1483,21 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 	displayDefaultLabel: function() {
 		if(this.getLabel()) {
 			this.getLabel().style.display="";
+		}
+	},
+	displayNoneReadonly: function() {
+		if(this.getReadonly()) {
+			this.getReadonly().style.display="none";
+		}
+	},
+	displayBlockReadonly: function() {
+		if(this.getReadonly()) {
+			this.getReadonly().style.display="block";
+		}
+	},
+	displayDefaultReadonly: function() {
+		if(this.getReadonly()) {
+			this.getReadonly().style.display="";
 		}
 	},
 	getLabel: function() {
