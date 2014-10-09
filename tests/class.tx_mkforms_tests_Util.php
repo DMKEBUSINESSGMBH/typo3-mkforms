@@ -65,7 +65,7 @@ class tx_mkforms_tests_Util {
 
 	/**
 	 * Liefert ein Form Objekt
-	 * Enter description here ...
+	 * @return tx_mkforms_forms_Base
 	 */
 	public static function getForm(
 		$bCsrfProtection = true, $aConfigArray = array(), $parent = null
