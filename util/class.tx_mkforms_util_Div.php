@@ -176,15 +176,6 @@ class tx_mkforms_util_Div {
 			}
 		}
 
-		require_once(PATH_tslib.'class.tslib_content.php');
-		require_once(PATH_t3lib.'class.t3lib_timetrack.php');
-		require_once(PATH_tslib.'class.tslib_fe.php');
-		require_once(PATH_t3lib.'class.t3lib_page.php');
-		require_once(PATH_t3lib.'class.t3lib_userauth.php');
-		require_once(PATH_tslib.'class.tslib_feuserauth.php');
-		require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
-		require_once(PATH_t3lib.'class.t3lib_cs.php');
-
 		$GLOBALS['TT'] = new t3lib_timeTrack;
 		$GLOBALS['CLIENT'] = t3lib_div::clientInfo();
 
@@ -317,10 +308,9 @@ class tx_mkforms_util_Div {
 		$aDebug[] = "<span class='notice'><b>Call -3: </b>" . str_replace(PATH_site, "/", $aTrace3["file"]) . ":" . $aTrace3["line"]  . " | <b>" . $aTrace4["class"] . $aTrace4["type"] . $aTrace4["function"] . "</b></span><br />With parameters: " . (!empty($aTrace4["args"]) ? self::viewMixed($aTrace4["args"]) : " no parameters");
 		$aDebug[] = "<hr/>";
 
-		if(is_callable(array("t3lib_div", "debug_trail"))) {
-			$aDebug[] = "<span class='notice'>" . t3lib_div::debug_trail() . "</span>";
-			$aDebug[] = "<hr/>";
-		}
+		tx_rnbase::load('tx_rnbase_util_Debug');
+		$aDebug[] = "<span class='notice'>" . tx_rnbase_util_Debug::getDebugTrail() . "</span>";
+		$aDebug[] = "<hr/>";
 
 		$aDebug[] = "</div>";
 
@@ -437,7 +427,7 @@ MAYDAYPAGE;
 			if($bRecursive) {
 				$result = "<span style='" . $sStyleGreen . "'>OBJECT (" . get_class($mMixed) .") : </span>" . self::viewMixed(get_object_vars($mMixed), FALSE, $iLevel + 1);
 			} else {
-				$result = "<span style='" . $sStyleGreen . "'>OBJECT (" . get_class($mMixed) .") : !RECURSION STOPPED!</span>";// . t3lib_div::view_array(get_object_vars($mMixed), FALSE);
+				$result = "<span style='" . $sStyleGreen . "'>OBJECT (" . get_class($mMixed) .") : !RECURSION STOPPED!</span>";
 			}
 		} elseif(is_bool($mMixed)) {
 			$result = "<span style='" . $sStyleGreen . "'>BOOLEAN: </span>" . ($mMixed ? "TRUE" : "FALSE");
@@ -556,8 +546,6 @@ MAYDAYPAGE;
 				$aDebug[] = "<hr/>";
 			}
 
-//			$aDebug[] = "<p style='font-family: verdana;font-size: 9px; font-style: italic;'>" . t3lib_div::debug_trail() . "</p>";
-
 			{
 				if(is_string($variable)) {
 					$aDebug[] = $variable;
@@ -666,7 +654,8 @@ ERRORMESSAGE;
 		return $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ext_emconf.php']['version'];
 	}
 	public static function getVersionInt() {
-		return t3lib_div::int_from_ver(self::getVersion());
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		return tx_rnbase_util_TYPO3::convertVersionNumberToInteger(self::getVersion());
 	}
 
 	/**
@@ -846,7 +835,7 @@ ERRORMESSAGE;
 					$aTemp['cobj'] = $aData['cobj'];
 					$aTemp['cobj.'] = $aData['cobj.'];
 				} else {
-					$aTemp[substr($key, 0, -1)] = $this->_removeDots($val, FALSE, $key);
+					$aTemp[substr($key, 0, -1)] = self::removeDots($val, FALSE, $key);
 				}
 			} else {
 				$aTemp[$key] = $val;
@@ -1020,6 +1009,6 @@ ERRORMESSAGE;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Div.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Div.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Div.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Div.php']);
 }

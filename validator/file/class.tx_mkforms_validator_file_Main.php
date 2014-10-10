@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'va_file' for the 'ameos_formidable' extension.
  *
  * @author	Luc Muller <typo3dev@ameos.com>
@@ -7,9 +7,9 @@
 
 
 class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
-	
+
 	var $oFileFunc = null; //object for basics file function
-	
+
 	function validate($oRdt) {
 
 		$sAbsName = $oRdt->getAbsName();
@@ -46,7 +46,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 			if(!$this->canValidate($oRdt, $sKey, $sFileName)){
 				break;
 			}
-			
+
 			/***********************************************************************
 			*
 			*	/extension
@@ -80,7 +80,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 
 
 
-			
+
 			/***********************************************************************
 			*
 			*	/filesize
@@ -172,14 +172,14 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 			}
 		}
 	}
-	
+
 	function _checkFileExt($sFileName,$aValues, $sAbsName) {
-		
+
 		if(is_array($sFileName)){
 			$sFilePath = $sFileName['tmp_name'];
 			$sFileName = $sFileName['name'];
 		}
-		
+
 		// Wurde keine Datei übertragen, nicht validieren
 		if(empty($sFileName)) {
 			return TRUE;
@@ -187,7 +187,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 
 		$sExt = array_pop(explode('.',$sFileName));
 		$sExt = strtolower(str_replace('.', '', $sExt));
-		
+
 		foreach($aValues as $key=>$val) {
 			$val = strtolower(str_replace('.', '', $val));
 			if($val === $sExt) {
@@ -210,7 +210,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 	}
 
 	function _checkFileSize($sFileName, $iMaxFileSize, $sAbsName, $sType = 'byte') {
-		
+
 		if(!empty($sFileName)) {
 
 			if(is_array($sFileName)) {
@@ -219,11 +219,10 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 				$iSize = intval($sFileName['size']);
 			} else {
 				$sFullPath = $this->_getFullServerPath($sAbsName, $sFileName);
-				require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
 				$aInfos = t3lib_basicFileFunctions::getTotalFileInfo($sFullPath);
 				$iSize = intval($aInfos['size']);
 			}
-			
+
 			switch($sType) {
 				case 'kilobyte': {
 					$iMaxFileSize = $iMaxFileSize * 1024;
@@ -245,18 +244,18 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 
 		return TRUE;
 	}
-   
+
 	function _getFullServerPath($sAbsName, $sFileName) {
 		return $this->oForm->aORenderlets[$sAbsName]->getFullServerPath($sFileName);
 	}
-	
+
 	function _unlink($sFullPath) {
 		@unlink($sFullPath);
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/validator/file/class.tx_mkforms_validator_file_Main.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/validator/file/class.tx_mkforms_validator_file_Main.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/file/class.tx_mkforms_validator_file_Main.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/file/class.tx_mkforms_validator_file_Main.php']);
 }
 ?>

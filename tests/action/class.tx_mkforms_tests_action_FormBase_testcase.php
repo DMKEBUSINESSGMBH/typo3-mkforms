@@ -29,14 +29,6 @@
 tx_rnbase::load('tx_mkforms_forms_Factory');
 require_once(t3lib_extMgm::extPath('phpunit').'Classes/Framework.php');
 
-//$res = register_shutdown_function('shutdown');
-//function shutdown(){
-//    if ($error = error_get_last()) {
-// 			t3lib_div::debug($error, 'DEBUG: '.__METHOD__.' Line: '.__LINE__); // @TODO: remove me
-// 			tx_rnbase::load('tx_rnbase_util_Misc');
-// 			tx_rnbase_util_Misc::mayday('error');
-//    }
-//}
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
 class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
@@ -46,6 +38,25 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	 *
 	 */
 	public function setUp() {
+
+		/*
+		 * warning "Cannot modify header information" abfangen.
+		 *
+		 * Einige Tests lassen sich leider nicht ausführen:
+		 * "Cannot modify header information - headers already sent by"
+		 * Diese wird an unterschiedlichen stellen ausgelöst,
+		 * meißt jedoch bei Session operationen
+		 * Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
+		 * Eigentlich gibt es dafür die runInSeparateProcess Anotation,
+		 * Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
+		 * die GLOBALS in den anderen Prozess zu Übertragen.
+		 * Ein Deaktivierend er Übertragung führt dazu,
+		 * das Typo3 nicht initialisiert ist.
+		 *
+		 * Wir gehen also erst mal den Weg, den Fehler abzufangen.
+		 */
+		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+
 		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
 		$oTestFramework->createFakeFrontEnd();
 
@@ -66,6 +77,9 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] = $this->sCachefile;
 
 		unset($_POST['radioTestForm']);
+
+		// error handler zurücksetzen
+		restore_error_handler();
 	}
 	/**
 	 * wir verwenden nicht mehr den constructor, da dieser zu oft aufgerufen wird.
@@ -109,7 +123,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
 
 		//@TODO: warum wird die klasse tslib_cObj nicht gefunden!? (mw: eternit local)
-		require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
+		//require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
 		$configurations->init(
 				$configArray,
 				$configurations->getCObj(1),
@@ -124,6 +138,29 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		}
 		return $action;
 	}
+
+
+	/**
+	 *
+	 * @param integer $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param integer $errline
+	 * @param array $errcontext
+	 */
+	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
+		$ignoreMsg = array(
+				'Cannot modify header information - headers already sent by',
+		);
+		foreach($ignoreMsg as $msg) {
+			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
+				// Don't execute PHP internal error handler
+				return FALSE;
+			}
+		}
+		return NULL;
+	}
+
 public function test_processForm() {
 		$sData = array(
 				'fieldset' => array(
@@ -314,6 +351,6 @@ public function test_processForm() {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']);
 }

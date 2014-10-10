@@ -83,8 +83,9 @@ class formidableajax {
 
 
 
-		global $TYPO3_CONF_VARS; // wichtig für xclasses
-		require_once(PATH_tslib . 'class.tslib_content.php');
+		if(!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			require_once(PATH_tslib . 'class.tslib_content.php');
+		}
 		tx_rnbase::load('tx_mkforms_forms_Base');
 		tx_rnbase::load('tx_mkforms_util_Div');
 		tx_rnbase::load('tx_mkforms_util_Config');
@@ -103,17 +104,6 @@ class formidableajax {
 
 		$sesMgr->setForm($this->oForm);
 		$formid = $this->oForm->getFormId();
-//$start = microtime(true);
-//tx_rnbase::load('tx_rnbase_cache_Manager');
-//$cache = tx_rnbase_cache_Manager::getCache('mkforms');
-//$test = $this->oForm;
-////$test = gzcompress(serialize($this->oForm),1);
-////$cache->set('form', $test, 3600);
-//t3lib_div::debug($cache->has('form'),(microtime(true) - $start) . 's -formidableajax.php : '); // TODO: remove me
-////t3lib_div::debug(unserialize(gzuncompress($cache->get('form'))),(microtime(true) - $start) . 's -formidableajax.php : '); // TODO: remove me
-
-//		$this->oForm->cObj = t3lib_div::makeInstance('tslib_cObj');
-//tx_mkforms_util_Div::debug4ajax(is_object($this->oForm));
 
 		if($this->aConf['virtualizeFE']) {
 			// Hier wird eine TSFE erstellt. Das hängt vom jeweiligen Ajax-Call ab.
@@ -260,10 +250,10 @@ class formidableajax {
 
 	function _initBeUser() {
 
-		global $BE_USER, $_COOKIE, $TYPO3_CONF_VARS;
+		global $BE_USER, $_COOKIE;
 
-		$temp_TSFEclassName = t3lib_div::makeInstanceClassName('tslib_fe');
-		$TSFE = new $temp_TSFEclassName($TYPO3_CONF_VARS,0,0);
+		$temp_TSFEclassName = tx_rnbase::makeInstanceClassName('tslib_fe');
+		$TSFE = new $temp_TSFEclassName($GLOBALS['TYPO3_CONF_VARS'],0,0);
 		$TSFE->connectToDB();
 
 		// *********
@@ -271,15 +261,11 @@ class formidableajax {
 		// *********
 		$BE_USER='';
 		if ($_COOKIE['be_typo_user']) {		// If the backend cookie is set, we proceed and checks if a backend user is logged in.
-				require_once (PATH_t3lib.'class.t3lib_befunc.php');
-				require_once (PATH_t3lib.'class.t3lib_userauthgroup.php');
-				require_once (PATH_t3lib.'class.t3lib_beuserauth.php');
-				require_once (PATH_t3lib.'class.t3lib_tsfebeuserauth.php');
 
 					// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
 				$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
 				$BE_USER->OS = TYPO3_OS;
-				$BE_USER->lockIP = $TYPO3_CONF_VARS['BE']['lockIP'];
+				$BE_USER->lockIP = $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'];
 				$BE_USER->start();			// Object is initialized
 				$BE_USER->unpack_uc('');
 				if ($BE_USER->user['uid'])	{
@@ -316,14 +302,9 @@ class formidableajax {
 						if (($BE_USER->extAdmModuleEnabled('edit') && $BE_USER->extIsAdmMenuOpen('edit')) || $TSFE->displayEditIcons == 1)	{
 							$TSFE->includeTCA();
 							if ($BE_USER->extIsEditAction())	{
-								require_once (PATH_t3lib.'class.t3lib_tcemain.php');
 								$BE_USER->extEditAction();
 							}
 							if ($BE_USER->extIsFormShown())	{
-								require_once(PATH_t3lib.'class.t3lib_tceforms.php');
-								require_once(PATH_t3lib.'class.t3lib_iconworks.php');
-								require_once(PATH_t3lib.'class.t3lib_loaddbgroup.php');
-								require_once(PATH_t3lib.'class.t3lib_transferdata.php');
 							}
 						}
 
@@ -337,10 +318,6 @@ class formidableajax {
 					$TSFE->beUserLogin=0;
 				}
 		} elseif ($TSFE->ADMCMD_preview_BEUSER_uid)	{
-			require_once (PATH_t3lib.'class.t3lib_befunc.php');
-			require_once (PATH_t3lib.'class.t3lib_userauthgroup.php');
-			require_once (PATH_t3lib.'class.t3lib_beuserauth.php');
-			require_once (PATH_t3lib.'class.t3lib_tsfebeuserauth.php');
 
 				// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
 			$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
@@ -425,7 +402,7 @@ try {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']);
 }
 ?>

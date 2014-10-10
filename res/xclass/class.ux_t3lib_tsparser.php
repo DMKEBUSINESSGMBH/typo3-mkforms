@@ -10,8 +10,6 @@ class ux_t3lib_TSparser extends t3lib_TSparser {
 	 * @return	string		Returns the string of the condition found, the exit signal or possible nothing (if it completed parsing with no interruptions)
 	 */
 	function parseSub(&$setup)	{
-		global $TYPO3_CONF_VARS;
-
 		while (isset($this->raw[$this->rawP]))	{
 			$line = ltrim($this->raw[$this->rawP]);
 			$lineP = $this->rawP;
@@ -109,8 +107,8 @@ class ux_t3lib_TSparser extends t3lib_TSparser {
 											}
 										break;
 										default:
-											if (isset($TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tsparser.php']['preParseFunc'][$tsFunc]))	{
-												$hookMethod = $TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tsparser.php']['preParseFunc'][$tsFunc];
+											if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tsparser.php']['preParseFunc'][$tsFunc]))	{
+												$hookMethod = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tsparser.php']['preParseFunc'][$tsFunc];
 												$params = array('currentValue'=>$currentValue, 'functionArgument'=>$tsFuncArg);
 												$fakeThis = FALSE;
 												$newValue = t3lib_div::callUserFunction($hookMethod,$params,$fakeThis);
@@ -215,7 +213,7 @@ class ux_t3lib_TSparser extends t3lib_TSparser {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/res/xclass/class.ux_t3lib_tsparser.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/res/xclass/class.ux_t3lib_tsparser.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/res/xclass/class.ux_t3lib_tsparser.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/res/xclass/class.ux_t3lib_tsparser.php']);
 }
 ?>

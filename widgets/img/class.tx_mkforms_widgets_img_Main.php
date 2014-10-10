@@ -5,8 +5,6 @@
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
 
-require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
-
 tx_rnbase::load('tx_mkforms_util_Div');
 
 class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
@@ -141,8 +139,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 
 			if($bReprocess === TRUE) {
 
-				require_once(PATH_t3lib . 'class.t3lib_stdgraphic.php');
-				require_once(PATH_tslib . 'class.tslib_gifbuilder.php');
 				// expecting typoscript
 
 				$aParams = array(
@@ -255,7 +251,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 
 		if(t3lib_div::isFirstPartOfStr($sPath, 'EXT:')) {
 
-			$sPath = tx_mkforms_util_Div::removeStartingSlash(
+			$sPath = $this->oForm->_removeStartingSlash(
 				tx_mkforms_util_Div::toRelPath(
 					t3lib_div::getFileAbsFileName($sPath)
 				)
@@ -317,8 +313,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 }
 
 
-	if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php'])	{
-		include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php']);
+	if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php'])	{
+		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php']);
 	}
 
 ?>

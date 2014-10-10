@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_swfupload' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
-	
+
 	var $aLibs = array(
 		"rdt_swfupload_lib" => "res/js/swfupload.js",
 		"rdt_swfupload_lib_cookies" => "res/js/swfupload.cookies.js",
@@ -40,7 +40,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
 	);
 
 	function _render() {
-		
+
 		$this->oForm->bStoreFormInSession = TRUE;	// requesting eID context for upload-service
 
 		$this->initButtonBrowse();
@@ -73,7 +73,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
 				"flash_url" => $this->sExtWebPath . "res/flash/swfupload.swf",
 				"file_post_name" => "rdt_swfupload",
 				"file_size_limit" => $this->getMaxUploadSize(),	// KiloBytes
-				
+
 				"file_types_description" => $this->getFileTypeDesc(),
 				"file_types" => $this->getFileType(),
 
@@ -100,8 +100,8 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
 				"xpath" => $this->sXPath,
 			),
 		);
-		
-		
+
+
 /*
 		$sAbsName = $this->getAbsName();
 		$sInitScript =<<<INITSCRIPT
@@ -127,7 +127,7 @@ INITSCRIPT;
 		$sAbsName = $this->getAbsName();
 
 		$sInitScript =<<<INITSCRIPT
-		
+
 		try {
 			Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").oSWFUpload = new SWFUpload(
 				Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").config.swfupload_config
@@ -138,12 +138,12 @@ INITSCRIPT;
 		}
 
 INITSCRIPT;
-		
+
 		# the SWFUpload initalization is made post-init
 			# as when rendered in an ajax context in a modalbox,
 			# the HTML is available *after* init tasks
 			# as the modalbox HTML is added to the page using after init tasks !
-		
+
 		#$sInitScript = "alert('post-init!');";
 
 		$this->oForm->attachPostInitTask(
@@ -152,10 +152,8 @@ INITSCRIPT;
 			$this->_getElementHtmlId()
 		);
 	}
-	
-	function handleAjaxRequest($oRequest) {
 
-		require_once(PATH_t3lib."class.t3lib_basicfilefunc.php");
+	function handleAjaxRequest($oRequest) {
 
 		$oFile = t3lib_div::makeInstance("t3lib_basicFileFunctions");
 		$aFile = $GLOBALS["_FILES"]["rdt_swfupload"];
@@ -182,7 +180,7 @@ INITSCRIPT;
 				tx_mkforms_util_Div::mkdirDeepAbs($sTargetDir);
 			}
 		}
-		
+
 		if(!$this->_defaultFalse("/overwrite")) {
 			$sExt = ((strpos($sFileName,'.') === FALSE) ? '' : '.' . substr(strrchr($sFileName, "."), 1));
 
@@ -192,7 +190,7 @@ INITSCRIPT;
 
 			$sFileName = basename($sTarget);
 		}
-		
+
 		t3lib_div::upload_copy_move(
 			$aFile["tmp_name"],
 			$sTarget
@@ -200,10 +198,9 @@ INITSCRIPT;
 
 		die("OK: " . $sTarget);
 	}
-	
+
 	function getTargetDir() {
 
-		require_once(PATH_t3lib . "class.t3lib_basicfilefunc.php");
 		$oFileTool = t3lib_div::makeInstance("t3lib_basicFileFunctions");
 
 		if($this->oForm->isRunneable(($sTargetDir = $this->_navConf("/data/targetdir/")))) {
@@ -331,7 +328,7 @@ PHP;
 			$this->oForm->aORenderlets[$this->oButtonUpload->getAbsName()] =& $this->oButtonUpload;
 		}
 	}
-	
+
 	function initListQueue() {
 		if($this->oListQueue === FALSE) {
 			$sName = $this->getAbsName();
@@ -351,7 +348,7 @@ PHP;
 			}
 
 			$aConf["name"] = $sName . "_listqueue";
-			
+
 			$this->oListQueue = $this->oForm->_makeRenderlet(
 				$aConf,
 				$this->sXPath . "listqueue/",
@@ -398,7 +395,7 @@ JAVASCRIPT;
 			);
 		}
 	}
-	
+
 	function majixSelectFiles() {
 		return $this->buildMajixExecuter(
 			"selectFiles"
@@ -451,7 +448,7 @@ JAVASCRIPT;
 	}
 
 	function getFileType() {
-		
+
 		if(($mFileType = $this->_navConf("/filetype")) !== FALSE) {
 			if($this->oForm->isRunneable($mFileType)) {
 				$mFileType = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFileType);
@@ -463,7 +460,7 @@ JAVASCRIPT;
 	}
 
 	function getFileTypeDesc() {
-		
+
 		$sFileTypeDesc = "LLL:EXT:mkforms/widgets/res/locallang.xml:filetypedesc.allfiles";
 
 		if(($mFileTypeDesc = $this->_navConf("filetypedesc")) !== FALSE) {
@@ -480,7 +477,7 @@ JAVASCRIPT;
 }
 
 
-	if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/mkforms/widgets/swfupload/class.tx_rdtswfupload.php"])	{
-		include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/mkforms/widgets/swfupload/class.tx_rdtswfupload.php"]);
+	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/mkforms/widgets/swfupload/class.tx_rdtswfupload.php"])	{
+		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/mkforms/widgets/swfupload/class.tx_rdtswfupload.php"]);
 	}
 ?>

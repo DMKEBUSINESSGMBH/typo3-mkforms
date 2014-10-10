@@ -12,7 +12,7 @@
 
 	// Predefine cache
 	// This section has to be included in typo3conf/localconf.php!!
-//	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
+//	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
 //		'frontend' => 't3lib_cache_frontend_VariableFrontend',
 //      'backend' => 't3lib_cache_backend_DbBackend',
 //      'options' => array(
@@ -32,24 +32,24 @@
 
 
 	// mkforms: define XCLASS to t3lib_tsparser entfernt
-//	$TYPO3_CONF_VARS['FE']['XCLASS']['t3lib/class.t3lib_tsparser.php'] = PATH_formidable . "res/xclass/class.ux_t3lib_tsparser.php";
-//	$TYPO3_CONF_VARS['BE']['XCLASS']['t3lib/class.t3lib_tsparser.php'] = PATH_formidable . "res/xclass/class.ux_t3lib_tsparser.php";
+//	$GLOBALS['TYPO3_CONF_VARS']['FE']['XCLASS']['t3lib/class.t3lib_tsparser.php'] = PATH_formidable . "res/xclass/class.ux_t3lib_tsparser.php";
+//	$GLOBALS['TYPO3_CONF_VARS']['BE']['XCLASS']['t3lib/class.t3lib_tsparser.php'] = PATH_formidable . "res/xclass/class.ux_t3lib_tsparser.php";
 
 	// defines the Formidable ajax content-engine ID
 	// TODO: Anpassen!
-	$TYPO3_CONF_VARS['FE']['eID_include'][tx_mkforms_util_Div::getAjaxEId()] = 'EXT:mkforms/remote/formidableajax.php';
+	$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][tx_mkforms_util_Div::getAjaxEId()] = 'EXT:mkforms/remote/formidableajax.php';
 
 	if(TYPO3_MODE === 'FE') {
-		$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'EXT:mkforms/hooks/class.tx_mkforms_hooks_TSFE.php:&tx_mkforms_hooks_TSFE->contentPostProc_output';
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'EXT:mkforms/hooks/class.tx_mkforms_hooks_TSFE.php:&tx_mkforms_hooks_TSFE->contentPostProc_output';
 	}
 
 	// defines content objects FORMIDABLE (cached) and FORMIDABLE_INT (not cached)
 	// TODO: Prüfen!
-//	$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClass'][] = array(
+//	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClass'][] = array(
 //		0 => 'FORMIDABLE',
 //		1 => 'EXT:mkforms/api/class.user_ameosformidable_cobj.php:user_ameosformidable_cobj',
 //	);
-//	$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClass'][] = array(
+//	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['cObjTypeAndClass'][] = array(
 //		0 => 'FORMIDABLE_INT',
 //		1 => 'EXT:mkforms/api/class.user_ameosformidable_cobj.php:user_ameosformidable_cobj',
 //	);
@@ -142,6 +142,7 @@
 #			'URL'			=> array('key' => 'rdt_url'),
 			'TEXTAREA'		=> array('key' => 'tx_mkforms_widgets_txtarea_Main'),
 			'BOX'			=> array('key' => 'tx_mkforms_widgets_box_Main'),
+			'LABEL'			=> array('key' => 'tx_mkforms_widgets_label_Main'),
 			'LINK'			=> array('key' => 'tx_mkforms_widgets_link_Main'),
 			'CHOOSER'		=> array('key' => 'tx_mkforms_widgets_chooser_Main'),
 			'CAPTCHA'		=> array('key' => 'tx_mkforms_widgets_captcha_Main'),

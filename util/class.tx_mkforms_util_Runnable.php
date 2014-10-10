@@ -33,7 +33,7 @@ class tx_mkforms_util_Runnable {
 	private $aUserObjParamsStack = array();
 	private $aForcedUserObjParamsStack = array();
 	private $aCodeBehinds = array();
-	
+
 	private function __construct($config, $form) {
 		$this->config = $config;
 		$this->form = $form;
@@ -69,7 +69,7 @@ class tx_mkforms_util_Runnable {
 			return $mMixed;
 		// NOTE: for userobj, only ONE argument may be passed
 		$aArgs = func_get_args();
-		
+
 		if(self::isUserObj($mMixed)) {
 			$params = array_key_exists(1, $aArgs) && is_array($aArgs[1]) ? $aArgs[1] : array();
 			$contextObj = count($aArgs)>1 ? $aArgs[count($aArgs)-1] : false; // Ggf. das Context-Objekt
@@ -117,18 +117,18 @@ class tx_mkforms_util_Runnable {
 			else {
 				// Treat deep structures aka arrays:
 				unset($aParam['name']);
-				
+
 				if (array_key_exists('__value', $aParam)) unset($aParam['__value']);
 				$value = $aParam;
 			}
-			
+
 			// Finally set this parameter
 			$aParams[$name] = $this->getForm()->getConfigXML()->getLLLabel($value);
 		}
 		reset($aParams);
 		return $aParams;
 	}
-	
+
 	/**
 	 * [Describe function...]
 	 *
@@ -153,7 +153,7 @@ class tx_mkforms_util_Runnable {
 
 			$sClassName = uniqid('tempcl'). rand(1,1000);
 			$sMethodName = uniqid('tempmet');
-			
+
 			$this->__sEvalTemp = array('code' => $sPhp, 'xml' => $aUserobj);
 
 			// TODO: hier wird im PHP-Code das $this durch das Formular ersetzt. In dem Fall ist das natürlich falsch
@@ -178,16 +178,16 @@ class tx_mkforms_util_Runnable {
 				$this->pullUserObjParam();
 			} catch(Exception  $e){
 				$verbose = intval(tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday'));
-				
+
 				$ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
-			
+
 				//@TODO: Logging exceptions
 				//t3lib_div::sysLog($ret."\r\n".$e->__toString(), 'mkforms', 4);
 				if($verbose)
 					$ret .= "\r\n" . $e->__toString();
 				else
 					$ret .= "\r\n" . $e->getMessage();
-				
+
 				// set msg to return;
 				$sRes = $ret;
 			}
@@ -225,37 +225,37 @@ class tx_mkforms_util_Runnable {
 		}
 
 		$oExtension = (strcasecmp($extension, 'this') == 0) ? $this->getForm()->getParent() : t3lib_div::makeInstance($extension);
-		
+
 		if(!is_object($oExtension)) return;
 
 		$form = &$this->getForm();
 		set_error_handler(array(&$form, '__catchEvalException'));
-		
+
 		if(!method_exists($oExtension, $method)) {
 			$sObject = ($extension == 'this') ? '\$this (<b>' . get_class($this->getForm()->getParent()) . '</b>)' : $extension;
 			tx_mkforms_util_Div::mayday($this->getConfig()->get('/type/', $aElement) . ' <b>' . $this->getConfig()->get('/name/', $aElement) . '</b> : callback method <b>' . $method . '</b> of the Object <b>' . $sObject . '</b> doesn\'t exist');
 		}
-		
+
 		try {
 			$newData = $oExtension->{$method}($aParams,  $contextObj);
 		} catch(Exception  $e){
-			
+
 			// wir leiten die Exception direkt an rn_base weiter,
 			// ohne den Mayday aufzurufen.
 			if($this->getForm()->getConfTS('disableMaydayOnUserObjExceptions')) {
 				throw $e;
 			}
-			
+
 			$ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
-			
+
 			tx_rnbase::load('tx_rnbase_util_Logger');
 			if(tx_rnbase_util_Logger::isWarningEnabled()) {
 				tx_rnbase_util_Logger::warn('Method callUserObj() failed.', 'mkforms', array('Exception' => $e->getMessage(), 'XML'=>$aUserobj, 'Params' => $aParams, 'Form-ID' => $this->getForm()->getFormId()));
 			}
 			$ret .= "\r\n" . $e->getMessage();
-			
+
 			$this->getForm()->mayday($ret);
-			
+
 			// set msg to return;
 			$newData = $ret;
 		}
@@ -282,8 +282,6 @@ class tx_mkforms_util_Runnable {
 				temp.ameos_formidable {
 					' . $sTs . '
 				}';
-
-		require_once(PATH_t3lib.'class.t3lib_tsparser.php');
 
 		$oParser = t3lib_div::makeInstance('t3lib_tsparser');
 		$oParser->tt_track = 0;	// Do not log time-performance information
@@ -315,7 +313,7 @@ class tx_mkforms_util_Runnable {
 
 		$sOldCWD = getcwd();		// changing current working directory for use of GIFBUILDER in BE
 		chdir(PATH_site);
-		
+
 		$aRes = $this->getCObj()->cObjGet($oParser->setup['temp.']['ameos_formidable.']);
 
 		chdir($sOldCWD);
@@ -386,15 +384,15 @@ class tx_mkforms_util_Runnable {
 			unset($this->aCB[$sKey]);
 		}
 	}
-	
+
 	/**
 	 * Die Methode wird noch in unHibernate der Formklasse aufgerufen
 	 *
 	 */
 	public function initCodeBehinds() {
-		
+
 		$aMetas = $this->getConfig()->get("/meta");
-		
+
 		if(tx_mkforms_util_Div::getEnvExecMode() === "EID") {
 			$this->aCodeBehinds["js"] = array();
 		} else {
@@ -405,19 +403,19 @@ class tx_mkforms_util_Runnable {
 				"php" => array(),
 			);
 		}
-		
+
 		if($this->_xmlPath !== FALSE) {
 			// application is defined in an xml file, and we know it's location
 			// checking for default codebehind file, named after formid
 				// convention over configuration paradigm !
-			
-			
+
+
 			// default php CB
 			$sDefaultCBClass = preg_replace("/[^a-zA-Z0-9_]/", "", $this->formid) . "_cb";
 			$sDefaultCBFile = "class." . $sDefaultCBClass . ".php";
 			$sDefaultCBDir = tx_mkforms_util_Div::toServerPath(dirname($this->_xmlPath));
 			$sDefaultCBPath = $sDefaultCBDir . $sDefaultCBFile;
-			
+
 			if(file_exists($sDefaultCBPath) AND is_readable($sDefaultCBPath)) {
 				$aDefaultCB = array(
 					"type" => "php",
@@ -425,7 +423,7 @@ class tx_mkforms_util_Runnable {
 					"path" => $sDefaultCBPath,
 					"class" => $sDefaultCBClass,
 				);
-				
+
 				$aMetas = array_merge(
 					array(
 						"codebehind-default-php" => $aDefaultCB
@@ -433,11 +431,11 @@ class tx_mkforms_util_Runnable {
 					$aMetas
 				);
 			}
-			
+
 			// default js CB
 			$sDefaultCBFile = "class." . $sDefaultCBClass . ".js";
 			$sDefaultCBPath = $sDefaultCBDir . $sDefaultCBFile;
-			
+
 			if(file_exists($sDefaultCBPath) AND is_readable($sDefaultCBPath)) {
 				$aDefaultCB = array(
 					"type" => "js",
@@ -445,7 +443,7 @@ class tx_mkforms_util_Runnable {
 					"path" => $sDefaultCBPath . ":" . $sDefaultCBClass,
 					"class" => $sDefaultCBClass,
 				);
-				
+
 				$aMetas = array_merge(
 					array(
 						"codebehind-default-js" => $aDefaultCB
@@ -454,14 +452,14 @@ class tx_mkforms_util_Runnable {
 				);
 			}
 		}
-		
+
 		if(!is_array($aMetas)) $aMetas[0] = $aMetas;
 		reset($aMetas);
 		while(list($sKey,) = each($aMetas)) {
 			if($sKey{0} === "c" && $sKey{1} === "o" && t3lib_div::isFirstPartOfStr(strtolower($sKey), "codebehind")) {
 
 				$aCB = $this->initCodeBehind($aMetas[$sKey]);
-				
+
 				// TODO: Diese nachbearbeitung ist irgendwie sinnlos. Warum steht das nicht in init?
 				if($aCB["type"] === "php") {
 					if(tx_mkforms_util_Div::getEnvExecMode() === "EID") {
@@ -478,7 +476,7 @@ class tx_mkforms_util_Runnable {
 			}
 		}
 	}
-	
+
 	private function &buildJsCbObject($aCB) {
 //		require_once(t3lib_extMgm::extPath('mkforms', 'api/class.mainjscb.php'));
 //		$oJsCb = t3lib_div::makeInstance("formidable_mainjscb");
@@ -599,7 +597,7 @@ class tx_mkforms_util_Runnable {
 	 */
 	private function &callCodeBehind($aCB) {
 		if(!array_key_exists('exec', $aCB)) return; // Nix zu tun
-		
+
 		$aArgs = func_get_args();
 		$cbConfig = $aArgs[0];
 		$bCbRdt = FALSE;
@@ -672,7 +670,7 @@ class tx_mkforms_util_Runnable {
 				$sClass = $aCB['class'];
 			}
 		}
-		
+
 		$aArgs[] = $this->getForm();
 		// Jetzt der Aufruf
 		switch($sType) {
@@ -693,24 +691,24 @@ class tx_mkforms_util_Runnable {
 							// eventuell vorherige validierungs fehler entfernen
 							$this->getForm()->attachErrorsByJS(null, $validate, true);
 					}
-					
+
 					if(!count($errors)){
 						try {
 							$mRes = call_user_func_array(array($oCbObj, $sMethod), $aArgs);
 						} catch(Exception  $e){
-														
+
 							$verbose = intval(tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday'));
 							$dieOnMayday = intval(tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'dieOnMayday'));
-							
+
 							$ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
-						
+
 							//@TODO: Logging exceptions
 							//t3lib_div::sysLog($ret."\r\n".$e->__toString(), 'mkforms', 4);
 							if($verbose)
 								$ret .= "\r\n" . $e->__toString();
 							else
 								$ret .= "\r\n" . $e->getMessage();
-							
+
 							if($dieOnMayday)
 								die($ret);
 							else
@@ -761,7 +759,7 @@ class tx_mkforms_util_Runnable {
 		$runnable->initCodeBehinds();
 		return $runnable;
 	}
-	
+
 	/**
 	 * Liefert den codeBehind
 	 *
@@ -771,13 +769,13 @@ class tx_mkforms_util_Runnable {
 	public function getCodeBehind($sNname, $sType = 'php') {
 		if(array_key_exists($sNname,$this->aCodeBehinds[$sType]))
 			return $this->aCodeBehinds[$sType][$sNname];
-		
+
 		//else
 		return false;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Runnable.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Runnable.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Runnable.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Runnable.php']);
 }
 ?>

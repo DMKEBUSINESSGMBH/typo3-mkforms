@@ -153,10 +153,10 @@ class tx_mkforms_util_Config {
 			if(TYPO3_MODE == "FE") {
 				// front end
 				if(!$GLOBALS["TSFE"]){
-					$message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann ' . 
+					$message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann ' .
 						'aus folgenden Grund passieren. Man hat ein autocomplete mit childs, ' .
-						'ein default LL aber keine label für die childs. Entweder wird kein ' . 
-						'default LL verwendet oder den childs wird ein label gegeben, die es' . 
+						'ein default LL aber keine label für die childs. Entweder wird kein ' .
+						'default LL verwendet oder den childs wird ein label gegeben, die es' .
 						'gar nicht geben muss da diese nicht gerendered werden.';
 					throw new Exception(
 						$message,
@@ -198,14 +198,15 @@ class tx_mkforms_util_Config {
 		$this->config = $this->config[$sRoot];	// the root is deleted
 		$this->sXmlVersion = $this->get('/version', $this->config);
 
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
 		if(($this->sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== FALSE) {
-			if(tx_mkforms_util_Div::getVersionInt() < t3lib_div::int_from_ver($this->sXmlMinVersion)) {
+			if(tx_mkforms_util_Div::getVersionInt() < tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->sXmlMinVersion)) {
 				tx_mkforms_util_Div::mayday('The given XML requires a version of Formidable (<b>' . $this->sXmlMinVersion . '</b> or above) more recent than the one installed (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).');
 			}
 		}
 
 		if(($this->sXmlMaxVersion = $this->get('/maxversion', $this->_aConf)) !== FALSE) {
-			if(tx_mkforms_util_Div::getVersionInt() > t3lib_div::int_from_ver($this->sXmlMaxVersion)) {
+			if(tx_mkforms_util_Div::getVersionInt() > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->sXmlMaxVersion)) {
 				tx_mkforms_util_Div::mayday('The given XML requires a version of Formidable (<b>' . $this->sXmlMaxVersion . '</b> maximum) older than the one installed (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).');
 			}
 		}
@@ -216,7 +217,6 @@ class tx_mkforms_util_Config {
 	 * Takes an array of typoscript configuration, and adapt it to formidable syntax
 	 *
 	 * @param	array		$aConf: TS array for application
-	 * @return	array		Refined array
 	 */
 	private function refineTS($aConf) {
 
@@ -235,7 +235,7 @@ class tx_mkforms_util_Config {
 				} else {
 					if(is_array($aConf['meta.'][$sKey])) {
 						$sPlainKey = substr($sKey, 0, -1);
-						$aTemp['meta'][$sPlainKey] = $this->_removeDots($aConf['meta.'][$sKey]);
+						$aTemp['meta'][$sPlainKey] = tx_mkforms_util_Div::removeDots($aConf['meta.'][$sKey]);
 					} else {
 						$aTemp['meta'][$sKey] = $aConf['meta.'][$sKey];
 					}
@@ -258,7 +258,7 @@ class tx_mkforms_util_Config {
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
 							$aTemp['control']['datahandler'] = t3lib_div::array_merge_recursive_overrule(
 								$aTemp['control']['datahandler'],
-								$this->_removeDots($aConf['control.'][$sKey . '.'])
+								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
 						}
 					} elseif($sKey === 'renderer') {
@@ -269,7 +269,7 @@ class tx_mkforms_util_Config {
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
 							$aTemp['control']['renderer'] = t3lib_div::array_merge_recursive_overrule(
 								$aTemp['control']['renderer'],
-								$this->_removeDots($aConf['control.'][$sKey . '.'])
+								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
 						}
 					}
@@ -287,7 +287,7 @@ class tx_mkforms_util_Config {
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
 									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
 										$aTemp['control']['actionlets']['actionlet-' . $sActKey],
-										$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
 								}
 							}
@@ -305,13 +305,13 @@ class tx_mkforms_util_Config {
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
 									$aTemp['control']['datasources']['datasource-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
 										$aTemp['control']['datasources']['datasource-' . $sActKey],
-										$this->_removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
 								}
 							}
 						}
 					} elseif($sKey === 'sandbox.') {
-						$aTemp['control']['sandbox'] = $this->_removeDots($aConf['control.']['sandbox.']);
+						$aTemp['control']['sandbox'] = tx_mkforms_util_Div::removeDots($aConf['control.']['sandbox.']);
 					}
 				}
 			}
@@ -341,8 +341,7 @@ class tx_mkforms_util_Config {
 				}
 			}
 		}
-
-		return $aTemp;
+		$this->config = $aTemp;
 	}
 
 	/**
@@ -1157,14 +1156,14 @@ class tx_mkforms_util_Config {
 	 */
 	public static function createInstanceByTS($confArr, $form) {
 		$cfg = new tx_mkforms_util_Config($form);
-		$cfg->refineTS(t3lib_div::getFileAbsFileName($confArr));
+		$cfg->refineTS($confArr);
 		// default config laden hinzufügen
 		$cfg->loadDefaultXmlConf();
 		return $cfg;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Config.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Config.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Config.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Config.php']);
 }
 ?>

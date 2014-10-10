@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_chooser' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet {
-	
+
 	function _render() {
 
 		$aHtml = array();
@@ -24,7 +24,7 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet {
 
 		$sFuncName = "_formidableRdtChooser" . t3lib_div::shortMd5($this->oForm->formid . $this->_getName());
 		$sElementId = $this->_getElementHtmlId();
-		
+
 		$sMode = $this->_navConf("/submitmode");
 		if($sMode == "draft") {
 			$sSubmitEvent = $this->oForm->oRenderer->_getDraftSubmitEvent($aAddPost);
@@ -39,10 +39,10 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet {
 		} else {
 			$sSubmitEvent = $this->oForm->oRenderer->_getRefreshSubmitEvent($aAddPost);
 		}
-		
+
 		$sSystemField = $this->oForm->formid . "_AMEOSFORMIDABLE_SUBMITTER";
 		$sSubmitter = $this->_getElementHtmlIdWithoutFormId();
-		
+
 $sScript = <<<JAVASCRIPT
 
 	function {$sFuncName}(sValue, sItemId) {
@@ -54,7 +54,9 @@ $sScript = <<<JAVASCRIPT
 
 JAVASCRIPT;
 
-		require_once(PATH_tslib . "class.tslib_pagegen.php");
+		if(!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			require_once(PATH_tslib . "class.tslib_pagegen.php");
+		}
 		$this->oForm->additionalHeaderData(
 			$this->oForm->inline2TempFile($sScript, 'js', "Chooser " . $sHtmlId . " stuff")
 		);
@@ -85,7 +87,7 @@ JAVASCRIPT;
 				$sLinkStart = "<a id=\"" . $sId . "\" href=\"" . $sHref . "\">";
 				$sLinkEnd = "</a>";
 				$sInner = $sLinkStart . $sCaption . $sLinkEnd;
-				
+
 				if($sSelected == 1) {
 					$sLink = $this->_wrapSelected($sInner);
 					$sSelectedId = $sId;
@@ -112,10 +114,10 @@ JAVASCRIPT;
 					"value" => $sItemValue,
 					"selected" => $sSelected,
 				);
-				
+
 				$aHtml[] = $sLink;
 			}
-			
+
 			$aHtmlBag["hidden"] = "<input type=\"hidden\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" value=\"" . $sValueForHtml . "\" />";
 			$aHtmlBag["separator"] = $this->_getSeparator();
 			$aHtmlBag["value"] = $sValue;
@@ -145,7 +147,7 @@ JAVASCRIPT;
 
 		return $mSep;
 	}
-	
+
 	function _implodeElements($aHtml) {
 
 		return implode(
@@ -157,7 +159,7 @@ JAVASCRIPT;
 	function _wrapSelected($sHtml) {
 
 		if(($mWrap = $this->_navConf("/wrapselected")) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}
@@ -172,9 +174,9 @@ JAVASCRIPT;
 	}
 
 	function _wrapItem($sHtml) {
-		
+
 		if(($mWrap = $this->_navConf("/wrapitem")) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}
@@ -191,7 +193,7 @@ JAVASCRIPT;
 }
 
 
-	if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_chooser/api/class.tx_rdtchooser.php"])	{
-		include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_chooser/api/class.tx_rdtchooser.php"]);
+	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_chooser/api/class.tx_rdtchooser.php"])	{
+		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_chooser/api/class.tx_rdtchooser.php"]);
 	}
 ?>

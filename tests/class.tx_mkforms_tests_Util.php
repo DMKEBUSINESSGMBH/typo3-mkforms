@@ -54,7 +54,14 @@ class tx_mkforms_tests_Util {
 
 		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 
-		$tsConfig = t3lib_BEfunc::getPagesTSconfig(0);
+		/*
+		 * pk: Danke mw
+		 * getPagesTSconfig benutzt static Cache und bearbeitet nicht das was wir mit addPageTSConfig hinzugefügt haben.
+		 * um das umzugehen, kann man das RootLine Parameter leer setzen.
+		 * Siehe: TYPO3\CMS\Backend\Utility\BackendUtility:getPagesTSconfig();
+		 */
+		$tsConfig = t3lib_BEfunc::getPagesTSconfig(0,'');
+
 		$configArray = $tsConfig['plugin.']['tx_mkforms.'];
 		// für referenzen im TS!
 		$GLOBALS['TSFE']->tmpl->setup['lib.']['mkforms.'] = $tsConfig['lib.']['mkforms.'];
@@ -177,6 +184,6 @@ class tx_mkforms_tests_Util {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']);
 }

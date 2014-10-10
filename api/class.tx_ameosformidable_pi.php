@@ -1,9 +1,7 @@
 <?php
-	
-	require_once(PATH_tslib.'class.tslib_pibase.php');
 
 	class tx_ameosformidable_pi extends tslib_pibase {
-		
+
 		var $extKey = 'ameos_formidable';
 		var $oForm = FALSE;
 		var $aFormConf = FALSE;
@@ -34,7 +32,7 @@
 						return "<strong>Formidable: TS path not found in template</strong>";
 					}
 				}
-				
+
 				$this->aFormConf = $aCurZone;
 			} else {
 
@@ -73,12 +71,12 @@
 					$this->sXmlPath
 				);
 			}
-			
+
 			return $this->pi_wrapInBaseClass($this->oForm->render());
 		}
 	}
 
-	if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php']) {
-		include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php']);
+	if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php']) {
+		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php']);
 	}
 ?>

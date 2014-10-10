@@ -59,11 +59,6 @@ tx_rnbase::load('tx_mkforms_session_Factory');
 
 
 
-
-
-
-require_once(PATH_t3lib . 'class.t3lib_parsehtml.php');
-require_once(PATH_t3lib . 'class.t3lib_parsehtml_proc.php');
 require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.mainobject.php');
 require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.maindataset.php');
 require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.maindatasource.php');
@@ -223,8 +218,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	private $sSessionId;
 
 	function __construct() {
-		require_once(PATH_tslib . 'class.tslib_content.php');
-		require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
 	}
 
 	/**
@@ -3921,8 +3914,6 @@ JAVASCRIPT;
 	 */
 	function __sendMail($sAdresse, $sMessage, $sSubject, $sFromAd, $sFromName, $sReplyAd, $sReplyName, $aAttachPaths = array(), $iMediaRef=0) {
 
-		require_once(PATH_t3lib . 'class.t3lib_htmlmail.php');
-
 		$sDebugSendMail = trim($GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.']['debugSendMail']);
 
 		if(is_object($this)) {
@@ -3966,7 +3957,6 @@ JAVASCRIPT;
 
 		if(is_array($aAttachPaths) && !empty($aAttachPaths)) {
 
-			require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
 			$oFile = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 
 			reset($aAttachPaths);
@@ -4111,11 +4101,6 @@ JAVASCRIPT;
 	 * @return	[type]		...
 	 */
 	function _parseTsInBE($iTemplateUid, $iPageId) {
-
-		require_once (PATH_t3lib.'class.t3lib_page.php');
-		require_once (PATH_t3lib.'class.t3lib_tstemplate.php');
-		require_once (PATH_t3lib.'class.t3lib_tsparser_ext.php');
-
 
 		global $tmpl;
 
@@ -4941,9 +4926,6 @@ JAVASCRIPT;
 
 	function div_rteToHtml($sRteHtml, $sTable = '', $sColumn = '') {
 
-		require_once(PATH_t3lib . 'class.t3lib_rteapi.php');
-		require_once(PATH_t3lib . 'class.t3lib_befunc.php');
-
 		$pageTSConfig = $GLOBALS['TSFE']->getPagesTSconfig();
 
 		$aConfig = $pageTSConfig['RTE.']['default.']['FE.'];
@@ -4972,13 +4954,6 @@ JAVASCRIPT;
 
 
 	function devlog($sMessage, $iPad, $bCallStack = FALSE) {
-
-/*		$sCallStack = "";
-		if($bCallStack === TRUE) {
-			$sCallStack = t3lib_div::debug_trail() . "\n";
-		}
-
-		error_log($sCallStack . str_repeat("\t", $iPad) . $sMessage . "\n", 3, tx_mkforms_util_Div::toServerPath("EXT:ameos_formidable/dev.log.txt"));*/
 	}
 
 
@@ -5419,6 +5394,6 @@ JAVASCRIPT;
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php'])	{
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php']);
 }

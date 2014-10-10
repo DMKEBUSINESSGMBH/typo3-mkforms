@@ -124,8 +124,6 @@ class tx_mkforms_session_PHPSessionManager implements tx_mkforms_session_IManage
 			$sLang = $GLOBALS['TSFE']->lang;
 		}
 		$formId = $this->getForm()->getFormId();
-//		$compressed = serialize(gzcompress(serialize($this),9));
-//		t3lib_div::debug(strlen($compressed),'class.tx_ameosformidable.php : '); // TODO: remove me
 		$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId] = array(
 			'object' => gzcompress(serialize($this->getForm()),9),
 			'xmlpath' => $this->getForm()->_xmlPath,
@@ -161,14 +159,11 @@ class tx_mkforms_session_PHPSessionManager implements tx_mkforms_session_IManage
 			if($sessionLen > 900000) {
 				tx_rnbase_util_Logger::notice('Alert: Large session size!', 'mkforms', array('Size'=>$sessionLen, 'PHP-SessionID'=> session_id(), 'FormId' => $formId));
 			}
-// 			// nicht gut für den live betrieb, lieber mal in die devlog schauen!
-// 			if ($_REQUEST['debug']==1)
-// 				t3lib_div::debug($sessionLen,'Das ganze _SESSION in Bytes in ' . $formId );
 		}
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_PHPSessionManager.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_PHPSessionManager.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_PHPSessionManager.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_PHPSessionManager.php']);
 }
 ?>
