@@ -1548,9 +1548,9 @@ SANDBOXCLASS;
 	 * @param	integer		$iForcedEntryId: optional; uid to edit, if any
 	 * @return	void
 	 */
-	function initFromTs(&$oParent, $aConf, $iForcedEntryId = FALSE) {
+	function initFromTs(&$oParent, $aConf, $iForcedEntryId = FALSE, $configurations=false, $confid='') {
 		$this->bInitFromTs = TRUE;
-		$this->init($oParent, $aConf, $iForcedEntryId);
+		$this->init($oParent, $aConf, $iForcedEntryId, $configurations, $confid);
 	}
 
 

@@ -276,7 +276,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 				***********************************************************************/
 
 			if($sKey{0} === 'u' && t3lib_div::isFirstPartOfStr($sKey, 'userobj')) {
-				$this->oForm->mayday("[" . $oRdt->getName() . "] <b>/validator:STANDARD/userobj is deprecated.</b> Use /validator:STANDARD/custom instead.");
+				$this->oForm->mayday("WIDGET [" . $oRdt->getName() . "] <b>/validator:STANDARD/userobj is deprecated.</b> Use /validator:STANDARD/custom instead.");
 			}
 
 
