@@ -553,7 +553,7 @@ MAYDAYPAGE;
 					if($bAnalyze) {
 						$aDebug[] = self::viewMixed($variable);
 					} else {
-						$aDebug[] = t3lib_div::view_array($variable);
+						$aDebug[] = t3lib_utility_Debug::viewArray($variable);
 					}
 				}
 			}
