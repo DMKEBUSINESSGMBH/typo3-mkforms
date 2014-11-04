@@ -132,7 +132,7 @@
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['datahandlers'] = array(
 			'DB'		=> array('key' => 'tx_mkforms_dh_db_Main'),
 			#'LISTER'	=> array('key' => 'dh_lister',	'base' => TRUE),		// deprecated
-//			'DBMM'		=> array('key' => 'tx_mkforms_dh_dbmm_Main'),
+			'DBMM'		=> array('key' => 'tx_mkforms_dh_dbmm_Main'),
 			'RAW'		=> array('key' => 'tx_mkforms_dh_raw_Main'),
 			'STANDARD'	=> array('key' => 'tx_mkforms_dh_std_Main'),
 			'MAIL'		=> array('key' => 'tx_mkforms_dh_mail_Main'),
