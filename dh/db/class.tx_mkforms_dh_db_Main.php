@@ -5,6 +5,8 @@
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
 
+tx_rnbase::load('tx_rnbase_util_DB');
+
 class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 
 	var $__aStoredI18NParent = FALSE;
