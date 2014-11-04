@@ -11,7 +11,30 @@
 	}
 
 	// Predefine cache
-	// This section has to be included in typo3conf/localconf.php!!
+	if(!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms']) &&
+	tx_rnbase_configurations::getExtensionCfgValue('mkforms', 'activateCache') ) {
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		if(tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
+					'frontend' => 'TYPO3\CMS\Core\Cache\Frontend\VariableFrontend',
+					'backend' => 'TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend',
+					'options' => array(
+					)
+			);
+		}
+		else {
+			$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
+					'frontend' => 't3lib_cache_frontend_VariableFrontend',
+					'backend' => 't3lib_cache_backend_DbBackend',
+					'options' => array(
+						'cacheTable' => 'cf_mkforms',
+						'tagsTable' => 'cf_mkforms_tags',
+					)
+			);
+		}
+	}
+	
+
 //	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
 //		'frontend' => 't3lib_cache_frontend_VariableFrontend',
 //      'backend' => 't3lib_cache_backend_DbBackend',
@@ -109,6 +132,7 @@
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['datahandlers'] = array(
 			'DB'		=> array('key' => 'tx_mkforms_dh_db_Main'),
 			#'LISTER'	=> array('key' => 'dh_lister',	'base' => TRUE),		// deprecated
+//			'DBMM'		=> array('key' => 'tx_mkforms_dh_dbmm_Main'),
 			'RAW'		=> array('key' => 'tx_mkforms_dh_raw_Main'),
 			'STANDARD'	=> array('key' => 'tx_mkforms_dh_std_Main'),
 			'MAIL'		=> array('key' => 'tx_mkforms_dh_mail_Main'),

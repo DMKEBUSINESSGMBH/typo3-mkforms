@@ -1,2 +1,5 @@
+# cat=basic//10; type=boolean; label= Activate database based caching: You can also configure an alternative caching backend in localconf.php for cache 'mkforms'.
+activateCache = 0
+
 # cat=bugs; type=boolean; label=Lister name id BugFix ignorieren: Die RowId steht doppelt im Nemen des Formular-Elements (nur wichtig, wenn Lister zur Bearbeitung ohne Ajax genutzt werden).
 listerNameId = 0
