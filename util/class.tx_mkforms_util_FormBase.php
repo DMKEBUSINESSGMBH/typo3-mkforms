@@ -321,6 +321,22 @@ class tx_mkforms_util_FormBase {
 	}
 
 	/**
+	 * Eliminate renderlet path info from the given data
+	 *
+	 * @param array $renderletData
+	 * @param tx_ameosformidable $form
+	 * @return array
+	 */
+	public static function removePathFromWidgetData(array $widgetData, tx_mkforms_forms_Base $form) {
+		$res = array();
+		foreach ($widgetData as $key=>$value) {
+			if (is_object($widget=$form->getWidget($key)))
+				$res[$widget->getName()] = $value;
+		}
+		return $res;
+	}
+
+	/**
 	 * Merge still FLATTENED(!) data of several tables into a deep renderlet structure
 	 *
 	 * Resulting field name format: tablename-fieldname, with "-" being the given $sep.
