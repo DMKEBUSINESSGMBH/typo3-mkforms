@@ -1427,8 +1427,9 @@ TOOLTIP;
 								$sWhen = 'end';
 							}
 
+							tx_rnbase::load('tx_rnbase_util_Debug');
 							if(!in_array($sWhen, $this->oForm->aAvailableCheckPoints)) {
-								$this->oForm->mayday("SERVER EVENT on <b>" . $sEventName . " " . $this->getAbsName() . "</b>: defined checkpoint (when='" . $sWhen . "') does not exists; Available checkpoints are: <br /><br />" . t3lib_utility_Debug::viewArray($this->oForm->aAvailableCheckPoints));
+								$this->oForm->mayday("SERVER EVENT on <b>" . $sEventName . " " . $this->getAbsName() . "</b>: defined checkpoint (when='" . $sWhen . "') does not exists; Available checkpoints are: <br /><br />" . tx_rnbase_util_Debug::viewArray($this->oForm->aAvailableCheckPoints));
 							}
 
 							$bEarlyBird = FALSE;
@@ -1438,7 +1439,7 @@ TOOLTIP;
 									#debug("ici");
 									$bEarlyBird = TRUE;
 								} else {
-									$this->oForm->mayday("SERVER EVENT on <b>" . $sEventName . " " . $this->getAbsName() . "</b>: defined checkpoint (when='" . $sWhen . "') triggers too early in the execution to be catchable by a server event.<br />The first checkpoint available for server event is <b>after-init-renderlets</b>. <br /><br />The full list of checkpoints is: <br /><br />" . t3lib_utility_Debug::viewArray($this->oForm->aAvailableCheckPoints));
+									$this->oForm->mayday("SERVER EVENT on <b>" . $sEventName . " " . $this->getAbsName() . "</b>: defined checkpoint (when='" . $sWhen . "') triggers too early in the execution to be catchable by a server event.<br />The first checkpoint available for server event is <b>after-init-renderlets</b>. <br /><br />The full list of checkpoints is: <br /><br />" . tx_rnbase_util_Debug::viewArray($this->oForm->aAvailableCheckPoints));
 								}
 							}
 
