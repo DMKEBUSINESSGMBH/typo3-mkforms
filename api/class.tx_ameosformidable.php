@@ -3229,10 +3229,10 @@ JAVASCRIPT;
 		$aHtml[] = "<h4>FORMidable debug()</h4>";
 
 		$aHtml[] = "<h5>t3lib_div::_POST()</h5>";
-		$aHtml[] = t3lib_div::view_array(t3lib_div::_POST());
+		$aHtml[] = t3lib_utility_Debug::viewArray(t3lib_div::_POST());
 
 		$aHtml[] = "<h5>t3lib_div::_GET()</h5>";
-		$aHtml[] = t3lib_div::view_array(t3lib_div::_GET());
+		$aHtml[] = t3lib_utility_Debug::viewArray(t3lib_div::_GET());
 
 		/*$aHtml[] = "<ul>";
 		$aHtml[] = "<li><a href = 'http://typo3.org/documentation/document-library/ameos_formidable/' target = '_blank'>FORMidable user documentation</a></li>";
@@ -3266,7 +3266,7 @@ JAVASCRIPT;
 
 		$aHtml[] = "<a name = '" . $this->formid . "formidable_configuration' />";
 		$aHtml[] = "<h5>FORM configuration</h5>";
-		$aHtml[] = "<div WIDTH = '100%' style = 'HEIGHT: 400px; overflow: scroll'>" . t3lib_div::view_array($this->_aConf) . "</div>";
+		$aHtml[] = "<div WIDTH = '100%' style = 'HEIGHT: 400px; overflow: scroll'>" . t3lib_utility_Debug::viewArray($this->_aConf) . "</div>";
 		$aHtml[] = "<p align = 'right'><a href = '#" . $this->formid . "formidable_debugtop' target = '_self'>^top^</a></p>";
 
 		$aHtml[] = "<a name = '" . $this->formid . "formidable_callstack' />";

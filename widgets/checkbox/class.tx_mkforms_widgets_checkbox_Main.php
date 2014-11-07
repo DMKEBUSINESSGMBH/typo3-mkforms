@@ -56,7 +56,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 				}
 			}
 
-			$sInput = '<input type="checkbox" name="' . $name . '" id="' . $sId . '" value="' . $this->getValueForHtml($value) . '" ' . $checked . $this->_getAddInputParams($sId) . ' ';
+			$sInput = '<input type="checkbox" name="' . $name . '" id="' . $sId . '" value="' . $this->getValueForHtml($value) . '" ' . $checked . $this->_getAddInputParams($aItem) . ' ';
 
 			if(array_key_exists('custom', $aItem)) {
 				$sInput .= $aItem['custom'];

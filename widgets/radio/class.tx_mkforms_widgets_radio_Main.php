@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
-	
+
 	var $sMajixClass = 'Radio';
 	var $aLibs = array(
 		'rdt_radio_class' => 'res/js/radio.js',
@@ -23,23 +23,23 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 		$sRadioGroup = '';
 
 		// on construit la liste des �l�ments du groupe radio
-		
+
 		$optionsList = '';
 		$aItems = $this->_getItems();
 		$aSubRdts = array();
-		
+
 		$aHtmlBag['value'] = $sCurValue;
-		
+
 		if(count($aItems) > 0) {
 
 			$aHtml = array();
-			
+
 			reset($aItems);
 			while(list($itemindex, $aItem) = each($aItems)) {
 
 				// item configuration
 				$aConfig = array_merge($this->aElement, $aItem);
-				
+
 				$selected = '';
 				$isSelected = false;
 				if($aItem['value'] == $sCurValue) {
@@ -58,9 +58,9 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 				$this->includeScripts();
 
 				$sValue = $aItem['value'];
-				
-				$sInput = '<input type="radio" name="' . $this->_getElementHtmlName() . '" id="' . $sId . '" value="' . $aItem['value'] . '" ' . $selected . $this->_getAddInputParams() . ' />';
-				
+
+				$sInput = '<input type="radio" name="' . $this->_getElementHtmlName() . '" id="' . $sId . '" value="' . $aItem['value'] . '" ' . $selected . $this->_getAddInputParams($aItem) . ' />';
+
 				$aConfig['sId'] = $sId;
 
 				// nur Label ohne Tag ausgeben
@@ -75,7 +75,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 					$sLabelEnd = '</label>';
 				}
 				$sLabelTag = $sLabelStart.$sCaption.$sLabelEnd;
-				
+
 				$aHtmlBag[$sValue . '.'] = array(
 					'label' => $sCaption,
 					'label.' => array(
@@ -94,7 +94,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 				$aHtml[] = (($selected !== '') ? $this->_wrapSelected($sInput . $sLabelTag) : $this->_wrapItem($sInput . $sLabelTag));
 				$this->sCustomElementId = FALSE;
 			}
-			
+
 			reset($aHtml);
 			$sRadioGroup = $this->_implodeElements($aHtml);
 		}
@@ -115,11 +115,11 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 		reset($aHtmlBag);
 		return $aHtmlBag;
 	}
-	
+
 	function _getHumanReadableValue($data) {
 
 		$aItems = $this->_getItems();
-		
+
 		reset($aItems);
 		while(list(, $aItem) = each($aItems)) {
 
@@ -146,7 +146,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 
 		return $mSep;
 	}
-	
+
 	function _implodeElements($aHtml) {
 
 		if(!is_array($aHtml)) {
@@ -162,7 +162,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 	function _wrapSelected($sHtml) {
 
 		if(($mWrap = $this->_navConf('/wrapselected')) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}
@@ -177,9 +177,9 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 	}
 
 	function _wrapItem($sHtml) {
-		
+
 		if(($mWrap = $this->_navConf('/wrapitem')) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}
@@ -191,20 +191,20 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 	}
 
 	function _displayLabel($sLabel) {
-		
+
 		// für bestehende projekte, das main label darf nicht die klasse -radio haben!
 		$sDefaultLabelClass = $this->sDefaultLabelClass;
 		$this->sDefaultLabelClass = $this->getForm()->sDefaultWrapClass.'-label';
-		
+
 		$aConfig =  $this->aElement;
 		// via default, kein for tag!
 		if(!isset($aConfig['labelfor'])) $aConfig['labelfor'] = 0;
-		
+
 		$sLabel = $this->getLabelTag($sLabel, $aConfig);
-		
+
 		// label zurücksetzen
 		$this->sDefaultLabelClass = 'label-radio';
-		
+
 		return $sLabel;
 		// old method
 //		$sId = $this->_getElementHtmlId() . '_label';
