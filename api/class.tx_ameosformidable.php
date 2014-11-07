@@ -2972,10 +2972,10 @@ JAVASCRIPT;
 	 *
 	 * @param	array		$aElement: conf for this object instance
 	 * @param	string		$sXPath: xpath where this conf is declared
-	 * @return	object
+	 * @return	formidable_mainrenderlet
 	 */
 
-	function &_makeRenderlet($aElement, $sXPath, $bChilds = FALSE, &$oChildParent, $bAnonymous=FALSE, $sNamePrefix=FALSE) {
+	function &_makeRenderlet($aElement, $sXPath, $bChilds = FALSE, $oChildParent = FALSE, $bAnonymous=FALSE, $sNamePrefix=FALSE) {
 
 		$aOParent = array();
 		$aRawPost = $this->_getRawPost();
