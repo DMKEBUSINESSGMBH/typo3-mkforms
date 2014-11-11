@@ -115,10 +115,14 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 
 		$sInput = $this->_implodeElements($aHtml);
 
-		$aHtmlBag['__compiled'] = $this->_displayLabel(
-			$this->getLabel()
-		) . $sInput;
-
+		if (empty($aItems) && $this->defaultFalse('/hidelabelwhenempty')) {
+			$aHtmlBag['__compiled'] = $sInput;
+		}
+		else {
+			$aHtmlBag['__compiled'] = $this->_displayLabel(
+					$this->getLabel()
+			) . $sInput;
+		}
 		$aHtmlBag['input'] = $sInput;
 
 		return $aHtmlBag;
