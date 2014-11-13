@@ -1289,16 +1289,23 @@ TOOLTIP;
 	 */
 	protected function isHideIf($widget) {
 		$val = $this->getForm()->getConfig()->get('/hideif', $this->aElement);
-
 		if($val !== FALSE) {
-			$cmpValue = $this->getForm()->getRunnable()->callRunnable($val); // TODO: 2. Parameter??
+			$cmpValue = $this->getForm()->getRunnable()->callRunnableWidget($this, $val);
 			return $cmpValue == $widget->getValue();
 		}
 		return false;
 	}
 
 	function isVisible() {
-		return $this->bVisible && $this->defaultTrue('/visible') && !$this->isHideIf($this);
+// 		return $this->bVisible && $this->defaultTrue('/visible') && !$this->isHideIf($this);
+		if (!($this->bVisible && !$this->isHideIf($this))) {
+			return FALSE;
+		}
+		$visible = $this->_navConf('/visible');
+		if($this->getForm()->isRunneable($visible)) {
+			return $this->getForm()->getRunnable()->callRunnableWidget($this, $visible);
+		}
+		return $visible === FALSE ? TRUE : $this->_isTrueVal($visible);
 	}
 
 		function setVisible() {
