@@ -150,36 +150,42 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	 * @access	protected
 	 */
 	function _getStoredData($sName = false) {
-		$result = parent::_getStoredData($sName);
-		if (!$result) {
-			return $result;
-		}
+		// was the data allready fetched?
+		if(empty($this->__aStoredData)) {
+			// fetch the compleete data!
+			parent::_getStoredData();
+			if (empty($this->__aStoredData)) {
+				return $this->__aStoredData;
+			}
 
-		$this->_retrieveMmFields();
-		// deals with data that has m:n relations
-		foreach ($this->mmFields as $key => $mmTable) {
-			// Do we have any data (with $result[$key] being the number
-			// of related records)?
-			if ($result[$key] > 0) {
-				$foreignUids = array();
-				$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'uid_foreign',
-					$mmTable,
-					'uid_local = ' . $this->_currentEntryId()
-				);
-				if ($dbResult) {
-					while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-						$foreignUids[] = $row['uid_foreign'];
+			$this->_retrieveMmFields();
+			// deals with data that has m:n relations
+			foreach ($this->mmFields as $key => $mmTable) {
+				// Do we have any data (with $result[$key] being the number
+				// of related records)?
+				if ($this->__aStoredData[$key] > 0) {
+					$foreignUids = array();
+					$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+						'uid_foreign',
+						$mmTable,
+						'uid_local = ' . $this->_currentEntryId()
+					);
+					if ($dbResult) {
+						while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+							$foreignUids[] = $row['uid_foreign'];
+						}
+						// Creates a comma-separated list of UIDs.
+						$this->__aStoredData[$key] = implode(',', $foreignUids);
+					} else {
+						$this->__aStoredData[$key] = '';
 					}
-					// Creates a comma-separated list of UIDs.
-					$result[$key] = implode(',', $foreignUids);
-				} else {
-					$result[$key] = '';
 				}
 			}
+			$this->__aStoredData = $this->__aStoredData;
 		}
 
-		return $result;
+		// return the complete data or a specific value
+		return parent::_getStoredData($sName);
 	}
 
 	/**
