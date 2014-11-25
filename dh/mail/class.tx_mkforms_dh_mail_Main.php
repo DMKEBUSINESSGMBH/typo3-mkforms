@@ -46,7 +46,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	function _doTheMagic($bShouldProcess = TRUE) {
 
 		// Nur, wenn das Formular abgesendet wurde
-		if (!$bShouldProcess) {
+		if(!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())){
 			return;
 		}
 
@@ -238,7 +238,6 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 				strtoupper($itemName)
 			)
 		);
-
 		// solte über das mailtemplate gesteuert werden!
 		// optional kann das überschreiben erzwungen werden.
 		if ($this->defaultFalse('/mkmailer/forcemailfrom')) {
