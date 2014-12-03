@@ -955,7 +955,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 	}
 
 	private function _parseThrustedTemplateCode($sHtml,$aTags,$aExclude = array(),$bClearNotUsed = TRUE,$aLabels = array()) {
-		return $this->oForm->getTemplateTool()->parseTemplateCode($sHtml,$aTags,$aExclude,$bClearNotUsed,$aLabels,$bThrusted = TRUE);
+		return $this->getForm()->getTemplateTool()->parseTemplateCode($sHtml,$aTags,$aExclude,$bClearNotUsed,$aLabels,$bThrusted = TRUE);
 	}
 
 	function _renderList_displaySortHeaders(&$aTemplate) {
