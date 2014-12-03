@@ -460,7 +460,6 @@ class tx_mkforms_util_Runnable {
 
 				$aCB = $this->initCodeBehind($aMetas[$sKey]);
 
-				// TODO: Diese nachbearbeitung ist irgendwie sinnlos. Warum steht das nicht in init?
 				if($aCB["type"] === "php") {
 					if(tx_mkforms_util_Div::getEnvExecMode() === "EID") {
 						$this->aCodeBehinds["php"][$aCB["name"]]["object"] = unserialize($this->aCodeBehinds["php"][$aCB["name"]]["object"]);
@@ -493,6 +492,17 @@ class tx_mkforms_util_Runnable {
 
 		$sCBRef = $aCB["path"];
 		$sName = $aCB["name"];
+
+		// check for this (form object)
+		if (strtolower($sCBRef) === 'this') {
+			$oCB = &$this->getForm()->getParent();
+			return array(
+				'type' => 'php',
+				'name' => $sName,
+				'class' => get_class($oCB),
+				'object' => &$oCB,
+			);
+		}
 
 		if($sCBRef{0} === "E" && $sCBRef{1} === "X" && t3lib_div::isFirstPartOfStr($sCBRef, "EXT:")) {
 			$sCBRef = substr($sCBRef, 4);
@@ -671,7 +681,19 @@ class tx_mkforms_util_Runnable {
 			}
 		}
 
-		$aArgs[] = $this->getForm();
+		// forms object has to be the second parameter in php callbacks!!!
+		$firstArg = array_shift($aArgs);
+		$secondArg = array_shift($aArgs);
+		array_unshift($aArgs, $this->getForm());
+		array_unshift($aArgs, $secondArg);
+		array_unshift($aArgs, $firstArg);
+
+		// parameter aus dem xml übernehmen
+		$aUserObjParams = $this->getConfig()->get('/params/', $aArgs[0]);
+		if($aUserObjParams !== FALSE && is_array($aUserObjParams)) {
+			$aArgs[1] = $this->parseParams($aUserObjParams, $aArgs[1]);
+		}
+
 		// Jetzt der Aufruf
 		switch($sType) {
 			case 'php': {
