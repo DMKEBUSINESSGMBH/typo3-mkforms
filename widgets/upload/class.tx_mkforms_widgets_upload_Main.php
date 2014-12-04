@@ -194,6 +194,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 				}
 
 				$sTarget = $sTargetDir . $sName;
+
 				if(!file_exists($sTargetDir)) {
 					if($this->defaultFalse('/data/targetdir/createifneeded') === TRUE) {
 						// the target does not exist, we have to create it
@@ -345,9 +346,10 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 				if($this->oForm->isRunneable($mTargetDir)) {
 					$mTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $mTargetDir);
 				}
-
+				if (is_array($mTargetDir) && !empty($mTargetDir)) {
+					$mTargetDir = $mTargetDir['__value'];
+				}
 				if(is_string($mTargetDir) && trim($mTargetDir) !== '') {
-
 					if(tx_mkforms_util_Div::isAbsPath($mTargetDir)) {
 						$this->aStatics['targetdir'] = tx_mkforms_util_Div::removeEndingSlash($mTargetDir) . '/';
 					} else {
