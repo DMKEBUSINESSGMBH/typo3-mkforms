@@ -22,7 +22,7 @@
 		"source": "https://github.com/DMKEBUSINESSGMBH/typo3-mkforms"
 	},
 	"replace": {
-		"typo3-ter/mkforms": "*",
+		"typo3-ter/mkforms": "*"
 	}, 
 	"require" : {
 		"typo3-ter/rn-base" : "*"
