@@ -1,10 +1,10 @@
 {
 	"name" : "typo3/mkforms",
 	"description" : "Making HTML forms for TYPO3",
-	"type" : "typo3cms-extension",
+	"type" : "typo3-cms-extension",
 	"keywords" : ["forms", "formidable"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
-	"license" : "OSL-3.0",
+	"license" : "GPL-3.0+",
 	"authors" : [
 		{
 			"name" : "Michael Wagner",
