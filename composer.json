@@ -1,10 +1,11 @@
 {
 	"name" : "dmk/mkforms",
 	"description" : "Making HTML forms for TYPO3",
+	"version" : "1.0.1",
 	"type" : "typo3-cms-extension",
-	"keywords" : ["forms", "formidable"],
+	"keywords" : ["TYPO3 CMS", "forms", "formidable"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
-	"license" : "GPL-3.0+",
+	"license" : "GPL-2.0+",
 	"authors" : [
 		{
 			"name" : "Michael Wagner",
@@ -25,6 +26,6 @@
 		"typo3-ter/mkforms": "*"
 	}, 
 	"require" : {
-		"typo3-ter/rn-base" : "*"
+		"typo3-ter/rn-base" : "~0.14"
 	}
 }
