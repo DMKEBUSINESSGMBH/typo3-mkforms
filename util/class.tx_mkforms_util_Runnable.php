@@ -111,14 +111,22 @@ class tx_mkforms_util_Runnable {
 	 */
 	public function parseParams($aUserObjParams, $aParams = array()){
 		while(list($index, $aParam) = each($aUserObjParams)) {
-			$name = $aParam['name'];
-			// Scalar values are set in attribute "value"
-			if (isset($aParam['value'])) $value = $aParam['value'];
-			else {
-				// Treat deep structures aka arrays:
-				unset($aParam['name']);
+			if (is_array($aParam)) {
+				$name = $aParam['name'];
+				// Scalar values are set in attribute "value"
+				if (isset($aParam['value'])) {
+					$value = $aParam['value'];
+				} else {
+					// Treat deep structures aka arrays:
+					unset($aParam['name']);
 
-				if (array_key_exists('__value', $aParam)) unset($aParam['__value']);
+					if (array_key_exists('__value', $aParam)) {
+						unset($aParam['__value']);
+					}
+					$value = $aParam;
+				}
+			} elseif($index !== '__value') {
+				$name = $index;
 				$value = $aParam;
 			}
 

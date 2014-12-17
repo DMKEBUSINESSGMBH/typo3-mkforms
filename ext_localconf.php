@@ -189,6 +189,7 @@
 			'AUTOCOMPLETE'	=> array('key' => 'tx_mkforms_widgets_autocomplete_Main'),
 			'MODALBOX2'		=> array('key' => 'tx_mkforms_widgets_modalbox2_Main'),
 			'JSTREE'		=> array('key' => 'tx_mkforms_widgets_jstree_Main'),
+			'FLUIDVIEWHELPER' => array('key' => 'tx_mkforms_widgets_fluidviewhelper_Main'),
 		);
 
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators'] = array(
