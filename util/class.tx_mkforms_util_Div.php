@@ -190,57 +190,58 @@ class tx_mkforms_util_Div {
 
 		}*/
 
-		$GLOBALS['TSFE'] = tx_rnbase::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'],
+		$GLOBALS['TSFE'] = tx_rnbase::makeInstance(
+			'tslib_fe',
+			$GLOBALS['TYPO3_CONF_VARS'],
 			t3lib_div::_GP('id'),
 			t3lib_div::_GP('type'),
 			t3lib_div::_GP('no_cache'),
 			t3lib_div::_GP('cHash'),
 			t3lib_div::_GP('jumpurl'),
 			t3lib_div::_GP('MP'),
-			t3lib_div::_GP('RDCT'));
+			t3lib_div::_GP('RDCT')
+		);
 
-//		$GLOBALS['TSFE'] = new $temp_TSFEclassName(
-//			$GLOBALS['TYPO3_CONF_VARS'],
-//			t3lib_div::_GP('id'),
-//			t3lib_div::_GP('type'),
-//			t3lib_div::_GP('no_cache'),
-//			t3lib_div::_GP('cHash'),
-//			t3lib_div::_GP('jumpurl'),
-//			t3lib_div::_GP('MP'),
-//			t3lib_div::_GP('RDCT')
-//		);
+		/* @var $tsfe tslib_fe */
+		$tsfe = &$GLOBALS['TSFE']; // only an alias for codecomplication
 
-		//$GLOBALS['TSFE']->forceTemplateParsing = TRUE;
+		// for typo3 6.2 the tca is required for determineId.
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+			tx_rnbase::load('tx_rnbase_util_TCA');
+			tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
+		}
 
-		//$GLOBALS['TSFE']->absRefPrefix = '/';
-		$GLOBALS['TSFE']->connectToDB();
-		$GLOBALS['TSFE']->initFEuser();
-		$GLOBALS['TSFE']->determineId();
-		$GLOBALS['TSFE']->getCompressedTCarray();
-		$GLOBALS['TSFE']->initTemplate();
-		$GLOBALS['TSFE']->getFromCache();
+		//$tsfe->forceTemplateParsing = TRUE;
 
+		//$tsfe->absRefPrefix = '/';
+		$tsfe->connectToDB(); // takes 0.0000 T3 6.2
+		$tsfe->initFEuser(); // takes 0.0400 T3 6.2
+		$tsfe->determineId(); // takes 0.0240 T3 6.2
+		$tsfe->getCompressedTCarray(); // takes 0.0000 T3 6.2
+		$tsfe->initTemplate(); // takes 0.0030 T3 6.2
+		$tsfe->getFromCache(); // takes 0.0040 T3 6.2
 
-		if(!is_array($GLOBALS['TSFE']->config)) {
-			$GLOBALS['TSFE']->config = array();
-			$GLOBALS['TSFE']->forceTemplateParsing = TRUE;
+		if(!is_array($tsfe->config)) {
+			$tsfe->config = array();
+			$tsfe->forceTemplateParsing = TRUE;
 		}
 
 		if($aConfig === FALSE) {
 			// Das benötigt 80-90% der Zeit für diese Methode in anspruch und sollte vermieden werden!
-			$GLOBALS['TSFE']->getConfigArray();
+			$tsfe->getConfigArray();
 		} else {
-			$GLOBALS['TSFE']->config = $aConfig;
+			$tsfe->config = $aConfig;
 			if($feSetup) {
-				$GLOBALS['TSFE']->tmpl->setup = !empty($GLOBALS['TSFE']->tmpl->setup) ? array_merge($GLOBALS['TSFE']->tmpl->setup, $feSetup) : $feSetup;
+				$tsfe->tmpl->setup = !empty($tsfe->tmpl->setup) ? array_merge($tsfe->tmpl->setup, $feSetup) : $feSetup;
 			}
 		}
 
-		$GLOBALS['TSFE']->convPOSTCharset();
-		$GLOBALS['TSFE']->settingLanguage();
-		$GLOBALS['TSFE']->settingLocale();
+		$tsfe->convPOSTCharset();
+		$tsfe->settingLanguage();
+		$tsfe->settingLocale();
 
-		$GLOBALS['TSFE']->cObj = t3lib_div::makeInstance('tslib_cObj');
+		$tsfe->cObj = t3lib_div::makeInstance('tslib_cObj');
 	}
 
 

@@ -81,8 +81,6 @@ class formidableajax {
 		$this->aSession =&	$GLOBALS['_SESSION']['ameos_formidable']['ajax_services']
 											[$this->aRequest['object']][$this->aRequest['servicekey']][$this->aRequest['safelock']];
 
-
-
 		if(!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			require_once(PATH_tslib . 'class.tslib_content.php');
 		}
@@ -155,7 +153,6 @@ class formidableajax {
 		$this->ttTimes['init'] = microtime(true) - $this->ttStart;
 		return TRUE;
 	}
-
 
 
 	function _initFeUser() {
@@ -396,8 +393,8 @@ try {
 } catch(Exception $e) {
 	tx_rnbase::load('tx_rnbase_util_Logger');
 	if(tx_rnbase_util_Logger::isWarningEnabled()) {
-		$request = is_object($oAjax) ? $oAjax->getRequestData() : 'unkown';
-		$widgets = is_object($oAjax) && is_object($oAjax->getForm()) ? $oAjax->getForm()->getWidgetNames() : array();
+		$request = $oAjax instanceof formidableajax ? $oAjax->getRequestData() : 'unkown';
+		$widgets = $oAjax instanceof formidableajax && is_object($oAjax->getForm()) ? $oAjax->getForm()->getWidgetNames() : array();
 		tx_rnbase_util_Logger::warn('Exception in ajax call', 'mkforms', array('Exception' => $e, 'Request'=> $request, 'Widgets' => $widgets));
 	}
 }

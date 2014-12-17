@@ -33,7 +33,7 @@ class tx_mkforms_util_Loader {
 	private $loadedClasses = array();
 	private static $instances = array();
 
-	
+
 	/**
 	 * constructor
 	 *
@@ -42,7 +42,7 @@ class tx_mkforms_util_Loader {
 	public function tx_mkforms_util_Loader($formid=false){
 		$this->formId = $formid;
 	}
-	
+
 	/**
 	 * Liefert eine Instanz der Klasse für ein bestimmtes Form
 	 *
@@ -55,7 +55,7 @@ class tx_mkforms_util_Loader {
 		}
 		return self::$instances[$formid];
 	}
-	
+
 	/**
 	 * Makes and initializes an object
 	 *
@@ -114,7 +114,7 @@ class tx_mkforms_util_Loader {
 				'BASE' => $declaredObjects[$objectKey]['base'],
 				'OBJECT' => $objectType,
 			);
-			
+
 			$aTemp['PATH']			= tx_mkforms_util_Div::getExtPath($aTemp['EXTKEY']);
 			$aTemp['RELPATH']		= tx_mkforms_util_Div::getExtRelPath($aTemp['EXTKEY']);
 
@@ -149,7 +149,7 @@ class tx_mkforms_util_Loader {
 		}
 		return $this->runningObjects;
 	}
-	
+
 	public static function loadRunningObjects(array &$aRObjects) {
 		reset($aRObjects);
 		while(list(, $aObject) = each($aRObjects)) {
@@ -176,7 +176,7 @@ class tx_mkforms_util_Loader {
 		}
 		return $ret;
 	}
-	
+
 	/**
 	 * Load the class file
 	 *
@@ -212,7 +212,7 @@ class tx_mkforms_util_Loader {
 		}
 		return $loadedClasses;
 	}
-	
+
 	public static function loadLoadedClasses(array &$aRObjects) {
 		reset($aRObjects);
 		while(list($sClass, $sPath) = each($aRObjects)) {

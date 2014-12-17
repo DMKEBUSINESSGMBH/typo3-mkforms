@@ -6,10 +6,13 @@
  */
 
 if(t3lib_extMgm::isLoaded('dam')) {
-	require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam.php');
-	require_once(t3lib_extMgm::extPath('dam') . 'lib/class.tx_dam_db.php');
+	require_once t3lib_extMgm::extPath('dam', 'lib/class.tx_dam.php');
+	require_once t3lib_extMgm::extPath('dam', 'lib/class.tx_dam_db.php');
 }
-
+require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
+tx_rnbase::load('tx_rnbase_util_TYPO3');
+tx_rnbase::load('tx_rnbase_util_TSFAL');
+tx_rnbase::load('tx_rnbase_util_TSDAM');
 
 class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	var $aLibs = array(
@@ -28,7 +31,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 	private $uploadsWithoutReferences = array();
 
-	private $uploadedDamPics = array();
+	private $uploadedMediaFiles = array();
 
 	/**
 	 * folgendes brauch man um eine Liste der DAM Uploads auszugeben:
@@ -45,7 +48,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			</datasource:PHPARRAY>
 		</datasources>
 
-		<renderlet:DAMUPLOAD name="locationDescription-mediaUpload" label="LLL:label_media">
+		<renderlet:MEDIAUPLOAD name="locationDescription-mediaUpload" label="LLL:label_media">
 			<data multiple="true" showFileList="false" cleanfilename="true">
 				<reftable>tx_a4base_locdescriptions</reftable>
 				<reffield>media</reffield>
@@ -61,7 +64,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 					<extension value="gif,jpg,jpeg,bmp,png,pdf" message="LLL:msg_picture_filetype" />
 				</validator:FILE>
 			</validators>
-		</renderlet:DAMUPLOAD>
+		</renderlet:MEDIAUPLOAD>
 
 		<renderlet:LISTER
 			name="lister-mediaUploadList" uidColumn="uid"
@@ -114,7 +117,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		<renderlet:SUBMIT name="deleteUpload" label="LLL:delete_upload" mode="draft"/>
 		<renderlet:SUBMIT name="upload" label="LLL:upload" mode="draft"/>
 
-		im DAM Widget wird keine refuid gesetzt. Das liegt daran dass diese beim erstellen
+		im MEDIA Widget wird keine refuid gesetzt. Das liegt daran dass diese beim erstellen
 		noch nicht bekannt ist. daher setzen wir diese im formhandler.
 		dazu muss folgendes in processForm und fillForm aufgerufen werden. Vorrausgesetzt
 		es wird von tx_mkforms_util_FormBase geerbt:
@@ -196,8 +199,14 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 *
 	 * @return array
 	 */
+	public function getUploadedMediaFiles() {
+		return $this->uploadedMediaFiles;
+	}
+	/**
+	 * @deprecated use getUploadedMediaFiles instead
+	 */
 	public function getUploadedDamPics() {
-		return $this->uploadedDamPics;
+		return $this->getUploadedDamPics();
 	}
 
 	function getServerPath($sFileName = FALSE) {
@@ -251,7 +260,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$aData = $this->getValue();
 
 		$uploadedFileIds = array();
-		// die bisher hochgeladenen Dam IDs sammeln, damit wir diese auch in
+		// die bisher hochgeladenen media IDs sammeln, damit wir diese auch in
 		// einem lister ausgeben können
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 		$sessionIdForCurrentWidget = $this->getSessionIdForCurrentWidget();
@@ -271,17 +280,18 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			// Datei wurde hochgeladen und referenziert,
 			// validation ist allerdings fehlgeschlagen.
 			// Datei und Referenz löschen!
-			if(!empty($this->aUploaded['damid'])) {
-				$this->deleteReferences($this->aUploaded['damid']);
+			if(!empty($this->aUploaded['mediaid'])) {
+				$this->deleteReferences($this->aUploaded['mediaid']);
 			}
 			if(!empty($this->aUploaded['path']))  {
 				$this->deleteFile(
-					$this->aUploaded['name'], $this->aUploaded['damid'], true
+					$this->aUploaded['name'],
+					$this->aUploaded['mediaid']
 				);
 			}
 			//auch für den Lister löschen
-			foreach ($uploadedFileIds as $key => $damId) {
-				if($this->aUploaded['damid'] == $damId) {
+			foreach ($uploadedFileIds as $key => $mediaId) {
+				if($this->aUploaded['mediaid'] == $mediaId) {
 					unset($uploadedFileIds[$key]);
 				}
 			}
@@ -290,17 +300,23 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		}
 
 		// wurden bereits referenzen angelegt?
-		$damPics = $this->getReferencedMedia();
+		$mediaFiles = $this->getReferencedMedia();
 
 		// es wurden wahrscheinlich noch keine referenzen angelegt, sondern nur
 		// dateien hochgeladen
 		if(
-			(empty($damPics) || empty($damPics['rows'])) &&
+			(empty($mediaFiles) || empty($mediaFiles['files'])) &&
 			!empty($uploadedFileIds)
 		) {
-			$damPics = tx_mklib_util_DAM::getRecords($uploadedFileIds);
 
-			foreach ($damPics['rows'] as $uid => $damPic) {
+			if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+				$mediaFiles = tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
+			} else {
+				$mediaFiles = tx_mklib_util_DAM::getRecords($uploadedFileIds);
+				$mediaFiles = $mediaFiles['files'];
+			}
+
+			foreach ($mediaFiles as $uid => $mediaInfo) {
 				// wird benötigt um in handleCreation die Referenzen anlegen zu können
 				$this->uploadsWithoutReferences[$uid] = $uid;
 			}
@@ -310,18 +326,18 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$currentFileIds = array();// die DAM Ids, welche übrig sind nachdem gelöscht wurde
 		// sollte eine checkbox sein
 		$deleteWidgetName = $this->getForm()->_navConf('/deletewidget', $this->aElement);
-		if($damPics['rows']) {
-			foreach ($damPics['rows'] as $uid => $damPic) {
+		if(!empty($mediaFiles)) {
+			foreach ($mediaFiles as $uid => $mediaInfo) {
 				if(
 					$deleteWidgetName &&
 					($deleteWidget = $this->getForm()->getWidget($deleteWidgetName))
 				) {
 					$deleteWidget->setIteratingId($uid);
 					if($deleteWidget->getValue()) {
-						unset($damPics['rows'][$uid]);
+						unset($mediaFiles[$uid]);
 						unset($this->uploadsWithoutReferences[$uid]);
 						$this->deleteReferences($uid);
-						$this->deleteFile($damPic['file_name'], $uid);
+						$this->deleteFile($mediaInfo['file_name'], $uid);
 						continue;
 					}
 				}
@@ -337,7 +353,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 		// wird von tx_mkforms_util_DamUpload::getUploadsByWidget benötigt um die Liste
 		// der DAM Uploads ausgeben zu können
-		$this->uploadedDamPics = $damPics;
+		$this->uploadedMediaFiles = $mediaFiles;
 	}
 
 	/**
@@ -394,10 +410,10 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$sName = $targetData['sName'];
 		$sTargetDir = $targetData['sTargetDir'];
 		$max = $this->getMaxObjects();
-		$count = $this->getReferencedMedia();
+		$media = $this->getReferencedMedia();
 
-		if ($max && count($count['files']) >= $max) {
-			$this->setValue(count($count['files']));
+		if ($max && count($media) >= $max) {
+			$this->setValue(count($media));
 			return;
 		}
 		if(!move_uploaded_file($aData['tmp_name'], $sTarget)) {
@@ -413,32 +429,30 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			'infos' => $aData,
 		);
 
-		// In Set Value kommt die Anzahl der Zuordnungen rein
+		// In Set Value kommt die Anzahl der Zuordnungen rein!
 		// Bei nur einer erlaubten Zuordnung muss die ggf. vorhandene Datei dereferenziert werden
-		// Wir brauchen ein Max-Referenzes
-		// Zuerst prüfen, ob die Datei schon in der DB existiert. Dies kann bei overwrite der Fall sein.
-		// ACHTUNG: wenn die Feld Collation der DB-Felder file_name und file_path
-		// 			in der tx_dam Tabelle auf *_ci (utfa_general_ci) stehen,
-		// 			wird bei der Prüfung Gruß-/Kleinschreibung ignoriert,
-		// 			was bei unix-Systemen zu Fehlern führt!
-		// 			Die einfache Lösung ist, die Collation der beiden Felder
-		// 			auf *_bin (utf8_bin) zu setzen!
-		$damUid = tx_dam::file_isIndexed($sTarget);
-		if(!$damUid) {
-			// process file indexing
-			$this->initBE4DAM($this->getBeUserId());
-			$damData = tx_dam::index_process($sTarget);
-			$damUid = $damData[0]['uid'];
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			if($this->getForm()->isRunneable(($storageId = $this->_navConf('/data/storage/')))) {
+				$storageId = (int) $this->getForm()->getRunnable()->callRunnableWidget($this, $storageId);
+			}
+			if (!is_numeric($storageId)) {
+				throw new \InvalidArgumentException('No uid for Storage given (/data/storage/).');
+			}
+
+			$fileObject = tx_rnbase_util_TSFAL::indexProcess($sTarget, $storageId);
+			$mediaUid = $fileObject->getUid();
+		} else {
+			// Zuerst prüfen, ob die Datei schon in der DB existiert. Dies kann bei overwrite der Fall sein.
+			$mediaUid = tx_rnbase_util_TSDAM::indexProcess($sTarget, $this->getBeUserId());
 		}
 
-		// save damuid
-		$this->aUploaded['damid'] = $damUid;
+		// save mediauid
+		$this->aUploaded['mediaid'] = $mediaUid;
 
 		// Wir haben nun die UID des Bildes und müssen prüfen, ob es bereits zugeordnet ist
-		$refPics = $this->getReferencedMedia();
-		$refFiles = $refPics['files'];
+		$refFiles = $this->getReferencedMedia();
 
-		if(is_array($refFiles) && array_key_exists($damUid, $refFiles)) {
+		if(is_array($refFiles) && array_key_exists($mediaUid, $refFiles)) {
 			// The file is already referenced. Nothing to do
 			$this->setValue($aData['backup']);
 			return;
@@ -452,11 +466,11 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$newSize = 1;
 		if(!$this->getEntryId()) {
 			// Wir sind bei der Neuanlage und haben noch keine UID. Daher merken wir uns die ID des Bildes
-			$this->openUid = $damUid;
+			$this->openUid = $mediaUid;
 		}
 		else {
 			// Set the new reference
-			$newSize = $this->addReference($damUid);
+			$newSize = $this->addReference($mediaUid);
 		}
 
 		// save size
@@ -491,13 +505,13 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			return;
 		}
 		if($this->openUid && !$this->uploadsWithoutReferences) {
-			$damUids = array($this->openUid);
+			$mediaUids = array($this->openUid);
 		} else {
-			$damUids = $this->uploadsWithoutReferences;
+			$mediaUids = $this->uploadsWithoutReferences;
 		}
 
-		foreach ($damUids as $damUid) {
-			$newSize = $this->addReference($damUid);
+		foreach ($mediaUids as $mediaUid) {
+			$newSize = $this->addReference($mediaUid);
 		}
 		$this->openUid = 0;
 	}
@@ -573,7 +587,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		return FALSE;
 	}
 	/**
-	 * Returns the reference table for DAM
+	 * Returns the reference table for DAM/FAL
 	 *
 	 * @return string
 	 */
@@ -596,7 +610,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		return (strlen($maxobjects)) ? $maxobjects : FALSE;
 	}
 	/**
-	 * Returns the reference field for DAM
+	 * Returns the reference field for DAM/FAL
 	 *
 	 * @return string
 	 */
@@ -605,7 +619,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		return strlen($fieldName) ? $fieldName : $this->getAbsName();
 	}
 	/**
-	 * Returns the defined beuser id for dam processing
+	 * Returns the defined beuser id for DAM processing
 	 *
 	 * @return int
 	 */
@@ -645,32 +659,23 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	/**
 	 * vorher die referenzen löschen da sonst die datei nicht gelöscht werden kann
 	 *
-	 * @param unknown $sFile
-	 * @param unknown $damUid
+	 * @param string $sFile
+	 * @param int $mediaUid
 	 */
-	function deleteFile($sFile, $damUid, $deleteHard = false) {
-		$mValues = t3lib_div::trimExplode(',', $mValues);
-		if(is_array($mValues)) {
-			unset($mValues[array_search($sFile, $mValues)]);
+	function deleteFile($file, $mediaUid) {
+
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$refCount = tx_rnbase_util_TSFAL::getReferencesCount($mediaUid);
+			$tableName = 'sys_file';
+		} else {
+			$refCount = tx_rnbase_util_TSDAM::getReferencesCount($mediaUid);
+			$tableName = 'tx_dam';
 		}
 
 		// wir löschen die Datei nur wenn keine Refrenzen mehr vorhanden sind
-		$fields = tx_dam_db::getMetaInfoFieldList();
-		$res = tx_dam_db::referencesQuery('tx_dam',$damUid, '', '', '', '', $fields);
-
-		if ($res && (!$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))){
-			@unlink($this->getFullServerPath($sFile));
-
-			if(!$deleteHard) {
-				tx_rnbase_util_DB::doUpdate('tx_dam', 'tx_dam.uid = '.$damUid, array('deleted' => 1));
-			} else {
-				tx_rnbase_util_DB::doDelete('tx_dam', 'tx_dam.uid = '.$damUid);
-			}
-		}
-
-
-		if(is_array($mValues)){
-			$this->setValue(implode(',', $mValues));
+		if ($refCount === 0) {
+			@unlink($this->getFullServerPath($file));
+			tx_rnbase_util_DB::doDelete($tableName, 'uid = ' . $mediaUid);
 		}
 	}
 
@@ -679,60 +684,37 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * Problem: Im CreationMode haben wir für das Ziel-Objekt noch kein valide UID.
 	 * Diese ist erst vorhanden, wenn das Ziel-Objekt wirklich gespeichert wurde.
 	 *
-	 * @param int $damUid
+	 * @param int $mediaUid
 	 */
-	function addReference($damUid) {
+	function addReference($mediaUid) {
 		$tableName = trim($this->getRefTable());
 		$fieldName = $this->getRefField();
-		$data = array();
-		$data['uid_foreign'] = $this->getEntryId();
-		$data['uid_local'] = $damUid;
-		$data['tablenames'] = $tableName;
-		$data['ident'] = $fieldName;
+		$itemId = $this->getEntryId();
 
-		$sSql = $GLOBALS['TYPO3_DB']->INSERTquery('tx_dam_mm_ref',$data);
-
-		$this->getForm()->_watchOutDB(
-			$GLOBALS['TYPO3_DB']->sql_query($sSql),
-			$sSql
-		);
-
-		// Now count all items
-		$newSize = 0;
-		$where = 'tablenames=\'' . $tableName . '\' AND ident=\'' . $fieldName .'\' AND uid_foreign=' . $data['uid_foreign'];
-		$sSql = $GLOBALS['TYPO3_DB']->SELECTquery('count(*) As \'cnt\'','tx_dam_mm_ref',$where);
-		$rSql = $this->getForm()->_watchOutDB($GLOBALS['TYPO3_DB']->sql_query($sSql), $sSql);
-		if(($aRes = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($rSql)) !== FALSE) {
-			$newSize = $aRes['cnt'];
-			//Update Count
-			$where = '1=1 AND `'.$tableName . '`.`uid`='.$GLOBALS['TYPO3_DB']->fullQuoteStr($data['uid_foreign'], $tableName);
-			$values = array($fieldName => $newSize);
-			tx_rnbase::load('tx_rnbase_util_DB');
-			$res = tx_rnbase_util_DB::doUpdate($tableName, $where, $values);
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			tx_rnbase_util_TSFAL::addReference($tableName, $fieldName, $itemId, $mediaUid);
+			$newSize = tx_rnbase_util_TSFAL::getImageCount($tableName, $fieldName, $itemId);
+		} else {
+			tx_rnbase_util_TSDAM::addReference($tableName, $fieldName, $itemId, $mediaUid);
+			$newSize = tx_rnbase_util_TSDAM::getImageCount($tableName, $fieldName, $itemId);
 		}
 
 		return $newSize;
 	}
 	/**
-	 * Removes dam references. If no parameter is given, all references will be removed.
+	 * Removes DAM/FAL references. If no parameter is given, all references will be removed.
 	 *
 	 * @param string $uids commaseperated uids
 	 */
 	function deleteReferences($uids = '') {
 		$tableName = trim($this->getRefTable());
 		$fieldName = $this->getRefField();
-
-		$where = 'tablenames=\'' . $tableName . '\' AND ident=\'' . $fieldName .'\' AND uid_foreign=' . $this->getEntryId();
-		if(strlen(trim($uids))) {
-			$uids = implode(',',t3lib_div::intExplode(',',$uids));
-			$where .= ' AND uid_local IN (' . $uids .') ';
+		$itemId = $this->getEntryId();
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			tx_rnbase_util_TSFAL::deleteReferences($tableName, $fieldName, $itemId);
+		} else {
+			tx_rnbase_util_TSDAM::deleteReferences($tableName, $fieldName, $itemId);
 		}
-		$sSql = $GLOBALS['TYPO3_DB']->DELETEquery('tx_dam_mm_ref',$where);
-
-		$this->getForm()->_watchOutDB(
-			$GLOBALS['TYPO3_DB']->sql_query($sSql),
-			$sSql
-		);
 	}
 	/**
 	 * Returns all referenced media of current field
@@ -742,11 +724,16 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	function getReferencedMedia() {
 		if(!$this->getEntryId()) {
 			// Ohne ID gibt es auch keine Bilder
-			return array('files'=>'');
+			return array();
 		}
 		$tableName = trim($this->getRefTable());
 		$fieldName = $this->getRefField();
-		$ret = tx_dam_db::getReferencedFiles($tableName, $this->getEntryId(), $fieldName);
+		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+			$ret = tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
+		} else {
+			$ret = tx_dam_db::getReferencedFiles($tableName, $this->getEntryId(), $fieldName);
+			$ret = $ret['files'];
+		}
 		return $ret;
 	}
 	/**
@@ -913,23 +900,14 @@ INITSCRIPT;
 //			$this->handleNoUpload($aData);
 		}
 
-		//Update Count
-		if(isset($newSize)) {
-			$refTableame = trim($this->getRefTable());
-			$refField = $this->getRefField();
-			$refUid = $this->getEntryId();
-			$where = '1=1 AND `'.$refTableame . '`.`uid`='.$GLOBALS['TYPO3_DB']->fullQuoteStr($refUid, $refTableame);
-			$values = array($refField => $newSize);
-			tx_rnbase::load('tx_rnbase_util_DB');
-			$res = tx_rnbase_util_DB::doUpdate($refTableame, $where, $values);
-		}
-
-		return array(array(
-						'data' => $newSize,
-						'databag' => '{}',
-						'method' => 'doNothing',
-						'object' => $this->getAbsName(),
-					));
+		return array(
+			array(
+				'data' => $newSize,
+				'databag' => '{}',
+				'method' => 'doNothing',
+				'object' => $this->getAbsName(),
+			)
+		);
 	}
 }
 

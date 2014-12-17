@@ -33,7 +33,7 @@
 			);
 		}
 	}
-	
+
 
 //	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
 //		'frontend' => 't3lib_cache_frontend_VariableFrontend',
@@ -182,6 +182,7 @@
 			'SELECTOR'		=> array('key' => 'tx_mkforms_widgets_selector_Main'),
 			'SWFUPLOAD'		=> array('key' => 'tx_mkforms_widgets_swfupload_Main'),
 			'DAMUPLOAD'		=> array('key' => 'tx_mkforms_widgets_damupload_Main'),
+			'MEDIAUPLOAD'	=> array('key' => 'tx_mkforms_widgets_damupload_Main'),
 			'ACCORDION'		=> array('key' => 'tx_mkforms_widgets_accordion_Main'),
 			'PROGRESSBAR'	=> array('key' => 'tx_mkforms_widgets_progressbar_Main'),
 			'TICKER'		=> array('key' => 'tx_mkforms_widgets_ticker_Main'),
