@@ -382,7 +382,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 				// rename the file if same name already exists
 				$sExt = ((strpos($sName,'.') === FALSE) ? '' : '.' . substr(strrchr($sName, '.'), 1));
 				for($i=1; file_exists($sTarget); $i++) {
-					$sTarget = $sTargetDir . substr($sName, 0, strlen($sName)-strlen($sExt)).'['.$i.']'.$sExt;
+					$sTarget = $sTargetDir . substr($sName, 0, strlen($sName) - strlen($sExt)) . '_' . $i . $sExt;
 				}
 				$sName = basename($sTarget);
 			}
