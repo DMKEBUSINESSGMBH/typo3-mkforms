@@ -59,9 +59,18 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet {
 	 *
 	 * @return \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 	 */
+	protected function getViewHelperClass() {
+		return $this->_navConf('/viewhelper');
+	}
+
+	/**
+	 * creates the view helper
+	 *
+	 * @return \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+	 */
 	protected function getViewHelper() {
 		if ($this->_viewHelper === NULL) {
-			$helperClass = $this->_navConf('/viewhelper');
+			$helperClass = $this->getViewHelperClass();
 			try {
 				$viewHelper = $this->getObjectManager()->get($helperClass);
 			} catch (\TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
@@ -75,7 +84,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet {
 				}
 			}
 			if (!$viewHelper instanceof \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper) {
-				throw new Exception('Could not instanciate ViewHelper: ');
+				throw new Exception('Could not instanciate ViewHelper: ' . $helperClass);
 			}
 			$viewHelper->setArguments($this->getArguments());
 			$this->_viewHelper = $viewHelper;
@@ -84,13 +93,22 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet {
 	}
 
 	/**
+	 * liefert die parameter aus dem xml
+	 *
+	 * @return array
+	 */
+	protected function getParams() {
+		$params = $this->_navConf('/params');
+		$params = is_array($params) ? $params : array();
+		return $this->getForm()->getRunnable()->parseParams($params);
+	}
+
+	/**
 	 * erzeugt die parameter, welche dem helper übergeben werden.
 	 * @return array
 	 */
 	protected function getArguments() {
-		$params = $this->_navConf('/params');
-		$params = is_array($params) ? $params : array();
-		$params = $this->getForm()->getRunnable()->parseParams($params);
+		$params = $this->getParams();
 		foreach ($params as $key => $value) {
 			switch($value) {
 				case 'rdt:value':
@@ -128,7 +146,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet {
 		}
 
 		$htmlBag = array(
-			'__compiled' => $this->_displayLabel($sLabel) . $rendered,
+			'__compiled' => $this->_displayLabel($label) . $rendered,
 			'rendered' => $rendered,
 			'label' => $label,
 			'value' => $this->getValue(),
