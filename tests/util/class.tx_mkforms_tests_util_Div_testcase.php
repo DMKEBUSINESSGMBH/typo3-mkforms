@@ -99,36 +99,88 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 	}
 
 	/**
+	 *
+	 * @param string $actual
+	 * @param string $expected
+	 * @param string $iconv
+	 *
+	 * @group unit
+	 * @test
 	 * @dataProvider providerCleanupFileName
 	 */
-	public function testCleanupFileName($actual, $expected) {
-		if (strpos(t3lib_div::getHostname(),'project.dmknet.de') === FALSE) {
+	public function testCleanupFileName($rawFile, $expectedFile, $usesIconv = FALSE) {
+		if ($usesIconv && strpos(t3lib_div::getHostname(), 'project.dmknet.de') === FALSE) {
 			// die Tests wurden direct für die locales konfig auf dmknet abgestimmt!
-			$this->markTestSkipped('Dieser Test kann wegen den locale' .
-				' Einstellungen nur auf project.dmknet.de ausgeführt werden.');
+			$this->markTestSkipped(
+				'Dieser Test kann wegen den locale' .
+				' Einstellungen nur auf project.dmknet.de ausgeführt werden.'
+			);
 		}
-		$cleaned = tx_mkforms_util_Div::cleanupFileName($actual);
-		$this->assertEquals($expected, $cleaned);
+
+		$cleanedFile = tx_mkforms_util_Div::cleanupFileName($rawFile);
+		$this->assertEquals($expectedFile, $cleanedFile);
 	}
+	/**
+	 * DataProvider for cleanupFileName Test.
+	 *
+	 * @return array
+	 */
 	public function providerCleanupFileName() {
 		return array(
-			'Line ' . __LINE__ => array(
-				'Süß_&_Snack.pdf', 'suess___snack.pdf',
+			'line ' . __LINE__ => array(
+				'Süß_&_Snack.pdf',
+				'suess___snack.pdf',
+				TRUE,
 			),
-			'Line ' . __LINE__ => array(
-				'Lebenslauf.pdf', 'lebenslauf.pdf',
+			'line ' . __LINE__ => array(
+				'Lebenslauf.pdf',
+				'lebenslauf.pdf',
+				FALSE,
 			),
-			'Line ' . __LINE__ => array(
-				'ABCDEFGHIJKLMNOPQRSTUVWXYZ.0987654321.jpg', 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
+			'line ' . __LINE__ => array(
+				'ABCDEFGHIJKLMNOPQRSTUVWXYZ.0987654321.jpg',
+				'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
+				FALSE,
 			),
-			'Line ' . __LINE__ => array(
-				'abcdefghijklmnopqrstuvwxyz.0987654321.jpg', 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
+			'line ' . __LINE__ => array(
+				'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
+				'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
+				FALSE,
 			),
-			'Line ' . __LINE__ => array(
-				'ÄÖÜ&äöü.gif', 'aeoeue_aeoeue.gif',
+			'line ' . __LINE__ => array(
+				'ÄÖÜ&äöü.gif',
+				'aeoeue_aeoeue.gif',
+				TRUE,
 			),
-			'Line ' . __LINE__ => array(
-				'-_!"§$%&/()=?²³{[]}\^@€.jpg', '-_____________________eur.jpg',
+			'line ' . __LINE__ => array(
+				'-_!"§$%&/()=?²³{[]}\^@€.jpg',
+				'-_____________________eur.jpg',
+				TRUE,
+			),
+			'line ' . __LINE__ => array(
+				'.png',
+				'png',
+				FALSE,
+			),
+			'line ' . __LINE__ => array(
+				'..png',
+				'png',
+				FALSE,
+			),
+			'line ' . __LINE__ => array(
+				'file.',
+				'file',
+				FALSE,
+			),
+			'line ' . __LINE__ => array(
+				'.',
+				'',
+				FALSE,
+			),
+			'line ' . __LINE__ => array(
+				'..',
+				'',
+				FALSE,
 			),
 		);
 	}

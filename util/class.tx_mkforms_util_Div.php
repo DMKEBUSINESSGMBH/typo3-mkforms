@@ -956,12 +956,15 @@ ERRORMESSAGE;
 	 * Bindestrich, Unterstrich und Punkt zu.
 	 * Umlaute und Sonderzeichen werden versucht in lesbare Buchstaben zu parsen.
 	 * Nicht zulässige Zeichen werden in einen Unterstrich umgewandelt.
-	 * Der Dateiuname wird immer in Kleinbuchstaben umgewandelt!
+	 * Der Dateiname wird immer in Kleinbuchstaben umgewandelt!
 	 *
 	 * @param string $name
 	 * @return string
 	 */
 	public static function cleanupFileName($name) {
+		if (empty($name) || trim($name, '.') === '') {
+			return '';
+		}
 		$cleaned = $name;
 		if (function_exists('iconv')) {
 			tx_rnbase::load('tx_rnbase_util_Strings');
@@ -970,10 +973,28 @@ ERRORMESSAGE;
 			$oldLocal = setlocale(LC_ALL, 0);
 			setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'deu_deu', 'de', 'ge');
 			$cleaned = iconv($charset, 'ASCII//TRANSLIT', $cleaned);
-			setlocale(LC_ALL, $oldLocal);
+			setlocale(LC_ALL, $oldLocal);#
+			// ignore iconf, if it fails.
+			$cleaned = $cleaned ? $cleaned : $name;
 		}
+		// only alphanumeric dot, minus and underscore aviable
 		$cleaned = preg_replace('/[^A-Za-z0-9-_.]/', '_', $cleaned);
-		return strtolower($cleaned);
+		// make lowercase and remove all enclosing dots !
+		$cleaned = trim(strtolower($cleaned), '.');
+
+		// the folowing code checks for a given filename/extension and removes all dots of filename
+		// file.name.dat > file_name.jpg
+		/* @TODO: is there any necessity to remove the dots?
+		$dotExploded = explode('.', $cleaned);
+		if (count($dotExploded) > 1) {
+			$fExt = array_pop($dotExploded);
+			// remove all dots
+			$fName = implode('_', $dotExploded);
+			$cleaned = (empty($fName) ? 'file' : $fName) . (empty($fExt) ? '' : '.' . $fExt);
+		}
+		*/
+		// make shure, we return always a filename!
+		return empty($cleaned) ? 'file.dat' : $cleaned;
 		### Das ist der Alte Code aus dem Uploadwidget ###
 		##################################################
 		// Bug 548: Sonderzeichen beim Upload werden nicht ersetzt.
