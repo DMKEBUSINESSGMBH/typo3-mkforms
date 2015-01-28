@@ -38,7 +38,13 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet {
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $_objectManager = NULL;
-	protected $_viewHelper = NULL;
+	/**
+	 * the viewhelper class to use.
+	 * it was build by the viewhelper config from xml.
+	 *
+	 * @var string
+	 */
+	protected $_viewHelperClass = NULL;
 
 	/**
 	 * erzeugt den object manager, um die helper zu instanzieren
@@ -55,22 +61,13 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet {
 	}
 
 	/**
-	 * creates the view helper
+	 * creates the view helper class name
 	 *
-	 * @return \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+	 * @return string
 	 */
 	protected function getViewHelperClass() {
-		return $this->_navConf('/viewhelper');
-	}
-
-	/**
-	 * creates the view helper
-	 *
-	 * @return \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
-	 */
-	protected function getViewHelper() {
-		if ($this->_viewHelper === NULL) {
-			$helperClass = $this->getViewHelperClass();
+		if ($this->_viewHelperClass === NULL) {
+			$helperClass = $this->_navConf('/viewhelper');
 			try {
 				$viewHelper = $this->getObjectManager()->get($helperClass);
 			} catch (\TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
@@ -84,12 +81,23 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet {
 				}
 			}
 			if (!$viewHelper instanceof \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper) {
-				throw new Exception('Could not instanciate ViewHelper: ' . $helperClass);
+				throw new Exception('Could not find ViewHelperClass: ' . $helperClass);
 			}
-			$viewHelper->setArguments($this->getArguments());
-			$this->_viewHelper = $viewHelper;
+			$this->_viewHelperClass = get_class($viewHelper);
 		}
-		return $this->_viewHelper;
+		return $this->_viewHelperClass;
+	}
+
+	/**
+	 * creates the view helper
+	 *
+	 * @return \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+	 */
+	protected function getViewHelper() {
+		$helperClass = $this->getViewHelperClass();
+		$viewHelper = $this->getObjectManager()->get($helperClass);
+		$viewHelper->setArguments($this->getArguments());
+		return $viewHelper;
 	}
 
 	/**
