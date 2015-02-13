@@ -17,7 +17,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'shy' => 0,
 	'version' => '1.0.7',
 	'dependencies' => '',
-	'conflicts' => '',
+	'conflicts' => 'ameos_formidable',
 	'priority' => '',
 	'loadOrder' => '',
 	'module' => '',
@@ -38,7 +38,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'typo3' => '4.5.0-6.2.99',
 		),
 		'conflicts' => array(
-			'ameos_formidable'
+			'ameos_formidable' => ''
 		),
 		'suggests' => array(
 			'mkmailer' => '0.7.6-',
