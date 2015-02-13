@@ -5,7 +5,7 @@
  *
  *  Copyright notice
  *
- *  (c) 2011 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2011 DMK E-BUSINESS GmbH <dev@dmk-business.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,7 +32,7 @@ tx_rnbase::load('tx_rnbase_util_Exception');
  *
  * @package tx_mkforms
  * @subpackage tx_mkforms_action
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <dev@dmk-business.de>
  */
 class tx_mkforms_exception_Mayday extends tx_rnbase_util_Exception {
 

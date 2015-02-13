@@ -2,7 +2,7 @@
 /**
  *  Copyright notice
  *
- *  (c) 2011 Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+ *  (c) 2011 Hannes Bochmann <dev@dmk-business.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

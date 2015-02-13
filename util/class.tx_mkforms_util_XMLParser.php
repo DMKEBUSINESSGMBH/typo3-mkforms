@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2009 René Nitzsche (nitzsche@das-medienkombinat.de)
+ *  (c) 2009 René Nitzsche (dev@dmk-business.de)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

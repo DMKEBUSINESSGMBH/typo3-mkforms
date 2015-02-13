@@ -5,7 +5,7 @@
  * Die Radio-Group ist somit ein Teil des Hauptformulars. Im Prinzip verhält sie sich, wie ein normales Widget 
  * innerhalb einer Box. Die Box ist in diesem Fall der Lister. 
  *
- * @author	René Nitzsche <nitzsche@das-medienkombinat.de>
+ * @author	René Nitzsche <dev@dmk-business.de>
  */
 class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 

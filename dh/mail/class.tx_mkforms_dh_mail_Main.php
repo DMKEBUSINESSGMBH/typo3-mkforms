@@ -5,7 +5,7 @@
  *
  * Copyright notice
  *
- * (c) 2013 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ * (c) 2013 DMK E-BUSINESS GmbH <dev@dmk-business.de>
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,11 +31,9 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
 /**
  * Datahandler um anhand von den Formulardaten E-Mails zu versenden.
  *
- * @see http://wiki.das-medienkombinat.de/index.php?title=Mkforms#datahandler:MAIL_als_toller_powermail_ersatz
- *
  * @package tx_mkforms
  * @subpackage tx_mkforms_dh
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <dev@dmk-business.de>
  */
 class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 

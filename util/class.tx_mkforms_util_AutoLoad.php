@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011 das MedienKombinat GmbH <kontakt@das-medienkombinat.de>
+ *  (c) 2011 DMK E-BUSINESS GmbH <dev@dmk-business.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,7 +34,7 @@
  * 		$form->getObjectLoader()->load($sClass, $sPath = false);
  * 		$form->getObjectLoader()->makeInstance($sClass, $sPath = false);
  *
- * @author Michael Wagner <michael.wagner@das-medienkombinat.de>
+ * @author Michael Wagner <dev@dmk-business.de>
  */
 class tx_mkforms_util_AutoLoad {
 //	/**

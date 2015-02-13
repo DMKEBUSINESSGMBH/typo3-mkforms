@@ -452,7 +452,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 	 * Prüft die Länge von Strings auf Zeichen-Ebene
 	 * das bedeutet das Multi-Byte Zeichen als 1 Zeichen gezählt werden
 	 *
-	 * @author Hannes Bochmann <hannes.bochmann@das-medienkombinat.de>
+	 * @author Hannes Bochmann <dev@dmk-business.de>
 	 * @param mixed $mValue
 	 * @param int $iMaxSize
 	 * @param string $sEncoding
