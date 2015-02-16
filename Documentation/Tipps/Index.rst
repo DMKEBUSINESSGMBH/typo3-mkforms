@@ -78,7 +78,7 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
 
 .. code-block:: xml
 
-   <formidable version="2.0.296">
+   <mkforms version="1.0.10">
       <meta>
          <includeXml 
             path="EXT:mkexample/forms/xml/gameForm.xml" 

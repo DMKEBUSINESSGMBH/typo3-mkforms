@@ -649,7 +649,7 @@ ERRORMESSAGE;
 	/**
 	 * Returns the current version of formidable running
 	 *
-	 * @return	string		current formidable version number
+	 * @return	string		current mkforms version number
 	 */
 	public static function getVersion() {
 		return $GLOBALS['EM_CONF']['mkforms']['version'];
