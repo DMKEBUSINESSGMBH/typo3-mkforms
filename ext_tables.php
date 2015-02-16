@@ -22,9 +22,9 @@ t3lib_extMgm::addPlugin(
 		)
 	);
 
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/ts/', 'MK Forms - Basics');
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/prototype/', 'MK Forms Prototype-JS');
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/jquery/', 'MK Forms JQuery-JS');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/ts/', 'MKFORMS - Basics');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/prototype/', 'MKFORMS Prototype-JS');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/jquery/', 'MKFORMS JQuery-JS');
 
 //	t3lib_div::loadTCA('tt_content');
 //	$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']='layout,select_key';

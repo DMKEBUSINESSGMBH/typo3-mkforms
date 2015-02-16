@@ -258,10 +258,10 @@ class tx_mkforms_util_Div {
 		// Konfigurationen wie forceException4Mayday,
 		// verboseMayday und dieOnMayday werden so mit beachtet.
 
-		$aDebug = array('<h2>MK Forms:</h2><p><strong>'.$msg.'</strong></p>');
+		$aDebug = array('<h2>MKFORMS:</h2><p><strong>'.$msg.'</strong></p>');
 		if($form) {
 			$aDebug[] = "<span class='notice'><strong>XML: </strong> " . $form->_xmlPath . "</span><br />";
-			$aDebug[] = "<span class='notice'><strong>MK Forms Version: </strong>v" . self::getVersion() . "</span><br />";
+			$aDebug[] = "<span class='notice'><strong>MKFORMS Version: </strong>v" . self::getVersion() . "</span><br />";
 			$aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>" . round(t3lib_div::milliseconds() - $form->start_tstamp, 4) / 1000 ." sec</span><br />";
 		}
 		$aDebug[] = "<br />";

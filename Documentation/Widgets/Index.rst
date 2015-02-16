@@ -30,11 +30,6 @@ Wenn es eine column "uid" gibt, dann muss dem onclick Event (oder was sonst verw
 
    <param get="rowData::uid" />
    
-**dynamischer Lister mit "neue Zeile hinzufügen"**
-
-siehe das Bearbeiten der Planungsbüro Referenzen in mkdifu. Wichtig dabei Classes/Forms/EditCompanyReferences.php und Resources/Private/Forms/editCompanyReferences.xml
-
-Tests gibt es dafür auch vollständig.
 
 autcomplete
 -----------

@@ -206,7 +206,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 	 * Saves a value to renderlet.
 	 *
 	 * if $setChildsExplizit the value was set to each child explicitly.
-	 * 		If a Form was submitted, a setValue on Parent renderlet was ignored by MK Forms.
+	 * 		If a Form was submitted, a setValue on Parent renderlet was ignored by MKFORMS.
 	 * 		So we have to set every renderlet explizit.
 	 *
 	 * @param 	mixed 	$mWidget

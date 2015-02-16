@@ -11,7 +11,7 @@ Form XML: AJAX Calls
 Instanzieren und Laden von Klassen
 ----------------------------------
 
-Klassen und Objekte, welche für Ajax benötigt und gecached werden, sollten mit dem Loader von mkforms geladen werden, da diese beim restoreForm automatisch geladen werden.
+Klassen und Objekte, welche für Ajax benötigt und gecached werden, sollten mit dem Loader von MKFORMS geladen werden, da diese beim restoreForm automatisch geladen werden.
 
 .. code-block:: php
 

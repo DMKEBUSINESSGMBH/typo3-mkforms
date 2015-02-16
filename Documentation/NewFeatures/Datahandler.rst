@@ -15,7 +15,7 @@ Form XML: Datahandler
 datahandler:RAW mit vorbelegten Werten
 --------------------------------------
 
-Der datahandler\:RAW konnte bisher nur die Daten nach dem Absenden des Formulars verarbeiten. Es war aber nicht möglich, einen initialen Datensatz bereitzustellen, der im Formular editiert werden kann. Dies war bisher nur mit dem datadandler:DB möglich. In mkforms kann der datahandler:RAW mit folgendem Code initialisiert werden:
+Der datahandler\:RAW konnte bisher nur die Daten nach dem Absenden des Formulars verarbeiten. Es war aber nicht möglich, einen initialen Datensatz bereitzustellen, der im Formular editiert werden kann. Dies war bisher nur mit dem datadandler:DB möglich. In MKFORMS kann der datahandler:RAW mit folgendem Code initialisiert werden:
 
 .. code-block:: xml
 
@@ -58,7 +58,7 @@ Konfiguration:
       <!-- Spezielle Konfiguratione für den MK Mailer. -->
       <mkmailer>
          <!-- Pflicht: Der Key, unter dem das E-Mail-Template gefunden werden kann. -->
-         <templateKey>mkappelrath_general_contact</templateKey>
+         <templateKey>mkexample_general_contact</templateKey>
          <!-- Optional: Die Confid, unter der das Typoscript für das rendering der Marker gefunden werden klann
             statisch wird immer plugin.tx_mkforms. voran gestellt. -->
          <markerConfId>sendmail.generalcontact.</markerConfId>

@@ -15,7 +15,7 @@ Tests
 
 **FormAction**
 
-Bei einem FormAction Test, muss für gewöhnlich die mkforms TS Konfig geladen werden. Dazu folgenden Aufruf setzen bevor das eigene TS geladen wird:
+Bei einem FormAction Test, muss für gewöhnlich die MKFORMS TS Konfig geladen werden. Dazu folgenden Aufruf setzen bevor das eigene TS geladen wird:
 
 .. code-block:: php
 
@@ -81,7 +81,7 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
    <formidable version="2.0.296">
       <meta>
          <includeXml 
-            path="EXT:mktegutfe/forms/xml/gameForm.xml" 
+            path="EXT:mkexample/forms/xml/gameForm.xml" 
             xPath="/formidable/meta/" />
          <form formid="gameForm" disableButtonsOnSubmit="false"/>
       </meta>
@@ -89,14 +89,14 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
          <renderer:TEMPLATE>
             <template>
                <includeXml 
-                  path="EXT:mktegutfe/forms/xml/gameForm.xml" 
+                  path="EXT:mkexample/forms/xml/gameForm.xml" 
                   xPath="/formidable/control/renderer/template/" />
-               <path>EXT:mktegutfe/forms/html/gameFormFacebook.html</path>
+               <path>EXT:mkexample/forms/html/gameFormFacebook.html</path>
             </template>
          </renderer:TEMPLATE>
          <datahandler:RAW>
             <includeXml 
-               path="EXT:mktegutfe/forms/xml/gameForm.xml" 
+               path="EXT:mkexample/forms/xml/gameForm.xml" 
                xPath="/formidable/control/datahandler" />
          </datahandler:RAW>
       </control>  
@@ -104,7 +104,7 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
          <renderlet:BOX name="gameFormData" mode="fieldset" class="" defaultWrap="false">
             <childs autowrap="false">
                <includeXml 
-                  path="EXT:mktegutfe/forms/xml/gameForm.xml" 
+                  path="EXT:mkexample/forms/xml/gameForm.xml" 
                   xPath="/formidable/elements/renderlet[name=gameFormData]/childs/renderlet" />
                <renderlet:RADIOBUTTON name="choice" addNoLabelTag="true" validateForDraft="true">
                   <validators>
@@ -116,7 +116,7 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
             </childs>
          </renderlet:BOX>
          <includeXml 
-            path="EXT:mktegutfe/forms/xml/gameForm.xml" 
+            path="EXT:mkexample/forms/xml/gameForm.xml" 
             xPath="/formidable/elements/renderlet[name=captchaLabel]" />
       </elements>
    </formidable>
@@ -129,7 +129,7 @@ Mehrfach abschicken eines Fromulares verhindern (Doppelklick)
 .. code-block:: xml
    
    <meta>
-      <form formid="mkkvbb" class="fields1colums" action="current" disableButtonsOnSubmit="false"/>
+      <form formid="mkexample" class="fields1colums" action="current" disableButtonsOnSubmit="false"/>
       ...
 
 * **displayLoaderOnSubmit** - Zeigt den Loader bei einem Submit (Default = false)
@@ -137,5 +137,5 @@ Mehrfach abschicken eines Fromulares verhindern (Doppelklick)
 .. code-block:: xml
 
    <meta>
-      <form formid="mkkvbb" class="fields1colums" action="current" displayLoaderOnSubmit="true"/>
+      <form formid="mkexample" class="fields1colums" action="current" displayLoaderOnSubmit="true"/>
       ...

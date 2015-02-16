@@ -11,7 +11,7 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'MK Forms',
+	'title' => 'MKFORMS',
 	'description' => 'Making HTML forms for TYPO3',
 	'category' => 'misc',
 	'shy' => 0,

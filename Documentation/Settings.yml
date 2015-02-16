@@ -5,7 +5,7 @@
 ---
 conf.py:
   copyright: 2013-2015
-  project: MK Forms
+  project: MKFORMS
   version: 1.0
   release: 1.0
   latex_documents:

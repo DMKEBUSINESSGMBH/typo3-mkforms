@@ -6,7 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="plugin.mkforms.label">MK Forms</label>
+			<label index="plugin.mkforms.label">MKFORMS</label>
 			<label index="plugin.mkforms.flexform.tab.common">Common</label>
 			<label index="plugin.mkforms.flexform.tab.TSSetup">TS Setup</label>
 			<label index="plugin.mkforms.flexform.tab.generic">Generic Form</label>

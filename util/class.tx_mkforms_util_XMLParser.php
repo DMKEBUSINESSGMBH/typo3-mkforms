@@ -71,7 +71,7 @@ class tx_mkforms_util_XMLParser {
 		if(self::$useCache) {
 			// TODO: Das muss noch extern gesetzt werden
 //		if($this->conf['cache.']['enabled'] == 1) {
-			$sProtection = '<?php die(\'MK Forms - Cache protected\'); ?><!--MKFORMS_CACHE-->';
+			$sProtection = '<?php die(\'MKFORMS - Cache protected\'); ?><!--MKFORMS_CACHE-->';
 
 			//debug(stat($sPath));
 			$sHash = md5($sPath . '-' . @filemtime($sPath) . '-' . tx_mkforms_util_Div::getVersion());

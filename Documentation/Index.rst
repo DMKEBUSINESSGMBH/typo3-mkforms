@@ -8,9 +8,9 @@
 
 .. _start:
 
-========
-MK Forms
-========
+=======
+MKForms
+=======
 
 .. Syntax `<http://wiki.typo3.org/ReST_Syntax>`_
 
@@ -26,7 +26,7 @@ MK Forms
 		de
 
 	:Description:
-		Die Extension mkforms ermöglicht es relativ einfach HTML-Formulare für das Frontend zu erstellen. Das komplette Formular wird dabei in einer XML-Datei beschrieben.
+		Die Extension MKFORMS ermöglicht es relativ einfach HTML-Formulare für das Frontend zu erstellen. Das komplette Formular wird dabei in einer XML-Datei beschrieben.
 
 	:Keywords:
 		forIntegrators, forDevelopers, forms, RAD, framework, ajax, ameos_formidable
