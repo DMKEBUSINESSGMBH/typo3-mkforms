@@ -119,7 +119,7 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
             path="EXT:mkexample/forms/xml/gameForm.xml" 
             xPath="/formidable/elements/renderlet[name=captchaLabel]" />
       </elements>
-   </formidable>
+   </mkforms>
    
 Mehrfach abschicken eines Fromulares verhindern (Doppelklick)
 -------------------------------------------------------------
