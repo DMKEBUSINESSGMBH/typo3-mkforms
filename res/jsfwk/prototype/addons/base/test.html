@@ -17,7 +17,7 @@
 					document.write("<p><b>" + this.name + "</b>: " + message + "</p>");
 				}
 			});
-			
+
 			var Cat = Animal.extend({
 				constructor: function(name) {
 					this.base(name);
@@ -28,7 +28,7 @@
 					else this.say("Yuk! I dont like " + food);
 				}
 			});
-			
+
 			var CanibalCat = Cat.extend({
 				constructor: function(name) {
 					this.base(name);
@@ -44,7 +44,7 @@
 			});
 
 			var Mouse = Animal.extend();
-			
+
 			// test
 			var tom = new Cat("Tom");
 			var jerry = new Mouse("Jerry");

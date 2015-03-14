@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_pwd' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_pwd_Main extends formidable_mainrenderlet {
-	
+
 	function _render() {
 
 		$sLabel = $this->getLabel();
@@ -18,10 +18,10 @@ class tx_mkforms_widgets_pwd_Main extends formidable_mainrenderlet {
 			"__compiled" => $this->_displayLabel($sLabel) . $sInput,
 			"input" => $sInput,
 		);
-		
+
 		return $aHtmlBag;
 	}
-	
+
 	function mayHtmlAutocomplete() {
 		return TRUE;
 	}

@@ -109,7 +109,7 @@ Object.extend(Control.Tabs.prototype,{
 		}else{
 			this.containers.each(function(item){
 				item[1].hide();
-			});			
+			});
 			this.links.each(function(item){
 				item.removeClassName(this.options.activeClassName);
 			}.bind(this));

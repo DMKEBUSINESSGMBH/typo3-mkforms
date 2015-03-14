@@ -7,22 +7,22 @@
 
 
 class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
-	
+
 	function validate(&$oRdt) {
-		
+
 		$sAbsName = $oRdt->getAbsName();
 		$mValue = $oRdt->getValue();
 
 		$aKeys = array_keys($this->_navConf('/'));
 		reset($aKeys);
 		while(!$oRdt->hasError() && list(, $sKey) = each($aKeys)) {
-			
-		
+
+
 			// Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
 			if(!$this->canValidate($oRdt, $sKey, $mValue)){
 				break;
 			}
-				
+
 			/***********************************************************************
 			*
 			*	/unique
@@ -66,7 +66,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 		}
 
 	}
-	
+
 	function _isUnique(&$oRdt, $value) {
 
 		$sDeleted = '';
@@ -91,7 +91,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 				$sField = $oRdt->getName();
 			}
 		}
-		
+
 		if($this->_defaultFalse('/unique/deleted/') === TRUE) {
 			$sDeleted = ' AND deleted != 1';
 		}
@@ -103,7 +103,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 		} else {
 			$sWhere = $sField . " = '" . $value . "'" . $sDeleted;
 		}
-		
+
 		$sSql = $GLOBALS['TYPO3_DB']->SELECTquery(
 			'count(*) as nbentries',
 			$sTable,
@@ -116,7 +116,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 		return !($rs['nbentries'] > 0);
 
 	}
-	
+
 	/**
 	 * Checks if the submitted value differs from the one in the DB
 	 * @param $oRdt
@@ -146,7 +146,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 				$sField = $oRdt->getName();
 			}
 		}
-		
+
 		if($this->_defaultFalse('/differsfromdb/deleted/') === TRUE) {
 			$sDeleted = ' AND deleted != 1';
 		}
@@ -154,7 +154,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 		$value = addslashes($value);
 
 		$sWhere = $sField . ' = \'' . $value . '\' AND ' . $sKey . " = '" . $this->oForm->oDataHandler->_currentEntryId() . "'" . $sDeleted;
-	
+
 		$sSql = $GLOBALS['TYPO3_DB']->SELECTquery(
 			'count(*) as nbentries',
 			$sTable,

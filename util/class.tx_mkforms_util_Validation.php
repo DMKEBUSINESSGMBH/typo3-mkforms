@@ -25,7 +25,7 @@
 
 /**
  * Verarbeitet die Validierung eines Formulars
- * 
+ *
  */
 class tx_mkforms_util_Validation {
 	private $form;
@@ -45,7 +45,7 @@ class tx_mkforms_util_Validation {
 	}
 
 	/**
-	 * Validiert ein Set von Widgets. Als Parameter wird ein Namen der Widgets erwartet. Sollte ein Name keinem 
+	 * Validiert ein Set von Widgets. Als Parameter wird ein Namen der Widgets erwartet. Sollte ein Name keinem
 	 * Widget entsprechend, dann wird es ignoriert.
 	 *
 	 * @param array $widgetNames ein Array (widgetName => value)
@@ -54,7 +54,7 @@ class tx_mkforms_util_Validation {
 	public function validateWidgets4Ajax($widgetNames) {
 		$this->getForm()->clearValidationErrors();
 		$widgets = array();
-		
+
 		// erstmal den neuen Wert setzen
 		foreach($widgetNames As $name => $value) {
 			$widget = $this->getForm()->getWidget($name);

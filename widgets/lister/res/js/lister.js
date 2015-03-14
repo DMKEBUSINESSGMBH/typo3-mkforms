@@ -4,7 +4,7 @@ Formidable.Classes.ListerRow = Base.extend({
 	constructor: function(oConfig) { MKWrapper.extend(this, oConfig);},
 	rdt: function(sRdt) {
 		if((sRdtId = this._parent.config.rdtbyrow[this.uid][sRdt])) {
-			return this._parent.oForm.o(sRdtId);	
+			return this._parent.oForm.o(sRdtId);
 		} else {
 			sPath = sRdt.replace("__", "/");
 			aPath = sPath.split("/");
@@ -20,10 +20,10 @@ Formidable.Classes.ListerRow = Base.extend({
 				}.bind(this));
 				if(i == aPath.size()) {
 					return oRdt;
-				}	
+				}
 			}
 		}
-		
+
 		return false;
 	}
 });
@@ -35,27 +35,27 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 	init: function() {
 		if(this.config.isajaxlister) {
 			var oScope = this;
-			
+
 			oFirst = MKWrapper.$(this.config.id + "_pagelink_first");
 			oPrev = MKWrapper.$(this.config.id + "_pagelink_prev");
 			oNext = MKWrapper.$(this.config.id + "_pagelink_next");
 			oLast = MKWrapper.$(this.config.id + "_pagelink_last");
-			
+
 			if(oFirst) {
 				oFirst.href="javascript:void(0);";
 				MKWrapper.attachEvent(oFirst, "click", this.repaintFirst, this);
 			}
-			
+
 			if(oPrev) {
 				oPrev.href="javascript:void(0);";
 				MKWrapper.attachEvent(oPrev, "click", this.repaintPrev, this);
 			}
-			
+
 			if(oNext) {
 				oNext.href="javascript:void(0);";
 				MKWrapper.attachEvent(oNext, "click", this.repaintNext, this);
 			}
-			
+
 			if(oLast) {
 				oLast.href="javascript:void(0);";
 				MKWrapper.attachEvent(oLast, "click", this.repaintLast, this);
@@ -82,7 +82,7 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 					}, 'skip');
 				}
 			}
-		}	
+		}
 	},
 	iToPage: 0,
 	iSortCur: 0,
@@ -95,10 +95,10 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 	},
 	getRows: function() {
 		var aRows = MKWrapper.$A();
-		
+
 		var tscope = this;
 		for (var property in this.config.rdtbyrow) {
-			aRows.push(tscope.getRow(property));	
+			aRows.push(tscope.getRow(property));
 		}
 //		MKWrapper.each(MKWrapper.$H(this.config.rdtbyrow), function(oData,i) {
 //			aRows.push(tscope.getRow(oData[0]));
@@ -144,20 +144,20 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 	},
 	getParamsForMajix: function(aValues, sEventName, aParams, aRowParams, aLocalArgs) {
 		aValues = this.base(aValues, sEventName, aParams, aRowParams, aLocalArgs);
-		
+
 		oSysEvents = new Object();
-		
+
 		aParamValues = Formidable.objValues(aParams);
-		
+
 		if((index = Formidable.indexOf(aParamValues,'sys_event.pagenum')) != -1) {
 			oSysEvents.pagenum = this.iToPage;
 //			aValues['sys_event.pagenum'] = this.iToPage;
 		}
-		
+
 		if((index = Formidable.indexOf(aParamValues, 'sys_event.sortcol')) != -1) {
 			oSysEvents.sortcol = this.iSortCur;
 		}
-		
+
 		if((index = Formidable.indexOf(aParamValues, 'sys_event.sortdir')) != -1) {
 			if(this.iSortDir == 'asc') {
 				oSysEvents.sortdir = 'desc';
@@ -168,7 +168,7 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 		}
 
 		aValues['sys_event'] = oSysEvents;
-		
+
 		return aValues;
 	}
 });

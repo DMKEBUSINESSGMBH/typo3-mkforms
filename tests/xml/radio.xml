@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mkforms version="1.0.10">
-	
+
 	<meta>
 		<name>Standard XML file</name>
 		<form formid="radioTestForm" />
 	</meta>
-	
+
 	<control>
 	</control>
 
 	<elements>
-		
+
 		<renderlet:RADIOBUTTON name="test">
 			<data>
 				<items>
@@ -26,7 +26,7 @@
 				</items>
 			</data>
 		</renderlet:RADIOBUTTON>
-		
+
 
 	</elements>
 

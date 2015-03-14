@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_accordion' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet {
-	
+
 	var $aLibs = array(
 		'rdt_accordion_lib' => 'res/js/accordion-fixed.js',
 		'rdt_accordion_class' => 'res/js/accordion.js',
@@ -23,7 +23,7 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet {
 	);
 
 	function _render() {
-		
+
 		$aConf = array();
 		if(($sSpeed = $this->_navConf('/speed')) !== FALSE) {
 			$aConf['resizeSpeed'] = intval($sSpeed);
@@ -40,7 +40,7 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet {
 		} else {
 			$aConf['classNames']['toggleActive'] = 'accordion_toggle_active';
 		}
-		
+
 		if(($sClassContent = $this->_navConf('/classcontent')) !== FALSE) {
 			$aConf['classNames']['content'] = $sClassContent;
 		} else {
@@ -61,7 +61,7 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet {
 
 		// Gibt an, ob alle geöffneten Accordionelemende geschlossen werden sollen, befor das geklickte geöffnet wird.
 		$aConf['closeactive'] = $this->defaultTrue('/closeactive');
-		
+
 		if(($sEvent = $this->_navConf('/event')) !== FALSE) {
 			$sEvent = strtolower(trim($sEvent));
 			if(t3lib_div::isFirstPartOfStr($sEvent, 'on')) {
@@ -77,7 +77,7 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet {
 		while(list(, $sChild) = each($aKeys)) {
 			// even is toggle
 			$aConf['accordions'][] = $this->aChilds[$sChild]->_getElementHtmlId();
-			
+
 			if($aConf['direction'] === 'horizontal') {
 				$this->aChilds[$sChild]->addCssClass('rdtaccordion_toggle_horizontal');
 			} else {
@@ -192,7 +192,7 @@ STYLE;
 	function mayHaveChilds() {
 		return TRUE;
 	}
-	
+
 	function shouldAutowrap() {
 		return $this->oForm->_defaultFalse('/childs/autowrap/');
 	}

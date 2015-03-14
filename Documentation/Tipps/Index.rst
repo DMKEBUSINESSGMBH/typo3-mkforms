@@ -50,7 +50,7 @@ Wichtig bei Ajax-Calls ist vor allem die Parameterübergabe an den Server. Hier 
          exec="cb1.btnUserEdit_click()"
       />
    </renderlet:BUTTON>
-   
+
 Folgende Prefixe sind von Ameos vorgegeben:
 
 * **rowData::** - Zugriff auf einen Datensatz im Widget Lister. Hier kann also in jeder Zeile ein Button mit einem Event auf diesen Datensatz eingebaut werden
@@ -80,31 +80,31 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
 
    <mkforms version="1.0.10">
       <meta>
-         <includeXml 
-            path="EXT:mkexample/forms/xml/gameForm.xml" 
+         <includeXml
+            path="EXT:mkexample/forms/xml/gameForm.xml"
             xPath="/formidable/meta/" />
          <form formid="gameForm" disableButtonsOnSubmit="false"/>
       </meta>
       <control>
          <renderer:TEMPLATE>
             <template>
-               <includeXml 
-                  path="EXT:mkexample/forms/xml/gameForm.xml" 
+               <includeXml
+                  path="EXT:mkexample/forms/xml/gameForm.xml"
                   xPath="/formidable/control/renderer/template/" />
                <path>EXT:mkexample/forms/html/gameFormFacebook.html</path>
             </template>
          </renderer:TEMPLATE>
          <datahandler:RAW>
-            <includeXml 
-               path="EXT:mkexample/forms/xml/gameForm.xml" 
+            <includeXml
+               path="EXT:mkexample/forms/xml/gameForm.xml"
                xPath="/formidable/control/datahandler" />
          </datahandler:RAW>
-      </control>  
+      </control>
       <elements>
          <renderlet:BOX name="gameFormData" mode="fieldset" class="" defaultWrap="false">
             <childs autowrap="false">
-               <includeXml 
-                  path="EXT:mkexample/forms/xml/gameForm.xml" 
+               <includeXml
+                  path="EXT:mkexample/forms/xml/gameForm.xml"
                   xPath="/formidable/elements/renderlet[name=gameFormData]/childs/renderlet" />
                <renderlet:RADIOBUTTON name="choice" addNoLabelTag="true" validateForDraft="true">
                   <validators>
@@ -115,19 +115,19 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
                </renderlet:RADIOBUTTON>
             </childs>
          </renderlet:BOX>
-         <includeXml 
-            path="EXT:mkexample/forms/xml/gameForm.xml" 
+         <includeXml
+            path="EXT:mkexample/forms/xml/gameForm.xml"
             xPath="/formidable/elements/renderlet[name=captchaLabel]" />
       </elements>
    </mkforms>
-   
+
 Mehrfach abschicken eines Fromulares verhindern (Doppelklick)
 -------------------------------------------------------------
 
 * **disableButtonsOnSubmit** - Buttons werden nach einem Submit deaktiviert (Default = true)
 
 .. code-block:: xml
-   
+
    <meta>
       <form formid="mkexample" class="fields1colums" action="current" disableButtonsOnSubmit="false"/>
       ...

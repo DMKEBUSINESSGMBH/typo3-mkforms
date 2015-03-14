@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_i18n' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -19,7 +19,7 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet {
 		$aHtmlBag = array();
 
 		$aCurData = $this->oForm->oDataHandler->_getListData();
-		
+
 		if(empty($aCurData)) {
 			$aCurData = $this->oForm->oDataHandler->i18n_getStoredParent();
 		}
@@ -45,7 +45,7 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet {
 						if(in_array($iLangUid, $aChildLanguages)) {
 							$bExists = TRUE;
 							$sEvent = <<<EVENT
-							
+
 							\$aParams = \$this->getUserObjParams();
 
 							return \$this->majixRequestEdition(
@@ -56,7 +56,7 @@ EVENT;
 						} else {
 							$bExists = FALSE;
 							$sEvent = <<<EVENT
-							
+
 							\$aParams = \$this->getUserObjParams();
 
 							return \$this->majixRequestNewI18n(
@@ -84,7 +84,7 @@ EVENT;
 								$aCustomConf
 							);
 						}
-						
+
 						$sName = $this->_getName() . "-record-" . $iUid . "-lang-" . $iLangUid;
 						$aConf["name"] = $sName;
 
@@ -99,7 +99,7 @@ EVENT;
 
 						$this->oForm->aORenderlets[$sName] =& $this->aOButtons[$sName];
 
-						
+
 						$iIndex = $this->oForm->getRunnable()->pushForcedUserObjParam(
 							array(
 								"translation_exists" => $bExists,
@@ -114,7 +114,7 @@ EVENT;
 
 						$aRendered = $this->aOButtons[$sName]->render();
 						$aHtmlBag[] = $this->aOButtons[$sName]->wrap($aRendered["__compiled"]);
-						
+
 						$this->oForm->getRunnable()->pullForcedUserObjParam($iIndex);
 					}
 				}
@@ -123,7 +123,7 @@ EVENT;
 
 		return implode("", $aHtmlBag);
 	}
-	
+
 	function _getFlag($sPath, $bExists, $aLang) {
 
 		if(($aFlags = $this->_navConf("/flags")) !== FALSE) {
@@ -177,13 +177,13 @@ EVENT;
 		}
 
 		if($bExists === TRUE) {
-			
+
 			$sTypoScript =<<<TYPOSCRIPT
 
 	file = GIFBUILDER
 	file {
 		XY = [10.w], [10.h]
-		
+
 		10 = IMAGE
 		10.file = {$sPath}
 	}
@@ -197,7 +197,7 @@ TYPOSCRIPT;
 	file = GIFBUILDER
 	file {
 		XY = [10.w], [10.h]
-		
+
 		10 = IMAGE
 		10.file = {$sPath}
 
@@ -209,7 +209,7 @@ TYPOSCRIPT;
 
 		}
 
-		$this->getForm()->getRunnable()->callRunnableWidget($this, 
+		$this->getForm()->getRunnable()->callRunnableWidget($this,
 			array(
 				"userobj" => array(
 					"ts" => $sTypoScript

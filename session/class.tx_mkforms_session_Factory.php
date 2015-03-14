@@ -30,7 +30,7 @@
 class tx_mkforms_session_Factory {
 	private static $manager = false;
 	/**
-	 * 
+	 *
 	 * @return tx_mkforms_session_MixedSessionManager
 	 */
 	public static function getSessionManager() {

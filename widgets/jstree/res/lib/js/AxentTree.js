@@ -10,9 +10,9 @@ AxentTree = Class.create({
     options : {},
     serialized : [],
     aObserved : [],
-    initialize: function(element) {                                
+    initialize: function(element) {
         this.element = $(element);                                              // Tree container element, usually UL tag
-        this.options = Object.extend({                                        
+        this.options = Object.extend({
             isDraggable : false,                                                 // Enables / disables dragging tree nodes
             isDroppable : false,                                                 // Enables / disables dropping elements on tree nodes
             iconsFolder : 'img/',                                               // Path to icons folder
@@ -36,7 +36,7 @@ AxentTree = Class.create({
 			leafclick_handler: null,
             dropAfterOverlap : 0.95
         }, arguments[1] || {} );
-        
+
         this.element.addClassName(this.options.treeClass);
 		Array.from(this.element.childNodes).each(function(oNode) {
 			oNode = $(oNode);
@@ -44,14 +44,14 @@ AxentTree = Class.create({
 				if((oUl = oNode.down("ul"))) {
 					this.initUlIfNeeded(oUl);
 				}
-				
+
 				this.initializeTreeNode(oNode);
 			}
 		}.bind(this));
-        
+
         /**
          *  Add serializeTree method to tree container element
-         */                                 
+         */
         Object.extend(this.element,{
             serializeTree : function (inputName) {
                 var serialized = $H();
@@ -69,28 +69,28 @@ AxentTree = Class.create({
     				this.set(this.get('inputName')+'['+node.identify()+'][parent_id]',data.parent_id);
     				this.set(this.get('inputName')+'['+node.identify()+'][previous_id]',data.previous_id);
                 },serialized);
-                serialized.unset('inputName');                        
+                serialized.unset('inputName');
                 return serialized.toQueryString();
             }
         });
     },
     /**
      *  Show hide node's children
-     */                                 
+     */
     showHideNode : function (event) {
         li = Event.element(event).up('li');
 		this.toggleNode(li);
     },
 	toggleNode: function(oLi) {
 		ul = oLi.down('ul');
-		
+
         if (ul != undefined) {
 			if(ul.visible()) {
 				this.closeNode(oLi);
 			} else {
 				this.openNode(oLi);
 			}
-			
+
             oLi.down("img").src = (ul.visible()) ? (this.options.iconsFolder+this.options.minusIcon) : (this.options.iconsFolder+this.options.plusIcon);
         }
 	},
@@ -103,12 +103,12 @@ AxentTree = Class.create({
 		}.bind(this));
 	},
 	openNode: function(oLi) {
-		if((oUl = oLi.down("UL"))) {	
+		if((oUl = oLi.down("UL"))) {
 			this.initUlIfNeeded(oUl);
 			Element.show(oUl);
 			Element.show(oLi.up("UL"));
 		}
-		
+
 		oCurrent = oLi;
 		while((oParentUl = oCurrent.up("ul")) && oParentUl.id != this.element.id) {
 			oCurrent = oParentUl.up("li");
@@ -116,7 +116,7 @@ AxentTree = Class.create({
 			Element.show(oParentUl);
 			Element.show(oLi.up("UL"));
 		}
-		
+
 		if(this.options.nodeopen_handler) {
 			this.options.nodeopen_handler(this.getValueForNode(oLi));
 		}
@@ -131,7 +131,7 @@ AxentTree = Class.create({
 		li = Event.element(event).up('li');
 		this.setNodeActive(li);
 		value = this.getValueForNode(li);
-		
+
 		if(this.options.nodeclick_handler) {
 			this.options.nodeclick_handler(value);
 		}
@@ -140,9 +140,9 @@ AxentTree = Class.create({
 		if(this.oCurrentActiveNode) {
 			this.oCurrentActiveNode.down("span").removeClassName(this.options.treeNodeClassActive);
 		}
-		
+
 		this.oCurrentActiveNode = oLi;
-		
+
 		oLi.down("span").addClassName(this.options.treeNodeClassActive);
 		this.openNode(oLi);
 	},
@@ -150,13 +150,13 @@ AxentTree = Class.create({
 		if(this.oCurrentActiveNode) {
 			return this.getValueForNode(this.oCurrentActiveNode);
 		}
-		
+
 		return false;
 	},
 	setValue: function(iValue) {
 		this.element.select("li").each(function(node) {
 			if(this.getValueForNode(node) == iValue) {
-				
+
 				this.setNodeActive(node);
 				throw $break;
 			}
@@ -169,23 +169,23 @@ AxentTree = Class.create({
 		if(this.oCurrentActiveNode) {
 			return this.getLabelForNode(this.oCurrentActiveNode);
 		}
-		
+
 		return "";
 	},
 	getLabelForNode: function(oNode) {
 		oSpan = oNode.down('span');
-		
+
 		if(typeof oSpan.innerText == "undefined") {
 			return oSpan.textContent;
 		}
-		
+
 		return oSpan.innerText;
 	},
 	getSelectedPath: function() {
 		if(this.oCurrentActiveNode) {
 			return this.getPathForNode(this.oCurrentActiveNode);
 		}
-		
+
 		return "";
 	},
 	getPathForNode: function(oNode) {
@@ -195,7 +195,7 @@ AxentTree = Class.create({
 			oCurrent = oParentUl.up("li");
 			aSegments.push(this.getLabelForNode(oCurrent));
 		}
-		
+
 		return aSegments.join("/") + "/";
 	},
 	unloadHandlers: function() {
@@ -214,8 +214,8 @@ AxentTree = Class.create({
         }
     },
     /**
-     *  Droappable.onDrop callback 
-     */                                 
+     *  Droappable.onDrop callback
+     */
     onDropNode : function (node,dropOnNode,point) {
         if (typeof this.options.beforeDropNode == 'function') {
             node.hide();
@@ -225,12 +225,12 @@ AxentTree = Class.create({
                 return ret;
             }
         }
-        
+
         sourceNode = node.up('li');
-        
+
         /**
          *  Insert after dropOnNode
-         */                                 
+         */
         if (dropOnNode.hasClassName(this.config.treeNodeDropAfterClass)) {
             dropOnNode.insert({after:node});
             dropOnNodeParent = dropOnNode.up('li',1)
@@ -244,7 +244,7 @@ AxentTree = Class.create({
          *  Insert under dropOnNode
          */
         else {
-            ul = dropOnNode.down('ul',0);                                                   
+            ul = dropOnNode.down('ul',0);
             if (ul == undefined) {
                 ul = new Element('ul');
                 dropOnNode.insert(ul);
@@ -255,14 +255,14 @@ AxentTree = Class.create({
             dropOnNodePlus.src = this.options.iconsFolder+this.options.minusIcon;
             dropOnNodePlus.setStyle({visibility:'visible'});
         }
-        
+
         if (sourceNode != undefined) {
             sourceNodePlus = sourceNode.down('img.'+this.options.treeNodePlusClass);
             if (sourceNode.down('li') == undefined) {
                 sourceNodePlus.setStyle({visibility:'hidden'});
             }
         }
-        
+
         if (typeof this.options.afterDropNode == 'function') {
             var ret = this.options.afterDropNode(node,dropOnNode,point);
             if (ret === true || ret === false) {
@@ -272,16 +272,16 @@ AxentTree = Class.create({
     },
     initializeTreeNode : function (li) {
 		li.addClassName(this.options.treeNodeClass);
-		
+
 		if(li.up('ul').id != this.element.id) {
 			// not the root element
 			if(li.down('ul')) {
 				li.down('ul').hide();
 			}
 		}
-		
+
 		// Insert folder icon at the top of li element
-		
+
 		if(this.options.addFolderIcon) {
 			oFolder = new Element('img', {
 				src : this.options.iconsFolder+this.options.folderIcon,
@@ -304,19 +304,19 @@ AxentTree = Class.create({
 
 
 
-		
+
 		this.eventObserve(li.down('span'), 'click', this.nodeClick.bindAsEventListener(this));
 /*		if(li.down('li') != undefined && li.down('ul').visible() === false) {
 			liPlus = new Element('img',{
 				src:this.options.iconsFolder+this.options.minusIcon,
 				className:this.options.treeNodePlusClass
 			});
-			
+
 			liPlus.src = this.options.iconsFolder + this.options.plusIcon;
 			this.eventObserve(liPlus,'click',this.showHideNode.bindAsEventListener(this));
 			li.insert({top:liPlus});
 		}*/
-		
+
 		liPlus = new Element('img',{
             src:this.options.iconsFolder+this.options.minusIcon,
             className:this.options.treeNodePlusClass
@@ -329,9 +329,9 @@ AxentTree = Class.create({
 
 		this.eventObserve(liPlus,'click',this.showHideNode.bindAsEventListener(this));
 		li.insert({top:liPlus});
-		
+
 		// Make node draggable
-        if(this.options.isDraggable) {                                         
+        if(this.options.isDraggable) {
             new Draggable(li,{handle:this.options.treeNodeHandleClass,revert:true,starteffect:null});
         }
 

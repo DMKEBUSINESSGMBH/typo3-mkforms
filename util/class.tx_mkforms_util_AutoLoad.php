@@ -50,11 +50,11 @@ class tx_mkforms_util_AutoLoad {
 	 * @var 	string 	wird als Message im log ausgegeben
 	 */
 	private static $sMessage = false;
-	
+
 	public static function setMessage($msg='') {
 		self::$sMessage = $msg;
 	}
-	
+
 	/**
 	 * registriert eine unserialize_callback_func
 	 */
@@ -63,15 +63,15 @@ class tx_mkforms_util_AutoLoad {
 			self::$sUnserializeCallbackFuncOld = ini_get('unserialize_callback_func');
 		ini_set('unserialize_callback_func', 'mkformsUnserializeCallbackFunc');
 	}
-	
+
 	/**
 	 * stellt die alte unserialize_callback_func wieder her
 	 */
 	public static function restoreUnserializeCallbackFunc(){
 		ini_set('unserialize_callback_func', self::$sUnserializeCallbackFuncOld);
 	}
-	
-	
+
+
 	/**
 	 * Wird von serialize aufgerufen, wenn eine Klasse nicht geladen ist.
 	 * das sollte nicht passieren. wenn diese meldung auftritt, dann muss geprüft werden
@@ -79,24 +79,24 @@ class tx_mkforms_util_AutoLoad {
 	 * In tx_mkforms_session_MixedSessionManager::persistForm bzw. in
 	 * tx_ameosformidable::cleanBeforeSession sollte eigentlich alles rausfliegen
 	 * was Probleme macht.
-	 * 
+	 *
 	 * @param string $sClassName
 	 */
 	public static function unserializeCallbackFunc($sClassName){
 		$msg = false;
 		try { // klasse laden
-			
+
 			// Hook um andere klassen zu laden, xclasses beispielsweise.
 			tx_rnbase_util_Misc::callHook('mkforms','autoload_unserialize_callback_func',
 				array('class' => &$sClassName), $this);
-			
+
 			if(!class_exists($sClassName))
 				tx_rnbase::load($sClassName);
-			
+
 		} catch (Exception $e) {
 			$msg = $e->getMessage();
 		}
-		
+
 		// nachricht bauen
 		$msg = (self::$sMessage ? self::$sMessage.LF : '') .
 				($msg ? $msg : (
@@ -107,7 +107,7 @@ class tx_mkforms_util_AutoLoad {
 					)
 				)
 			);
-		
+
 		//noch loggen
 		tx_rnbase::load('tx_rnbase_util_Logger');
 		// warning ins log schreiben, wenn die klasse geladen wurde

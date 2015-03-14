@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mkforms version="1.0.10">
 	<!--
-	
+
 			ACHTUNG:
 			Diese XML wird für die FormBase  Action genutzt!
-	
+
 	-->
 	<meta>
 		<name>Standard XML file</name>
 		<form formid="radioTestForm" />
-		
+
 		<codeBehind type="php" name="cbphp"
 			path="EXT:mkforms/tests/xml/class.tx_mkforms_tests_xml_UserObjects.php:tx_mkforms_tests_xml_UserObjects"
 		/>
 	</meta>
-	
+
 	<control>
-	
+
 		<!--datahandler:RAW>
 			<record><userobj extension="tx_mkforms_util_FormBase" method="fillForm" /></record>
 			<callback><userobj extension="tx_mkforms_util_FormBase" method="processForm" /></callback>
 		</datahandler:RAW-->
-	
+
 		<datasources>
 			<datasource:PHPARRAY name="dslisterdata">
 				<bindsto>
 					<userobj>
 						<php><![CDATA[/*<?php*/
-			
+
 							$aData = array(
 										1 => 'Zeile 1',
 										2 => 'Zeile 2',
 										3 => 'Zeile 3',
 										5 => 'Zeile 5');
-			
+
 							$aDataSource = array();
 							foreach ($aData as $k => $v) {
-								$aDataSource[] = array(  
-									"listerdata-uid" => $k,  
+								$aDataSource[] = array(
+									"listerdata-uid" => $k,
 									"listerdata-title" => $v,
 									"listerdata-selected" => intval($k) === 1,
 								);
 							}
 							return $aDataSource;
-					
+
 						/*?>*/]]></php>
 					</userobj>
 				</bindsto>
 			</datasource:PHPARRAY>
 		</datasources>
-	
+
 	</control>
 
 	<elements>
-		
+
 		<renderlet:BOX mode="fieldset" name="fieldset">
 			<childs>
-		
+
 				<renderlet:BOX mode="div" name="texte">
 					<childs>
-					
+
 						<renderlet:BOX mode="div" name="input">
 							<childs>
 								<renderlet:TEXT name="widget-text" />
@@ -67,16 +67,16 @@
 								<renderlet:TEXT name="widget1-widget2-text" />
 							</childs>
 						</renderlet:BOX>
-					
+
 						<renderlet:BOX mode="div" name="area">
 							<childs>
 								<renderlet:TEXTAREA name="textarea" />
 							</childs>
 						</renderlet:BOX>
-						
+
 					</childs>
 				</renderlet:BOX>
-				
+
 				<renderlet:RADIOBUTTON name="widget-radiobutton">
 					<data>
 						<items>
@@ -92,7 +92,7 @@
 						</items>
 					</data>
 				</renderlet:RADIOBUTTON>
-				
+
 				<renderlet:LISTBOX name="widget-listbox">
 					<data>
 						<items>
@@ -108,7 +108,7 @@
 						</items>
 					</data>
 				</renderlet:LISTBOX>
-				
+
 				<renderlet:CHECKBOX name="widget-checkbox">
 					<data>
 						<items>
@@ -124,17 +124,17 @@
 						</items>
 					</data>
 				</renderlet:CHECKBOX>
-				
+
 				<renderlet:CHECKSINGLE name="widget-checksingle" dependsOn="fieldset__widget-listbox"/>
-				
+
 				<renderlet:CHOOSER name="widget-chooser" />
-				
+
 				<!-- @TODO
 				<renderlet:DAMUPLOAD name="widget-damupload" />
 				 -->
-				 
+
 				<renderlet:DATE name="widget-date" />
-				
+
 				<renderlet:LISTER name="widgetlister" uidColumn="listerdata-uid" >
 					<datasource use="dslisterdata" />
 					<columns>
@@ -143,10 +143,10 @@
 						<column name="selected" listHeader="Select" type="renderlet:LISTERSELECT" />
 					</columns>
 				</renderlet:LISTER>
-				
+
 			</childs>
 		</renderlet:BOX>
-		
+
 		<renderlet:BUTTON name="btnCall" class="button" label="do ajax call">
 			<onclick
 				runat="ajax"
@@ -166,7 +166,7 @@
 				</params>
 			</onclick>
 		</renderlet:BUTTON>
-		
+
 		<renderlet:SUBMIT name="widget-submit" />
 
 	</elements>

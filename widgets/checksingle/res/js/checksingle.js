@@ -11,8 +11,8 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 		);
 		MKWrapper.attachEvent(
 			element,
-			event, 
-			this.redirectClickToAssociatedHiddenField, 
+			event,
+			this.redirectClickToAssociatedHiddenField,
 			this
 		);
 	},
@@ -41,13 +41,13 @@ Formidable.Classes.CheckSingle = Formidable.Classes.RdtBaseClass.extend({
 		if(this.domNode() && !this.isChecked()) {
 			return 0;
 		}
-		
+
 		sRes = this.base();
-		
+
 		if(typeof(sRes) != "object") { // we do this, as it might also be an object of values hashed by row-uid when iterating
 			return parseInt(sRes);
 		}
-		
+
 		return sRes;
 	},
 	setValue: function(value) {

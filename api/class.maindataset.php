@@ -12,7 +12,7 @@
 			$this->setFloating();
 			$this->_initInternals($oDataSource, $aData);
 		}
-		
+
 		function initAnchored(&$oDataSource, $aData, $sKey) {
 			$this->setAnchored();
 			$this->_initInternals($oDataSource, $aData);
@@ -47,24 +47,24 @@
 				$this->aChangedCellsBefore[$sPath] = $mPreviousValue;
 			}
 		}
-		
+
 		function getCellValue($sPath) {
 			$sPath = str_replace(".", "/", $sPath);
 			if(($aRes = $this->oForm->navDeepData($sPath, $this->aData)) !== FALSE) {
 				return $aRes;
 			}
-			
+
 			return FALSE;
 		}
-		
+
 		function needsToBeWritten() {
 			return $this->somethingHasChanged();
 		}
-		
+
 		function somethingHasChanged() {
 			return count($this->aChangedCells) > 0;
 		}
-		
+
 		function cellHasChanged($sPath) {
 			return array_key_exists($sPath, $this->aChangedCells);
 		}
@@ -84,7 +84,7 @@
 		function isAnchored() {
 			return !$this->isFloating();
 		}
-		
+
 		function getSignature() {
 			return base64_encode($this->oForm->_getSafeLock($this->sKey) . ":" . $this->sKey);
 		}

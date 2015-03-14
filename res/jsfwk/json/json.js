@@ -1,18 +1,18 @@
 /**
  * JSONstring v 1.0
  * copyright 2006 Thomas Frank
- * 
- * This program is free software under the terms of the 
- * GNU General Public License version 2 as published by the Free 
+ *
+ * This program is free software under the terms of the
+ * GNU General Public License version 2 as published by the Free
  * Software Foundation. It is distributed without any warranty.
- * 
+ *
  * Based on Steve Yen's implementation:
  * http://trimpath.com/project/wiki/JsonLibrary
  */
 
 JSONstring={
-	compactOutput:true, 		
-	includeProtos:false, 	
+	compactOutput:true,
+	includeProtos:false,
 	includeFunctions: false,
 	detectCirculars:false,
 	restoreCirculars:true,
@@ -69,7 +69,7 @@ JSONstring={
 						if (!first)
 							out.push(this.compactOutput?',':',\n');
 						this.toJsonStringArray(i, out);
-						out.push(':');                    
+						out.push(':');
 						this.toJsonStringArray(arg[i], out);
 						if (out[out.length - 1] == u)
 							out.splice(curr, out.length - curr);
@@ -94,8 +94,8 @@ JSONstring={
 				this.restoreCode.push('this.myObj.'+this.path.join(".")+"="+arg.split("JSONcircRef:").join("this.myObj."));
 			};
 			out.push('"');
-			
-			// double encoding parameters, as the json encoder will not encode it's part			
+
+			// double encoding parameters, as the json encoder will not encode it's part
 			arg = arg.replace(/\\/gi, "\\\\\\\\");
 			arg = arg.replace(/\n/gi, "\\\\n");
 			arg = arg.replace(/\r/gi, "\\\\r");

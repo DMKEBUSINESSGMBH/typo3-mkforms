@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'va_std' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>

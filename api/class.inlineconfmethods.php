@@ -7,9 +7,9 @@ class formidable_inlineconfmethods extends formidable_mainscriptingmethods {
 	function &method_this(&$oRdt, $aParams) {
 		return $oRdt;
 	}
-	
+
 	function &method_parent(&$oRdt, $aParams) {
-		
+
 		if($this->oForm->isRenderlet($oRdt)) {
 			if($oRdt->hasParent()) {
 				return $oRdt->oRdtParent;
@@ -18,7 +18,7 @@ class formidable_inlineconfmethods extends formidable_mainscriptingmethods {
 
 		return AMEOSFORMIDABLE_LEXER_BREAKED;
 	}
-	
+
 	function &method_brother(&$oRdt, $aParams) {
 		if($this->oForm->isRenderlet($oRdt)) {
 			$oParent =& $this->method_parent($oRdt, $aParams);
@@ -29,19 +29,19 @@ class formidable_inlineconfmethods extends formidable_mainscriptingmethods {
 				);
 			}
 		}
-		
+
 		return AMEOSFORMIDABLE_LEXER_BREAKED;
 	}
-	
+
 	function method_getAbsName(&$oRdt, $aParams) {
-		
+
 		if($this->oForm->isRenderlet($oRdt)) {
 			return $oRdt->getAbsName();
 		}
-		
+
 		return AMEOSFORMIDABLE_LEXER_BREAKED;
 	}
-	
+
 	function &method_child(&$oRdt, $aParams) {
 		if($this->oForm->isRenderlet($oRdt)) {
 			if($oRdt->hasChilds()) {
@@ -50,10 +50,10 @@ class formidable_inlineconfmethods extends formidable_mainscriptingmethods {
 				}
 			}
 		}
-		
+
 		return AMEOSFORMIDABLE_LEXER_BREAKED;
 	}
-	
+
 	function &method_rdt($oRdt, $aParams) {
 		return $this->oForm->rdt($aParams[0]);
 	}

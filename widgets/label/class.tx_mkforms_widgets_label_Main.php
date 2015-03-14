@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_lbl' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_label_Main extends formidable_mainrenderlet {
-	
+
 	function _renderReadOnly() {
 
 		$aItems = $this->_getItems();
@@ -30,7 +30,7 @@ class tx_mkforms_widgets_label_Main extends formidable_mainrenderlet {
 
 		return $sCaption;
 	}
-	
+
 	function _renderOnly() {
 		return TRUE;
 	}

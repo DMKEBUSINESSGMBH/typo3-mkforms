@@ -18,7 +18,7 @@ var Formidable = {
 	SUBMIT_DRAFT: "AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT",
 	SUBMIT_CLEAR: "AMEOSFORMIDABLE_EVENT_SUBMIT_CLEAR",
 	SUBMIT_SEARCH: "AMEOSFORMIDABLE_EVENT_SUBMIT_SEARCH",
-	
+
 	Classes: {},		// placeholder for classes definitions; used like this: var oObj = new Formidable.Classes.SomeObject(params)
 	CodeBehind: {},
 	Context: {
@@ -39,7 +39,7 @@ var Formidable = {
 		},
 		Sort: {
 			by: function(sName, sDirection, sFormId) {
-				
+
 				var aForm = Formidable.f(sFormId);
 				var oForm = aForm.domNode();
 
@@ -100,7 +100,7 @@ var Formidable = {
 	//internet explorer
 	//netscape
 	//
-	//OS:	
+	//OS:
 	//linux
 	//unix
 	//mac
@@ -228,7 +228,7 @@ var Formidable = {
 		/* caught at http://textsnippets.com/tag/dimensions */
 		putCenter: function(item, what) {
 			item = MKWrapper.$(item);
-			
+
 			var xy = MKWrapper.getDimensions(item);
 			var win = this.windowDimensions();
 			var scrol = this.scrollOffset();
@@ -251,7 +251,7 @@ var Formidable = {
 			var xy = MKWrapper.getDimensions(item);
 			var win = this.windowDimensions();
 			var scrol = this.scrollOffset();
-			
+
 			MKWrapper.setStyle(item, {top : (scrol.height + parseInt(offset)) + 'px'});
 //			item.style.top = (scrol.height + parseInt(offset)) + "px";
 		},
@@ -275,7 +275,7 @@ var Formidable = {
 				x = document.body.clientWidth;
 				y = document.body.clientHeight;
 			}
-			
+
 			if (!x) x = 0;
 			if (!y) y = 0;
 			return {width: x, "height": y};
@@ -295,7 +295,7 @@ var Formidable = {
 				x = document.body.scrollLeft;
 				y = document.body.scrollTop;
 			}
-			
+
 			if (!x) x = 0;
 			if (!y) y = 0;
 			return {width: x, height: y};
@@ -318,7 +318,7 @@ var Formidable = {
 				return parseInt(iSizeInBytes/(1024)) + ' KB';
 			}
 		}
-		
+
 		// Bytes
 		return iSizeInBytes + ' B';
 	},
@@ -331,7 +331,7 @@ var Formidable = {
 			// so we have to use window.execScript instead
 				// see http://ajaxian.com/archives/evaling-with-ies-windowexecscript
 		// NOR in Safari, where we use the brute force approach
-		
+
 		if(Formidable.Browser.name == "internet explorer") {
 			window.execScript(sScript); // eval in global scope for IE
 		} else if(Formidable.Browser.name == "safari") {
@@ -499,8 +499,8 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_PARAMS").value=sParams;
 				$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_HASH").value=sHash;
 			}
-			
-			
+
+
 			if(sSubmitMode) {
 				this.doSubmit(sSubmitMode, true);
 			} else {
@@ -589,7 +589,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				if(oContext.event) {
 					oContext.event[0] = oContext.event;	// back compat
 				}
-				
+
 				this.aContextStack.push(oContext);
 				this.aParamsStack.push(aParams);
 
@@ -633,7 +633,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				} catch (e) { /* TODO: something goes wrong at saving the tinymce */ }
 			});
 		}
-		
+
 		var aValues = {};
 		if(aParams) {
 			for(var sKey in aParams) {
@@ -646,7 +646,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 					sReturnName = aInfo[1];
 					sId = aInfo[2];
 				}
-				
+
 				if(sName.indexOf('::') && sName.slice(0, 10) != "rowInput::") {
 					// Freie Parameterübergabe
 					aInfo = sName.split("::");
@@ -678,13 +678,13 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		} else {
 			var sThrower = sObjectId;
 		}
-		
+
 		var sValue = JSONstring.make(aValues, true);
 		var sTrueArgs = false;
 		if(this.currentTriggeredArguments) {
 			var sTrueArgs = JSONstring.make(this.currentTriggeredArguments, true);
 		}
-		
+
 		var sUrl = this.Misc.Urls.Ajax.event + "&formid=" + this.sFormId + "&eventid=" + sEventId + "&safelock=" + sSafeLock + "&value=" + escape(sValue) + "&thrower=" + escape(sThrower) + "&trueargs=" + escape(sTrueArgs);
 
 		if(!bCache) { sUrl += "&random=" + escape(Math.random());}
@@ -695,7 +695,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 			this.displayLoader();
 
 			//new Ajax.Request( this.Misc.Urls.Ajax.event,
-			
+
 			MKWrapper.ajaxCall( this.Misc.Urls.Ajax.event,
 				{
 					method:'post',
@@ -735,7 +735,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 						}
 						if(removeLoader) scope.removeLoader();
 						else window.setTimeout(function(){ scope.removeLoader(); },10000);
-						
+
 					}, //.bindAsEventListener(this),
 
 					onFailure: function(){
@@ -810,7 +810,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 			// this is done via synchronous (a)jax
 			// to load resources before using them
 			// in the executed event
-		// Achtung. In dem String können mehrere Scripte stehen. Diese müssen dann auch einzeln 
+		// Achtung. In dem String können mehrere Scripte stehen. Diese müssen dann auch einzeln
 		// geladen werden!
 		for(var sKey in oAttach) {
 			// wenn die header als html (ajax damupload) ausgeliefert werden,
@@ -822,7 +822,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				console.log("AJAX2 attach header avoided:" + sKey);
 			} else {
 				var aMatches = script.match(/src=["|'].+["|']/g);	// js headers only
-				
+
 				if(aMatches && aMatches.length > 0) {
 					for(var i=0; i<aMatches.length; i++) {
 						var sSrc = aMatches[i].substr(5, aMatches[i].length-6);
@@ -835,18 +835,18 @@ Formidable.Classes.FormBaseClass = Base.extend({
 							this
 						);
 					}
-				} 
+				}
 				// Jetzt noch nach CSS suchen
 				aMatches = script.match(/<link rel=["|']stylesheet["|'] type=["|']text\/css["|'].+href=["|'](.+)["|'] \/>/);	// css headers only
 				if(aMatches && aMatches.length > 0) {
 					sSrc = aMatches[1];
 					Formidable.includeStylesheet(sSrc);
-				}	
+				}
 			}
 		};
 	},
 	executeAjaxTask: function(oTask) {
-		
+
 		if(oTask.formid) {
 			// execute it on given formid
 			var oForm = Formidable.f(oTask.formid);
@@ -862,7 +862,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 			if(oObject[oTask.method]) {
 				//console.log("calling", oTask.method, "on", oTask.object, oObject);
 				//this.aParamsStack
-				
+
 				oContext = oTask.databag.context || {};
 				aParams = oTask.databag.params || {};
 				//oContext.sender = oSender;
@@ -873,7 +873,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				oObject[oTask.method](oTask.data);
 				this.aParamsStack.pop();
 				this.aContextStack.pop();
-				
+
 			} else {
 				console.log("executeAjaxResponse: single task: No method named " + oTask.method + " on " + oTask.object);
 			}
@@ -917,7 +917,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 	submitOnEnter: function(sFromUniqueId, myfield, e) {
 
 		var keycode;
-		
+
 		if(window.event) {
 			keycode = window.event.keyCode;
 		} else if (e) {
@@ -925,7 +925,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		} else {
 			return true;
 		}
-		
+
 		if(keycode == 13) {
 			this.doSubmit(Formidable.SUBMIT_FULL);
 			return false;
@@ -951,15 +951,15 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		if(!bServerEvent) {
 			this.cleanSysFields();
 		}
-		
+
 		if(oSender || (this.getContext() && (oSender = this.getSender()))) {
-			
+
 			var aAddVars = {};
-			
+
 			if(oSender.isNaturalSubmitter()) {
 				aAddVars[oSender.config.namewithoutformid] = iMode;
 				this.addFormData(aAddVars);
-			} 
+			}
 			MKWrapper.$(this.sFormId + '_AMEOSFORMIDABLE_SUBMITTER').value=oSender.config.idwithoutformid;
 		}
 
@@ -981,7 +981,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		if(this.Misc.displayLoaderOnSubmit) {
 			this.displayLoader();
 		}
-		
+
 		this.domNode().submit();
 	},
 	disableButtons: function() {
@@ -1036,11 +1036,11 @@ Formidable.Classes.FormBaseClass = Base.extend({
 			baseAddr = window.location.protocol + '//' + window.location.host;
 		}
 		return baseAddr;
-	},	
+	},
 	openPopup: function(mUrl) {
 		if(typeof mUrl["url"] != 'undefined') {
 			// it's an array of parameters
-			
+
 			var aProps = [];
 			var sName = (typeof mUrl['name'] != 'undefined') ? mUrl['name'] : 'noname';
 
@@ -1087,22 +1087,22 @@ Formidable.Classes.FormBaseClass = Base.extend({
 	},
 	toggleDebug: function() {
 		var oDiv=$(this.sFormId + '_debugzone');
-		
+
 		if(oDiv && oDiv.style.display == 'none'){
 			oDiv.style.display='block';
-			
+
 			aDivs = document.getElementsByClassName("ameosformidable_debugcontainer_void");
 			for(sKey in aDivs) { aDivs[sKey].className = "ameosformidable_debugcontainer";}
-			
+
 			aDivs = document.getElementsByClassName("ameosformidable_debughandler_void");
 			for(sKey in aDivs) { aDivs[sKey].className = "ameosformidable_debughandler";}
 
 		} else {
 			oDiv.style.display='none';
-			
+
 			aDivs = document.getElementsByClassName("ameosformidable_debugcontainer");
 			for(sKey in aDivs) { aDivs[sKey].className = "ameosformidable_debugcontainer_void";}
-			
+
 			aDivs = document.getElementsByClassName("ameosformidable_debughandler");
 			for(sKey in aDivs) { aDivs[sKey].className = "ameosformidable_debughandler_void";}
 		}
@@ -1187,24 +1187,24 @@ Formidable.Classes.FormBaseClass = Base.extend({
 //		});
 //		msg.appendChild(document.createTextNode("Loading ..."));
 //		spinner.appendChild(msg);
-		
+
 		var img = MKWrapper.$tag('img',{
 				src: Formidable.path + "res/images/loading.gif"
 			});
 		spinner.appendChild(img);
 		spinnerWrap.appendChild(spinnerOverlay);
 		spinnerWrap.appendChild(spinner);
-		
+
 		Formidable.Position.fullScreen(spinnerOverlay);
 		Formidable.Position.putCenter(spinner);
-		
+
 		this.oLoading = spinnerWrap;
 	},
 	// TODO: Das könnte ins Formidable-Objekt
 	displayLoader: function() {
 		if(this.oLoading == null)
 			this.initLoader();
-				
+
 		if(Formidable.Browser.name == "internet explorer") {
 			this.oLoading.style.position = "absolute";
 			Formidable.Position.putCenter(this.oLoading);
@@ -1246,7 +1246,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		bOk = true;
 		var iCharCode = oEv.charCode ? oEv.charCode : oEv.keyCode;
 		var sChar = String.fromCharCode(iCharCode);
-		
+
 		if(
 			([8,9,16,17,18,20,27,37,39,40,46,144].indexOf(iKeyCode) == -1) &&
 			!sChar.match(sPattern)
@@ -1263,7 +1263,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				Event.stop(oEv);
 			}
 		}
-		
+
 		return bOk;
 	},
 	declareAjaxService: function(sName, sId, sSafeLock) {
@@ -1280,22 +1280,22 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		aParams = Array.from(arguments);
 		sId = aParams.shift();
 		sSafeLock = aParams.shift();
-		
+
 		if(aParams.length > 0 && typeof aParams.first() == "function") {
 			fCbk = aParams.shift();
 		} else {
 			fCbk = Prototype.emptyFunction;
 		}
-		
+
 		if(this.AjaxRequestsStack.get(sId)) {
 			MKWrapper.ajaxAbort(this.AjaxRequestsStack.get(sId));
 //			this.AjaxRequestsStack.get(sId).abort();
 			this.AjaxRequestsStack.unset(sId);
 		}
-		
+
 		var sTrueArgs = JSONstring.make(aParams, true);
 		this.displayLoader();
-		
+
 		this.AjaxRequestsStack.set(sId, new Ajax.Request(
 			this.Misc.Urls.Ajax.service, {
 				method:'post',
@@ -1374,7 +1374,7 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 		return this.oForm.o(this.config._rdts[sName]);
 	},
 	child: function(sName) {
-		return this.rdt(sName);	
+		return this.rdt(sName);
 	},
 	childs: function() {
 		if(this.config._rdts) {
@@ -1407,16 +1407,16 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 	getValue: function() {
 		if(this.isIterating()) {
 			oResults = {};
-			
+
 			oIterator = this.oForm.o(this.config.iterator);
 			var aRows = oIterator.getRows();
 			var tscope = this;
 			MKWrapper.each(aRows, function(oRow) {
 				var wid = tscope.getIdWithoutFormIdRelativeTo(oIterator);
 				var oRdt = oRow.rdt(wid);
-				oResults[oRow.uid] = oRdt.getValue();	
+				oResults[oRow.uid] = oRdt.getValue();
 			}, tscope);
-			
+
 			return oResults;
 		} else {
 			if(this.domNode()) {
@@ -1430,11 +1430,11 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 	getIdWithoutFormIdRelativeTo: function(oParentRdt) {
 		sOurs = this.config.idwithoutformid;
 		sTheirs = oParentRdt.config.idwithoutformid;
-		
+
 		if(sOurs.startsWith(sTheirs)) {
 			return sOurs.substr(sTheirs.length + 2);
 		}
-		
+
 		return sOurs;
 	},
 	setValue: function(sData) {
@@ -1561,7 +1561,7 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 	},
 	Fx: function(aParams) {
 		if(typeof Scriptaculous!='undefined') {
-			
+
 			var sType = typeof(aParams);
 			if(sType.toLowerCase() == "string") {
 				var aParams = {"effect": aParams, "params": {}};
@@ -1630,7 +1630,7 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 			sKey = aRow.key;
 			sValue = aRow.value;
 			if(!sKey.startsWith("majix:")) return;
-			
+
 			aParts = sKey.split(":");
 			oObj = this.oForm.o(aParts[1]);
 			if(oObj && typeof(oObj[aParts[2]]) == "function") {
@@ -1729,7 +1729,7 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 			if(!oError.type) {
 				oError.type = "undetermined";
 			}
-			
+
 			if(oError.type) {
 				sTypeClass = "hasError" + oError.type.substr(0,1).toUpperCase() + oError.type.substr(1, oError.type);
 				this.addClass(sTypeClass);
@@ -1769,7 +1769,7 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 	},
 	trigger: function() {	/* sWhat[, argument_1, argument_2, ..., argument_n] */
 		sWhat = arguments[0];
-		
+
 		if(arguments.length > 1) {
 			this.oForm.currentTriggeredArguments = Array.from(arguments).slice(1);
 			Element.fire(this.domNode(), "formidable:" + sWhat);

@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_box' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
-	
+
 	var $aLibs = array(
 		"rdt_modalbox_class" => "res/js/modalbox.js",
 	);
@@ -16,7 +16,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 	var $sMajixClass = "ModalBox";
 
 	function _render() {
-		
+
 		// allowed because of $bCustomIncludeScript = TRUE
 		$this->includeScripts(
 			array(
@@ -43,7 +43,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 
 		return $this->majixShowBox($aConfig, $aTags);
 	}
-	
+
 	function majixShowBox($aConfig = array(), $aTags = array()) {
 
 		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {

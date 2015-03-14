@@ -1,5 +1,5 @@
 Formidable.Classes.ModalBox2 = Formidable.Classes.RdtBaseClass.extend({
-	
+
 	constructor: function(config) {
 		this.base(config);
 	},
@@ -7,7 +7,7 @@ Formidable.Classes.ModalBox2 = Formidable.Classes.RdtBaseClass.extend({
 		return $(this.box);
 	},
 	showBox: function(aData){
-		
+
 		oTextNode = $div();
 		oTextNode.innerHTML = aData.html;
 		oOptions = {
@@ -25,10 +25,10 @@ Formidable.Classes.ModalBox2 = Formidable.Classes.RdtBaseClass.extend({
 				//alert("removeObservers");
 			}
 		};
-		
+
 		oOptions = Object.extend(oOptions, aData || {});
 		Modalbox.show(oTextNode, oOptions);
-		
+
 		return this;
 	},
 	closeBox: function(oOptions) {
@@ -37,14 +37,14 @@ Formidable.Classes.ModalBox2 = Formidable.Classes.RdtBaseClass.extend({
 			Modalbox.options.afterHide = function() {
 				oTempResponse = this.oForm.oCurrentAjaxResponse;
 				oTempResponse.tasks = oOptions.afterHide;
-				
+
 				this.oForm.executeAjaxResponse(oTempResponse);
-				
+
 				Modalbox.options = Modalbox._options;	// reinit modalbox !
 			}.bind(this);
 		}
 
-	*/	
+	*/
 		Modalbox.hide();
 		return false;
 	},

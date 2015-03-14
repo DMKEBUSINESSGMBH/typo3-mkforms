@@ -1,5 +1,5 @@
 Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
-	
+
 	aSelect: [],
 	oImgClose: null,
 	oHtmlContainer: null,
@@ -32,7 +32,7 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 		return MKWrapper.$(this.box);
 	},
 	hideSelects: function() {
-		
+
 		this.aSelect = [];
 
 		aTemp = $$('body select');
@@ -50,9 +50,9 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 		});
 	},
 	showSelects: function() {
-		
+
 		this.aSelect.each(function(oSelect, k) {
-			
+
 			if(Element.getStyle(oSelect, 'visibility') == 'hidden') {
 				oSelect.style.visibility = 'visible';
 			}
@@ -117,7 +117,7 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 				Formidable.globalEval(aData.attachevents[sKey]);
 			};
 		}
-		
+
 		if(Formidable.Browser.name == 'internet explorer') {
 			if(Formidable.Browser.version < 7) {
 				this.hideSelects();
@@ -129,8 +129,8 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 //		this.onScrollPointer = MKWrapper.bindAsEventListener(this.scroll, this);
 		this.onClosePointer = this.close; // onClosePointer scheint eine zentrale Methode zu sein
 		MKWrapper.attachEvent(window, 'scroll', this.scroll, this);
-		
-		
+
+
 		this.alignFirst();
 		var _this = this;
 //		var handleCloseButton = MKWrapper.bind(function () {
@@ -179,7 +179,7 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 		return this;
 	},
 	closeBox: function() {
-		
+
 		if(this.config.effects) {
 			var _this = this;
 
@@ -193,7 +193,7 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 			);
 */
 //			new Effect.Fade(MKWrapper.$(this.box), {
-			MKWrapper.fxHide(this.box, {}, function() {	
+			MKWrapper.fxHide(this.box, {}, function() {
 				_this.restoreOnHide();
 			});
 			MKWrapper.fxHide(this.overlay, {});
@@ -244,12 +244,12 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 	},
 	scroll: function() {
 		Formidable.Position.fullScreen(MKWrapper.$(this.overlay));
-		
+
 		//@TODO Scrollen der Modalbox ist nicht gewünscht,
 		// das abschalten in jeder modalbox ist zwar möglich
 		// allerdings wird hier ein globaler defaultwert benötigt, der gesetzt werden kann.
 		return;
-		
+
 		if(this.config.followScrollVertical) {
 			Formidable.Position.putFixedToWindowVertical(this.box, 30);
 		}

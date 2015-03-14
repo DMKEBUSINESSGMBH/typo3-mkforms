@@ -1,6 +1,6 @@
 /*
 	Lowpro 0.2 (http://www.danwebb.net/2006/9/3/low-pro-unobtrusive-scripting-for-prototype)
-	
+
 	jerome schneider: Corrected with: [
 
 		Think I found a typo at lowpro.js line 65, this line should read:
@@ -16,20 +16,20 @@
 LowPro = {};
 LowPro.Version = '0.2';
 
-if (!Element.addMethods) 
+if (!Element.addMethods)
   Element.addMethods = function(o) { Object.extend(Element.Methods, o) };
 
 // Simple utility methods for working with the DOM
 DOM = {
   nextElement : function(element) {
     element = $(element);
-    while (element = element.nextSibling) 
+    while (element = element.nextSibling)
       if (element.nodeType == 1) return $(element);
     return null;
   },
   previousElement : function(element) {
     element = $(element);
-    while (element = element.previousSibling) 
+    while (element = element.previousSibling)
       if (element.nodeType == 1) return $(element);
     return null;
   },
@@ -63,9 +63,9 @@ DOM.Builder = {
   },
 	tagFunc : function(tag) {
 	  return function() {
-	    var attrs, children; 
-	    if (arguments.length>0) { 
-	      if (arguments[0].nodeName || typeof arguments[0] == "string") children = arguments; 
+	    var attrs, children;
+	    if (arguments.length>0) {
+	      if (arguments[0].nodeName || typeof arguments[0] == "string") children = arguments;
 	      else { attrs = arguments[0]; children = [].slice.call(arguments, 1); };
 	    }
 	    return DOM.Builder.create(tag, attrs, children);
@@ -91,7 +91,7 @@ DOM.Builder = {
 };
 
 // Automatically create node builders as $tagName.
-(function() { 
+(function() {
 	var els = ("b|p|embed|object|param|div|span|strong|em|img|table|tr|td|th|thead|tbody|tfoot|pre|code|h1|h2|h3|h4|h5|h6|ul|ol|li|form|input|textarea|legend|fieldset|select|option|blockquote|cite|br|hr|dd|dl|dt|address|a|button|abbr|acronym|script|link|style|bdo|ins|del|object|param|col|colgroup|optgroup|caption|label|dfn|kbd|samp|var").split("|");
   var el, i=0;
 	while (el = els[i++]) window['$' + el] = DOM.Builder.tagFunc(el);
@@ -112,20 +112,20 @@ Object.extend(Event, {
     arguments.callee.done = true;
 
     if (Event._timer)  clearInterval(Event._timer);
-    
+
     Event._readyCallbacks.each(function(f) { f() });
     Event._readyCallbacks = null;
-    
+
   },
   onDOMReady : function(f) {
     if (!this._readyCallbacks) {
       var domReady = this._domReady;
-      
+
       if (domReady.done) return f();
-      
+
       if (document.addEventListener)
         document.addEventListener("DOMContentLoaded", domReady, false);
-        
+
         /*@cc_on @*/
         /*@if (@_win32)
             document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
@@ -133,13 +133,13 @@ Object.extend(Event, {
                 if (this.readyState == "complete") { domReady(); }
             };
         /*@end @*/
-        
-        if (/WebKit/i.test(navigator.userAgent)) { 
+
+        if (/WebKit/i.test(navigator.userAgent)) {
           this._timer = setInterval(function() {
-            if (/loaded|complete/.test(document.readyState)) domReady(); 
+            if (/loaded|complete/.test(document.readyState)) domReady();
           }, 10);
         }
-        
+
         Event.observe(window, 'load', domReady);
         Event._readyCallbacks =  [];
     }
@@ -174,7 +174,7 @@ Object.extend(Event, {
   	}
   	handlers[func.$$guid] = func;
   	el["on" + type] = Event._handleEvent;
-  	
+
   	 if (!Event.observers) Event.observers = [];
   	 Event.observers.push([el, name, func, false]);
 	},
@@ -201,7 +201,7 @@ Object.extend(Event, {
   _guid : 1
 });
 */
-// Allows you to trigger an event element.  
+// Allows you to trigger an event element.
 Object.extend(Event, {
   trigger : function(element, event, fakeEvent) {
     element = $(element);
@@ -230,25 +230,25 @@ Object.extend(Event, {
 Event.addBehavior = function(rules) {
   var ab = this.addBehavior;
   Object.extend(ab.rules, rules);
-  
+
   if (ab.autoTrigger) {
     this.onDOMReady(ab.load.bind(ab));
   }
-  
+
   Ajax.Responders.register({
-    onComplete : function() { 
-      if (Event.addBehavior.reassignAfterAjax) 
+    onComplete : function() {
+      if (Event.addBehavior.reassignAfterAjax)
         setTimeout(function() { ab.load() }, 10);
     }
   });
-  
+
 };
 
 Object.extend(Event.addBehavior, {
   rules : {}, cache : [],
   reassignAfterAjax : true,
   autoTrigger : true,
-  
+
   load : function() {
     this.unload();
     for (var selector in this.rules) {
@@ -272,13 +272,13 @@ Object.extend(Event.addBehavior, {
       });
     }
   },
-  
+
   unload : function() {
     this.cache.each(function(c) {
       Event.stopObserving.apply(Event, c);
     });
   }
-  
+
 });
 
 Event.observe(window, 'unload', Event.addBehavior.unload.bind(Event.addBehavior));
@@ -287,11 +287,11 @@ Event.observe(window, 'unload', Event.addBehavior.unload.bind(Event.addBehavior)
 // and their behavior.  Use Behavior.create() to make a new behavior class then use attach() to
 // glue it to an element.  Each element then gets it's own instance of the behavior and any
 // methods called onxxx are bound to the relevent event.
-// 
+//
 // Usage:
-// 
+//
 // var MyBehavior = Behavior.create({
-//   onmouseover : function() { this.element.addClassName('bong') } 
+//   onmouseover : function() { this.element.addClassName('bong') }
 // });
 
 // Event.addBehavior({ 'a.rollover' : MyBehavior });
@@ -322,42 +322,42 @@ Behavior = {
 // Original code by Sylvian Zimmer
 // http://www.sylvainzimmer.com/index.php/archives/2006/06/25/speeding-up-prototypes-selector/
 // Optimises execution speed of the $$ function.  Rewritten for readability by Justin Palmer.
-// 
+//
 // Turn off optimisation with LowPro.optimize$$ = false;
 LowPro.SelectorLite = Class.create();
 LowPro.SelectorLite.prototype = {
   initialize: function(selectors) {
-    this.results = []; 
-    this.selectors = []; 
+    this.results = [];
+    this.selectors = [];
     this.index = 0;
-    
+
     for(var i = selectors.length -1; i >= 0; i--) {
       var params = { tag: '*', id: null, classes: [] };
       var selector = selectors[i];
       var needle = selector.length - 1;
-      
+
       do {
         var id = selector.lastIndexOf("#");
         var klass = selector.lastIndexOf(".");
         var cursor = Math.max(id, klass);
-        
+
         if(cursor == -1) params.tag = selector.toUpperCase();
         else if(id == -1 || klass == cursor) params.classes.push(selector.substring(klass + 1));
         else if(!params.id) params.id = selector.substring(id + 1);
-        
+
         selector = selector.substring(0, cursor);
       } while(cursor > 0);
-      
+
       this.selectors[i] = params;
     }
-    
+
   },
-  
+
   get: function(root) {
     this.findElements(root || document, this.index == (this.selectors.length - 1));
     return this.results;
   },
-  
+
   findElements: function(parent, descendant) {
     var selector = this.selectors[this.index], results = [], element;
     if (selector.id) {
@@ -368,7 +368,7 @@ LowPro.SelectorLite.prototype = {
     } else {
       results = $A(parent.getElementsByTagName(selector.tag));
     }
-    
+
     if (selector.classes.length == 1) {
       results = results.select(function(target) {
        return $(target).hasClassName(selector.classes[0]);
@@ -381,7 +381,7 @@ LowPro.SelectorLite.prototype = {
         });
       });
     }
-    
+
     if (descendant) {
       this.results = this.results.concat(results);
     } else {
@@ -397,7 +397,7 @@ LowPro.$$old=$$;
 LowPro.optimize$$ = true;
 
 $$ = function(a,b) {
-  if (LowPro.optimize$$ == false || b || a.indexOf("[")>=0) 
+  if (LowPro.optimize$$ == false || b || a.indexOf("[")>=0)
     return LowPro.$$old(a, b);
   return new LowPro.SelectorLite(a.split(/\s+/)).get();
 };

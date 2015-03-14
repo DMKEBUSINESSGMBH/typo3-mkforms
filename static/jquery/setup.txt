@@ -9,9 +9,9 @@ config.tx_mkforms {
 	  jscore.basewrapper = EXT:mkforms/res/jsfwk/wrapper.js
 	  jscore.wrapper = EXT:mkforms/res/jsfwk/jquery/wrapper.js
 
-	  effects = 
-	  dragdrop = 
-	  builder = 
-	  tooltip = 
+	  effects =
+	  dragdrop =
+	  builder =
+	  tooltip =
 	}
 }

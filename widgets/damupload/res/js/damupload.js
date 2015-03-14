@@ -1,8 +1,8 @@
 Formidable.Classes.DamUpload = Formidable.Classes.RdtBaseClass.extend({
-	
+
 	onajaxstart: null,
 	onajaxcomplete: null,
-	
+
 	constructor: function(oConfig) {
 		this.base(oConfig);
 	},
@@ -17,7 +17,7 @@ Formidable.Classes.DamUpload = Formidable.Classes.RdtBaseClass.extend({
 			onStart: function(){
 				if (typeof(tscope.onajaxstart) != 'undefined' && tscope.onajaxstart != null)
 						tscope.onajaxstart();
-				
+
 				tscope.oForm.displayLoader();
 			},
 			onComplete: function(oResponse){
@@ -25,7 +25,7 @@ Formidable.Classes.DamUpload = Formidable.Classes.RdtBaseClass.extend({
 				eval("var oJson=" + oResponse + ";");
 				tscope.oForm.executeAjaxResponse(oJson, true, false);
 				tscope.oForm.removeLoader();
-				
+
 				if (typeof(tscope.onajaxcomplete) != 'undefined' && tscope.onajaxcomplete != null)
 						tscope.onajaxcomplete();
 			}
@@ -33,7 +33,7 @@ Formidable.Classes.DamUpload = Formidable.Classes.RdtBaseClass.extend({
 
 		MKWrapper.initAjaxUpload(oConfig);
 	},
-	
+
 	addHandler: function(sHandler, fFunction) {
 		switch (sHandler) {
 			case 'onajaxstart':
@@ -44,7 +44,7 @@ Formidable.Classes.DamUpload = Formidable.Classes.RdtBaseClass.extend({
 				break;
 		}
 	}
-	
+
 });
 
 if(!MKWrapper.initAjaxUpload) {

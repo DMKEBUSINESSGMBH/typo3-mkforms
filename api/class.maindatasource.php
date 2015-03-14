@@ -9,17 +9,17 @@ abstract class formidable_maindatasource extends formidable_mainobject {
 		}
 
 		function _getRecordWindow($iPage, $iRowsPerPage, $bMax = FALSE) {
-			
+
 			$iOffset = ($iPage) * $iRowsPerPage;	// counting the offset
 			$iNbDisplayed = $iRowsPerPage;
-			
+
 			if($bMax !== FALSE) {
-				
+
 				if($bMax !== FALSE && (($iOffset + $iRowsPerPage) > $bMax)) {
 					$iNbDisplayed = $bMax - $iOffset;
 				}
 			}
-			
+
 			return array(
 				"sql"			=> ($iNbDisplayed != "") ? " LIMIT " . $iOffset . ", " . $iNbDisplayed . " " : "",
 				"page"			=> $iPage,
@@ -30,11 +30,11 @@ abstract class formidable_maindatasource extends formidable_mainobject {
 		}
 
 		function _getTotalNumberOfPages($iRowsPerPage, $iNbRows, $iMaximum = FALSE) {
-			
+
 			if($iMaximum !== FALSE && $iNbRows > $iMaximum) {
 				$iNbRows = $iMaximum;
 			}
-			
+
 			return ceil($iNbRows/ $iRowsPerPage);
 		}
 
@@ -78,10 +78,10 @@ abstract class formidable_maindatasource extends formidable_mainobject {
 			} else {
 				return $this->dset_mapPathAnchored($sSignature, $oDataBridge, $sAbsName);
 			}
-			
+
 			return FALSE;
 		}
-		
+
 		function dset_mapPathFloating($sSignature, &$oDataBridge, $sAbsName) {
 			return $this->dset_mapPathAnchored($sSignature, $oDataBridge, $sAbsName);
 		}
@@ -195,7 +195,7 @@ abstract class formidable_maindatasource extends formidable_mainobject {
 		function dset_setCellValue($sSignature, $sPath, $mValue, $sAbsName = FALSE) {
 			$this->aODataSets[$sSignature]->setCellValue($sPath, $mValue);
 		}
-		
+
 		function getRowNumberForUid($iUid) {
 			return FALSE;
 		}

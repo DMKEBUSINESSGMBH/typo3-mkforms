@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_modalbox2' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet {
-	
+
 	var $aLibs = array(
 		"rdt_modalbox2_class" => "res/js/modalbox2.js",
 		"rdt_modalbox2_lib_class" => "res/js/modalbox1.6.0/modalbox.js",

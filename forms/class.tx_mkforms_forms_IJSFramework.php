@@ -26,7 +26,7 @@ require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.tx_ameosformidable.ph
 
 /**
  * Factory for forms.
- * 
+ *
  */
 interface tx_mkforms_forms_IJSFramework {
 	public function getBaseIncludes();
@@ -71,7 +71,7 @@ class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude {
 		$this->afterKey = $sAfter;
 		$this->isJS = $isJS;
 	}
-	
+
 	public function getPagePath() {
 		return $this->pagePath;
 	}

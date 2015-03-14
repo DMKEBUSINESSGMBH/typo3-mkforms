@@ -38,10 +38,10 @@ class tx_rdtselector extends formidable_mainrenderlet {
 		$aItems = $this->oForm->_rdtItemsToArray(
 			$this->oAvailable->_getItems()
 		);
-		
+
 		$aSelected = t3lib_div::trimExplode(",", $this->getValue());
 		$aSelectedItems = array();
-		
+
 		reset($aSelected);
 		while(list($sKey, $sValue) = each($aSelected)) {
 			if(array_key_exists($sValue, $aItems)) {
@@ -95,11 +95,11 @@ class tx_rdtselector extends formidable_mainrenderlet {
 		);
 
 		$sHidden = "<input type=\"hidden\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" value=\"" . htmlspecialchars($this->getValue()) . "\" />";
-		
+
 		$sLabelTag = $this->_displayLabel($this->getLabel());
 
 		$sCompiled = <<<HTML
-		
+
 			{$sLabelTag}
 			<table style='width: 100%'>
 				<tr>
@@ -489,7 +489,7 @@ PHP;
 		if($sFieldName === "") {
 			$sFieldName = $this->_getName();
 		}
-		
+
 		if(sizeof($aValues) > 0) {
 
 			$sTableName = $this->oForm->_navConf("/tablename", $this->oForm->oDataHandler->aElement);

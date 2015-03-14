@@ -285,7 +285,7 @@ Calendar.showMonthsCombo = function () {
 };
 
 Calendar.showYearsCombo = function (fwd) {
-	
+
 	var cal = Calendar._C;
 	if (!cal) {
 		return false;
@@ -304,7 +304,7 @@ Calendar.showYearsCombo = function (fwd) {
 	var Y = cal.date.getFullYear() + (fwd ? 1 : -1);
 	var yr = yc.firstChild;
 	var show = false;
-	
+
 	/**
 	 * MK: more than 12 years backward (1950)
 	 */
@@ -1817,7 +1817,7 @@ Date.prototype.print = function (str) {
 	// FIXME: %r : the time in am/pm notation %I:%M:%S %p
 	// FIXME: %R : the time in 24-hour notation %H:%M
 	s["%s"] = Math.floor(this.getTime() / 1000);
-	
+
 	s["%@"] = Date.UTC(
 		this.getUTCFullYear(),
 		this.getUTCMonth(),

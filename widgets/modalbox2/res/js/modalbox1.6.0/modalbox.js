@@ -3,7 +3,7 @@ ModalBox - The pop-up window thingie with AJAX, based on prototype and script.ac
 
 Copyright Andrey Okonetchnikov (andrej.okonetschnikow@gmail.com), 2006-2007
 All rights reserved.
- 
+
 VERSION 1.6.0
 Last Modified: 12/13/2007
 */
@@ -38,19 +38,19 @@ Modalbox.Methods = {
 		aspnet: false // Should be use then using with ASP.NET costrols. Then true Modalbox window will be injected into the first form element.
 	},
 	_options: new Object,
-	
+
 	setOptions: function(options) {
 		Object.extend(this.options, options || {});
 	},
-	
+
 	_init: function(options) {
 		// Setting up original options with default options
 		Object.extend(this._options, this.options);
 		this.setOptions(options);
-		
+
 		//Create the overlay
 		this.MBoverlay = new Element("div", { id: "MB_overlay", opacity: "0" });
-		
+
 		//Create DOm for the window
 		this.MBwindow = new Element("div", {id: "MB_window", style: "display: none"}).update(
 			this.MBframe = new Element("div", {id: "MB_frame"}).update(
@@ -61,22 +61,22 @@ Modalbox.Methods = {
 		);
 		this.MBclose = new Element("a", {id: "MB_close", title: this.options.closeString, href: "#"}).update("<span>" + this.options.closeValue + "</span>");
 		this.MBheader.insert({'bottom':this.MBclose});
-		
+
 		this.MBcontent = new Element("div", {id: "MB_content"}).update(
 			//this.MBloading = new Element("div", {id: "MB_loading"}).update(this.options.loadingString)
 		);
 		this.MBframe.insert({'bottom':this.MBcontent});
-		
+
 		// Inserting into DOM. If parameter set and form element have been found will inject into it. Otherwise will inject into body as topmost element.
-		// Be sure to set padding and marging to null via CSS for both body and (in case of asp.net) form elements. 
+		// Be sure to set padding and marging to null via CSS for both body and (in case of asp.net) form elements.
 		var injectToEl = this.options.aspnet ? $(document.body).down('form') : $(document.body);
 		injectToEl.insert({'top':this.MBwindow});
 		injectToEl.insert({'top':this.MBoverlay});
-		
+
 		// Initial scrolling position of the window. To be used for remove scrolling effect during ModalBox appearing
 		this.initScrollX = window.pageXOffset || document.body.scrollLeft || document.documentElement.scrollLeft;
 		this.initScrollY = window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
-		
+
 		//Adding event observers
 		this.hideObserver = this._hide.bindAsEventListener(this);
 		this.kbdObserver = this._kbdHandler.bindAsEventListener(this);
@@ -84,20 +84,20 @@ Modalbox.Methods = {
 
 		this.initialized = true; // Mark as initialized
 	},
-	
+
 	show: function(content, options) {
 		if(!this.initialized) this._init(options); // Check for is already initialized
-		
+
 		this.content = content;
 		this.setOptions(options);
-		
+
 		if(this.options.title) // Updating title of the MB
 			$(this.MBcaption).update(this.options.title);
 		else { // If title isn't given, the header will not displayed
 			$(this.MBheader).hide();
 			$(this.MBcaption).hide();
 		}
-		
+
 		if(this.MBwindow.style.display == "none") { // First modal box appearing
 			this._appear();
 			this.event("onShow"); // Passing onShow callback
@@ -105,13 +105,13 @@ Modalbox.Methods = {
 		else { // If MB already on the screen, update it
 			this._update();
 			this.event("onUpdate"); // Passing onUpdate callback
-		} 
+		}
 	},
-	
+
 	hide: function(options) { // External hide method to use from external HTML and JS
 		if(this.initialized) {
 			// Reading for options/callbacks except if event given as a pararmeter
-			if(options && typeof options.element != 'function') Object.extend(this.options, options); 
+			if(options && typeof options.element != 'function') Object.extend(this.options, options);
 			// Passing beforeHide callback
 			this.event("beforeHide");
 			if(this.options.transitions)
@@ -122,38 +122,38 @@ Modalbox.Methods = {
 			}
 		} else throw("Modalbox is not initialized.");
 	},
-	
+
 	_hide: function(event) { // Internal hide method to use with overlay and close link
 		event.stop(); // Stop event propaganation for link elements
 		/* Then clicked on overlay we'll check the option and in case of overlayClose == false we'll break hiding execution [Fix for #139] */
 		if(event.element().id == 'MB_overlay' && !this.options.overlayClose) return false;
 		this.hide();
 	},
-	
+
 	alert: function(message){
 		var html = '<div class="MB_alert"><p>' + message + '</p><input type="button" onclick="Modalbox.hide()" value="OK" /></div>';
 		Modalbox.show(html, {title: 'Alert: ' + document.title, width: 300});
 	},
-		
+
 	_appear: function() { // First appearing of MB
 		if(Prototype.Browser.IE && !navigator.appVersion.match(/\b7.0\b/)) { // Preparing IE 6 for showing modalbox
 			window.scrollTo(0,0);
-			this._prepareIE("100%", "hidden"); 
+			this._prepareIE("100%", "hidden");
 		}
 		this._setWidth();
 		this._setPosition();
 		if(this.options.transitions) {
 			$(this.MBoverlay).setStyle({opacity: 0});
 			new Effect.Fade(this.MBoverlay, {
-					from: 0, 
-					to: this.options.overlayOpacity, 
-					duration: this.options.overlayDuration, 
+					from: 0,
+					to: this.options.overlayOpacity,
+					duration: this.options.overlayDuration,
 					afterFinish: function() {
 						new Effect.SlideDown(this.MBwindow, {
-							duration: this.options.slideDownDuration, 
-							transition: Effect.Transitions.sinoidal, 
-							afterFinish: function(){ 
-								this._setPosition(); 
+							duration: this.options.slideDownDuration,
+							transition: Effect.Transitions.sinoidal,
+							afterFinish: function(){
+								this._setPosition();
 								this.loadContent();
 							}.bind(this)
 						});
@@ -162,13 +162,13 @@ Modalbox.Methods = {
 		} else {
 			$(this.MBoverlay).setStyle({opacity: this.options.overlayOpacity});
 			$(this.MBwindow).show();
-			this._setPosition(); 
+			this._setPosition();
 			this.loadContent();
 		}
 		this._setWidthAndPosition = this._setWidthAndPosition.bindAsEventListener(this);
 		Event.observe(window, "resize", this._setWidthAndPosition);
 	},
-	
+
 	resize: function(byWidth, byHeight, options) { // Change size of MB without loading content
 		var wHeight = $(this.MBwindow).getHeight();
 		var wWidth = $(this.MBwindow).getWidth();
@@ -178,8 +178,8 @@ Modalbox.Methods = {
 		if(options) this.setOptions(options); // Passing callbacks
 		if(this.options.transitions) {
 			new Effect.ScaleBy(this.MBwindow, byWidth, newHeight, {
-					duration: this.options.resizeDuration, 
-				  	afterFinish: function() { 
+					duration: this.options.resizeDuration,
+				  	afterFinish: function() {
 						this.event("_afterResize"); // Passing internal callback
 						this.event("afterResize"); // Passing callback
 					}.bind(this)
@@ -190,28 +190,28 @@ Modalbox.Methods = {
 				this.event("_afterResize"); // Passing internal callback
 				this.event("afterResize"); // Passing callback
 			}.bind(this), 1);
-			
+
 		}
-		
+
 	},
-	
+
 	resizeToContent: function(options){
-		
+
 		// Resizes the modalbox window to the actual content height.
 		// This might be useful to resize modalbox after some content modifications which were changed ccontent height.
-		
+
 		var byHeight = this.options.height - this.MBwindow.offsetHeight;
 		if(byHeight != 0) {
 			if(options) this.setOptions(options); // Passing callbacks
 			Modalbox.resize(0, byHeight);
 		}
 	},
-	
+
 	resizeToInclude: function(element, options){
-		
+
 		// Resizes the modalbox window to the camulative height of element. Calculations are using CSS properties for margins and border.
 		// This method might be useful to resize modalbox before including or updating content.
-		
+
 		var el = $(element);
 		if(el.getStyle('display') != "none") {
 			return;
@@ -223,7 +223,7 @@ Modalbox.Methods = {
 			Modalbox.resize(0, elHeight);
 		}
 	},
-	
+
 	_update: function() { // Updating MB in case of wizards
 		$(this.MBcontent).update("");
 		this.MBcontent.appendChild(this.MBloading);
@@ -231,7 +231,7 @@ Modalbox.Methods = {
 		this.currentDims = [this.MBwindow.offsetWidth, this.MBwindow.offsetHeight];
 		Modalbox.resize((this.options.width - this.currentDims[0]), (this.options.height - this.currentDims[1]), {_afterResize: this._loadAfterResize.bind(this) });
 	},
-	
+
 	loadContent: function () {
 		if(this.event("beforeLoad") != false) { // If callback passed false, skip loading of the content
 			if(typeof this.content == 'string') {
@@ -239,17 +239,17 @@ Modalbox.Methods = {
 				if(htmlRegExp.test(this.content)) { // Plain HTML given as a parameter
 					this._insertContent(this.content.stripScripts());
 					this._putContent(function(){
-						this.content.extractScripts().map(function(script) { 
+						this.content.extractScripts().map(function(script) {
 							return eval(script.replace("<!--", "").replace("// -->", ""));
 						}.bind(window));
 					}.bind(this));
 				} else // URL given as a parameter. We'll request it via Ajax
-					new Ajax.Request( this.content, { method: this.options.method.toLowerCase(), parameters: this.options.params, 
+					new Ajax.Request( this.content, { method: this.options.method.toLowerCase(), parameters: this.options.params,
 						onSuccess: function(transport) {
 							var response = new String(transport.responseText);
 							this._insertContent(transport.responseText.stripScripts());
 							this._putContent(function(){
-								response.extractScripts().map(function(script) { 
+								response.extractScripts().map(function(script) {
 									return eval(script.replace("<!--", "").replace("// -->", ""));
 								}.bind(window));
 							});
@@ -259,7 +259,7 @@ Modalbox.Methods = {
 							throw('Modalbox Loading Error: ' + exception);
 						}
 					});
-					
+
 			} else if (typeof this.content == 'object') {// HTML Object is given
 				this._insertContent(this.content);
 				this._putContent();
@@ -269,7 +269,7 @@ Modalbox.Methods = {
 			}
 		}
 	},
-	
+
 	_insertContent: function(content){
 		$(this.MBcontent).hide().update("");
 		if(typeof content == 'string') {
@@ -288,7 +288,7 @@ Modalbox.Methods = {
 				$$("#MB_content select").invoke('setStyle', {'visibility': ''});
 		}
 	},
-	
+
 	_putContent: function(callback){
 		// Prepare and resize modal box for content
 		if(this.options.height == this._options.height) {
@@ -319,7 +319,7 @@ Modalbox.Methods = {
 			}.bind(this),1);
 		}
 	},
-	
+
 	activate: function(options){
 		this.setOptions(options);
 		this.active = true;
@@ -330,7 +330,7 @@ Modalbox.Methods = {
 		if(this.options.transitions && this.options.inactiveFade)
 			new Effect.Appear(this.MBwindow, {duration: this.options.slideUpDuration});
 	},
-	
+
 	deactivate: function(options) {
 		this.setOptions(options);
 		this.active = false;
@@ -341,7 +341,7 @@ Modalbox.Methods = {
 		if(this.options.transitions && this.options.inactiveFade)
 			new Effect.Fade(this.MBwindow, {duration: this.options.slideUpDuration, to: .75});
 	},
-	
+
 	_initObservers: function(){
 		$(this.MBclose).observe("click", this.hideObserver);
 		if(this.options.overlayClose)
@@ -351,7 +351,7 @@ Modalbox.Methods = {
 		else
 			Event.observe(document, "keypress", this.kbdObserver);
 	},
-	
+
 	_removeObservers: function(){
 		$(this.MBclose).stopObserving("click", this.hideObserver);
 		if(this.options.overlayClose)
@@ -361,14 +361,14 @@ Modalbox.Methods = {
 		else
 			Event.stopObserving(document, "keypress", this.kbdObserver);
 	},
-	
+
 	_loadAfterResize: function() {
 		this._setWidth();
 		this._setPosition();
 		this.loadContent();
 	},
-	
-	_setFocus: function() { 
+
+	_setFocus: function() {
 		/* Setting focus to the first 'focusable' element which is one with tabindex = 1 or the first in the form loaded. */
 		if(this.focusableElements.length > 0 && this.options.autoFocusing == true) {
 			var firstEl = this.focusableElements.find(function (el){
@@ -379,22 +379,22 @@ Modalbox.Methods = {
 		} else if($(this.MBclose).visible())
 			$(this.MBclose).focus(); // If no focusable elements exist focus on close button
 	},
-	
+
 	_findFocusableElements: function(){ // Collect form elements or links from MB content
 		this.MBcontent.select('input:not([type~=hidden]), select, textarea, button, a[href]').invoke('addClassName', 'MB_focusable');
 		return this.MBcontent.select('.MB_focusable');
 	},
-	
+
 	_kbdHandler: function(event) {
 		var node = event.element();
 		switch(event.keyCode) {
 			case Event.KEY_TAB:
 				event.stop();
-				
-				/* Switching currFocused to the element which was focused by mouse instead of TAB-key. Fix for #134 */ 
+
+				/* Switching currFocused to the element which was focused by mouse instead of TAB-key. Fix for #134 */
 				if(node != this.focusableElements[this.currFocused])
 					this.currFocused = this.focusableElements.toArray().indexOf(node);
-				
+
 				if(!event.shiftKey) { //Focusing in direct order
 					if(this.currFocused == this.focusableElements.length - 1) {
 						this.focusableElements.first().focus();
@@ -412,7 +412,7 @@ Modalbox.Methods = {
 						this.focusableElements[this.currFocused].focus();
 					}
 				}
-				break;			
+				break;
 			case Event.KEY_ESC:
 				if(this.active) this._hide(event);
 				break;
@@ -436,14 +436,14 @@ Modalbox.Methods = {
 				break;
 		}
 	},
-	
+
 	_preventScroll: function(event) { // Disabling scrolling by "space" key
-		if(!["input", "textarea", "select", "button"].include(event.element().tagName.toLowerCase())) 
+		if(!["input", "textarea", "select", "button"].include(event.element().tagName.toLowerCase()))
 			event.stop();
 	},
-	
+
 	_deinit: function()
-	{	
+	{
 		this._removeObservers();
 		Event.stopObserving(window, "resize", this._setWidthAndPosition );
 		if(this.options.transitions) {
@@ -454,7 +454,7 @@ Modalbox.Methods = {
 		}
 		$(this.MBcontent).setStyle({overflow: '', height: ''});
 	},
-	
+
 	_removeElements: function () {
 		$(this.MBoverlay).remove();
 		$(this.MBwindow).remove();
@@ -462,7 +462,7 @@ Modalbox.Methods = {
 			this._prepareIE("", ""); // If set to auto MSIE will show horizontal scrolling
 			window.scrollTo(this.initScrollX, this.initScrollY);
 		}
-		
+
 		/* Replacing prefixes 'MB_' in IDs for the original content */
 		if(typeof this.content == 'object') {
 			if(this.content.id && this.content.id.match(/MB_/)) {
@@ -475,20 +475,20 @@ Modalbox.Methods = {
 		this.event("afterHide"); // Passing afterHide callback
 		this.setOptions(this._options); //Settings options object into intial state
 	},
-	
+
 	_setWidth: function () { //Set size
 		$(this.MBwindow).setStyle({width: this.options.width + "px", height: this.options.height + "px"});
 	},
-	
+
 	_setPosition: function () {
 		$(this.MBwindow).setStyle({left: Math.round((Element.getWidth(document.body) - Element.getWidth(this.MBwindow)) / 2 ) + "px"});
 	},
-	
+
 	_setWidthAndPosition: function () {
 		$(this.MBwindow).setStyle({width: this.options.width + "px"});
 		this._setPosition();
 	},
-	
+
 	_getScrollTop: function () { //From: http://www.quirksmode.org/js/doctypes.html
 		var theTop;
 		if (document.documentElement && document.documentElement.scrollTop)
@@ -505,9 +505,9 @@ Modalbox.Methods = {
 		if(this.options[eventName]) {
 			var returnValue = this.options[eventName](); // Executing callback
 			this.options[eventName] = null; // Removing callback after execution
-			if(returnValue != undefined) 
+			if(returnValue != undefined)
 				return returnValue;
-			else 
+			else
 				return true;
 		}
 		return true;
@@ -532,10 +532,10 @@ Object.extend(Object.extend(Effect.ScaleBy.prototype, Effect.Base.prototype), {
   },
   setup: function() {
     this.elementPositioning = this.element.getStyle('position');
-      
+
     this.originalTop  = this.element.offsetTop;
     this.originalLeft = this.element.offsetLeft;
-	
+
     this.dims = null;
     if(this.options.scaleMode=='box')
       this.dims = [this.element.offsetHeight, this.element.offsetWidth];
@@ -544,17 +544,17 @@ Object.extend(Object.extend(Effect.ScaleBy.prototype, Effect.Base.prototype), {
     if(!this.dims)
       this.dims = [this.options.scaleMode.originalHeight,
                    this.options.scaleMode.originalWidth];
-	  
+
 	this.deltaY = this.options.scaleByHeight;
 	this.deltaX = this.options.scaleByWidth;
   },
   update: function(position) {
     var currentHeight = this.dims[0] + (this.deltaY * position);
 	var currentWidth = this.dims[1] + (this.deltaX * position);
-	
+
 	currentHeight = (currentHeight > 0) ? currentHeight : 0;
 	currentWidth = (currentWidth > 0) ? currentWidth : 0;
-	
+
     this.setDimensions(currentHeight, currentWidth);
   },
 
@@ -562,7 +562,7 @@ Object.extend(Object.extend(Effect.ScaleBy.prototype, Effect.Base.prototype), {
     var d = {};
     d.width = width + 'px';
     d.height = height + 'px';
-    
+
 	var topd  = Math.round((height - this.dims[0])/2);
 	var leftd = Math.round((width  - this.dims[1])/2);
 	if(this.elementPositioning == 'absolute' || this.elementPositioning == 'fixed') {

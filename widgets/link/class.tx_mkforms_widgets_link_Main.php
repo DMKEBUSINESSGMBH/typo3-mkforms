@@ -12,13 +12,13 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		"rdt_link_class" => "res/js/link.js",
 	);
 	var $bCustomIncludeScript = TRUE;
-	
+
 	var $sMajixClass = "Link";
 
 	function _render() {
 		return $this->_renderReadOnly();
 	}
-	
+
 	function _renderReadOnly() {
 
 		$sValue = $this->getValue();
@@ -47,16 +47,16 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 			if($sUrl === FALSE) {
 				$sUrl = $this->_navConf("/url");
 			}
-			
+
 			if($this->oForm->isRunneable($sUrl)) {
 				$sUrl = $this->getForm()->getRunnable()->callRunnableWidget($this, $sUrl);
 			}
 
 			if(!$sUrl) {
-					
+
 				$sValue = trim($sValue);
 				$aParsedURL = @parse_url($sValue);
-				
+
 				if(t3lib_div::inList('ftp,ftps,http,https,gopher,telnet', $aParsedURL['scheme'])) {
 					$sUrl = $sValue;
 				} else {
@@ -100,7 +100,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 			$sHref = FALSE;
 		}
 
-		
+
 
 		$aHtmlBag = array(
 			"url" => $sUrl,
@@ -114,9 +114,9 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		);
 
 		if(!$this->oForm->_isTrue("/urlonly", $this->aElement)) {
-			
+
 			if($this->hasChilds()) {
-				
+
 				$aChilds = $this->renderChildsBag();
 				$sCaption = $this->renderChildsCompiled(
 					$aChilds
@@ -127,11 +127,11 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 				} else {
 					$sCaption = $sHref;
 				}
-				
+
 				if(($sLabel = $this->getLabel()) !== "") {
 					$sCaption = $sLabel;
 				} else {
-					
+
 					$aItems = $this->_getItems();
 					if(count($aItems) > 0) {
 
@@ -170,15 +170,15 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		}
 
 		$aHtmlBag["__compiled"] = $sCompiled;
-		
+
 		$this->includeScripts(array(
 			// Timeout in ms
 			'followTimeout' => ($timeout = $this->_navConf('/followtimeout')) === false ? 0 : intval($timeout),
 		));
-		
+
 		return $aHtmlBag;
 	}
-	
+
 	function _renderOnly() {
 		return TRUE;
 	}
@@ -208,7 +208,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		reset($aAddParams);
 		return $aAddParams;
 	}
-	
+
 	function majixFollow($bDisplayLoader = false) {
 		return $this->buildMajixExecuter( "follow", $bDisplayLoader);
 	}

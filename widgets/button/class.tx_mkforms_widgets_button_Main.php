@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_button' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet {
-	
+
 	var $sMajixClass = "Button";
 	var $aLibs = array(
 		"rdt_button_class" => "res/js/button.js",
@@ -34,7 +34,7 @@ class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet {
 	function _renderOnly() {
 		return TRUE;
 	}
-	
+
 	function _readOnly() {
 		return TRUE;
 	}

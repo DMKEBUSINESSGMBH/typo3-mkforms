@@ -1,9 +1,9 @@
 <?php
-/** 
+/**
  * Plugin 'listerselect' for the 'mkforms' extension.
  * Auswahl von Datensätzen innerhalb eines Listers.
- * Die Radio-Group ist somit ein Teil des Hauptformulars. Im Prinzip verhält sie sich, wie ein normales Widget 
- * innerhalb einer Box. Die Box ist in diesem Fall der Lister. 
+ * Die Radio-Group ist somit ein Teil des Hauptformulars. Im Prinzip verhält sie sich, wie ein normales Widget
+ * innerhalb einer Box. Die Box ist in diesem Fall der Lister.
  *
  * @author	René Nitzsche <dev@dmk-business.de>
  */
@@ -22,7 +22,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 		$lister = $this->getParent();
 		// Lister renderlet?
 		$rowId = $lister->iteratingChilds ? $lister->getCurrentRowUid() : 0;
-		
+
 		// Die ID wird wie bei einer Box zusammengebaut
 		$sId = $this->getElementId() . '_' . $rowId;
 		//$row = $lister->getCurrentRow();
@@ -42,7 +42,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 		$sLabelStart = '<label for="' . $sId . '">';
 		$sLabelEnd = '</label>';
 		$sLabel = $sLabelStart . $sCaption . $sLabelEnd;
-			
+
 		$aHtml = array();
 		$aHtml[] = (($selected !== '') ? $this->_wrapSelected($sInput . $sLabel) : $this->_wrapItem($sInput . $sLabel));
 		$this->sCustomElementId = FALSE;
@@ -98,9 +98,9 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 	}
 
 	/**
-	 * Normale Widgets im Lister werden als Iterating gekennzeichnet. Für den Selector gibt das nicht, da er ja wie ein 
+	 * Normale Widgets im Lister werden als Iterating gekennzeichnet. Für den Selector gibt das nicht, da er ja wie ein
 	 * eigenständiges Widget behandelt werden muss.
-	 * 
+	 *
 	 * @see api/formidable_mainrenderlet#doAfterListRender($oListObject)
 	 */
 	function doAfterListRender(&$oListObject) {
@@ -126,14 +126,14 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 			$sPrefix = $lister->iteratingChilds ? $lister->getElementHtmlNameBase() : '';
 			$this->aStatics['elementHtmlName'][$sName] = $sPrefix . '[' . $sName . ']';
 		}
-		
+
 		return $this->aStatics['elementHtmlName'][$sName];
 	}
 
 	function _getHumanReadableValue($data) {
 
 		$aItems = $this->_getItems();
-		
+
 		reset($aItems);
 		while(list(, $aItem) = each($aItems)) {
 
@@ -158,7 +158,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 
 		return $mSep;
 	}
-	
+
 	function _implodeElements($aHtml) {
 
 		if(!is_array($aHtml)) {
@@ -174,7 +174,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 	function _wrapSelected($sHtml) {
 
 		if(($mWrap = $this->_navConf("/wrapselected")) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}
@@ -189,9 +189,9 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 	}
 
 	function _wrapItem($sHtml) {
-		
+
 		if(($mWrap = $this->_navConf("/wrapitem")) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($mWrap)) {
 				$mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
 			}

@@ -11,8 +11,8 @@ config.tx_mkforms {
 
 	  effects.scriptaculous = EXT:mkforms/res/jsfwk/scriptaculous/scriptaculous.js
 	  effects.effects = EXT:mkforms/res/jsfwk/scriptaculous/effects.js
-	  dragdrop = 
-	  builder = 
-	  tooltip = 
+	  dragdrop =
+	  builder =
+	  tooltip =
 	}
 }

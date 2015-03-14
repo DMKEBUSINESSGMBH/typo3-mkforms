@@ -24,17 +24,17 @@ ver 1.6.0 (12/13/2007)
 
  Fixed: 	IE7 won't hide selects and scroll on top of page anymore
  Fixed: 	Patched IE keyboard handling for Tab-key
- Fixed: 	_kbdHandler "space" key case fixed 
+ Fixed: 	_kbdHandler "space" key case fixed
  Fixed: 	overlayClose parameter for window sequences (wizards) fixed [#139]
  Fixed: 	Selecting a form element with mouse tab order fixed [#134]
  Fixed: 	Fixed header hiding option in MSIE
  Fixed: 	Fixed IDs renaming in MSIE (JS object content type case)
  Fixed: 	Odd MSIE bug fixed with displaying forms on second modalbox calls
  Fixed: 	Added makePositioned to fix MSIE display issues with variable height
- Fixed: 	Added a workaround for content flickering in Firefox 
+ Fixed: 	Added a workaround for content flickering in Firefox
  Fixed: 	_putContent method modified to support callbacks properly. [#100]
  Fixed: 	_removeElements method fixed - IDs reverted properly for original content
- 
+
 ver 1.5.5.1 (09/21/2007)
  Added: 	If title options is set to 'false' the Modalbox header will not shown
  Fixed: 	Toggle SELECTs visibility in IE for cloned node approach [#125]
@@ -95,7 +95,7 @@ ver 1.5.2 (02/26/2007)
 
 ver 1.5.1 (02/15/2007)
  Added: 	Callback 'beforeLoad' fired right before loading MB content. If the callback function returns false, loading will skipped.
- Changed: 	Implementation of callbacks calls changed. Callbacks now removes after execution. 
+ Changed: 	Implementation of callbacks calls changed. Callbacks now removes after execution.
 			Callbacks now have a return value (true | false). Default is true. Fixes: Issue 2 (http://code.google.com/p/modalbox/issues/detail?id=2&can=1&q=)
 
 ver 1.5: (02/02/2007)
@@ -115,7 +115,7 @@ ver 1.5: (02/02/2007)
  Changed: 	self variables replaced to bind(this) functions
  Fixed: 	Scrolling to initial scroll position after closing MB
  Fixed: 	Fixed bug in IE with body's overflow auto
- 
+
 ver 1.4: (06/20/2006)
  Added: 	Core definitions rewriten. Modalbox can now be accessed thorugh Modalbox object with public methods show and hide
  Added: 	License added
@@ -126,7 +126,7 @@ ver 1.4: (06/20/2006)
  Removed:	Scroll window events observerving
  Removed:	Redundant effect ScalyTo
  Issue: 	IE display bug then hidding scrollbars. Document body should have zero margins
- 
+
  ver 1.3: (06/18/2006)
  Added: 	ModalBox will now get focus after opening
  Added: 	Keystrokes handler added (Tab key is looped on ModalBox and closing ModalBox by pressing Esc)
@@ -135,12 +135,12 @@ ver 1.4: (06/20/2006)
  Fixed: 	SELECT element hiding function executes now only in MSIE
  Fixed: 	'Close' button has now href attribute to receive focus
  Fixed: 	Click on 'Close' button doesn't adds an href value to URL string
- 
- ver 1.2: 
+
+ ver 1.2:
  Added: Global variable 'globalMB' added to the file. Use this variable to acces one instance of ModalBox and call methods on it
- 
- ver 1.1: 
+
+ ver 1.1:
  Added: Added SELECT elements hiding for IE (should be rewriten later)
- 
- ver 1.0: 
+
+ ver 1.0:
  Added: Core class description

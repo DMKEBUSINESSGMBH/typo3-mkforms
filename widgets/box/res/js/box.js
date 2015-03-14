@@ -23,13 +23,13 @@ Formidable.Classes.Box = Formidable.Classes.RdtBaseClass.extend({
 		} else {
 			oResult = new Object();
 			var tscope = this;
-	
+
 			Formidable.objEach(this.childs(),function(sName, sAbsName) {
 				var rdt = tscope.child(sName);
 				if(rdt.domNode())
 					oResult[sName] = rdt.getValue();
 			});
-			
+
 			return oResult;
 		}
 	},
@@ -60,7 +60,7 @@ Formidable.Classes.Box = Formidable.Classes.RdtBaseClass.extend({
 				"altKey": aLocalArgs[2].altKey,
 				"metaKey": aLocalArgs[2].metaKey
 			};
-			
+
 			if(typeof aValues["sys_xy"] != "undefined") {
 				aValues["sys_xy"] = {
 					"screenX": aLocalArgs[2].screenX,

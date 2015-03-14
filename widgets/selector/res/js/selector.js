@@ -6,7 +6,7 @@ Formidable.Classes.Selector = Formidable.Classes.RdtBaseClass.extend({
 	getParamsForMajix: function(aValues, sEventName, aParams, aRowParams, aLocalArgs) {
 		sValues = aValues;	// input is a string
 		aValues = {};
-		
+
 		aValues["selected"] = $H(this.oForm.o(this.config.selectedId).getData(true)).values();
 		aValues["selected_active"] = this.oForm.o(this.config.selectedId).getValue();
 		if(!aValues["selected_active"]) {

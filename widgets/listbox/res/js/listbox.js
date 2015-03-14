@@ -4,7 +4,7 @@ Formidable.Classes.ListBox = Formidable.Classes.RdtBaseClass.extend({
 		for(var key in oData) {
 			var oOption = new Option(oData[key], key);
 			this.domNode().options[this.domNode().options.length] = oOption;
-			
+
 			if(oData[key] != null) {
 				this.domNode().options[(this.domNode().options.length - 1)].innerHTML = oData[key];
 			} else {
@@ -45,7 +45,7 @@ Formidable.Classes.ListBox = Formidable.Classes.RdtBaseClass.extend({
 			MKWrapper.each(tscope.domNode().options, function(oOption, key) {
 				tscope.domNode().options[key].selected = false;
 			}, tscope);
-			
+
 		}
 		this.domNode().selectedIndex = this.domNode().multiple ? -1 : 0;
 	},

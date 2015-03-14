@@ -51,13 +51,13 @@ Formidable.Classes.Accordion = Formidable.Classes.RdtBaseClass.extend({
 		);
 	},
 	getCurrent: function() {
-		
+
 		if(this.oAccordion.currentAccordion) {
 			oCurrentBox = $(this.oAccordion.currentAccordion.id);
 			oCurrentAccordion = oCurrentBox.previous(0);
 			return this.oForm.o(oCurrentAccordion.id);
 		}
-		
+
 		return false;
 	},
 	addHandler: function(sHandler, fFunction) {

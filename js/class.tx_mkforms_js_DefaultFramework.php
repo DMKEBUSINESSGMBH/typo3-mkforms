@@ -48,16 +48,16 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework {
 		return $ret;
 	}
 	public function includeBase() {
-		
+
 	}
 	public function getEffectIncludes() {
 		return $this->loadIncludes('effects.');
 	}
 	public function includeTooltips() {
-		
+
 	}
 	public function includeDragDrop() {
-		
+
 	}
 }
 

@@ -37,7 +37,7 @@ Control.Tabs =Base.extend({
 				MKWrapper.findChilds(
 					MKWrapper.$(tab_list_container), this.options.linkSelector
 				) : this.options.linkSelector(MKWrapper.$(tab_list_container));
-			
+
 		MKWrapper.each(
 			MKWrapper.filter(
 				tabs,
@@ -93,7 +93,7 @@ Control.Tabs =Base.extend({
 		var hrefParts = link.getAttribute('href').split('#');
 		link.key = hrefParts[hrefParts.length - 1];
 		this.containers[link.key] = MKWrapper.$(link.key);
-		
+
 		MKWrapper.attachEvent(
 			MKWrapper.$(link),
 			this.options.hover ? 'mouseover' : 'click',
@@ -144,7 +144,7 @@ Control.Tabs =Base.extend({
 				return;
 			}
 		}.bind(this));
-		
+
 		this.setActiveTab(linkToShow);
 		return false;
 	},

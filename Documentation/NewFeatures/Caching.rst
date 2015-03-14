@@ -27,4 +27,3 @@ Es können nun die TypoScript-Pfade konfiguriert werden, welche im Cache landen 
          plugin.tx_mkforms = 1
       }
    }
-   

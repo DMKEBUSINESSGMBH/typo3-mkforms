@@ -8,13 +8,13 @@
 		var $sExtRelPath	= null;
 		var $sExtWebPath	= null;
 		var $aObjectType	= null;
-		
+
 		var $sXPath			= null;
 
 		var $sNamePrefix = FALSE;
 
 		function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
-			
+
 			$this->oForm =& $oForm;
 			$this->aElement = $aElement;
 			$this->aObjectType = $aObjectType;
@@ -46,7 +46,7 @@
 			if($aConf !== FALSE) {
 				return $this->getForm()->_navConf($path, $aConf);
 			}
-			
+
 			return $this->getForm()->_navConf($path, $this->aElement);
 		}
 
@@ -176,7 +176,7 @@
 		function _defaultTrueMixed($sPath) {
 
 			if(($mMixed = $this->_navConf($sPath)) !== FALSE) {
-				
+
 				if(strtoupper($mMixed) !== 'TRUE' && strtoupper($mMixed) !== 'FALSE') {
 					return $mMixed;
 				}
@@ -201,7 +201,7 @@
 		function _defaultFalseMixed($sPath) {
 
 			if(($mMixed = $this->_navConf($sPath)) !== FALSE) {
-				
+
 				if(strtoupper($mMixed) !== 'TRUE' && strtoupper($mMixed) !== 'FALSE') {
 					return $mMixed;
 				}
@@ -252,12 +252,12 @@
 			$mRes = call_user_func_array(array($ref, 'callRunnable'), $aArgs);
 			return $mRes;
 		}
-		
+
 		function getName() {
 			return $this->aObjectType['CLASS'];
 		}
 	}
-	
+
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.mainobject.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.mainobject.php']);
 }

@@ -8,7 +8,7 @@
 */
 
 Formidable.Classes.TabPanel = Formidable.Classes.RdtBaseClass.extend({
-	
+
 	activeContainer: false,
 
 	contructor: function(config) {
@@ -85,7 +85,7 @@ Formidable.Classes.TabPanel = Formidable.Classes.RdtBaseClass.extend({
 		}else{
 			this.containers.each(function(item){
 				item[1].hide();
-			});			
+			});
 			this.links.each(function(item){
 				item.removeClassName(this.options.activeClassName);
 			}.bind(this));

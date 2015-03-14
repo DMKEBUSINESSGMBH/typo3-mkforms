@@ -1,13 +1,13 @@
 new function() {
 	var A = Array.prototype, F = Function.prototype;
-	
+
 	A.push = function() {
 		for (var i = 0; i < arguments.length; i++) {
 			this[this.length] = arguments[i];
 		}
 		return this.length;
 	};
-	
+
 	A.pop = function() {
 		if (this.length) {
 			var i = this[this.length - 1];
@@ -15,7 +15,7 @@ new function() {
 			return i;
 		}
 	};
-	
+
 	A.shift = function() {
 		var r = this[0];
 		if (this.length) {
@@ -25,13 +25,13 @@ new function() {
 		}
 		return r;
 	};
-	
+
 	A.unshift = function() {
 		var a = A.concat.call(A.slice.apply(arguments, [0]), this), i = a.length;
 		while (i--) this[i] = a[i];
 		return this.length;
 	};
-	
+
 	A.splice = function(i, c) {
 		var r = c ? this.slice(i, i + c) : [];
 		var a = this.slice(0, i).concat(A.slice.apply(arguments, [2])).concat(this.slice(i + c)), i = a.length;
@@ -39,7 +39,7 @@ new function() {
 		while (i--) this[i] = a[i];
 		return r;
 	};
-	
+
 	F.apply = function(o, a) {
 		var $ = "__apply__", r;
 		if (o == null) o = window;
@@ -62,7 +62,7 @@ new function() {
 		}
 		return r;
 	};
-	
+
 	F.call = function(o) {
 		return this.apply(o, A.slice.apply(arguments, [1]));
 	};

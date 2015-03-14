@@ -1,6 +1,6 @@
-<?php 
+<?php
 $cryptinstall="./cryptographp.fct.php";
-include $cryptinstall; 
+include $cryptinstall;
 ?>
 
 

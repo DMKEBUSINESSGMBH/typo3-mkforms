@@ -1,6 +1,6 @@
 /*
 	Queue Plug-in
-	
+
 	Features:
 		*Adds a cancelQueue() method for cancelling the entire queue.
 		*All queued files are uploaded when startUpload() is called.
@@ -8,7 +8,7 @@
 		 If false is not returned (strict comparison) then the queue upload is continued.
 		*Adds a QueueComplete event that is fired when all the queued files have finished uploading.
 		 Set the event handler with the queue_complete_handler setting.
-		
+
 	*/
 
 var SWFUpload;
@@ -22,7 +22,7 @@ if (typeof(SWFUpload) === "function") {
 			if (typeof(oldInitSettings) === "function") {
 				oldInitSettings.call(this);
 			}
-			
+
 			this.uploadedFiles = [];
 			this.lastUploadedFiles = [];
 			this.queueTracker = {};
@@ -49,7 +49,7 @@ if (typeof(SWFUpload) === "function") {
 	SWFUpload.queueTracker.queueCompleteHandler = function(file) {
 		this.lastUploadedFiles = this.uploadedFiles;
 		this.uploadedFiles = [];
-		
+
 		if (typeof(this.queueTrackerSettings.queue_complete_handler) === "function") {
 			returnValue = this.queueTrackerSettings.queue_complete_handler.call(this, file);
 		}
