@@ -97,18 +97,6 @@ Formidable.Classes.SwfUpload = Formidable.Classes.RdtBaseClass.extend({
 			"upload_success_handler": this.onUploadSuccess_handler.bind(this),
 			"upload_complete_handler": this.onUploadComplete_handler.bind(this)
 		});
-
-		//this.oSWFUpload = new SWFUpload(this.config.swfupload_config);
-
-/*		this.oSWFUpload.fileDialogStart_handler =
-		this.oSWFUpload.fileDialogComplete_handler = this.onDialogClose_handler.bind(this);
-		this.oSWFUpload.uploadProgress_handler = this.onUploadProgress_handler.bind(this);
-		this.oSWFUpload.uploadSuccess_handler = this.onUploadSuccess_handler.bind(this);
-		this.oSWFUpload.uploadError_handler = this.onUploadError_handler.bind(this);
-		this.oSWFUpload.uploadComplete_handler = this.onUploadComplete_handler.bind(this);
-		this.oSWFUpload.file_queued_handler = this.onFileQueued_handler.bind(this);
-		this.oSWFUpload.fileQueueError_handler = this.onQueueError_handler.bind(this);
-*/
 	},
 	selectFiles: function() {
 		this.oSWFUpload.selectFiles();

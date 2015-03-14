@@ -216,9 +216,6 @@
 			return $this->_defaultFalseMixed($sPath);
 		}
 
-
-
-
 		// this has to be static !!!
 		function loaded(&$aParams) {
 		}
@@ -229,7 +226,6 @@
 		}
 
 		function baseCleanBeforeSession() {
-			/*unset($this->oForm);*/
 		}
 
 		function awakeInSession(&$oForm) {

@@ -49,21 +49,6 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 					$this->oForm->mayday("DATAHANDLER DB cannot create requested i18n for parent:" . $aNewI18n["i18n_parent"] . " with sys_language_uid:" . $aNewI18n["sys_language_uid"] . " ; this version already exists");
 				}
 
-				//debug("creation of child");
-
-	/*				// everything's ok, creating child
-				$aChild = $this->i18n_getStoredParent($aParent);
-				unset($aChild[$keyname]);
-				$aChild["sys_language_uid"] = $aNewI18n["sys_language_uid"];
-				$aChild["l18n_parent"] = $aNewI18n["i18n_parent"];	// notice difference between i and l
-
-				$rSql = $this->oForm->_watchOutDB(
-					$GLOBALS["TYPO3_DB"]->exec_INSERTquery(
-						$tablename,
-						$aChild
-					)
-				);*/
-
 				$aChild = array();
 				$aChild["sys_language_uid"] = $aNewI18n["sys_language_uid"];
 				$aChild["l18n_parent"] = $aNewI18n["i18n_parent"];	// notice difference between i and l
@@ -116,15 +101,6 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 							$aUpdateData = array();
 
 							$this->oForm->_debug("", "DB update, taking care of sys_language_uid " . $this->i18n_getSysLanguageUid());
-							//$aFormData["sys_language_uid"]  = $this->i18n_getSysLanguageUid();
-
-							/*reset($this->oForm->aORenderlets);
-							while(list($sName, ) = each($this->oForm->aORenderlets)) {
-								$oRdt =& $this->oForm->aORenderlets[$sName];
-								if(array_key_exists($sName, $aFormData) && !$oRdt->_translatable()) {
-									$aUpdateData[$sName] = $aFormData[$sName];
-								}
-							}*/
 
 							reset($aFormData);
 							while(list($sName, ) = each($aFormData)) {
@@ -252,9 +228,6 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 
 				/*   /process/afterinsertion */
 				$this->_processAfterInsertion($this->_getStoredData());
-
-			} else {
-				/* nothing to do */
 			}
 		} else {
 			$this->oForm->mayday("DATAHANDLER configuration isn't correct : check /tablename AND /keyname in your datahandler conf");
@@ -401,24 +374,6 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		$options['where'] = $sKeyname . " = '" . $iUid . "'";
 		$ret = tx_rnbase_util_DB::doSelect($sFields, $sTablename, $options, 0);
 		return count($ret) ? $ret[0] : FALSE;
-
-//		$sSql = $GLOBALS["TYPO3_DB"]->SELECTquery(
-//			$sFields,
-//			$sTablename,
-//			$sKeyname . " = '" . $iUid . "'"
-//		);
-//
-//		$rSql = $this->oForm->_watchOutDB(
-//			$GLOBALS["TYPO3_DB"]->sql_query($sSql),
-//			$sSql
-//		);
-//
-//		if(($aRes = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($rSql)) !== FALSE) {
-//			reset($aRes);
-//			return $aRes;
-//		}
-//
-//		return FALSE;
 	}
 
 	function _getStoredData($sName = FALSE) {
@@ -487,23 +442,9 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 							);
 						}
 					}
-					//return TRUE;
 				}
 			}
 		}
-
-		return FALSE;
-
-		/*if(($aReqNewi18n = $this->oForm->_navConf("/formidable_i18n/new/", $GLOBALS)) !== FALSE) {
-
-			$iParentUid = $aReqNewi18n["parentuid"];
-			$iSysLangUid = $aReqNewi18n["languid"];
-
-			return array(
-				"i18n_parent" => $iParentUid,
-				"sys_language_uid" => $iSysLangUid
-			);
-		}*/
 
 		return FALSE;
 	}

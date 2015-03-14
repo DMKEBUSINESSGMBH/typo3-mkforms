@@ -189,8 +189,6 @@ class tx_mkforms_util_Runnable {
 
 				$ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
 
-				//@TODO: Logging exceptions
-				//t3lib_div::sysLog($ret."\r\n".$e->__toString(), 'mkforms', 4);
 				if($verbose)
 					$ret .= "\r\n" . $e->__toString();
 				else
@@ -336,7 +334,6 @@ class tx_mkforms_util_Runnable {
 	}
 
 	function pushForcedUserObjParam($aParam) {
-		//$this->aForcedUserObjParamsStack[$sName] = $aParam;
 		array_push($this->aForcedUserObjParamsStack, $aParam);
 		return (count($this->aForcedUserObjParamsStack) - 1);
 	}
@@ -485,8 +482,6 @@ class tx_mkforms_util_Runnable {
 	}
 
 	private function &buildJsCbObject($aCB) {
-//		require_once(t3lib_extMgm::extPath('mkforms', 'api/class.mainjscb.php'));
-//		$oJsCb = t3lib_div::makeInstance("formidable_mainjscb");
 		// den loader benutzen, damit die klasse beim ajax geladen wird
 		$oJsCb = $this->getForm()->getObjectLoader()->makeInstance(
 					'formidable_mainjscb',
@@ -583,10 +578,8 @@ class tx_mkforms_util_Runnable {
 
 				if(is_file($sFilePath) && is_readable($sFilePath)) {
 					if(intval(filesize($sFilePath)) === 0) {
-						//$this->mayday("CodeBehind [" . $sCBRef . "]: seems to be empty</b>.");
 						tx_mkforms_util_Div::smartMayday_CBJavascript($sFilePath, $sClass, FALSE);
 					}
-					//debug($sFilePath);
 					// inclusion of the JS
 					$this->getForm()->aCodeBehindJsIncludes[$sCBRef] =
 						'<script type="text/javascript" src="' .
@@ -728,8 +721,6 @@ class tx_mkforms_util_Runnable {
 
 							$ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
 
-							//@TODO: Logging exceptions
-							//t3lib_div::sysLog($ret."\r\n".$e->__toString(), 'mkforms', 4);
 							if($verbose)
 								$ret .= "\r\n" . $e->__toString();
 							else

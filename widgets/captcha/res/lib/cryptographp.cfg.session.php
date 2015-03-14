@@ -60,14 +60,6 @@ $charclear = $_SESSION["rdt_captcha"]["config"]["charclear"];   // Intensit� d
 
 // Polices de caract�res
 
-//$tfont[] = 'Alanden_';       // Les polices seront al�atoirement utilis�es.
-//$tfont[] = 'bsurp___';       // Vous devez copier les fichiers correspondants
-//$tfont[] = 'ELECHA__.TTF';       // sur le serveur.
-//$tfont[] = 'luggerbu.ttf';     // Ajoutez autant de lignes que vous voulez
-//$tfont[] = 'RASCAL__';
-//$tfont[] = 'SCRAWL.ttf';
-//$tfont[] = 'WAVY.ttf';
-
 $tfont = $_SESSION["rdt_captcha"]["config"]["tfont"];
 
 

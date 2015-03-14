@@ -36,7 +36,6 @@ class tx_mkforms_session_Factory {
 	public static function getSessionManager() {
 		if(!self::$manager) {
 			self::$manager = tx_rnbase::makeInstance('tx_mkforms_session_MixedSessionManager');
-			//self::$manager = tx_rnbase::makeInstance('tx_mkforms_session_PHPSessionManager');
 		}
 		return self::$manager;
 	}

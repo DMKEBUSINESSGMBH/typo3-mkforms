@@ -9,7 +9,6 @@
 class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 
 	function _render() {
-		// return "<input type=\"button\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" value=\"" . $this->oForm->getConfigXML()->getLLLabel($this->_navConf("/label")) . "\"" . $this->_getAddInputParams() . " />";
 		$sLabel = $this->getLabel();
 		$sValue = $sLabel ? ' value="' . $sLabel . '"' : '';
 		if(($sPath = $this->_navConf('/path')) !== FALSE) {
@@ -52,14 +51,6 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 		$aAddPost = array(
 			$this->_getElementHtmlNameWithoutFormId() => '1'		// to simulate default browser behaviour
 		);
-
-		/*
-			$sJson = '';
-			if($aAddPost !== FALSE) {
-				$sJson = $this->oForm->array2json($aAddPost);
-			}
-
-		*/
 
 		$sEvent = '';
 

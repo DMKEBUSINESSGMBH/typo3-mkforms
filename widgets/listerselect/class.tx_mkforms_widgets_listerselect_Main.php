@@ -13,8 +13,6 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 	var $aLibs = array(
 		'widget_listersel_class' => 'res/js/listersel.js',
 	);
-//
-//	var $bCustomIncludeScript = TRUE;
 
 	function _render() {
 
@@ -25,12 +23,8 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 
 		// Die ID wird wie bei einer Box zusammengebaut
 		$sId = $this->getElementId() . '_' . $rowId;
-		//$row = $lister->getCurrentRow();
-		//$sId = $lister->_getElementHtmlId() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $this->_getNameWithoutPrefix() . '_' . $row[$lister->getUidColumn()];
 
 		$this->addSelectorId($sId);
-//		$aSubRdts = array();
-//		$aSubRdts[] = $sId;
 		$this->sCustomElementId = $sId;
 		$this->includeScripts();
 
@@ -48,15 +42,6 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 		$this->sCustomElementId = FALSE;
 		reset($aHtml);
 		$sRadioGroup = $this->_implodeElements($aHtml);
-
-//		// allowed because of $bCustomIncludeScript = TRUE
-//		$this->includeScripts(
-//			array(
-//				"name" => $this->_getElementHtmlName(),
-//				"radiobuttons" => $aSubRdts,
-//				"bParentObj" => TRUE,
-//			)
-//		);
 
 		$aHtmlBag = array(
 			'__compiled' => $sLabel . $sRadioGroup,
@@ -104,7 +89,6 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 	 * @see api/formidable_mainrenderlet#doAfterListRender($oListObject)
 	 */
 	function doAfterListRender(&$oListObject) {
-		#debug($this->_getElementHtmlId(), "doBeforeListRender");
 		$this->includeScripts(
 			array(
 				'radiobuttons' => $this->aSubWidgets,

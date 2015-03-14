@@ -9,12 +9,6 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 
 	constructor: function(oConfig) {
 		this.base(oConfig);
-//		if (this.domNode()) {
-//			this.initialize();
-//			this.initStartPosition();
-//			//this.execEvents(); //wird nach dem addScript geladen
-//			this.addScript(this, oConfig.jsExtend);
-//		}
 	},
 
 	initialize: function() {
@@ -47,11 +41,6 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		this.oLoader 	= MKWrapper.$(id + Formidable.SEP + 'loader');
 
 		this.oText.parentNode.insertBefore(this.oLoader, this.oList);
-
-//		MKWrapper.setStyle(this.oList, {
-//			"width": "0px",
-//			"height": "0px"
-//		});
 
 		this.initStartPosition();
 		this.addScript(this);
@@ -153,10 +142,6 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		var obj = this;		// save the current object for later use
 		var sText = MKWrapper.$F(obj.oText);
 
-		//TODO make configurable
-		// hide the list of choices
-		//obj.hideItemList(obj);
-
 		// if there is no search or only one sign, than instantly exit
 		if (sText.length < 2) {
 			obj.hideItemList(obj);
@@ -255,8 +240,6 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 	listSelect: function(obj, element) {
 		var sText = MKWrapper.stripTags(element.innerHTML);
 		sText = sText.replace(/\s+/g, " ").replace(/^\s+|\s+$/, "");
-		//jQuery gibt hier kein Event zurück!?
-		//obj.oText.oObserver.lastValue = sText;
 		obj.setDbEntryState(true);
 		obj.oText.value = sText;
 		obj.hideItemList(obj);
@@ -272,7 +255,6 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		MKWrapper.each(Formidable.objValues(aHtml[2]),
 			function(sValue, sKey) {
 				var oElement = MKWrapper.$tag('div', {});
-//				oElement = new Element('div');
 				oElement.className = obj.config.item['class'];
 				MKWrapper.setStyle(oElement, obj.config.item.style);
 				oElement.innerHTML = sValue;
@@ -298,7 +280,6 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		});
 		var iWidth = 0;
 		var iHeight = 0;
-//		var aChilds = obj.oList.childElements();
 		var aChilds = MKWrapper.findChilds(obj.oList);
 		for (var i=0, len=aChilds.length; i<len; ++i) {
 			var oDim = MKWrapper.getDimensions(aChilds[i]);

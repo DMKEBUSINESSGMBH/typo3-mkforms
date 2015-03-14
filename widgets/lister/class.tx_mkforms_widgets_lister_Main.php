@@ -47,7 +47,6 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 
 		//wird benötigt um die lister data zu holen
 		$this->_initDataStream();
-		#$this->aLimitAndSort = FALSE;
 		$this->_initLimitAndSort();
 
 		$ok = false;
@@ -414,8 +413,6 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 					$sLinkFirst = "";
 				}
 
-				#$iEnd = $iPage + 1;
-				#$iEnd = $iPage + ($iWindowWidth - 2);
 				$iEnd = $iPage + ($iWindowWidth - 1);
 
 				if($iEnd > $iPageMax) {
@@ -436,8 +433,6 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 						$aWindow[$k] = $this->_buildLink(array(
 							"page" => $k
 						));
-					} else {
-//						$aWindow[$k] = FALSE;
 					}
 				}
 			}
@@ -511,7 +506,6 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				// excluding also params that have been marked as "please remove"
 				// like what's done for the form action when setting get-params
 				// to alter the search
-			#debug($aRdtParamsExclude, "exclude!!!");
 
 			$aPathes = $this->oForm->implodePathesForArray($aRdtParamsExclude);
 			reset($aPathes);
@@ -870,8 +864,6 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 			// generating window
 			$sWindow = '';
 			if(!empty($this->aPager['window'])) {
-
-				#$sWindow = t3lib_parsehtml::getSubpart($sPager, '###WINDOW###');
 				$sWindow = t3lib_parsehtml::getSubpart($aTemplate['pager'], '###WINDOW###');
 				$sLinkNo = t3lib_parsehtml::getSubpart($sWindow, '###NORMAL###');
 				$sLinkAct = t3lib_parsehtml::getSubpart($sWindow, '###ACTIVE###');
@@ -1010,7 +1002,6 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 						$sSortSymbol = '';
 					}
 
-					#$sAccesTitle = "{LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sortby} &quot;" . $sHeader . "&quot; {LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sort." . $sNewDir . "}";
 					$sTag = "<a id=\"" . $sListHtmlId . "_sortlink_" . $sColumn . "\" href=\"" . $sLink . "\" title=\"" . $sAccesTitle . "\" class=\"" . $sColumn . "_sort " . $sCssClass . "\">" . $sSortHtml . $sLabelDir . $sSortSymbol . "</a>";
 				} else {
 					$sTag = $sSortHtml;
@@ -1082,7 +1073,6 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				$aRes['alternaterows'] = $aTemplate['alternaterows'];
 			}
 
-			//$aTemplate["path"] = $this->oForm->toServerPath($aTemplate["path"]);
 			$aTemplate['path'] = tx_mkforms_util_Div::toServerPath($aTemplate['path']);
 
 
@@ -1339,14 +1329,6 @@ ERRORMESSAGE;
 				array(),
 				FALSE
 			);
-			/*
-			$aHtml['DATA']['ROWACT'][]	= $this->_parseThrustedTemplateCode(
-				$sDataColumnAct,
-				$aTemp,
-				array(),
-				FALSE
-			);
-			*/
 		}
 
 		$aRes['html'] = t3lib_parsehtml::substituteSubpart($aRes['html'], '###STYLES###', '', FALSE, FALSE);
@@ -1572,8 +1554,6 @@ ERRORMESSAGE;
 				$this->aOColumns[$sName]->doBeforeIteration($this);
 			}
 			foreach($aColKeys As $sName) {
-//				$this->aOColumns[$sName]->doBeforeIteration($this);
-
 				/* @var $oWidget formidable_mainrenderlet */
 				$oWidget = $this->aOColumns[$sName];
 				$oWidget->setIteratingId($sUid);
@@ -1614,59 +1594,6 @@ ERRORMESSAGE;
 				}
 
 				$oWidget->setIteratingId();
-				/*
-		Die alte variante,
-		wenn bei activelistlabels werte in den parametern stecken
-		werden diese ignoriert, wenn in der datasource welche vorhanden sind.
-		auserdem viel zu viel code ^^
-				if(array_key_exists($sName, $aRow)) {
-
-					$sAbsName = $this->aOColumns[$sName]->getAbsName();
-
-					if(array_key_exists($sAbsName, $this->oForm->aPreRendered)) {
-						$aRow[$sAbsName] = $this->oForm->aPreRendered[$sAbsName];
-					} else {
-						$this->aRdtByRow[$sUid][$sName] = $this->aOColumns[$sName]->_getElementHtmlId();
-
-						if($this->aOColumns[$sName]->_activeListable()) {
-
-							$aRow[$sName] = $this->oForm->oRenderer->processHtmlBag(
-								$this->aOColumns[$sName]->renderWithForcedValue($aRow[$sName]),
-								$this->aOColumns[$sName]
-							);
-						} else {
-							$aRow[$sName] = $this->oForm->oRenderer->processHtmlBag(
-								$this->aOColumns[$sName]->renderReadOnlyWithForcedValue($aRow[$sName]),
-								$this->aOColumns[$sName]
-							);
-						}
-					}
-				} else {
-					// not in the data row
-					// probably a virtual column
-
-					// calling _getValue() here, as value has to be evaluated for each row
-					$mValue = $this->aOColumns[$sName]->getValue();
-
-					if($this->aOColumns[$sName]->_activeListable()) {
-
-						$this->aRdtByRow[$sUid][$sName] = $this->aOColumns[$sName]->_getElementHtmlId();
-						$renderData = $this->aOColumns[$sName]->renderWithForcedValue($mValue);
-						$aRow[$sName] = $this->getForm()->oRenderer->processHtmlBag(
-							$renderData,
-							$this->aOColumns[$sName]
-						);
-
-					} else {
-
-						$aRow[$sName] = $this->oForm->oRenderer->processHtmlBag(
-							$this->aOColumns[$sName]->renderReadOnlyWithForcedValue($mValue),
-							$this->aOColumns[$sName]
-						);
-					}
-				}
-				*/
-//				$this->aOColumns[$sName]->doAfterIteration();
 			}
 			foreach($aColKeys As $sName) {
 				$this->aOColumns[$sName]->doAfterIteration();

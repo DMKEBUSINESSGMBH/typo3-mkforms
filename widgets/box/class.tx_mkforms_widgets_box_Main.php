@@ -55,9 +55,6 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet {
 			$sDBridgeId = $this->_getElementHtmlId() . "_databridge";
 			$sSignature = $this->dbridge_getCurrentDsetSignature();
 			$sHidden = "<input type=\"hidden\" name=\"" . $sDBridgeName . "\" id=\"" . $sDBridgeId . "\" value=\"" . htmlspecialchars($sSignature) . "\" />";
-
-			#$sHidden .= "<input type=\"hidden\" name=\"" . $this->oForm->formid . "[_databridge][" . base64_encode($this->_getElementHtmlIdWithoutFormId()) . "]\" value=\"" . base64_encode($this->oDataSource->getName()) . "\" />";
-			#debug($sHidden2, "hidden2");
 		}
 
 		if($sMode !== "inline") {
@@ -123,7 +120,6 @@ new Draggable("' . $sHtmlId . '", ' . $sJson . ');
 					$bDroppable = TRUE;
 
 					if(($sAccept = $this->_navConf("/droppable/accept")) !== FALSE) {
-						//$aConf["accept"] = t3lib_div::trimExplode(",", $sAccept);
 						$aConf["accept"] = $sAccept;
 					}
 
@@ -174,8 +170,6 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 				$this->oForm->attachInitTask($sScript);
 			}
 		}
-
-		//debug($this->aCustomEvents);
 
 		$aHtmlBag = array(
 			"__compiled" => $this->_displayLabel($sLabel) . $sBegin . $sHtml . $sCompiledChilds . $sEnd,
@@ -271,17 +265,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 		return $this->_defaultFalse("/searchable/");
 	}
 
-/*	function alterAjaxEventParams($aParams) {
-
-//		debug($aParams["params"]);
-//		$aParams["params"][] = "context::arguments[0]['id']";
-//		$aParams["params"][] = "context::arguments[1]['id']";
-
-		return $aParams;
-	}*/
-
 	function doAfterListRender(&$oListObject) {
-		#debug($this->_getElementHtmlId(), "doBeforeListRender");
 		parent::doAfterListRender($oListObject);
 
 		if($this->hasChilds()) {

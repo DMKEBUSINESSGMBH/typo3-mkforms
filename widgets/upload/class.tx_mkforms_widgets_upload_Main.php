@@ -184,7 +184,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 				$sTarget = $sTargetFile;
 			} else {
 				$sTargetDir = $this->getTargetDir();
-				#debug($sTargetDir, 'le bon targetdir');
 
 				$sName = basename($aData['name']);
 				if($this->defaultTrue('/data/cleanfilename') && $this->defaultTrue('/cleanfilename')) {
@@ -239,7 +238,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					// csv string of file names
 
 					if($this->oForm->oDataHandler->_edition() === FALSE || $this->_renderOnly()) {
-						//$aPost = $this->oForm->oDataHandler->_P();
 						$sCurrent = $aData['backup'];
 					} else {
 						$sCurrent = trim($this->oForm->oDataHandler->_getStoredData($this->_getName()));
@@ -273,9 +271,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 			$aStoredData = $this->oForm->oDataHandler->_getStoredData();
 
 			if(($this->oForm->oDataHandler->_edition() === FALSE) || (!array_key_exists($this->_getName(), $aStoredData))) {
-				//$aPost = $this->oForm->oDataHandler->_P();
-
-
 				if(is_string($aData)) {
 					if($this->bForcedValue === TRUE) {
 						// value has been set by some process (probably a server event) with setValue()
@@ -360,7 +355,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 				}
 			}
 		}
-		#debug($this->aStatics);
+
 		return $this->aStatics['targetdir'];
 	}
 
@@ -422,19 +417,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 				tx_dam::notify_fileChanged($sFilePath);
 				$oMedia = tx_dam::media_getForFile($sFilePath);
-
-				if($this->oForm->_defaultTrue('/dam/trackusage', $this->aElement) !== FALSE) {
-					/*$aFileUsages = tx_dam_db::getMediaUsageReferences(
-						$oMedia,
-						$foreign_table='',
-						$MM_ident='',
-						$fields='',
-						$whereClauses=array(),
-						$groupBy='',
-						$orderBy='',
-						$limit=1000
-					);*/
-				}
 
 				if(($mCategories = $this->_navConf('/dam/addcategories')) !== FALSE) {
 

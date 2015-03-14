@@ -56,14 +56,7 @@ jQuery.extend({
 					var io = document.getElementById(frameId);
 					s.onComplete(jQuery(io).contents().find('body').text());
 
-//					var oIframe =  document.getElementById('jUploadFrame1274351608492');
-//					var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
-//					if (oDoc.document) oDoc = oDoc.document;
-//					oDoc = window.jUploadFrame1274351608492.document;
-//					alert(oDoc.innerHtml);
-
 					$('#'+s.uploadField).val('');
-					//setTimeout(function(){$(io).remove();$(form).remove();}, 100)
         }
 				form.attr('action', s.url);
 				form.attr('method', 'POST');
@@ -90,14 +83,9 @@ MKWrapper.initAjaxUpload = function(oConfig) {
 		jQuery.ajaxFileUpload ( {
 			url:oConfig.url,
 			uploadField:oConfig.uploadField,
-//			additionalFields:oConfig.additionalFields,
 			onStart: oConfig.onStart,
 			onComplete: oConfig.onComplete
 		} );
-		/*if(event.isDefaultPrevented()) {
-			event.stopImmediatePropagation();
-			event.stopPropagation();
-		}*/
 		return false;
 	});
 }

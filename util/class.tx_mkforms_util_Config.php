@@ -672,8 +672,6 @@ class tx_mkforms_util_Config {
 								$sXPath = $val['xpath'];
 							}
 
-							#debug($aXml);
-
 							$aXml = $this->xPath('XPATH:' . $sXPath,$aXml,TRUE); // BREAKABLE
 
 							if($aXml === AMEOSFORMIDABLE_XPATH_FAILED) {

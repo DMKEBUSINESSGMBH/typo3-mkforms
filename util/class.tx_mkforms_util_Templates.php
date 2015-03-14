@@ -118,7 +118,6 @@ class tx_mkforms_util_Templates {
 				if($sCar === '(' && $aCurrent[$iCurrent]['args'] === FALSE) {
 					$aCurrent[$iCurrent]['args'] = '';
 				} else {
-					//debug($sCar, 'car:' . $iOpened);
 					$aCurrent[$iCurrent]['args'] .= $sCar;
 				}
 			} else {
@@ -192,12 +191,6 @@ class tx_mkforms_util_Templates {
 				reset($mValue);
 			}
 
-/*			$aMarkers = array(
-				"context" => $aTags,
-				"key" => $sKey,
-				trim($aMatch[3]) => $mValue
-			);
-*/
 			$aTags[trim($aMatch[3])] = $mValue;
 			$aRes[] = $this->parseTemplateCode($aMatch[4],$aTags,$aExclude = array(),$bClearNotUsed = FALSE);
 		}
@@ -397,11 +390,6 @@ class tx_mkforms_util_Templates {
 			$this->pushTemplateMarkers($aTags);
 		}
 
-		// TODO: Das wieder aktivieren
-//		if(is_object($this->_oParent) && !empty($this->_oParent->extKey)) {
-//			$aTags["PARENTPATH"] = $this->_getParentExtSitePath();
-//		}
-
 		if(count($aExclude) > 0) {
 
 			$sExcludePfx = md5(microtime(TRUE));
@@ -414,10 +402,8 @@ class tx_mkforms_util_Templates {
 				$sHtml = str_replace("{" . $tag . ".label}", $sExcludePfx2 . $tag . $sExcludePfx2, $sHtml);
 			}
 		}
-		#debug($aTags);
 		reset($aTags);
 		while(list($sName, $mVal) = each($aTags)) {
-			#debug($sName, "on remplace les subparts");
 			if(($sRdtSubPart = t3lib_parsehtml::getSubpart($sHtml, "###" . $sName . "###")) !== "") {
 				$sHtml = t3lib_parsehtml::substituteSubpart(
 					$sHtml,
@@ -429,13 +415,6 @@ class tx_mkforms_util_Templates {
 			}
 		}
 
-		#$this->_aTags =& $aTags;
-/*		if(!isset($GLOBALS["tx_ameosformidable"][$this->formid]["aTags"])) {
-			$GLOBALS["tx_ameosformidable"][$this->formid]["aTags"] = array();
-		}
-
-		$GLOBALS["tx_ameosformidable"][$this->formid]["aTags"][] = $aTags;
-*/
 		$sHtml = $this->processForEaches($sHtml);
 		$sHtml = $this->processWithAs($sHtml);
 		$sHtml = $this->processPerimeters(

@@ -47,8 +47,6 @@ Formidable.Classes.ProgressBar = Formidable.Classes.RdtBaseClass.extend({
 			sWidth = iPercent + "%";
 		}
 
-		//this.visible();
-
 		if(this.config.effects) {
 			if(this.oEffect) {
 				this.oEffect.cancel();
@@ -86,12 +84,10 @@ Formidable.Classes.ProgressBar = Formidable.Classes.RdtBaseClass.extend({
 	},
 	getPercentForValue: function(mValue) {
 		if(mValue > this.config.max) {
-			//mValue = this.config.max;
 			return 100;
 		}
 
 		if(mValue < this.config.min) {
-			//mValue = this.config.min;
 			return 0;
 		}
 

@@ -191,12 +191,6 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			}
 
 			return $sHtml;
-//			return $this->oForm->getTemplateTool()->parseTemplateCode(
-//				$sHtml,
-//				$aChildsBag,
-//				array(),
-//				FALSE
-//			);
 		} else {
 			$this->oForm->mayday("The renderlet:autocomplete <b>" . $this->_getName() . "</b> requires /template to be properly set. Please check your XML configuration");
 		}
@@ -298,7 +292,6 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			//Wir können hier nicht die setValue Methode der renderlets aufrufen,
 			//da nach dem Submit die Felder gefüllt werden würden, was zu fehlern führt!
 			$this->setChildValue($this->aChilds[$sName],$sValue);
-//			$this->aChilds[$sName]->setValue($sValue);
 		}
 
 		$aCurRow = $this->renderChildsBag();
@@ -433,25 +426,6 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 
 		return $sRes;
 	}
-
-	/*
-	 * Was ist das!?
-	 * warum wird hier nochmal die id des listers mit angehängt!?
-	 * wird doch beireits beim lister gemacht, somal das feld 'uid' in den seltensten fällen stimmt.
-	 *
-	 */
-	 /*
-	function _getElementHtmlId($sId = FALSE, $withForm = true, $withIteratingId = true) {
-		$sRes = parent::_getElementHtmlId($sId, $withForm, $withIteratingId);
-
-		$aData =& $this->oForm->oDataHandler->_getListData();
-		if(!empty($aData)) {
-			$sRes .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $aData['uid'] . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
-		}
-
-		return $sRes;
-	}
-	*/
 
 	function _checkRequiredProperties() {
 

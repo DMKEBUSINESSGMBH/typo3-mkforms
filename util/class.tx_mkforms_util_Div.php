@@ -184,11 +184,6 @@ class tx_mkforms_util_Div {
 		// Connecting to database
 		// ***********************************
 		$sExecMode = tx_mkforms_util_Div::getEnvExecMode();
-		/*if($sExecMode === 'BE') {
-
-		} else {
-
-		}*/
 
 		$GLOBALS['TSFE'] = tx_rnbase::makeInstance(
 			'tslib_fe',
@@ -212,9 +207,6 @@ class tx_mkforms_util_Div {
 			tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
 		}
 
-		//$tsfe->forceTemplateParsing = TRUE;
-
-		//$tsfe->absRefPrefix = '/';
 		$tsfe->connectToDB(); // takes 0.0000 T3 6.2
 		$tsfe->initFEuser(); // takes 0.0400 T3 6.2
 		$tsfe->determineId(); // takes 0.0240 T3 6.2
@@ -321,7 +313,6 @@ class tx_mkforms_util_Div {
 		$sContent .= "<div id='errormessage'>" . $msg . "</div>";
 		$sContent .= "<hr />";
 		$sContent .= implode("", $aDebug);
-		//$sContent .= $this->debug(TRUE);
 
 		$sPage =<<<MAYDAYPAGE
 <!DOCTYPE html
@@ -534,7 +525,6 @@ MAYDAYPAGE;
 
 			$aDebug[] = "<a href='javascript:void(Formidable.f(\"" . $form->formid . "\").toggleBacktrace(" . $numcall . "))'>Toggle details</a><br>";
 			$aDebug[] = "<div id='" . $form->formid . "_formidable_call" . $numcall . "_backtrace' style='display: none; background-color: #FFFFCC' >";
-//			$aDebug[] = "<hr/>";
 
 			if(!$form->getConfig()->isDebugLight()) {
 				$aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call 0: </b>" . str_replace(PATH_site, "/", $aLocation["file"]) . ":" . $aLocation["line"]  . " | <b>" . $aTrace1["class"] . $aTrace1["type"] . $aTrace1["function"] . "</b></span><br>" . self::viewMixed($aTrace1["args"]);
@@ -995,17 +985,6 @@ ERRORMESSAGE;
 		*/
 		// make shure, we return always a filename!
 		return empty($cleaned) ? 'file.dat' : $cleaned;
-		### Das ist der Alte Code aus dem Uploadwidget ###
-		##################################################
-		// Bug 548: Sonderzeichen beim Upload werden nicht ersetzt.
-		// Die TYPO3 Filefunktions wirken nicht wie gewünscht...
-//		setlocale (LC_ALL, 'de_DE@euro');
-//		$sName = preg_replace('/[äÄüÜöÖß]/','_',trim($sName));
-//		$sName = preg_replace('/[^.[:alnum:]_-]/','_',trim($sName));
-//		$sName = preg_replace('/\.*$/','',$sName);
-//		/* @var $oFileTool t3lib_basicFileFunctions */
-// 		$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-// 		$sName = strtolower($oFileTool->cleanFileName($sName));
 	}
 
 	/**

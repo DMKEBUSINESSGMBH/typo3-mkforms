@@ -47,17 +47,13 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 	function majixShowBox($aConfig = array(), $aTags = array()) {
 
 		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
-			#$bOldValue = $this->oForm->bInlineEvents;
-			#$this->oForm->bInlineEvents = TRUE;
 			$aEventsBefore = array_keys($this->oForm->aRdtEvents);
-			//debug($aEventsBefore);
 		}
 
 		$aChildsBag = $this->renderChildsBag();
 		$aChildsBag = t3lib_div::array_merge_recursive_overrule($aChildsBag, $aTags);
 
 		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
-			#$this->oForm->bInlineEvents = $bOldValue;
 			$aEventsAfter = array_keys($this->oForm->aRdtEvents);
 			$aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
 			$aAddedEvents = array();
@@ -69,7 +65,6 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 					// we need to be able to detect the new events even if they were already declared by other loops in the lister
 			}
 
-			//debug($aAddedEvents);
 			$aConfig["attachevents"] = $aAddedEvents;
 		}
 
@@ -95,7 +90,6 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 	function loadModalBox(&$oForm) {
 		$oJsLoader = $this->getForm()->getJSLoader();
 		$oJsLoader->loadScriptaculous();
-		//$this->loadNiftyCube();
 
 		$sPath = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . t3lib_extMgm::siteRelPath("ameos_formidable") . "api/base/rdt_modalbox/res/js/modalbox.js";
 

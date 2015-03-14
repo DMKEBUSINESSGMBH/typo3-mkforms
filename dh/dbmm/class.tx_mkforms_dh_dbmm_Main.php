@@ -84,7 +84,6 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 			);
 		}
 		$aFormData = $this->_processBeforeInsertion(
-//			$this->_getFlatFormDataManaged()
 			$this->getDataPreparedForDB()
 		);
 		if (!empty($aFormData)) {

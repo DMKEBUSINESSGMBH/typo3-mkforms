@@ -21,7 +21,6 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 	var $bArrayValue = true;
 	var $sMajixClass = 'DamUpload';
-//	var $bCustomIncludeScript = TRUE;
 	var $aPossibleCustomEvents = array (
 		"onajaxstart",
 		"onajaxcomplete",
@@ -371,7 +370,6 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		} else {
 			$sTargetDir = $this->getTargetDir();
 
-//			$sName = basename($aData['name']);
 			$sName = $aData['name'];
 			if($this->getForm()->_defaultTrue('/data/cleanfilename', $this->aElement)) {
 				$sName = tx_mkforms_util_Div::cleanupFileName($sName);
@@ -476,10 +474,6 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		// save size
 		$this->aUploaded['newSize'] = $newSize;
 
-		// darf hier noch nicht gesetzt werden,
-		// da sonst der file validator nicht funktioniert.
-		// wird in checkPoint gesetzt!
-//		$this->setValue($newSize);
 		return $newSize;
 	}
 	/**
@@ -895,9 +889,6 @@ INITSCRIPT;
 		if(is_array($myData) && $myData['error'] == 0) {
 			// a file has just been uploaded
 			$newSize = $this->handleUpload($myData);
-		} else {
-			// Wenn nicht hochgeladen wurde haben wir hier nichts zu tun
-//			$this->handleNoUpload($aData);
 		}
 
 		return array(

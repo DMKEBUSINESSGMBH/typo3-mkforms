@@ -214,7 +214,6 @@ class tx_mkforms_util_FormBase {
 				$mValue = $oWidget->getValue();
 				// Wurde ein Button gedrückt? welcher?
 				if($oWidget->isNaturalSubmitter() && $mValue) {
-//					$data[$sWidget] = true;
 					$flattenData['submitmode'] = $oWidget->getSubmitMode();
 					$form->setSubmitter($sWidget, $flattenData['submitmode']);
 				}
@@ -222,18 +221,12 @@ class tx_mkforms_util_FormBase {
 				elseif($oWidget->sMajixClass == 'Date' && $mValue) {
 					tx_rnbase::load('tx_rnbase_util_Dates');
 					$flattenData[$sWidget.'_mysql'] = tx_rnbase_util_Dates::date_tstamp2mysql($mValue);
-//					$data[$sWidget.'_mysql'] = $flattenData[$sWidget.'_mysql'];
 				}
 				// den Wert holen
 				// @TODO: siehe todo oben
 				$flattenData[$sWidget] = $mValue;
 			}
 		}
-
-		// @TODO: siehe todo oben
-//		if(count($splitData) === 0 && count($data) && count($aWidgets)) {
-//			$splitData = self::flattenArray($data, $aWidgets);
-//		}
 
 		/* Beispiel:
 		 * confid.addfields {
@@ -368,7 +361,6 @@ class tx_mkforms_util_FormBase {
 		// Is data available for that special renderlet field?
 		// Just return this scalar value!
 		if (array_key_exists($trName, $srcData)) return $srcData[$trName];
-		// else
 
 		foreach ($targetRenderlet->getChilds() as $child) {
 			$childData = self::convertFlatDataToRenderletStructure($srcData, $form, $child);
