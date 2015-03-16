@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'ds_phparray' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -45,9 +45,9 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 
 	function _sortSource() {
 		if(trim($this->aConfig['sortcolumn']) !== '') {
-			
+
 			$aSorted = array();
-			
+
 			reset($this->aSource);
 			$named_hash = array();
 
@@ -60,32 +60,32 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 			} else {
 				asort($named_hash, $flags=0);
 			}
-			
+
 			$k = 1;
 			$this->aPosByUid = array();
 			$sorted_records = array();
-			
+
 			foreach($named_hash as $key=>$val) {
 				$aSorted[$key] = $this->aSource[$key];
 				$this->aPosByUid[$aSorted[$key]['uid']] = $k;
 				$k++;
 			}
-			
+
 			reset($this->aPosByUid);
-			
+
 			return $this->aSource =& $aSorted;
 		} else {
-			
+
 			$k = 1;
 			$this->aPosByUid = array();
 			$aKeys = array_keys($this->aSource);
-			
+
 			reset($aKeys);
 			while(list(, $sKey) = each($aKeys)) {
 				$this->aPosByUid[$this->aSource[$sKey]['uid']] = $k;
 				$k++;
 			}
-			
+
 			reset($this->aPosByUid);
 		}
 	}
@@ -103,12 +103,12 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 			$aLimit['nbdisplayed']
 		);
 	}
-	
+
 	function getRowNumberForUid($iUid) {
 		if(array_key_exists($iUid, $this->aPosByUid)) {
 			return $this->aPosByUid[$iUid];
 		}
-		
+
 		return FALSE;
 	}
 }

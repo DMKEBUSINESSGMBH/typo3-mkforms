@@ -29,7 +29,7 @@ Wenn es eine column "uid" gibt, dann muss dem onclick Event (oder was sonst verw
 .. code-block:: xml
 
    <param get="rowData::uid" />
-   
+
 
 autcomplete
 -----------

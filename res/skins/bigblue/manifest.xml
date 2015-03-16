@@ -9,7 +9,7 @@
 					<file src="res/css/nicebutton.css" />
 					<file src="res/css/nicebutton-iefix.css">
 						<wrap><![CDATA[
-							
+
 							<!--[if IE]>|<![endif]-->
 
 						]]></wrap>

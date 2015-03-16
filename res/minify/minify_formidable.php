@@ -25,7 +25,7 @@ NOTICE;
 if(isset($_GET) && is_array($_GET) && array_key_exists("plain", $_GET) && $_GET["plain"] == 1) {
 	echo implode($aJs, "");
 } else {
-	echo $sNotice . $oMin->minifyJS(implode($aJs, ""));	
+	echo $sNotice . $oMin->minifyJS(implode($aJs, ""));
 }
 
 exit;

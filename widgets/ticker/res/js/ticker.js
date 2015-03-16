@@ -136,7 +136,7 @@ Formidable.Classes.Ticker = Formidable.Classes.RdtBaseClass.extend({
 		$(this.domNode().id + '.1').setStyle(aBoxStyle);
 		$(this.domNode().id + '.2').setStyle(aBoxStyle);
 
-		
+
 		Element.makePositioned($(this.domNode().id).up(0));
 		Element.makePositioned($(this.domNode().id));
 		Element.absolutize($(this.domNode().id + '.1'));
@@ -161,7 +161,7 @@ Formidable.Classes.Ticker = Formidable.Classes.RdtBaseClass.extend({
 
 		Element.clonePosition(
 			$(this.domNode().id + '.2'),
-			$(this.domNode().id + '.1'), 
+			$(this.domNode().id + '.1'),
 			aOptions
 		);
 

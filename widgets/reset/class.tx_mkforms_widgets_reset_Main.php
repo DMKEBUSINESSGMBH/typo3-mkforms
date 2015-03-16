@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_submit' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_reset_Main extends formidable_mainrenderlet {
-	
+
 	function _render() {
 		// return "<input type=\"button\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" value=\"" . $this->oForm->getConfigXML()->getLLLabel($this->_navConf("/label")) . "\"" . $this->_getAddInputParams() . " />";
 		$sLabel = $this->getLabel();

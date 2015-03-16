@@ -30,7 +30,7 @@ Freie Parameter
 
 Neben den normalen Parametern zur Übergabe der aktuellen Werte von Widgets, kann man jetzt auch zusätzliche, konstante Parameter per Ajax an den Server schicken:
 
-.. code-block:: xml 
+.. code-block:: xml
 
    <renderlet:BUTTON name="btn_beuser" label="Edit BE User" >
        <onclick
@@ -40,7 +40,7 @@ Neben den normalen Parametern zur Übergabe der aktuellen Werte von Widgets, kan
       exec="cb1.btnUserEdit_click()"
        />
    </renderlet:BUTTON>
-     
+
 Der Parameter ist dann hier im Beispiel "btnparam" und der Wert "editBeUser".
 
 Shortcut um alle Felder einer Box zu übertragen
@@ -48,7 +48,7 @@ Shortcut um alle Felder einer Box zu übertragen
 
 Hier werden alle Felder der Box mit dem Namen beuserbox per Ajax übertragen:
 
-.. code-block:: xml 
+.. code-block:: xml
 
    <renderlet:BUTTON name="btnSave" label="Save and close">
      <onclick
@@ -58,13 +58,13 @@ Hier werden alle Felder der Box mit dem Namen beuserbox per Ajax übertragen:
        exec="cb1.btnUserSave_click()"
      />
    </renderlet:BUTTON>
-   
+
 Automatische Feldvalidierung
 ----------------------------
 
 Normalerweise wird bei Ajax-Calls keine Validierung durchgeführt. Man kann dies aber jetzt zusätzlich aktivieren. Dazu setzt mal das Attribute validate:
 
-.. code-block:: xml 
+.. code-block:: xml
 
    <renderlet:BUTTON name="btnSave" label="Save and close">
      <onclick

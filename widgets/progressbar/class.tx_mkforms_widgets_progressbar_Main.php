@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_progressbar' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
-	
+
 	var $aLibs = array(
 		"rdt_progressbar_class" => "res/js/progressbar.js",
 	);
@@ -47,7 +47,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 		} else {
 			$sProgressLabel = $aStep["label"];
 		}
-		
+
 		$aHtmlBag = array(
 			"__compiled" => $sBegin . "<span>" . $sProgressLabel . "</span>" . $sEnd,
 		);
@@ -92,7 +92,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 	function _renderOnly() {
 		return TRUE;
 	}
-	
+
 	function _renderReadOnly() {
 		return $this->_render();
 	}
@@ -102,7 +102,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 	}
 
 	function getStep($iValue) {
-		
+
 		$this->initSteps();
 
 		reset($this->aSteps);
@@ -145,7 +145,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 		if($fValue < $fMin) {
 			$mValue = $fMin;
 		}
-		
+
 		if($fValue > $fMax) {
 			$fValue = $fMax;
 		}
@@ -177,7 +177,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 	}
 
 	function getPercent() {
-		
+
 		$fValue = $this->getValue();
 		$fMin = $this->getMinValue();
 		$fMax = $this->getMaxValue();
@@ -189,40 +189,40 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 
 		return round(($fValue / ($fMax - $fMin)) * 100, $iPrecision);
 	}
-	
+
 	function _getStyleArray() {
-		
+
 		$aStyles = parent::_getStyleArray();
-		
+
 		$iWidth = $this->getPxWidth();
-		
+
 		if($iWidth !== FALSE) {
 			$iStepWidth = round((($iWidth * $this->getPercent()) / 100), 0);
 			$aStyles["width"] = $iStepWidth . "px";
 		}
-		
+
 		if($this->defaultTrue("/usedefaultstyle")) {
 			if(!array_key_exists("border", $aStyles) && !array_key_exists("border-width", $aStyles)) {
 				$aStyles["border-width"] = "2px";
 			}
-			
+
 			if(!array_key_exists("border", $aStyles) && !array_key_exists("border-color", $aStyles)) {
 				$aStyles["border-color"] = "silver";
 			}
-			
+
 			if(!array_key_exists("border", $aStyles) && !array_key_exists("border-style", $aStyles)) {
 				$aStyles["border-style"] = "solid";
 			}
-			
+
 			if(!array_key_exists("text-align", $aStyles)) {
 				$aStyles["text-align"] = "center";
 			}
-			
+
 			if(!array_key_exists("overflow", $aStyles)) {
 				$aStyles["overflow"] = "hidden";
 			}
 		}
-		
+
 		reset($aStyles);
 		return $aStyles;
 	}

@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'tx_fluid' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer {
-	
+
 	private $sFluidPath = FALSE;
 	private $sExtbasePath = FALSE;
 	private $sFluidClass = "Tx_Fluid_View_TemplateView";
@@ -36,7 +36,7 @@ class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer {
 	public function _render($aRendered) {
 		$this->assertFluid();
 		$this->initFluid();
-		
+
 		$mRes = $this->executeFluid($aRendered);
 		return $this->_wrapIntoForm($mRes);
 	}
@@ -70,7 +70,7 @@ class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer {
 		$oParsedTemplate = $this->oFluid->parseTemplate($sTemplatePath);
 		$oRootNode = $oParsedTemplate->getRootNode();
 		$oObjectFactory = new Tx_Fluid_Compatibility_ObjectFactory();
-		
+
 		$oVariableContainer = $oObjectFactory->create(
 			'Tx_Fluid_Core_VariableContainer', array(
 				'renderlets' => $aRendered

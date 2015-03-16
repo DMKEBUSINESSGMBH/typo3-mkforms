@@ -39,7 +39,7 @@ Formidable.Classes.ProgressBar = Formidable.Classes.RdtBaseClass.extend({
 		} else {
 			sLabel = iPercent + "%";
 		}
-		
+
 		if(this.config.width) {
 			iTargetWidth = parseInt(((this.config.width * iPercent) / 100));
 			sWidth = iTargetWidth + "px";
@@ -89,7 +89,7 @@ Formidable.Classes.ProgressBar = Formidable.Classes.RdtBaseClass.extend({
 			//mValue = this.config.max;
 			return 100;
 		}
-		
+
 		if(mValue < this.config.min) {
 			//mValue = this.config.min;
 			return 0;
@@ -110,7 +110,7 @@ Formidable.Classes.ProgressBar = Formidable.Classes.RdtBaseClass.extend({
 	},
 	getLabelObject: function() {
 		// using childnodes because safari seems to not support .select() correctly
-		return this.domNode().childNodes[0];	
+		return this.domNode().childNodes[0];
 	},
 	setHtml: function(sHtml) {
 		this.getLabelObject().innerHTML = sHtml;

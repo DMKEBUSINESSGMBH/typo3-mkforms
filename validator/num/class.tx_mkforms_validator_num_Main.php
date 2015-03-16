@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'va_num' for the 'ameos_formidable' extension.
  *
  * @author	Luc Muller <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_validator_num_Main extends formidable_mainvalidator {
-	
+
 	function validate(&$oRdt) {
 
 		$sAbsName = $oRdt->getAbsName();
@@ -27,7 +27,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator {
 			if(!$this->canValidate($oRdt, $sKey, $mNum)){
 				break;
 			}
-			
+
 			/***********************************************************************
 			*
 			*	/isnum
@@ -181,7 +181,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator {
 		if($this->_checkIsNum($mNum)) {
 			return (($mNum >= min($aValues)) && ($mNum <= max($aValues)));
 		}
-		
+
 		return FALSE;
 	}
 
@@ -190,7 +190,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator {
 		if($this->_checkIsNum($mNum)) {
 			return ($mNum < min($aValues));
 		}
-		
+
 		return FALSE;
 	}
 
@@ -199,7 +199,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator {
 		if($this->_checkIsNum($mNum)) {
 			return ($mNum > max($aValues));
 		}
-		
+
 		return FALSE;
 	}
 

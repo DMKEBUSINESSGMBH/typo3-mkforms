@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_box' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet {
-	
+
 	var $sMajixClass = "Box";
 	var $bCustomIncludeScript = TRUE;
 	var $aLibs = array(
@@ -25,7 +25,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet {
 
 		$sHtml = ($this->oForm->isRunneable($this->aElement["html"])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement["html"]) : $this->_navConf("/html");
 		$sHtml = $this->oForm->_substLLLInHtml($sHtml);
-		
+
 		$sMode = $this->_navConf("/mode");
 		if($sMode === FALSE) {
 			$sMode = "div";
@@ -39,7 +39,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet {
 		}
 
 		if($this->hasData()) {
-			
+
 			$sValue = $this->getValue();
 
 			if(!$this->_emptyFormValue($sValue) && $this->hasData() && !$this->hasValue()) {
@@ -50,7 +50,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet {
 			$sId = $this->_getElementHtmlId() . "_value";
 			$sHidden = "<input type=\"hidden\" name=\"" . $sName . "\" id=\"" . $sId . "\" value=\"" . $this->getValueForHtml($sValue) . "\" />";
 		} elseif($this->isDataBridge()) {
-			
+
 			$sDBridgeName = $this->_getElementHtmlName() . "[databridge]";
 			$sDBridgeId = $this->_getElementHtmlId() . "_databridge";
 			$sSignature = $this->dbridge_getCurrentDsetSignature();
@@ -80,7 +80,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet {
 		);
 
 		if(($mDraggable = $this->_navConf("/draggable")) !== FALSE) {
-			
+
 			$aConf = array();
 
 			if(is_array($mDraggable)) {
@@ -109,7 +109,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet {
 				$sScript = '
 new Draggable("' . $sHtmlId . '", ' . $sJson . ');
 ';
-				
+
 				$this->oForm->attachInitTask($sScript);
 			}
 		}
@@ -170,7 +170,7 @@ new Draggable("' . $sHtmlId . '", ' . $sJson . ');
 				$sScript = '
 Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 ';
-				
+
 				$this->oForm->attachInitTask($sScript);
 			}
 		}
@@ -206,7 +206,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 	function _renderOnly() {
 		return $this->_defaultTrue("/renderonly/");
 	}
-	
+
 	function _renderReadOnly() {
 		return $this->_render();
 	}
@@ -214,7 +214,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 	function _activeListable() {
 		return $this->oForm->_defaultTrue("/activelistable/", $this->aElement);
 	}
-	
+
 	function _debugable() {
 		return $this->oForm->_defaultFalse("/debugable/", $this->aElement);
 	}
@@ -251,7 +251,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 	}
 
 	function _emptyFormValue($sValue) {
-		
+
 		if($this->hasData()) {
 			return (trim($sValue) === "");
 		}
@@ -262,7 +262,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 	function hasValue() {
 		return ($this->_navConf("/data/value") !== FALSE || $this->_navConf("/data/defaultvalue") !== FALSE);
 	}
-	
+
 	function _searchable() {
 		if($this->hasData()) {
 			return $this->_defaultTrue("/searchable/");
@@ -279,20 +279,20 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 
 		return $aParams;
 	}*/
-	
+
 	function doAfterListRender(&$oListObject) {
 		#debug($this->_getElementHtmlId(), "doBeforeListRender");
 		parent::doAfterListRender($oListObject);
-		
+
 		if($this->hasChilds()) {
 			$aChildKeys = array_keys($this->aChilds);
 			reset($aChildKeys);
 			while(list(, $sKey) = each($aChildKeys)) {
 				$this->aChilds[$sKey]->doAfterListRender($oListObject);
-			}	
+			}
 		}
 	}
-	
+
 	function processBeforeDisplay($aChilds) {
 		if(($aBeforeDisplay = $this->_navConf('/beforedisplay')) !== FALSE && $this->oForm->isRunneable($aBeforeDisplay)) {
 			$aChilds = $this->getForm()->getRunnable()->callRunnableWidget($this, $aBeforeDisplay, $aChilds);

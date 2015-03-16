@@ -49,7 +49,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	 * @var tx_ameosformidable
 	 */
 	protected $oForm;
-	
+
 	/**
 	 * setUp() = init DB etc.
 	 */
@@ -68,7 +68,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		$this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
 		$this->assertEquals('<script>alert("ohoh");</script>',$this->oForm->getWidget('widget-text2')->getValue(),'JS wurde nicht entfernt bei widget-text2!');
 	}
-	
+
 	/**
 	 * Performance bei hundertfachen aufruf von getvalue testen
 	 * mit bereinigung
@@ -79,18 +79,18 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
 		}
 		$this->oForm->getWidget('widget-text')->setValue('<script type="text/javascript">alert("XSS");</script>');
-		
+
 		$dTime = microtime(true);
 		// sind 100 aufrufe real? es sind sicher um einiges mehr.
 		for ($i = 0; $i < 99; $i++) {
 			$value = $this->oForm->getWidget('widget-text')->getValue();
 		}
 		$dUsedtime = microtime(true) -$dTime;
-		
+
 		//der grenzwert sollte nicht überschritten werden
 		$this->assertLessThanOrEqual('0.1200000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
 	}
-	
+
 	/**
 	 * Performance bei hundertfachen aufruf von getvalue testen
 	 * ohne bereinigung
@@ -101,7 +101,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
 		}
 		$this->oForm->getWidget('widget-text2')->setValue('<script type="text/javascript">alert("XSS");</script>');
-		
+
 		$dTime = microtime(true);
 		// sind 100 aufrufe real? es sind sicher um einiges mehr.
 		for ($i = 0; $i < 99; $i++) {
@@ -111,7 +111,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		//der grenzwert sollte nicht überschritten werden
 		$this->assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -122,7 +122,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 			'&quot;test&quot;',$mainRenderlet->getValueForHtml('"test"'), 'falsche bereinigt'
 		);
 	}
-	
+
 	/**
 	 * @group unit
 	 */
@@ -133,7 +133,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 			'&#123;test&#125;',$mainRenderlet->getValueForHtml('{test}'), 'falsche bereinigt'
 		);
 	}
-	
+
 	/**
 	 * @group unit
 	 */

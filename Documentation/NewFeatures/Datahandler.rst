@@ -24,11 +24,11 @@ Der datahandler\:RAW konnte bisher nur die Daten nach dem Absenden des Formulars
        <userobj>
          <php><![CDATA[
            return array('username'=> 'Heinz');
-         ]]></php>   
+         ]]></php>
        </userobj>
      </record>
     </datahandler:RAW>
-   
+
 Man liefert über den XML-Wert von record also einfach ein flaches PHP-Array mit den passenden Key-Value-Paaren zurück. Die Keys sollten natürlich zu den Namen der Renderlets passen.
 
 datahandler:MAIL als toller powermail ersatz
@@ -67,7 +67,7 @@ Konfiguration:
                markerConfId.contactsubject,
                markerConfId.contacttext,
                markerConfId.contacthtml
-            ) und als Marker im template (###CONTACT_NAME###) genutzt. 
+            ) und als Marker im template (###CONTACT_NAME###) genutzt.
             Default ist item -->
          <itemName>contact</itemName>
          <!-- Optional: Damit werden die im Template angegebenen mail from angaben
@@ -75,7 +75,7 @@ Konfiguration:
          <forceMailFrom>true</forceMailFrom>
       </mkmailer>
    </datahandler:MAIL>
-   
+
 TypoScript-Konfiguration:
 
 .. code-block:: ts
@@ -101,8 +101,8 @@ TypoScript-Konfiguration:
    }
    ### Konfiguration eines WrapperTemplates. Dieses ist via Default deaktiviert und muss gesetzt werden:
    plugin.tx_mkmailer.sendmails.email.wrapTemplate = 0
-      
-      
+
+
 Nachbearbeitung von Initialdaten der Datahandler
 ------------------------------------------------
 

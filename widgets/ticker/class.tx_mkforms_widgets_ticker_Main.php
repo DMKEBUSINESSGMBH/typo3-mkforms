@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_ticker' for the 'ameos_formidable' extension.
  *
  * @author	Loredana Zeca <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
-	
+
 	var $aLibs = array(
 		"rdt_ticker_class" => "res/js/ticker.js",
 	);
@@ -73,12 +73,12 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 		if(($sScrollOverflow = $this->_navConf("/scrolling/overflow")) === FALSE) {
 			$sScrollOverflow = "hidden";
 		}
-		
+
 
 		if(($sOffsetTop = $this->_navConf("/offsettop")) === FALSE) {
 			$sOffsetTop = "0";
 		}
-		
+
 		if(($sOffsetLeft = $this->_navConf("/offsetleft")) === FALSE) {
 			$sOffsetLeft = "0";
 		}
@@ -192,7 +192,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 
 		return $sHtml;
 	}
-	
+
 	function &_refineRow($aData) {
 		array_push($this->oForm->oDataHandler->__aListData, $aData);
 		foreach($this->aChilds as $sName => $oChild) {
@@ -300,7 +300,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 	}
 
 	function _getElementHtmlName($sName = FALSE) {
-		
+
 		$sRes = parent::_getElementHtmlName($sName);
 		$aData =& $this->oForm->oDataHandler->_getListData();
 
@@ -310,7 +310,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 
 		return $sRes;
 	}
-	
+
 	function _getElementHtmlNameWithoutFormId($sName = FALSE) {
 		$sRes = parent::_getElementHtmlNameWithoutFormId($sName);
 		$aData =& $this->oForm->oDataHandler->_getListData();
@@ -323,7 +323,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 	}
 
 	function _getElementHtmlId($sId = FALSE) {
-		
+
 		$sRes = parent::_getElementHtmlId($sId);
 
 		$aData =& $this->oForm->oDataHandler->_getListData();

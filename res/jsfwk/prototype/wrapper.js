@@ -107,7 +107,7 @@ MKWrapper.clonePosition = function(element, source, options) {
 /**
  * zeigt alle versteckten eltern elemente an
  * 		hideElements versteckt wie wieder
- * 
+ *
  * 	wird benötigt, da einige methoden nur bei angezeigtem objekt richtige werte liefern
  *  (beispiel: .position .getDimensions)
  *  @TODO: umsetzung prototype

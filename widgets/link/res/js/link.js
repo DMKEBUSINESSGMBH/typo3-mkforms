@@ -18,7 +18,7 @@ Formidable.Classes.Link = Formidable.Classes.RdtBaseClass.extend({
 		}
 		setTimeout(function(){
 			window.location.href = href;
-			}, 
+			},
 			this.config.followTimeout
 		);
 	}

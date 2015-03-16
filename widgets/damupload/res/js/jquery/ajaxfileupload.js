@@ -2,9 +2,9 @@ jQuery.extend({
     createUploadIframe: function(id) {
 			//create frame
             var frameId = 'jUploadFrame' + id;
-            
+
             if(window.ActiveXObject) {
-            	//siehe http://msdn.microsoft.com/en-us/library/ff986077%28v=VS.85%29.aspx 
+            	//siehe http://msdn.microsoft.com/en-us/library/ff986077%28v=VS.85%29.aspx
             	//und buhl ticket 2623
                 var io = document.createElement('iframe');
                 io.setAttribute('id',frameId);
@@ -22,19 +22,19 @@ jQuery.extend({
 
             document.body.appendChild(io);
 
-            return io			
+            return io
     },
     createUploadForm: function(id, fileElementId, additionalFields) {
-			//create form	
+			//create form
 			var formId = 'jUploadForm' + id;
 			var fileId = 'jUploadFile' + id;
-			var form = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data" class="jUploadForm"></form>');	
+			var form = $('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data" class="jUploadForm"></form>');
 			var oldElement = $('#' + fileElementId);
 			var newElement = $(oldElement).clone();
 			$(oldElement).attr('id', fileId);
 			$(oldElement).before(newElement);
 			$(oldElement).appendTo(form);
-			
+
 			//set attributes
 			form.css('position', 'absolute');
 			form.css('top', '-1200px');
@@ -43,25 +43,25 @@ jQuery.extend({
 			return form;
     },
 
-    ajaxFileUpload: function(s) {		
+    ajaxFileUpload: function(s) {
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
         var id = new Date().getTime()
 		var form = jQuery.createUploadForm(id, s.uploadField, s.additionalFields);
 		var io = jQuery.createUploadIframe(id);
 		var frameId = 'jUploadFrame' + id;
-		var formId = 'jUploadForm' + id;		
+		var formId = 'jUploadForm' + id;
 
         // Wait for a response to come back
         var uploadCallback = function() {
 					var io = document.getElementById(frameId);
 					s.onComplete(jQuery(io).contents().find('body').text());
-					
+
 //					var oIframe =  document.getElementById('jUploadFrame1274351608492');
 //					var oDoc = (oIframe.contentWindow || oIframe.contentDocument);
 //					if (oDoc.document) oDoc = oDoc.document;
 //					oDoc = window.jUploadFrame1274351608492.document;
 //					alert(oDoc.innerHtml);
-					
+
 					$('#'+s.uploadField).val('');
 					//setTimeout(function(){$(io).remove();$(form).remove();}, 100)
         }
@@ -69,11 +69,11 @@ jQuery.extend({
 				form.attr('method', 'POST');
 				form.attr('target', frameId);
         if(form.encoding) { form.encoding = 'multipart/form-data'; }
-        else { form.enctype = 'multipart/form-data'; }			
+        else { form.enctype = 'multipart/form-data'; }
 
         s.onStart();
         form.submit();
-        
+
         if(window.attachEvent){
 			document.getElementById(frameId).attachEvent('onload', uploadCallback);
         } else{

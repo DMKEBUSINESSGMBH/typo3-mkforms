@@ -1,19 +1,19 @@
 <?php
 /***************************************************************
 *  Copyright notice
-*  
+*
 *  (c) 2006 J�r�my Lecour (jeremy.lecour@nurungrandsud.com)
 *  All rights reserved
 *
-*  This script is part of the TYPO3 project. The TYPO3 project is 
+*  This script is part of the TYPO3 project. The TYPO3 project is
 *  free software; you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
 *  the Free Software Foundation; either version 2 of the License, or
 *  (at your option) any later version.
-* 
+*
 *  The GNU General Public License can be found at
 *  http://www.gnu.org/copyleft/gpl.html.
-* 
+*
 *  This script is distributed in the hope that it will be useful,
 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -21,7 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-/** 
+/**
  * Plugin 'va_preg' for the 'ameos_formidable' extension.
  *
  * @author	J�r�my Lecour <jeremy.lecour@nurungrandsud.com>
@@ -32,10 +32,10 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator {
 
 	/**
 	 * Beispiel Regex:
-	 * 
+	 *
 	 * keine Zahlen erlaubt: !/[0-9]/
 	 * nur Zahlen erlaubt: /[0-9]/
-	 * 
+	 *
 	 * (non-PHPdoc)
 	 * @see formidable_mainvalidator::validate()
 	 */
@@ -53,12 +53,12 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator {
 		$aKeys = array_keys($this->_navConf('/'));
 		reset($aKeys);
 		while(!$oRdt->hasError() && list(, $sKey) = each($aKeys)) {
-		
+
 			// Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
 			if(!$this->canValidate($oRdt, $sKey, $sValue)){
 				break;
 			}
-			
+
 			//pattern
 			if($sKey{0} === 'p' && t3lib_div::isFirstPartOfStr($sKey, 'pattern')) {
 				$sPattern = $this->_navConf('/' . $sKey . '/value');
@@ -79,11 +79,11 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator {
 			}
 		}
 	}
-	
+
 	function _isValid($sPattern) {
 		return preg_match('/!*\/[^\/]+\//',$sPattern);
 	}
-	
+
 	function _isMatch($sPattern, $value) {
 		if($value == '')
 			return TRUE;

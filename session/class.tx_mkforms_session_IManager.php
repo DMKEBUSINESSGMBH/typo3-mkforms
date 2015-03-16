@@ -25,7 +25,7 @@
 
 /**
  * Manager for session handling.
- * 
+ *
  */
 interface tx_mkforms_session_IManager {
 }

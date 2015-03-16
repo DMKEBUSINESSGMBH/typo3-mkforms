@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 var Nifty = {
-	
+
 	find: function(str, what) {
 		return(str.indexOf(what)>=0 ? true : false);
 	},
@@ -29,7 +29,7 @@ var Nifty = {
 			options=options.replace("top","tr tl");
 			options=options.replace("bottom","br bl");
 			options=options.replace("transparent","alias");
-			
+
 			if(this.find(options, "tl")) {
 				top="both";
 				if(!this.find(options, "tr")) {
@@ -38,7 +38,7 @@ var Nifty = {
 			} else if(this.find(options, "tr")) {
 				top="right";
 			}
-			
+
 			if(this.find(options, "bl")) {
 				bottom="both";
 				if(!this.find(options, "br")) {
@@ -48,18 +48,18 @@ var Nifty = {
 				bottom="right";
 			}
 		}
-		
+
 		if(top=="" && bottom=="" && !this.find(options, "none")) {
 			top="both";bottom="both";
 		}
-		
+
 		v=$(obj);
 		this.FixIE(v);
-		
+
 		if(top!="") {
 			this.AddTop(v,top,options);
 		}
-		
+
 		if(bottom!="") {
 			this.AddBottom(v,bottom,options);
 		}
@@ -76,7 +76,7 @@ var Nifty = {
 		for(i=0;i<v.length;i++) {
 			this.Rounded(v[i],options);
 		}
-		
+
 		if(this.find(options, "height")) {
 			this.SameHeight(selector,h);
 		}
@@ -89,7 +89,7 @@ var Nifty = {
 			options=options.replace("top","tr tl");
 			options=options.replace("bottom","br bl");
 			options=options.replace("transparent","alias");
-			
+
 			if(this.find(options, "tl")) {
 				top="both";
 				if(!this.find(options, "tr")) {
@@ -98,7 +98,7 @@ var Nifty = {
 			} else if(this.find(options, "tr")) {
 				top="right";
 			}
-			
+
 			if(this.find(options, "bl")) {
 				bottom="both";
 				if(!this.find(options, "br")) {
@@ -108,20 +108,20 @@ var Nifty = {
 				bottom="right";
 			}
 		}
-		
+
 		if(top=="" && bottom=="" && !this.find(options, "none")) {
 			top="both";bottom="both";
 		}
-		
+
 		v=$$(selector);
-		
+
 		for(i=0;i<v.length;i++) {
 			this.FixIE(v[i]);
-			
+
 			if(top!="") {
 				this.AddTop(v[i],top,options);
 			}
-			
+
 			if(bottom!="") {
 				this.AddBottom(v[i],bottom,options);
 			}
@@ -144,7 +144,7 @@ var Nifty = {
 		}));
 
 		p=this.getPadding(el,"Top");
-		
+
 		if(this.find(options, "small")) {
 			Element.setStyle(d, $H({
 				"margin-bottom": (p-2)+"px"
@@ -160,11 +160,11 @@ var Nifty = {
 				"margin-bottom": (p-5)+"px"
 			}));
 		}
-		
+
 		for(i=1;i<=lim;i++) {
 			d.appendChild(this.CreateStrip(i,side,color,border,btype));
 		}
-		
+
 		Element.setStyle(el, $H({
 			'padding-top': "0"
 		}));
@@ -187,7 +187,7 @@ var Nifty = {
 		}));
 
 		p=this.getPadding(el,"Bottom");
-		
+
 		if(this.find(options, "small")) {
 			Element.setStyle(d, $H({
 				"margin-top": (p-2)+"px"
@@ -203,18 +203,18 @@ var Nifty = {
 				"margin-top": (p-5)+"px"
 			}));
 		}
-		
+
 		for(i=lim;i>0;i--) {
 			d.appendChild(this.CreateStrip(i,side,color,border,btype));
 		}
-		
+
 		Element.setStyle(el, $H({
 			'padding-bottom': "0"
 		}));
 		el.appendChild(d);
 	},
 	CreateStrip: function(index,side,color,border,btype) {
-		
+
 		var x=$b({
 			"class": btype+index
 		});
@@ -223,7 +223,7 @@ var Nifty = {
 			"background-color": color,
 			"border-color": border
 		}));
-		
+
 		if(side=="left") {
 			Element.setStyle(x, $H({
 				"border-right-width": 0,
@@ -235,7 +235,7 @@ var Nifty = {
 				"margin-left": 0
 			}));
 		}
-		
+
 		return(x);
 	},
 	FixIE: function(el) {
@@ -249,14 +249,14 @@ var Nifty = {
 			t=$$(v[i]);
 			els=els.concat(t);
 		}
-		
+
 		for(i=0;i<els.length;i++) {
 			if(els[i].offsetHeight>maxh) {
 				maxh=els[i].offsetHeight;
 			}
 			Element.setStyle(els[i], $H({height: "auto"}));
 		}
-		
+
 		for(i=0;i<els.length;i++) {
 			gap=maxh-els[i].offsetHeight;
 			if(gap>0) {
@@ -273,15 +273,15 @@ var Nifty = {
 	},
 	getParentBk: function(x) {
 		var el=x.parentNode,c;
-		
+
 		while(el.tagName.toUpperCase()!="HTML" && (c=this.getBk(el))=="transparent") {
 			el=el.parentNode;
 		}
-		
+
 		if(c=="transparent") {
 			c="#FFFFFF";
 		}
-		
+
 		return(c);
 	},
 	getBk: function(x) {
@@ -289,11 +289,11 @@ var Nifty = {
 		if(c==null || c=="transparent" || this.find(c, "rgba(0, 0, 0, 0)")) {
 			return("transparent");
 		}
-		
+
 		if(this.find(c, "rgb")) {
 			c=this.rgb2hex(c);
 		}
-		
+
 		return(c);
 	},
 	getPadding: function(x,side) {
@@ -301,25 +301,25 @@ var Nifty = {
 		if(p==null || !this.find(p, "px")) {
 			return(0);
 		}
-		
+
 		return(parseInt(p));
 	},
 	getStyleProp: function(x,prop) {
 		if(x.currentStyle) {
 			return(x.currentStyle[prop]);
 		}
-		
+
 		if(document.defaultView.getComputedStyle) {
 			return(document.defaultView.getComputedStyle(x,'')[prop]);
 		}
-		
+
 		return(null);
 	},
 	rgb2hex: function(value) {
 		var hex="",v,h,i;
 		var regexp=/([0-9]+)[, ]+([0-9]+)[, ]+([0-9]+)/;
 		var h=regexp.exec(value);
-		
+
 		for(i=1;i<4;i++) {
 			v=parseInt(h[i]).toString(16);
 			if(v.length==1) {
@@ -328,7 +328,7 @@ var Nifty = {
 				hex+=v;
 			}
 		}
-		
+
 		return("#"+hex);
 	},
 	Mix: function(c1,c2) {
@@ -346,7 +346,7 @@ var Nifty = {
 			r[i]=r[i].toString(16);
 			if(r[i].length==1) r[i]="0"+r[i];
 		}
-		
+
 		return("#"+r[0]+r[1]+r[2]);
 	}
 };

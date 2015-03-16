@@ -1,5 +1,5 @@
 Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
-	
+
 	oText: null,
 	oList: null,
 	oLoader: null,
@@ -41,22 +41,22 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		this.config.item.style = aStyles;
 
 		var id = MKWrapper.id(this.domNode());
-		
+
 		this.oText 		= MKWrapper.$(id);
 		this.oList 		= MKWrapper.$(id + Formidable.SEP + 'list');
 		this.oLoader 	= MKWrapper.$(id + Formidable.SEP + 'loader');
-		
+
 		this.oText.parentNode.insertBefore(this.oLoader, this.oList);
-		
+
 //		MKWrapper.setStyle(this.oList, {
 //			"width": "0px",
 //			"height": "0px"
 //		});
-		
+
 		this.initStartPosition();
 		this.addScript(this);
 	},
-	
+
 	initStartPosition: function() {
 		// behebt darstellungsprobleme im IE
 		if(MKWrapper.isIE(7)){
@@ -69,7 +69,7 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 			    }
 			);
 		}
-		
+
 		MKWrapper.setStyle(MKWrapper.parent(this.oList),{"position": "relative"});
 		MKWrapper.setStyle(this.oList,{"position": "absolute"});
 		MKWrapper.setStyle(this.oLoader, {'display':'block', 'height': '16px','width':'16px','background': 'transparent url('+Formidable.path+'widgets/autocomplete/res/img/loader.gif) no-repeat scroll 0 0'});
@@ -97,10 +97,10 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 				}
 			);
 		MKWrapper.setStyle(this.oLoader,{"position": "absolute", 'display':'none'});
-		
+
 		MKWrapper.hideElements(aToHide);
 	},
-	
+
 	execEvents: function() {
 		this.oText.oObserver = MKWrapper.delayedObserver( //new Form.Element.Observer
 				this.oText,
@@ -143,7 +143,7 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 			obj.execEvents();
 		}
 	},
-	
+
 	execAjaxRequest: function() {
 
 		if(this.itemSelected === true) {
@@ -152,7 +152,7 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		}
 		var obj = this;		// save the current object for later use
 		var sText = MKWrapper.$F(obj.oText);
-	
+
 		//TODO make configurable
 		// hide the list of choices
 		//obj.hideItemList(obj);
@@ -162,7 +162,7 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 			obj.hideItemList(obj);
 			return;
 		}
-		
+
 
 		// if there is a search, then execute an AJAX event to the server
 		// execute only the last search, using a global counter
@@ -244,14 +244,14 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 			}
 		}
 	},
-	
+
 	itemSelect: function(obj, element) {
 		if(typeof(element) == 'undefined') return false;
 		MKWrapper.removeClass(obj.itemSelected, obj.config.selectedItemClass);
 		MKWrapper.addClass(element, obj.config.selectedItemClass);
 		obj.itemSelected = element;
 	},
-	
+
 	listSelect: function(obj, element) {
 		var sText = MKWrapper.stripTags(element.innerHTML);
 		sText = sText.replace(/\s+/g, " ").replace(/^\s+|\s+$/, "");
@@ -262,7 +262,7 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		obj.hideItemList(obj);
 		if(typeof(obj.onlistselect) != 'undefined' && obj.onlistselect !== null) obj.onlistselect(sText);
 	},
-	
+
 	generateItemList: function(obj, aHtml) {
 
 		// set the text before and after the list
@@ -317,21 +317,21 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 			"height": iHeight + "px"
 		});
 
-		this.showItemList(obj);		
+		this.showItemList(obj);
 	},
-	
+
 	disableButtons: function() {
 		this.oForm.disableButtons();
 	},
-	
+
 	enableButtons: function() {
 		this.oForm.enableButtons();
 	},
-	
+
 	setDbEntryState: function(b) {
 		this.config.isDbEntry = b;
 	},
-	
+
 	showItemList: function(obj) {
 		MKWrapper.setStyle(MKWrapper.parent(obj.oList), {'zIndex': '20000'});
 		MKWrapper.setStyle((obj.oList), {'zIndex': '30000'});
@@ -340,11 +340,11 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		if(this.config.selectionRequired) this.disableButtons();
 		obj.itemSelect(obj, obj.itemSelected);
 	},
-	
+
 	hideItemListOnLeave: function() {
 		this.hideItemList(this);
 	},
-	
+
 	hideItemList: function(obj) {
 		obj.oList.innerHTML = "";
 		MKWrapper.setStyle(MKWrapper.parent(obj.oList), {'zIndex': '10000'});
@@ -353,7 +353,7 @@ Formidable.Classes.Autocomplete = Formidable.Classes.RdtBaseClass.extend({
 		if(this.config.selectionRequired) this.enableButtons();
 		obj.itemSelected = null;
 	},
-	
+
 	addHandler: function(sHandler, fFunction) {
 		switch (sHandler) {
 			case 'onlistselect':

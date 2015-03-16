@@ -2,12 +2,12 @@
 
 
 class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet {
-	
+
 	function _render() {
 
 		$sValue = $this->getValue();
 		$sLabel = $this->getLabel();
-		
+
 		$aAdditionalParams = implode(' ', $this->getAdditionalParams());
 		$sInput = '<input type="text" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $this->getValueForHtml($sValue) . '"' . $this->_getAddInputParams($aAdditionalParams) . ' '.$aAdditionalParams.' />';
 
@@ -26,7 +26,7 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet {
 		}
 		return $aAdditionalParams;
 	}
-	
+
 	function getValue() {
 		$sValue = parent::getValue();
 		if($this->defaultFalse("/convertfromrte/")){
@@ -35,7 +35,7 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet {
 		}
 		return $sValue;
 	}
-	
+
 	function mayHtmlAutocomplete() {
 		return TRUE;
 	}

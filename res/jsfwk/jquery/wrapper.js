@@ -31,7 +31,7 @@ MKWrapper.findChilds = function(container, str) {
 	if(typeof(str) == "undefined") {
 		return jQuery(container).children();
 	} else {
-		return jQuery(container).find(str);	
+		return jQuery(container).find(str);
 	}
 };
 MKWrapper.next = function(element) {
@@ -50,8 +50,8 @@ MKWrapper.setStyle = function(container, style) {
  */
 MKWrapper._tagFunc = function(tag) {
 	return function() {
-		var attrs, children; 
-		if (arguments.length>0) { 
+		var attrs, children;
+		if (arguments.length>0) {
 		  	if (arguments[0].nodeName || typeof arguments[0] == "string") {
 		  		children = arguments;
 		  	}
@@ -73,11 +73,11 @@ MKWrapper._create = function(tag, attrs, children) {
 			if (isIE) {
 				//this.ieAttrSet(attrs, attr, el);
 				IE_TRANSLATIONS = {'class' : 'className', 'for' : 'htmlFor'};
-				var trans; 
-				if (trans = IE_TRANSLATIONS[attr]) 	{ el[trans] = attrs[attr]; } 
-				else if (attr == 'style') 			{ el.style.cssText = attrs[attr]; } 
-				else if (attr.match(/^on/)) 		{ el[attr] = new Function(attrs[attr]); } 
-				else 								{ el.setAttribute(attr, attrs[attr]); } 
+				var trans;
+				if (trans = IE_TRANSLATIONS[attr]) 	{ el[trans] = attrs[attr]; }
+				else if (attr == 'style') 			{ el.style.cssText = attrs[attr]; }
+				else if (attr.match(/^on/)) 		{ el[attr] = new Function(attrs[attr]); }
+				else 								{ el.setAttribute(attr, attrs[attr]); }
 			}
 			else 									{ el.setAttribute(attr, attrs[attr]); }
 		}
@@ -129,7 +129,7 @@ MKWrapper.getDimensions = function(container, mode) {
 			return { height: element.innerHeight(), width: element.innerWidth() };
 		case 'outer': // width with padding and border
 			return { height: element.outerHeight(), width: element.outerWidth() };
-		case 'outermargin': // width with padding, border and margin 
+		case 'outermargin': // width with padding, border and margin
 			return { height: element.outerHeight(true), width: element.outerWidth(true) };
 		default:
 			return { height: element.height(), width: element.width() };
@@ -156,7 +156,7 @@ MKWrapper.clonePosition = function(element, source, options) {
 /**
  * zeigt alle versteckten eltern elemente an
  * 		hideElements versteckt wie wieder
- * 
+ *
  * 	wird benötigt, da einige methoden nur bei angezeigtem objekt richtige werte liefern
  *  (beispiel: .position .getDimensions)
  */
@@ -180,7 +180,7 @@ MKWrapper.showParents = function(element) {
 };
 MKWrapper.hideElements = function(aToHide){
     if(aToHide.length)
-    	for(var el in aToHide) 
+    	for(var el in aToHide)
     		aToHide[el].hide();
 };
 
@@ -281,7 +281,7 @@ MKWrapper.fxHide = function(id, options, callback) {
 	var speed = 0;
 	if(elem) elem.hide(speed,callback);
 	// Bei speed 0 wird die callback von jQuery nicht ausgeführt!!
-	if(!speed && typeof callback == 'function') callback(); 
+	if(!speed && typeof callback == 'function') callback();
 };
 
 /**
@@ -292,7 +292,7 @@ MKWrapper.fxHide = function(id, options, callback) {
  * function with 'context' as the thisArg.
  */
 Function.prototype.bind = function(context){
-  var fn = this, 
+  var fn = this,
       ap, concat, args,
       isPartial = arguments.length > 1;
   // Strategy 1: just bind, not a partialApply
@@ -310,8 +310,8 @@ Function.prototype.bind = function(context){
 	    args = ap.slice.call(arguments, 1);
 	    concat = ap.concat;
 	    return function() {
-	      return fn.apply(context, 
-	        arguments.length === 0 ? args : 
+	      return fn.apply(context,
+	        arguments.length === 0 ? args :
 	        concat.apply(args, arguments));
 	    };
   }

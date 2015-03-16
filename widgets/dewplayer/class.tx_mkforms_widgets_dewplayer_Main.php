@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdt_dewplayer' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -7,7 +7,7 @@
 
 
 class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet {
-	
+
 	function _render() {
 
 		$sLabel = $this->getLabel();
@@ -28,12 +28,12 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet {
 		$sFlashParams .= '<param name="bgcolor" value="' . $sColor . '" />';
 
 		$sFlashParams = "";
-		
+
 		if($bAutoStart) {
 			$sMoviePath .= "&autostart=1";
 			$sFlashParams .= '<param name="autostart" value="1" />';
 		}
-		
+
 		if($bAutoReplay) {
 			$sMoviePath .= "&autoreplay=1";
 			$sFlashParams .= '<param name="autoreplay" value="1" />';
@@ -44,7 +44,7 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet {
 		$sMoviePath .= "&mp3=" . rawurlencode($sPath);
 
 		$sInput =<<< FLASHOBJECT
-			
+
 			<object
 				name=		"{$sHtmlName}"
 				id=			"{$sHtmlId}"
@@ -65,7 +65,7 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet {
 
 FLASHOBJECT;
 
-		
+
 
 		$aHtmlBag = array(
 			"__compiled" => $this->_displayLabel($sLabel) . $sInput,
@@ -74,24 +74,24 @@ FLASHOBJECT;
 				"file" => $sPath,
 			)
 		);
-		
+
 		return $aHtmlBag;
 	}
 
 	function _renderOnly() {
 		return true;
 	}
-	
+
 	function _getPath() {
-		
+
 		if(($sPath = $this->_navConf("/path")) !== FALSE) {
-			
+
 			if($this->oForm->isRunneable($sPath)) {
 				$sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
 			}
 
 			if(t3lib_div::isFirstPartOfStr($sPath, "EXT:")) {
-				
+
 				$sPath = t3lib_div::getIndpEnv("TYPO3_SITE_URL") .
 					str_replace(
 						t3lib_div::getIndpEnv("TYPO3_DOCUMENT_ROOT"),
@@ -100,7 +100,7 @@ FLASHOBJECT;
 					);
 			}
 		}
-		
+
 		return $sPath;
 	}
 }

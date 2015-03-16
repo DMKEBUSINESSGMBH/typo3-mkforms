@@ -41,11 +41,11 @@ im TypoScript lib.mkforms.formbase liegt die Basiskonfiguration, welche für die
       extended {
          ### wird nur für Tests genutzt. Verhindert beispielsweise das Cachen des Formulars.
          testmode = 0
-      
+
          ### XML form - set per action
          xml = EXT:mkforms/forms/xml/feuser.html
-      
-      
+
+
          addfields {
             ### setzt den Wert title, wenn er noch nicht existiert
             fe_users-name = Neuer Nutzer
@@ -55,13 +55,13 @@ im TypoScript lib.mkforms.formbase liegt die Basiskonfiguration, welche für die
             ### entfernt den Wert. 'unset' führt unset() aus, 'null' setzt den Wert auf null
             fe_users-uid = unset
          }
-      
+
          ### Table <-> field separator in xml file
          fieldSeparator = -
-      
-         ### Fügt die PostVars zu dem Daten Array hinzu. 
+
+         ### Fügt die PostVars zu dem Daten Array hinzu.
          addPostVars = 0
-      
+
          ### Redirect options on successfully filled form. If not set, no redirect takes place!
          redirect {
             ### Page ID - set this to the target page id
@@ -72,7 +72,7 @@ im TypoScript lib.mkforms.formbase liegt die Basiskonfiguration, welche für die
          }
       }
    }
-   
+
 **XML**
 
 Im Datahandler des XML's müssen die Methoden für das Füllen und Bearbeiten wie im Beispiel angegeben werden. Diese rufen automatisch die proceddData und fillData Methoden mit den aufbereiteten Daten auf.
@@ -99,7 +99,7 @@ Die Felder für die einzelnen Spalten der Tabellen müssen mit einem Trennzeiche
          <renderlet:SUBMIT name="submit" />
       </elements>
    </formidable>
-   
+
 **Kindklasse**
 
 Die eigene Action leitet von der Basis Action ab und benötigt im Grunde nur zwei Methoden. Eine für das vor-füllen des Formulars und eine für die Verarbeitung der Daten nach dem Absenden.:
@@ -115,14 +115,14 @@ Die eigene Action leitet von der Basis Action ab und benötigt im Grunde nur zwe
        */
       protected function fillData(array $aParams) {
          $aData = array();
-    
+
          $aData['fe_users']['username'] = 'testnutzer';
          $aData['fe_users']['email'] = 'testnutzer@das-medienkombinat.de';
          $aData['fe_users']['disable'] = 0;
-    
+
          $aData['fe_groups']['title'] = 'Nutzergruppe';
          $aData['fe_groups']['description'] = 'Beschreibung';
-    
+
          return $aData;
       }
       /**
@@ -134,7 +134,7 @@ Die eigene Action leitet von der Basis Action ab und benötigt im Grunde nur zwe
          // Der Inhalt ist identisch dem aus fillData, wenn die Felder im XML entsprechend existieren.
          return $aData;
       }
-    
+
       /**
        * Gibt den Name des zugehörigen Templates zurück und wird u.u. auch als ConfId genutzt.
        * Default wäre generic.
@@ -145,7 +145,7 @@ Die eigene Action leitet von der Basis Action ab und benötigt im Grunde nur zwe
          return 'extended';
       }
    }
-   
+
 Es ist auch möglich, für jede Tabelle eine eigene processData Methode anzulegen. Dabei werden die Tabellennamen camel case umgewandelt und die Unterstriche entfernt:
 
 .. code-block:: php
@@ -170,7 +170,7 @@ Es ist auch möglich, für jede Tabelle eine eigene processData Methode anzulege
          return $aData;
       }
    }
-   
+
 Die Daten, welche die processDate Methoden zurückliefern, werden später im View als Marker bereitgestellt.
 
 Zusätzliche Funktionen und Datenaufbereitung in Ajax-Calls und UserObj-Methoden
@@ -183,7 +183,7 @@ Um die erweiterten Funktionalitäten im XML zu nutzen, muss ein codeBehind auf d
    <codeBehind type="php" name="cbphp"
       path="EXT:mkforms/util/class.tx_mkforms_util_FormBaseAjax.php:tx_mkforms_util_FormBaseAjax"
    />
-   
+
 Das Event an sich sieht beispielsweise wie folgt aus:
 
 .. code-block:: xml
@@ -202,7 +202,7 @@ Das Event an sich sieht beispielsweise wie folgt aus:
          </params>
       </onclick>
    </renderlet:BUTTON>
-   
+
 **majixActionsAfterFinish**
 
 Über den Parameter majixActionsAfterFinish können Komma getrennt Aktionen definiert werden, welche auf das entsprechende Renderlet ausgeführt werden. Für eine Aktion können 4 Angaben gemacht werden:
@@ -231,7 +231,7 @@ Um diese Funktion bei eigenen Methoden zu nutzen, muss die Funktion das Ergebnis
       $data       //Daten für das füllen von Renderlets bei der Aktion refresh.
             // Diese Daten müssen in ihrer Quellform übergeben werden (siehe fillData Methode der FormBase Action)
    );
-   
+
 **Datenaufbereitung**
 
 In der Action werden die Daten beim Füllen und Verarbeiten bereits aufbereiteten übergeben. Damit die Daten in den AjaxCalls genauso verarbeitet werden, stehen in der tx_mkforms_util_FormBase folgende Methoden zur verfügung. (Die Klasse tx_mkforms_util_FormBaseAjax leitet bereits von dieser ab.)

@@ -4,14 +4,14 @@
 	*/
 
 	class user_ameosformidable_cobj {
-		
+
 		function cObjGetSingleExt($name, $conf, $TSkey, &$oCObj) {
-			
+
 			$content = "";
-			
+
 			switch($name) {
 				case "FORMIDABLE_INT": {
-					
+
 					$substKey = "INT_SCRIPT." . $GLOBALS['TSFE']->uniqueHash();
 					$content .= "<!--" . $substKey . "-->";
 
@@ -25,10 +25,10 @@
 					break;
 				}
 				case "FORMIDABLE": {
-					
+
 					$content .= $this->_render($conf);
 
-					if($GLOBALS["TSFE"]->cObj->checkIf($conf["if."])) {				
+					if($GLOBALS["TSFE"]->cObj->checkIf($conf["if."])) {
 						if($conf["wrap"]) {
 							$content = $GLOBALS["TSFE"]->cObj->wrap($content, $conf["wrap"]);
 						}
@@ -49,7 +49,7 @@
 
 			$content .= $this->_render($conf);
 
-			if($GLOBALS["TSFE"]->cObj->checkIf($conf["if."])) {				
+			if($GLOBALS["TSFE"]->cObj->checkIf($conf["if."])) {
 				if($conf["wrap"]) {
 					$content = $GLOBALS["TSFE"]->cObj->wrap($content, $conf["wrap"]);
 				}
@@ -63,7 +63,7 @@
 		}
 
 		function _render($conf) {
-			
+
 			require_once(t3lib_extMgm::extPath('mkforms') . "api/class.tx_ameosformidable.php");
 			$this->oForm = t3lib_div::makeInstance("tx_ameosformidable");
 			$this->oForm->initFromTs(

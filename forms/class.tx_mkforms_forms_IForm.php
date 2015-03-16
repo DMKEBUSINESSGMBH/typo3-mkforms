@@ -25,19 +25,19 @@
 
 /**
  * Factory for forms.
- * 
+ *
  */
 interface tx_mkforms_forms_IForm {
 	/**
 	 * @param	object		Parent extension using FORMidable
 	 * @param	mixed		Absolute path to the XML configuration file
-	 * @param	int $iForcedEntryId: 
+	 * @param	int $iForcedEntryId:
 	 * @param tx_rnbase_configurations $configurations TS-Configuration
 	 * @param string $confid;
 	 * @return	void
 	 */
 	public function init(&$oParent, $mXml, $iForcedEntryId = FALSE, $configurations=false, $confid='');
-	
+
 	public function getFormId();
 	/**
 	 * Return the typoscript configurations object

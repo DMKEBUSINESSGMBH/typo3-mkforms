@@ -100,7 +100,7 @@ Formidable.Classes.SwfUpload = Formidable.Classes.RdtBaseClass.extend({
 
 		//this.oSWFUpload = new SWFUpload(this.config.swfupload_config);
 
-/*		this.oSWFUpload.fileDialogStart_handler = 
+/*		this.oSWFUpload.fileDialogStart_handler =
 		this.oSWFUpload.fileDialogComplete_handler = this.onDialogClose_handler.bind(this);
 		this.oSWFUpload.uploadProgress_handler = this.onUploadProgress_handler.bind(this);
 		this.oSWFUpload.uploadSuccess_handler = this.onUploadSuccess_handler.bind(this);
@@ -143,7 +143,7 @@ Formidable.Classes.SwfUpload = Formidable.Classes.RdtBaseClass.extend({
 		aFileEvents = ["onfilequeued", "onuploadcomplete", "onuploadsuccess", "onqueueerror", "onqueueerrorfilesize", "onqueueerrorfiletype", "onuploadprogress"];
 		aValues["sys_event"] = {};
 		if(MKWrapper.$A(aFileEvents).indexOf(sEventName) != -1) {
-			
+
 			if(aLocalArgs && aLocalArgs[0] && aLocalArgs[0].name) {
 				// it's a file
 				aValues["sys_event"] = {

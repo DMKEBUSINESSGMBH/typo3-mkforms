@@ -2,10 +2,10 @@
 
 // -----------------------------------------------
 // Cryptographp v1.4
-// (c) 2006-2007 Sylvain BRISON 
+// (c) 2006-2007 Sylvain BRISON
 //
-// www.cryptographp.com 
-// cryptographp@alphpa.com 
+// www.cryptographp.com
+// cryptographp@alphpa.com
 //
 // Licence CeCILL modifi�e
 // => Voir fichier Licence_CeCILL_V2-fr.txt)

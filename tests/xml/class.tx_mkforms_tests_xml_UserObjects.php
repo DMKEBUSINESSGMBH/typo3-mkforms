@@ -29,7 +29,7 @@ tx_rnbase::load('tx_mkforms_util_FormBaseAjax');
  * zum Testen von ajaxcalls in renderlets.xml im FE
  */
 class tx_mkforms_tests_xml_UserObjects extends tx_mkforms_util_FormBaseAjax {
-	
+
 	/**
 	 * Gibt die Parameter aus.
 	 *

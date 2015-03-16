@@ -10,7 +10,7 @@ Formidable.Classes.JsTree = Formidable.Classes.RdtBaseClass.extend({
 		};
 	},
 	init: function() {
-		
+
 		if(this.domNode()) {
 			this.oTree = new AxentTree(
 				this.domNode(), {
@@ -19,7 +19,7 @@ Formidable.Classes.JsTree = Formidable.Classes.RdtBaseClass.extend({
 					"nodeopen_handler": this.onNodeOpen_eventHandler.bind(this),
 					"nodeclose_handler": this.onNodeClose_eventHandler.bind(this)
 			});
-			
+
 			if(this.config.value != "" && this.config.value != 0) {
 				this.oTree.setValue(this.config.value);
 			}
@@ -50,18 +50,18 @@ Formidable.Classes.JsTree = Formidable.Classes.RdtBaseClass.extend({
 		return this.oTree.getSelectedLabel();
 	},
 	getSelectedPath: function() {
-		return this.oTree.getSelectedPath();	
+		return this.oTree.getSelectedPath();
 	},
 	repaint: function(sHtml) {
 		if(this.oTree) {
 			this.oTree.unloadHandlers();
 			this.oTree = null;
 		}
-		
+
 		this.aHandlers.onnodeclick = $A();
 		this.aHandlers.onnodeopen = $A();
 		this.aHandlers.onnodeclose = $A();
-		
+
 		this.base(sHtml);
 	}
 });

@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'ds_php' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -12,7 +12,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 
 	function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
 		parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
-		
+
 		if(!t3lib_extmgm::isLoaded('extbase')) {
 			$this->oForm->mayday('datasource:CONTENTREPOSITORY[name=\'' . $this->getName() . '\'] The Content Repository API is <b>not loaded</b>, and should be (<b>EXT:extbase</b>).');
 		}
@@ -47,7 +47,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 				$this->oForm->mayday("datasource:CONTENTREPOSITORY[name='" . $this->getName() . "'] You have to provide <b>/repository/classFile</b>.");
 			} else {
 				$sClassFile = $this->oForm->toServerPath($sClassFile);
-				
+
 				if(!file_exists($sClassFile)) {
 					$this->oForm->mayday("datasource:CONTENTREPOSITORY[name='" . $this->getName() . "'] The given <b>/repository/classFile</b> given (" . $sClassFile . ") does not exist.");
 				}
@@ -81,7 +81,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 					$this->oForm->mayday("datasource:CONTENTREPOSITORY[name='" . $this->getName() . "'] You have to provide <b>/aggregate/classFile</b>.");
 				} else {
 					$sClassFile = $this->oForm->toServerPath($sClassFile);
-					
+
 					if(!file_exists($sClassFile)) {
 						$this->oForm->mayday("datasource:CONTENTREPOSITORY[name='" . $this->getName() . "'] The given <b>/aggregate/classFile</b> given (" . $sClassFile . ") does not exist.");
 					}
@@ -111,7 +111,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 	function initDataSet($sKey) {
 		$sSignature = FALSE;
 		$oDataSet = t3lib_div::makeInstance('formidable_maindataset');
-		
+
 		if($sKey === 'new') {
 			// new record to create
 			$oDataSet->initFloating($this);
@@ -128,10 +128,10 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 				$this->oForm->mayday("datasource:CONTENTREPOSITORY[name='" . $this->getName() . "'] No dataset matching key '" . $sKey . "' was found.");
 			}
 		}
-		
+
 		$sSignature = $oDataSet->getSignature();
 		$this->aODataSets[$sSignature] =& $oDataSet;
-		
+
 		return $sSignature;
 	}
 

@@ -11,7 +11,7 @@ plugin.tx_mkforms.locallangFilename = EXT:mkforms/locallang.xml
 tt_content.list.20.tx_mkforms =< plugin.tx_mkforms
 
 lib.mkforms.formbase {
-	
+
 	### wird nur für tests genutzt. verhindet beispielseise das cachen des formulars.
 	testmode = 0
 
@@ -32,7 +32,7 @@ lib.mkforms.formbase {
 	}
 
 	### XML form - set per action. overwrite this!!!
-	xml = 
+	xml =
 
 
 	addfields {
@@ -48,7 +48,7 @@ lib.mkforms.formbase {
 	### Table <-> field separator in xml file
 	fieldSeparator = -
 
-	### Fügt die PostVars zu dem Daten Array hinzu. 
+	### Fügt die PostVars zu dem Daten Array hinzu.
 	addPostVars = 0
 
 	### Redirect options on successfully filled form. If not set, no redirect takes place!
@@ -70,11 +70,11 @@ plugin.tx_mkforms {
 	### Allgemeine Formulare ###
 	genericTemplate = EXT:mkforms/templates/formonly.html
 	generic =< lib.mkforms.formbase
-	
+
 	### Konfiguration für die Marker im E-mail-Template (datahandler:MAIL)
 	sendmail {
 	}
-	
+
 }
 
 config.tx_mkforms {
@@ -83,7 +83,7 @@ config.tx_mkforms {
 	defaultXml {
 		version = 0.20.0
 	}
-	
+
 	renderlets {
 		tx_mkforms_widgets_img_Main {
 			image = IMAGE
@@ -130,27 +130,27 @@ config.tx_mkforms {
 		enabled = 1
 		gzip = 1
 	}
-	
+
 	### wird im jquery oder prototype ts aktiviert!
 	loadJsFramework = 0
 	mayLoadScriptaculous = 0
-	
+
 	debugSendMail =
-	injectHeadersInContentAtMarker = 
+	injectHeadersInContentAtMarker =
 	injectHeadersManually = 0
 
 	### deaktiviert exceptions, welche durch ein user object erzeugt werden.
 	disableMaydayOnUserObjExceptions = 1
-	
+
 	### ist der CSRF Schutz aktiv?
 	csrfProtection = 1
-	
+
 	### Wir reduzieren die Parameter auf die im XML vorhandenen Widgets
 	checkWidgetsExist = 1
 
 	### wird das irgendwo verwendet oder ist das nur ein beispiel!?
 	quickconf {
-		
+
 		parts.rootConf {
 			version = 0.20.0
 			meta {
@@ -159,10 +159,10 @@ config.tx_mkforms {
 				displaylabels = true
 				debug = false
 			}
-			
+
 			control {
 			}
-			
+
 			elements {
 			}
 		}
@@ -188,7 +188,7 @@ config.tx_mkforms {
 		nodb.control.datahandler < .parts.datahandler.void
 		nodb.control.renderer < .parts.renderer.standard
 	}
-	
+
 	res {
 		shared {
 			xml {
@@ -196,28 +196,28 @@ config.tx_mkforms {
 
 					rounded = IMAGE
 					rounded {
-						
+
 						file = GIFBUILDER
 						file {
 							XY = [10.w], [10.h]
-							
+
 							10 = IMAGE
 							10.file = ...
-							
+
 							20 = IMAGE
 							20.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
 							20.offset = 0,0
-							
+
 							30 = IMAGE
 							30.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
 							30.file.params = -rotate 90
 							30.offset = [10.w] - [30.w], 0
-							
+
 							40 = IMAGE
 							40.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
 							40.file.params = -rotate -90
 							40.offset = 0, [10.h] - [40.h]
-							
+
 							50 = IMAGE
 							50.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
 							50.file.params = -rotate 180
@@ -234,28 +234,28 @@ config.tx_mkforms {
 						file {
 							backColor = white
 							XY = [50.w] + 10 + 10 + 15, [50.h] + 10 + 10 + 15
-							
+
 							5 = BOX
 							5 {
 								dimensions = 10, 10, [50.w] + 10 + 10, [50.h] + 10 + 10
 								color = silver
 							}
-							
+
 							10 = EFFECT
 							10.value = blur=60 | gamma=1.5
-							
+
 							15 = BOX
 							15 {
 								dimensions = 0, 0, [50.w]+ 10 + 10 + 2, [50.h] + 10 + 10 + 2
 								color = silver
 							}
-							
+
 							20 = BOX
 							20 {
 								dimensions = 1, 1, [50.w]+ 10 + 10, [50.h] + 10 + 10
 								color = white
 							}
-							
+
 							50 = IMAGE
 							50.file = ...
 							50.offset = 10, 10
@@ -265,9 +265,9 @@ config.tx_mkforms {
 					fixedwidth = IMAGE
 					fixedwidth {
 						file = GIFBUILDER
-						
+
 						file {
-							
+
 							backColor = white
 							XY = [10.w],[10.h]
 
@@ -284,9 +284,9 @@ config.tx_mkforms {
 					fixedheight = IMAGE
 					fixedheight {
 						file = GIFBUILDER
-						
+
 						file {
-							
+
 							backColor = white
 							XY = [10.w],[10.h]
 
@@ -303,9 +303,9 @@ config.tx_mkforms {
 					maxwh = IMAGE
 					maxwh {
 						file = GIFBUILDER
-						
+
 						file {
-							
+
 							backColor = white
 							XY = [10.w],[10.h]
 
@@ -323,9 +323,9 @@ config.tx_mkforms {
 					fixedwh = IMAGE
 					fixedwh {
 						file = GIFBUILDER
-						
+
 						file {
-							
+
 							backColor = white
 							XY = [10.w],[10.h]
 

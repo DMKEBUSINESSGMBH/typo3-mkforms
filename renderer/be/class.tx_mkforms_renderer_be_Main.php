@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'rdr_be' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>

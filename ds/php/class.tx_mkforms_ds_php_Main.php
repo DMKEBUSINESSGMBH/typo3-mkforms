@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Plugin 'ds_php' for the 'ameos_formidable' extension.
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
@@ -20,7 +20,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 	function initDataSet($sKey) {
 		$sSignature = FALSE;
 		$oDataSet = t3lib_div::makeInstance('formidable_maindataset');
-		
+
 		if($sKey === 'new') {
 			// new record to create
 			$oDataSet->initFloating($this);
@@ -46,10 +46,10 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 				}
 			}
 		}
-		
+
 		$sSignature = $oDataSet->getSignature();
 		$this->aODataSets[$sSignature] =& $oDataSet;
-		
+
 		return $sSignature;
 	}
 
@@ -86,7 +86,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 	}
 
 	function &_fetchData($aConfig = array(), $aFilters = array()) {
-		
+
 		$aResults = array();
 		$iNumRows = 0;
 
