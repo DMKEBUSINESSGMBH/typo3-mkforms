@@ -8,23 +8,22 @@
 
 class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 
-	var $sMajixClass = "CheckSingle";
+	var $sMajixClass = 'CheckSingle';
 	// define methodname, if a specific init method in the js should be called, after dom is ready.
 	var $sAttachPostInitTask = 'initialize';
 	var $aLibs = array(
-		"rdt_checksingle_class" => "res/js/checksingle.js",
+		'rdt_checksingle_class' => 'res/js/checksingle.js',
 	);
-	var $sDefaultLabelClass = "label-inline";
+	var $sDefaultLabelClass = 'label-inline';
 
 	function _render() {
 
-		$aHtml = array();
-		$sChecked = "";
+		$sChecked = '';
 
 		$iValue = $this->getValue();
 
 		if($iValue === 1) {
-			$sChecked = " checked=\"checked\" ";
+			$sChecked = ' checked="checked" ';
 		}
 
 		// wenn eine checkbox nicht gecheckt wurde, wird sie nicht übertragen.
@@ -32,12 +31,30 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 		// ein. dieses wird beim klick jeweils gesetzt damit immer der richtige wert übertragen wird
 		$aConfig = FALSE;
 		if ($this->getForm()->getJSLoader()->mayLoadJsFramework()) {
-			$sInput = "<input type=\"checkbox\" name=\"" . $this->_getElementHtmlName() . "[checkbox]\" id=\"" . $this->_getElementHtmlId() . "_checkbox\" " . $sChecked . $this->_getAddInputParams() . " value=\"1\" />";
-			$sInput .= "<input type=\"hidden\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" " . $this->_getAddInputParams() . " value=\"" . $iValue . "\" />";
+			$sInput = sprintf(
+				'<input type="checkbox" name="%1$s[checkbox]" id="%2$s_checkbox" %3$s %4$s value="1" />',
+				$this->_getElementHtmlName(),
+				$this->_getElementHtmlId(),
+				$sChecked,
+				$this->_getAddInputParams()
+			);
+			$sInput .= sprintf(
+				'<input type="hidden" name="%1$s" id="%2$s" %4$s value="%3$s" />',
+				$this->_getElementHtmlName(),
+				$this->_getElementHtmlId(),
+				$iValue,
+				$this->_getAddInputParams()
+			);
 			// damit das Label auf die checkbox zeigt
 			$aConfig['sId'] = $this->_getElementHtmlId() . '_checkbox';
 		} else {
-			$sInput = "<input type=\"checkbox\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" " . $sChecked . $this->_getAddInputParams() . " value=\"1\" />";
+			$sInput .= sprintf(
+				'<input type="checkbox" name="%1$s" id="%2$s" %3$s %4$s value="1" />',
+				$this->_getElementHtmlName(),
+				$this->_getElementHtmlId(),
+				$sChecked,
+				$this->_getAddInputParams()
+			);
 		}
 
 		$sLabelFor = $this->_displayLabel(
@@ -45,12 +62,12 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 		);
 
 		$aHtmlBag = array(
-			"__compiled"		=> $sInput . $sLabelFor,
-			"input"				=> $sInput,
-			"checked"			=> $sChecked,
-			"value" => $iValue,
-			"value." => array(
-				"humanreadable" => $this->_getHumanReadableValue($iValue)
+			'__compiled'		=> $sInput . $sLabelFor,
+			'input'				=> $sInput,
+			'checked'			=> $sChecked,
+			'value' => $iValue,
+			'value.' => array(
+				'humanreadable' => $this->_getHumanReadableValue($iValue)
 			),
 		);
 
@@ -63,13 +80,13 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 	*/
 
 	function _getCheckedLabel() {
-		$mCheckedLabel = $this->_navConf("/labels/checked/");
-		return ($mCheckedLabel) ? $this->oForm->getConfigXML()->getLLLabel($mCheckedLabel) : "Y";
+		$mCheckedLabel = $this->_navConf('/labels/checked/');
+		return ($mCheckedLabel) ? $this->oForm->getConfigXML()->getLLLabel($mCheckedLabel) : 'Y';
 	}
 
 	function _getNonCheckedLabel() {
-		$mNonCheckedLabel = $this->_navConf("/labels/nonchecked/");
-		return  ($mNonCheckedLabel) ? $this->oForm->getConfigXML()->getLLLabel($mNonCheckedLabel) : "N";
+		$mNonCheckedLabel = $this->_navConf('/labels/nonchecked/');
+		return  ($mNonCheckedLabel) ? $this->oForm->getConfigXML()->getLLLabel($mNonCheckedLabel) : 'N';
 	}
 
 	function _getHumanReadableValue($data) {
@@ -87,13 +104,13 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 
 	function majixCheck() {
 		return $this->buildMajixExecuter(
-			"check"
+			'check'
 		);
 	}
 
 	function majixUnCheck() {
 		return $this->buildMajixExecuter(
-			"unCheck"
+			'unCheck'
 		);
 	}
 
@@ -128,7 +145,6 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 	}
 }
 
-
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_checksingle/api/class.tx_rdtchecksingle.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_checksingle/api/class.tx_rdtchecksingle.php"]);
-	}
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_checksingle/api/class.tx_rdtchecksingle.php'])	{
+	include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_checksingle/api/class.tx_rdtchecksingle.php'];
+}
