@@ -7,9 +7,10 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet {
 
 		$sValue = $this->getValue();
 		$sLabel = $this->getLabel();
+		$inputType = $this->getInputType();
 
-		$aAdditionalParams = implode(' ', $this->getAdditionalParams());
-		$sInput = '<input type="text" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $this->getValueForHtml($sValue) . '"' . $this->_getAddInputParams($aAdditionalParams) . ' '.$aAdditionalParams.' />';
+		$aAdditionalParams = implode(' ', (array) $this->getAdditionalParams());
+		$sInput = '<input type="' . $inputType . '" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $this->getValueForHtml($sValue) . '"' . $this->_getAddInputParams($aAdditionalParams) . ' '.$aAdditionalParams.' />';
 
 		return array(
 			"__compiled" => $this->_displayLabel($sLabel) . $sInput,
@@ -19,7 +20,7 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet {
 		);
 	}
 
-	private function getAdditionalParams(){
+	protected function getAdditionalParams(){
 		$aAdditionalParams = array();
 		if(($sMaxLength = $this->_navConf('/maxlength')) !== FALSE) {
 			$aAdditionalParams[] = 'maxlength="'.$sMaxLength.'"';
@@ -38,6 +39,16 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet {
 
 	function mayHtmlAutocomplete() {
 		return TRUE;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getInputType(){
+		if(!($type = $this->_navConf('/inputtype'))) {
+			$type = 'text';
+		}
+		return $type;
 	}
 }
 
