@@ -65,6 +65,7 @@
 								<renderlet:TEXT name="widget-text" />
 								<renderlet:TEXT name="widget-text2" sanitize="false" />
 								<renderlet:TEXT name="widget1-widget2-text" />
+								<renderlet:TEXT name="widget-text-with-placeholder" placeholder="LLL:EXT:mkforms/widgets/lister/res/locallang/locallang.xml:pager.last.title"/>
 							</childs>
 						</renderlet:BOX>
 

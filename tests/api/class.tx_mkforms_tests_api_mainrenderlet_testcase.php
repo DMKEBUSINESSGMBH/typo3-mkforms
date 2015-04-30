@@ -144,6 +144,44 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 			array('test'),$mainRenderlet->getValueForHtml(array('test')), 'array bereinigt'
 		);
 	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetAddInputParamsArrayWithPlaceholderDefinedAsLocallangLabel() {
+		$addInputParams = $this->oForm
+							->getWidget('widget-text-with-placeholder')
+							->_getAddInputParamsArray();
+
+		$placeholderFound = FALSE;
+		foreach ($addInputParams as $addInputParam) {
+			if (strpos($addInputParam, 'placeholder') !== FALSE) {
+				$this->assertEquals(
+					'placeholder="Springe zur letzten Seite"', $addInputParam,
+					'placeholder falsch'
+				);
+				$placeholderFound = TRUE;
+			}
+		}
+		$this->assertTrue($placeholderFound, 'placeholder attribut nicht gefunden');
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetAddInputParamsArrayWithNoPlaceholder() {
+		$addInputParams = $this->oForm
+							->getWidget('widget-text')
+							->_getAddInputParamsArray();
+
+		$placeholderFound = FALSE;
+		foreach ($addInputParams as $addInputParam) {
+			if (strpos($addInputParam, 'placeholder') !== FALSE) {
+				$placeholderFound = TRUE;
+			}
+		}
+		$this->assertFalse($placeholderFound, 'placeholder attribut gefunden');
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {

@@ -1059,6 +1059,10 @@
 				$aAddParams[] = $sEvents;
 			}
 
+			if(($placeHolder = trim($this->_getPlaceholder())) !== '') {
+				$aAddParams[] = $placeHolder;
+			}
+
 			/*
 				disabled-property for renderlets patch by Manuel Rego Casasnovas
 				@see http://lists.netfielders.de/pipermail/typo3-project-formidable/2007-December/000803.html
@@ -1132,6 +1136,27 @@ TOOLTIP;
 			}
 
 			return '';
+		}
+
+		/**
+		 *
+		 * @return string
+		 */
+		protected function _getPlaceholder() {
+			$placeholder = '';
+			if(($placeholder = $this->_navConf('/placeholder/')) !== FALSE) {
+				if($this->oForm->isRunneable($placeholder)) {
+					$placeholder = $this->getForm()->getRunnable()->callRunnableWidget(
+						$this, $placeholder
+					);
+				}
+
+				$placeholder = $this->getForm()->getConfig()->getLLLabel($placeholder);
+
+				$placeholder = ' placeholder="' . $placeholder . '" ';
+			}
+
+			return $placeholder;
 		}
 
 		/**
