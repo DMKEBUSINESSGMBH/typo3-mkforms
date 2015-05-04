@@ -51,10 +51,25 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	protected $oForm;
 
 	/**
+	 *
+	 * @var unknown
+	 */
+	protected $languageBackup;
+
+	/**
 	 * setUp() = init DB etc.
 	 */
-	public function setUp(){
+	protected function setUp(){
 		$this->oForm = tx_mkforms_tests_Util::getForm();
+		$this->languageBackup = $GLOBALS['LANG']->lang;
+	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
+	protected function tearDown() {
+		$GLOBALS['LANG']->lang = $this->languageBackup;
 	}
 
 	/**
@@ -149,6 +164,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	 * @group unit
 	 */
 	public function testGetAddInputParamsArrayWithPlaceholderDefinedAsLocallangLabel() {
+		$GLOBALS['LANG']->lang = 'default';
 		$addInputParams = $this->oForm
 							->getWidget('widget-text-with-placeholder')
 							->_getAddInputParamsArray();
@@ -157,7 +173,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		foreach ($addInputParams as $addInputParam) {
 			if (strpos($addInputParam, 'placeholder') !== FALSE) {
 				$this->assertEquals(
-					'placeholder="Springe zur letzten Seite"', $addInputParam,
+					'placeholder="Jump to last page"', $addInputParam,
 					'placeholder falsch'
 				);
 				$placeholderFound = TRUE;
