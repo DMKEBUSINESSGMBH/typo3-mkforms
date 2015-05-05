@@ -204,7 +204,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 		if(($sPath = $this->_navConf('/path')) !== FALSE) {
 			$sPath = $this->_processPath($sPath);
 		}
-
 		if(tx_mkforms_util_Div::isAbsWebPath($sPath)) {
 			return $sPath;
 		} else {
@@ -217,6 +216,10 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				$sPath = tx_mkforms_util_Div::trimSlashes($mFolder) . '/' . $this->getValue();
 			} else {
 				$sPath = $this->getValue();
+			}
+
+			if ($this->defaultFalse('/imageconf/forceurldecode')) {
+				$sPath = rawurldecode($sPath);
 			}
 
 			$sFullPath = tx_mkforms_util_Div::toServerPath($sPath);
