@@ -1181,60 +1181,68 @@ TOOLTIP;
 			return FALSE;
 		}
 
-		function _shouldHideBecauseDependancyEmpty($bCheckParent=FALSE) {
-			$bOrZero = $sIs = $sIsNot = FALSE;
-			if(
+	/**
+	 * checks if the renderlet has to be shown depends on the dependencies.
+	 *
+	 * @param string $bCheckParent
+	 * @return boolean
+	 */
+	protected function _shouldHideBecauseDependancyEmpty($bCheckParent = FALSE) {
+		$bOrZero = $sIs = $sIsNot = FALSE;
+		if(
+			$this->hasDependancies()
+			&& (
 				   (($bEmpty = $this->_defaultFalse('/hideifdependancyempty')) === TRUE)
 				|| (($bOrZero = $this->_defaultFalse('/hideifdependancyemptyorzero')) === TRUE)
 				|| (($sIs = $this->_navConf('/hideifdependancyis')) !== FALSE)
-				|| (($sIsNot = $this->_navConf('/hideifdependancyisnot')) !== FALSE)
-			   ) {
-				if($this->hasDependancies()) {
-				   	// bei hideIfDependancyIs & hideIfDependancyIsNot sind mehrere Werte Kommasepariert möglich.
-				   	$sIs = $sIs ? t3lib_div::trimExplode(',', trim($sIs)) : FALSE;
-				   	$sOperator = $this->_navConf('/hideifoperator');
-				   	$sOperator = ($sOperator === FALSE || strtoupper($sOperator) != 'OR') ? 'AND' : 'OR';
-				   	$bHide = FALSE;
-				   	$sIsNot = $sIsNot ? t3lib_div::trimExplode(',', trim($sIsNot)) : FALSE;
-				   	$sIsHiddenD = $this->_defaultFalse('/hideifdependancyishiddenbecausedependancy');
-					reset($this->aDependsOn);
-					while(list(, $sKey) = each($this->aDependsOn)) {
-						if(	// ausblenden wenn,
-								// Element nicht existiert
-							   !array_key_exists($sKey, $this->oForm->aORenderlets)
-							|| !is_object($oRdt = $this->oForm->aORenderlets[$sKey])
-								// wenn das element selbst durch dependances versteckt is
-							|| ($sIsHiddenD && $oRdt->_shouldHideBecauseDependancyEmpty(true))
-								// der Wert leer ist
-							|| ( $bEmpty && $oRdt->isValueEmpty())
-								// der Wert 0 ist
-							|| ($bOrZero === TRUE && (intval($oRdt->getValue()) === 0))
-								// der Wert eines der angegebenen Werte hat
-							|| ($sIs !== FALSE && $this->_isDependancyValue($oRdt->getValue(), $sIs) )
-								// der Wert eines der angegebenen Werte nicht hat
-							|| ($sIsNot !== FALSE && !$this->_isDependancyValue($oRdt->getValue(), $sIsNot) )
-						   ) {
-							$bHide = TRUE;
-							if ($sOperator == 'AND') break;
-						}
-						elseif (
-							$sOperator == 'OR'
-							&& array_key_exists($sKey, $this->oForm->aORenderlets)
-							&& is_object($oRdt = $this->oForm->aORenderlets[$sKey])
-						) {
-							$bHide = FALSE;
-							break;
-						}
-					}
-					if ($bHide)
-						return $bHide;
+				|| (($sIsNot = $this->_navConf('/hideifdependancyisnot')) !== FALSE)#
+			)
+		) {
+			// bei hideIfDependancyIs & hideIfDependancyIsNot sind mehrere Werte Kommasepariert möglich.
+			$sIs = $sIs ? t3lib_div::trimExplode(',', trim($sIs)) : FALSE;
+			$sOperator = $this->_navConf('/hideifoperator');
+			$sOperator = ($sOperator === FALSE || strtoupper($sOperator) != 'OR') ? 'AND' : 'OR';
+			$bHide = FALSE;
+			$sIsNot = $sIsNot ? t3lib_div::trimExplode(',', trim($sIsNot)) : FALSE;
+			$sIsHiddenD = $this->_defaultFalse('/hideifdependancyishiddenbecausedependancy');
+			reset($this->aDependsOn);
+			while(list(, $sKey) = each($this->aDependsOn)) {
+				if(	// ausblenden wenn,
+						// Element nicht existiert
+					   !array_key_exists($sKey, $this->oForm->aORenderlets)
+					|| !is_object($oRdt = $this->oForm->aORenderlets[$sKey])
+						// wenn das element selbst durch dependances versteckt is
+					|| ($sIsHiddenD && $oRdt->_shouldHideBecauseDependancyEmpty(true))
+						// der Wert leer ist
+					|| ( $bEmpty && $oRdt->isValueEmpty())
+						// der Wert 0 ist
+					|| ($bOrZero === TRUE && (intval($oRdt->getValue()) === 0))
+						// der Wert eines der angegebenen Werte hat
+					|| ($sIs !== FALSE && $this->_isDependancyValue($oRdt->getValue(), $sIs) )
+						// der Wert eines der angegebenen Werte nicht hat
+					|| ($sIsNot !== FALSE && !$this->_isDependancyValue($oRdt->getValue(), $sIsNot) )
+				) {
+					$bHide = TRUE;
+					if ($sOperator == 'AND') break;
+				}
+				elseif (
+					$sOperator == 'OR'
+					&& array_key_exists($sKey, $this->oForm->aORenderlets)
+					&& is_object($oRdt = $this->oForm->aORenderlets[$sKey])
+				) {
+					$bHide = FALSE;
+					break;
 				}
 			}
-			if($bCheckParent && $this->hasParent()){
-				return $this->getParent()->_shouldHideBecauseDependancyEmpty($bCheckParent);
+			if ($bHide) {
+				return $bHide;
 			}
-			return FALSE;
 		}
+		if($bCheckParent && $this->hasParent()){
+			return $this->getParent()->_shouldHideBecauseDependancyEmpty($bCheckParent);
+		}
+		return FALSE;
+	}
 
 		function _getStyleArray($aConf=FALSE, $sAddStyle='') {
 
@@ -1320,7 +1328,6 @@ TOOLTIP;
 		}
 		return false;
 	}
-
 	function isVisible() {
 // 		return $this->bVisible && $this->defaultTrue('/visible') && !$this->isHideIf($this);
 		if (!($this->bVisible && !$this->isHideIf($this))) {
@@ -1331,6 +1338,10 @@ TOOLTIP;
 			return $this->getForm()->getRunnable()->callRunnableWidget($this, $visible);
 		}
 		return $visible === FALSE ? TRUE : $this->_isTrueVal($visible);
+	}
+
+	public function isVisibleBecauseDependancyEmpty() {
+		return !($this->isVisible() === FALSE || $this->_shouldHideBecauseDependancyEmpty(TRUE));
 	}
 
 		function setVisible() {

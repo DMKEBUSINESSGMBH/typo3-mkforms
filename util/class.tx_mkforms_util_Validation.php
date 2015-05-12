@@ -56,15 +56,14 @@ class tx_mkforms_util_Validation {
 		$widgets = array();
 
 		// erstmal den neuen Wert setzen
-		foreach($widgetNames As $name => $value) {
+		foreach ($widgetNames As $name => $value) {
 			$widget = $this->getForm()->getWidget($name);
-			if(!$widget || $widget->isVisible() === FALSE || $widget->_shouldHideBecauseDependancyEmpty(/*$bCheckParent*/ true)) continue;
+			if(!$widget || $widget->isVisibleBecauseDependancyEmpty()) continue;
 			$widget->cancelError();
 			$widget->setValue($value);
 			$widgets[] = $widget;
 		}
 
-		$ret = array();
 		foreach($widgets As $widget) {
 			$widget->validate();
 		}
