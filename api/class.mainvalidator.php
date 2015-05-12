@@ -372,11 +372,21 @@ class formidable_mainvalidator extends formidable_mainobject {
 	 * Es wird nur Validiert,
 	 * wenn dieses Renderlet existiert und false ist.
 	 *
+	 * werden mehrere renderlets definiert (, getrent).
+	 * so müssen alle den dependsonif wert haben, damit nicht validiert wird.
+	 *
 	 * @param 	formidable_mainrenderlet 	$oRdt
 	 * @param 	string 						$sKey
 	 * @return 	boolean						wahr, wenn validiert werden kann.
 	 */
 	protected function checkDependsOn(&$oRdt, $sKey) {
+		// skip validation, if hidden because dependancy empty
+		if (
+			$this->_defaultFalse('/' . $sKey . '/onlyifisvisiblebydependancies')
+			&& !$oRdt->isVisibleBecauseDependancyEmpty()
+		) {
+			return FALSE;
+		}
 		if(($mDependsOn = $this->_navConf('/' . $sKey . '/dependson')) !== FALSE) {
 			$mDependsOn = $this->getForm()->getRunnable()->callRunnable($mDependsOn);
 
