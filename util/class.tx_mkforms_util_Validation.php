@@ -58,7 +58,7 @@ class tx_mkforms_util_Validation {
 		// erstmal den neuen Wert setzen
 		foreach ($widgetNames As $name => $value) {
 			$widget = $this->getForm()->getWidget($name);
-			if(!$widget || $widget->isVisibleBecauseDependancyEmpty()) continue;
+			if(!$widget || !$widget->isVisibleBecauseDependancyEmpty()) continue;
 			$widget->cancelError();
 			$widget->setValue($value);
 			$widgets[] = $widget;
