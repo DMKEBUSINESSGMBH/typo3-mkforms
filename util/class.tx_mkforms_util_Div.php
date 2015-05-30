@@ -658,17 +658,16 @@ ERRORMESSAGE;
 	public static function getAjaxEId() {
 		return 'tx_mkforms_ajax';
 	}
+
 	/**
-	 * [Describe function...]
+	 * Converts the (relative or absolute) $path to a fully-qualified URL.
 	 *
-	 * @param	[type]		$sPath: ...
-	 * @return	[type]		...
+	 * @param string $path
+	 *
+	 * @return string the fully-qualified URL for $path
 	 */
-	public static function toWebPath($sPath) {
-		if(t3lib_div::isFirstPartOfStr(strtolower($sPath), 'http://') || t3lib_div::isFirstPartOfStr(strtolower($sPath), 'https://')) {
-			return $sPath;
-		}
-		return self::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/' . self::removeStartingSlash(self::toRelPath($sPath));
+	public static function toWebPath($path) {
+		return t3lib_div::locationHeaderUrl($path);
 	}
 
 	/**
