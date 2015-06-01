@@ -50,13 +50,6 @@
 			return $this->getForm()->_navConf($path, $this->aElement);
 		}
 
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$sPath: ...
-		 * @param	[type]		$aConf: ...
-		 * @return	[type]		...
-		 */
 		function _isTrue($sPath, $aConf = FALSE) {
 			return $this->_isTrueVal(
 					$this->_navConf( $sPath, $aConf )
@@ -67,15 +60,7 @@
 			return $this->_isTrue($sPath, $aConf);
 		}
 
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$sPath: ...
-		 * @param	[type]		$aConf: ...
-		 * @return	[type]		...
-		 */
 		function _isFalse($sPath) {
-
 			$mValue = $this->_navConf($sPath);
 
 			if($mValue !== FALSE) {
@@ -89,12 +74,6 @@
 			return $this->_isFalse($sPath);
 		}
 
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$mVal: ...
-		 * @return	[type]		...
-		 */
 		function _isTrueVal($mVal) {
 			$mVal = $this->callRunneable($mVal);
 			return (($mVal === TRUE) || ($mVal == '1') || (strtoupper($mVal) == 'TRUE'));
@@ -104,14 +83,7 @@
 			return $this->_isTrueVal($mVal);
 		}
 
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$mVal: ...
-		 * @return	[type]		...
-		 */
 		function _isFalseVal($mVal) {
-
 			if($this->oForm->isRunneable($mVal)) {
 				$mVal = $this->callRunneable($mVal);
 			}
@@ -123,13 +95,6 @@
 			return $this->_isFalseVal($mVal);
 		}
 
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$sPath: ...
-		 * @param	[type]		$aConf: ...
-		 * @return	[type]		...
-		 */
 		function _defaultTrue($sPath, $aConf = FALSE) {
 
 			if($this->_navConf($sPath, $aConf) !== FALSE) {
@@ -139,15 +104,7 @@
 			}
 		}
 
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$sPath: ...
-		 * @param	[type]		$aConf: ...
-		 * @return	[type]		...
-		 */
 		function _defaultFalse($sPath, $aConf = FALSE) {
-
 			if($this->_navConf($sPath, $aConf) !== FALSE) {
 				return $this->_isTrue($sPath, $aConf);
 			} else {
@@ -155,26 +112,21 @@
 			}
 		}
 
-		// alias for _defaultTrue()
+		/**
+		 * alias for _defaultTrue()
+		 */
 		function defaultTrue($sPath, $aConf = FALSE) {
 			return $this->_defaultTrue($sPath, $aConf);
 		}
 
-		// alias for _defaultFalse()
+		/**
+		 * alias for _defaultFalse()
+		 */
 		function defaultFalse($sPath, $aConf = FALSE) {
 			return $this->_defaultFalse($sPath, $aConf);
 		}
 
-
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$sPath: ...
-		 * @param	[type]		$aConf: ...
-		 * @return	[type]		...
-		 */
 		function _defaultTrueMixed($sPath) {
-
 			if(($mMixed = $this->_navConf($sPath)) !== FALSE) {
 
 				if(strtoupper($mMixed) !== 'TRUE' && strtoupper($mMixed) !== 'FALSE') {
@@ -191,15 +143,7 @@
 			return $this->_defaultTrueMixed($sPath);
 		}
 
-		/**
-		 * [Describe function...]
-		 *
-		 * @param	[type]		$sPath: ...
-		 * @param	[type]		$aConf: ...
-		 * @return	[type]		...
-		 */
 		function _defaultFalseMixed($sPath) {
-
 			if(($mMixed = $this->_navConf($sPath)) !== FALSE) {
 
 				if(strtoupper($mMixed) !== 'TRUE' && strtoupper($mMixed) !== 'FALSE') {
