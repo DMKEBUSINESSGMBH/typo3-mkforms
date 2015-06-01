@@ -28,7 +28,6 @@ Formidable.Classes.Ticker = Formidable.Classes.RdtBaseClass.extend({
 		}
 		if (this.config.scroll.mode == "horizontal") {
 			aStyles["float"] = "left";
-			//aStyles["display"] = "block";
 		}
 		if (this.config.item.width) {
 			aStyles["width"] = this.config.item.width + "px";
@@ -123,8 +122,6 @@ Formidable.Classes.Ticker = Formidable.Classes.RdtBaseClass.extend({
 
 		var aBoxStyle = {};
 		aBoxStyle['position'] = "absolute";
-		//aBoxStyle['top'] = this.config.offset.top + "px";
-		//aBoxStyle['left'] = this.config.offset.left + "px";
 		aBoxStyle['top'] = 0 + "px";
 		aBoxStyle['left'] = 0 + "px";
 		if (this.iWidth) {

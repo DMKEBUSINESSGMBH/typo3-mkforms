@@ -9,7 +9,6 @@
 class tx_mkforms_widgets_reset_Main extends formidable_mainrenderlet {
 
 	function _render() {
-		// return "<input type=\"button\" name=\"" . $this->_getElementHtmlName() . "\" id=\"" . $this->_getElementHtmlId() . "\" value=\"" . $this->oForm->getConfigXML()->getLLLabel($this->_navConf("/label")) . "\"" . $this->_getAddInputParams() . " />";
 		$sLabel = $this->getLabel();
 
 		if(($sPath = $this->_navConf('/path')) !== FALSE) {

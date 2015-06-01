@@ -53,12 +53,9 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				$aInfosPath = parse_url($sAbsWebPath);
 
 				$aInfosFile = t3lib_div::split_fileref($sAbsWebPath);
-				#debug($aInfosPath);
-				#debug($aInfosFile);
 				if(strtolower($aInfosPath['host']) !== strtolower(t3lib_div::getIndpEnv('TYPO3_HOST_ONLY'))) {
 
 					// it's an external image
-
 					$bExternal = TRUE;
 					$sAbsServerPath = '';
 					if($bReprocess === TRUE) {
@@ -186,7 +183,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				}
 
 				$aHtmlBag['imagetag'] = '<img src="' . $aHtmlBag['filepath'] . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' ' . $sWidth . $sHeight . '/>';
-				#print_r($aHtmlBag['imagetag']);
 			} else {
 				$aHtmlBag['imagetag'] = $sTag;
 			}

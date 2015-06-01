@@ -509,14 +509,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		$this->getConfig()->compileConfig($this->aTempDebug);
 
 
-	/***** GRABBING SERVER EVENTS *****
-	*
-	*	Grabbing the server and ajax events
-	*
-	*/
-		/*$this->_grabServerAndAjaxEvents(
-			$this->_aConf["elements"]
-		);*/
+		/***** GRABBING SERVER EVENTS *****/
 
 		$this->checkPoint(array('start',));
 
@@ -786,8 +779,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 				$sBaseUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
 			} elseif($sEnvMode === 'EID') {
 				$sBaseUrl = t3lib_div::getIndpEnv('HTTP_REFERER');
-			} elseif($sEnvMode === 'FE') {
-				//$aParams = t3lib_div::_GET();
 			}
 
 			if($sEnvMode === 'BE' || $sEnvMode === 'EID') {
@@ -854,12 +845,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	}
 
 	function getAddPostVars($sFormId = FALSE) {
-
-		/*$aRawPost = $this->_getRawPost(
-			$sFormId,
-			$bCache = FALSE
-		);*/
-
 		if($sFormId === FALSE) {
 			$sFormId = $this->formid;
 		}
@@ -874,7 +859,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		} else {
 			$aAddPostVars = FALSE;
 		}
-		//debug($aAddPostVars, 'aAddPostVars');
+
 		return $aAddPostVars;
 	}
 
@@ -1650,16 +1635,6 @@ SANDBOXCLASS;
 		}
 
 		$this->getDataHandler()->_initCols();
-		/*$this->oDataHandler->_getStoredData();			// initialization
-
-		$this->oDataHandler->_getFormData();			// initialization
-
-		/*$this->oDataHandler->__aFormData = $this->oDataHandler->_processBeforeRender(
-			$this->oDataHandler->__aFormData
-		);
-
-		$this->oDataHandler->_getFormDataManaged();		// initialization
-		*/
 
 		$this->getDataHandler()->refreshAllData();
 
@@ -1787,14 +1762,11 @@ SANDBOXCLASS;
 
 				if($sElementName{0} === 'r' && t3lib_div::isFirstPartOfStr($sElementName, 'renderlet')) {
 
-					#$aElement =& $aConf[$sElementName];
-
 					if(array_key_exists('name', $aConf[$sElementName]) && (trim($aConf[$sElementName]['name']) != '')) {
 						$sName = trim($aConf[$sElementName]['name']);
 						$bAnonymous = FALSE;
 					} else {
 						$sName = $this->_getAnonymousName($aConf[$sElementName]);
-						//$this->_aConf['elements'][$sElementName]['name'] = $sName;		# might be buggy in case of includeXml where elementname can be renderlet-X, whereas it already exists in the $this->_aConf global renderlet array
 						$aConf[$sElementName]['name'] = $sName;
 						$bAnonymous = TRUE;
 					}
@@ -1803,35 +1775,26 @@ SANDBOXCLASS;
 						$this->mayday("Two (or more) renderlets are using the same name '<b>" . $sName . "</b>' on this form ('<b>" . $this->formid . "</b>') - cannot continue<br /><h2>Inclusions:</h2>" . tx_mkforms_util_Div::viewMixed($this->aTempDebug["aIncHierarchy"]));
 					}
 
-					//if(($bChilds === FALSE) || $this->_defaultTrue('/process', $aElement)) {
-					//if($this->_defaultTrue('/process', $aElement)) {
+					$oRdt =& $this->_makeRenderlet(
+						$aConf[$sElementName],
+						$sXPath . $sElementName . '/',
+						$bChilds,
+						$oChildParent,
+						$bAnonymous,
+						$sNamePrefix
+					);
 
-						$oRdt =& $this->_makeRenderlet(
-							$aConf[$sElementName],
-							$sXPath . $sElementName . '/',
-							$bChilds,
-							$oChildParent,
-							$bAnonymous,
-							$sNamePrefix
-						);
+					$sAbsName = $oRdt->getAbsName();
+					$sName = $oRdt->getName();
 
-						$sAbsName = $oRdt->getAbsName();
-						$sName = $oRdt->getName();
+					$this->aORenderlets[$sAbsName] =& $oRdt;
+					unset($oRdt);
 
-						$this->aORenderlets[$sAbsName] =& $oRdt;
-						unset($oRdt);
-
-						// brothers-childs are stored without prefixing, of course
-						$aRdtRefs[$sName] =& $this->aORenderlets[$sAbsName];
-/*						if($sDataBridgeAbsName !== FALSE) {
-							$this->aORenderlets[$sAbsName]->setDataBridge($sDataBridgeAbsName);
-						}*/
-					//}
+					// brothers-childs are stored without prefixing, of course
+					$aRdtRefs[$sName] =& $this->aORenderlets[$sAbsName];
 				}
 			}
 		}
-
-		#debug(array_keys($this->aORenderlets));
 
 		return $aRdtRefs;
 	}
@@ -1946,7 +1909,6 @@ SANDBOXCLASS;
 		}
 
 		$sSep = '/';
-		//debug($aConf, 'SETTING DEEP DATA INTO ' . $path);
 
 		if($path{0} === $sSep)					{ $path = substr($path, 1);}
 		if($path{strlen($path) - 1} === $sSep)	{ $path = substr($path, 0, strlen($path) - 1);}
@@ -2124,8 +2086,6 @@ SANDBOXCLASS;
 			$this->mayday('TRIED TO RENDER FORM BEFORE CALLING INIT() !');
 		}
 
-		#$this->fetchServerEvents();	// moved just after call to initRenderlets()
-
 		$this->checkPoint(array('before-render',));
 
 		//submit mode merken
@@ -2133,9 +2093,6 @@ SANDBOXCLASS;
 
 		$this->bRendered = TRUE;
 
-/*		$this->_debug($this->oDataHandler->_P(), 'RAW POST RETURN');
-		$this->_debug($this->oDataHandler->_getFormData(), '_getFormData');
-		$this->_debug($this->oDataHandler->_getFormDataManaged(), '_getFormDataManaged');*/
 		$this->oRenderer->renderStyles();
 
 		if($this->getDataHandler()->_isSubmitted()) {
@@ -2157,7 +2114,6 @@ SANDBOXCLASS;
 
 
 				// the datahandler is executed
-				#$this->processDataBridges(TRUE);
 				$sDH = $this->getDataHandler()->_doTheMagic(TRUE);
 
 				// Renderlets are rendered
@@ -2231,7 +2187,6 @@ SANDBOXCLASS;
 				$this->getJSLoader()->includeBaseLibraries();
 
 				// the datahandler is executed
-				#$this->processDataBridges(FALSE);
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
@@ -2262,7 +2217,6 @@ SANDBOXCLASS;
 				$this->getJSLoader()->includeBaseLibraries();
 
 				// the datahandler is executed
-				#$this->processDataBridges(FALSE);
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
@@ -2293,7 +2247,6 @@ SANDBOXCLASS;
 				$this->getJSLoader()->includeBaseLibraries();
 
 				// the datahandler is executed
-				#$this->processDataBridges(TRUE);
 				$sDH = $this->oDataHandler->_doTheMagic(TRUE);
 
 				// Renderlets are rendered
@@ -2347,7 +2300,6 @@ SANDBOXCLASS;
 				$this->getJSLoader()->includeBaseLibraries();
 
 				// the datahandler is executed
-				#$this->processDataBridges(FALSE);
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
@@ -2372,7 +2324,6 @@ SANDBOXCLASS;
 			$this->getJSLoader()->includeBaseLibraries();
 
 			// the datahandler is executed
-			#$this->processDataBridges(FALSE);
 			$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 			// Renderlets are rendered
@@ -2451,7 +2402,6 @@ SANDBOXCLASS;
 
 			reset($this->aOnloadEvents['ajax']);
 			while(list($sEventId, $aEvent) = each($this->aOnloadEvents['ajax'])) {
-				//debug($aEvent, $sEventId);
 				$this->attachInitTask(
 					$this->oRenderer->_getAjaxEvent($this->aORenderlets[$aEvent['name']], $aEvent['event'],'onload'),
 					'AJAX Event onload for ' . $this->formid . '.' . $aEvent['name'],
@@ -2470,9 +2420,7 @@ SANDBOXCLASS;
 
 
 			$sJs = "MKWrapper.onDOMReady(function() {\n";
-//			$sJs .= 'console.debug("Start MKForms");';
 			$sJs .= implode('', $this->aInitTasks);
-//			$sJs .= 'console.debug("End MKForms");';
 			$sJs .= "\n});";
 			$sJs .= implode("\n", $this->aInitTasksOutsideLoad);
 
@@ -2515,7 +2463,6 @@ SANDBOXCLASS;
 			$this->checkPoint(array('after-js-inclusion','after-validation','end'));
 		}
 
-		//debug($this->aAjaxEvents);
 		$this->bStoreFormInSession = ($this->bStoreFormInSession || $this->_defaultFalse('/meta/keepinsession'));
 
 		if($this->bStoreFormInSession === TRUE && !$this->isTestMode()) {
@@ -2578,11 +2525,6 @@ SANDBOXCLASS;
 				if($sName === '') {
 					$this->mayday("Ajax service: ajax service requires /name to be set.");
 				}
-				/*
-				if(array_key_exists($sName, $this->aAjaxServices)) {
-					$this->mayday("Ajax service '" . $mService["name"] . "': two or more ajax services are set with the same name.");
-				}
-				*/
 
 				$this->aAjaxServices[$sServiceId] = array(
 					'definition' => $mService,
@@ -2645,15 +2587,12 @@ JAVASCRIPT;
 		reset($aRdts);
 		while(list(, $sName) = each($aRdts)) {
 			if(array_key_exists($sName, $this->aORenderlets) && !$this->aORenderlets[$sName]->hasParent()) {
-				#debug($sName, 'processDataBridges');
 				$this->aORenderlets[$sName]->processDataBridge();
 			}
 		}
 	}
 
 	function attachRdtEvents() {
-		//debug($this->aRdtEvents);
-
 		$this->attachInitTask(
 			implode("\n", $this->aRdtEvents),
 			'RDT Events'
@@ -2765,7 +2704,6 @@ JAVASCRIPT;
 			$sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(array('/*', '*/', '//'), '', $sDesc)) . ' */';
 		}
 
-		//$sJs = $sDesc . "\n" . trim($sScript) . "\n";
 		$sJs = "\n" . trim($sScript);
 
 		if($bOutsideLoad) {
@@ -2986,7 +2924,6 @@ JAVASCRIPT;
 		}
 
 		$oRdt =& $this->getObjectLoader()->makeObject($aElement, 'renderlets', $sXPath, $this, $sNamePrefix, $aOParent);
-		#debug($oChildParent->testit, 'TEST REFERENCE:' . $aElement['name']);
 		$oRdt->bAnonymous = $bAnonymous;
 		$oRdt->bChild = $bChilds;
 
@@ -3083,7 +3020,6 @@ JAVASCRIPT;
 	function _declareValidationError($sElementName, $sKey, $sMessage) {
 
 		if(array_key_exists($sElementName, $this->aORenderlets)) {
-			#debug($this->aORenderlets[$sElementName]->_getElementHtmlId(), '_declareValidationError');
 			$sHtmlId = $this->getWidget($sElementName)->getElementId(false);
 
 			if(!array_key_exists($sHtmlId, $this->_aValidationErrorsByHtmlId)) {
@@ -3211,7 +3147,6 @@ JAVASCRIPT;
 	 */
 	function debug($bExpand = FALSE) {
 		tx_rnbase::load('tx_rnbase_util_Debug');
-//		$this->oJs->_includeThisFormDebugFuncs();
 
 		$aHtml = array();
 
@@ -3234,10 +3169,6 @@ JAVASCRIPT;
 		$aHtml[] = "<h5>t3lib_div::_GET()</h5>";
 		$aHtml[] = tx_rnbase_util_Debug::viewArray(t3lib_div::_GET());
 
-		/*$aHtml[] = "<ul>";
-		$aHtml[] = "<li><a href = 'http://typo3.org/documentation/document-library/ameos_formidable/' target = '_blank'>FORMidable user documentation</a></li>";
-
-		$aHtml[] = "</ul>";*/
 		$aHtml[] = "<br>";
 		$aHtml[] = "<ul>";
 
@@ -3248,7 +3179,6 @@ JAVASCRIPT;
 
 		$aHtml[] = "<li><a href = '#" . $this->formid . "formidable_configuration' target = '_self'>FORM configuration</a></li>";
 		$aHtml[] = "<li><a href = '#" . $this->formid . "formidable_callstack' target = '_self'>Call stack</a></li>";
-//		$aHtml[] = "<li><a href = '#" . $this->formid . "formidable_objects' target = '_self'>Available DataHandlers, Renderers, Renderlets, Validators and Actionlets</a></li>";
 		$aHtml[] = "</ul>";
 
 		if(!is_null($this->_xmlPath)) {
@@ -3450,8 +3380,6 @@ JAVASCRIPT;
 
 		$aErrors = array (
 			E_ERROR		=> 'Error',
-//			E_WARNING	=> 'Warning',
-//			E_NOTICE	=> 'Notiz',
 			E_PARSE		=> 'Parse error',
 		);
 
@@ -4119,9 +4047,6 @@ JAVASCRIPT;
 		);
 
 		// This generates the constants/config + hierarchy info for the template.
-
-//		$tplRow = $tmpl->ext_getFirstTemplate($pageId,$template_uid);	// Get the row of the first VISIBLE template of the page. whereclause like the frontend.
-
 		$tmpl->generateConfig();
 
 		$aConfig = $tmpl->setup['config.'];

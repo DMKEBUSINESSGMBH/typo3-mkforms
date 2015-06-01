@@ -1,7 +1,5 @@
 <?php
 
-//	die("<b>NOT IMPLEMENTED FOR THE MOMENT !!!</b>");
-
 // Exit, if script is called directly (must be included via eID in index_ts.php)
 if (!defined ('PATH_typo3conf')) 	die ('Could not access this script directly!');
 
@@ -134,8 +132,6 @@ class formidableajax {
 		while(list(,$sKey) = each($aRdtKeys)) {
 			if(is_object($this->oForm->aORenderlets[$sKey])) {
 				$this->oForm->aORenderlets[$sKey]->awakeInSession($this->oForm);
-			} else {
-				//debug($sKey);
 			}
 		}
 		$this->ttTimes['wgtrest'] = microtime(true) - $start;
@@ -163,7 +159,6 @@ class formidableajax {
 		$this->oForm->aInitTasksAjax = array();
 		$this->oForm->aPostInitTasksAjax = array();
 		$this->oForm->aRdtEventsAjax = array();
-//		$this->oForm->aHeadersAjax = array();
 
 		if($this->aRequest['servicekey'] == 'ajaxservice') {
 			// Hier kommt direkt ein String
@@ -308,8 +303,6 @@ class formidableajax {
 						if ($TSFE->forceTemplateParsing || $TSFE->displayEditIcons || $TSFE->displayFieldEditIcons)	{ $TSFE->set_no_cache(); }
 					}
 
-			//		$WEBMOUNTS = (string)($BE_USER->groupData['webmounts'])!='' ? explode(',',$BE_USER->groupData['webmounts']) : Array();
-			//		$FILEMOUNTS = $BE_USER->groupData['filemounts'];
 				} else {	// Unset the user initialization.
 					$BE_USER='';
 					$TSFE->beUserLogin=0;

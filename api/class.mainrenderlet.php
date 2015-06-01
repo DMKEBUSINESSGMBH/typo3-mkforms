@@ -82,12 +82,10 @@
 			if(($this->oDataBridge =& $this->getDataBridgeAncestor()) !== FALSE) {
 				$this->bHasDataBridge = TRUE;
 				$this->oDataBridge->aDataBridged[] = $this->getAbsName();
-				#if($this->oDataBridge->dbridge_setValue())
 			}
 
 			$this->initChilds();
 			$this->initProgEvents();
-			#$this->initDependancies();
 		}
 
 		function initChilds($bReInit = FALSE) {
@@ -163,9 +161,6 @@
 		}
 
 		function doBeforeIteratingRender(&$oIterating) {
-
-			//$this->cleanStatics();
-
 			if($this->mayBeDataBridge()) {
 				$this->initDatasource();
 				$this->processDataBridge();
@@ -179,7 +174,6 @@
 			$this->cleanStatics();
 
 			if(!$this->hasParent() && $this->mayBeDataBridge()) {
-				#$this->initDatasource();
 				$this->processDataBridge();
 			}
 		}
@@ -196,7 +190,6 @@
 		 * @param tx_mkforms_widgets_lister_Main $oListObject
 		 */
 		function doAfterListRender(&$oListObject) {
-			#debug($this->_getElementHtmlId(), "doBeforeListRender");
 			$init = array(
 				'iterating' => true,
 				'iterator' => $oListObject->_getElementHtmlId()
@@ -266,7 +259,7 @@
 			return $this->oRdtParent;
 		}
 		function hasParent() {
-			return ($this->oRdtParent !== FALSE && is_object($this->oRdtParent)/* && is_a($this->oRdtParent, "formidable_mainrenderlet")*/);
+			return ($this->oRdtParent !== FALSE && is_object($this->oRdtParent));
 		}
 		/**
 		 * Returns true if widget has iterating childs. This is normally true for type Lister.
@@ -322,7 +315,6 @@
 
 		function hasBeenSubmitted() {
 			if($this->hasDataBridge()) {
-				//debug("hasBeenSubmitted", $this->getName());
 				return FALSE;
 			}
 
@@ -337,7 +329,6 @@
 				$aChildKeys = array_keys($this->aChilds);
 				reset($aChildKeys);
 				while(!$bHasBeenPosted && (list(, $sKey) = each($aChildKeys))) {
-					#$sAbsName = $this->aChilds[$sKey]->getAbsName();
 					$bHasBeenPosted = $bHasBeenPosted && $this->aChilds[$sKey]->hasBeenDeeplyPosted();
 				}
 			}
@@ -617,11 +608,6 @@
 				$sLabelStyle .= 'display: none;';
 			}
 			$sLabelStyle = empty($sLabelStyle) ? '' : ' style="'.$sLabelStyle.'"';
-//			if(!empty($sLabelStyle))
-//tx_mkforms_util_Div::debug4ajax(array(
-//		$sLabelStyle,
-//		' style="'.$sLabelStyle.'"',
-//	), 'DEBUG: '.__METHOD__.' Line: '.__LINE__); // @TODO: remove me
 
 			return '<label id="' . $sLabelId . '"' . $sLabelStyle . ' class="' . $sClassAttribute . '"' . $forAttribute . $sLabelCustom . '>' . $sLabel . "</label>\n";
 		}
@@ -668,11 +654,8 @@
 			$sPrefix = '';
 
 			if($this->hasParent()) {
-				//debug("418", $sName);
 				$sPrefix = $this->getParent()->getAbsName();
-			}/* else {
-				$sPrefix = $this->oForm->formid;
-			}*/
+			}
 
 			if($sPrefix === '') {
 				return $sName;
@@ -723,8 +706,6 @@
 				if($this->hasParent()) {
 					$parent = $this->getParent();
 					$this->aStatics['elementHtmlName'][$sName] = $parent->getElementHtmlName4Child($this);
-//					$sPrefix = $this->oRdtParent->_getElementHtmlName();
-//					$this->aStatics['elementHtmlName'][$sName] = $sPrefix . '[' . $sName . ']';
 				} else {
 					$sPrefix = $this->oForm->formid;
 					$this->aStatics['elementHtmlName'][$sName] = $sPrefix . '[' . $sName . ']';
@@ -1329,7 +1310,6 @@ TOOLTIP;
 		return false;
 	}
 	function isVisible() {
-// 		return $this->bVisible && $this->defaultTrue('/visible') && !$this->isHideIf($this);
 		if (!($this->bVisible && !$this->isHideIf($this))) {
 			return FALSE;
 		}
@@ -1425,8 +1405,6 @@ TOOLTIP;
 			reset($aGrabbedEvents);
 			while(list(, $sEvent) = each($aGrabbedEvents)) {
 				if(($mEvent = $this->_navConf('/' . $sEvent . '/')) !== FALSE) {
-					//debug($mEvent);
-
 					if(is_array($mEvent)) {
 
 						$sRunAt = trim(strtolower((array_key_exists('runat', $mEvent) && in_array($mEvent['runat'], array('inline', 'client', 'ajax', 'server'))) ? $mEvent['runat'] : 'client'));
@@ -1479,7 +1457,6 @@ TOOLTIP;
 
 							if(array_search($sWhen, $this->oForm->aAvailableCheckPoints) < array_search('after-init-renderlets', $this->oForm->aAvailableCheckPoints)) {
 								if($sWhen === 'start') {
-									#debug("ici");
 									$bEarlyBird = TRUE;
 								} else {
 									$this->oForm->mayday("SERVER EVENT on <b>" . $sEventName . " " . $this->getAbsName() . "</b>: defined checkpoint (when='" . $sWhen . "') triggers too early in the execution to be catchable by a server event.<br />The first checkpoint available for server event is <b>after-init-renderlets</b>. <br /><br />The full list of checkpoints is: <br /><br />" . tx_rnbase_util_Debug::viewArray($this->oForm->aAvailableCheckPoints));
@@ -1547,9 +1524,6 @@ TOOLTIP;
 									$this->getAbsName(),
 									array($sEventName => $mEvent)
 								);
-
-								//debug($sEventId, $this->_getName() . ":" . $sEvent);
-
 
 								$aTemp = array(
 									'name' => $this->getAbsName(),
@@ -1687,12 +1661,6 @@ TOOLTIP;
 					} else {
 
 						$aEvent = $mEvent;
-						/*
-						// custom string client mode event
-						if($this->oForm->isRunneable($mEvent)) {
-							$aEvent = $this->callRunneable($mEvent);
-						} else {
-						}*/
 					}
 
 					if($sEventName !== 'onload' && !$this->isCustomEventHandler($sEventName)) {
@@ -1840,9 +1808,6 @@ JAVASCRIPT;
 			return $this->getForm()->_getSafeLock(
 				$GLOBALS['TSFE']->id . '||' . $this->oForm->formid
 			);
-			/*return $this->oForm->_getSafeLock(
-				$GLOBALS['TSFE']->id . '||' . $this->_getElementHtmlId()
-			);*/
 		}
 
 		function forceItems($aItems) {
@@ -2191,7 +2156,6 @@ JAVASCRIPT;
 
 							reset($aFields);
 							while(list(, $sField) = each($aFields)) {
-								//$aSql[] = "(" . $sFieldPrefix . $sField . " LIKE '%" . $GLOBALS["TYPO3_DB"]->quoteStr($sValue, $sTable) . "%')";
 								$aSql[] = $this->_sqlSearchClause(
 									$sValue,
 									$sFieldPrefix,
@@ -2213,7 +2177,6 @@ JAVASCRIPT;
 
 						reset($aFields);
 						while(list(, $sField) = each($aFields)) {
-							//$aSql[] = "(" . $sFieldPrefix . $sField . " LIKE '%" . $GLOBALS["TYPO3_DB"]->quoteStr($sValue, $sTable) . "%')";
 							$aSql[] = $this->_sqlSearchClause(
 								$sValue,
 								$sFieldPrefix,
@@ -2253,18 +2216,6 @@ JAVASCRIPT;
 		}
 
 		function i18n_shouldNotTranslate() {
-			/*
-			$this->oForm->d(
-				array(
-					"name" => $this->_getName(),
-					"props" => array(
-						"i18n ?" => $this->oForm->oDataHandler->i18n(),
-						"NOT default lang ?" => !$this->oForm->oDataHandler->i18n_currentRecordUsesDefaultLang(),
-						"NOT translatable ?" => !$this->_translatable()
-					)
-				)
-			);*/
-
 			return		$this->oForm->oDataHandler->i18n()	// DH handles i18n ?
 					&&	!$this->oForm->oDataHandler->i18n_currentRecordUsesDefaultLang()	// AND record is NOT in default language
 					&&	!$this->_translatable();	// AND renderlet is NOT translatable
@@ -2405,7 +2356,6 @@ JAVASCRIPT;
 					'localname' => $this->getName(),
 					'name' => $this->_getElementHtmlName(),
 					'namewithoutformid' => $this->_getElementHtmlNameWithoutFormId(),
-					// 'idwithoutformid' => $this->_getElementHtmlIdWithoutFormId(),
 					'idwithoutformid' => $this->_getElementHtmlId(),
 					'iteratingid' => strlen($this->getIteratingId()) ? $this->getIteratingId() : false,
 					'formid' => $this->oForm->formid,
@@ -2431,7 +2381,6 @@ JAVASCRIPT;
 
 		// attach post init script?
 		if (!empty($this->sAttachPostInitTask)) {
-			// Formidable.f("testform").o("formfield").initmethod();
 			$this->getForm()->attachPostInitTask(
 				'Formidable.f("' . $this->oForm->formid . '")' .
 					'.o("' . $this->_getElementHtmlIdWithoutFormId() . '")' .
@@ -2465,7 +2414,6 @@ JAVASCRIPT;
 
 		function hasDataBridge() {
 			return $this->bHasDataBridge;
-			//return $this->oDataBridge !== FALSE;
 		}
 
 		function renderChildsBag() {
@@ -2576,9 +2524,6 @@ JAVASCRIPT;
 						'###' . $sSubpartName . '###'
 					);
 
-#					debug($aChildsBag, "aChildsBag:" . $this->getAbsName());
-					#$aErrors = $this->getDeepErrorRelative();
-					#debug($aErrors, "getDeepError");
 					$aTemplateErrors = array();
 					$aCompiledErrors = array();
 					$aDeepErrors = $this->getDeepErrorRelative();
@@ -2617,7 +2562,7 @@ JAVASCRIPT;
 				reset($aChildsBag);
 				while(list($sName, $aBag) = each($aChildsBag)) {
 					if($sName{0}=='e' && $sName=='errors' && !$bRenderErrors) continue;
-					if(!$this->shouldAutowrap() /*|| !$this->defaultWrap()*/) {
+					if(!$this->shouldAutowrap()) {
 						$sCompiled .= "\n" . $aBag['__compiled'];
 					} else {
 						$sCompiled .= "\n<div class='".$this->getForm()->sDefaultWrapClass."-rdtwrap'>" . $aBag['__compiled'] . "</div>";
@@ -2813,10 +2758,7 @@ JAVASCRIPT;
 										)
 									);
 
-									//debug($aSubManifest);
-
 									// getting template and channels
-
 									if(array_key_exists('template', $this->aSkin['submanifest']['resources'])) {
 										$sSrc = $this->aSkin['manifest']['control']['serverpath'] . tx_mkforms_util_Div::removeStartingSlash($this->aSkin['submanifest']['resources']['template']['file']['src']);
 										if(file_exists($sSrc) && is_readable($sSrc)) {
@@ -2829,7 +2771,6 @@ JAVASCRIPT;
 											);
 
 											if(($aChannels = $this->oForm->_navConf('/channels', $this->aSkin['submanifest']['resources']['template'])) !== FALSE) {
-												//debug($aChannels);
 												reset($aChannels);
 												while(list(, $aChannel) = each($aChannels)) {
 
@@ -2854,13 +2795,6 @@ JAVASCRIPT;
 													FALSE
 												);
 											}
-
-
-											/*return $this->oForm->_parseTemplate(
-												$sSrc,
-												$this->aSkin["submanifest"]["resources"]["template"]["subpart"],
-												$aSkinFeed["tags"]
-											);*/
 										}
 									}
 
@@ -2909,8 +2843,6 @@ JAVASCRIPT;
 
 				reset($aHtmlBag);
 				return $aHtmlBag;
-
-				//debug($this->aSkin);
 			} else {
 
 				reset($aDefaultHtmlBag);
@@ -3030,16 +2962,6 @@ JAVASCRIPT;
 			unset($this->aStatics);
 			$this->aStatics = $this->aEmptyStatics;
 			$this->aCustomEvents = array();
-
-/*			if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
-				debug($this->getName(), "baseCleanBeforeSession");
-			}
-*/
-			/*if($this->hasDataBridge()) {
-				#$this->sDataBridge = $this->oDataBridge->getAbsName();
-				#unset($this->oDataBridge);
-				#$this->oDataBridge = FALSE;
-			}*/
 		}
 
 		function awakeInSession(&$oForm) {
@@ -3208,9 +3130,7 @@ JAVASCRIPT;
 		}
 
 		function setParent(&$oParent) {
-			#$oParent->testit = "setParentOne:";
 			$this->oRdtParent =& $oParent;
-			#$this->oRdtParent->testit .= ":setParentTwo->oRdtParent:";
 		}
 
 		function addCssClass($sNewClass) {
@@ -3300,7 +3220,6 @@ JAVASCRIPT;
 				}
 			}
 
-			//unset($this->oForm->_aValidationErrors[$sName]);	// removes potentialy thrown validation errors
 			$this->cancelError();
 
 			if($this->hasParent()) {
@@ -3311,9 +3230,6 @@ JAVASCRIPT;
 			unset($this->oForm->oDataHandler->__aFormData[$sName]);
 			unset($this->oForm->oDataHandler->__aFormDataManaged[$sName]);
 
-			// pre-setting it's render to void
-			#$this->oForm->aPreRendered[$sName] = '';
-
 			$sDeepPath = str_replace('.', '.childs.', $sName);
 			$sDeepPath = str_replace('.', '/', $sDeepPath);
 			$this->oForm->setDeepData(
@@ -3322,17 +3238,10 @@ JAVASCRIPT;
 				array(),
 				TRUE	// $bMergeIfArray
 			);
-
-			#debug($this->oForm->aPreRendered);
 		}
 
 		function majixRepaint() {
-			#$bBefore = $this->oForm->oRenderer->bDisplayLabels;
-			#$this->oForm->oRenderer->bDisplayLabels = FALSE;
-
 			$aHtmlBag = $this->render();
-
-			#$this->oForm->oRenderer->bDisplayLabels = $bBefore;
 
 			return $this->buildMajixExecuter(
 				'repaint',
@@ -3383,7 +3292,6 @@ JAVASCRIPT;
 			if(!is_array($aTasks)) {
 				$aTasks = array();
 			}
-			//$aTasks = array();
 			if($this->hasDependants()) {
 				reset($this->aDependants);
 				while(list(, $sAbsName) = each($this->aDependants)) {
@@ -3415,9 +3323,6 @@ JAVASCRIPT;
 		}
 
 		function processDataBridge() {
-
-			#debug($this->_getElementHtmlId(), 'processDataBridge');
-
 			if($this->mayHaveChilds() && $this->hasChilds()) {
 
 				if(isset($this->aChilds)) {
@@ -3448,7 +3353,6 @@ JAVASCRIPT;
 			}
 
 			if($this->isDataBridge() && $this->oDataSource->writable() && $this->dbridge_isFullySubmitted()) {
-				#debug($this->_getElementHtmlId(), 'submitted');
 				if($this->dbridge_allIsValid()) {
 					$sSignature = $this->dbridge_getCurrentDsetSignature();
 
@@ -3473,18 +3377,7 @@ JAVASCRIPT;
 
 					$this->oDataSource->dset_writeDataSet($sSignature);
 				}
-			}/* else {
-				debug($this->_getElementHtmlId(), 'not submitted');
-				if($this->isDataBridge()) {
-					$this->oForm->d(array(
-						$this->_getElementHtmlId(),
-						$this->isDataBridge(),
-						$this->oDataSource,
-						$this->oDataSource->writable(),
-						$this->dbridge_isFullySubmitted()
-					));
-				}
-			}*/
+			}
 		}
 
 		function dbridge_allIsValid() {
@@ -3493,8 +3386,6 @@ JAVASCRIPT;
 			if($this->isDataBridge()) {
 				$sThisAbsName = $this->getAbsName();
 				$aErrorKeys = array_keys($this->oForm->_aValidationErrors);
-				#debug($this->oForm->_aValidationErrors, '_aValidationErrors');
-				#debug($this->oForm->_aValidationErrorsByHtmlId, '_aValidationErrorsByHtmlId');
 				reset($aErrorKeys);
 				while($bValid && list(, $sAbsName) = each($aErrorKeys)) {
 					if(array_key_exists($sAbsName, $this->oForm->aORenderlets) && $this->oForm->aORenderlets[$sAbsName]->isDescendantOf($sThisAbsName)) {
@@ -3543,8 +3434,6 @@ JAVASCRIPT;
 		}
 
 		function dbridge_isSubmitted() {
-			#debug($this->dbridge_getSubmitterAbsName(), $this->getAbsName());
-			#debug($this->dbridge_getCurrentDsetObject());
 			if(($this->dbridge_getSubmitterAbsName() !== FALSE) || $this->dbridge_globalSubmitable()) {
 				return $this->oForm->oDataHandler->_isSubmitted();
 			}
@@ -3569,7 +3458,6 @@ JAVASCRIPT;
 		}
 
 		function dbridge_mapPath($sAbsName) {
-			#debug($sAbsName, 'dbridge_mapPath');
 			# first, see if a mapping has been explicitely set on the renderlet
 			if(($sPath = $this->oForm->aORenderlets[$sAbsName]->_navConf('/map')) !== FALSE) {
 				if($this->oForm->isRunneable($sPath)) {
@@ -3847,7 +3735,6 @@ JAVASCRIPT;
 			unset($this->oForm->_aValidationErrors[$sAbsName]);
 			unset($this->oForm->_aValidationErrorsByHtmlId[$sHtmlId]);
 			unset($this->oForm->_aValidationErrorsInfos[$sHtmlId]);
-			//unset($this->oForm->_aValidationErrorsTypes[$sAbsName]);
 		}
 
 		function majixAddClass($sClass) {
@@ -4023,50 +3910,6 @@ JAVASCRIPT;
 					}
 				}
 			}
-
-			/*
-			$sRdtName = $this->getAbsName();
-			$aConfValidators = $this->_navConf($sPath);
-
-			if(is_array($aConfValidators) && !empty($aConfValidators)) {
-
-				while(list($sKey, $aConfValidator) = each($aConfValidators)) {
-
-					if($sKey{0} === 'v' && $sKey{1} === "a" && t3lib_div::isFirstPartOfStr($sKey, "validator") && !t3lib_div::isFirstPartOfStr($sKey, "validators")) {
-						// the conf section exists
-						// call validator
-
-						$oValidator = $this->oForm->_makeValidator($aConfValidator);
-
-						if($this->oForm->oDataHandler->_isValid($sRdtName)) {
-
-							if($oValidator->_matchConditions($aConfValidator)) {
-
-								$bHasToValidate = TRUE;
-
-								$aValidMap = $this->oForm->_navConf("/control/factorize/switchvalidation");
-								if($this->oForm->isRunneable($aValidMap)) {
-									$aValidMap = $this->callRunneable($aValidMap);
-								}
-
-								if(is_array($aValidMap) && array_key_exists($sRdtName, $aValidMap)) {
-									$bHasToValidate = $aValidMap[$sRdtName];
-								}
-
-								if($bHasToValidate === TRUE) {
-									$oValidator->_doTheMagic(
-										$this->oForm->_getInfosValidatorForType($aConfValidator["type"]),
-										$aConfValidator,
-										$this
-									);
-								}
-							}
-						} else {
-							break;
-						}
-					}
-				}
-			}*/
 		}
 
 

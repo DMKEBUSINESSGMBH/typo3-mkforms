@@ -64,12 +64,6 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 
 			$sInput .= '/>';
 
-//			// Wir nutzen die getLabelTag Methode um das Label zu generieren.
-//			$sLabelStart = '<label for="' . $sId . '" ' . $this->_getAddInputParams($sId);
-//			if(array_key_exists('labelcustom', $aItem)) {
-//				$sLabelStart .= $aItem['labelcustom'];
-//			}
-//			$sLabelStart .= '>';
 			$sLabelEnd = '</label>';
 
 			$aConfig['sId'] = $sId;
@@ -318,8 +312,6 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 		$this->sDefaultLabelClass = 'label-radio';
 
 		return $sLabel;
-//		$sId = $this->_getElementHtmlId() . '_label';
-//		return ($this->oForm->oRenderer->bDisplayLabels && (trim($sLabel) != '')) ? '<label id="' . $sId . '" class="'.$this->getForm()->sDefaultWrapClass.'-label ' . $sId . '">' . $sLabel . "</label>\n" : '';
 	}
 
 	/**

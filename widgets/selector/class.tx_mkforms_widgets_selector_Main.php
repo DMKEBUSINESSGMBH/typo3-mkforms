@@ -166,7 +166,6 @@ PHP;
 					$aCustomConf
 				);
 			}
-			//debug($aConf);
 			$aConf["type"] = "LISTBOX";
 			$aConf["name"] = $this->_getName() . "_available";
 			$aConf["multiple"] = true;
@@ -480,47 +479,6 @@ PHP;
 		unset($this->oButtonMoveBottom);
 		$this->baseCleanBeforeSession();
 	}
-/*
-	function _sqlSearchClause($sValue, $sFieldPrefix = "", $sFieldName = "", $bRec = TRUE) {
-
-		$aValues = t3lib_div::trimExplode(",", $sValue);
-		$aParts = array();
-
-		if($sFieldName === "") {
-			$sFieldName = $this->_getName();
-		}
-
-		if(sizeof($aValues) > 0) {
-
-			$sTableName = $this->oForm->_navConf("/tablename", $this->oForm->oDataHandler->aElement);
-
-			reset($aValues);
-			while(list(, $uid) = each($aValues)) {
-				//$aParts[] = "(FIND_IN_SET('" . addslashes($sValue) . "', " . $sFieldPrefix . $sFieldName . "))";
-				$aParts[] = $GLOBALS["TYPO3_DB"]->listQuery($sFieldPrefix . $sFieldName, $uid, $sTableName);
-			}
-
-			if((($mMode = $this->_navConf("/search/mode")) !== FALSE) && is_string($mMode)) {
-				$sSql = " ( " . implode(" " . strtoupper($mMode) . " ", $aParts) . " ) ";
-			} else {
-				$sSql = " ( " . implode(" OR ", $aParts) . " ) ";
-			}
-
-			if($bRec === TRUE) {
-				return $this->overrideSql(
-					$sValue,
-					$sFieldPrefix,
-					$sFieldName,
-					$sSql
-				);
-			} else {
-				return $sSql;
-			}
-		}
-
-		return "";
-	}
-*/
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_selector/api/class.tx_rdtselector.php']) {

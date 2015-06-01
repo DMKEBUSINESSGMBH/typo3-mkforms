@@ -75,13 +75,8 @@ class tx_mkforms_js_Loader {
 		if($this->mayLoadJsFramework()) {
 			if(!self::$isLoaded) {
 
-				// Minimierte Scripte werden nun über getScriptPath gesetzt/geprüft!
-//				if($this->minified()) {
-//					$this->_includeMinifiedJs();
-//				} else {
-					$this->_includePrototype();
-					$this->_includeJSFramework();
-//				}
+				$this->_includePrototype();
+				$this->_includeJSFramework();
 				$this->additionalHeaderData(
 					'<!-- consider formidable core loaded after this line -->',
 					'tx_ameosformidable_core',
@@ -110,7 +105,6 @@ class tx_mkforms_js_Loader {
 	private function includeAdditional() {
 		if(($sLibs = $this->getForm()->getConfig()->get('/meta/libs')) === FALSE) return;
 
-		//debug($sLibs);
 		$aLibs = t3lib_div::trimExplode(',', $sLibs);
 		reset($aLibs);
 		while(list(, $sLib) = each($aLibs)) {
@@ -268,21 +262,6 @@ JAVASCRIPT;
 		}
 
 		// scriptaculous
-//		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/scriptaculous/scriptaculous.js';
-//		$sNextAfter = 'tx_mkforms_jsbase_fwk';
-//
-//		$this->getForm()->additionalHeaderData(
-//			"<script type=\"text/javascript\" src=\"" . $sPath . "\"></script>",
-//			'tx_ameosformidable_scriptaculous',
-//			$bFirstPos = FALSE,$sBefore = FALSE,$sNextAfter);
-//
-//		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/scriptaculous/effects.js';
-//
-//		$this->oForm->additionalHeaderData(
-//			"<script type=\"text/javascript\" src=\"" . $sPath . "\"></script>",
-//			'tx_ameosformidable_scriptaculous_effects',
-//			$bFirstPos = FALSE,$sBefore = FALSE,$sAfter = 'tx_ameosformidable_scriptaculous');
-
 		$sNextAfter = 'tx_ameosformidable_scriptaculous_effects';
 
 		if($this->bLoadScriptaculousDragDrop === TRUE) {
@@ -323,20 +302,7 @@ JAVASCRIPT;
 	}
 
 	private function _includeJSFramework() {
-
-//		wird in $this->getScriptPath() erledigt,
-//		das ganze framework in einer js ist duch den wrapper (prototype, jquery) nich mehr möglich
-//		if(false && $this->minified()) {
-//			if($this->gziped()) {
-//				$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/minified/formidable.minified.js.php';
-//			} else {
-//				$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/minified/formidable.minified.js';
-//			}
-//		} else {
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/framework.js';
-//		}
-
-//		$tag = '<script type="text/javascript" src="' . $sPath . '"></script>';
+		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/framework.js';
 		$tag = '<script type="text/javascript" src="' . $this->getScriptPath($sPath) . '"></script>';
 		$this->oForm->additionalHeaderData(
 			$tag,
@@ -556,14 +522,6 @@ JAVASCRIPT;
 					$aHeaders[] = $sData;
 				}
 			} else {
-
-				//	Was macht das hier!?
-				// wir nutzen das tinymce nun auch in modalboxen!
-//				if($sKey == 'ameosformidable_tx_rdttinymce') {
-//					if(!in_array($sData, $aHeaders)) {
-//						array_unshift($aHeaders, $sData);
-//					}
-//				} else {
 					if($bFirstPos === TRUE) {
 						$aHeaders = array($sKey => $sData) + $aHeaders;
 					} elseif($sBefore !== FALSE || $sAfter !== FALSE) {
@@ -573,7 +531,6 @@ JAVASCRIPT;
 					} else {
 						$aHeaders[$sKey] = $sData;
 					}
-//				}
 			}
 		}
 	}

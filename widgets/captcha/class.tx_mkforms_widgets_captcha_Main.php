@@ -31,9 +31,6 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 
 	var $sMajixClass = 'Captcha';
 	var $bCustomIncludeScript = TRUE;
-	/*var $aLibs = array(
-		'rdt_cpatcha_class' => 'res/js/captcha.js',
-	);*/
 	var $aLibs = array(
 		'rdt_captcha_class' => 'res/js/captcha.js',
 	);

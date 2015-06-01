@@ -23,7 +23,6 @@ Formidable.Classes.ListerSel = Formidable.Classes.RdtBaseClass.extend({
 			// On Clicks werden beispielsweise mehrfach ausgeführt.
 			MKWrapper.removeEvent(oObj, sEventHandler+'.fEvent');
 			MKWrapper.attachEvent(oObj, sEventHandler+'.fEvent', fFunc, oObj);
-//			MKWrapper.attachEvent(oObj, sEventHandler, fFunc, oObj);
 		}
 	},
 	isNaturalSubmitter: function() {

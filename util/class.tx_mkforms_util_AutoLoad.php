@@ -37,11 +37,6 @@
  * @author Michael Wagner <dev@dmk-business.de>
  */
 class tx_mkforms_util_AutoLoad {
-//	/**
-//	 * @var 	bool 	Wurden die xclasses bereits geladen?
-//	 */
-//	private static $bXclassLoaded = false;
-
 	/**
 	 * @var 	string 	der alte php.ini wert für unserialize_callback_func.
 	 */

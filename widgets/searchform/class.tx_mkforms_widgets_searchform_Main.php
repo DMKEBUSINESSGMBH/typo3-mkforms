@@ -153,8 +153,6 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet {
 		        if(($sSearchAbsName = $this->getRemoteSenderAbsName()) === FALSE) {
 		            $this->oForm->mayday("RENDERLET SEARCHFORM - requires /remote/senderAbsName to be properly set. Check your XML conf.");
 		        }
-
-		        // debug(array($sFormId, $sSearchAbsName), "Je suis remote receiver");
 		    } else {
 		        $sFormId = $this->oForm->formid;
 		        $sSearchAbsName = $this->getAbsName();
@@ -292,10 +290,6 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet {
 				}
 			}
 		}
-
-		#debug($this->aCriterias, "criterias");
-
-		#$this->aCriterias = $this->processBeforeSearch($this->aCriterias);
 	}
 
 	function shouldUpdateCriteriasRemoteReceiver() {
@@ -331,7 +325,6 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet {
 			while(list(, $sAbsName) = each($this->aDescendants)) {
 				if(
 					array_key_exists($sAbsName, $this->oForm->aORenderlets) &&
-					#$this->oForm->aORenderlets[$sAbsName]->maySubmit() &&	// any renderlet may submit using a majix event, so we don't check it anymore
 					$this->oForm->aORenderlets[$sAbsName]->hasSubmitted() &&
 					$this->oForm->oDataHandler->_isSearchSubmitted()) {	// the mode is not determined by the renderlet anymore, but rather by the datahandler (one common submit per page, anyway)
 
@@ -400,7 +393,6 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet {
 
 			$this->aFilters = array();
 
-			//$aFormData = $this->oForm->oDataHandler->_getFormDataManaged();
 			$aCriterias = $this->processBeforeSearch($this->aCriterias);
 			reset($aCriterias);
 

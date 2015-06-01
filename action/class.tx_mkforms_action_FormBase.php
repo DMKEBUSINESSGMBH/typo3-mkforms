@@ -381,11 +381,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	private static function mayday($e){
 		// Nachricht zusammenbauen
 		$msg = $e->getFile().' Line: '.$e->getLine(). '<br /><br />'. $e->getMessage();
-		// devlog
-//		tx_rnbase::load('tx_rnbase_util_Logger');
-//		if(tx_rnbase_util_Logger::isFatalEnabled()) {
-//			tx_rnbase_util_Logger::fatal($msg, 'mkforms');
-//		}
 		// mayday
 		tx_rnbase::load('tx_mkforms_util_Div');
 		tx_mkforms_util_Div::mayday($msg, $this->getForm());

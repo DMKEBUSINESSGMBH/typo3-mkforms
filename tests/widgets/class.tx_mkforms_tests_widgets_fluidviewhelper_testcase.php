@@ -155,7 +155,6 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase
 		$this->assertEquals(TRUE, is_array($htmlBag['renderError.']));
 		$this->assertEquals(5050, $htmlBag['renderError.']['code']);
 		$this->assertEquals('PHPUnitException', $htmlBag['renderError.']['message']);
-// 		exit('DEBUG:'.__FILE__.' LINE:'.__LINE__);
 	}
 
 	/**
@@ -194,8 +193,6 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase
 						'title' => 'rdt:value',
 						'maxDepth' => 4,
 						'plainText' => 'Hello World',
-						#'param' => array('name' => 'maxDepth', 'value' => 8),
-						#'param-1' => array('name' => 'plainText', 'value' => 'Hello World'),
 					)
 				)
 			)

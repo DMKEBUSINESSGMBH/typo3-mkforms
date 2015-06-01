@@ -204,14 +204,6 @@ MKWrapper.onDOMReady = function(f) {
 };
 
 MKWrapper.ajaxCall = function(url, options, scope) {
-/*
-	jQuery(scope).ajaxComplete(function (evt, request, settings) {
-		if(evt.target != this) return;
-		console.debug(evt);
-		console.debug(this);
-		options.onSuccess(request.responseText, this);
-	});
-*/
 	// Die Optionen neu mappen
 	new jQuery.ajax({
 		url: url,

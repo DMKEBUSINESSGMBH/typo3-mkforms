@@ -70,10 +70,8 @@ class tx_mkforms_util_XMLParser {
 
 		if(self::$useCache) {
 			// TODO: Das muss noch extern gesetzt werden
-//		if($this->conf['cache.']['enabled'] == 1) {
 			$sProtection = '<?php die(\'MKFORMS - Cache protected\'); ?><!--MKFORMS_CACHE-->';
 
-			//debug(stat($sPath));
 			$sHash = md5($sPath . '-' . @filemtime($sPath) . '-' . tx_mkforms_util_Div::getVersion());
 			$sFile = 'xmlcache_' . $sHash . '.php';
 			$sCacheDir = 'mkforms/cache/';
@@ -108,18 +106,6 @@ class tx_mkforms_util_XMLParser {
 			if(!empty($aMatches)) {
 				$sXmlProlog = $aMatches[0];
 				$sXmlData = preg_replace('/^<\?xml(.*)\?>/', '', $sXmlData);
-
-				/*ereg('^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"',$sXmlProlog, $aParts);
-
-				if($aParts[1]) {
-					$sEncoding = trim(strtolower($aParts[1]));
-					if($sEncoding === "utf-8" && trim($GLOBALS["TYPO3_CONF_VARS"]['BE']['forceCharset']) === "") {
-						// default T3 charset is ISO-8859-1
-						// converting from UTF8 to ISO
-						$sXmlData = utf8_decode($sXmlData);
-					}
-				}*/
-
 			} else {
 				$sXmlProlog = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>';
 			}

@@ -169,7 +169,6 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 							if (!empty($aData) || !is_array($aData)) {
 								self::setValueToWidget($widget, $aData, $widget->_isSubmitted());
 							}
-//							if (!empty($aData)) $widget->setValue($aData);
 							$return[] = $widget->majixRepaint();
 						} else {
 							// Just call the requested action
@@ -329,7 +328,6 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 		if (is_object($w=self::$evalFormContainer->getWidget($val[1]))) {
 			$wVal = $w->getValue();
 			if (is_numeric($wVal)) return $wVal;
-			// else
 			return '\''.$wVal . '\'';
 		}
 		// Given widget not found

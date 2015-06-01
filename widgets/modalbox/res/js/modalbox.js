@@ -14,13 +14,7 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 			'zIndex': 200000		// z-index, camel case
 		},
 		style: {
-			'width': 'auto'/*,
-			'background': 'silver',
-			'padding': '10px',
-			'borderWidth': '2px',
-			'borderStyle': 'solid',
-			'borderColor': 'white',
-			'MozBorderRadius': '3px'*/	// -moz-border-radius, camel case
+			'width': 'auto'
 		}
 	},
 	constructor: function(config) {
@@ -94,7 +88,6 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 			oTextNode = MKWrapper.$tag('div', {});
 			this.oHtmlContainer = oTextNode;
 			MKWrapper.domInsert(oTextNode, aData.html);
-//			oTextNode.select('IMG').each(function(o, k) {
 			var tscope = this;
 			MKWrapper.each(MKWrapper.findChilds(oTextNode,'IMG'), function(o, k) {
 				MKWrapper.attachEvent(o, 'load', function() {
@@ -125,19 +118,12 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 			this.resizeOverlay();
 		}
 
-//		this.onScrollPointer = this.scroll.bindAsEventListener(this);
-//		this.onScrollPointer = MKWrapper.bindAsEventListener(this.scroll, this);
 		this.onClosePointer = this.close; // onClosePointer scheint eine zentrale Methode zu sein
 		MKWrapper.attachEvent(window, 'scroll', this.scroll, this);
 
 
 		this.alignFirst();
 		var _this = this;
-//		var handleCloseButton = MKWrapper.bind(function () {
-//			if(this.config.showclosebutton) {
-//				MKWrapper.attachEvent(this.oImgClose, 'click', this.onClosePointer, this);
-//			}
-//		},this);
 
 		if(this.config.effects) {
 			MKWrapper.fxAppear(this.box, {}, function() {
@@ -145,32 +131,11 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 					MKWrapper.attachEvent(_this.oImgClose, 'click', _this.onClosePointer, _this);
 				}
 			});
-/*
-			MKWrapper.fxAppear(this.box, {},
-				MKWrapper.bind(function() {
-					if(this.config.showclosebutton) {
-						MKWrapper.attachEvent(this.oImgClose, 'click', this.onClosePointer);
-					}
-				},this)
-			);
-*/
-/*
-			new Effect.Appear(MKWrapper.$(this.box), {
-				duration: 0.5,
-				fps: 50,
-				afterFinish: MKWrapper.bind(function() {
-					if(this.config.showclosebutton) {
-						MKWrapper.attachEvent(this.oImgClose, 'click', this.onClosePointer);
-					}
-				},this)
-			});
-*/
 			MKWrapper.$(this.overlay, false).show();
 
 		} else {
 			if(this.config.showclosebutton) {
 				MKWrapper.attachEvent(this.oImgClose, 'click', this.onClosePointer);
-//				Event.observe(this.oImgClose, 'click', this.onClosePointer);
 			}
 			MKWrapper.$(this.overlay, false).show();
 			MKWrapper.$(this.box, false).show();
@@ -183,16 +148,6 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 		if(this.config.effects) {
 			var _this = this;
 
-/*			window.setTimeout(
-				function() {
-					if(MKWrapper.$(this.overlay)) {
-						MKWrapper.$(this.overlay, false).hide();
-					}
-				}.bind(this),
-				250
-			);
-*/
-//			new Effect.Fade(MKWrapper.$(this.box), {
 			MKWrapper.fxHide(this.box, {}, function() {
 				_this.restoreOnHide();
 			});
@@ -263,12 +218,6 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 	},
 	repaint: function(sHtml) {
 		this.oHtmlContainer.innerHTML = sHtml;
-/*		this.oHtmlContainer.select('IMG').each(function(o, k) {
-			console.log(o);
-			Event.observe(o, 'load', function() {
-				this.align();
-			}.bind(this));
-		}.bind(this));*/
 		this.align();
 	}
 });

@@ -122,8 +122,6 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$configurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
 		$parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
 
-		//@TODO: warum wird die klasse tslib_cObj nicht gefunden!? (mw: eternit local)
-		//require_once(t3lib_extMgm::extPath('cms', 'tslib/class.tslib_content.php'));
 		$configurations->init(
 				$configArray,
 				$configurations->getCObj(1),
@@ -133,7 +131,6 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		$configurations->setParameters($parameters);
 		$action->setConfigurations($configurations);
 		if($execute) {
-			//$action->execute($parameters, $configurations);
 			$out = $action->handleRequest($parameters, $configurations, $configurations->getViewData());
 		}
 		return $action;

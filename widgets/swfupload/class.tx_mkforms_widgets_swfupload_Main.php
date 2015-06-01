@@ -80,13 +80,9 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
 				"file_queue_limit" => $this->getQueueLimit(),
 
 				"button_placeholder_id" => $this->oButtonBrowse->_getElementHtmlId(),
-				"button_image_url" => tx_mkforms_util_Div::toWebPath($sButtonUrl)/*$this->oForm->toWebPath($sButtonUrl)*/,
+				"button_image_url" => tx_mkforms_util_Div::toWebPath($sButtonUrl),
 				"button_width" => "61",
 				"button_height" => "22",
-				/*"button_text" => "<span class='theFont'>Browse</span>",
-				"button_text_style" => ".theFont { font-size: 12; font-family: Verdana; text-align: center;}",
-				"button_text_left_padding" => 0,
-				"button_text_top_padding" => 2,*/
 			),
 		);
 
@@ -101,19 +97,6 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
 			),
 		);
 
-
-/*
-		$sAbsName = $this->getAbsName();
-		$sInitScript =<<<INITSCRIPT
-<script type="text/javascript">
-	Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").oSWFUpload = new SWFUpload(
-		Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").config.swfupload_config
-	);
-</script>
-INITSCRIPT;
-
-		$aButtonBrowse["__compiled"] .= $sInitScript . "!";
-*/
 		return array(
 			"__compiled" => $aButtonBrowse["__compiled"] . " " . $aButtonUpload["__compiled"] . " " . $aListQueue["__compiled"],
 			"buttonBrowse" => $aButtonBrowse,
@@ -143,8 +126,6 @@ INITSCRIPT;
 			# as when rendered in an ajax context in a modalbox,
 			# the HTML is available *after* init tasks
 			# as the modalbox HTML is added to the page using after init tasks !
-
-		#$sInitScript = "alert('post-init!');";
 
 		$this->oForm->attachPostInitTask(
 			$sInitScript,
@@ -238,52 +219,6 @@ INITSCRIPT;
 		}
 	}
 
-/*
-	function initButtonBrowse() {
-		if($this->oButtonBrowse === FALSE) {
-			$sName = $this->_getName();
-
-			$sEvent = <<<PHP
-
-				return array(
-					\$this->aORenderlets["{$sName}"]->majixSelectFiles(),
-				);
-
-PHP;
-
-			$aConf = array(
-				"type" => "BUTTON",
-				"label" => "Browse",
-				"onclick-999" => array(			// 999 to avoid overruling by potential customly defined event
-					"runat" => "client",
-					"userobj" => array(
-						"php" => $sEvent,
-					),
-				),
-			);
-
-			if(($aCustomConf = $this->_navConf("/buttonbrowse")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
-					$aConf,
-					$aCustomConf
-				);
-			}
-
-			$aConf["name"] = $sName . "_btnbrowse";
-
-			$this->oButtonBrowse = $this->oForm->_makeRenderlet(
-				$aConf,
-				$this->sXPath . "buttonbrowse/",
-				FALSE,
-				$this,
-				FALSE,
-				FALSE
-			);
-
-			$this->oForm->aORenderlets[$this->oButtonBrowse->_getName()] =& $this->oButtonBrowse;
-		}
-	}
-*/
 	function initButtonUpload() {
 		if($this->oButtonUpload === FALSE) {
 			$sName = $this->getAbsName();

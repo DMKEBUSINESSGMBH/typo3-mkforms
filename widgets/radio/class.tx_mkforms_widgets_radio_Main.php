@@ -206,9 +206,6 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 		$this->sDefaultLabelClass = 'label-radio';
 
 		return $sLabel;
-		// old method
-//		$sId = $this->_getElementHtmlId() . '_label';
-//		return ($this->oForm->oRenderer->bDisplayLabels && (trim($sLabel) != '')) ? '<label id="' . $sId . '" class="'.$this->getForm()->sDefaultWrapClass.'-label ' . $sId . '">' . $sLabel . "</label>\n" : '';
 	}
 
 	function _activeListable() {		// listable as an active HTML FORM field or not in the lister

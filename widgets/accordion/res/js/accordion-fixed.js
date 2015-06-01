@@ -104,7 +104,6 @@ var accordion = {
 		this.currentAccordion = MKWrapper.$(
 			MKWrapper.next(accordion)
 		);
-//		MKWrapper.setStyle(this.currentAccordion,{ display: 'block'});
 
 		MKWrapper.addClass(
 			MKWrapper.previous(this.currentAccordion),
