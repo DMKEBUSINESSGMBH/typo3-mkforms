@@ -469,15 +469,13 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_imageMaxWidth($mData, $aParams) {
-		//$mData = tx_ameosformidable::templateDataAsString($mData);
-		//$sPath = tx_mkforms_util_Div::toServerPath($mData);
 		$sPath = $mData['filepath.']['original.']['rel'];
 
 		if(file_exists($sPath)) {
 			// expecting typoscript
 
 			$aImage = $GLOBALS['TSFE']->tmpl->setup['config.']['tx_mkforms.']['res.']['shared.']['xml.']['imageprocess.']['maxwh.'];
-			$aImage['file.']['10.']['file'] = $sPath; //tx_mkforms_util_Div::removeStartingSlash($this->oForm->toRelPath($sPath));
+			$aImage['file.']['10.']['file'] = $sPath;
 			$aImage['file.']['10.']['file.']['maxW'] = $aParams[0];
 			unset($aImage['file.']['10.']['file.']['maxH']);
 

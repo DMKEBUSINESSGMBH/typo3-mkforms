@@ -132,7 +132,6 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 
 	function _initJs() {
 
-		//$sFormat	= $this->_navConf('/data/datetime/format/');
 		$sFormat = $this->_getFormat();
 		$bTime		= $this->oForm->_defaultFalse('/data/datetime/displaytime/', $this->aElement);
 		$sFieldName	= $this->oForm->formid . '::' . $this->_getName();
@@ -364,7 +363,6 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 				// on convertit le timestamp en date lisible
 
 				$elementname = $this->_navConf('/name/');
-				//$format = $this->_navConf('/data/datetime/format/');
 				$format = $this->_getFormat();
 
 				if(($locale = $this->_navConf('/data/datetime/locale/')) !== FALSE) {
@@ -412,7 +410,6 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 		$sComparison = (($sTemp = $this->_navConf('/sql/comparison')) !== FALSE) ? $sTemp : '=';
 		$sComparison = (($sTemp = $this->_navConf('/search/comparison')) !== FALSE) ? $sTemp : $sComparison;
 
-		//return "(DATEDIFF(FROM_UNIXTIME(" . $sFieldName . "), FROM_UNIXTIME('" . $value . "')) " . $sComparison . "0)";
 		$sSql = '((' . $sFieldName . " - '" . $sValue . "') " . $sComparison . ' 0)';
 
 		if($bRec === TRUE) {
@@ -441,8 +438,6 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 
 		$sLangFile = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
 
-		//TODO css global konfigurierbar machen!!!
-//		$sCssFile = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . 'res/lib/js_calendar/calendar-win2k-1.css';
 		$sCssFile = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . 'fileadmin/templates/css/template_calendar.css';
 
 		$oJsLoader =$this->getForm()->getJSLoader();

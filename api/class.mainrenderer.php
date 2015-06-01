@@ -95,7 +95,6 @@ TEMPLATE;
 				$formmethod		= '';
 				$formcustom		= '';
 
-				/*$formid = " id=\"" . $iFormId . "\" name=\"" . $iFormId . "\" ";*/
 				$formid = ' id="' . $iFormId . '" ';
 
 				$formAction = $oForm->getFormAction();
@@ -140,7 +139,6 @@ TEMPLATE;
 					'SCRIPT'		=> '',
 					'FORMBEGIN'		=> $formBegin,
 					'CONTENT'		=> $html,
-					/*'HIDDEN'		=> $hidden_entryid . $hidden_custom . $sSysHidden,*/
 					// in P for XHTML validation
 					'HIDDEN'		=> '<p style="position:absolute; top:-5000px; left:-5000px;">' . $hidden_entryid . $hidden_custom . $sSysHidden . '</p>',
 					'FORMEND'		=> $formEnd,
@@ -220,15 +218,12 @@ TEMPLATE;
 			if($aFullEvent['earlybird'] === TRUE) {
 				# registering absolute name,
 					# this will help when early-processing the event
-				#debug($aFullEvent, 'laaa');
-
 				$aGrabbedParams['_sys_earlybird'] = array(
 					'absname' => $aFullEvent['name'],
 					'xpath' => tx_mkforms_util_Div::removeEndingSlash($this->getForm()->aORenderlets[$aFullEvent['name']]->sXPath) . '/' . $aFullEvent['trigger']
 				);
 			}
 
-			#if(!empty($aData)) {
 				reset($aFullEvent['params']);
 				while(list($sKey,) = each($aFullEvent['params'])) {
 					$sParam = $aFullEvent['params'][$sKey]['get'];
@@ -239,7 +234,6 @@ TEMPLATE;
 						$aGrabbedParams[] = $sParam;
 					}
 				}
-			#}
 
 			if(!empty($aGrabbedParams)) {
 				$sJsParam = base64_encode(serialize($aGrabbedParams));
@@ -247,17 +241,8 @@ TEMPLATE;
 				$sJsParam = '\'' . $sJsParam . '\'';
 			}
 
-			#debug($sJsParam, 'sJsParam');
-
 			$sConfirm = 'false';
 			if(array_key_exists('confirm', $aEvent) && trim($aEvent['confirm'] !== '')) {
-
-				/*$sConfirm = "'" . rawurlencode(
-					$this->getForm()->getConfigXML()->getLLLabel(
-						$aEvent["confirm"]
-					)
-				) . "'";*/
-
 				// charset problem patched by Nikitim S.M
 					// http://support.typo3.org/projects/formidable/m/typo3-project-formidable-russian-locals-doesnt-work-int-formidable-20238-i-wrote-the-solvation/p/15/
 
@@ -384,20 +369,16 @@ TEMPLATE;
 					// Das könnte die neue Syntax zwei Zeilen weiter sein...
 					$aParamsCollection = array_values($mParams);
 				}
-				#print_r(array($aParamsCollection, $oRdt->getAbsName()));
 
 				// the new syntax
 				// <params><param get="this()" as="this" /></params>
 
 				reset($aParamsCollection);
-//				while(list($sKey,) = each($aParamsCollection)) {
 				foreach($aParamsCollection As $param) {
 					// Hier werden die Parameter für einen Ajax-Request verarbeitet.
 
 					$sParam = $param['get'];
 					$sAs = $param['as'];
-//					$sParam = $aParamsCollection[$sKey]['get'];
-//					$sAs = $aParamsCollection[$sKey]['as'];
 					if(t3lib_div::isFirstPartOfStr($sParam, 'rowData::')) {
 						$sParamName = substr($sParam, 9);
 						$aRowParams[$sParamName] = '';
@@ -445,7 +426,6 @@ TEMPLATE;
 						// Hier wird wohl nach einer Majix-Methode gesucht, die ein Widget zurückliefert
 						$mResult = $this->getForm()->resolveForMajixParams($sParam,$oRdt);
 						if($this->getForm()->isRenderlet($mResult)) {
-							#debug('It's a renderlet');
 							$sAs = $param['as'];
 							$aParams[] = 'rowInput::' . $sAs . '::' . $mResult->getAbsName();
 						} else {
@@ -582,10 +562,6 @@ TEMPLATE;
 			$this->bDisplayLabels = $bDisplayLabels;
 		}
 
-		/*function _displayLabel($label) {
-			return ($this->bDisplayLabels && (trim($label) != '')) ? '<div>' . $label . "</div>\n" : "";
-		}*/
-
 		function renderStyles() {
 
 			if(($mStyle = $this->_navConf('/style')) !== FALSE) {
@@ -633,8 +609,6 @@ TEMPLATE;
 						);
 					}
 
-					//$sStyle = str_replace(';', ' !important;', $sStyle);
-
 					$this->getForm()->additionalHeaderData(
 						$this->getForm()->inline2TempFile(
 							$sStyle,
@@ -654,18 +628,16 @@ TEMPLATE;
 		}
 
 		function processHtmlBag($mHtml, &$oRdt) {
-
-			//$sLabel = array_key_exists("label", $oRdt->aElement) ? $this->getForm()->getConfigXML()->getLLLabel($oRdt->aElement["label"]) : "";
 			$sLabel = $oRdt->getLabel();
 
-			if(is_string($mHtml)/* && (($mHtml = trim($mHtml)) !== "")*/) {		// can be empty with empty readonly
+			if(is_string($mHtml)) {		// can be empty with empty readonly
 
 				$mHtml = array(
 					'__compiled'	=> $mHtml
 				);
 			}
 
-			if(!empty($mHtml) && array_key_exists('__compiled', $mHtml) && is_string($mHtml['__compiled'])/* && trim($mHtml["__compiled"]) !== ""*/) {
+			if(!empty($mHtml) && array_key_exists('__compiled', $mHtml) && is_string($mHtml['__compiled'])) {
 
 				if(($mWrap = $oRdt->_navConf('/wrap')) !== FALSE) {
 
@@ -719,12 +691,6 @@ TEMPLATE;
 					$mHtml['readonly'] = TRUE;
 				}
 
-				/*
-				$mHtml = $this->recombineHtmlBag(
-					$mHtml,
-					$oRdt
-				);
-				*/
 				if($oRdt->_navConf('/recombine') !== FALSE) {
 					$this->getForm()->mayday('[' . $oRdt->getName() . '] <b>/recombine is deprecated</b>. You should use template methods instead');
 				}

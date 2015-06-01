@@ -84,7 +84,6 @@ class tx_mkforms_util_Loader {
 
 		if(!empty($aOParent) && is_object($aOParent[0])) {
 			$oObj->setParent($aOParent[0]);
-			#$aOParent[0]->testit .= ":dammitFinal";
 		}
 
 		$oObj->_init($form, $aElement, $aObj, $sXPath, $sNamePrefix);

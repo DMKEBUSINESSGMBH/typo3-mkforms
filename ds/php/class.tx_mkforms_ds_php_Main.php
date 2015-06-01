@@ -8,11 +8,7 @@
 class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 
 	var $sKey = FALSE;
-/*
-	function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
-		parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
-	}
-*/
+
 	function writable() {
 		return ($this->_navConf('/set') !== FALSE);
 	}

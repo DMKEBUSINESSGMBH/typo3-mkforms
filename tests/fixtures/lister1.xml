@@ -28,13 +28,6 @@
 			<columns>
 				<column type="renderlet:TEXT" name="prefix-title" listHeader="Title" />
 				<column type="renderlet:BUTTON" label="Edit" name="btnEdit" sort="false">
-			<!--onclick runat="client">
-            <userobj>
-							<js><![CDATA[
-              console.debug('Klick');
-                ]]></js>
-            </userobj>
-      </onclick-->
 					<onclick
 						runat="ajax"
 						params="rowData::uid"

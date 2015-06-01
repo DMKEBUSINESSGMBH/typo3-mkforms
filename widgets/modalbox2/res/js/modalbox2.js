@@ -12,7 +12,6 @@ Formidable.Classes.ModalBox2 = Formidable.Classes.RdtBaseClass.extend({
 		oTextNode.innerHTML = aData.html;
 		oOptions = {
 			afterLoad: function() {
-				//alert("afterLoad");
 				for(var sKey in aData.attachevents) {
 					Formidable.globalEval(aData.attachevents[sKey]);
 				};
@@ -32,19 +31,6 @@ Formidable.Classes.ModalBox2 = Formidable.Classes.RdtBaseClass.extend({
 		return this;
 	},
 	closeBox: function(oOptions) {
-	/*	console.log(oOptions);
-		if(oOptions && oOptions.afterHide) {
-			Modalbox.options.afterHide = function() {
-				oTempResponse = this.oForm.oCurrentAjaxResponse;
-				oTempResponse.tasks = oOptions.afterHide;
-
-				this.oForm.executeAjaxResponse(oTempResponse);
-
-				Modalbox.options = Modalbox._options;	// reinit modalbox !
-			}.bind(this);
-		}
-
-	*/
 		Modalbox.hide();
 		return false;
 	},

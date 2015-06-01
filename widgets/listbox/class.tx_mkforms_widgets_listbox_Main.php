@@ -66,11 +66,9 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 				$sClass = $this->_getClasses($aItem, FALSE);
 				$sStyle = $this->_getStyle($aItem);
 
-				#$aHtml[] = "<option value=\"" . $aItem["value"] . "\" " . $sSelected . $sClass . $sStyle . $sCustom . ">" . $sCaption . "</option>";
 				$sInput = '<option value="' . $aItem['value'] . '" ' . $sSelected . $sClass . $sCustom . '>' . $sCaption . '</option>';
 				$aHtml[] = $sInput;
 
-//				$sOptionsListBag[$aItem['value']] = $sInput;
 				$sOptionsListBag[$aItem['value'].'.'] = array(
 					'input' => $sInput,
 					'value' => $aItem['value'],

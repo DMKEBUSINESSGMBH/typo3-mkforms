@@ -140,30 +140,9 @@ class formidable_maindatahandler extends formidable_mainobject {
 
 		function _getSubmittedValue($sFormId = FALSE) {
 			return $this->getForm()->getSubmittedValue($sFormId);
-//			$aP = $this->getForm()->_getRawPost($sFormId);
-//
-//			if(array_key_exists("AMEOSFORMIDABLE_SUBMITTED", $aP) && (trim($aP["AMEOSFORMIDABLE_SUBMITTED"]) !== "")) {
-//				return trim($aP["AMEOSFORMIDABLE_SUBMITTED"]);
-//			}
-//
-//			return FALSE;
 		}
 
 		function _isSubmitted($sFormId = FALSE) {
-
-			/*return in_array(
-				$this->_getSubmittedValue(),
-				array(
-					AMEOSFORMIDABLE_EVENT_SUBMIT_FULL,		// full submit
-					AMEOSFORMIDABLE_EVENT_SUBMIT_REFRESH,	// refresh submit
-					AMEOSFORMIDABLE_EVENT_SUBMIT_TEST,		// test submit
-					AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT,		// draft submit
-					AMEOSFORMIDABLE_EVENT_SUBMIT_CLEAR,		// clear submit
-					AMEOSFORMIDABLE_EVENT_SUBMIT_SEARCH,	// clear submit
-				)
-			);*/
-
-
 			return (
 				$this->_isFullySubmitted($sFormId) ||
 				$this->_isRefreshSubmitted($sFormId) ||
@@ -200,14 +179,6 @@ class formidable_maindatahandler extends formidable_mainobject {
 
 		function getSubmitter($sFormId = FALSE) {
 			return $this->getForm()->getSubmitter($sFormId);
-//			$aP = $this->getForm()->_getRawPost($sFormId);
-//
-//			if(array_key_exists("AMEOSFORMIDABLE_SUBMITTER", $aP) && (trim($aP["AMEOSFORMIDABLE_SUBMITTER"]) !== "")) {
-//				$sSubmitter = $aP["AMEOSFORMIDABLE_SUBMITTER"];
-//				return $sSubmitter;
-//			}
-//
-//			return FALSE;
 		}
 
 		function getFormData() {
@@ -921,12 +892,9 @@ class formidable_maindatahandler extends formidable_mainobject {
 						);
 
 						if(($sMappedPath = $this->getForm()->getWidget($sAbsName)->dbridged_mapPath()) !== FALSE) {
-							#debug($sMappedPath, $sAbsName . " mapped path");
 							if(($mData = $this->getForm()->navDeepData($sMappedPath, $aData)) !== FALSE) {
 								$mRes = $mData;
 							}
-						} else {
-							#debug($sAbsName, "no path mapped!!!");
 						}
 					} else {
 

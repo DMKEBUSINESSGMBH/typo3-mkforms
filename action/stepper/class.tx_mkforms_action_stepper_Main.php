@@ -59,40 +59,6 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet {
 				}
 			}
 
-/*			$sStep = $iStepToGo . (($sUid != '') ? '-' . $sUid : '');
-
-			$aParams = array(
-				'AMEOSFORMIDABLE_STEP'		=> $sStep,
-				'AMEOSFORMIDABLE_STEP_HASH'	=> ($this->oForm->_getSafeLock($sStep)),
-			);
-
-			$aGet = t3lib_div::_GET();
-			if(array_key_exists('id', $aGet)) {
-				unset($aGet['id']);
-			}
-
-			$sUrl = $this->oForm->_oParent->pi_getPageLink(
-				$GLOBALS['TSFE']->id,
-				'_self',
-				t3lib_div::array_merge_recursive_overrule(
-					$aGet,
-					$aParams
-				)
-			);
-			*/
-
-//			debug($GLOBALS['_SESSION']);
-
-
-
-			/*
-
-			"<input type='hidden' name='AMEOSFORMIDABLE_STEP' id='AMEOSFORMIDABLE_STEP' value='" . $this->oForm->_getStep() . "' />" .
-			"<input type='hidden' name='AMEOSFORMIDABLE_STEP_HASH' id='AMEOSFORMIDABLE_STEP_HASH' value='" . $this->oForm->_getSafeLock($this->oForm->_getStep()) . "' />" .
-			"<input type='hidden' name='AMEOSFORMIDABLE_STEPPER' id='AMEOSFORMIDABLE_STEPPER' value='" . $sStepperId . "' />"
-
-			*/
-
 			$sStepperId = $this->oForm->_getStepperId();
 
 			if(!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {

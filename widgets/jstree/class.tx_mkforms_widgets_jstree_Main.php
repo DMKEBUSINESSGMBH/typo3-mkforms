@@ -11,7 +11,6 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet {
 	var $aLibs = array(
 		"rdt_jstree_class" => "res/js/jstree.js",
 		"rdt_jstree_lib_class" => "res/lib/js/AxentTree.js",
-		//"rdt_jstree_libcookie_class" => "res/lib/js/cookie.js"
 	);
 
 	var $sMajixClass = "JsTree";
@@ -179,26 +178,6 @@ INITSCRIPT;
 		}
 
 		return FALSE;
-
-/*
-		if($aData["value"] == $iUid) {
-			$aNodes[$aData["value"]] = $aData["caption"];
-			return TRUE;
-		} else {
-			if(array_key_exists("childs", $aData) && is_array($aData["childs"]) && !empty($aData["childs"])) {
-
-				$aKeys = array_keys($aData["childs"]);
-				reset($aKeys);
-				while(list(, $sKey) = each($aKeys)) {
-					if($this->_getPathArrayForNode($iUid, $aData["childs"][$sKey], $aNodes)) {
-						$aNodes[$aData["childs"][$sKey]["value"]] = $aData["childs"][$sKey]["caption"];
-					}
-				}
-			}
-		}
-
-		return FALSE;
-*/
 	}
 }
 

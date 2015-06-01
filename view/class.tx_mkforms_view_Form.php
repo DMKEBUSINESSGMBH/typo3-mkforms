@@ -163,7 +163,6 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 				);
 		}
 
-// 		$markerArray['###'.$markerPrefix.'_TEST###'] = 'Das ist die Ausgabe meines Testmarkers :)';
 		return $template;
 	}
 

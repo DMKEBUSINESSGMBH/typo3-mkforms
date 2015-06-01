@@ -64,7 +64,6 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 			for(var count = 1; count <= this.config.pages; count++) {
 				var sPageLinkId = this.config.id + "_pager_" + count;
 				var oPageLink = MKWrapper.$(sPageLinkId);
-//				this.oPageLinks.aLinks[sPageLinkId] = count;
 				if(oPageLink){
 					oPageLink.href="javascript:void(0);";
 					MKWrapper.attachEvent(oPageLink, "click", function(event){
@@ -100,9 +99,6 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 		for (var property in this.config.rdtbyrow) {
 			aRows.push(tscope.getRow(property));
 		}
-//		MKWrapper.each(MKWrapper.$H(this.config.rdtbyrow), function(oData,i) {
-//			aRows.push(tscope.getRow(oData[0]));
-//		}, tscope);
 
 		return aRows;
 	},
@@ -151,7 +147,6 @@ Formidable.Classes.Lister = Formidable.Classes.RdtBaseClass.extend({
 
 		if((index = Formidable.indexOf(aParamValues,'sys_event.pagenum')) != -1) {
 			oSysEvents.pagenum = this.iToPage;
-//			aValues['sys_event.pagenum'] = this.iToPage;
 		}
 
 		if((index = Formidable.indexOf(aParamValues, 'sys_event.sortcol')) != -1) {

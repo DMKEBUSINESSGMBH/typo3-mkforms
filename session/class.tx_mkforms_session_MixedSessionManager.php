@@ -92,7 +92,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		$sessData['loadedClasses'] = $this->getForm()->getObjectLoader()->getLoadedClasses($formId);
 
 		if(!$fromAjax) {
-//			$sessData['tsfe_config'] = ''; // Wird gesondert gespeichert
 			$sessData['sys_language_uid'] = intval($GLOBALS['TSFE']->sys_language_uid);
 			$sessData['sys_language_content'] = intval($GLOBALS['TSFE']->sys_language_content);
 			$sessData['pageid'] = $GLOBALS['TSFE']->id;
@@ -177,10 +176,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		$serData = $cache->get($this->getPageFormKey($formId, $iPageId));
 		if(!$serData) return false;
 		$feConfig = unserialize(gzuncompress(unserialize($serData)));
-//print_r(array(
-//		array_keys($feConfig),
-//		'DEBUG: '.__METHOD__.' Line: '.__LINE__
-//	)); // @TODO: remove me
 		return $feConfig;
 	}
 
@@ -228,11 +223,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		$serData = $cache->get($this->getPageFormKey($formId, $iPageId, 'setup'));
 		if(!$serData) return false;
 		$feSetup = unserialize(gzuncompress(unserialize($serData)));
-//print_r(array(
-//		array_keys($feSetup),
-//		array_keys($feSetup['lib.']),
-//		'DEBUG: '.__METHOD__.' Line: '.__LINE__
-//	)); // @TODO: remove me
 		return $feSetup;
 	}
 	/**
