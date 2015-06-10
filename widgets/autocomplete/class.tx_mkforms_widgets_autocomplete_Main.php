@@ -311,15 +311,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	}
 
 	private function highlightSearch($aMatches) {
-//		return $aMatches[0];
 		return '<strong>' .$aMatches[0]. '</strong>';
-	}
-
-	private function stringEncode(){
-
-	}
-	private function stringDecode(){
-
 	}
 
 	private function initSearchDS($aFilters, $aLimitAndSort) {
