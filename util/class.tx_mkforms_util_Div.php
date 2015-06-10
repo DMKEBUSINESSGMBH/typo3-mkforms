@@ -200,12 +200,9 @@ class tx_mkforms_util_Div {
 		/* @var $tsfe tslib_fe */
 		$tsfe = &$GLOBALS['TSFE']; // only an alias for codecomplication
 
-		// for typo3 6.2 the tca is required for determineId.
-		tx_rnbase::load('tx_rnbase_util_TYPO3');
-		if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-			tx_rnbase::load('tx_rnbase_util_TCA');
-			tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
-		}
+		// The TCA is required for determineId.
+		tx_rnbase::load('tx_rnbase_util_TCA');
+		tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
 
 		$tsfe->connectToDB(); // takes 0.0000 T3 6.2
 		$tsfe->initFEuser(); // takes 0.0400 T3 6.2
