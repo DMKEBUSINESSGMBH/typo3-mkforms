@@ -94,8 +94,3 @@ class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude {
 		return $this->isJS;
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']);
-}
-?>

@@ -901,9 +901,3 @@ INITSCRIPT;
 		);
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/damupload/class.tx_mkforms_widgets_damupload_Main.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/damupload/class.tx_mkforms_widgets_damupload_Main.php']);
-}
-?>

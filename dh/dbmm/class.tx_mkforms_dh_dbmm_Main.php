@@ -307,8 +307,3 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 		}
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']);
-}
-?>

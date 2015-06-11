@@ -24,5 +24,3 @@ $EM_CONF[$_EXTKEY] = Array (
 	'version' => '0.5.0',
 	'_md5_values_when_last_written' => '',
 );
-
-?>

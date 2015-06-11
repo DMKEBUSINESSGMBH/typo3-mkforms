@@ -24,10 +24,3 @@ class tx_mkforms_widgets_passthru_Main extends formidable_mainrenderlet {
 		return FALSE;
 	}
 }
-
-
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_passthru/api/class.tx_rdtpassthru.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_passthru/api/class.tx_rdtpassthru.php"]);
-	}
-
-?>

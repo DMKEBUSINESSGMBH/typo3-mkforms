@@ -58,5 +58,3 @@ class CSV{
  		return true;
  	}
 }
-
-?>

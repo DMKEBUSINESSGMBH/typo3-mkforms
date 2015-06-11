@@ -24,5 +24,3 @@ t3lib_extMgm::addPlugin(
 t3lib_extMgm::addStaticFile($_EXTKEY,'static/ts/', 'MKFORMS - Basics');
 t3lib_extMgm::addStaticFile($_EXTKEY,'static/prototype/', 'MKFORMS Prototype-JS');
 t3lib_extMgm::addStaticFile($_EXTKEY,'static/jquery/', 'MKFORMS JQuery-JS');
-
-?>

@@ -29,5 +29,3 @@ if(isset($_GET) && is_array($_GET) && array_key_exists("plain", $_GET) && $_GET[
 }
 
 exit;
-
-?>
