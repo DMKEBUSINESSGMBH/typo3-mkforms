@@ -59,10 +59,10 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase
 
 		$parsedParams = $this->callInaccessibleMethod($widget, 'getArguments');
 
-		$this->assertCount(3, $parsedParams);
-		$this->assertEquals('DebugTitle', $parsedParams['title']);
-		$this->assertEquals(4, $parsedParams['maxDepth']);
-		$this->assertEquals('Hello World', $parsedParams['plainText']);
+		self::assertCount(3, $parsedParams);
+		self::assertEquals('DebugTitle', $parsedParams['title']);
+		self::assertEquals(4, $parsedParams['maxDepth']);
+		self::assertEquals('Hello World', $parsedParams['plainText']);
 	}
 
 	/**
@@ -80,36 +80,36 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase
 		);
 
 		$helper
-			->expects($this->once())
+			->expects(self::once())
 			->method('initializeArgumentsAndRender')
 			->with()
-			->will($this->returnValue('DEBUGCONTENT'))
+			->will(self::returnValue('DEBUGCONTENT'))
 		;
 		$widget
-			->expects($this->once())
+			->expects(self::once())
 			->method('getViewHelper')
 			->with()
-			->will($this->returnValue($helper))
+			->will(self::returnValue($helper))
 		;
 		$widget
-			->expects($this->once())
+			->expects(self::once())
 			->method('getLabel')
 			->with()
-			->will($this->returnValue('LABEL:'))
+			->will(self::returnValue('LABEL:'))
 		;
 		$widget
-			->expects($this->once())
+			->expects(self::once())
 			->method('_displayLabel')
 			->with()
 			->will($this->returnArgument(0))
 		;
 		$htmlBag = $this->callInaccessibleMethod($widget, '_render');
 
-		$this->assertCount(4, $htmlBag);
-		$this->assertEquals('LABEL:DEBUGCONTENT', $htmlBag['__compiled']);
-		$this->assertEquals('DEBUGCONTENT', $htmlBag['rendered']);
-		$this->assertEquals('LABEL:', $htmlBag['label']);
-		$this->assertEquals('DebugTitle', $htmlBag['value']);
+		self::assertCount(4, $htmlBag);
+		self::assertEquals('LABEL:DEBUGCONTENT', $htmlBag['__compiled']);
+		self::assertEquals('DEBUGCONTENT', $htmlBag['rendered']);
+		self::assertEquals('LABEL:', $htmlBag['label']);
+		self::assertEquals('DebugTitle', $htmlBag['value']);
 	}
 
 	/**
@@ -127,34 +127,34 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase
 		);
 
 		$helper
-			->expects($this->once())
+			->expects(self::once())
 			->method('initializeArgumentsAndRender')
 			->with()
 			->will($this->throwException(new Exception('PHPUnitException', 5050)))
 		;
 		$widget
-			->expects($this->once())
+			->expects(self::once())
 			->method('getViewHelper')
 			->with()
-			->will($this->returnValue($helper))
+			->will(self::returnValue($helper))
 		;
 		$widget
-			->expects($this->once())
+			->expects(self::once())
 			->method('getLabel')
 			->with()
-			->will($this->returnValue(''))
+			->will(self::returnValue(''))
 		;
 		$htmlBag = $this->callInaccessibleMethod($widget, '_render');
 
-		$this->assertCount(6, $htmlBag);
-		$this->assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['__compiled']);
-		$this->assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['rendered']);
-		$this->assertEquals('', $htmlBag['label']);
-		$this->assertEquals('DebugTitle', $htmlBag['value']);
-		$this->assertEquals(TRUE, $htmlBag['renderError']);
-		$this->assertEquals(TRUE, is_array($htmlBag['renderError.']));
-		$this->assertEquals(5050, $htmlBag['renderError.']['code']);
-		$this->assertEquals('PHPUnitException', $htmlBag['renderError.']['message']);
+		self::assertCount(6, $htmlBag);
+		self::assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['__compiled']);
+		self::assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['rendered']);
+		self::assertEquals('', $htmlBag['label']);
+		self::assertEquals('DebugTitle', $htmlBag['value']);
+		self::assertEquals(TRUE, $htmlBag['renderError']);
+		self::assertEquals(TRUE, is_array($htmlBag['renderError.']));
+		self::assertEquals(5050, $htmlBag['renderError.']['code']);
+		self::assertEquals('PHPUnitException', $htmlBag['renderError.']['message']);
 	}
 
 	/**
@@ -178,17 +178,17 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase
 			array_keys($mockedMethods)
 		);
 		$widget
-			->expects($this->any())
+			->expects(self::any())
 			->method('getValue')
 			->with()
-			->will($this->returnValue('DebugTitle'))
+			->will(self::returnValue('DebugTitle'))
 		;
 		$widget
-			->expects($this->any())
+			->expects(self::any())
 			->method('getParams')
 			->with()
 			->will(
-				$this->returnValue(
+				self::returnValue(
 					array(
 						'title' => 'rdt:value',
 						'maxDepth' => 4,

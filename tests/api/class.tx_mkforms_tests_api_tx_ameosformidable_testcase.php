@@ -121,7 +121,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testca
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
 		$oForm = tx_mkforms_tests_Util::getForm(false);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
 			$oForm->render(),
 			'Es ist nicht der richtige request token enthalten!'
@@ -141,7 +141,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testca
 		//jetzt die eigentliche initialisierung
 		$oForm = tx_mkforms_tests_Util::getForm();
 
-		$this->assertContains(
+		self::assertContains(
 			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
 			$oForm->render(),
 			'Es ist nicht der richtige request token enthalten!'

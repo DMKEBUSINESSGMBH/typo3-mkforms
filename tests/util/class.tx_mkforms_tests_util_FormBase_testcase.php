@@ -44,10 +44,10 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 			'tx_mkforms_util_FormBase', array('getRowsFromDataBase')
 		);
 		$form = tx_mkforms_tests_Util::getForm();
-		$formBase::staticExpects($this->once())
+		$formBase::staticExpects(self::once())
 			->method('getRowsFromDataBase')
 			->with(array('someParams'), $form)
-			->will($this->returnValue(
+			->will(self::returnValue(
 				array(
 					0 => array(
 						'__value__' => 123, '__caption__' => 'first'
@@ -58,7 +58,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 				)
 			));
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				0 => array('value' => 123, 'caption' => 'first'),
 				1 => array('value' => 456, 'caption' => 'second'),

@@ -78,10 +78,10 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	public function testSetValueSanitizesStringIfConfigured() {
 		//per default soll bereinigt werden
 		$this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
-		$this->assertEquals('<sc<x>ript>alert("ohoh");</script>',$this->oForm->getWidget('widget-text')->getValue(),'JS wurde nicht entfernt bei widget-text!');
+		self::assertEquals('<sc<x>ript>alert("ohoh");</script>',$this->oForm->getWidget('widget-text')->getValue(),'JS wurde nicht entfernt bei widget-text!');
 		//hier ist sanitize auf false gesetzt
 		$this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
-		$this->assertEquals('<script>alert("ohoh");</script>',$this->oForm->getWidget('widget-text2')->getValue(),'JS wurde nicht entfernt bei widget-text2!');
+		self::assertEquals('<script>alert("ohoh");</script>',$this->oForm->getWidget('widget-text2')->getValue(),'JS wurde nicht entfernt bei widget-text2!');
 	}
 
 	/**
@@ -103,7 +103,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		$dUsedtime = microtime(true) -$dTime;
 
 		//der grenzwert sollte nicht überschritten werden
-		$this->assertLessThanOrEqual('0.1200000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
+		self::assertLessThanOrEqual('0.1200000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
 	}
 
 	/**
@@ -124,7 +124,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		}
 		$dUsedtime = microtime(true) -$dTime;
 		//der grenzwert sollte nicht überschritten werden
-		$this->assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
+		self::assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
 	}
 
 	/**
@@ -133,7 +133,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	public function testGetValueForHtmlConvertsHtmlSpecialCharsCorrectIfIsString() {
 		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'&quot;test&quot;',$mainRenderlet->getValueForHtml('"test"'), 'falsche bereinigt'
 		);
 	}
@@ -144,7 +144,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	public function testGetValueForHtmlConvertsCurlyBracketsCorrect() {
 		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'&#123;test&#125;',$mainRenderlet->getValueForHtml('{test}'), 'falsche bereinigt'
 		);
 	}
@@ -155,7 +155,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	public function testGetValueForHtmlConvertsNotHtmlSpecialCharsCorrectIfIsArray() {
 		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
 
-		$this->assertEquals(
+		self::assertEquals(
 			array('test'),$mainRenderlet->getValueForHtml(array('test')), 'array bereinigt'
 		);
 	}
@@ -172,14 +172,14 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 		$placeholderFound = FALSE;
 		foreach ($addInputParams as $addInputParam) {
 			if (strpos($addInputParam, 'placeholder') !== FALSE) {
-				$this->assertEquals(
+				self::assertEquals(
 					'placeholder="Jump to last page"', $addInputParam,
 					'placeholder falsch'
 				);
 				$placeholderFound = TRUE;
 			}
 		}
-		$this->assertTrue($placeholderFound, 'placeholder attribut nicht gefunden');
+		self::assertTrue($placeholderFound, 'placeholder attribut nicht gefunden');
 	}
 
 	/**
@@ -196,7 +196,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 				$placeholderFound = TRUE;
 			}
 		}
-		$this->assertFalse($placeholderFound, 'placeholder attribut gefunden');
+		self::assertFalse($placeholderFound, 'placeholder attribut gefunden');
 	}
 }
 
