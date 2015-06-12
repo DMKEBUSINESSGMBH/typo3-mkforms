@@ -308,12 +308,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			!empty($uploadedFileIds)
 		) {
 
-			if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-				$mediaFiles = tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
-			} else {
-				$mediaFiles = tx_mklib_util_DAM::getRecords($uploadedFileIds);
-				$mediaFiles = $mediaFiles['files'];
-			}
+			$mediaFiles = tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
 
 			foreach ($mediaFiles as $uid => $mediaInfo) {
 				// wird benötigt um in handleCreation die Referenzen anlegen zu können
@@ -429,20 +424,15 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 		// In Set Value kommt die Anzahl der Zuordnungen rein!
 		// Bei nur einer erlaubten Zuordnung muss die ggf. vorhandene Datei dereferenziert werden
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			if($this->getForm()->isRunneable(($storageId = $this->_navConf('/data/storage/')))) {
-				$storageId = (int) $this->getForm()->getRunnable()->callRunnableWidget($this, $storageId);
-			}
-			if (!is_numeric($storageId)) {
-				throw new \InvalidArgumentException('No uid for Storage given (/data/storage/).');
-			}
-
-			$fileObject = tx_rnbase_util_TSFAL::indexProcess($sTarget, $storageId);
-			$mediaUid = $fileObject->getUid();
-		} else {
-			// Zuerst prüfen, ob die Datei schon in der DB existiert. Dies kann bei overwrite der Fall sein.
-			$mediaUid = tx_rnbase_util_TSDAM::indexProcess($sTarget, $this->getBeUserId());
+		if($this->getForm()->isRunneable(($storageId = $this->_navConf('/data/storage/')))) {
+			$storageId = (int) $this->getForm()->getRunnable()->callRunnableWidget($this, $storageId);
 		}
+		if (!is_numeric($storageId)) {
+			throw new \InvalidArgumentException('No uid for Storage given (/data/storage/).');
+		}
+
+		$fileObject = tx_rnbase_util_TSFAL::indexProcess($sTarget, $storageId);
+		$mediaUid = $fileObject->getUid();
 
 		// save mediauid
 		$this->aUploaded['mediaid'] = $mediaUid;
@@ -657,14 +647,8 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @param int $mediaUid
 	 */
 	function deleteFile($file, $mediaUid) {
-
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			$refCount = tx_rnbase_util_TSFAL::getReferencesCount($mediaUid);
-			$tableName = 'sys_file';
-		} else {
-			$refCount = tx_rnbase_util_TSDAM::getReferencesCount($mediaUid);
-			$tableName = 'tx_dam';
-		}
+		$refCount = tx_rnbase_util_TSFAL::getReferencesCount($mediaUid);
+		$tableName = 'sys_file';
 
 		// wir löschen die Datei nur wenn keine Refrenzen mehr vorhanden sind
 		if ($refCount === 0) {
@@ -685,13 +669,8 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$fieldName = $this->getRefField();
 		$itemId = $this->getEntryId();
 
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			tx_rnbase_util_TSFAL::addReference($tableName, $fieldName, $itemId, $mediaUid);
-			$newSize = tx_rnbase_util_TSFAL::getImageCount($tableName, $fieldName, $itemId);
-		} else {
-			tx_rnbase_util_TSDAM::addReference($tableName, $fieldName, $itemId, $mediaUid);
-			$newSize = tx_rnbase_util_TSDAM::getImageCount($tableName, $fieldName, $itemId);
-		}
+		tx_rnbase_util_TSFAL::addReference($tableName, $fieldName, $itemId, $mediaUid);
+		$newSize = tx_rnbase_util_TSFAL::getImageCount($tableName, $fieldName, $itemId);
 
 		return $newSize;
 	}
@@ -704,11 +683,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$tableName = trim($this->getRefTable());
 		$fieldName = $this->getRefField();
 		$itemId = $this->getEntryId();
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			tx_rnbase_util_TSFAL::deleteReferences($tableName, $fieldName, $itemId);
-		} else {
-			tx_rnbase_util_TSDAM::deleteReferences($tableName, $fieldName, $itemId);
-		}
+		tx_rnbase_util_TSFAL::deleteReferences($tableName, $fieldName, $itemId);
 	}
 	/**
 	 * Returns all referenced media of current field
@@ -722,12 +697,8 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		}
 		$tableName = trim($this->getRefTable());
 		$fieldName = $this->getRefField();
-		if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-			$ret = tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
-		} else {
-			$ret = tx_dam_db::getReferencedFiles($tableName, $this->getEntryId(), $fieldName);
-			$ret = $ret['files'];
-		}
+		$ret = tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
+
 		return $ret;
 	}
 	/**

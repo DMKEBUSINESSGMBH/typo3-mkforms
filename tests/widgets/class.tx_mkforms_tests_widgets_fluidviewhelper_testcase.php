@@ -34,19 +34,7 @@ tx_rnbase::load('tx_mkforms_widgets_fluidviewhelper_Main');
  * @subpackage tx_mkforms_tests
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mkforms_tests_widgets_fluidviewhelper_testcase
-	extends tx_rnbase_tests_BaseTestCase {
-
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-			$this->markTestSkipped('TYPO3 6.2 required');
-		}
-	}
-
+class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_BaseTestCase {
 	/**
 	 * @group unit
 	 */

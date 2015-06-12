@@ -36,19 +36,7 @@ tx_rnbase::load('tx_mkforms_widgets_text_Main');
  * @license 		http://www.gnu.org/licenses/lgpl.html
  * 					GNU Lesser General Public License, version 3 or later
  */
-class tx_mkforms_tests_widgets_text_Main_testcase
-	extends tx_rnbase_tests_BaseTestCase {
-
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-			$this->markTestSkipped('TYPO3 6.2 required');
-		}
-	}
-
+class tx_mkforms_tests_widgets_text_Main_testcase extends tx_rnbase_tests_BaseTestCase {
 	/**
 	 * @group unit
 	 */
