@@ -55,14 +55,14 @@ class tx_mkforms_tests_widgets_text_Main_testcase
 	public function testRenderSetsDefaultTypeIfNoInputTypeIsConfigured() {
 		$widget = $this->getWidgetMock(array('_render', 'getInputType'));
 
-		$widget->expects($this->once())
+		$widget->expects(self::once())
 			->method('_navConf')
 			->with('/inputtype')
-			->will($this->returnValue(''));
+			->will(self::returnValue(''));
 
 		$htmlBag = $this->callInaccessibleMethod($widget, '_render');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'<input type="text" name="" id="" value=""  />',
 			$htmlBag['input']
 		);
@@ -74,14 +74,14 @@ class tx_mkforms_tests_widgets_text_Main_testcase
 	public function testRenderSetsConfiguredInputType() {
 		$widget = $this->getWidgetMock(array('_render', 'getInputType'));
 
-		$widget->expects($this->once())
+		$widget->expects(self::once())
 			->method('_navConf')
 			->with('/inputtype')
-			->will($this->returnValue('email'));
+			->will(self::returnValue('email'));
 
 		$htmlBag = $this->callInaccessibleMethod($widget, '_render');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'<input type="email" name="" id="" value=""  />',
 			$htmlBag['input']
 		);
@@ -108,10 +108,10 @@ class tx_mkforms_tests_widgets_text_Main_testcase
 			array_keys($mockedMethods)
 		);
 		$widget
-			->expects($this->any())
+			->expects(self::any())
 			->method('getValue')
 			->with()
-			->will($this->returnValue('DebugTitle'))
+			->will(self::returnValue('DebugTitle'))
 		;
 
 		return $widget;

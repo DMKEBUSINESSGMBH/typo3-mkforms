@@ -42,7 +42,7 @@ class tx_mkforms_tests_util_Json_testcase extends tx_phpunit_testcase {
 		$string = pack("H*", 'e280a8');
 		$string = 'davor '.$string.' dazwischen'.$string.'dahinter';
 		$json = $this->getNewInstance()->encode($string);
-		$this->assertEquals('"davor \n dazwischen\ndahinter"', $json);
+		self::assertEquals('"davor \n dazwischen\ndahinter"', $json);
 	}
 }
 
