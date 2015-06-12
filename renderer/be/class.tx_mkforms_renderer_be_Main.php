@@ -35,10 +35,3 @@ class tx_mkforms_renderer_be_Main extends formidable_mainrenderer {
 		return $sHtml;
 	}
 }
-
-
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdr_be/api/class.tx_rdrbe.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdr_be/api/class.tx_rdrbe.php"]);
-	}
-
-?>

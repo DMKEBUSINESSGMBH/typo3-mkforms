@@ -556,5 +556,3 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 		return $this->oForm->getExtConfVal($aParams[0]);
 	}
 }
-
-?>

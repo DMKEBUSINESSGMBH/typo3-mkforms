@@ -26,5 +26,3 @@ class formidable_mainjscb {
 		);
 	}
 }
-
-?>

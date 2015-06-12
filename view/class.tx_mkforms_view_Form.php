@@ -219,7 +219,3 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 		return '###DATA###';
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/view/class.tx_mkforms_view_Form.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/view/class.tx_mkforms_view_Form.php']);
-}

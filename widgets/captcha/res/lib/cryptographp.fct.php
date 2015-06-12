@@ -45,5 +45,3 @@
          return false;
          }
  }
-
-?>

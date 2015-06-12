@@ -168,10 +168,3 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 
 	}
 }
-
-
-	if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/db/class.tx_mkforms_validator_db_Main.php'])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/db/class.tx_mkforms_validator_db_Main.php']);
-	}
-
-?>

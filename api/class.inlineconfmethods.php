@@ -58,5 +58,3 @@ class formidable_inlineconfmethods extends formidable_mainscriptingmethods {
 		return $this->oForm->rdt($aParams[0]);
 	}
 }
-
-?>

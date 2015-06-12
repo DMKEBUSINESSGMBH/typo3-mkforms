@@ -156,5 +156,3 @@ $cryptoneuse = false;  // Si vous souhaitez que la page de verification ne valid
                        // Sinon, le rechargement de la page confirmera toujours la saisie.
 
 include 'cryptographp.cfg.session.php';
-
-?>
