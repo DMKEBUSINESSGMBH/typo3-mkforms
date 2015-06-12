@@ -36,10 +36,10 @@ tx_rnbase::load('tx_mkforms_util_Div');
 class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 
 	public function testToCamelCase() {
-		$this->assertEquals('FeUsers',tx_mkforms_util_Div::toCamelCase('fe_users'));
-		$this->assertEquals('feUsers',tx_mkforms_util_Div::toCamelCase('fe_users', '_', true));
-		$this->assertEquals('TxMklibWordlist',tx_mkforms_util_Div::toCamelCase('tx_mklib_wordlist'));
-		$this->assertEquals('TxMklibTestsUtilStringTestcase',tx_mkforms_util_Div::toCamelCase('tx_mklib_tests_util_String_testcase'));
+		self::assertEquals('FeUsers',tx_mkforms_util_Div::toCamelCase('fe_users'));
+		self::assertEquals('feUsers',tx_mkforms_util_Div::toCamelCase('fe_users', '_', true));
+		self::assertEquals('TxMklibWordlist',tx_mkforms_util_Div::toCamelCase('tx_mklib_wordlist'));
+		self::assertEquals('TxMklibTestsUtilStringTestcase',tx_mkforms_util_Div::toCamelCase('tx_mklib_tests_util_String_testcase'));
 
 	}
 	public function testGetSetupByKeys(){
@@ -78,24 +78,24 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 				),
 			);
 		$aArray = tx_mkforms_util_Div::getSetupByKeys($aConfig, $aWill);
-		$this->assertTrue(array_key_exists('lib.', $aArray), 'lib. not found in array.');
-		$this->assertTrue(array_key_exists('mkforms.', $aArray['lib.']), 'lib.mkforms. not found in array.');
-		$this->assertTrue(array_key_exists('formbase.', $aArray['lib.']['mkforms.']), 'lib.mkforms.formbase. not found in array.');
-		$this->assertTrue(array_key_exists('testmode', $aArray['lib.']['mkforms.']['formbase.']), 'lib.mkforms.formbase.testmode not found in array.');
-		$this->assertTrue((bool) $aArray['lib.']['mkforms.']['formbase.']['testmode'], 'lib.mkforms.formbase.testmode is not true.');
-		$this->assertTrue(array_key_exists('mkextension.', $aArray['lib.']), 'lib.mkextension. not found in array.');
-		$this->assertTrue(array_key_exists('installed', $aArray['lib.']['mkextension.']), 'lib.mkextension.installed not found in array.');
-		$this->assertTrue((bool) $aArray['lib.']['mkextension.']['installed'], 'lib.mkextension.installed is not true.');
+		self::assertTrue(array_key_exists('lib.', $aArray), 'lib. not found in array.');
+		self::assertTrue(array_key_exists('mkforms.', $aArray['lib.']), 'lib.mkforms. not found in array.');
+		self::assertTrue(array_key_exists('formbase.', $aArray['lib.']['mkforms.']), 'lib.mkforms.formbase. not found in array.');
+		self::assertTrue(array_key_exists('testmode', $aArray['lib.']['mkforms.']['formbase.']), 'lib.mkforms.formbase.testmode not found in array.');
+		self::assertTrue((bool) $aArray['lib.']['mkforms.']['formbase.']['testmode'], 'lib.mkforms.formbase.testmode is not true.');
+		self::assertTrue(array_key_exists('mkextension.', $aArray['lib.']), 'lib.mkextension. not found in array.');
+		self::assertTrue(array_key_exists('installed', $aArray['lib.']['mkextension.']), 'lib.mkextension.installed not found in array.');
+		self::assertTrue((bool) $aArray['lib.']['mkextension.']['installed'], 'lib.mkextension.installed is not true.');
 
-		$this->assertTrue(array_key_exists('plugin.', $aArray), 'plugin. not found in array.');
-		$this->assertTrue(array_key_exists('tx_mkforms', $aArray['plugin.']), 'plugin.tx_mkforms not found in array.');
-		$this->assertEquals('USER_INT', $aArray['plugin.']['tx_mkforms'], 'plugin.tx_mkforms not USER_INT.');
-		$this->assertTrue(array_key_exists('tx_mkforms.', $aArray['plugin.']), 'plugin.tx_mkforms. not found in array.');
-		$this->assertTrue(array_key_exists('genericTemplate', $aArray['plugin.']['tx_mkforms.']), 'plugin.tx_mkforms.genericTemplate not found in array.');
-		$this->assertEquals('EXT:mkforms/templates/formonly.html', $aArray['plugin.']['tx_mkforms.']['genericTemplate'], 'plugin.tx_mkforms.genericTemplate has wrong value.');
+		self::assertTrue(array_key_exists('plugin.', $aArray), 'plugin. not found in array.');
+		self::assertTrue(array_key_exists('tx_mkforms', $aArray['plugin.']), 'plugin.tx_mkforms not found in array.');
+		self::assertEquals('USER_INT', $aArray['plugin.']['tx_mkforms'], 'plugin.tx_mkforms not USER_INT.');
+		self::assertTrue(array_key_exists('tx_mkforms.', $aArray['plugin.']), 'plugin.tx_mkforms. not found in array.');
+		self::assertTrue(array_key_exists('genericTemplate', $aArray['plugin.']['tx_mkforms.']), 'plugin.tx_mkforms.genericTemplate not found in array.');
+		self::assertEquals('EXT:mkforms/templates/formonly.html', $aArray['plugin.']['tx_mkforms.']['genericTemplate'], 'plugin.tx_mkforms.genericTemplate has wrong value.');
 
-		$this->assertFalse(array_key_exists('tx_mkextension.', $aArray['plugin.']), 'plugin.tx_mkextension. found in array.');
-		$this->assertFalse(array_key_exists('config.', $aArray), 'config. found in array.');
+		self::assertFalse(array_key_exists('tx_mkextension.', $aArray['plugin.']), 'plugin.tx_mkextension. found in array.');
+		self::assertFalse(array_key_exists('config.', $aArray), 'config. found in array.');
 	}
 
 	/**
@@ -118,7 +118,7 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 		}
 
 		$cleanedFile = tx_mkforms_util_Div::cleanupFileName($rawFile);
-		$this->assertEquals($expectedFile, $cleanedFile);
+		self::assertEquals($expectedFile, $cleanedFile);
 	}
 	/**
 	 * DataProvider for cleanupFileName Test.

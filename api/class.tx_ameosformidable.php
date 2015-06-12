@@ -1044,16 +1044,7 @@ SANDBOXCLASS;
 		}
 	}
 
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$$oParent: ...
-	 * @param	[type]		$aSteps: ...
-	 * @return	[type]		...
-	 */
 	function initSteps(&$oParent, $aSteps) {
-
 		$this->aSteps = $aSteps;
 
 		$aExtract = $this->__extractStep();
@@ -1074,13 +1065,7 @@ SANDBOXCLASS;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function _getStepperId() {
-
 		if($this->aSteps !== FALSE) {
 			return md5(serialize($this->aSteps));
 		}
@@ -1088,13 +1073,7 @@ SANDBOXCLASS;
 		return FALSE;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function _getStep() {
-
 		$aStep = $this->__extractStep();
 		if($aStep === FALSE) {
 			return 0;
@@ -1103,13 +1082,7 @@ SANDBOXCLASS;
 		return $aStep['AMEOSFORMIDABLE_STEP'];
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function __extractStep() {
-
 		$sStepperId = $this->_getStepperId();
 
 		if($this->_aStep === FALSE) {
@@ -3060,15 +3033,6 @@ JAVASCRIPT;
 		return array_key_exists($sKey, $this->_aValidationErrorsTypes);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sExtKey: ...
-	 * @param	[type]		$sServiceKey: ...
-	 * @param	[type]		$bVirtualizeFE: ...
-	 * @param	[type]		$bInitBEuser: ...
-	 * @return	[type]		...
-	 */
 	function declareAjaxService($sExtKey, $sServiceKey, $bVirtualizeFE = TRUE, $bInitBEuser = FALSE) {
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['ajax_services'][$sExtKey][$sServiceKey]['conf'] = array(
 			'virtualizeFE'	=> $bVirtualizeFE,
@@ -3281,13 +3245,7 @@ JAVASCRIPT;
 		return $this->getTemplateTool()->parseTemplate($templatePath, $templateMarker, $aTags, $aExclude, $bClearNotUsed, $aLabels);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function _getParentExtSitePath() {
-
 		if(TYPO3_MODE === 'FE') {
 			$sExtKey = (is_subclass_of($this->_oParent, 'tslib_pibase')) ? $this->_oParent->extKey : 'mkforms';
 		} else {
@@ -3297,14 +3255,7 @@ JAVASCRIPT;
 		return t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath($sExtKey);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sHtml: ...
-	 * @return	[type]		...
-	 */
 	function _substLLLInHtml($sHtml) {
-
 		if($sHtml{0} === 'L' && t3lib_div::isFirstPartOfStr($sHtml, 'LLL:')) {
 			return $this->getConfigXML()->getLLLabel($sHtml);
 		}
@@ -3316,21 +3267,6 @@ JAVASCRIPT;
 		);
 	}
 
-
-
-
-
-
-
-
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$main_prefix: ...
-	 * @param	[type]		$content: ...
-	 * @return	[type]		...
-	 */
 	function prefixResourcePath($main_prefix, $content) {
 		$this->makeHtmlParser();
 
@@ -3343,13 +3279,6 @@ JAVASCRIPT;
 		return str_replace('http://{', '{', $content);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sTag: ...
-	 * @param	[type]		$sHtml: ...
-	 * @return	[type]		...
-	 */
 	function getAllHtmlTags($sTag, $sHtml) {
 		$this->makeHtmlParser();
 		$aParts = $this->oHtml->splitIntoBlock(
@@ -3366,18 +3295,7 @@ JAVASCRIPT;
 		return array_reverse(array_reverse($aParts));	// reordering keys
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$iErrno: ...
-	 * @param	[type]		$sMessage: ...
-	 * @param	[type]		$sFile: ...
-	 * @param	[type]		$iLine: ...
-	 * @param	[type]		$oObj: ...
-	 * @return	[type]		...
-	 */
 	function __catchEvalException($iErrno, $sMessage, $sFile, $iLine, $oObj) {
-
 		$aErrors = array (
 			E_ERROR		=> 'Error',
 			E_PARSE		=> 'Parse error',
@@ -3414,19 +3332,7 @@ JAVASCRIPT;
 		return $this->oDataHandler->_getListData($sKey);
 	}
 
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$iStart: ...
-	 * @param	[type]		$aData: ...
-	 * @param	[type]		$bCycle: ...
-	 * @param	[type]		$iDirection: ...
-	 * @param	[type]		$bKey: ...
-	 * @return	[type]		...
-	 */
 	function __getNeighbourInArray($iStart, $aData, $bCycle, $iDirection, $bKey = FALSE) {
-
 		if(!empty($aData)) {
 
 			$aKeys = array_keys($aData);
@@ -3468,15 +3374,6 @@ JAVASCRIPT;
 		return FALSE;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$iStart: ...
-	 * @param	[type]		$aData: ...
-	 * @param	[type]		$bCycle: ...
-	 * @param	[type]		$bKey: ...
-	 * @return	[type]		...
-	 */
 	function _getNextInArray($iStart, $aData, $bCycle = FALSE, $bKey = FALSE) {
 		return tx_ameosformidable::__getNeighbourInArray(
 			$iStart,
@@ -3487,15 +3384,6 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$iStart: ...
-	 * @param	[type]		$aData: ...
-	 * @param	[type]		$bCycle: ...
-	 * @param	[type]		$bKey: ...
-	 * @return	[type]		...
-	 */
 	function _getPrevInArray($iStart, $aData, $bCycle = FALSE, $bKey = FALSE) {
 		return tx_ameosformidable::__getNeighbourInArray(
 			$iStart,
@@ -3507,11 +3395,7 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * [Describe function...]
 	 * TODO: remove
-	 * @param	[type]		$sPath: ...
-	 * @param	[type]		$aConf: ...
-	 * @return	[type]		...
 	 */
 	function _isTrue($sPath, $aConf = -1) {
 
@@ -3524,14 +3408,9 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * [Describe function...]
 	 * TODO: remove
-	 * @param	[type]		$sPath: ...
-	 * @param	[type]		$aConf: ...
-	 * @return	[type]		...
 	 */
 	function _isFalse($sPath, $aConf = -1) {
-
 		$mValue = $this->getConfig()->get(
 			$sPath,
 			$aConf
@@ -3545,13 +3424,9 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * [Describe function...]
 	 * TODO: remove
-	 * @param	[type]		$mVal: ...
-	 * @return	[type]		...
 	 */
 	function _isTrueVal($mVal) {
-
 		if($this->getRunnable()->isRunnable($mVal)) {
 			$mVal = $this->getRunnable()->callRunnable(
 				$mVal
@@ -3562,13 +3437,9 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * [Describe function...]
 	 * TODO: remove
-	 * @param	[type]		$mVal: ...
-	 * @return	[type]		...
 	 */
 	function _isFalseVal($mVal) {
-
 		if($this->getRunnable()->isRunnable($mVal)) {
 			$mVal = $this->getRunnable()->callRunnable(
 				$mVal
@@ -3578,15 +3449,7 @@ JAVASCRIPT;
 		return (($mVal == FALSE) || (strtoupper($mVal) == 'FALSE'));
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sPath: ...
-	 * @param	[type]		$aConf: ...
-	 * @return	[type]		...
-	 */
 	function _defaultTrue($sPath, $aConf = -1) {
-
 		if($this->getConfig()->get($sPath, $aConf) !== FALSE) {
 			return $this->_isTrue($sPath, $aConf);
 		} else {
@@ -3594,15 +3457,7 @@ JAVASCRIPT;
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sPath: ...
-	 * @param	[type]		$aConf: ...
-	 * @return	[type]		...
-	 */
 	function _defaultFalse($sPath, $aConf = -1) {
-
 		if($this->getConfig()->get($sPath, $aConf) !== FALSE) {
 			return $this->_isTrue($sPath, $aConf);
 		} else {
@@ -3610,14 +3465,7 @@ JAVASCRIPT;
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$mInfos: ...
-	 * @return	[type]		...
-	 */
 	function _getExtRelPath($mInfos) {
-
 		if(!is_array($mInfos)) {
 			// should be object type
 
@@ -3640,14 +3488,7 @@ JAVASCRIPT;
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$mInfos: ...
-	 * @return	[type]		...
-	 */
 	function _getExtPath($mInfos) {
-
 		if(!is_array($mInfos)) {
 			// should be object type
 
@@ -3672,15 +3513,7 @@ JAVASCRIPT;
 		return $extsrcpath;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$aTags: ...
-	 * @param	[type]		$aUserobjParams: ...
-	 * @return	[type]		...
-	 */
 	function _getCustomTags($aTags, $aUserobjParams = array()) {
-
 		$aCustomTags = array(
 			'values' => array(),
 			'labels' => array()
@@ -3712,38 +3545,18 @@ JAVASCRIPT;
 		return $aCustomTags;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sName: ...
-	 * @param	[type]		$mValue: ...
-	 * @return	[type]		...
-	 */
 	function injectData($sName, $mValue) {
 		$this->mayday('injectData is disabled');
 		$this->_aInjectedData[$sName] = $mValue;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sName: ...
-	 * @return	[type]		...
-	 */
 	function unsetInjectedData($sName) {
-
 		if(array_key_exists($sName, $this->_aInjectedData)) {
 			unset($this->_aInjectedData[$sName]);
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function renderList() {
-
 		if(!$this->bRendered) {
 			$this->mayday('ATTEMPT TO CALL renderlist() BEFORE CALL TO render()');
 		}
@@ -3755,14 +3568,7 @@ JAVASCRIPT;
 		return '';
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sStr: ...
-	 * @return	[type]		...
-	 */
 	function _getSafeLock($sStr = FALSE) {
-
 		if($sStr === FALSE) {
 			$sStr = $this->getConfTS('misc.safelockseed');
 		}
@@ -3778,10 +3584,6 @@ JAVASCRIPT;
 
 	/**
 	 * Das wird nirgendwo aufgerufen...
-	 *
-	 * @param	[type]		$sStr: ...
-	 * @param	[type]		$sLock: ...
-	 * @return	[type]		...
 	 */
 	function checkSafeLock($sStr = false, $sLock) {
 		if($sStr === FALSE) {
@@ -3790,15 +3592,7 @@ JAVASCRIPT;
 		return (t3lib_div::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . '||' . $sStr) === $sLock);
 	}
 
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$rRes: ...
-	 * @return	[type]		...
-	 */
 	function _watchOutDB($rRes, $sSql = FALSE) {
-
 		if(!is_resource($rRes) && $GLOBALS['TYPO3_DB']->sql_error()) {
 
 			$sMsg = 'SQL QUERY IS NOT VALID';
@@ -3818,7 +3612,9 @@ JAVASCRIPT;
 		return $rRes;
 	}
 
-	// alias for __sendMail
+	/**
+	 * alias for __sendMail
+	 */
 	function sendMail($sAdresse, $sMessage, $sSubject, $sFromAd, $sFromName, $sReplyAd, $sReplyName, $aAttachPaths = array(), $iMediaRef=0) {
 		if(is_object($this)) {
 			return $this->__sendMail($sAdresse, $sMessage, $sSubject, $sFromAd, $sFromName, $sReplyAd, $sReplyName, $aAttachPaths, $iMediaRef);
@@ -3827,21 +3623,7 @@ JAVASCRIPT;
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sAdresse: ...
-	 * @param	[type]		$sMessage: ...
-	 * @param	[type]		$sSubject: ...
-	 * @param	[type]		$sFromAd: ...
-	 * @param	[type]		$sFromName: ...
-	 * @param	[type]		$sReplyAd: ...
-	 * @param	[type]		$sReplyName: ...
-	 * @param	[type]		$aAttachPaths: ...
-	 * @return	[type]		...
-	 */
 	function __sendMail($sAdresse, $sMessage, $sSubject, $sFromAd, $sFromName, $sReplyAd, $sReplyName, $aAttachPaths = array(), $iMediaRef=0) {
-
 		$sDebugSendMail = trim($GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.']['debugSendMail']);
 
 		if(is_object($this)) {
@@ -3912,16 +3694,7 @@ JAVASCRIPT;
 		$oMail->sendTheMail();
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sVarName: ...
-	 * @param	[type]		$aData: ...
-	 * @param	[type]		$bMultiLines: ...
-	 * @return	[type]		...
-	 */
 	function _arrayToJs($sVarName, $aData, $bMultiLines=FALSE) {
-
 		// deprecated; use array2json instead
 		$aJs = array();
 		$aJs[] = 'var ' . $sVarName . ' = new Array();';
@@ -3957,11 +3730,6 @@ JAVASCRIPT;
 	}
 
 	/**
-	 *
-	 * @param $aData
-	 * @param $sCaptionMap
-	 * @param $sValueMap
-	 * @return unknown_type
 	 * @deprecated Methode entfernen!
 	 */
 	function arrayToRdtItems($aData, $sCaptionMap = FALSE, $sValueMap = FALSE) {
@@ -3970,10 +3738,6 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$aData: ...
-	 * @return	[type]		...
 	 * @deprecated Methode entfernen!
 	 */
 	function _arrayToRdtItems($aData, $sCaptionMap = FALSE, $sValueMap = FALSE) {
@@ -3992,16 +3756,7 @@ JAVASCRIPT;
 		return $aArray;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sCaptionKey: ...
-	 * @param	[type]		$sValueKey: ...
-	 * @param	[type]		$aData: ...
-	 * @return	[type]		...
-	 */
 	function _arrayRowsToRdtItems($sCaptionKey, $sValueKey, $aData) {
-
 		$aItems = array();
 
 		reset($aData);
@@ -4021,15 +3776,7 @@ JAVASCRIPT;
 		return $this->_arrayToRdtItems($aItems, '0', '1');
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$iTemplateUid: ...
-	 * @param	[type]		$iPageId: ...
-	 * @return	[type]		...
-	 */
 	function _parseTsInBE($iTemplateUid, $iPageId) {
-
 		global $tmpl;
 
 		$tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');	// Defined global here!
@@ -4054,46 +3801,20 @@ JAVASCRIPT;
 		return $aConfig;
 	}
 
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function _perf() {
 		return $this->end_tstamp - $this->start_tstamp;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$aArray: ...
-	 * @return	[type]		...
-	 */
 	function array2json($aArray) {
 		return tx_mkforms_util_Json::getInstance()->encode($aArray);
 
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sJson: ...
-	 * @return	[type]		...
-	 */
 	function json2array($sJson) {
 		return tx_mkforms_util_Json::getInstance()->decode($sJson);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$aArray: ...
-	 * @param	[type]		$bFirst: ...
-	 * @return	[type]		...
-	 */
 	function array2tree($aArray, $bFirst = TRUE) {
-
 		$aNodes = array();
 		while(list($sKey, $mVal) = each($aArray)) {
 			if(is_array($mVal)) {
@@ -4123,14 +3844,7 @@ JAVASCRIPT;
 		return $aNodes;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sStr: ...
-	 * @return	[type]		...
-	 */
 	function _strToHtmlChar($sStr) {
-
 		$sOut = '';
 		$iLen = strlen($sStr);
 
@@ -4141,23 +3855,14 @@ JAVASCRIPT;
 		return $sOut;
 	}
 
-
-
-
 	/**
-	 * // @TODO: wirklich? Über additionalHeaderData wird unter anderem auch CSS eingefügt!
+	 * @TODO: wirklich? Über additionalHeaderData wird unter anderem auch CSS eingefügt!
 	 * @deprecated use JSLoader
-	 *
 	 */
 	function additionalHeaderData($sData, $sKey = FALSE, $bFirstPos = FALSE, $sBefore = FALSE, $sAfter = FALSE) {
 		$this->getJSLoader()->additionalHeaderData($sData, $sKey, $bFirstPos, $sBefore, $sAfter);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function getAdditionalHeaderData() {
 		if(TYPO3_MODE === 'FE') {
 			return $GLOBALS['TSFE']->additionalHeaderData;
@@ -4167,24 +3872,12 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$str: ...
-	 * @param	[type]		$ext: ...
-	 * @param	[type]		$sDesc: ...
-	 * @return	[type]		...
 	 * @deprecated use $form->getJSLoader()->inline2TempFile()
 	 */
 	function inline2TempFile($str, $ext, $sDesc='')	{
 		return $this->getJSLoader()->inline2TempFile($str, $ext, $sDesc);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sKey: ...
-	 * @return	[type]		...
-	 */
 	function issetAdditionalHeaderData($sKey) {
 		if(TYPO3_MODE === 'FE') {
 			return isset($GLOBALS['TSFE']->additionalHeaderData[$sKey]);
@@ -4193,9 +3886,7 @@ JAVASCRIPT;
 		}
 	}
 
-
 	function cleanBeforeSession() {
-
 		$this->getDataHandler()->cleanBeforeSession();
 		$this->oRenderer->cleanBeforeSession();
 
@@ -4248,11 +3939,6 @@ JAVASCRIPT;
 		$this->aCurrentRdtStack = array();
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function _clearFormInSession() {
 		if(
 			is_array($GLOBALS['_SESSION']['ameos_formidable']['hibernate'])
@@ -4262,11 +3948,6 @@ JAVASCRIPT;
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function _getSessionDataHashKey() {
 		return $this->_getSafeLock(
 			$GLOBALS['TSFE']->id . '||' . $this->formid	// (unique but stable accross refreshes)
@@ -4365,12 +4046,6 @@ JAVASCRIPT;
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sFormId: ...
-	 * @return	[type]		...
-	 */
 	function &getFromContext($sFormId) {
 		$sExecMode = tx_mkforms_util_Div::getEnvExecMode();
 		if($sExecMode === 'EID') {
@@ -4384,17 +4059,7 @@ JAVASCRIPT;
 		return false;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sMethod: ...
-	 * @param	[type]		$mData: ...
-	 * @param	[type]		$sFormId: ...
-	 * @param	[type]		$sElementId: ...
-	 * @return	[type]		...
-	 */
 	function majixStatic($sMethod, $mData, $sFormId, $sElementId) {
-
 		$aExecuter = $this->buildMajixExecuter(
 			$sMethod,
 			$mData,
@@ -4407,7 +4072,6 @@ JAVASCRIPT;
 	}
 
 	function majixExecJs($sJs, $aParams = array()) {
-
 		$aContext = array();
 
 		$aListData = $this->oDataHandler->getListData();
@@ -4433,14 +4097,6 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sMethod: ...
-	 * @param	[type]		$mData: ...
-	 * @param	[type]		$sElementId: ...
-	 * @return	[type]		...
-	 */
 	function buildMajixExecuter($sMethod, $mData, $sElementId, $mDataBag = array()) {
 		return array(
 			'method' => $sMethod,
@@ -4450,13 +4106,7 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function majixSubmit() {
-
 		return $this->buildMajixExecuter(
 			'submitFull',
 			null,
@@ -4464,11 +4114,6 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function majixSubmitRefresh() {
 		return $this->majixRefresh();
 	}
@@ -4481,13 +4126,7 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function majixRefresh() {
-
 		return $this->buildMajixExecuter(
 			'submitRefresh',
 			null,
@@ -4495,14 +4134,7 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sName: ...
-	 * @return	[type]		...
-	 */
 	function majixScrollTo($sName) {
-
 		return $this->buildMajixExecuter(
 			'scrollTo',
 			$sName,
@@ -4510,12 +4142,6 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sUrl: ...
-	 * @return	[type]		...
-	 */
 	function majixSendToPage($sUrl) {
 		return $this->buildMajixExecuter(
 			'sendToPage',
@@ -4525,7 +4151,6 @@ JAVASCRIPT;
 	}
 
 	function majixForceDownload($sFilePath) {
-
 		$sWebPath = (!tx_mkforms_util_Div::isAbsWebPath($sFilePath)) ?
 				tx_mkforms_util_Div::toWebPath($sFilePath) : $sFilePath;
 
@@ -4556,12 +4181,6 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sMessage: ...
-	 * @return	[type]		...
-	 */
 	function majixDebug($sMessage) {
 		return $this->buildMajixExecuter(
 			'debug',
@@ -4584,7 +4203,6 @@ JAVASCRIPT;
 	}
 
 	function majixRequestEdition($iRecordUid, $sTableName = FALSE) {
-
 		if($sTableName === FALSE) {
 			$sTableName = $this->oDataHandler->tablename();
 		}
@@ -4618,22 +4236,10 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sUrl: ...
-	 * @return	[type]		...
-	 */
 	function xhtmlUrl($sUrl) {
 		return str_replace('&', '&amp;', $sUrl);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sUrl: ...
-	 * @return	[type]		...
-	 */
 	function sendToPage($sUrl) {
 		if(is_numeric($sUrl)) {
 			$sUrl = tx_mkforms_util_Div::toWebPath(
@@ -4668,12 +4274,6 @@ JAVASCRIPT;
 		die();
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$mMixed: ...
-	 * @return	[type]		...
-	 */
 	function isUserObj($mMixed) {
 		return is_array($mMixed) && array_key_exists('userobj', $mMixed);
 	}
@@ -4689,8 +4289,6 @@ JAVASCRIPT;
 	/**
 	 * Ruf irgendwas auf...
 	 *
-	 * @param unknown_type $mMixed
-	 * @return unknown
 	 * @deprecated
 	 * @todo remove!
 	 */
@@ -4714,12 +4312,6 @@ JAVASCRIPT;
 		$GLOBALS['_SESSION']['ameos_formidable']['applicationdata']['rdt_lister'][$sFormId][$sSearchRdtName]['criterias'] = array();
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$$oModule: ...
-	 * @return	[type]		...
-	 */
 	function backendHeaders(&$oModule) {
 		$oModule->content = str_replace(
 			array(
@@ -4734,12 +4326,6 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sStr: ...
-	 * @return	[type]		...
-	 */
 	function convertAccents($sStr) {
 		return html_entity_decode(
 			preg_replace(
@@ -4750,12 +4336,6 @@ JAVASCRIPT;
 		);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$sStr: ...
-	 * @return	[type]		...
-	 */
 	function removeNonAlnum($sStr) {
 		// removes everything but a-z, A-Z, 0-9
 		return ereg_replace(
@@ -4766,7 +4346,6 @@ JAVASCRIPT;
 	}
 
 	function generatePassword($iLength = 6) {
-
 		$aLetters = array(
 			'cons' => 'aeiouy',
 			'voy' => 'bcdfghjklmnpqrstvwxz',

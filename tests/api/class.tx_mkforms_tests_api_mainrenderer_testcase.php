@@ -101,7 +101,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_phpunit_testcase {
 
 		$aRendered = $oRenderer->_render(array());
 
-		$this->assertContains(
+		self::assertContains(
 			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
 			$aRendered['HIDDEN'],
 			'Es ist nicht der richtige request token enthalten!'
@@ -110,8 +110,8 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_phpunit_testcase {
 
 		//requestToken auch in der session?
 		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-		$this->assertEquals(1,count($aSessionData['requestToken']),'mehr request tokens in der session als erwartet!');
-		$this->assertEquals($aSessionData['requestToken']['radioTestForm'],$oForm->getCsrfProtectionToken(),'falscher request token in der session!');
+		self::assertEquals(1,count($aSessionData['requestToken']),'mehr request tokens in der session als erwartet!');
+		self::assertEquals($aSessionData['requestToken']['radioTestForm'],$oForm->getCsrfProtectionToken(),'falscher request token in der session!');
 	}
 
 	/**
@@ -134,7 +134,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_phpunit_testcase {
 
 		$aRendered = $oRenderer->_render(array());
 
-		$this->assertContains(
+		self::assertContains(
 			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
 			$aRendered['HIDDEN'],
 			'Es ist nicht der richtige request token enthalten!'
@@ -143,11 +143,11 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_phpunit_testcase {
 
 		//requestToken auch in der session?
 		$aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-		$this->assertEquals(3,count($aSessionData['requestToken']),'mehr request tokens in der session als erwartet!');
-		$this->assertEquals($aSessionData['requestToken']['radioTestForm'],$oForm->getCsrfProtectionToken(),'falscher request token in der session!');
+		self::assertEquals(3,count($aSessionData['requestToken']),'mehr request tokens in der session als erwartet!');
+		self::assertEquals($aSessionData['requestToken']['radioTestForm'],$oForm->getCsrfProtectionToken(),'falscher request token in der session!');
 		//alte request tokens richtig?
-		$this->assertEquals($aSessionData['requestToken']['firstForm'],'secret','falscher request token in der session!');
-		$this->assertEquals($aSessionData['requestToken']['secondForm'],'anotherSecret','falscher request token in der session!');
+		self::assertEquals($aSessionData['requestToken']['firstForm'],'secret','falscher request token in der session!');
+		self::assertEquals($aSessionData['requestToken']['secondForm'],'anotherSecret','falscher request token in der session!');
 
 	}
 }

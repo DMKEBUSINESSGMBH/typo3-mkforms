@@ -4,10 +4,7 @@
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
-
 	var $aLibs = array(
 		'rdt_date_class' => 'res/js/date.js',
 	);
@@ -15,6 +12,14 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 	var $sMajixClass = 'Date';
 	var $sAttachPostInitTask = 'initCal';
 	var $bCustomIncludeScript = TRUE;
+
+	/** @var string[] */
+	private $allowedDateFormatParts = array(
+		'%a', '%A', '%b', '%B', '%C', '%d', '%e',
+		'%H', '%I', '%j', '%k', '%l', '%m', '%M',
+		'%n', '%p', '%P', '%S', '%s', '%t', '%W',
+		'%u', '%w', '%y', '%Y', '%%',
+	);
 
 	function _render() {
 
@@ -168,27 +173,19 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 		));
 	}
 
-	function _flatten($mData) {
-
-		if(!$this->_emptyFormValue($mData)) {
-
-			if($this->shouldConvertToTimestamp()) {
-
-				if(!$this->__isTimestamp($mData)) {
-					// on convertit la date en timestamp
-					// on commence par r�cup�rer la configuration du format de date utilis�
-
-					$sFormat = $this->_getFormat();
-					$result = $this->__date2tstamp($mData, $sFormat);
-
-					return $result;
-				}
-			}
-		} else {
+	public function _flatten($mData) {
+		if ($this->_emptyFormValue($mData)) {
 			return '';
 		}
 
-		return $mData;
+		if ($this->oForm->_defaultTrue('/data/datetime/converttotimestamp/', $this->aElement) && !$this->__isTimestamp($mData)) {
+			$sFormat = $this->_getFormat();
+			$result = $this->__date2tstamp($mData, $sFormat);
+		} else {
+			$result = $mData;
+		}
+
+		return $result;
 	}
 
 	function _unFlatten($mData) {
@@ -210,143 +207,75 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 			|| $this->_defaultFalse('/allowmanualedition');
 	}
 
-	function __date2tstamp($strdate, $format) {
-		// strptime
-		$aAvailableTokens = array(
-			'%a', '%A', '%b', '%B', '%C', '%d', '%e',
-			'%H', '%I', '%j', '%k', '%l', '%m', '%M',
-			'%n', '%p', '%P', '%S', '%s', '%t', '%W',
-			'%u', '%w', '%y', '%Y', '%%'
-		);
+	/**
+	 * Converts a date string into a UNIX timestamp.
+	 *
+	 * @param string $dateAsString
+	 * @param string $dateFormat
+	 *
+	 * @return int the date as a UNIX timestamp
+	 */
+	private function __date2tstamp($dateAsString, $dateFormat) {
+		/** @var string[] $dateFormatSeparators */
+		$dateFormatSeparators = array();
 
-		$aShortMonth = array(
-			'C' => array (
-				'Jan' => '01',
-				'Feb' => '02',
-				'Mar' => '03',
-				'Apr' => '04',
-				'May' => '05',
-				'Jun' => '06',
-				'Jul' => '07',
-				'Aug' => '08',
-				'Sep' => '09',
-				'Oct' => '10',
-				'Nov' => '11',
-				'Dec' => '12'
-			),
-			'fr_FR' => array (
-				'Jan' => '01',
-				'Fev' => '02',
-				'Mar' => '03',
-				'Avr' => '04',
-				'Mai' => '05',
-				'Juin' => '06',
-				'Juil' => '07',
-				'Aout' => '08',
-				'Sep' => '09',
-				'Oct' => '10',
-				'Nov' => '11',
-				'Dec' => '12'
-			),
-			'de_DE' => array (
-				'Jan' => '01',
-				'Feb' => '02',
-				'M�r' => '03',
-				'Apr' => '04',
-				'May' => '05',
-				'Jun' => '06',
-				'Jul' => '07',
-				'Aug' => '08',
-				'Sep' => '09',
-				'Okt' => '10',
-				'Nov' => '11',
-				'Dez' => '12'
-			)
-		);
-
-/*
-%a				short name of the day (local)
-%A				full name of the day (local)
-%b				short month name (local)
-%B        full month name (local)
-%C        century number
-%d        the day of the month (00 ... 31)
-%e        the day of the month (0 ... 31)
-%H        hour (00 ... 24)
-%I        hour (01 ... 12)
-%j        day of the year (000 ... 366)
-%k        hour (0 ... 23)
-%l        hour (1 ... 12)
-%m        month (01 ... 12)
-%M        mInute (00 ... 59)
-%n        a newline character
-%p        "PM" or "AM"
-%P        "pm" or "am"
-%s        number of seconds since Unix Epoch
-%S        second (00 ... 59)
-%t        a tab character
-%W        the week number
-%u        the day of the week (1 ... 7, 1 = MON)
-%w        the day of the week (0 ... 6, 0 = SUN)
-%y        year without the century (00 ... 99)
-%Y        year including the century (eg. 1976)
-%%        a literal % character
-*/
-		// on d�termine les s�parateurs
-		$aSeparateurs = array();
-		$separateurs = str_replace($aAvailableTokens, '', $format);
-
-		if(strlen($separateurs) > 0) {
-			for($k = 0; $k <= strlen($separateurs); $k++) {
-				if(!in_array($separateurs[$k], $aSeparateurs)) {
-					$aSeparateurs[] = $separateurs[$k];
-				}
-			}
+		/** @var string $concatenatedDateFormatSeparators */
+		$concatenatedDateFormatSeparators = str_replace($this->allowedDateFormatParts, '', $dateFormat);
+		if ($concatenatedDateFormatSeparators !== '') {
+			$nonUniqueSeparators = str_split($concatenatedDateFormatSeparators);
+			$dateFormatSeparators = array_unique($nonUniqueSeparators);
 		}
-		$aFormat = explode('#', str_replace($aSeparateurs, '#', $format));
-		$aTokens = explode('#', str_replace($aSeparateurs, '#', $strdate));
+		$dateFormatParts = explode('#', str_replace($dateFormatSeparators, '#', $dateFormat));
+		$dateParts = explode('#', str_replace($dateFormatSeparators, '#', $dateAsString));
 
-		$aDate = array();
-		foreach($aFormat as $index => $format) {
-			$aDate[$format] = $aTokens[$index];
-		}
-		reset($aDate);
-
-		$day = strftime('%d');
-		$month = strftime('%m');
-		$year = strftime('%Y');
-		$hour = 0;
-		$minute = 0;
-		$second = 0;
-
-		if(array_key_exists('%d', $aDate)) {
-			$day = $aDate['%d'];
-		} elseif(array_key_exists('%e', $aDate)) {
-			$day = $aDate['%e'];
+		/** @var int[] $datePartsByFormatCode */
+		$datePartsByFormatCode = array();
+		foreach ($dateFormatParts as $index => $dateFormat) {
+			$datePartsByFormatCode[$dateFormat] = (int)$dateParts[$index];
 		}
 
-		if(array_key_exists('%m', $aDate)) {
-			$month = $aDate['%m'];
+		if (array_key_exists('%d', $datePartsByFormatCode)) {
+			$day = $datePartsByFormatCode['%d'];
+		} elseif (array_key_exists('%e', $datePartsByFormatCode)) {
+			$day = $datePartsByFormatCode['%e'];
+		} else {
+			$currentDay = (int)strftime('%d');
+			$day = $currentDay;
 		}
 
-		if(array_key_exists('%Y', $aDate)) {
-			$year = $aDate['%Y'];
+		$currentMonth = (int)strftime('%m');
+		if (array_key_exists('%m', $datePartsByFormatCode)) {
+			$month = $datePartsByFormatCode['%m'];
+		} else {
+			$month = $currentMonth;
 		}
 
-		if(array_key_exists('%H', $aDate)) {
-			$hour = $aDate['%H'];
+		$currentYear = (int)strftime('%Y');
+		if (array_key_exists('%Y', $datePartsByFormatCode)) {
+			$year = $datePartsByFormatCode['%Y'];
+		} else {
+			$year = $currentYear;
 		}
 
-		if(array_key_exists('%M', $aDate)) {
-			$minute = $aDate['%M'];
+		if (array_key_exists('%H', $datePartsByFormatCode)) {
+			$hour = $datePartsByFormatCode['%H'];
+		} else {
+			$hour = 0;
 		}
 
-		if(array_key_exists('%S', $aDate)) {
-			$second = $aDate['%S'];
+		if (array_key_exists('%M', $datePartsByFormatCode)) {
+			$minute = $datePartsByFormatCode['%M'];
+		} else {
+			$minute = 0;
 		}
 
-		$tstamp = mktime($hour, $minute, $second, $month, $day , $year);
-		return $tstamp;
+		if (array_key_exists('%S', $datePartsByFormatCode)) {
+			$second = $datePartsByFormatCode['%S'];
+		} else {
+			$second = 0;
+		}
+
+		return mktime($hour, $minute, $second, $month, $day , $year);
 	}
 
 	function _getHumanReadableValue($data) {
@@ -396,8 +325,15 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 		return $data;
 	}
 
-	function _emptyFormValue($value) {
-		return intval($value) <= 0;
+	/**
+	 * Checks whether $value is non-empty.
+	 *
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	public function _emptyFormValue($value) {
+		return (trim($value) === '');
 	}
 
 	function _sqlSearchClause($sValue, $sFieldPrefix = '', $sName = '', $bRec = TRUE) {

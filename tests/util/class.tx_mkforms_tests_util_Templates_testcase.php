@@ -38,7 +38,7 @@ class tx_mkforms_tests_util_Templates_testcase extends tx_phpunit_testcase {
 	 * @group unit
 	 */
 	public function testSanitizeStringForTemplateEngine() {
-		$this->assertEquals(
+		self::assertEquals(
 			'&#123;test&#125;',
 			tx_mkforms_util_Templates::sanitizeStringForTemplateEngine('{test}'),
 			'string falsch bereinigt'

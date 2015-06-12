@@ -373,20 +373,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	}
 
 	/**
-	 * Gibt das Mayday im Falle eines Fehler aus
-	 *
-	 * @param 	Exception 	$e
-	 * @deprecated 	Das Error-Handling erledigt nun das Form!
-	 */
-	private static function mayday($e){
-		// Nachricht zusammenbauen
-		$msg = $e->getFile().' Line: '.$e->getLine(). '<br /><br />'. $e->getMessage();
-		// mayday
-		tx_rnbase::load('tx_mkforms_util_Div');
-		tx_mkforms_util_Div::mayday($msg, $this->getForm());
-	}
-
-	/**
 	 * Gibt den Name der zugehörigen View-Klasse zurück
 	 *
 	 * @return 	string

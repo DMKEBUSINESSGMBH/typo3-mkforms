@@ -76,22 +76,22 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 		// UTF-8 Text: 'The € - ä ö ü';
 		$utf8Str = tx_rnbase_util_Strings::hexArr2bin(unserialize('a:18:{i:0;s:2:"54";i:1;s:2:"68";i:2;s:2:"65";i:3;s:2:"20";i:4;s:2:"e2";i:5;s:2:"82";i:6;s:2:"ac";i:7;s:2:"20";i:8;s:2:"2d";i:9;s:2:"20";i:10;s:2:"c3";i:11;s:2:"a4";i:12;s:2:"20";i:13;s:2:"c3";i:14;s:2:"b6";i:15;s:2:"20";i:16;s:2:"c3";i:17;s:2:"bc";}'));
 
-		$this->assertFalse($this->oMainValidator->_isTooLongByChars($utf8Str,14),'Es wurde nicht die korrekte Länge für den UTF-8 String erkannt. Maximale Anzahl: 14; Zeichenlänge:13');
-		$this->assertFalse($this->oMainValidator->_isTooLongByChars($utf8Str,13),'Es wurde nicht die korrekte Länge für den UTF-8 String erkannt. Maximale Anzahl: 13; Zeichenlänge:13');
-		$this->assertTrue($this->oMainValidator->_isTooLongByChars($utf8Str,12),'Es wurde nicht die korrekte Länge für den UTF-8 String erkannt. Maximale Anzahl: 12; Zeichenlänge:13');
+		self::assertFalse($this->oMainValidator->_isTooLongByChars($utf8Str,14),'Es wurde nicht die korrekte Länge für den UTF-8 String erkannt. Maximale Anzahl: 14; Zeichenlänge:13');
+		self::assertFalse($this->oMainValidator->_isTooLongByChars($utf8Str,13),'Es wurde nicht die korrekte Länge für den UTF-8 String erkannt. Maximale Anzahl: 13; Zeichenlänge:13');
+		self::assertTrue($this->oMainValidator->_isTooLongByChars($utf8Str,12),'Es wurde nicht die korrekte Länge für den UTF-8 String erkannt. Maximale Anzahl: 12; Zeichenlänge:13');
 
 		// ISO-Text: 'The EUR - ä ö ü';
 		$iso8Str = tx_rnbase_util_Strings::hexArr2bin(unserialize('a:15:{i:0;s:2:"54";i:1;s:2:"68";i:2;s:2:"65";i:3;s:2:"20";i:4;s:2:"45";i:5;s:2:"55";i:6;s:2:"52";i:7;s:2:"20";i:8;s:2:"2d";i:9;s:2:"20";i:10;s:2:"e4";i:11;s:2:"20";i:12;s:2:"f6";i:13;s:2:"20";i:14;s:2:"fc";}'));
-		$this->assertFalse($this->oMainValidator->_isTooLongByChars($iso8Str,16,'latin1'),'Es wurde nicht die korrekte Länge für den ISO String erkannt. Maximale Anzahl: 16; Zeichenlänge:15');
-		$this->assertFalse($this->oMainValidator->_isTooLongByChars($iso8Str,15,'latin1'),'Es wurde nicht die korrekte Länge für den ISO String erkannt. Maximale Anzahl: 15; Zeichenlänge:15');
-		$this->assertTrue($this->oMainValidator->_isTooLongByChars($iso8Str,14,'latin1'),'Es wurde nicht die korrekte Länge für den ISO String erkannt. Maximale Anzahl: 14; Zeichenlänge:15');
+		self::assertFalse($this->oMainValidator->_isTooLongByChars($iso8Str,16,'latin1'),'Es wurde nicht die korrekte Länge für den ISO String erkannt. Maximale Anzahl: 16; Zeichenlänge:15');
+		self::assertFalse($this->oMainValidator->_isTooLongByChars($iso8Str,15,'latin1'),'Es wurde nicht die korrekte Länge für den ISO String erkannt. Maximale Anzahl: 15; Zeichenlänge:15');
+		self::assertTrue($this->oMainValidator->_isTooLongByChars($iso8Str,14,'latin1'),'Es wurde nicht die korrekte Länge für den ISO String erkannt. Maximale Anzahl: 14; Zeichenlänge:15');
 	}
 
 	/**
 	 *
 	 */
 	public function testOneRdtHasAValueReturnsTrueIfNothingHasAValue(){
-		$this->assertTrue($this->oMainValidator->_oneRdtHasAValue(0,'fieldset__texte__input__widget-text'),'Es wurde nicht false zurück gegeben!');
+		self::assertTrue($this->oMainValidator->_oneRdtHasAValue(0,'fieldset__texte__input__widget-text'),'Es wurde nicht false zurück gegeben!');
 	}
 
 	/**
@@ -99,14 +99,14 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 	 */
 	public function testOneRdtHasAValueReturnsFalseIfGivenRdtHasAValueAndSelfNot(){
 		$this->oForm->getWidget('fieldset__texte__input__widget-text')->setValue(1);
-		$this->assertFalse($this->oMainValidator->_oneRdtHasAValue(0,'fieldset__texte__input__widget-text'),'Es wurde nicht true zurück gegeben!');
+		self::assertFalse($this->oMainValidator->_oneRdtHasAValue(0,'fieldset__texte__input__widget-text'),'Es wurde nicht true zurück gegeben!');
 	}
 
 	/**
 	 *
 	 */
 	public function testOneRdtHasAValueReturnsFalseIfSelfHasAValueAndGivenRdtNot(){
-		$this->assertFalse($this->oMainValidator->_oneRdtHasAValue(2,'fieldset__texte__input__widget-text'),'Es wurde nicht true zurück gegeben!');
+		self::assertFalse($this->oMainValidator->_oneRdtHasAValue(2,'fieldset__texte__input__widget-text'),'Es wurde nicht true zurück gegeben!');
 	}
 
 	/**
@@ -114,7 +114,7 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 	 */
 	public function testHasThisOrDependentAValueReturnsFalseIfBothHaveAValue(){
 		$this->oForm->getWidget('fieldset__texte__input__widget-text')->setValue(1);
-		$this->assertFalse($this->oMainValidator->_oneRdtHasAValue(2,'fieldset__texte__input__widget-text'),'Es wurde nicht true zurück gegeben!');
+		self::assertFalse($this->oMainValidator->_oneRdtHasAValue(2,'fieldset__texte__input__widget-text'),'Es wurde nicht true zurück gegeben!');
 	}
 
 	public function testCheckDependsOnReturnsTrueWhenDependentWidgetHasValue(){
@@ -131,7 +131,7 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$method->invoke(
 				$this->oMainValidator,
 				$this->oForm->getWidget('fieldset__widget-radiobutton'),
@@ -155,7 +155,7 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->assertFalse(
+		self::assertFalse(
 				$method->invoke(
 					$this->oMainValidator,
 					$this->oForm->getWidget('fieldset__widget-radiobutton'),

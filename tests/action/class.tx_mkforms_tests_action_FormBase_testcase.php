@@ -213,78 +213,78 @@ public function test_processForm() {
 				'AMEOSFORMIDABLE_VIEWSTATE' => '',
 				'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
 				'AMEOSFORMIDABLE_SUBMITTER' => '',
-				'MKFORMS_REQUEST_TOKEN' => $this->getAction()->getForm()->getCsrfProtectionToken()
+				'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->getCsrfProtectionToken()
 			);
-		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($this->getAction()->getForm()->getFormId() => $this->getAction()->getForm()->getCsrfProtectionToken())));
+		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->getCsrfProtectionToken())));
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
 		$_POST['radioTestForm'] = $sData;
 
-		$action = $this->getAction();
+		$action = self::getAction();
 
 		// die Daten werden für den view in formData gespeichert
 		$formData = $action->getConfigurations()->getViewData()->offsetGet('formData');
 
-		$this->assertTrue(isset($formData['submitmode']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['submitmode'], 'full', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['submitmode']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['submitmode'], 'full', 'LINE:'.__LINE__);
 
-		$this->assertTrue(is_array($formData['widget']), 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget']['text']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['text'], 'Eins', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget']['radiobutton']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['radiobutton'], '3', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget']['listbox']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['listbox'], '7', 'LINE:'.__LINE__);
-		$this->assertTrue(is_array($formData['widget']['checkbox']), 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget']['checkbox']['5']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['checkbox']['5'], '6', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget']['checkbox']['8']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['checkbox']['8'], '9', 'LINE:'.__LINE__);
-		$this->assertTrue(is_array($formData['widget1']), 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget1']['text']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget1']['text'], 'Zwei', 'LINE:'.__LINE__);
-		$this->assertTrue(is_array($formData['widget2']), 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget2']['text']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget2']['text'], 'Zwei', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['textarea']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['textarea'], 'Sehr Lang!', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widgetlister']['selected']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widgetlister']['selected'], '5', 'LINE:'.__LINE__);
-		$this->assertFalse(isset($formData['widgetlister']['notInXml']), 'LINE:'.__LINE__);
+		self::assertTrue(is_array($formData['widget']), 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['text']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['text'], 'Eins', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['radiobutton']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['radiobutton'], '3', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['listbox']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['listbox'], '7', 'LINE:'.__LINE__);
+		self::assertTrue(is_array($formData['widget']['checkbox']), 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['checkbox']['5']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['checkbox']['5'], '6', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['checkbox']['8']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['checkbox']['8'], '9', 'LINE:'.__LINE__);
+		self::assertTrue(is_array($formData['widget1']), 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget1']['text']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget1']['text'], 'Zwei', 'LINE:'.__LINE__);
+		self::assertTrue(is_array($formData['widget2']), 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget2']['text']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget2']['text'], 'Zwei', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['textarea']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['textarea'], 'Sehr Lang!', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widgetlister']['selected']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widgetlister']['selected'], '5', 'LINE:'.__LINE__);
+		self::assertFalse(isset($formData['widgetlister']['notInXml']), 'LINE:'.__LINE__);
 		for($i=1; $i <=5 ; $i++) {
-			$this->assertTrue(is_array($formData['widgetlister'][$i]['listerdata']), $i.' LINE:'.__LINE__);
-			$this->assertTrue(isset($formData['widgetlister'][$i]['listerdata']['uid']), $i.' LINE:'.__LINE__);
-			$this->assertEquals($formData['widgetlister'][$i]['listerdata']['uid'], $i, $i.' LINE:'.__LINE__);
-			$this->assertTrue(isset($formData['widgetlister'][$i]['listerdata']['title']), $i.' LINE:'.__LINE__);
-			$this->assertEquals($formData['widgetlister'][$i]['listerdata']['title'], 'Titel '.$i, $i.' LINE:'.__LINE__);
+			self::assertTrue(is_array($formData['widgetlister'][$i]['listerdata']), $i.' LINE:'.__LINE__);
+			self::assertTrue(isset($formData['widgetlister'][$i]['listerdata']['uid']), $i.' LINE:'.__LINE__);
+			self::assertEquals($formData['widgetlister'][$i]['listerdata']['uid'], $i, $i.' LINE:'.__LINE__);
+			self::assertTrue(isset($formData['widgetlister'][$i]['listerdata']['title']), $i.' LINE:'.__LINE__);
+			self::assertEquals($formData['widgetlister'][$i]['listerdata']['title'], 'Titel '.$i, $i.' LINE:'.__LINE__);
 			//sollte entfernt werden da nicht im xml
-			$this->assertFalse(isset($formData['widgetlister'][$i]['listerdata']['notInXml']), $i.' LINE:'.__LINE__);
+			self::assertFalse(isset($formData['widgetlister'][$i]['listerdata']['notInXml']), $i.' LINE:'.__LINE__);
 		}
 		//submit
-		$this->assertTrue(isset($formData['widget']['submit']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['submit'], '1', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['submit']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['submit'], '1', 'LINE:'.__LINE__);
 		//date
-		$this->assertTrue(isset($formData['widget']['date']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['date'], '426204000', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['widget']['date_mysql']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['date_mysql'], '1983-07-05', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['date']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['date'], '426204000', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['date_mysql']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['date_mysql'], '1983-07-05', 'LINE:'.__LINE__);
 		//addpostvars
-		$this->assertTrue(is_array($formData['addpostvars']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['addpostvars'][0]['action'], 'formData', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($formData['addpostvars'][0]['params']['widget']['submit']), 'LINE:'.__LINE__);
+		self::assertTrue(is_array($formData['addpostvars']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['addpostvars'][0]['action'], 'formData', 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['addpostvars'][0]['params']['widget']['submit']), 'LINE:'.__LINE__);
 		//addfields
-		$this->assertTrue(isset($formData['widget']['addfield']), 'LINE:'.__LINE__);
-		$this->assertEquals($formData['widget']['addfield'], 'addfield feld', 'LINE:'.__LINE__);
-		$this->assertFalse(isset($formData['widget']['remove']), 'LINE:'.__LINE__);
+		self::assertTrue(isset($formData['widget']['addfield']), 'LINE:'.__LINE__);
+		self::assertEquals($formData['widget']['addfield'], 'addfield feld', 'LINE:'.__LINE__);
+		self::assertFalse(isset($formData['widget']['remove']), 'LINE:'.__LINE__);
 
 		//sollte entfernt werden
-		$this->assertFalse(isset($formData['widget']['thatDoesNotExistInTheXml']), 'LINE:'.__LINE__);
+		self::assertFalse(isset($formData['widget']['thatDoesNotExistInTheXml']), 'LINE:'.__LINE__);
 	}
 
 	public function test_handleRequest() {
-		$action = $this->getAction();
+		$action = self::getAction();
 
-		$this->assertEquals('tx_mkforms_action_FormBase', get_class($action), 'Wrong class given.');
+		self::assertEquals('tx_mkforms_action_FormBase', get_class($action), 'Wrong class given.');
 	}
 
 	/**
@@ -297,12 +297,12 @@ public function test_processForm() {
 				'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
 				'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid'
 			);
-		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($this->getAction()->getForm()->getFormId() => $this->getAction()->getForm()->getCsrfProtectionToken())));
+		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->getCsrfProtectionToken())));
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
 		$_POST['radioTestForm'] = $sData;
 
-		$action = $this->getAction();
+		$action = self::getAction();
 	}
 
 	public function test_fillForm() {
@@ -318,33 +318,33 @@ public function test_processForm() {
 		$sData['widget2']['text'] = 'Default Text 2';
 		$sData['textarea'] = 'Ganz Langer vordefinierter Text';
 
-		$action = $this->getAction();
+		$action = self::getAction();
 		$fillData = $action->fillForm($sData, $action->getForm());
 
 
-		$this->assertTrue(isset($fillData['widget-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-text'], 'Default Text', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-checkbox']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-checkbox'], '8,6', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-radiobutton']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-radiobutton'], '7', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-listbox']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-listbox'], '7', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-checksingle']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-checksingle'], '1', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget1-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget1-text'], 'Default Text 1', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget2-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget2-text'], 'Default Text 2', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['textarea']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['textarea'], 'Ganz Langer vordefinierter Text', 'LINE:'.__LINE__);
-		$this->assertTrue(isset($fillData['widget-widget1-widget2-text']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-widget1-widget2-text'], 'Default Text', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget-text']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget-text'], 'Default Text', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget-checkbox']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget-checkbox'], '8,6', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget-radiobutton']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget-radiobutton'], '7', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget-listbox']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget-listbox'], '7', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget-checksingle']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget-checksingle'], '1', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget1-text']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget1-text'], 'Default Text 1', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget2-text']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget2-text'], 'Default Text 2', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['textarea']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['textarea'], 'Ganz Langer vordefinierter Text', 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget-widget1-widget2-text']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget-widget1-widget2-text'], 'Default Text', 'LINE:'.__LINE__);
 
 		//addfields
-		$this->assertTrue(isset($fillData['widget-addfield']), 'LINE:'.__LINE__);
-		$this->assertEquals($fillData['widget-addfield'], 'addfield feld', 'LINE:'.__LINE__);
-		$this->assertFalse(isset($fillData['widget-remove']), 'LINE:'.__LINE__);
+		self::assertTrue(isset($fillData['widget-addfield']), 'LINE:'.__LINE__);
+		self::assertEquals($fillData['widget-addfield'], 'addfield feld', 'LINE:'.__LINE__);
+		self::assertFalse(isset($fillData['widget-remove']), 'LINE:'.__LINE__);
 	}
 }
 

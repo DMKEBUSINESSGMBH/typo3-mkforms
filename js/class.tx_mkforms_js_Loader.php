@@ -190,28 +190,6 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * @deprecated
-	 * aufrund der verschiedenen frameworks (prototype / jquery)
-	 * ist ein mergedes und minimiertes formidable nicht richtig möglich
-	 * Minimierte Scripte werden nun mittels getScriptPath() geprüft!
-	 * @see self::_includeJSFramework();
-	 */
-	private function _includeMinifiedJs() {
-
-		if($this->gziped()) {
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/minified/formidable.minified.js.php';
-		} else {
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/minified/formidable.minified.js';
-		}
-
-		$this->oForm->additionalHeaderData(
-			"<script type=\"text/javascript\" src=\"" . $sPath . "\"></script>",
-			'tx_mkforms_jsbase_fwk',
-			TRUE
-		);
-	}
-
-	/**
 	 * Einbindung der Prototype-Basisskripte
 	 * - res/jsfwk/prototype/prototype.js
 	 * - res/jsfwk/prototype/addons/lowpro/lowpro.js
