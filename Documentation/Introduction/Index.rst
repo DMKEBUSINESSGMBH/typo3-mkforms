@@ -15,6 +15,8 @@ What does it do?
 
 Die Extension MKFORMS ermöglicht es relativ einfach HTML-Formulare für das Frontend zu erstellen. Das komplette Formular wird dabei in einer XML-Datei beschrieben.
 
+.. _formidableDocLinks:
+
 Fork von ameos_formidable
 -------------------------
 

@@ -9,6 +9,13 @@
 Widgets
 =======
 
+Allgemein
+---------
+
+Neben den bekannten Attributen, die ein Widget haben kann (siehe :ref:`formidableDocLinks`),
+kann auch das placeholder Attribut gesetzt werden. Innerhalb des Attributes kann sowohl normaler Text,
+ein Runnable oder auch ein LL Label (LLL:EXT:myext/locallang.xml:label_path) angegeben werden.
+
 
 Box
 ---
