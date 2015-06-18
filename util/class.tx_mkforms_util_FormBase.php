@@ -673,6 +673,37 @@ class tx_mkforms_util_FormBase {
 			}
 		}
 	}
+
+	/**
+	 * die gewünschte configuration id einfach in $params['configurationId']
+	 * übergeben
+	 *
+	 * zusätzlich kann konfiguriert werden ob der Wert zu einem boolschen
+	 * Wert gecastet werden soll. Das ist zum Beispiel nötig wenn die Funktion
+	 * im /process verwendet wird
+	 *
+	 * @param array $params
+	 * @param tx_mkforms_forms_Base $form
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @return boolean
+	 */
+	public static function getConfigurationValue(array $params, tx_mkforms_forms_Base $form) {
+		if (!$params['configurationId']) {
+			throw new InvalidArgumentException(
+				'Please provide the parameter for \'configurationId\''
+			);
+		}
+
+		$configurationValue = $form->getConfigurations()->get($params['configurationId']);
+
+		if ($params['castToBoolean']) {
+			$configurationValue = (boolean) $configurationValue;
+		}
+
+		return $configurationValue;
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBase.php']) {

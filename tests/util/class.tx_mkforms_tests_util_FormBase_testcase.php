@@ -67,6 +67,56 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 			'rückgabe falsch'
 		);
 	}
+
+	/**
+	 * @group unit
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage Please provide the parameter for 'configurationId'
+	 */
+	public function testGetConfigurationValueThrowsExceptionIfNoCondifurationIdConfigured() {
+		$form = tx_mkforms_tests_Util::getForm();
+
+		tx_mkforms_util_FormBase::getConfigurationValue(array(), $form);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetConfigurationValue() {
+		$form = tx_mkforms_tests_Util::getForm(
+			TRUE,
+				t3lib_div::array_merge_recursive_overrule(
+					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
+					array('myConf.' => array('path' => 'test'))
+				)
+		);
+
+		self::assertEquals(
+			'test',
+			tx_mkforms_util_FormBase::getConfigurationValue(
+				array('configurationId' => 'myConf.path'), $form
+			)
+		);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetConfigurationValueIfCastToBoolean() {
+		$form = tx_mkforms_tests_Util::getForm(
+			TRUE,
+			t3lib_div::array_merge_recursive_overrule(
+				tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
+				array('myConf.' => array('path' => 'test'))
+			)
+		);
+
+		self::assertTrue(
+			tx_mkforms_util_FormBase::getConfigurationValue(
+				array('configurationId' => 'myConf.path', 'castToBoolean' => 1), $form
+			)
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']) {
