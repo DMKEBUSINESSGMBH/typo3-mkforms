@@ -377,6 +377,9 @@ class tx_mkforms_util_Templates {
 	 * @return	[type]		...
 	 */
 	public function parseTemplateCode($sHtml,$aTags,$aExclude = array(),$bClearNotUsed = TRUE,$aLabels = array(),$bThrusted = FALSE) {
+		tx_rnbase::load('tx_rnbase_util_Templates');
+		$sHtml = tx_rnbase_util_Templates::includeSubTemplates($sHtml);
+
 		if(!isset($this->sPfxBegin)) {
 			$this->sPfxBegin = MD5(rand());
 			$this->sPfxEnd = MD5(rand());
