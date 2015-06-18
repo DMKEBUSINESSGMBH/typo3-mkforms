@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package tx_mkforms
- *  @subpackage tx_mkforms_action
- *  @author Michael Wagner
+ * @package    tx_mkforms
+ * @subpackage tx_mkforms_action
+ * @author     Michael Wagner
  *
  *  Copyright notice
  *
@@ -34,9 +34,9 @@ tx_rnbase::load('tx_mkforms_forms_Factory');
  *
  * With the optional $parameter['uid'] the form is initialized.
  *
- * @package tx_mkforms
+ * @package    tx_mkforms
  * @subpackage tx_mkforms_action
- * @author Michael Wagner
+ * @author     Michael Wagner
  */
 class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 
@@ -45,14 +45,14 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @var array
 	 */
-	protected $filledForm = false;
+	protected $filledForm = FALSE;
 
 	/**
 	 * Form data
 	 *
 	 * @var array
 	 */
-	protected $preFilledForm = false;
+	protected $preFilledForm = FALSE;
 
 	/**
 	 * @var tx_ameosformidable
@@ -62,14 +62,16 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	/**
 	 * Soll der Name des Templates als Name des Prefill Parameters genommen werden? Wenn nicht
 	 * per default 'uid'
+	 *
 	 * @var boolean
 	 */
-	protected $bUseTemplateNameAsPrefillParamName = false;
+	protected $bUseTemplateNameAsPrefillParamName = FALSE;
 
 	/**
 	 * Enthält Fehlermeldungen (zurzeit vom configCheck).
 	 * Diese werden im FE immer mit ausgegeben.
-	 * 	(@TODO: ausgabe konfigurierbar machen!)
+	 *    (@TODO: ausgabe konfigurierbar machen!)
+	 *
 	 * @var array
 	 */
 	protected $errors = array();
@@ -77,10 +79,11 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	/**
 	 * Start the dance...
 	 *
-	 * @param 	tx_rnbase_parameters		$parameters
-	 * @param 	tx_rnbase_configurations	$configurations
-	 * @param 	ArrayObject		$viewData
-	 * @return 	string
+	 * @param    tx_rnbase_parameters     $parameters
+	 * @param    tx_rnbase_configurations $configurations
+	 * @param    ArrayObject              $viewData
+	 *
+	 * @return    string
 	 */
 	public function handleRequest(&$parameters, &$configurations, &$viewData) {
 		$this->form = tx_mkforms_forms_Factory::createForm('generic');
@@ -88,23 +91,23 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 
 		// wir prüfen die konfiguration
 		$this->configCheck($configurations, $confId);
-		if(!empty($this->errors)) {
+		if (!empty($this->errors)) {
 			return $this->configCheck($configurations, $confId);
 		}
 
 		// befinden wir uns in einem Test? vor allem notwendig wenn
 		// extbase installiert ist
-		if($configurations->get($confId.'testmode')) {
+		if ($configurations->get($confId . 'testmode')) {
 			$this->form->setTestMode();
 		}
 
 		$this->form->init(
-				$this,
-				$this->getXmlPath($configurations, $confId),
-				$this->getPrefillUid(),
-				$configurations,
-				$confId.'formconfig.'
-			);
+			$this,
+			$this->getXmlPath($configurations, $confId),
+			$this->getPrefillUid(),
+			$configurations,
+			$confId . 'formconfig.'
+		);
 
 		$viewData->offsetSet('form', $this->form->render());
 		$viewData->offsetSet('fullySubmitted', $this->form->isFullySubmitted());
@@ -118,56 +121,56 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		$viewData->offsetSet('actionConfId', $confId);
 
 		// Set Errors
-		$viewData->offsetSet('errors', !empty($this->errors) ? $this->configCheck($configurations, $confId) : false);
+		$viewData->offsetSet('errors', !empty($this->errors) ? $this->configCheck($configurations, $confId) : FALSE);
 	}
 
 	/**
 	 * Gibt den Pfad zum XML zurück
 	 *
-	 * @param 	tx_rnbase_configurations 	$configurations
-	 * @param 	string 							$confId
+	 * @param    tx_rnbase_configurations $configurations
+	 * @param    string                   $confId
+	 *
 	 * @return string
 	 */
 	protected function getXmlPath(&$configurations, $confId) {
-		return $configurations->get($confId.'xml');
+		return $configurations->get($confId . 'xml');
 	}
 
 	/**
 	 * Wir prüfen die Konfiguration
 	 *
-	 * @param 	tx_rnbase_configurations 	$configurations
-	 * @param 	string 							$confId
-	 * @return 	array
+	 * @param    tx_rnbase_configurations $configurations
+	 * @param    string                   $confId
+	 *
+	 * @return    array
 	 */
 	protected function configCheck(&$configurations, $confId) {
 
 		// wir prüfen die configuration wenn configCheck nicht gesetzt oder wahr ist.
-		if(!(is_null($configCheck = $configurations->get('configCheck')) || $configCheck)) {
-			return false;
+		if (!(is_null($configCheck = $configurations->get('configCheck')) || $configCheck)) {
+			return FALSE;
 		}
 
-		if(!empty($this->errors)) {
-			return '<div style="border:2px solid red; padding:10px; margin: 10px 0; color:red; background: wheat;">'.
-				'<h1>MKFORMS - ACTION - FORMBASE</h1>'.
-				'<p>incomplete typoscript configuration found for "'.$confId.'"</p>'.
-				'<ul><li>'.implode('</li><li>', $this->errors).'</li><ul>'.
-			'</div>';
+		if (!empty($this->errors)) {
+			return '<div style="border:2px solid red; padding:10px; margin: 10px 0; color:red; background: wheat;">'
+			. '<h1>MKFORMS - ACTION - FORMBASE</h1>' . '<p>incomplete typoscript configuration found for "' . $confId . '"</p>'
+			. '<ul><li>' . implode('</li><li>', $this->errors) . '</li><ul>' . '</div>';
 		}
 
 		// wurde ein xml gesetzt
-		$xmlPath = $configurations->get($confId.'xml');
-		if(empty($xmlPath)) {
-			$this->errors[] = 'No XML file found (TS: '.$confId.'xml).';
+		$xmlPath = $configurations->get($confId . 'xml');
+		if (empty($xmlPath)) {
+			$this->errors[] = 'No XML file found (TS: ' . $confId . 'xml).';
 		}
 		// existiert das xml
 		$absXmlPath = t3lib_div::getFileAbsFileName($xmlPath);
-		if(empty($absXmlPath) || !file_exists($absXmlPath)) {
+		if (empty($absXmlPath) || !file_exists($absXmlPath)) {
 			$this->errors[] = 'The given XML file path (' . $xmlPath . ') doesn\'t exists.';
 		}
 
 		// ist die formconfig gesetzt
-		if(!is_array($configurations->get($confId.'formconfig.'))) {
-			$this->errors[] = 'Formconfig not set (TS: '.$confId.'formconfig =< config.tx_mkforms).';
+		if (!is_array($configurations->get($confId . 'formconfig.'))) {
+			$this->errors[] = 'Formconfig not set (TS: ' . $confId . 'formconfig =< config.tx_mkforms).';
 		}
 
 		return $this->errors;
@@ -177,17 +180,18 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 * Process form data
 	 *
 	 * This method is called by mkforms via
-	 *	<datahandler:RAW>
-	 *		<callback>
-	 *			<userobj extension="tx_mkforms_util_FormBase" method="processForm" />
-	 *		</callback>
-	 *	</datahandler:RAW>
+	 *    <datahandler:RAW>
+	 *        <callback>
+	 *            <userobj extension="tx_mkforms_util_FormBase" method="processForm" />
+	 *        </callback>
+	 *    </datahandler:RAW>
 	 *
-	 * @param array					$data
-	 * @param tx_ameosformidable	$form
-	 * @param bool					$flattenData Useful for disabling the flattening of data by overwriting this method and calling parent::processForm($data, $form, false)
+	 * @param array              $data
+	 * @param tx_ameosformidable $form
+	 * @param bool               $flattenData Useful for disabling the flattening of data by overwriting this method and calling
+	 *                                        parent::processForm($data, $form, false)
 	 */
-	public function processForm($data, &$form, $flattenData=true) {
+	public function processForm($data, &$form, $flattenData = TRUE) {
 		// Prepare data
 		$confId = $this->getConfId();
 
@@ -198,14 +202,18 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		}
 
 		// Hook to handle data
-		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_before_processdata',
-			array('data' => &$data), $this);
+		tx_rnbase_util_Misc::callHook(
+			'mkforms',
+			'action_formbase_before_processdata',
+			array('data' => &$data),
+			$this
+		);
 
 		// wir suchen für jede Tabelle eine Update Methode in der Kindklasse
-		if($flattenData) {
-			foreach($data as $sTable => $aFields){
-				$method = 'process'.tx_mkforms_util_Div::toCamelCase($sTable).'Data';
-				if(method_exists($this, $method)) {
+		if ($flattenData) {
+			foreach ($data as $sTable => $aFields) {
+				$method = 'process' . tx_mkforms_util_Div::toCamelCase($sTable) . 'Data';
+				if (method_exists($this, $method)) {
 					$data[$sTable] = $this->{$method}($aFields);
 				}
 			}
@@ -213,8 +221,12 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		$data = $this->processData($data);
 
 		// Hook to handle data
-		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_after_processdata',
-			array('data' => &$data), $this);
+		tx_rnbase_util_Misc::callHook(
+			'mkforms',
+			'action_formbase_after_processdata',
+			array('data' => &$data),
+			$this
+		);
 
 		// Fill $this->filledForm with all the post-processed and possibly completed data
 		$this->setFormData($data);
@@ -225,8 +237,9 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	/**
 	 * Actually process the data, e.g. save it to the table...
 	 *
-	 * @param 	array 	&$data Form data splitted by tables
-	 * @return 	array
+	 * @param    array &$data Form data splitted by tables
+	 *
+	 * @return    array
 	 */
 	protected function processData(array $data) {
 		return $data;
@@ -238,81 +251,96 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 */
 	protected function handleDamUploads($data) {
 		//update newEntryId to create dam references
-		if(array_key_exists('newEntryId', $data)) {
+		if (array_key_exists('newEntryId', $data)) {
 			// newEntryId steht im creation mode und auch sonst zur verfügung
 			$form->getDataHandler()->newEntryId = $data['newEntryId'];
 		}
 		//update dam references
 		$form = $this->getForm();
 		$tempId = $form->getDataHandler()->entryId;
-		foreach($this->getForm()->getWidgetNames() as $rdtName) {
-			if(
-				( $widget = $form->getWidget($rdtName) ) &&
-				($widget  instanceof tx_mkforms_widgets_damupload_Main) &&
-				method_exists($widget, 'handleCreation')
-			){
-				if($widget->getEntryId()) {
+		foreach ($this->getForm()->getWidgetNames() as $rdtName) {
+			if (($widget = $form->getWidget($rdtName)) && ($widget instanceof tx_mkforms_widgets_damupload_Main)
+				&& method_exists(
+					$widget,
+					'handleCreation'
+				)
+			) {
+				if ($widget->getEntryId()) {
 					$widget->handleCreation();
 				}
 			}
 		}
 		$form->getDataHandler()->entryId = $tempId;
-
 	}
 
 	/**
 	 * Setzt die Formulardaten für den View.
 	 *
-	 * @param 	array	$data
+	 * @param    array $data
 	 */
-	public function setFormData($data = false){
-		$this->filledForm = is_array($data) ? $data : false;
+	public function setFormData($data = FALSE) {
+		$this->filledForm = is_array($data) ? $data : FALSE;
 	}
 
 	/**
 	 * Fill form data
 	 *
 	 * This method is called by mkforms via
-	 *	<datahandler:RAW>
-	 *		<record>
-	 *			<userobj extension="tx_mkforms_util_FormBase" method="fillForm" />
-	 *		</record>
-	 *	</datahandler:RAW>
+	 *    <datahandler:RAW>
+	 *        <record>
+	 *            <userobj extension="tx_mkforms_util_FormBase" method="fillForm" />
+	 *        </record>
+	 *    </datahandler:RAW>
 	 *
-	 * @param 	array					$params
-	 * @param 	tx_ameosformidable	$form
-	 * @return 	array
+	 * @param    array              $params
+	 * @param    tx_ameosformidable $form
+	 *
+	 * @return    array
 	 */
-	public function fillForm(array $params, tx_ameosformidable $form, $forceFill = false) {
-		if(is_array($this->preFilledForm) && !$forceFill) {
+	public function fillForm(array $params, tx_ameosformidable $form, $forceFill = FALSE) {
+		if (is_array($this->preFilledForm) && !$forceFill) {
 			return $this->preFilledForm;
 		}
 
 		// Hook to handle data
-		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_before_filldata',
-			array('data' => &$data), $this);
+		tx_rnbase_util_Misc::callHook(
+			'mkforms',
+			'action_formbase_before_filldata',
+			array('data' => &$data),
+			$this
+		);
 
 		$data = $this->fillData($params);
 
 		// Hook to handle data
-		tx_rnbase_util_Misc::callHook('mkforms','action_formbase_after_filldata',
-			array('data' => &$data), $this);
+		tx_rnbase_util_Misc::callHook(
+			'mkforms',
+			'action_formbase_after_filldata',
+			array('data' => &$data),
+			$this
+		);
 
 		$confId = $this->getConfId();
 		tx_rnbase::load('tx_mkforms_util_FormBase');
 
-		if(!is_array($data) || empty($data)){
+		if (!is_array($data) || empty($data)) {
 			$data = array();
 			// @see self::flatArray2MultipleTableStructure -> addfields
-			$addFields = $this->getConfigurations()->get($confId.'addfields.', true);
+			$addFields = $this->getConfigurations()->get($confId . 'addfields.', TRUE);
 			// Felder setzen, überschreiben oder löschen
 			if (is_array($addFields) && count($addFields)) {
 				$data = tx_mkforms_util_FormBase::addFields($data, $addFields);
 			}
+
 			return $data;
 		}
 
-		$this->preFilledForm = tx_mkforms_util_FormBase::multipleTableStructure2FlatArray($data, $form, $this->getConfigurations(), $confId);
+		$this->preFilledForm = tx_mkforms_util_FormBase::multipleTableStructure2FlatArray(
+			$data,
+			$form,
+			$this->getConfigurations(),
+			$confId
+		);
 
 		return $this->preFilledForm;
 	}
@@ -320,8 +348,9 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	/**
 	 * Actually process the data, e.g. save it to the table...
 	 *
-	 * @param 	array $params Parameters from the form
-	 * @return 	array
+	 * @param    array $params Parameters from the form
+	 *
+	 * @return    array
 	 */
 	protected function fillData(array $params) {
 		return $params;
@@ -336,7 +365,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 *
 	 * Note: Record prefill currently applies only for datahandler:DB.
 	 *
-	 * @return 	int|false
+	 * @return    int|false
 	 */
 	protected function getPrefillUid() {
 		// Allow all data types, DON'T restrict to integers!
@@ -344,12 +373,14 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		// complex data types in the right way.
 		$sParamName = ($this->useTemplateNameAsPrefillParamName()) ? $this->getTemplateName() : 'uid';
 		$uid = $this->getParameters()->get($sParamName);
+
 		// Use parameter "uid", if available
-		return $uid ? $uid : false;		// FALSE as default - DON'T use NULL!!!
+		return $uid ? $uid : FALSE;        // FALSE as default - DON'T use NULL!!!
 	}
 
 	/**
 	 * Soll der Template name als perfill parameter name herangezogen werden?
+	 *
 	 * @return bool
 	 */
 	private function useTemplateNameAsPrefillParamName() {
@@ -358,34 +389,37 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 
 	/**
 	 * Returns the parameters of the action to use in form
-	 * @return 	tx_rnbase_parameters
+	 *
+	 * @return    tx_rnbase_parameters
 	 */
-	public function getParameters(){
+	public function getParameters() {
 		return $this->getConfigurations()->getParameters();
 	}
 
 	/**
 	 * Returns the config of the action to use in form
-	 * @return 	tx_ameosformidable
+	 *
+	 * @return    tx_ameosformidable
 	 */
-	public function getForm(){
+	public function getForm() {
 		return $this->form;
 	}
 
 	/**
 	 * Gibt den Name der zugehörigen View-Klasse zurück
 	 *
-	 * @return 	string
+	 * @return    string
 	 */
 	public function getViewClassName() {
-		$class = $this->getConfigurations()->get($this->getConfId().'viewClassName');
+		$class = $this->getConfigurations()->get($this->getConfId() . 'viewClassName');
+
 		return $class ? $class : 'tx_mkforms_view_Form';
 	}
 
 	/**
 	 * Liefert die ConfId für die Action.
 	 *
-	 * @return 	string
+	 * @return    string
 	 */
 	public function getConfId() {
 		return 'generic.';
@@ -399,17 +433,19 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 * Nur das TS in die eigene ConfId übernehmen:
 	 *
 	 * plugin.tx_myext {
-	 *		genericTemplate =< plugin.tx_mkforms.genericTemplate
-	 *		myConfId =< lib.mkforms.formbase
+	 *        genericTemplate =< plugin.tx_mkforms.genericTemplate
+	 *        myConfId =< lib.mkforms.formbase
 	 * }
 	 *
-	 * @return 	string
+	 * @return    string
 	 */
 	public function getTemplateName() {
 		return 'generic';
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/class.tx_mkforms_action_FormBase.php']) {
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/class.tx_mkforms_action_FormBase.php']
+) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/class.tx_mkforms_action_FormBase.php']);
 }
