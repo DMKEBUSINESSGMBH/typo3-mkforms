@@ -1,27 +1,26 @@
 <?php
 /***************************************************************
-* Copyright notice
-*
-* (c) 2006-2009 Oliver Klee (typo3-coding@oliverklee.de)
-* All rights reserved
-*
-* This script is part of the TYPO3 project. The TYPO3 project is
-* free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* The GNU General Public License can be found at
-* http://www.gnu.org/copyleft/gpl.html.
-*
-* This script is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
-
+ * Copyright notice
+ *
+ * (c) 2006-2009 Oliver Klee (typo3-coding@oliverklee.de)
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 tx_rnbase::load('tx_mkforms_dh_db_Main');
 
@@ -29,13 +28,14 @@ tx_rnbase::load('tx_mkforms_dh_db_Main');
  *
  * This is a FORMidable data handler that can also handle m:n relations.
  *
- * @author	Oliver Klee <typo3-coding@oliverklee.de>
+ * @author    Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
+
 	/**
 	 * @var array list of fields that are m:n relations as key/mm-table pairs
 	 */
-	var $mmFields = null;
+	var $mmFields = NULL;
 
 	/**
 	 * @var array containing the data to insert into m:n tables using the
@@ -43,8 +43,8 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	 *
 	 * 'table' => name of the m:n table,
 	 * 'data' => array(
-	 *		'sorting' => the sorting position,
-	 *		'uid_foreign' => the foreign key
+	 *        'sorting' => the sorting position,
+	 *        'uid_foreign' => the foreign key
 	 * )
 	 */
 	var $mmInserts = array();
@@ -62,9 +62,9 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	 * - _extractMmRelationsFromFormData
 	 * - _storeMmRelations (2 times)
 	 *
-	 * @param	boolean		whether the data should be processed at all
+	 * @param    boolean        whether the data should be processed at all
 	 *
-	 * @access	public
+	 * @access    public
 	 */
 	function _doTheMagic($bShouldProcess = TRUE) {
 		if (!$bShouldProcess || !$this->_allIsValid()) {
@@ -93,7 +93,10 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 
 			if ($editEntry) {
 				// We update the record in the database.
-				$this->oForm->_debug($aFormData, "EXECUTION OF DATAHANDLER DB - EDITION MODE in " . $tablename . "[" . $keyname . "=" . $editEntry . "]");
+				$this->oForm->_debug(
+					$aFormData,
+					"EXECUTION OF DATAHANDLER DB - EDITION MODE in " . $tablename . "[" . $keyname . "=" . $editEntry . "]"
+				);
 
 				$sSql = $GLOBALS["TYPO3_DB"]->UPDATEquery(
 					$tablename,
@@ -142,15 +145,15 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	 * This function calls _retrieveMmFields, so there is no need to call it
 	 * before calling this function.
 	 *
-	 * @param	boolean		(not sure what this is, but FORMidable 0.7.0 has it)
+	 * @param    boolean (not sure what this is, but FORMidable 0.7.0 has it)
 	 *
-	 * @return	array		data from the DB as an associative array
+	 * @return    array        data from the DB as an associative array
 	 *
-	 * @access	protected
+	 * @access    protected
 	 */
-	function _getStoredData($sName = false) {
+	function _getStoredData($sName = FALSE) {
 		// was the data allready fetched?
-		if(empty($this->__aStoredData)) {
+		if (empty($this->__aStoredData)) {
 			// fetch the compleete data!
 			parent::_getStoredData();
 			if (empty($this->__aStoredData)) {
@@ -197,13 +200,13 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	 * needs to be stored in the following format:
 	 *
 	 * <mmrelations>
-	 * 	<relation field="place" mmtable="tx_seminars_seminars_place_mm" />
-	 *	<relation field="speakers" mmtable="tx_seminars_seminars_speakers_mm" />
+	 *    <relation field="place" mmtable="tx_seminars_seminars_place_mm" />
+	 *    <relation field="speakers" mmtable="tx_seminars_seminars_speakers_mm" />
 	 * </mmrelations>
 	 *
 	 * If $this->mmFields has already been set, this function will be a no-op.
 	 *
-	 * @access	private
+	 * @access    private
 	 */
 	function _retrieveMmFields() {
 		if (is_array($this->mmFields)) {
@@ -243,10 +246,10 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	 * After this function has been called, $this->mmInsersts will not be null,
 	 * but might be empty.
 	 *
-	 * @param	array		the current form data (must not be empty or null),
-	 * 						will be modified
+	 * @param    array        the current form data (must not be empty or null),
+	 *                        will be modified
 	 *
-	 * @access	private
+	 * @access    private
 	 */
 	function _extractMmRelationsFromFormData(&$formData) {
 		$this->_retrieveMmFields();
@@ -284,9 +287,9 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	 * Before this function may be called, _extractMmRelationsFromFormData()
 	 * must have been called.
 	 *
-	 * @param	integer		the uid of the current record, must be > 0
+	 * @param    integer        the uid of the current record, must be > 0
 	 *
-	 * @access	private
+	 * @access    private
 	 */
 	function _storeMmRelations($uid) {
 		// removes all old m:n records
@@ -308,7 +311,9 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']) {
+if (defined('TYPO3_MODE')
+	&& $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']
+) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']);
 }
 ?>

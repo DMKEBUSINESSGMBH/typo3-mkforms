@@ -1,6 +1,6 @@
 <?php
 /**
- * @package tx_mkforms
+ * @package    tx_mkforms
  * @subpackage tx_mkforms_dh
  *
  * Copyright notice
@@ -31,20 +31,21 @@ tx_rnbase::load('tx_rnbase_action_BaseIOC');
 /**
  * Datahandler um anhand von den Formulardaten E-Mails zu versenden.
  *
- * @package tx_mkforms
+ * @package    tx_mkforms
  * @subpackage tx_mkforms_dh
- * @author Michael Wagner <dev@dmk-business.de>
+ * @author     Michael Wagner <dev@dmk-business.de>
  */
 class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 
 	/**
 	 * Nimmt die Formulardaten und generiert daraus eine E-Mail.
+	 *
 	 * @TODO: die einzelnen engines sollten ausgelagert werden!
 	 */
 	function _doTheMagic($bShouldProcess = TRUE) {
 
 		// Nur, wenn das Formular abgesendet wurde
-		if(!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())){
+		if (!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())) {
 			return;
 		}
 
@@ -52,7 +53,8 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 
 		if ($this->defaultFalse('/debugdata')) {
 			tx_rnbase_util_Debug::debug($data, 'Flatten Data for Model:');
-			return ; // wir erzeugen keine E-Mail, nur den debug!
+
+			return; // wir erzeugen keine E-Mail, nur den debug!
 		}
 
 		$sendMethod = $this->findEngineMethod();
@@ -60,8 +62,6 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		$params = array();
 		$params[0] = $this->getDataModel($data);
 		$ret = call_user_func_array(array($this, $sendMethod), $params);
-
-
 	}
 
 	/**
@@ -72,21 +72,22 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 * ein flaches array array('main_sub'=>'value')
 	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 */
-	private function getFlattenFormData($data = null) {
+	private function getFlattenFormData($data = NULL) {
 		$data = is_array($data) ? $data : $this->getFormData();
 		$flatten = array();
 		foreach ($data as $field => $value) {
 			if (is_array($value)) {
 				foreach ($this->getFlattenFormData($value) as $subField => $subValue) {
-					$flatten[$field.'_'.$subField] = $subValue;
+					$flatten[$field . '_' . $subField] = $subValue;
 				}
-			}
-			else {
+			} else {
 				$flatten[$field] = $value;
 			}
 		}
+
 		return $flatten;
 	}
 
@@ -95,15 +96,14 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 */
 	private function findEngineMethod() {
 		$engine = $this->_navConf('/engine');
-		$method = 'send'.ucfirst($engine);
+		$method = 'send' . ucfirst($engine);
 		if (method_exists($this, $method)) {
 			return $method;
-		}
-		else {
+		} else {
 			$this->getForm()->mayday(
-				'Invalid engine "'.$engine.'" configured.'.
-				' Valid engines are mkmailer.'.
-				' Excample: '.htmlentities('<datahandler:MAIL engine="mkmailer" />')
+				'Invalid engine "' . $engine . '" configured.' . ' Valid engines are mkmailer.' . ' Excample: ' . htmlentities(
+					'<datahandler:MAIL engine="mkmailer" />'
+				)
 			);
 		}
 	}
@@ -112,6 +112,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 * Liefert ein Model mit den zu rendernden Daten.
 	 *
 	 * @param array $record
+	 *
 	 * @return tx_rnbase_model_base
 	 */
 	private function getDataModel(array $record) {
@@ -119,12 +120,12 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		$class = $class ? $class : 'tx_rnbase_model_base';
 		if (tx_rnbase::load($class)) {
 			$model = tx_rnbase::makeInstance($class, $record);
-		}
-		else {
+		} else {
 			$this->getForm()->mayday(
-				'Model "'.$class.'" not found.'
+				'Model "' . $class . '" not found.'
 			);
 		}
+
 		return $model;
 	}
 
@@ -139,8 +140,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 			return $mail;
 		}
 		$this->getForm()->mayday(
-			'No mail to defined.' .
-			' Excample: '.htmlentities('<datahandler:MAIL mailTo="electronic@mail.net" />')
+			'No mail to defined.' . ' Excample: ' . htmlentities('<datahandler:MAIL mailTo="electronic@mail.net" />')
 		);
 	}
 
@@ -151,8 +151,10 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 */
 	private function getMailFrom() {
 		$mail = $this->_navConf('/mailfrom');
+
 		return $mail ? $mail : get_cfg_var('sendmail_from');
 	}
+
 	/**
 	 * Liefert die konfigurierte Absendername
 	 *
@@ -160,6 +162,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 */
 	private function getMailFromName() {
 		$mail = $this->_navConf('/mailfromname');
+
 		return $mail ? $mail : $this->getMailFrom();
 	}
 
@@ -168,21 +171,20 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 * @param tx_rnbase_model_base $model
 	 */
 	protected function sendMkmailer(
-		tx_rnbase_model_base $model
-	) {
+		tx_rnbase_model_base $model) {
 
 		// Das E-Mail-Template holen
 		$template = $this->_navConf('/mkmailer/templatekey');
 		if (!$template) {
 			$this->getForm()->mayday(
-				'No template key defined.' .
-				' Excample: '.htmlentities('<datahandler:MAIL engine="mkmailer"><mkmailer templateKey="appelrath-template" /></datahandler:MAIL>')
+				'No template key defined.' . ' Excample: ' . htmlentities(
+					'<datahandler:MAIL engine="mkmailer"><mkmailer templateKey="appelrath-template" /></datahandler:MAIL>'
+				)
 			);
 		}
 		tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
 		try {
-			$templateObj = tx_mkmailer_util_ServiceRegistry
-				::getMailService()->getTemplate($template);
+			$templateObj = tx_mkmailer_util_ServiceRegistry::getMailService()->getTemplate($template);
 		} catch (tx_mkmailer_exceptions_NoTemplateFound $e) {
 			$this->getForm()->mayday($e->getMessage());
 		}
@@ -190,14 +192,14 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		// den E-Mail-Empfänger erzeugen
 		/* @var $receiver tx_mkmailer_receiver_Email */
 		$receiver = tx_rnbase::makeInstance(
-			// @TODO: den receiver konfigurierbar machen!
+		// @TODO: den receiver konfigurierbar machen!
 			'tx_mkmailer_receiver_Email',
 			$this->getMailTo()
 		);
 
 		// Einen E-Mail-Job anlegen.
 		/* @var $job tx_mkmailer_mail_MailJob */
-		$job  = tx_rnbase::makeInstance(
+		$job = tx_rnbase::makeInstance(
 			'tx_mkmailer_mail_MailJob',
 			array($receiver),
 			$templateObj
@@ -207,7 +209,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		$markerClass = tx_rnbase::makeInstance('tx_rnbase_util_SimpleMarker');
 		$formatter = $this->getForm()->getConfigurations()->getFormatter();
 		$confId = $this->_navConf('/mkmailer/markerconfid');
-		$confId = $confId ? $confId : $this->getForm()->getConfId().'sendmail.';
+		$confId = $confId ? $confId : $this->getForm()->getConfId() . 'sendmail.';
 		$itemName = $this->_navConf('/mkmailer/itemname');
 		$itemName = $itemName ? $itemName : 'item';
 
@@ -215,24 +217,27 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		$job->setSubject( // Betreff rendern.
 			$markerClass->parseTemplate(
 				$job->getSubject(),
-				$model, $formatter,
-				$confId.strtolower($itemName).'subject.',
+				$model,
+				$formatter,
+				$confId . strtolower($itemName) . 'subject.',
 				strtoupper($itemName)
 			)
 		);
 		$job->setContentText( // Text Nachricht rendern.
 			$markerClass->parseTemplate(
 				$job->getContentText(),
-				$model, $formatter,
-				$confId.strtolower($itemName).'text.',
+				$model,
+				$formatter,
+				$confId . strtolower($itemName) . 'text.',
 				strtoupper($itemName)
 			)
 		);
 		$job->setContentHtml(  // HTML Nachricht rendern.
 			$markerClass->parseTemplate(
 				$job->getContentHtml(),
-				$model, $formatter,
-				$confId.strtolower($itemName).'html.',
+				$model,
+				$formatter,
+				$confId . strtolower($itemName) . 'html.',
 				strtoupper($itemName)
 			)
 		);
@@ -242,20 +247,21 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 			$job->setFrom(
 				tx_rnbase::makeInstance(
 					'tx_mkmailer_mail_Address',
-					$this->getMailFrom(), $this->getMailFromName()
+					$this->getMailFrom(),
+					$this->getMailFromName()
 				)
 			);
 		}
 
 		// E-Mail für den versand in die Queue legen.
-		tx_mkmailer_util_ServiceRegistry
-			::getMailService()->spoolMailJob($job);
+		tx_mkmailer_util_ServiceRegistry::getMailService()->spoolMailJob($job);
 
-		return true;
+		return TRUE;
 	}
-
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php'])	{
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php']
+) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php']);
 }
