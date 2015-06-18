@@ -11,15 +11,14 @@ class formidable_mainscriptingmethods {
 		$aParams = $this->oForm->getTemplateTool()->parseTemplateMethodArgs($sArgs);
 		$sMethodName = strtolower('method_' . $sMethod);
 
-		if(method_exists($this, $sMethodName)) {
-			return $this->$sMethodName($mData,$aParams);
+		if (method_exists($this, $sMethodName)) {
+			return $this->$sMethodName($mData, $aParams);
 		} else {
-			if(is_object($mData) && is_string($sMethod) && method_exists($mData, $sMethod)) {
-				return $mData->{$sMethod}($aParams,$this->oForm);
+			if (is_object($mData) && is_string($sMethod) && method_exists($mData, $sMethod)) {
+				return $mData->{$sMethod}($aParams, $this->oForm);
 			}
 		}
 
 		return AMEOSFORMIDABLE_LEXER_FAILED;
 	}
-
 } // END class formidable_mainscriptingmethods

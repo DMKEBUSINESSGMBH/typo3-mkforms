@@ -3,7 +3,8 @@
 class formidable_mainjscb {
 
 	var $aConf = array();
-	var $oForm = null;
+
+	var $oForm = NULL;
 
 	function init(&$oForm, $aConf) {
 		$this->oForm = $oForm;
@@ -15,6 +16,7 @@ class formidable_mainjscb {
 		$aArgs = func_get_args();
 		$sMethod = array_shift($aArgs);
 		array_shift($aArgs);
+
 		return $oForm->buildMajixExecuter(
 			"executeCbMethod",
 			array(
