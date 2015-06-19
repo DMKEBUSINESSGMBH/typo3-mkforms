@@ -139,3 +139,19 @@ Mehrfach abschicken eines Fromulares verhindern (Doppelklick)
    <meta>
       <form formid="mkexample" class="fields1colums" action="current" displayLoaderOnSubmit="true"/>
       ...
+      
+Honeypot
+--------
+
+Dazu muss einfach ein Widget folgendermaßen eingefügt werden:
+
+.. code-block:: xml
+
+   <renderlet:TEXT name="website" custom=" style='display:none;'">
+      <label>LLL:label_honeypot</label>
+      <validators>
+         <validator:STANDARD>
+            <size message="LLL:msg_honeypot_error" value="0"/>
+         </validator:STANDARD>
+      </validators>
+   </renderlet:TEXT>
