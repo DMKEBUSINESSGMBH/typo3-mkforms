@@ -377,19 +377,6 @@ class tx_mkforms_util_Templates {
 	 * @return	[type]		...
 	 */
 	public function parseTemplateCode($sHtml,$aTags,$aExclude = array(),$bClearNotUsed = TRUE,$aLabels = array(),$bThrusted = FALSE) {
-		if(
-			defined('TYPO3_ERRORHANDLER_MODE') &&
-			TYPO3_ERRORHANDLER_MODE == 'debug'
-		) {
-			require_once(\t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-			\tx_rnbase::load('tx_rnbase_util_Debug');
-			\tx_rnbase_util_Debug::debug(
-				array(
-						$aTags
-				),
-				__METHOD__ . ' Zeile:' .  __LINE__
-			);
-		}
 		tx_rnbase::load('tx_rnbase_util_Templates');
 		$sHtml = tx_rnbase_util_Templates::includeSubTemplates($sHtml);
 
