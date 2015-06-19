@@ -45,4 +45,15 @@ class tx_mkforms_tests_util_Templates_testcase extends tx_phpunit_testcase {
 		);
 
 	}
+
+	/**
+	 * @group unit
+	 */
+	public function testParseTemplateCodeIncludesSubtemplates() {
+		$templatesUtility = tx_mkforms_util_Templates::createInstance(tx_mkforms_tests_Util::getForm());
+		$template = '<!-- ### INCLUDE_TEMPLATE EXT:mkforms/tests/fixtures/subtemplate.html@SUBPART ### -->';
+		$parsedTemplate = $templatesUtility->parseTemplateCode($template, array());
+
+		self::assertEquals('Subtemplate parsed', $parsedTemplate, 'Subtemplate nicht eingebunden');
+	}
 }
