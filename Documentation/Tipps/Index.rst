@@ -148,7 +148,6 @@ Dazu muss einfach ein Widget folgendermaßen eingefügt werden:
 .. code-block:: xml
 
    <renderlet:TEXT name="website" custom=" style='display:none;'">
-      <label>LLL:label_honeypot</label>
       <validators>
          <validator:STANDARD>
             <size message="LLL:msg_honeypot_error" value="0"/>
