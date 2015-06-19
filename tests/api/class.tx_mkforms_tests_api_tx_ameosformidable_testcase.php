@@ -43,9 +43,17 @@ require_once(t3lib_extMgm::extPath('phpunit').'Classes/Framework.php');
  */
 class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testcase {
 
-	public function setUp() {
-		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
-		$oTestFramework->createFakeFrontEnd();
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::setUp()
+	 */
+	protected function setUp() {
+		tx_rnbase::load('tx_mklib_tests_Util');
+		tx_mklib_tests_Util::prepareTSFE(array('force' => TRUE, 'initFEuser' => TRUE));
+
+		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+		$GLOBALS['TSFE']->fe_user->storeSessionData();
+
 		/*
 		 * warning "Cannot modify header information" abfangen.
 		*
@@ -65,7 +73,11 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testca
 		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
 	}
 
-	public function tearDown() {
+	/**
+	 * (non-PHPdoc)
+	 * @see PHPUnit_Framework_TestCase::tearDown()
+	 */
+	protected function tearDown() {
 		// error handler zurücksetzen
 		restore_error_handler();
 	}
@@ -145,6 +157,24 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_phpunit_testca
 			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
 			$oForm->render(),
 			'Es ist nicht der richtige request token enthalten!'
+		);
+	}
+
+	/**
+	 */
+	public function testGetCreationTimestamp() {
+		$form = tx_mkforms_tests_Util::getForm();
+		$GLOBALS['TSFE']->fe_user->setKey(
+			'ses', 'mkforms', array('creationTimestamp' => array($form->getFormId() => 123))
+		);
+		$GLOBALS['TSFE']->fe_user->storeSessionData();
+
+		$form = tx_mkforms_tests_Util::getForm();
+
+		self::assertEquals(
+			123,
+			$form->getCreationTimestamp(),
+			'falscher timestamp der Erstellung'
 		);
 	}
 }

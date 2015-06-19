@@ -128,11 +128,12 @@
 		);
 
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators'] = array(
-			'DB'		=> array('key' => 'tx_mkforms_validator_db_Main'),
-			'STANDARD'	=> array('key' => 'tx_mkforms_validator_std_Main'),
-			'FILE'		=> array('key' => 'tx_mkforms_validator_file_Main'),
-			'PREG'		=> array('key' => 'tx_mkforms_validator_preg_Main'),
-			'NUM'		=> array('key' => 'tx_mkforms_validator_num_Main'),
+			'DB'			=> array('key' => 'tx_mkforms_validator_db_Main'),
+			'STANDARD'		=> array('key' => 'tx_mkforms_validator_std_Main'),
+			'FILE'			=> array('key' => 'tx_mkforms_validator_file_Main'),
+			'PREG'			=> array('key' => 'tx_mkforms_validator_preg_Main'),
+			'NUM'			=> array('key' => 'tx_mkforms_validator_num_Main'),
+			'TIMETRACKING'	=> array('key' => 'tx_mkforms_validator_timetracking_Main'),
 		);
 
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['tx_ameosformidable']['ajaxevent']['conf'] = array(

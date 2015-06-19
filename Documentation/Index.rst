@@ -64,5 +64,6 @@ MKForms
    Introduction/Index
    NewFeatures/Index
    FormBase/Index
+   SpamProtection/Index
    Widgets/Index
    Tipps/Index

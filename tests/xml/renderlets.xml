@@ -161,7 +161,7 @@
 				</params>
 			</onclick>
 		</renderlet:BUTTON>
-
+		
 		<renderlet:SUBMIT name="widget-submit" />
 
 	</elements>

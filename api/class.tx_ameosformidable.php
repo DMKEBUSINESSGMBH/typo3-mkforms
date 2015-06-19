@@ -4860,7 +4860,13 @@ JAVASCRIPT;
 		return $aSessionData['requestToken'][$this->getFormId()];
 	}
 
-
+	/**
+	 * @return int
+	 */
+	public function getCreationTimestamp() {
+		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+		return $sessionData['creationTimestamp'][$this->getFormId()];
+	}
 
 	/**
 	 * Liefert die Methode, mit der das Formular abgesendetw erden soll

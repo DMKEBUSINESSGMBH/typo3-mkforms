@@ -42,6 +42,7 @@ $EM_CONF[$_EXTKEY] = array(
 		),
 		'suggests' => array(
 			'mkmailer' => '0.7.6-',
+			'mklib' => '0.9.84-',
 		),
 	),
 	'_md5_values_when_last_written' => '',

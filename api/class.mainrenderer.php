@@ -82,6 +82,8 @@ TEMPLATE;
 				$GLOBALS['TSFE']->fe_user->storeSessionData();
 			}
 
+			$this->setCreationTimestampToSession($iFormId);
+
 			if(($sStepperId = $oForm->_getStepperId()) !== FALSE) {
 				$sSysHidden .=	'<input type="hidden" name="AMEOSFORMIDABLE_STEP" id="AMEOSFORMIDABLE_STEP" value="' . $oForm->_getStep() . '" />' .
 								'<input type="hidden" name="AMEOSFORMIDABLE_STEP_HASH" id="AMEOSFORMIDABLE_STEP_HASH" value="' . $oForm->_getSafeLock($oForm->_getStep()) . '" />';
@@ -146,6 +148,17 @@ TEMPLATE;
 
 			reset($aHtmlBag);
 			return $aHtmlBag;
+		}
+
+		/**
+		 * @param string $formId
+		 * @return void
+		 */
+		protected function setCreationTimestampToSession($formId) {
+			$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+			$sessionData['creationTimestamp'][$formId] = $GLOBALS['EXEC_TIME'];
+			$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
+			$GLOBALS['TSFE']->fe_user->storeSessionData();
 		}
 
 		/**
