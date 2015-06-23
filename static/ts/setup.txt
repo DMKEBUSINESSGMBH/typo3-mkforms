@@ -81,7 +81,7 @@ config.tx_mkforms {
 
 	### default Werte gelten für jedes XML.
 	defaultXml {
-		version = 0.20.0
+		version = 1.0.20
 	}
 
 	renderlets {
