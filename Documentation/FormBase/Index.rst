@@ -246,7 +246,7 @@ In der Action werden die Daten beim Füllen und Verarbeiten bereits aufbereitete
 **TypoScript Konfiguration abfragen**
 
 Es kann z.B. nützlich sein ein Widget abhängig von einer TypoScript Konfiguration zu verarbeiten.
-Dafür gibt es eine Methode, die in jedem Userobjeckt verwendet werden kann. In diesem Fall
+Dafür gibt es eine Methode, die in jedem Userobjekt verwendet werden kann. In diesem Fall
 muss noch *castToBoolean* gesetzt sein, damit der Wert auch korrekt verarbeitet wird. Ansonsten
 kann der Wert auch einfach verwendet werden wie er im TypoScript steht.
 
@@ -263,3 +263,4 @@ kann der Wert auch einfach verwendet werden wie er im TypoScript steht.
                </params>
             </userobj>
          </process>
+         ...
