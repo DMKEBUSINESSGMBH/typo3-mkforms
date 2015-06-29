@@ -242,3 +242,24 @@ In der Action werden die Daten beim Füllen und Verarbeiten bereits aufbereitete
     Wandelt das Daten-Array mit der Tabellenstruktur, wie es in der fillData Methode der FormBase Action erzeugt wird, in ein flaches Daten-Array für einen Datahandler record.
 * self::multipleTableStructure2DeepArray($data, $form);
     Wandelt das Daten-Array mit der Tabellenstruktur, wie es in der fillData Methode der FormBase Action erzeugt wird, in ein Array, welches die Renderlet Struktur im XML repräsentiert. Das wird benötigt, um ein setValue auf ein Widget durchzuführen, welches Child-Elemente enthält. In self::buildAjaxReturn(); wird dies durchgeführt, die methode benötigt also die Quelldaten mit der Tabellenstruktur.
+
+**TypoScript Konfiguration abfragen**
+
+Es kann z.B. nützlich sein ein Widget abhängig von einer TypoScript Konfiguration zu verarbeiten.
+Dafür gibt es eine Methode, die in jedem Userobjeckt verwendet werden kann. In diesem Fall
+muss noch *castToBoolean* gesetzt sein, damit der Wert auch korrekt verarbeitet wird. Ansonsten
+kann der Wert auch einfach verwendet werden wie er im TypoScript steht.
+
+.. code-block:: xml
+
+   <renderlet:BOX name="myRenderlet">
+         <process>
+            <userobj>
+               <extension>tx_mkforms_util_FormBase</extension>
+               <method>getConfigurationValue</method>
+               <params>
+                  <param name="configurationId" value="shouldBeProcessed" />
+                  <param name="castToBoolean" value="1" />
+               </params>
+            </userobj>
+         </process>
