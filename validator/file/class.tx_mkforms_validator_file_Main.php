@@ -196,7 +196,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 		}
 
 		// no match, unlink
-		if(!isset($sFilePath)) $sFilePath = $this->_getFullServerPath($sAbsName, $sFilePath);
+		if(!isset($sFilePath)) $sFilePath = $this->_getFullServerPath($sAbsName, $sFileName);
 		$this->_unlink($sFilePath);
 		return FALSE;
 	}
