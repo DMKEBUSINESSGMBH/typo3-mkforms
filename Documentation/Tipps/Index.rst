@@ -139,4 +139,21 @@ Mehrfach abschicken eines Fromulares verhindern (Doppelklick)
    <meta>
       <form formid="mkexample" class="fields1colums" action="current" displayLoaderOnSubmit="true"/>
       ...
-      
+
+Subtemplates im HTML verwenden
+------------------------------
+
+Damit wiederkehrende Templateteile bequem an einer Stelle gepflegt werden können, können rn_base
+Subtemplates verwendet werden. Dazu folgendes in einem HTML Template einbinden:
+
+.. code-block:: html
+
+   <!-- ### INCLUDE_TEMPLATE EXT:myext/Resources/Private/Forms/Html/Includes/mySubTemplate.html@MYSUBPART ### -->
+
+Das dazugehörige Subtemplate könnte so aussehen:
+
+.. code-block:: html
+
+   ###MYSUBPART###
+      {mySubTemplateWidget}
+   ###MYSUBPART###
