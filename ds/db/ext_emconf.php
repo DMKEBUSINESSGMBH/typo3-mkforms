@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = Array (
+$EM_CONF[$_EXTKEY] = Array(
 	'title' => 'Ameos Formidable - DataSource - DB',
 	'description' => 'DataSource MySQL DB',
 	'category' => 'misc',
