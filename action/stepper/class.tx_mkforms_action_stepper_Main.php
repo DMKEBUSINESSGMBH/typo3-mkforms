@@ -1,29 +1,28 @@
 <?php
+
 /**
  * Plugin 'act_stepper' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_action_stepper_Main extends formidable_mainactionlet {
 
 	function _doTheMagic($aRendered, $sForm) {
 
-		$sUrl = null;
+		$sUrl = NULL;
 
-		if($this->oForm->oDataHandler->_allIsValid()) {
+		if ($this->oForm->oDataHandler->_allIsValid()) {
 
 			$iStep = $this->oForm->_getStep();
 
-			switch($this->aElement['step']) {
+			switch ($this->aElement['step']) {
 				case 'next': {
 
 					$iStepToGo = $this->oForm->_getNextInArray(
 						$iStep,
 						$this->oForm->aSteps,
-						FALSE,	// cycle ?
-						TRUE	// key only ?
+						FALSE,    // cycle ?
+						TRUE    // key only ?
 					);
 
 					break;
@@ -46,9 +45,9 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet {
 
 			$sUid = '';
 
-			if(array_key_exists('uid', $this->aElement)) {
+			if (array_key_exists('uid', $this->aElement)) {
 
-				switch($this->aElement['uid']) {
+				switch ($this->aElement['uid']) {
 					case 'follow' : {
 						$sUid = $this->oForm->oDataHandler->_currentEntryId();
 						break;
@@ -61,11 +60,11 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet {
 
 			$sStepperId = $this->oForm->_getStepperId();
 
-			if(!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {
+			if (!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {
 				$GLOBALS['_SESSION']['ameos_formidable'] = array();
 			}
 
-			if(!array_key_exists('stepper', $GLOBALS['_SESSION']['ameos_formidable'])) {
+			if (!array_key_exists('stepper', $GLOBALS['_SESSION']['ameos_formidable'])) {
 				$GLOBALS['_SESSION']['ameos_formidable']['stepper'] = array();
 			}
 
@@ -77,7 +76,7 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet {
 
 			$sUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
 
-			if(!is_null($sUrl)) {
+			if (!is_null($sUrl)) {
 				header('Location: ' . $sUrl);
 				die();
 			}
@@ -85,7 +84,9 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet {
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/stepper/class.tx_mkforms_action_stepper_Main.php'])	{
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/stepper/class.tx_mkforms_action_stepper_Main.php']
+) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/stepper/class.tx_mkforms_action_stepper_Main.php']);
 }
 
