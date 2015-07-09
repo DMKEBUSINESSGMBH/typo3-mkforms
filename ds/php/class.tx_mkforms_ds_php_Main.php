@@ -1,10 +1,10 @@
 <?php
+
 /**
  * Plugin 'ds_php' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-
 class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 
 	var $sKey = FALSE;
@@ -17,28 +17,29 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 		$sSignature = FALSE;
 		$oDataSet = t3lib_div::makeInstance('formidable_maindataset');
 
-		if($sKey === 'new') {
+		if ($sKey === 'new') {
 			// new record to create
 			$oDataSet->initFloating($this);
 		} else {
 			// existing record to grab
 
-			if($this->_navConf('/get') === FALSE) {
+			if ($this->_navConf('/get') === FALSE) {
 				$oDataSet->initAnchored(
 					$this,
 					array(),
 					$sKey
 				);
 			} else {
-				if(($aDataSet = $this->getSyncData($sKey)) !== FALSE) {
+				if (($aDataSet = $this->getSyncData($sKey)) !== FALSE) {
 					$oDataSet->initAnchored(
 						$this,
 						$aDataSet,
 						$sKey
 					);
-
 				} else {
-					$this->oForm->mayday("datasource:PHP[name='" . $this->getName() . "'] No dataset matching key '" . $sKey . "' was found.");
+					$this->oForm->mayday(
+						"datasource:PHP[name='" . $this->getName() . "'] No dataset matching key '" . $sKey . "' was found."
+					);
 				}
 			}
 		}
@@ -50,31 +51,39 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 	}
 
 	function getSyncData($sKey) {
-		if(($aGet = $this->_navConf('/get')) !== FALSE) {
-			if($this->oForm->isRunneable($aGet)) {
+		if (($aGet = $this->_navConf('/get')) !== FALSE) {
+			if ($this->oForm->isRunneable($aGet)) {
 				$aGet = $this->callRunneable(
 					$aGet,
 					array('key' => $sKey)
 				);
 			} else {
-				$this->oForm->mayday("datasource:PHP[name='" . $this->getName() . "'] /get has to be runnable (userobj, or reference to a code-behind).");
+				$this->oForm->mayday(
+					"datasource:PHP[name='" . $this->getName()
+					. "'] /get has to be runnable (userobj, or reference to a code-behind)."
+				);
 			}
 		} else {
-			$this->oForm->mayday("datasource:PHP[name='" . $this->getName() . "'] You have to provide a runnable on <b>/get</b>.");
+			$this->oForm->mayday(
+				"datasource:PHP[name='" . $this->getName() . "'] You have to provide a runnable on <b>/get</b>."
+			);
 		}
 
 		return $aGet;
 	}
 
 	function setSyncData($sSignature, $sKey, $aData) {
-		if(($aSet = $this->_navConf('/set')) !== FALSE) {
-			if($this->oForm->isRunneable($aSet)) {
+		if (($aSet = $this->_navConf('/set')) !== FALSE) {
+			if ($this->oForm->isRunneable($aSet)) {
 				$aSet = $this->callRunneable(
 					$aSet,
 					$this->aODataSets[$sSignature]->getDataSet()
 				);
 			} else {
-				$this->oForm->mayday("datasource:PHP[name='" . $this->getName() . "'] /set has to be runnable (userobj, or reference to a code-behind).");
+				$this->oForm->mayday(
+					"datasource:PHP[name='" . $this->getName()
+					. "'] /set has to be runnable (userobj, or reference to a code-behind)."
+				);
 			}
 		}
 
@@ -97,8 +106,9 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php'])	{
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php']
+) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php']);
 }
 

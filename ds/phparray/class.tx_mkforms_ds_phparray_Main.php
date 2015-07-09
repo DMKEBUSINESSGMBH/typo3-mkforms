@@ -1,16 +1,20 @@
 <?php
+
 /**
  * Plugin 'ds_phparray' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-
 class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 
 	var $aSource = FALSE;
+
 	var $aPosByUid = FALSE;
+
 	var $aConfig = array();
+
 	var $aFilters = array();
+
 	var $iTotalRows = 0;
 
 	function &_fetchData($aConfig = array(), $aFilters = array()) {
@@ -27,11 +31,11 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 	}
 
 	private function initBinding($aConfig, $aFilters) {
-		if($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
-			$params = array('config' => $aConfig,  'filters' => $aFilters);
+		if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
+			$params = array('config' => $aConfig, 'filters' => $aFilters);
 			$this->aSource =& $this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
 
-			if(!is_array($this->aSource)) {
+			if (!is_array($this->aSource)) {
 				$this->aSource = array();
 				$this->iTotalRows = 0;
 			} else {
@@ -44,28 +48,28 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 	}
 
 	function _sortSource() {
-		if(trim($this->aConfig['sortcolumn']) !== '') {
+		if (trim($this->aConfig['sortcolumn']) !== '') {
 
 			$aSorted = array();
 
 			reset($this->aSource);
 			$named_hash = array();
 
-			foreach($this->aSource as $key => $fields) {
+			foreach ($this->aSource as $key => $fields) {
 				$named_hash[$key] = $fields[$this->aConfig['sortcolumn']];
 			}
 
-			if($this->aConfig['sortdirection'] === 'desc') {
-				arsort($named_hash, $flags=0);
+			if ($this->aConfig['sortdirection'] === 'desc') {
+				arsort($named_hash, $flags = 0);
 			} else {
-				asort($named_hash, $flags=0);
+				asort($named_hash, $flags = 0);
 			}
 
 			$k = 1;
 			$this->aPosByUid = array();
 			$sorted_records = array();
 
-			foreach($named_hash as $key=>$val) {
+			foreach ($named_hash as $key => $val) {
 				$aSorted[$key] = $this->aSource[$key];
 				$this->aPosByUid[$aSorted[$key]['uid']] = $k;
 				$k++;
@@ -81,7 +85,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 			$aKeys = array_keys($this->aSource);
 
 			reset($aKeys);
-			while(list(, $sKey) = each($aKeys)) {
+			while (list(, $sKey) = each($aKeys)) {
 				$this->aPosByUid[$this->aSource[$sKey]['uid']] = $k;
 				$k++;
 			}
@@ -105,7 +109,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 	}
 
 	function getRowNumberForUid($iUid) {
-		if(array_key_exists($iUid, $this->aPosByUid)) {
+		if (array_key_exists($iUid, $this->aPosByUid)) {
 			return $this->aPosByUid[$iUid];
 		}
 
@@ -113,8 +117,8 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 	}
 }
 
-
-	if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/phparray/class.tx_mkforms_ds_phparray_Main.php'])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/phparray/class.tx_mkforms_ds_phparray_Main.php']);
-	}
-
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/phparray/class.tx_mkforms_ds_phparray_Main.php']
+) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/phparray/class.tx_mkforms_ds_phparray_Main.php']);
+}
