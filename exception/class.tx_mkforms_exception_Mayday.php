@@ -1,7 +1,7 @@
 <?php
 /**
- * 	@package tx_mkforms
- *  @subpackage tx_mkforms_exception
+ * @package    tx_mkforms
+ * @subpackage tx_mkforms_exception
  *
  *  Copyright notice
  *
@@ -30,9 +30,9 @@ tx_rnbase::load('tx_rnbase_util_Exception');
 /**
  * Exception for mayday.
  *
- * @package tx_mkforms
+ * @package    tx_mkforms
  * @subpackage tx_mkforms_action
- * @author Michael Wagner <dev@dmk-business.de>
+ * @author     Michael Wagner <dev@dmk-business.de>
  */
 class tx_mkforms_exception_Mayday extends tx_rnbase_util_Exception {
 
@@ -41,24 +41,29 @@ class tx_mkforms_exception_Mayday extends tx_rnbase_util_Exception {
 	 * Verhindert das die Exception-E-Mail zerstört werden,
 	 * da hier immer unvollständiger HTML-Code enthalten ist!
 	 *
-	 * @return 	string
+	 * @return    string
 	 */
-	public function __toString () {
+	public function __toString() {
 		$stack = parent::__toString();
+
 		// html  konvertieren, damit die exception mail nicht zerstört wird!
 		return htmlspecialchars($stack);
 	}
 
 	/**
 	 * Liefert zusätzliche Daten für die Exception-E-Mail.
-	 * @return 	string
+	 *
+	 * @return    string
 	 */
 	public function getAdditional() {
 		$additional = parent::getAdditional();
-		return is_array($additional) ? print_r($additional, true) : $additional;
+
+		return is_array($additional) ? print_r($additional, TRUE) : $additional;
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Mayday.php']) {
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Mayday.php']
+) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Mayday.php']);
 }
