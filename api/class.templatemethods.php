@@ -5,40 +5,43 @@ tx_rnbase::load('tx_rnbase_cache_Manager');
 
 class formidable_templatemethods extends formidable_mainscriptingmethods {
 
-	private static $cache = null;
+	private static $cache = NULL;
 
 	/**
 	 * @return tx_rnbase_cache_TYPO3Cache
 	 */
-	private function getCache(){
-		if (is_null(self::$cache))
+	private function getCache() {
+		if (is_null(self::$cache)) {
 			self::$cache = tx_rnbase_cache_Manager::getCache('mkforms_rdt_tmpl');
+		}
+
 		return self::$cache;
 	}
 
 	function method_rdt($mData, $aParams) {
-		if(!is_string($aParams[0]) || $aParams[0] === AMEOSFORMIDABLE_LEXER_FAILED) {
+		if (!is_string($aParams[0]) || $aParams[0] === AMEOSFORMIDABLE_LEXER_FAILED) {
 			return AMEOSFORMIDABLE_LEXER_BREAKED;
 		}
 
-		if(
-			($oRdt = $this->oForm->getRdtForTemplateMethod($mData)) !== FALSE
+		if (($oRdt = $this->oForm->getRdtForTemplateMethod($mData)) !== FALSE
 			&& array_key_exists($aParams[0], $oRdt->aChilds)
-		  ) {
+		) {
 			return $oRdt->aChilds[$aParams[0]];
-		} elseif(($oRdt = $this->oForm->getWidget($aParams[0])) !== FALSE) {
+		} elseif (($oRdt = $this->oForm->getWidget($aParams[0])) !== FALSE) {
 			return $this->getHtmlBag($oRdt);
 		}
+
 		return AMEOSFORMIDABLE_LEXER_BREAKED;
 	}
 
 	function method_rdtValue($mData, $aParams) {
-		if(!is_string($aParams[0]) || $aParams[0] === AMEOSFORMIDABLE_LEXER_FAILED) {
+		if (!is_string($aParams[0]) || $aParams[0] === AMEOSFORMIDABLE_LEXER_FAILED) {
 			return AMEOSFORMIDABLE_LEXER_BREAKED;
 		}
-		if(($oRdt = $this->oForm->getWidget($aParams[0])) !== FALSE) {
+		if (($oRdt = $this->oForm->getWidget($aParams[0])) !== FALSE) {
 			return $oRdt->getValue();
 		}
+
 		return AMEOSFORMIDABLE_LEXER_BREAKED;
 	}
 
@@ -46,21 +49,24 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	 * gets the html bag of a Widget, include caching for template methods
 	 *
 	 * @param formidable_mainrenderlet $oRdt
+	 *
 	 * @return array
 	 */
-	private function getHtmlBag($oRdt){
+	private function getHtmlBag($oRdt) {
 		$cache = $this->getCache();
 		$cacheId = $oRdt->getAbsName() . 'htmlbag';
 
-		if($cache->has($cacheId)) return $cache->get($cacheId);
-		$htmlBag = $this->oForm->oRenderer->processHtmlBag( $oRdt->render(), $oRdt );
-		$cache->set($cacheId,$htmlBag);
+		if ($cache->has($cacheId)) {
+			return $cache->get($cacheId);
+		}
+		$htmlBag = $this->oForm->oRenderer->processHtmlBag($oRdt->render(), $oRdt);
+		$cache->set($cacheId, $htmlBag);
 
 		return $htmlBag;
 	}
 
 	function method_switch($mData, $aParams) {
-		if($mData === TRUE) {
+		if ($mData === TRUE) {
 			return $aParams[0];
 		} else {
 			return $aParams[1];
@@ -85,16 +91,26 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_equals($mData, $aParams) {
-		if($mData == $aParams[0]) return TRUE;
+		if ($mData == $aParams[0]) {
+			return TRUE;
+		}
+
 		return FALSE;
 	}
 
 	function method_greaterThan($mData, $aParams) {
-		if($mData > $aParams[0]) return TRUE;
+		if ($mData > $aParams[0]) {
+			return TRUE;
+		}
+
 		return FALSE;
 	}
+
 	function method_lessThan($mData, $aParams) {
-		if($mData < $aParams[0]) return TRUE;
+		if ($mData < $aParams[0]) {
+			return TRUE;
+		}
+
 		return FALSE;
 	}
 
@@ -131,14 +147,14 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_debug($mData, $aParams) {
-		if(is_array($mData)) {
-			if(array_key_exists('help', $mData)) {
+		if (is_array($mData)) {
+			if (array_key_exists('help', $mData)) {
 				unset($mData['help']);
 			}
 
 			reset($mData);
-			while(list($sKey,) = each($mData)) {
-				if(is_array($mData[$sKey]) && array_key_exists('__compiled', $mData[$sKey])) {
+			while (list($sKey,) = each($mData)) {
+				if (is_array($mData[$sKey]) && array_key_exists('__compiled', $mData[$sKey])) {
 					ksort($mData[$sKey]);
 				}
 			}
@@ -148,7 +164,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_displayCond($mData, $aParams) {
-		if(tx_ameosformidable::templateDataAsString($mData) === '') {
+		if (tx_ameosformidable::templateDataAsString($mData) === '') {
 			return 'display: none;';
 		}
 
@@ -168,18 +184,21 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_toHex($mData, $aParams) {
-		return implode(':', explode(
-			' ',
-			trim(
-				chunk_split(
-					strtoupper(
-						bin2hex($mData)
-					),
-					2,
-					' '
+		return implode(
+			':',
+			explode(
+				' ',
+				trim(
+					chunk_split(
+						strtoupper(
+							bin2hex($mData)
+						),
+						2,
+						' '
+					)
 				)
 			)
-		));
+		);
 	}
 
 	function method_extPath($mData, $aParams) {
@@ -200,10 +219,10 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 	function method_extract($mData, $aParams) {
 		$aRes = array();
-		if(is_array($mData)) {
+		if (is_array($mData)) {
 			reset($aParams);
-			while(list(, $sKeyName) = each($aParams)) {
-				if(array_key_exists($sKeyName, $mData)) {
+			while (list(, $sKeyName) = each($aParams)) {
+				if (array_key_exists($sKeyName, $mData)) {
 					$aRes[$sKeyName] = $mData[$sKeyName];
 				}
 			}
@@ -216,8 +235,10 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 		//man kann nicht direkt ein komma angegeben da dieses in
 		//mkforms_util_Templates rausgeparsed wird. wenn also nichts
 		//gesetzt wird, dann nehmen wir das komma als connector
-		if(!isset($aParams[0])) $aParams[0] = ', ';
-		if(is_array($mData)) {
+		if (!isset($aParams[0])) {
+			$aParams[0] = ', ';
+		}
+		if (is_array($mData)) {
 			return implode($aParams[0], $mData);
 		}
 
@@ -225,7 +246,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_isTrue($mData, $aParams) {
-		if($mData === TRUE) {
+		if ($mData === TRUE) {
 			return TRUE;
 		}
 
@@ -233,7 +254,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_isFalse($mData, $aParams) {
-		if($mData === FALSE) {
+		if ($mData === FALSE) {
 			return TRUE;
 		}
 
@@ -241,7 +262,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_isNotTrue($mData, $aParams) {
-		if($mData !== TRUE) {
+		if ($mData !== TRUE) {
 			return TRUE;
 		}
 
@@ -249,7 +270,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_isNotFalse($mData, $aParams) {
-		if($mData !== FALSE) {
+		if ($mData !== FALSE) {
 			return TRUE;
 		}
 
@@ -257,7 +278,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_ifIsTrue($mData, $aParams) {
-		if($mData === TRUE) {
+		if ($mData === TRUE) {
 			return TRUE;
 		}
 
@@ -265,7 +286,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_ifIsFalse($mData, $aParams) {
-		if($mData === FALSE) {
+		if ($mData === FALSE) {
 			return TRUE;
 		}
 
@@ -273,7 +294,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_isLoggedIn($mData, $aParams) {
-		if($GLOBALS['TSFE']->fe_user->user['uid']){
+		if ($GLOBALS['TSFE']->fe_user->user['uid']) {
 			return TRUE;
 		}
 
@@ -283,6 +304,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	function method_strlen($mData, $aParams) {
 		return strlen($mData);
 	}
+
 	function method_substr($mData, $aParams) {
 		return t3lib_div::fixed_lgd_cs(
 			tx_ameosformidable::templateDataAsString($mData),
@@ -298,16 +320,17 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	function method_fixed_lgd_word($mData, $aParams) {
 		$sStr = tx_ameosformidable::templateDataAsString($mData);
 
-		if(strlen($sStr) <= $aParams[0]) {
+		if (strlen($sStr) <= $aParams[0]) {
 			return $sStr;
 		}
 
-		if(strlen($aParams[1]) > $aParams[0]) {
+		if (strlen($aParams[1]) > $aParams[0]) {
 			return $aParams[1];
 		}
 
-		$sStr = substr($sStr,0,$aParams[0]-strlen($aParams[1])+1);
-		return substr($sStr,0,strrpos($sStr,' ')).$aParams[1];
+		$sStr = substr($sStr, 0, $aParams[0] - strlen($aParams[1]) + 1);
+
+		return substr($sStr, 0, strrpos($sStr, ' ')) . $aParams[1];
 	}
 
 	function method_striptags($mData, $aParams) {
@@ -319,7 +342,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_formData($mData, $aParams) {
-		if(!empty($aParams)) {
+		if (!empty($aParams)) {
 			return $this->oForm->oDataHandler->getThisFormData($aParams[0]);
 		} else {
 			return $this->oForm->oDataHandler->getFormData();
@@ -327,7 +350,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_storedData($mData, $aParams) {
-		if(!empty($aParams)) {
+		if (!empty($aParams)) {
 			return $this->oForm->oDataHandler->getStoredData($aParams[0]);
 		} else {
 			return $this->oForm->oDataHandler->getStoredData();
@@ -339,7 +362,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_rowData($mData, $aParams) {
-		if(!empty($aParams)) {
+		if (!empty($aParams)) {
 			return $this->oForm->oDataHandler->getListData($aParams[0]);
 		}
 
@@ -356,6 +379,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 	function method_debug_trail($mData, $aParams) {
 		tx_rnbase::load('tx_rnbase_util_Debug');
+
 		return tx_rnbase_util_Debug::getDebugTrail();
 	}
 
@@ -366,8 +390,8 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	function method_htmlentities($mData, $aParams) {
 		return htmlentities(
 			tx_ameosformidable::templateDataAsString($mData),
-			array_key_exists(0, $aParams) ? $aParams[0] : ENT_COMPAT,	// quote style
-			array_key_exists(1, $aParams) ? $aParams[1] : 'ISO-8859-1'	// returned charset
+			array_key_exists(0, $aParams) ? $aParams[0] : ENT_COMPAT,    // quote style
+			array_key_exists(1, $aParams) ? $aParams[1] : 'ISO-8859-1'    // returned charset
 		);
 	}
 
@@ -376,7 +400,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_strftime($mData, $aParams) {
-		if(($sFormat = trim($aParams[0])) === '') {
+		if (($sFormat = trim($aParams[0])) === '') {
 			$sFormat = '%Y/%m/%d';
 		}
 
@@ -424,11 +448,12 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 	function method_and($mData, $aParams) {
 		$mData = tx_ameosformidable::templateDataAsString($mData);
+
 		return tx_ameosformidable::templateDataAsString($mData) && $aParams[0];
 	}
 
 	function method_persistHidden($mData, $aParams) {
-		if(($oRdt =& $this->oForm->getRdtForTemplateMethod($mData)) !== FALSE) {
+		if (($oRdt =& $this->oForm->getRdtForTemplateMethod($mData)) !== FALSE) {
 			return $oRdt->persistHidden();
 		}
 
@@ -440,7 +465,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_hasErrors($mData, $aParams) {
-		if(($oRdt =& $this->oForm->getRdtForTemplateMethod($mData)) !== FALSE) {
+		if (($oRdt =& $this->oForm->getRdtForTemplateMethod($mData)) !== FALSE) {
 			return $oRdt->hasDeepError();
 		} else {
 			return !$this->oForm->oDataHandler->_allIsValid();
@@ -452,12 +477,12 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	function method_includeCss($mData, $aParams) {
 		$sFile = $this->oForm->toWebPath($aParams[0]);
 		$this->oForm->additionalHeaderData(
-			'<link rel="stylesheet" type="text/css" href="'. $sFile . '" />'
+			'<link rel="stylesheet" type="text/css" href="' . $sFile . '" />'
 		);
 	}
 
 	function method_codeBehind($mData, $aParams) {
-		if($oRunnable = $this->oForm->getRunnable()->getCodeBehind($aParams[0])) {
+		if ($oRunnable = $this->oForm->getRunnable()->getCodeBehind($aParams[0])) {
 			return $oRunnable['object'];
 		}
 
@@ -471,15 +496,16 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	function method_imageMaxWidth($mData, $aParams) {
 		$sPath = $mData['filepath.']['original.']['rel'];
 
-		if(file_exists($sPath)) {
+		if (file_exists($sPath)) {
 			// expecting typoscript
 
-			$aImage = $GLOBALS['TSFE']->tmpl->setup['config.']['tx_mkforms.']['res.']['shared.']['xml.']['imageprocess.']['maxwh.'];
+			$aImage
+				= $GLOBALS['TSFE']->tmpl->setup['config.']['tx_mkforms.']['res.']['shared.']['xml.']['imageprocess.']['maxwh.'];
 			$aImage['file.']['10.']['file'] = $sPath;
 			$aImage['file.']['10.']['file.']['maxW'] = $aParams[0];
 			unset($aImage['file.']['10.']['file.']['maxH']);
 
-			$sNewPath = $GLOBALS['TSFE']->cObj->IMG_RESOURCE($aImage);	// IMG_RESOURCE always returns relative path
+			$sNewPath = $GLOBALS['TSFE']->cObj->IMG_RESOURCE($aImage);    // IMG_RESOURCE always returns relative path
 			return $sNewPath;
 		}
 
@@ -491,7 +517,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_explode($mData, $aParams) {
-		if(!isset($aParams[0])) {
+		if (!isset($aParams[0])) {
 			$sSep = ',';
 		} else {
 			$sSep = $aParams[0];
@@ -503,6 +529,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 		);
 
 		reset($aRes);
+
 		return $aRes;
 	}
 
@@ -511,17 +538,19 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	 *
 	 * @param mixed $mData
 	 * @param array $aParams
+	 *
 	 * @return boolean
 	 */
-	function method_propertyExists($mData, $aParams){
+	function method_propertyExists($mData, $aParams) {
 		return array_key_exists($aParams[0], $mData);
 	}
-	function method_propertyNotExists($mData, $aParams){
+
+	function method_propertyNotExists($mData, $aParams) {
 		return !$this->method_propertyExists($mData, $aParams);
 	}
 
 	function method_isEmpty($mData, $aParams) {
-		if(is_string($mData)) {
+		if (is_string($mData)) {
 			$mData = trim($mData);
 		}
 
@@ -533,7 +562,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_isDate($mData, $aParams) {
-		return ($mData!=='0000-00-00' && checkdate(@date('m', $mData), @date('d', $mData), @date('Y', $mData)));
+		return ($mData !== '0000-00-00' && checkdate(@date('m', $mData), @date('d', $mData), @date('Y', $mData)));
 	}
 
 	function method_isNoDate($mData, $aParams) {
@@ -541,15 +570,19 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_tstamp2Date($mData, $aParams) {
-		if ($this->method_isDate($mData, $aParams))
+		if ($this->method_isDate($mData, $aParams)) {
 			return date($aParams[0], $mData);
+		}
+
 		return $mData;
 	}
 
 	function method_linkUrl($mData, $aParams) {
-		return $this->oForm->getCObj()->typolink_URL(array(
-			'parameter' => $aParams[0]
-		));
+		return $this->oForm->getCObj()->typolink_URL(
+			array(
+				'parameter' => $aParams[0]
+			)
+		);
 	}
 
 	function method_extConf($mData, $aParams) {
