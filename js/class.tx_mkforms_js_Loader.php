@@ -14,21 +14,26 @@ tx_rnbase::load('tx_mkforms_util_Json');
  * effects - scriptaculous
  * tooltip -
  * dragndrop -
- *
- *
  */
 class tx_mkforms_js_Loader {
-	private static $isLoaded = false;
 
-	var $oForm = null;
+	private static $isLoaded = FALSE;
+
+	var $oForm = NULL;
+
 	var $bLoadScriptaculous = FALSE;
+
 	var $bLoadScriptaculousDragDrop = FALSE;
+
 	var $bLoadScriptaculousBuilder = FALSE;
+
 	var $bLoadtooltip = FALSE;
+
 	var $headerKeys = array(); // Hier sammeln wir die Keys der zusatzlichen JS-Scripte
 
-	var $aHeadersAjax		= array();	// stores the headers that are added to the page via ajax
-	var $aHeadersWhenInjectNonStandard = array();	// stores the headers when they have to be injected in the page content at given marker
+	var $aHeadersAjax = array();    // stores the headers that are added to the page via ajax
+
+	var $aHeadersWhenInjectNonStandard = array();    // stores the headers when they have to be injected in the page content at given marker
 
 	private function __construct($form) {
 		$this->init($form);
@@ -42,22 +47,24 @@ class tx_mkforms_js_Loader {
 	private function getForm() {
 		return $this->oForm;
 	}
+
 	/**
 	 * Erstellt eine Instanz dieser Klasse
 	 *
 	 * @param tx_mkforms_forms_IForm $form
+	 *
 	 * @return tx_mkforms_js_Loader
 	 */
 	public static function createInstance($form) {
 		return new tx_mkforms_js_Loader($form);
 	}
+
 	private function init(&$oForm) {
-		if(!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
 			require_once(PATH_tslib . 'class.tslib_pagegen.php');
 		}
 		$this->oForm =& $oForm;
 	}
-
 
 	/**
 	 * Genau ein Aufruf in formidable_mainrenderer
@@ -70,17 +77,21 @@ class tx_mkforms_js_Loader {
 	 *
 	 */
 	public function includeBaseLibraries() {
-		if(!$this->useJs()) return;
+		if (!$this->useJs()) {
+			return;
+		}
 
-		if($this->mayLoadJsFramework()) {
-			if(!self::$isLoaded) {
+		if ($this->mayLoadJsFramework()) {
+			if (!self::$isLoaded) {
 
 				$this->_includePrototype();
 				$this->_includeJSFramework();
 				$this->additionalHeaderData(
 					'<!-- consider formidable core loaded after this line -->',
 					'tx_ameosformidable_core',
-					$bFirstPos = FALSE,$sBefore = FALSE,$sAfter = 'tx_mkforms_jsbase'
+					$bFirstPos = FALSE,
+					$sBefore = FALSE,
+					$sAfter = 'tx_mkforms_jsbase'
 				);
 
 				self::$isLoaded = TRUE;
@@ -99,34 +110,35 @@ class tx_mkforms_js_Loader {
 	public function includeAdditionalLibraries() {
 		$this->includeScriptaculous();
 		$this->includeTooltip();
-
 	}
 
 	private function includeAdditional() {
-		if(($sLibs = $this->getForm()->getConfig()->get('/meta/libs')) === FALSE) return;
+		if (($sLibs = $this->getForm()->getConfig()->get('/meta/libs')) === FALSE) {
+			return;
+		}
 
 		$aLibs = t3lib_div::trimExplode(',', $sLibs);
 		reset($aLibs);
-		while(list(, $sLib) = each($aLibs)) {
-			if($sLib === 'scriptaculous') {
+		while (list(, $sLib) = each($aLibs)) {
+			if ($sLib === 'scriptaculous') {
 				$this->loadScriptaculous();
-			} elseif($sLib === 'dragdrop') {
+			} elseif ($sLib === 'dragdrop') {
 				$this->loadScriptaculousDragDrop();
-			} elseif($sLib === 'builder') {
+			} elseif ($sLib === 'builder') {
 				$this->loadScriptaculousBuilder();
-			} elseif($sLib === 'tooltip') {
+			} elseif ($sLib === 'tooltip') {
 				$this->loadToolTip();
 			}
 		}
 	}
+
 	/**
 	 * Wether or not Javascript is used
 	 *
 	 * @return boolean
 	 */
 	public function useJs() {
-		return
-			// js nur laden, wenn das framework aktiviert ist
+		return // js nur laden, wenn das framework aktiviert ist
 			$this->mayLoadJsFramework()
 			// nur laden, wenn im formular nicht deaktiviert.
 			&& $this->getForm()->_defaultTrue('/meta/accessibility/usejs');
@@ -142,8 +154,12 @@ class tx_mkforms_js_Loader {
 			'Misc' => array(
 				'Urls' => array(
 					'Ajax' => array(
-						'event' => tx_mkforms_util_Div::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxevent',
-						'service' => tx_mkforms_util_Div::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxservice',
+						'event' =>
+							tx_mkforms_util_Div::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='
+							. tx_mkforms_util_Div::getAjaxEId() . '&object=tx_ameosformidable&servicekey=ajaxevent',
+						'service' =>
+							tx_mkforms_util_Div::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='
+							. tx_mkforms_util_Div::getAjaxEId() . '&object=tx_ameosformidable&servicekey=ajaxservice',
 					),
 				),
 				'MajixSpinner' => (($aSpinner = $this->oForm->_navConf('/meta/majixspinner')) !== FALSE) ? $aSpinner : array(),
@@ -154,7 +170,8 @@ class tx_mkforms_js_Loader {
 		);
 
 		$sJson = tx_mkforms_util_Json::getInstance()->encode($aConf);
-		$sScript = <<<JAVASCRIPT
+		$sScript
+			= <<<JAVASCRIPT
 
 Formidable.Context.Forms["{$this->oForm->formid}"] = new Formidable.Classes.FormBaseClass(
 	{$sJson}
@@ -162,8 +179,11 @@ Formidable.Context.Forms["{$this->oForm->formid}"] = new Formidable.Classes.Form
 
 JAVASCRIPT;
 
-			if(isset($GLOBALS['BE_USER']) && method_exists($GLOBALS['BE_USER'], 'isAdmin') && $GLOBALS['BE_USER']->isAdmin() && $this->oForm->bDebug) {
-				$sScript .= <<<JAVASCRIPT
+		if (isset($GLOBALS['BE_USER']) && method_exists($GLOBALS['BE_USER'], 'isAdmin') && $GLOBALS['BE_USER']->isAdmin()
+			&& $this->oForm->bDebug
+		) {
+			$sScript
+				.= <<<JAVASCRIPT
 
 Formidable.f("{$this->oForm->formid}").Manager = {
 	enabled: true,
@@ -175,11 +195,15 @@ Formidable.f("{$this->oForm->formid}").Manager = {
 JAVASCRIPT;
 		}
 		// JS-Call einbinden
-		$this->getForm()->attachInitTask($sScript,'Form \'' . $this->oForm->formid . '\' instance description','framework-init');
+		$this->getForm()->attachInitTask(
+			$sScript,
+			'Form \'' . $this->oForm->formid . '\' instance description',
+			'framework-init'
+		);
 	}
 
 	private function includeDebugStyles() {
-		if($this->oForm->bDebug) {
+		if ($this->oForm->bDebug) {
 
 			$sPath = t3lib_extMgm::siteRelPath('mkforms');
 			$this->getForm()->additionalHeaderData(
@@ -208,11 +232,17 @@ JAVASCRIPT;
 		$serverPath = t3lib_extMgm::extPath($ext) . 'res/jsfwk/json/json.js';
 		$includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 
-		foreach($includes As $include) {
-			$tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
-						'<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
+		foreach ($includes As $include) {
+			$tag = $include->isJS()
+				? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
+				'<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
 			$this->getForm()->additionalHeaderData(
-				$tag,$include->getKey(), $include->isFirstPos(), $include->getBeforeKey(),$include->getAfterKey());
+				$tag,
+				$include->getKey(),
+				$include->isFirstPos(),
+				$include->getBeforeKey(),
+				$include->getAfterKey()
+			);
 		}
 
 		// tx_ameosformidable_prototype_fwk -> tx_mkforms_jsbase_fwk
@@ -227,23 +257,31 @@ JAVASCRIPT;
 	 *
 	 */
 	private function includeScriptaculous() {
-		if(!($this->bLoadScriptaculous === TRUE && $this->mayLoadScriptaculous())) return;
-
+		if (!($this->bLoadScriptaculous === TRUE && $this->mayLoadScriptaculous())) {
+			return;
+		}
 
 		$includes = $this->getJSFramework()->getEffectIncludes();
 
-		foreach($includes As $include) {
-			$tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
-						'<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
+		foreach ($includes As $include) {
+			$tag = $include->isJS()
+				? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
+				'<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
 			$this->getForm()->additionalHeaderData(
-				$tag,$include->getKey(), $include->isFirstPos(), $include->getBeforeKey(),$include->getAfterKey());
+				$tag,
+				$include->getKey(),
+				$include->isFirstPos(),
+				$include->getBeforeKey(),
+				$include->getAfterKey()
+			);
 		}
 
 		// scriptaculous
 		$sNextAfter = 'tx_ameosformidable_scriptaculous_effects';
 
-		if($this->bLoadScriptaculousDragDrop === TRUE) {
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/scriptaculous/dragdrop.js';
+		if ($this->bLoadScriptaculousDragDrop === TRUE) {
+			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms')
+				. 'res/jsfwk/scriptaculous/dragdrop.js';
 
 			$this->oForm->additionalHeaderData(
 				"<script type=\"text/javascript\" src=\"" . $this->getScriptPath($sPath) . "\"></script>",
@@ -256,8 +294,9 @@ JAVASCRIPT;
 			$sNextAfter = 'tx_ameosformidable_scriptaculous_dragdrop';
 		}
 
-		if($this->bLoadScriptaculousBuilder === TRUE) {
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/scriptaculous/builder.js';
+		if ($this->bLoadScriptaculousBuilder === TRUE) {
+			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms')
+				. 'res/jsfwk/scriptaculous/builder.js';
 
 			$this->oForm->additionalHeaderData(
 				"<script type=\"text/javascript\" src=\"" . $this->getScriptPath($sPath) . "\"></script>",
@@ -289,7 +328,6 @@ JAVASCRIPT;
 			$sBefore = FALSE,
 			$sAfter = 'tx_mkforms_jsbase_fwk'
 		);
-
 	}
 
 	/**
@@ -298,10 +336,11 @@ JAVASCRIPT;
 	 */
 	private function includeFormidablePath() {
 		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extmgm::siteRelPath('mkforms');
-		$sScript =<<<JAVASCRIPT
+		$sScript
+			= <<<JAVASCRIPT
 	Formidable.initialize({path: '{$sPath}'});
 JAVASCRIPT;
-		$this->getForm()->attachInitTask($sScript,'Framework Formidable.path initialization');
+		$this->getForm()->attachInitTask($sScript, 'Framework Formidable.path initialization');
 	}
 
 	/**
@@ -335,16 +374,17 @@ JAVASCRIPT;
 		$this->bLoadtooltip = TRUE;
 	}
 
-
 	/**
 	 * Genau ein Aufruf im Form::_render()
 	 *
 	 */
 	private function includeTooltip() {
-		if($this->bLoadtooltip === TRUE) {
+		if ($this->bLoadtooltip === TRUE) {
 
 			// tooltip css
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.css';
+			$sPath
+				=
+				t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.css';
 
 			$this->oForm->additionalHeaderData(
 				"<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $sPath . "\" />",
@@ -355,12 +395,17 @@ JAVASCRIPT;
 			);
 
 			// tooltip js
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.js';
+			$sPath
+				=
+				t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.js';
 
 			$this->oForm->additionalHeaderData(
 				"<script type=\"text/javascript\" src=\"" . $sPath . "\"></script>",
 				'tx_ameosformidable_tooltip_js',
-				$bFirstPos = FALSE,$sBefore = FALSE,'tx_ameosformidable_tooltip_css');
+				$bFirstPos = FALSE,
+				$sBefore = FALSE,
+				'tx_ameosformidable_tooltip_css'
+			);
 		}
 	}
 
@@ -370,45 +415,57 @@ JAVASCRIPT;
 	 * @return boolean
 	 */
 	public function mayLoadJsFramework() {
-		if(tx_mkforms_util_Div::getEnvExecMode() == 'BE') {
+		if (tx_mkforms_util_Div::getEnvExecMode() == 'BE') {
 			return TRUE;
 		}
-		if($this->oForm->_defaultTrue('/meta/loadjsframework') !== TRUE) {
+		if ($this->oForm->_defaultTrue('/meta/loadjsframework') !== TRUE) {
 			return FALSE;
 		}
+
 		return intval($this->getForm()->getConfTS('loadJsFramework')) > 0;
 	}
+
 	/**
 	 * Hier kann man per TS oder XML das Laden von Scriptaculous verhindern
 	 *
 	 * @return boolean
 	 */
 	private function mayLoadScriptaculous() {
-		if($this->oForm->_defaultTrue('/meta/mayloadscriptaculous') !== TRUE) {
+		if ($this->oForm->_defaultTrue('/meta/mayloadscriptaculous') !== TRUE) {
 			return FALSE;
 		}
+
 		return intval($this->getForm()->getConfTS('mayLoadScriptaculous')) > 0;
 	}
+
 	/**
 	 * Returns the js wrapper
 	 *
 	 * @return tx_mkforms_forms_IJSFramework
 	 */
 	private function getJSFramework() {
-		if(!$this->jsWrapper) {
+		if (!$this->jsWrapper) {
 			$wrapperClass = $this->getForm()->getConfTS('jslib');
 			$wrapperClass = $wrapperClass ? $wrapperClass : 'tx_mkforms_js_DefaultFramework';
-			$this->jsWrapper = tx_rnbase::makeInstance($wrapperClass, $this->getForm()->getConfigurations(), $this->getForm()->getConfId().'jsframework.');
+			$this->jsWrapper = tx_rnbase::makeInstance(
+				$wrapperClass,
+				$this->getForm()->getConfigurations(),
+				$this->getForm()->getConfId() . 'jsframework.'
+			);
 		}
+
 		return $this->jsWrapper;
 	}
+
 	/**
 	 * Liefert den Namen des aktuellen JS-Frameworks
+	 *
 	 * @return string
 	 */
 	public function getJSFrameworkId() {
 		return $this->getJSFramework()->getId();
 	}
+
 	private function minified() {
 		return intval($this->getForm()->getConfTS('minify.enabled')) > 0;
 	}
@@ -423,37 +480,42 @@ JAVASCRIPT;
 	 * @param string $str Der JS oder CSS-Code
 	 * @param string $ext "js" oder "css"
 	 * @param string $sDesc Beschreibungstext für HTML-Kommentar
+	 *
 	 * @return string das HTML-Tag für die Integration in der Seite
 	 */
-	public function inline2TempFile($str, $ext, $sDesc="")	{
+	public function inline2TempFile($str, $ext, $sDesc = "") {
 
 		$output = '';
 
-		if(is_string($str)) {
-			if($sDesc != '') {
+		if (is_string($str)) {
+			if ($sDesc != '') {
 				$sDesc = "\n\n<!-- MKFORMS: " . str_replace(array('<!--', '-->'), '', $sDesc) . ' -->';
 			}
 
 			// Create filename / tags:
 			$script = '';
-			switch($ext) {
+			switch ($ext) {
 				case 'js': {
 
-					$script = 'typo3temp/mkforms/javascript_'.substr(md5($str),0,10).'.js';
-					$output = $sDesc . "\n" . '<script type="text/javascript" src="'.htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $script).'"></script>' . "\n\n";
+					$script = 'typo3temp/mkforms/javascript_' . substr(md5($str), 0, 10) . '.js';
+					$output = $sDesc . "\n" . '<script type="text/javascript" src="' . htmlspecialchars(
+							t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $script
+						) . '"></script>' . "\n\n";
 					break;
 				}
 				case 'css': {
-					$script = 'typo3temp/mkforms/stylesheet_'.substr(md5($str),0,10).'.css';
-					$output = $sDesc . "\n" . '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars(t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $script).'" />' . "\n\n";
+					$script = 'typo3temp/mkforms/stylesheet_' . substr(md5($str), 0, 10) . '.css';
+					$output = $sDesc . "\n" . '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars(
+							t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $script
+						) . '" />' . "\n\n";
 					break;
 				}
 			}
 
 			// Write file:
-			if($script){
-				if(!@is_file(PATH_site.$script)) {
-					t3lib_div::writeFile(PATH_site.$script, $str);
+			if ($script) {
+				if (!@is_file(PATH_site . $script)) {
+					t3lib_div::writeFile(PATH_site . $script, $str);
 				}
 			}
 		}
@@ -461,71 +523,81 @@ JAVASCRIPT;
 		return $output;
 	}
 
-
 	/**
 	 * Fügt zusätzliche Headerdaten in den Response ein.
 	 *
-	 * @param	[type]		$sData: ...
-	 * @param	[type]		$sKey: ...
-	 * @param	[type]		$bFirstPos: ...
-	 * @return	[type]		...
+	 * @param     [type]        $sData: ...
+	 * @param     [type]        $sKey: ...
+	 * @param     [type]        $bFirstPos: ...
+	 *
+	 * @return    [type]        ...
 	 */
 	public function additionalHeaderData($sData, $sKey = FALSE, $bFirstPos = FALSE, $sBefore = FALSE, $sAfter = FALSE) {
-		if($sKey && !array_key_exists($sKey, $this->headerKeys)) $this->headerKeys[$sKey] = 1;
-		if(TYPO3_MODE === 'FE') {
-			if($this->mayUseStandardHeaderInjection()) {
+		if ($sKey && !array_key_exists($sKey, $this->headerKeys)) {
+			$this->headerKeys[$sKey] = 1;
+		}
+		if (TYPO3_MODE === 'FE') {
+			if ($this->mayUseStandardHeaderInjection()) {
 				$aHeaders =& $GLOBALS["TSFE"]->additionalHeaderData;
 			} else {
 				$aHeaders =& $this->aHeadersWhenInjectNonStandard;
 			}
 		}
 
-
-		if(tx_mkforms_util_Div::getEnvExecMode() === "EID") {
-			if($sKey === FALSE) {
+		if (tx_mkforms_util_Div::getEnvExecMode() === "EID") {
+			if ($sKey === FALSE) {
 				$this->aHeadersAjax[] = $sData;
 			} else {
 				$this->aHeadersAjax[$sKey] = $sData;
 			}
 		} else {
-			if($sKey === FALSE) {
-				if($bFirstPos === TRUE) {
+			if ($sKey === FALSE) {
+				if ($bFirstPos === TRUE) {
 					$aHeaders = array(rand() => $sData) + $aHeaders;
-				}
-				elseif($sBefore !== FALSE || $sAfter !== FALSE) {
+				} elseif ($sBefore !== FALSE || $sAfter !== FALSE) {
 					$bBefore = ($sBefore !== FALSE);
 					$sLookFor = $bBefore ? $sBefore : $sAfter;
-					$aHeaders = tx_mkforms_util_Div::array_insert($aHeaders,$sLookFor,array(count($aHeaders) => $sData),$bBefore);
+					$aHeaders = tx_mkforms_util_Div::array_insert(
+						$aHeaders,
+						$sLookFor,
+						array(count($aHeaders) => $sData),
+						$bBefore
+					);
 				} else {
 					$aHeaders[] = $sData;
 				}
 			} else {
-					if($bFirstPos === TRUE) {
-						$aHeaders = array($sKey => $sData) + $aHeaders;
-					} elseif($sBefore !== FALSE || $sAfter !== FALSE) {
-						$bBefore = ($sBefore !== FALSE);
-						$sLookFor = $bBefore ? $sBefore : $sAfter;
-						$aHeaders = tx_mkforms_util_Div::array_insert($aHeaders,$sLookFor,array($sKey => $sData),$bBefore);
-					} else {
-						$aHeaders[$sKey] = $sData;
-					}
+				if ($bFirstPos === TRUE) {
+					$aHeaders = array($sKey => $sData) + $aHeaders;
+				} elseif ($sBefore !== FALSE || $sAfter !== FALSE) {
+					$bBefore = ($sBefore !== FALSE);
+					$sLookFor = $bBefore ? $sBefore : $sAfter;
+					$aHeaders = tx_mkforms_util_Div::array_insert($aHeaders, $sLookFor, array($sKey => $sData), $bBefore);
+				} else {
+					$aHeaders[$sKey] = $sData;
+				}
 			}
 		}
 	}
+
 	/**
 	 * Liefert die Non-Standard-Headers.
+	 *
 	 * @return array
 	 */
 	private function getHeadersWhenInjectNonStandard() {
 		return $this->aHeadersWhenInjectNonStandard;
 	}
+
 	/**
 	 * Liefert zusätzliche Header, die bei Ajax-Calls eingebunden werden sollen.
+	 *
 	 * @return array
 	 */
 	public function getAjaxHeaders() {
 		return $this->aHeadersAjax;
 	}
+
 	/**
 	 * Wir wollen verhindern, das JS-Dateien bei Ajax-Calls doppelt geladen werden. Daher wird das Formidable-Objekt
 	 * mit den Keys der JS-Libs gefüttert.
@@ -533,81 +605,90 @@ JAVASCRIPT;
 	public function setLoadedScripts() {
 		$keys = array_keys($this->headerKeys);
 		$script = '';
-		foreach($keys As $key) {
-			$script .= 'Formidable.addScript(\''.$key.'\'); '."\n";
+		foreach ($keys As $key) {
+			$script .= 'Formidable.addScript(\'' . $key . '\'); ' . "\n";
 		}
-		$this->getForm()->attachInitTask($script,'Set loaded scripts','finalTask');
+		$this->getForm()->attachInitTask($script, 'Set loaded scripts', 'finalTask');
 	}
+
 	/**
 	 * Das wird im Form in der Methode _render aufgerufen. Funktion noch unklar und das funktioniert wohl auch noch nicht...
 	 */
 	public function injectHeaders() {
-		if(($sHeaderMarker = $this->getMarkerForHeaderInjection()) !== FALSE) {
+		if (($sHeaderMarker = $this->getMarkerForHeaderInjection()) !== FALSE) {
 			$GLOBALS["tx_ameosformidable"]["headerinjection"][] = array(
 				"marker" => $sHeaderMarker,
 				"headers" => $this->getHeadersWhenInjectNonStandard()
 			);
-		} elseif($this->manuallyInjectHeaders()) {
+		} elseif ($this->manuallyInjectHeaders()) {
 			$GLOBALS["tx_ameosformidable"]["headerinjection"][] = array(
 				"manual" => TRUE,
 				"headers" => $this->getHeadersWhenInjectNonStandard()
 			);
 		}
 	}
+
 	function mayUseStandardHeaderInjection() {
 		return ($this->getMarkerForHeaderInjection() === FALSE) && ($this->manuallyInjectHeaders() === FALSE);
 	}
+
 	function getMarkerForHeaderInjection() {
-		if(
-			isset($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersInContentAtMarker"]) &&
-			($sHeaderMarker = trim($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersInContentAtMarker"])) !== ""
+		if (isset($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersInContentAtMarker"])
+			&& ($sHeaderMarker = trim(
+				$GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersInContentAtMarker"]
+			)) !== ""
 		) {
 			return $sHeaderMarker;
 		}
 
 		return FALSE;
 	}
+
 	function manuallyInjectHeaders() {
 		return intval($this->getForm()->getConfTS('injectHeadersManually')) > 0;
 
-		if(isset($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersManually"])) {
+		if (isset($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersManually"])) {
 			// notnot returns real boolean
 			return !!intval($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersManually"]);
 		}
 
 		return FALSE;
 	}
+
 	/**
 	 * Prüft, ob für dieses Script eine minimierte Version vorligt
 	 * und giebt diese entsprechend der konfiguration zurück.
 	 *
 	 * @param string $sPath
+	 *
 	 * @return srtring
 	 */
-	function getScriptPath($sPath, $sScriptErw = 'js'){
+	function getScriptPath($sPath, $sScriptErw = 'js') {
 		$newPath = $sPath;
-		$sScriptErw = '.'.$sScriptErw;
+		$sScriptErw = '.' . $sScriptErw;
 		// soll minimierte Version genutzt werden
-		if($this->minified()) {
-			$sSitePath = t3lib_div::getIndpEnv('TYPO3_SITE_URL').t3lib_extMgm::siteRelPath('mkforms');
-			$sFile = substr( $sPath, strlen($sSitePath) , strrpos($sPath,$sScriptErw) - strlen($sSitePath) );
+		if ($this->minified()) {
+			$sSitePath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms');
+			$sFile = substr($sPath, strlen($sSitePath), strrpos($sPath, $sScriptErw) - strlen($sSitePath));
 			// prüfen ob gzip genutzt werden soll, wenn ja auf datei prüfen.
-			if($this->gziped() && file_exists( t3lib_extMgm::extPath('mkforms').$sFile.'.min'.$sScriptErw.'.php' )) {
-				$sGZipPath = $sSitePath.$sFile.'.min'.$sScriptErw.'.php';
+			if ($this->gziped() && file_exists(t3lib_extMgm::extPath('mkforms') . $sFile . '.min' . $sScriptErw . '.php')) {
+				$sGZipPath = $sSitePath . $sFile . '.min' . $sScriptErw . '.php';
 				$newPath = $sGZipPath;
-			}
-			// prüfen ob minimiertes js verfügbar ist.
-			elseif(file_exists( t3lib_extMgm::extPath('mkforms').$sFile.'.min'.$sScriptErw )) {
-				$sMinPath = $sSitePath.$sFile.'.min'.$sScriptErw;
+			} // prüfen ob minimiertes js verfügbar ist.
+			elseif (file_exists(t3lib_extMgm::extPath('mkforms') . $sFile . '.min' . $sScriptErw)) {
+				$sMinPath = $sSitePath . $sFile . '.min' . $sScriptErw;
 				$newPath = $sMinPath;
 			}
 			// else, keine minimierte version gefunden, nutze standard Datei
 
 		}
+
 		return $newPath;
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_js_Loader.php'])	{
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_js_Loader.php']
+) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_js_Loader.php']);
 }
