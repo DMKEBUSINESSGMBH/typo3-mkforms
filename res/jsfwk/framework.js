@@ -560,9 +560,11 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		if(oTask.formid) {
 			// execute it on given formid
 			var oForm = Formidable.f(oTask.formid);
-			if(!oForm) {
-				//console.log("executeClientEvent: single task: on formid " + oTask.formid + ": No method named " + oTask.method + " on " + oTask.object);
+			/*
+			if (!oForm) {
+				console.log("executeClientEvent: single task: on formid " + oTask.formid + ": No method named " + oTask.method + " on " + oTask.object);
 			}
+			 */
 		} else {
 			var oForm = this;
 		}
@@ -637,30 +639,37 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		var aValues = {};
 		if(aParams) {
 			for(var sKey in aParams) {
-				// TODO: freie Parameter erlauben
-				sName = aParams[sKey];
-				sReturnName = sName;
-				sId = sName;
-				if(sName.slice(0, 10) == "rowInput::") {
+				var
+					sName = aParams[sKey],
+					isRowInput = sName.slice(0, 10) == "rowInput::",
+					sReturnName = sName,
+					sId = sName
+				;
+				if (isRowInput) {
 					aInfo = sName.split("::");
 					sReturnName = aInfo[1];
 					sId = aInfo[2];
 				}
 
-				if(sName.indexOf('::') && sName.slice(0, 10) != "rowInput::") {
+				if(sName.indexOf('::') && !isRowInput) {
 					// Freie Parameterübergabe
 					aInfo = sName.split("::");
 					sKey = aInfo[0];
 					sName = aInfo[1];
-					aValues[sKey] = sName; // should be the value itselves
+					// should be the value itselves
+					aValues[sKey] = sName;
 				} else if((oElement = this.o(sId))) {
 					aValues[sReturnName] = oElement.getParamsForMajix(
 							oElement.getValue(), sEventName, aParams, aRowParams, aLocalArguments
 						);
+				} else if(isRowInput) {
+					// skip if we have a rowinput without a object for id
+					// this prevents js errors for newer jquery versions
 				} else if((oElement = MKWrapper.$(this.rdtIdByName(sName)))) {
 					aValues[sReturnName] = MKWrapper.$F(oElement);
 				} else {
-					aValues[sKey] = sName; // should be the value itselves
+					// should be the value itselves
+					aValues[sKey] = sName;
 				}
 			}
 		}
@@ -1379,10 +1388,8 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 	childs: function() {
 		if(this.config._rdts) {
 			return this.config._rdts;
-			return MKWrapper.$H(this.config._rdts);
 		}
 		return {};
-		return MKWrapper.$H({});
 	},
 	parent: function() {
 		if(this.config.parent) {
