@@ -1,7 +1,7 @@
 {
 	"name" : "dmk/mkforms",
 	"description" : "Making HTML forms for TYPO3",
-	"version" : "1.0.24",
+	"version" : "1.0.25",
 	"type" : "typo3-cms-extension",
 	"keywords" : ["TYPO3 CMS", "forms", "formidable"],
 	"homepage" : "http://www.dmk-ebusiness.de/",
