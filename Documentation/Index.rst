@@ -67,3 +67,4 @@ MKForms
    SpamProtection/Index
    Widgets/Index
    Tipps/Index
+   Changelog
