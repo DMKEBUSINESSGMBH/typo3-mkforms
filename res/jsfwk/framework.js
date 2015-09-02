@@ -493,11 +493,11 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		}
 
 		if(bThrow) {
-			$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT").value=sEventId;
+			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT").value=sEventId;
 
 			if(sParams != false) {
-				$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_PARAMS").value=sParams;
-				$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_HASH").value=sHash;
+				MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_PARAMS").value=sParams;
+				MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_HASH").value=sHash;
 			}
 
 
@@ -943,15 +943,17 @@ Formidable.Classes.FormBaseClass = Base.extend({
 		}
 	},
 	cleanSysFields: function(bAll) {
-		$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT").value="";
-		$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_PARAMS").value="";
-		$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_HASH").value="";
-		$(this.sFormId + "_AMEOSFORMIDABLE_ADDPOSTVARS").value="";
+		MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT").value="";
+		MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_PARAMS").value="";
+		MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SERVEREVENT_HASH").value="";
+		MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_ADDPOSTVARS").value="";
 		if(bAll) {
-			if($(this.sFormId + "_AMEOSFORMIDABLE_ENTRYID")) {$(this.sFormId + "_AMEOSFORMIDABLE_ENTRYID").value="";}
-			$(this.sFormId + "_AMEOSFORMIDABLE_VIEWSTATE").value="";
-			$(this.sFormId + "_AMEOSFORMIDABLE_SUBMITTED").value="";
-			$(this.sFormId + "_AMEOSFORMIDABLE_SUBMITTER").value="";
+			if(MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_ENTRYID")) {
+				MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_ENTRYID").value="";
+			}
+			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_VIEWSTATE").value="";
+			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SUBMITTED").value="";
+			MKWrapper.$(this.sFormId + "_AMEOSFORMIDABLE_SUBMITTER").value="";
 		}
 	},
 	doSubmit: function(iMode, bServerEvent, oSender) {
