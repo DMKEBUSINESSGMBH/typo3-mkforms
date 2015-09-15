@@ -62,13 +62,13 @@ class tx_mkforms_util_FormFill {
 	 *	</params
 	 *
 	 * @param array $params
-	 * @param tx_ameosformidable $form
+	 * @param tx_mkforms_forms_Base $form
 	 * @todo 	Eigene Exceptions nutzen (nicht von mklib)
 	 * @return array
 	 */
-	public static function getItemsFromDb(array $params, tx_ameosformidable $form){
+	public function getItemsFromDb(array $params, tx_mkforms_forms_Base $form){
 		return tx_mkforms_util_Div::arrayToRdtItems(
-			static::getRowsFromDataBase($params, $form),
+			$this->getRowsFromDataBase($params, $form),
 			'__caption__',
 			'__value__'
 		);
@@ -78,20 +78,20 @@ class tx_mkforms_util_FormFill {
 	 * Bestimmte Datensätze aus der DB auslesen
 	 *
 	 * @param array $params
-	 * @param tx_ameosformidable $form
+	 * @param tx_mkforms_forms_Base $form
 	 * @todo Eigene Exceptions nutzen (nicht von mklib)
 	 * @return array
 	 */
-	public static function getRowsFromDataBase(array $params, tx_ameosformidable $form){
+	public function getRowsFromDataBase(array $params, tx_mkforms_forms_Base $form){
 		//erstmal prüfen ob alle notwendigen params gesetzt wurden
 		if(empty($params['table']) || empty($params['valueField']) || empty($params['captionField']))
 			throw new InvalidArgumentException(
-				'tx_mkforms_util_FormBaseAjax->getItemsFromDb():'.
+				'tx_mkforms_util_FormFill->getRowsFromDataBase():'.
 				' Bitte gib die Parameter "table", "valueField" und "captionField" an.'
 			);
 		if (isset($params['dependsOn']) && (empty($params['dependsOn']['dbfield']) || empty($params['dependsOn']['formfield']))){
 			throw new InvalidArgumentException(
-				'tx_mkforms_util_FormBaseAjax->getItemsFromDb():'.
+				'tx_mkforms_util_FormFill->getRowsFromDataBase():'.
 				' Wenn du $params["dependsOn"] angibst musst du auch $params["dependsOn"]["dbfield"] und $params["dependsOn"]["formfield"] angeben!'
 			);
 		}else{
@@ -149,6 +149,91 @@ class tx_mkforms_util_FormFill {
 		return $rows;
 	}
 
+
+	/**
+	 * Get countries from database
+	 *
+	 * config parameters:
+	 * * caption_field the column, used as title.
+	 * * order_by the order clause, default is asc of caption_field.
+	 * * add_top_countries list of uids. add these countries on top of the select.
+	 * *   add_top_country_delimiter will be added as delimiter, if set.
+	 *
+	 * Example:
+	 *     <userobj extension="tx_mkforms_util_FormFill" method="getCountries">
+	 *         <params>
+	 *             <!-- use the german country column for the captions  -->
+	 *             <param name="caption_field" value="cn_short_de" />
+	 *             <!--
+	 *                 these countries should ordered at the top of the list:
+	 *                 54:Deutschland, 13:Österreich, 41:Schweiz, 104:Italien, 74:Großbritannien, 122:Liechtenstein
+	 *             --->
+	 *             <param name="add_top_countries" value="54,13,41,104,74,122" />
+	 *             <!-- seperate the top countries with a blank option -->
+	 *             <param name="add_top_country_delimiter" value="------------------------" />
+	 *         </params>
+	 *     </userobj>
+	 *
+	 *
+	 * @param array $params
+	 * @param tx_mkforms_forms_Base $form
+	 * @return array
+	 */
+	public function getStaticCountries($params, tx_mkforms_forms_Base $form) {
+		tx_rnbase::load('tx_rnbase_util_Extensions');
+		tx_rnbase_util_Extensions::isLoaded('static_info_tables', TRUE);
+
+		tx_rnbase::load('tx_rnbase_model_data');
+		$config = tx_rnbase_model_data::getInstance($params);
+
+		$captionField = (
+			$config->hasCaptionField()
+				? $config->getCaptionField()
+				: 'cn_short_en'
+		);
+		$p = array(
+			'table' => 'static_countries',
+			'valueField' => 'uid',
+			'captionField' => $captionField,
+			'options' => array(
+				'where' => 'pid = 0 AND ' . $captionField . ' != \'\'',
+				'orderby' => (
+					$config->hasOrderBy()
+						? $config->getOrderBy()
+						: $captionField.' ASC'
+				)
+			),
+		);
+
+		$countries = $this->getItemsFromDb($p, $form);
+
+		// sort some countries to top of the list.
+		if ($config->hasAddTopCountries()) {
+			tx_rnbase::load('tx_rnbase_util_Strings');
+			$topCountries = tx_rnbase_util_Strings::intExplode(',', $config->getAddTopCountries());
+			foreach ($topCountries as &$topCountry) {
+				foreach ($countries as $countryKey => $country) {
+					if ($country['value'] != $topCountry) {
+						continue;
+					}
+					$topCountry = $country;
+					unset($countries[$countryKey]);
+				}
+			}
+			if (!empty($topCountries)) {
+				if ($config->hasAddTopCountryDelimiter()) {
+					$topCountries[] = array(
+						'value' => 0,
+						'caption' => $config->getAddTopCountryDelimiter(),
+						'custom' => 'disabled="disabled"',
+					);
+				}
+				$countries = array_values(array_merge($topCountries, $countries));
+			}
+		}
+
+		return $countries;
+	}
 
 }
 
