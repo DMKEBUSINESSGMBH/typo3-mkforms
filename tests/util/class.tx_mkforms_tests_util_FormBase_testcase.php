@@ -35,39 +35,6 @@ tx_rnbase::load('tx_mkforms_tests_Util');
  */
 class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 
-
-	/**
-	 * @group unit
-	 */
-	public function testGetItemsFromDb() {
-		$formBase = $this->getMockClass(
-			'tx_mkforms_util_FormBase', array('getRowsFromDataBase')
-		);
-		$form = tx_mkforms_tests_Util::getForm();
-		$formBase::staticExpects(self::once())
-			->method('getRowsFromDataBase')
-			->with(array('someParams'), $form)
-			->will(self::returnValue(
-				array(
-					0 => array(
-						'__value__' => 123, '__caption__' => 'first'
-					),
-					1 => array(
-						'__value__' => 456, '__caption__' => 'second'
-					),
-				)
-			));
-
-		self::assertEquals(
-			array(
-				0 => array('value' => 123, 'caption' => 'first'),
-				1 => array('value' => 456, 'caption' => 'second'),
-			),
-			$formBase::getItemsFromDb(array('someParams'), $form),
-			'rückgabe falsch'
-		);
-	}
-
 	/**
 	 * @group unit
 	 * @expectedException InvalidArgumentException
