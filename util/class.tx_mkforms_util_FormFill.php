@@ -141,7 +141,7 @@ class tx_mkforms_util_FormFill {
 			$rows = tx_rnbase_util_DB::doSelect(
 				$params['valueField'].' as __value__,'.$params['captionField'] . ' as __caption__',
 				$table,
-				isset($params['options']) ? $params['options'] : null,
+				isset($params['options']) ? $params['options'] : array(),
 				isset($params['debug']) ? $params['debug'] : null
 			);
 		}
