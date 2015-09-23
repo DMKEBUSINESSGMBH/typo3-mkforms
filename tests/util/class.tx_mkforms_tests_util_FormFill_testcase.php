@@ -73,6 +73,11 @@ class tx_mkforms_tests_util_FormFill_testcase
 
 
 	public function testGetCountries() {
+		tx_rnbase::load('tx_rnbase_util_Extensions');
+		if (!tx_rnbase_util_Extensions::isLoaded('static_info_tables')) {
+			self::markTestSkipped('Die Extension static_info_tables ist nicht installiert.');
+		}
+
 		$form = tx_mkforms_tests_Util::getForm();
 		$formFill = $this->getMock(
 			'tx_mkforms_util_FormFill',
