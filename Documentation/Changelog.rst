@@ -9,6 +9,12 @@
 Changelog
 =========
 
+1.0.32
+------
+
+* [BUGFIX] mkwrapper in framework.js ergaenzt
+* new static country feature for form field data (see manual)
+
 
 1.0.26
 ------

@@ -264,3 +264,25 @@ kann der Wert auch einfach verwendet werden wie er im TypoScript steht.
             </userobj>
          </process>
          ...
+
+Daten für static countries in einem Formular verwenden
+------------------------------------------------------
+
+Es gibt eine Methode, mit welcher Datensätze aus der static_countries Tabelle abgefragt werden kann.
+Das kann wie folgt geschehen und z.B. in einem Select-Feld verwendet werden.
+
+.. code-block:: xml
+
+   <userobj extension="tx_mkforms_util_FormFill" method="getCountries">
+      <params>
+         <!-- use the german country column for the captions  -->
+         <param name="caption_field" value="cn_short_de" />
+         <!--
+            these countries should ordered at the top of the list:
+            54:Deutschland, 13:Österreich, 41:Schweiz, 104:Italien, 74:Großbritannien, 122:Liechtenstein
+         --->
+         <param name="add_top_countries" value="54,13,41,104,74,122" />
+         <!-- seperate the top countries with a blank option -->
+         <param name="add_top_country_delimiter" value="------------------------" />
+      </params>
+    </userobj>
