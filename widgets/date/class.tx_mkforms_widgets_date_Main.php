@@ -374,15 +374,12 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 
 		$sLangFile = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
 
-		$sCssFile = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . 'fileadmin/templates/css/template_calendar.css';
-
 		$oJsLoader =$this->getForm()->getJSLoader();
 		$oJsLoader->additionalHeaderData(
 			'
 				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath. 'res/lib/js_calendar/calendar.js') . '"></script>
 				<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sLangFile) . '"></script>
 				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . 'res/lib/js_calendar/calendar-setup.js') . '"></script>
-				<link rel="stylesheet" type="text/css" media="all" href="' . $sCssFile . '" />
 
 			',
 			'mkforms_date_includeonce'
