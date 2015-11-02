@@ -455,4 +455,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/autocomplete/class.tx_mkforms_widgets_autocomplete_Main.php']);
 }
 
-?>

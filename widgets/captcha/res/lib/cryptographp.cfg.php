@@ -157,4 +157,4 @@ $cryptoneuse = false;  // Si vous souhaitez que la page de verification ne valid
 
 include 'cryptographp.cfg.session.php';
 
-?>
+

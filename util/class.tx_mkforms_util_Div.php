@@ -562,7 +562,7 @@ MAYDAYPAGE;
 
 		$sVersion = self::getVersion();
 		$sXml =<<<XMLFILE
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"
 <mkforms version="{$sVersion}">
 
 	<meta>

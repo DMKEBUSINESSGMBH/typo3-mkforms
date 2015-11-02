@@ -1,7 +1,7 @@
 <?php
 $cryptinstall="./cryptographp.fct.php";
 include $cryptinstall;
-?>
+
 
 
 <html>

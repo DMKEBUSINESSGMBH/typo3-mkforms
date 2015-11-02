@@ -32,4 +32,3 @@ class tx_mkforms_widgets_pwd_Main extends formidable_mainrenderlet {
 		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_pwd/api/class.tx_rdtpwd.php"]);
 	}
 
-?>

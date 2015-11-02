@@ -291,4 +291,3 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_box/api/class.tx_rdtbox.php"]);
 	}
 
-?>

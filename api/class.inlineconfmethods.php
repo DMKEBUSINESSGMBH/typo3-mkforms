@@ -59,4 +59,4 @@ class formidable_inlineconfmethods extends formidable_mainscriptingmethods {
 	}
 }
 
-?>
+

@@ -25,4 +25,3 @@ if (defined("TYPO3_MODE")
 ) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/dh_std/api/class.tx_dhstd.php"]);
 }
-?>

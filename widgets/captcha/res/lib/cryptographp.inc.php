@@ -269,4 +269,4 @@ switch (strtoupper($cryptformat)) {
 imagedestroy ($img);
 unset ($word,$tword);
 unset ($_SESSION['cryptreload']);
-?>
+

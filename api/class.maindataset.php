@@ -110,4 +110,3 @@ class formidable_maindataset extends formidable_mainobject {
 	}
 }
 
-?>

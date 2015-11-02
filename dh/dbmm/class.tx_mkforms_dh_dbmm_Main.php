@@ -316,4 +316,4 @@ if (defined('TYPO3_MODE')
 ) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']);
 }
-?>
+

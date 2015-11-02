@@ -4,4 +4,3 @@
 	header("Cache-Control: max-age=86400, public");
 	fpassthru(fopen(realpath("./formidable.minified.js.gz"), "rb"));
 	exit;
-?>

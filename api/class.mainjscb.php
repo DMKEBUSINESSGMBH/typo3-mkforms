@@ -29,4 +29,3 @@ class formidable_mainjscb {
 	}
 }
 
-?>

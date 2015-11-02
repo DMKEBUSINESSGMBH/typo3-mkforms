@@ -121,4 +121,3 @@ class DHTML_Calendar {
 		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_date/res/lib/js_calendar/calendar.php"]);
 	}
 
-?>

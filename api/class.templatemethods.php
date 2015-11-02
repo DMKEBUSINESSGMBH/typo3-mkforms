@@ -590,4 +590,3 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 }
 
-?>

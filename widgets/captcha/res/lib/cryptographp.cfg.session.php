@@ -138,4 +138,4 @@ $cryptusemax = $_SESSION["rdt_captcha"]["config"]["cryptusemax"];  // Nb maximum
                       // PS: Par d�faut, la dur�e d'une session PHP est de 180 mn, sauf si
                       // l'hebergeur ou le d�veloppeur du site en on d�cid� autrement...
                       // Cette limite est effective pour toute la dur�e de la session.
-?>
+

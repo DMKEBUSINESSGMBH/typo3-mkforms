@@ -83,4 +83,3 @@ if (defined('TYPO3_MODE')
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.user_ameosformidable_cobj.php']);
 }
 
-?>

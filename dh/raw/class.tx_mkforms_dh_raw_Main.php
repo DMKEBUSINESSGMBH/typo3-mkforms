@@ -184,4 +184,3 @@ if (defined('TYPO3_MODE')
 ) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/dh/raw/class.tx_mkforms_dh_raw_Main.php']);
 }
-?>
