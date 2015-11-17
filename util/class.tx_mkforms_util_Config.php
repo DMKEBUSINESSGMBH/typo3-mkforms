@@ -789,6 +789,7 @@ class tx_mkforms_util_Config {
 				$aSegments[] = array('what' => $sPart,'crits' => FALSE,'segment' => $sPart);
 			}
 		}
+		$aConf = $this->insertSubXml($aConf, $aDebug);
 		$aPossibles = array(0 => $aConf);
 
 		reset($aConf);
