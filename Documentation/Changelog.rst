@@ -9,6 +9,12 @@
 Changelog
 =========
 
+1.0.35
+------
+
+* recursive includeXml inclusion now possible
+* cleanup filename in the normal upload widget just like in the FAL/DAM upload widget
+
 1.0.33
 ------
 
