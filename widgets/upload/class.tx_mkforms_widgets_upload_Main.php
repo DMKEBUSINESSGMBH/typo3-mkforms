@@ -176,8 +176,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 		if(is_array($aData) && isset($aData['error']) && $aData['error'] == 0) {
 			// a file has just been uploaded
 
-			$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-
 			if(($sTargetFile = $this->getTargetFile()) !== FALSE) {
 				$sTargetDir = t3lib_div::dirname($sTargetFile);
 				$sName = basename($sTargetFile);
@@ -187,9 +185,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 				$sName = basename($aData['name']);
 				if($this->defaultTrue('/data/cleanfilename') && $this->defaultTrue('/cleanfilename')) {
-					$sName = strtolower(
-						$oFileTool->cleanFileName($sName)
-					);
+					$sName = tx_mkforms_util_Div::cleanupFileName($sName);
 				}
 
 				$sTarget = $sTargetDir . $sName;
