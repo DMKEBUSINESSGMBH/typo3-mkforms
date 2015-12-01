@@ -461,6 +461,11 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_hasError($mData, $aParams) {
+		// wurde der Methode direkt der Name eines Widgets übergeben?
+		if ($aParams[0]) {
+			$mData = $mData[$aParams[0]];
+		}
+
 		return $this->method_hasErrors($mData, $aParams);
 	}
 

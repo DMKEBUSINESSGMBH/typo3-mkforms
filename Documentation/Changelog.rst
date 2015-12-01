@@ -9,6 +9,11 @@
 Changelog
 =========
 
+1.0.36
+------
+
+* bugfix falls hasError in einem Template direkt aufgerufen wird und ein Widgetname übergeben bekommt
+
 1.0.35
 ------
 
