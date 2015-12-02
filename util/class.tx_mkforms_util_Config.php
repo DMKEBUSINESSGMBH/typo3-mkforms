@@ -21,7 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+tx_rnbase::load('tx_rnbase_util_Arrays');
 
 /**
  * Die Klasse ist für die Verarbeitung der XML-Formulardatei verantwortlich.
@@ -658,6 +658,7 @@ class tx_mkforms_util_Config {
 
 						tx_rnbase::load('tx_mkforms_util_XMLParser');
 						$aXml = tx_mkforms_util_XMLParser::getXml(tx_mkforms_util_Div::toServerPath($sPath), TRUE);
+						$aXml = $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml']);
 
 						if(array_key_exists('dynaxml', $val)) {
 							$aDynaXml = $val['dynaxml'];
@@ -789,7 +790,6 @@ class tx_mkforms_util_Config {
 				$aSegments[] = array('what' => $sPart,'crits' => FALSE,'segment' => $sPart);
 			}
 		}
-		$aConf = $this->insertSubXml($aConf, $aDebug);
 		$aPossibles = array(0 => $aConf);
 
 		reset($aConf);
