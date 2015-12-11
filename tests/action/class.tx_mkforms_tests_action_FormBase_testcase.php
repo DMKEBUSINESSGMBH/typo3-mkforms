@@ -38,7 +38,6 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 	 *
 	 */
 	public function setUp() {
-
 		/*
 		 * warning "Cannot modify header information" abfangen.
 		 *
@@ -56,6 +55,8 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
 		 * Wir gehen also erst mal den Weg, den Fehler abzufangen.
 		 */
 		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+
+		tx_rnbase_util_Misc::prepareTSFE()->sys_page = tx_rnbase_util_TYPO3::getSysPage();
 
 		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
 		$oTestFramework->createFakeFrontEnd();

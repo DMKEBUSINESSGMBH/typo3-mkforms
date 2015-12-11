@@ -37,17 +37,11 @@ tx_rnbase::load('tx_mkforms_tests_Util');
 class tx_mkforms_tests_util_FormBaseAjax_testcase extends tx_phpunit_testcase {
 
 	public function testRepaintDependenciesReturnsCorrectArray(){#
-		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
-			$this->markTestSkipped('Geht leider nicht unter CLI.');
-		}
 		$params = array('me' => 'fieldset__widget-listbox');
 		$ret = tx_mkforms_util_FormBaseAjax::repaintDependencies($params, tx_mkforms_tests_Util::getForm());
 		// formidable_mainrenderlet::majixRepaintDependancies liefert immer ein array!
 		$ret = $ret[0];
-		self::assertEquals('<input type="checkbox" name="radioTestForm[fieldset][widget-checksingle][checkbox]"'
-				.' id="radioTestForm__fieldset__widget-checksingle_checkbox"  value="1" /><input type="hidden" '
-				.'name="radioTestForm[fieldset][widget-checksingle]" id="radioTestForm__fieldset__widget-checksingle"  '
-				.'value="0" />', $ret['data'], 'Es wurde nicht die richtige data zurück gegeben!');
+		self::assertContains('radioTestForm[fieldset][widget-checksingle]', $ret['data']);
 		self::assertEquals('radioTestForm__fieldset__widget-checksingle',$ret['object'],'Es wurde nicht das richtige object zurück gegeben!');
 		self::assertEmpty($ret['databag'],'Es wurde doch ein databag zurück gegeben!');
 		self::assertEquals('repaint',$ret['method'],'Es wurde nicht die richtige Methode zurück gegeben!');
