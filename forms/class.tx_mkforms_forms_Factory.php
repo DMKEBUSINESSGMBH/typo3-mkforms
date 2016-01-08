@@ -26,13 +26,13 @@ require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 
 /**
  * Factory for forms.
- *
  */
 class tx_mkforms_forms_Factory {
 	/**
 	 * Create form instance
 	 *
 	 * @param string $name
+	 *
 	 * @return tx_mkforms_forms_Base
 	 */
 	public static function createForm($name) {
@@ -40,6 +40,8 @@ class tx_mkforms_forms_Factory {
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_Factory.php']) {
+if (defined('TYPO3_MODE')
+	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_Factory.php']
+) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_Factory.php']);
 }
