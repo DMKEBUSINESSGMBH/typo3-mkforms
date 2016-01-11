@@ -587,7 +587,7 @@ class tx_mkforms_util_FormBase {
 	 * @deprecated use tx_mkforms_util_FormFill::getItemsFromDb()
 	 * @return array
 	 */
-	public static function getItemsFromDb(array $params, tx_ameosformidable $form){
+	public function getItemsFromDb(array $params, tx_ameosformidable $form){
 		/* @var $formfill tx_mkforms_util_FormFill */
 		$formfill = tx_rnbase::makeInstance('tx_mkforms_util_FormFill');
 		return $formfill->getItemsFromDb($params, $form);
