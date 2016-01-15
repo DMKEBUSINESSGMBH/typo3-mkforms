@@ -419,7 +419,11 @@ class formidable_mainvalidator extends formidable_mainobject {
 						}
 					}
 				} else {
-					$inArray = in_array($mValue, $aDependsOnIf, TRUE);
+					$inArray = in_array(
+						$mValue,
+						$aDependsOnIf,
+						$this->_defaultTrue('/' . $sKey . '/dependsonifstrict')
+					);
 				}
 
 				if (($inArray != $negate)) {
