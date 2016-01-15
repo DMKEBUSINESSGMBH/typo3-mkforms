@@ -91,7 +91,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	 */
 	public function testPerformanceOfSetValueWithSanitizingString() {
 		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
-			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
+			$this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
 		}
 		$this->oForm->getWidget('widget-text')->setValue('<script type="text/javascript">alert("XSS");</script>');
 
@@ -113,7 +113,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_phpunit_testcase {
 	 */
 	public function testPerformanceOfSetValueWithoutSanitizingString() {
 		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
-			$this->markTestSkipped('Dieser Test kann nur nur manuel für Analysen gestartet werden.');
+			$this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
 		}
 		$this->oForm->getWidget('widget-text2')->setValue('<script type="text/javascript">alert("XSS");</script>');
 
