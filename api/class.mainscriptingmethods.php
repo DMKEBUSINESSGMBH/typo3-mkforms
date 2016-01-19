@@ -6,6 +6,15 @@ class formidable_mainscriptingmethods {
 		$this->oForm =& $oForm;
 	}
 
+	/**
+	 * Returns the form
+	 *
+	 * @return tx_ameosformidable
+	 */
+	protected function getForm() {
+		return $this->oForm;
+	}
+
 	function process($sMethod, $mData, $sArgs) {
 
 		$aParams = $this->oForm->getTemplateTool()->parseTemplateMethodArgs($sArgs);

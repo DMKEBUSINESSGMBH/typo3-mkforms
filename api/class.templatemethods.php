@@ -114,36 +114,40 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 		return FALSE;
 	}
 
+	protected function templateDataAsString ($mData, $aParams = array()) {
+		return $this->getForm()->templateDataAsString($mData);
+	}
+
 	function method_nl2br($mData, $aParams) {
-		return nl2br(tx_ameosformidable::templateDataAsString($mData));
+		return nl2br($this->templateDataAsString($mData));
 	}
 
 	function method_urlencode($mData, $aParams) {
-		return urlencode(tx_ameosformidable::templateDataAsString($mData));
+		return urlencode($this->templateDataAsString($mData));
 	}
 
 	function method_rawurlencode($mData, $aParams) {
-		return rawurlencode(tx_ameosformidable::templateDataAsString($mData));
+		return rawurlencode($this->templateDataAsString($mData));
 	}
 
 	function method_trim($mData, $aParams) {
-		return trim(tx_ameosformidable::templateDataAsString($mData));
+		return trim($this->templateDataAsString($mData));
 	}
 
 	function method_upper($mData, $aParams) {
-		return strtoupper(tx_ameosformidable::templateDataAsString($mData));
+		return strtoupper($this->templateDataAsString($mData));
 	}
 
 	function method_lower($mData, $aParams) {
-		return strtolower(tx_ameosformidable::templateDataAsString($mData));
+		return strtolower($this->templateDataAsString($mData));
 	}
 
 	function method_ucfirst($mData, $aParams) {
-		return ucfirst(tx_ameosformidable::templateDataAsString($mData));
+		return ucfirst($this->templateDataAsString($mData));
 	}
 
 	function method_ucwords($mData, $aParams) {
-		return ucwords(tx_ameosformidable::templateDataAsString($mData));
+		return ucwords($this->templateDataAsString($mData));
 	}
 
 	function method_debug($mData, $aParams) {
@@ -164,7 +168,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_displayCond($mData, $aParams) {
-		if (tx_ameosformidable::templateDataAsString($mData) === '') {
+		if ($this->templateDataAsString($mData) === '') {
 			return 'display: none;';
 		}
 
@@ -172,13 +176,13 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_concat($mData, $aParams) {
-		return trim(tx_ameosformidable::templateDataAsString($mData) . implode(' ', $aParams));
+		return trim($this->templateDataAsString($mData) . implode(' ', $aParams));
 	}
 
 	function method_wrap($mData, $aParams) {
 		return str_replace(
 			'|',
-			trim(tx_ameosformidable::templateDataAsString($mData)),
+			trim($this->templateDataAsString($mData)),
 			$aParams[0]
 		);
 	}
@@ -206,7 +210,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_toWebPath($mData, $aParams) {
-		return $this->oForm->toWebPath(trim(tx_ameosformidable::templateDataAsString($mData)));
+		return $this->oForm->toWebPath(trim($this->templateDataAsString($mData)));
 	}
 
 	function method_getLLL($mData, $aParams) {
@@ -214,7 +218,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_getLLLabel($mData, $aParams) {
-		return $this->oForm->getConfigXML()->getLLLabel(trim(tx_ameosformidable::templateDataAsString($aParams[0])));
+		return $this->oForm->getConfigXML()->getLLLabel(trim($this->templateDataAsString($aParams[0])));
 	}
 
 	function method_extract($mData, $aParams) {
@@ -307,7 +311,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 	function method_substr($mData, $aParams) {
 		return t3lib_div::fixed_lgd_cs(
-			tx_ameosformidable::templateDataAsString($mData),
+			$this->templateDataAsString($mData),
 			$aParams[0],
 			$aParams[1]
 		);
@@ -318,7 +322,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_fixed_lgd_word($mData, $aParams) {
-		$sStr = tx_ameosformidable::templateDataAsString($mData);
+		$sStr = $this->templateDataAsString($mData);
 
 		if (strlen($sStr) <= $aParams[0]) {
 			return $sStr;
@@ -338,7 +342,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_strip_tags($mData, $aParams) {
-		return strip_tags(tx_ameosformidable::templateDataAsString($mData));
+		return strip_tags($this->templateDataAsString($mData));
 	}
 
 	function method_formData($mData, $aParams) {
@@ -371,7 +375,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 	function method_rteToHtml($mData, $aParams) {
 		return $this->oForm->div_rteToHtml(
-			tx_ameosformidable::templateDataAsString($mData),
+			$this->templateDataAsString($mData),
 			'',
 			''
 		);
@@ -384,19 +388,19 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_hsc($mData, $aParams) {
-		return htmlspecialchars(tx_ameosformidable::templateDataAsString($mData));
+		return htmlspecialchars($this->templateDataAsString($mData));
 	}
 
 	function method_htmlentities($mData, $aParams) {
 		return htmlentities(
-			tx_ameosformidable::templateDataAsString($mData),
+			$this->templateDataAsString($mData),
 			array_key_exists(0, $aParams) ? $aParams[0] : ENT_COMPAT,    // quote style
 			array_key_exists(1, $aParams) ? $aParams[1] : 'ISO-8859-1'    // returned charset
 		);
 	}
 
 	function method_replace($mData, $aParams) {
-		return str_replace($aParams[0], $aParams[1], tx_ameosformidable::templateDataAsString($mData));
+		return str_replace($aParams[0], $aParams[1], $this->templateDataAsString($mData));
 	}
 
 	function method_strftime($mData, $aParams) {
@@ -406,7 +410,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 		return strftime(
 			$sFormat,
-			intval(trim(tx_ameosformidable::templateDataAsString($mData)))
+			intval(trim($this->templateDataAsString($mData)))
 		);
 	}
 
@@ -447,9 +451,9 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_and($mData, $aParams) {
-		$mData = tx_ameosformidable::templateDataAsString($mData);
+		$mData = $this->templateDataAsString($mData);
 
-		return tx_ameosformidable::templateDataAsString($mData) && $aParams[0];
+		return $this->templateDataAsString($mData) && $aParams[0];
 	}
 
 	function method_persistHidden($mData, $aParams) {
@@ -530,7 +534,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 
 		$aRes = t3lib_div::trimExplode(
 			$sSep,
-			tx_ameosformidable::templateDataAsString($mData)
+			$this->templateDataAsString($mData)
 		);
 
 		reset($aRes);
