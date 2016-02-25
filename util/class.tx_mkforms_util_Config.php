@@ -78,6 +78,7 @@ class tx_mkforms_util_Config {
 						$curZone = $this->xPath($curZone);
 					} elseif($curZone{0} === 'T' && substr($curZone, 0, 3) === 'TS:') {
 						$sTsPointer = $curZone;
+						$curZone = substr($curZone, 3);
 						if(($curZone = $this->getTS($curZone, TRUE)) === AMEOSFORMIDABLE_TS_FAILED) {
 							tx_mkforms_util_Div::mayday("The typoscript pointer <b>" . $sTsPointer . "</b> evaluation has failed, as the pointed property does not exists within the current Typoscript template");
 						}
@@ -193,6 +194,9 @@ class tx_mkforms_util_Config {
 			if(!array_key_exists('formidable', $this->config)) {
 				tx_mkforms_util_Div::mayday('Root "mkforms" not found in XML. ('.$xmlPath.')');
 			}
+			t3lib_div::deprecationLog(
+				'Root node "mkforms" in "' . $xmlPath . '" missed, but deprecated "formidable" found.'
+			);
 		}
 
 		$this->config = $this->config[$sRoot];	// the root is deleted
@@ -849,16 +853,19 @@ class tx_mkforms_util_Config {
 	 *
 	 * @param	array		$aConf: array of conf to process
 	 * @param	array		$aTemp: optional; internal use
+	 *
+	 * @TODO: reimplement. does not work since the new config was added by the mkforms fork
+	 *
 	 * @return	array		processed conf array
 	 */
 	private function insertSubTS($aConf, $aTemp = array()) {
-
 		reset($aConf);
 		while(list($key, $val) = each($aConf)) {
 			$isIncludeTS = ($key{0} === 'i' && t3lib_div::isFirstPartOfStr($key, 'includets'));
 			if(is_array($val)) {
 				if($isIncludeTS) {
 					if(array_key_exists('path', $val)) {
+						throw new Exception('insertSubTS not supported yet. has to be reimplementet to new config');
 						$aTs = $this->getTS($val);
 						$aTemp = $this->array_add($this->insertSubTS($aTs),$aTemp);
 					}
@@ -868,6 +875,7 @@ class tx_mkforms_util_Config {
 			}
 			else {
 				if($isIncludeTS) {
+					throw new Exception('insertSubTS not supported yet. has to be reimplementet to new config');
 					$aTs = $this->getTS($val);
 					$aTemp = $this->array_add($aTs,$aTemp);
 				} else {
@@ -886,8 +894,7 @@ class tx_mkforms_util_Config {
 	 * @return	mixed		ts conf
 	 */
 	private function getTS($sTSPath) {
-		// TODO: Hier die passende TS laden
-		return $this->get($sTSPath, tx_mkforms_util_Div::removeDots($this->_oParent->conf));
+		return $this->getForm()->getConfTS($sTSPath);
 	}
 	/**
 	 * [Describe function...]

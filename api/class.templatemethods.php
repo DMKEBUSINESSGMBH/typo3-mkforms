@@ -221,6 +221,10 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 		return $this->oForm->getConfigXML()->getLLLabel(trim($this->templateDataAsString($aParams[0])));
 	}
 
+	function method_getTs($mData, $aParams) {
+		return $this->getForm()->getConfTS($aParams[0]);
+	}
+
 	function method_extract($mData, $aParams) {
 		$aRes = array();
 		if (is_array($mData)) {

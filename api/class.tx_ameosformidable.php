@@ -2117,29 +2117,6 @@ SANDBOXCLASS;
 		}
 	}
 
-	function getTs($sKey, $bBreakable = FALSE) {
-		if ($sKey{0} === 'T' && $sKey{1} === 'S' && $sKey{2} == ':') {
-			$sKey = substr($sKey, 3);
-		}
-
-		$aSegments = explode('#', str_replace('.', '.#', $sKey));    // adding the trailing dots '.' in the exploded array
-		$mCurLevel =& $GLOBALS['TSFE']->tmpl->setup;
-		reset($aSegments);
-		while (list(, $sSeg) = each($aSegments)) {
-			if (!is_array($mCurLevel) || !array_key_exists($sSeg, $mCurLevel)) {
-				if ($bBreakable === TRUE) {
-					return AMEOSFORMIDABLE_TS_FAILED;
-				} else {
-					return '';
-				}
-			}
-
-			$mCurLevel =& $mCurLevel[$sSeg];
-		}
-
-		return $mCurLevel;
-	}
-
 	function getTcaVal($sAddress) {
 		if ($sAddress{0} === 'T' && $sAddress{1} === 'C' && substr($sAddress, 0, 4) === 'TCA:') {
 
