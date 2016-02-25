@@ -4,9 +4,9 @@
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
-
-
-class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_radio_Main
+	extends formidable_mainrenderlet
+{
 
 	var $sMajixClass = 'Radio';
 	var $aLibs = array(
@@ -22,21 +22,24 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 		$sCurValue = $this->getValue();
 		$sRadioGroup = '';
 
-		// on construit la liste des �l�ments du groupe radio
-
-		$optionsList = '';
 		$aItems = $this->_getItems();
 		$aSubRdts = array();
 
+		if (
+			$sCurValue === NULL &&
+			$this->_defaultFalse('/data/firstactive') &&
+			!empty($aItems)
+		) {
+			$sCurValue = reset($aItems);
+			$sCurValue = $sCurValue['value'];
+		}
+
 		$aHtmlBag['value'] = $sCurValue;
 
-		if(count($aItems) > 0) {
-
+		if (!empty($aItems)) {
 			$aHtml = array();
 
-			reset($aItems);
-			while(list($itemindex, $aItem) = each($aItems)) {
-
+			foreach ($aItems as $itemindex => $aItem) {
 				// item configuration
 				$aConfig = array_merge($this->aElement, $aItem);
 
@@ -74,7 +77,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 					$sLabelStart = $sLabelTag[0];
 					$sLabelEnd = '</label>';
 				}
-				$sLabelTag = $sLabelStart.$sCaption.$sLabelEnd;
+				$sLabelTag = $sLabelStart . $sCaption . $sLabelEnd;
 
 				$aHtmlBag[$sValue . '.'] = array(
 					'label' => $sCaption,
@@ -121,8 +124,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 		$aItems = $this->_getItems();
 
 		reset($aItems);
-		while(list(, $aItem) = each($aItems)) {
-
+		foreach ($aItems as $aItem) {
 			if($aItem['value'] == $data) {
 				return $this->oForm->getConfigXML()->getLLLabel($aItem['caption']);
 			}
@@ -194,27 +196,28 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet {
 
 		// für bestehende projekte, das main label darf nicht die klasse -radio haben!
 		$sDefaultLabelClass = $this->sDefaultLabelClass;
-		$this->sDefaultLabelClass = $this->getForm()->sDefaultWrapClass.'-label';
+		$this->sDefaultLabelClass = $this->getForm()->sDefaultWrapClass . '-label';
 
-		$aConfig =  $this->aElement;
+		$aConfig = $this->aElement;
 		// via default, kein for tag!
 		if(!isset($aConfig['labelfor'])) $aConfig['labelfor'] = 0;
 
 		$sLabel = $this->getLabelTag($sLabel, $aConfig);
 
 		// label zurücksetzen
-		$this->sDefaultLabelClass = 'label-radio';
+		$this->sDefaultLabelClass = $sDefaultLabelClass;
 
 		return $sLabel;
 	}
 
-	function _activeListable() {		// listable as an active HTML FORM field or not in the lister
+	function _activeListable() {
+		// listable as an active HTML FORM field or not in the lister
 		return $this->_defaultTrue('/activelistable/');
 	}
 }
 
 
-	if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_radio/api/class.tx_rdtradio.php'])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_radio/api/class.tx_rdtradio.php']);
-	}
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_radio/api/class.tx_rdtradio.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_radio/api/class.tx_rdtradio.php']);
+}
 
