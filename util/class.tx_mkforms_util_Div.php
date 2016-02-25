@@ -641,13 +641,28 @@ ERRORMESSAGE;
 	 *
 	 * @return	string		current mkforms version number
 	 */
-	public static function getVersion() {
-		return $GLOBALS['EM_CONF']['mkforms']['version'];
-		return $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ext_emconf.php']['version'];
+	public static function getVersion()
+	{
+		static $version = NULL;
+		if ($version === NULL) {
+			$version = $GLOBALS['EM_CONF']['mkforms']['version'];
+			if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
+				$version = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('mkforms');
+			}
+		}
+
+		return $version;
 	}
-	public static function getVersionInt() {
-		tx_rnbase::load('tx_rnbase_util_TYPO3');
-		return tx_rnbase_util_TYPO3::convertVersionNumberToInteger(self::getVersion());
+
+	public static function getVersionInt()
+	{
+		static $version = NULL;
+		if ($version === NULL) {
+			tx_rnbase::load('tx_rnbase_util_TYPO3');
+			$version = tx_rnbase_util_TYPO3::convertVersionNumberToInteger(self::getVersion());
+		}
+
+		return $version;
 	}
 
 	/**
