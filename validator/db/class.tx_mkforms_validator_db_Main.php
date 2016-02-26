@@ -69,8 +69,6 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 
 	function _isUnique(&$oRdt, $value) {
 
-		$sDeleted = '';
-
 		if(($sTable = $this->_navConf('/unique/tablename')) !== FALSE) {
 			if(($sField = $this->_navConf('/unique/field')) === FALSE) {
 				$sField = $oRdt->getName();
@@ -92,29 +90,38 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 			}
 		}
 
-		if($this->_defaultFalse('/unique/deleted/') === TRUE) {
-			$sDeleted = ' AND deleted != 1';
-		}
-
 		$value = addslashes($value);
 
-		if($this->oForm->oDataHandler->_edition()) {
-			$sWhere = $sField . ' = \'' . $value . '\' AND ' . $sKey . " != '" . $this->oForm->oDataHandler->_currentEntryId() . "'" . $sDeleted;
-		} else {
-			$sWhere = $sField . " = '" . $value . "'" . $sDeleted;
+		$where = array();
+		$where[] = $sField . ' = \'' . $value . '\'';
+
+		tx_rnbase::load('tx_rnbase_util_TCA');
+		if ($this->_defaultFalse('/unique/deleted/') === TRUE) {
+			$field = tx_rnbase_util_TCA::getDeletedFieldForTable($sTable);
+			$field = empty($field) ? 'deleted' : $field;
+			$where[] = $field . ' != 1';
+		}
+		if ($this->_defaultFalse('/unique/disabled/') === TRUE) {
+			$field = tx_rnbase_util_TCA::getDisabledFieldForTable($sTable);
+			$field = empty($field) ? 'hidden' : $field;
+			$where[] = $field . ' != 1';
 		}
 
-		$sSql = $GLOBALS['TYPO3_DB']->SELECTquery(
+		$datahandler = $this->getForm()->getDataHandler();
+		if($datahandler->_edition() && !$this->_defaultFalse('/unique/skipedition/')) {
+			$where[] = $sKey . ' != \'' . $datahandler->currentId() . '\'';
+		}
+
+		$rs = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
 			'count(*) as nbentries',
 			$sTable,
-			$sWhere
+			array(
+				'enablefieldsoff' => $this->_defaultTrue('/unique/enablefieldsoff/'),
+				'where' => implode(' AND ', $where),
+			)
 		);
 
-		$rs = $GLOBALS['TYPO3_DB']->sql_fetch_assoc(
-			$this->oForm->_watchOutDB($GLOBALS['TYPO3_DB']->sql_query($sSql),$sSql)
-		);
-		return !($rs['nbentries'] > 0);
-
+		return !((int) $rs[0]['nbentries'] > 0);
 	}
 
 	/**
