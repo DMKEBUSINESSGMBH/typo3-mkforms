@@ -18,6 +18,10 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 		return self::$cache;
 	}
 
+	function method_getFormId() {
+		return $this->getForm()->getFormId();
+	}
+
 	function method_rdt($mData, $aParams) {
 		if (!is_string($aParams[0]) || $aParams[0] === AMEOSFORMIDABLE_LEXER_FAILED) {
 			return AMEOSFORMIDABLE_LEXER_BREAKED;
