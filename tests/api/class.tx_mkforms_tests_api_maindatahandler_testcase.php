@@ -29,11 +29,10 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.mainobject.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.maindatahandler.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindatahandler.php');
 tx_rnbase::load('tx_mkforms_tests_Util');
-require_once(t3lib_extMgm::extPath('phpunit').'Classes/Framework.php');
+require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet

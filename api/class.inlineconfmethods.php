@@ -1,6 +1,6 @@
 <?php
 
-require_once(t3lib_extMgm::extPath('mkforms') . "api/class.mainscriptingmethods.php");
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . "api/class.mainscriptingmethods.php");
 
 class formidable_inlineconfmethods extends formidable_mainscriptingmethods {
 

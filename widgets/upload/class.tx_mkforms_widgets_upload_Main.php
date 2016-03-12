@@ -384,7 +384,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 		if(is_null($this->bUseDam)) {
 			if($this->oForm->_defaultFalse('/dam/use', $this->aElement) === TRUE) {
-				if(!t3lib_extmgm::isLoaded('dam')) {
+				if(!tx_rnbase_util_Extensions::isLoaded('dam')) {
 					$this->oForm->mayday("renderlet:UPLOAD[name=" . $this->_getName() . "], can't connect to <b>DAM</b>: <b>EXT:dam is not loaded</b>.");
 				}
 
@@ -500,7 +500,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					// we found user _formidable+dam
 						// simulating user
 					unset($BE_USER);
-					$BE_USER = t3lib_div::makeInstance('t3lib_beUserAuth');
+					$BE_USER = tx_rnbase::makeInstance('t3lib_beUserAuth');
 					$BE_USER->OS = TYPO3_OS;
 					$BE_USER->setBeUserByUid($aRs['uid']);
 					$BE_USER->fetchGroupData();

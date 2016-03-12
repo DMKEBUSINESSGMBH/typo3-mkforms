@@ -26,7 +26,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 		$sSignature = FALSE;
 		$this->initDb();
 
-		$oDataSet = t3lib_div::makeInstance("formidable_maindataset");
+		$oDataSet = tx_rnbase::makeInstance("formidable_maindataset");
 
 		if ($sKey === "new") {
 			// new record to create
@@ -109,7 +109,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 	function initDb() {
 		if ($this->oDb === FALSE) {
 			if (($aLink = $this->_navConf("/link")) !== FALSE) {
-				$this->oDb = t3lib_div::makeInstance("t3lib_db");
+				$this->oDb = tx_rnbase::makeInstance("t3lib_db");
 
 				if ($this->oForm->isRunneable(($sHost = $aLink["host"]))) {
 					$sHost = $this->callRunneable($sHost);
@@ -213,7 +213,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 			if ($mEnableFields === TRUE) {
 				// we have to determine the table name
 
-				$oParser = t3lib_div::makeInstance("t3lib_sqlparser");
+				$oParser = tx_rnbase::makeInstance("t3lib_sqlparser");
 				$aParsed = $oParser->parseSQL($sSqlBase);
 
 				if (is_array($aParsed) && count($aParsed["FROM"]) == 1) {

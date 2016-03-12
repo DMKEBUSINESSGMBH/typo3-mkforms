@@ -1,5 +1,4 @@
 <?php
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_mkforms_util_Div');
 
 class formidable_mainrenderer extends formidable_mainobject {

@@ -27,7 +27,7 @@
 ***************************************************************/
 
 tx_rnbase::load('tx_mkforms_forms_Factory');
-require_once(t3lib_extMgm::extPath('phpunit').'Classes/Framework.php');
+require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
 
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!

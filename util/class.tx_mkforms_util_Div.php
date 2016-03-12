@@ -22,7 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 // @TODO: remove in 2 or 4 versions! it is only a localconf caching workaround
 tx_rnbase::load('tx_mkforms_util_Constants');
 
@@ -125,7 +124,7 @@ class tx_mkforms_util_Div {
 	 */
 	function getExtRelPath($clazzname) {
 		$infos = tx_rnbase::getClassInfo($clazzname);
-		return t3lib_extmgm::siteRelPath($infos['extkey']) . $infos['dir'];
+		return tx_rnbase_util_Extensions::siteRelPath($infos['extkey']) . $infos['dir'];
 
 		if(!is_array($mInfos)) {
 			// should be object type
@@ -144,9 +143,9 @@ class tx_mkforms_util_Div {
 		}
 
 		if($aInfos['BASE'] === TRUE) {
-			return t3lib_extMgm::siteRelPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
+			return tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
 		} else {
-			return t3lib_extMgm::siteRelPath($aInfos['EXTKEY']);
+			return tx_rnbase_util_Extensions::siteRelPath($aInfos['EXTKEY']);
 		}
 	}
 
@@ -158,7 +157,7 @@ class tx_mkforms_util_Div {
 	 */
 	function getExtPath($clazzname) {
 		$infos = tx_rnbase::getClassInfo($clazzname);
-		return t3lib_extmgm::extPath($infos['extkey']) . $infos['dir'];
+		return tx_rnbase_util_Extensions::extPath($infos['extkey']) . $infos['dir'];
 	}
 
 	/**
@@ -233,7 +232,7 @@ class tx_mkforms_util_Div {
 		$tsfe->settingLanguage();
 		$tsfe->settingLocale();
 
-		$tsfe->cObj = t3lib_div::makeInstance('tslib_cObj');
+		$tsfe->cObj = tx_rnbase::makeInstance('tslib_cObj');
 	}
 
 
@@ -878,8 +877,8 @@ ERRORMESSAGE;
 
 		list($extKey,$local) = explode('/',substr($filename,4),2);
 		$filename='';
-		if (strcmp($extKey,'') && t3lib_extMgm::isLoaded($extKey) && strcmp($local,''))	{
-			$filename = t3lib_extMgm::siteRelPath($extKey).$local;
+		if (strcmp($extKey,'') && tx_rnbase_util_Extensions::isLoaded($extKey) && strcmp($local,''))	{
+			$filename = tx_rnbase_util_Extensions::siteRelPath($extKey).$local;
 		}
 		return $filename;
 	}

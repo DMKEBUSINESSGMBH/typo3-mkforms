@@ -5,11 +5,10 @@
  * @author	René Nitzsche <rene@system25.de>
  */
 
-if(t3lib_extMgm::isLoaded('dam')) {
-	require_once t3lib_extMgm::extPath('dam', 'lib/class.tx_dam.php');
-	require_once t3lib_extMgm::extPath('dam', 'lib/class.tx_dam_db.php');
+if(tx_rnbase_util_Extensions::isLoaded('dam')) {
+	require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam.php');
+	require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_db.php');
 }
-require_once t3lib_extMgm::extPath('rn_base', 'class.tx_rnbase.php');
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_rnbase_util_TSFAL');
 tx_rnbase::load('tx_rnbase_util_TSDAM');
@@ -557,7 +556,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @return string
 	 */
 	function getTargetDir() {
-		$oFileTool = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+		$oFileTool = tx_rnbase::makeInstance('t3lib_basicFileFunctions');
 		if($this->oForm->isRunneable(($sTargetDir = $this->_navConf('/data/targetdir/')))) {
 			$sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
 		}
@@ -748,7 +747,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		if(!is_object($BE_USER) || !is_array($BE_USER->user)) {
 			if(!$beUserId) $this->getForm()->mayday('NO BE User id given!');
 			unset($BE_USER);
-			$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');
+			$BE_USER = tx_rnbase::makeInstance('t3lib_tsfeBeUserAuth');
 			$BE_USER->OS = TYPO3_OS;
 			$BE_USER->setBeUserByUid($beUserId);
 			$BE_USER->fetchGroupData();
@@ -760,8 +759,8 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 		if(!$GLOBALS['LANG']) {
 			// Bei Ajax-Calls fehlt das Objekt
-			require_once(t3lib_extMgm::extPath('lang').'lang.php');
-			$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
+			require_once(tx_rnbase_util_Extensions::extPath('lang').'lang.php');
+			$GLOBALS['LANG'] = tx_rnbase::makeInstance('language');
 			$GLOBALS['LANG']->init($BE_USER->uc['lang']);
 		}
 
@@ -856,7 +855,7 @@ INITSCRIPT;
 
 	function handleAjaxRequest($oRequest) {
 
-		$oFile = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+		$oFile = tx_rnbase::makeInstance('t3lib_basicFileFunctions');
 		$aData = $this->getForm()->getRawFile(FALSE, true);
 
 		//Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen

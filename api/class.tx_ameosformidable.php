@@ -46,7 +46,6 @@ define('AMEOSFORMIDABLE_NESTED_SEPARATOR_END', '');
 
 define('AMEOSFORMIDABLE_NOTSET', 'AMEOSFORMIDABLE_NOTSET');
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_mkforms_util_Div');
 tx_rnbase::load('tx_mkforms_util_Loader');
 tx_rnbase::load('tx_mkforms_util_Runnable');
@@ -55,14 +54,14 @@ tx_rnbase::load('tx_mkforms_util_Json');
 tx_rnbase::load('tx_mkforms_forms_IForm');
 tx_rnbase::load('tx_mkforms_session_Factory');
 
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.mainobject.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.maindataset.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.maindatasource.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.mainvalidator.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.maindatahandler.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.mainrenderer.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.mainrenderlet.php');
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.mainactionlet.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindataset.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindatasource.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainvalidator.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindatahandler.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrenderer.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrenderlet.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainactionlet.php');
 
 class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
@@ -402,9 +401,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		/***** BASE INIT *****
 		 *
 		 */
-		$this->sExtPath = t3lib_extMgm::extPath('mkforms');
-		$this->sExtRelPath = t3lib_extMgm::siteRelPath('mkforms');
-		$this->sExtWebPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms');
+		$this->sExtPath = tx_rnbase_util_Extensions::extPath('mkforms');
+		$this->sExtRelPath = tx_rnbase_util_Extensions::siteRelPath('mkforms');
+		$this->sExtWebPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
 
 		// TODO: Der Zugriff auf conf wird durch tx_rnbase_configurations ersetzt
 		$this->setConfigurations($configurations, $confid);
@@ -693,7 +692,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	 */
 	function makeHtmlParser() {
 		if ($this->oHtml === FALSE) {
-			$this->oHtml = t3lib_div::makeInstance('t3lib_parsehtml');
+			$this->oHtml = tx_rnbase::makeInstance('t3lib_parsehtml');
 		}
 	}
 
@@ -3261,12 +3260,12 @@ JAVASCRIPT;
 		// wenn kein js immer ausklappen
 		if ($bExpand === FALSE && $this->getJSLoader()->mayLoadJsFramework()) {
 			$aHtml[] = '<a href="javascript:void(Formidable.f(\'' . $this->formid . '\').toggleDebug())"><img src="'
-				. t3lib_div::getIndpEnv("TYPO3_SITE_URL") . t3lib_extmgm::siteRelPath('mkforms')
+				. t3lib_div::getIndpEnv("TYPO3_SITE_URL") . tx_rnbase_util_Extensions::siteRelPath('mkforms')
 				. '/res/images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
 			$aHtml[] = '<div id="' . $this->formid
 				. '_debugzone" style="font-family: Verdana; display: none; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;">';
 		} else {
-			$aHtml[] = '<img src="' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extmgm::siteRelPath('mkforms')
+			$aHtml[] = '<img src="' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
 				. '/res/images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
 			$aHtml[] = "<div id = '" . $this->formid
 				. "_debugzone' style = 'font-family: Verdana; display: block; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;'>";
@@ -3417,7 +3416,7 @@ JAVASCRIPT;
 			$sExtKey = $GLOBALS['_EXTKEY'];
 		}
 
-		return t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath($sExtKey);
+		return t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath($sExtKey);
 	}
 
 	function _substLLLInHtml($sHtml) {
@@ -3649,9 +3648,9 @@ JAVASCRIPT;
 		}
 
 		if ($aInfos['BASE'] === TRUE) {
-			return t3lib_extMgm::siteRelPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
+			return tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
 		} else {
-			return t3lib_extMgm::siteRelPath($aInfos['EXTKEY']);
+			return tx_rnbase_util_Extensions::siteRelPath($aInfos['EXTKEY']);
 		}
 	}
 
@@ -3672,9 +3671,9 @@ JAVASCRIPT;
 		}
 
 		if ($aInfos['BASE'] === TRUE) {
-			return t3lib_extMgm::extPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
+			return tx_rnbase_util_Extensions::extPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
 		} else {
-			return t3lib_extmgm::extPath($aInfos['EXTKEY']);
+			return tx_rnbase_util_Extensions::extPath($aInfos['EXTKEY']);
 		}
 
 		return $extsrcpath;
@@ -3845,7 +3844,7 @@ JAVASCRIPT;
 			$sMessage .= '<hr />Formidable /meta/debugSendMail: This mail would be sent to ' . $sAdresseOld;
 		}
 
-		$oMail = t3lib_div::makeInstance('t3lib_htmlmail');
+		$oMail = tx_rnbase::makeInstance('t3lib_htmlmail');
 		$oMail->start();
 		$oMail->useBase64();
 
@@ -3871,7 +3870,7 @@ JAVASCRIPT;
 
 		if (is_array($aAttachPaths) && !empty($aAttachPaths)) {
 
-			$oFile = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+			$oFile = tx_rnbase::makeInstance('t3lib_basicFileFunctions');
 
 			reset($aAttachPaths);
 			while (list(, $sPath) = each($aAttachPaths)) {
@@ -3991,12 +3990,12 @@ JAVASCRIPT;
 	function _parseTsInBE($iTemplateUid, $iPageId) {
 		global $tmpl;
 
-		$tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');    // Defined global here!
+		$tmpl = tx_rnbase::makeInstance('t3lib_tsparser_ext');    // Defined global here!
 		$tmpl->tt_track = 0;    // Do not log time-performance information
 		$tmpl->init();
 
 		// Gets the rootLine
-		$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$sys_page = tx_rnbase::makeInstance('t3lib_pageSelect');
 
 		$tmpl->runThroughTemplates(
 			$sys_page->getRootLine(
@@ -4843,7 +4842,7 @@ JAVASCRIPT;
 
 	function div_arrayToCsvString($aData, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"') {
 		// CSV class taken from http://snippets.dzone.com/posts/show/3128
-		require_once(t3lib_extMgm::extPath('mkforms') . 'res/shared/php/csv/class.csv.php');
+		require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'res/shared/php/csv/class.csv.php');
 
 		$oCsv = new CSV(
 			$sFSep, $sLSep, $sStringWrap
@@ -4961,7 +4960,7 @@ JAVASCRIPT;
 
 	// declare*() methods below are meant to smoothen transition between 0.7.x and 1.0/2.0+
 	function declareDataHandler() {
-		if (TYPO3_MODE === 'BE' && t3lib_extMgm::isLoaded('seminars')) {
+		if (TYPO3_MODE === 'BE' && tx_rnbase_util_Extensions::isLoaded('seminars')) {
 			echo '<br /><br /><b>Warning</b>: you are using Formidable version <i>'
 				. $GLOBALS['EM_CONF']['ameos_formidable']['version'] . '</i> with Seminars, requiring version 0.7.0.<br />';
 		}

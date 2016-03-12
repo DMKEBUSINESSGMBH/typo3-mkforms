@@ -66,8 +66,8 @@ class user_ameosformidable_cobj {
 
 	function _render($conf) {
 
-		require_once(t3lib_extMgm::extPath('mkforms') . "api/class.tx_ameosformidable.php");
-		$this->oForm = t3lib_div::makeInstance("tx_ameosformidable");
+		require_once(tx_rnbase_util_Extensions::extPath('mkforms') . "api/class.tx_ameosformidable.php");
+		$this->oForm = tx_rnbase::makeInstance("tx_ameosformidable");
 		$this->oForm->initFromTs(
 			$this,
 			$conf

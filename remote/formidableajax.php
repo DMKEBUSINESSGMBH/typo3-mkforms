@@ -255,7 +255,7 @@ class formidableajax {
 		if ($_COOKIE['be_typo_user']) {		// If the backend cookie is set, we proceed and checks if a backend user is logged in.
 
 					// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-				$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
+				$BE_USER = tx_rnbase::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
 				$BE_USER->OS = TYPO3_OS;
 				$BE_USER->lockIP = $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'];
 				$BE_USER->start();			// Object is initialized
@@ -267,8 +267,8 @@ class formidableajax {
 				if ($BE_USER->checkLockToIP() && $BE_USER->checkBackendAccessSettingsFromInitPhp())	{
 					$BE_USER->extInitFeAdmin();
 					if ($BE_USER->extAdmEnabled)	{
-						require_once(t3lib_extMgm::extPath('lang').'lang.php');
-						$LANG = t3lib_div::makeInstance('language');
+						require_once(tx_rnbase_util_Extensions::extPath('lang').'lang.php');
+						$LANG = tx_rnbase::makeInstance('language');
 						$LANG->init($BE_USER->uc['lang']);
 
 						$BE_USER->extSaveFeAdminConfig();
@@ -310,7 +310,7 @@ class formidableajax {
 		} elseif ($TSFE->ADMCMD_preview_BEUSER_uid)	{
 
 				// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-			$BE_USER = t3lib_div::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
+			$BE_USER = tx_rnbase::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
 			$BE_USER->userTS_dontGetCached = 1;
 			$BE_USER->OS = TYPO3_OS;
 			$BE_USER->setBeUserByUid($TSFE->ADMCMD_preview_BEUSER_uid);

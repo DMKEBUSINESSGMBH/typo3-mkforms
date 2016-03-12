@@ -4,13 +4,12 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_mkforms_util_Div');
 tx_rnbase::load('tx_mkforms_util_Constants');
 tx_rnbase::load('tx_rnbase_configurations');
 
-if (t3lib_extMgm::isLoaded('mksanitizedparameters')) {
-	require_once(t3lib_extMgm::extPath($_EXTKEY) . 'ext_rules.php');
+if (tx_rnbase_util_Extensions::isLoaded('mksanitizedparameters')) {
+	require_once(tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'ext_rules.php');
 }
 
 // Predefine cache
@@ -54,7 +53,7 @@ if (!defined('PATH_tslib')) {
 }
 
 if (!is_array($GLOBALS['EM_CONF']) || !array_key_exists($_EXTKEY, $GLOBALS['EM_CONF'])) {
-	require_once(t3lib_extMgm::extPath('mkforms', 'ext_emconf.php'));
+	require_once(tx_rnbase_util_Extensions::extPath('mkforms', 'ext_emconf.php'));
 }
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['datasources'] = array(

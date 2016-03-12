@@ -16,11 +16,11 @@ class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer {
 
 	private function assertFluid() {
 
-		if(!t3lib_extMgm::isLoaded("extbase")) {
+		if(!tx_rnbase_util_Extensions::isLoaded("extbase")) {
 			$this->oForm->mayday("<b>renderer:FLUID</b> needs the extension <b>extbase</b> to be loaded.");
 		}
 
-		if(!t3lib_extMgm::isLoaded("fluid")) {
+		if(!tx_rnbase_util_Extensions::isLoaded("fluid")) {
 			$this->oForm->mayday("<b>renderer:FLUID</b> needs the extension <b>fluid</b> to be loaded.");
 		}
 	}
@@ -29,7 +29,7 @@ class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer {
 
 		$this->includeFluid();
 
-		$this->oFluid = t3lib_div::makeInstance($this->sFluidClass);
+		$this->oFluid = tx_rnbase::makeInstance($this->sFluidClass);
 		$this->oFluid->initializeView();
 	}
 
@@ -83,8 +83,8 @@ class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer {
 	private function includeFluid() {
 		# no autoinclude for the moment
 
-		$this->sExtbasePath = t3lib_extmgm::extPath("extbase");
-		$this->sFluidPath = t3lib_extmgm::extPath("fluid");
+		$this->sExtbasePath = tx_rnbase_util_Extensions::extPath("extbase");
+		$this->sFluidPath = tx_rnbase_util_Extensions::extPath("fluid");
 
 		require_once($this->sExtbasePath . "Classes/MVC/View/ViewInterface.php");
 		require_once($this->sExtbasePath . "Classes/MVC/View/AbstractView.php");

@@ -14,7 +14,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 	function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
 		parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
 
-		if (!t3lib_extmgm::isLoaded('extbase')) {
+		if (!tx_rnbase_util_Extensions::isLoaded('extbase')) {
 			$this->oForm->mayday(
 				'datasource:CONTENTREPOSITORY[name=\'' . $this->getName()
 				. '\'] The Content Repository API is <b>not loaded</b>, and should be (<b>EXT:extbase</b>).'
@@ -27,7 +27,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 	}
 
 	function loadContentRepositoryFramework() {
-		$sExtBasePath = t3lib_extmgm::extPath('extbase');
+		$sExtBasePath = tx_rnbase_util_Extensions::extPath('extbase');
 		require_once($sExtBasePath . 'Classes/Utility/Strings.php');
 		require_once($sExtBasePath . 'Classes/Exception.php');
 		require_once($sExtBasePath . 'Classes/Persistence/Session.php');
@@ -88,7 +88,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 				}
 			}
 
-			$this->oRepo = t3lib_div::makeInstance($sClassName);
+			$this->oRepo = tx_rnbase::makeInstance($sClassName);
 		}
 	}
 
@@ -146,7 +146,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 
 	function initDataSet($sKey) {
 		$sSignature = FALSE;
-		$oDataSet = t3lib_div::makeInstance('formidable_maindataset');
+		$oDataSet = tx_rnbase::makeInstance('formidable_maindataset');
 
 		if ($sKey === 'new') {
 			// new record to create
@@ -187,7 +187,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 			$oObject->$sKey = $aData[$sKey];
 		}
 
-		$oSession = t3lib_div::makeInstance('TX_EXTBASE_Persistence_Session');
+		$oSession = tx_rnbase::makeInstance('TX_EXTBASE_Persistence_Session');
 		$oSession->registerAddedObject($oObject);
 		$oSession->commit();
 	}

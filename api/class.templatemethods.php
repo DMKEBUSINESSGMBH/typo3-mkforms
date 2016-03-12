@@ -1,6 +1,6 @@
 <?php
 
-require_once(t3lib_extMgm::extPath('mkforms') . "api/class.mainscriptingmethods.php");
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . "api/class.mainscriptingmethods.php");
 tx_rnbase::load('tx_rnbase_cache_Manager');
 
 class formidable_templatemethods extends formidable_mainscriptingmethods {
@@ -210,7 +210,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_extPath($mData, $aParams) {
-		return t3lib_extMgm::extPath($aParams[0]);
+		return tx_rnbase_util_Extensions::extPath($aParams[0]);
 	}
 
 	function method_toWebPath($mData, $aParams) {

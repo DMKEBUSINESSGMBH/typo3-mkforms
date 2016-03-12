@@ -1,5 +1,4 @@
 <?php
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_mkforms_util_Json');
 
 /**
@@ -205,7 +204,7 @@ JAVASCRIPT;
 	private function includeDebugStyles() {
 		if ($this->oForm->bDebug) {
 
-			$sPath = t3lib_extMgm::siteRelPath('mkforms');
+			$sPath = tx_rnbase_util_Extensions::siteRelPath('mkforms');
 			$this->getForm()->additionalHeaderData(
 				"<link rel='stylesheet' type='text/css' href='" . $sPath . "res/css/debug.css' />",
 				'tx_ameosformidable_debugstyles'
@@ -228,8 +227,8 @@ JAVASCRIPT;
 		$server = t3lib_div::getIndpEnv('TYPO3_SITE_URL');
 		// JSON stringifier
 		// http://www.thomasfrank.se/downloadableJS/jsonStringify.js
-		$pagePath = $server . t3lib_extMgm::siteRelPath($ext) . 'res/jsfwk/json/json.js';
-		$serverPath = t3lib_extMgm::extPath($ext) . 'res/jsfwk/json/json.js';
+		$pagePath = $server . tx_rnbase_util_Extensions::siteRelPath($ext) . 'res/jsfwk/json/json.js';
+		$serverPath = tx_rnbase_util_Extensions::extPath($ext) . 'res/jsfwk/json/json.js';
 		$includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 
 		foreach ($includes As $include) {
@@ -280,7 +279,7 @@ JAVASCRIPT;
 		$sNextAfter = 'tx_ameosformidable_scriptaculous_effects';
 
 		if ($this->bLoadScriptaculousDragDrop === TRUE) {
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms')
+			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
 				. 'res/jsfwk/scriptaculous/dragdrop.js';
 
 			$this->oForm->additionalHeaderData(
@@ -295,7 +294,7 @@ JAVASCRIPT;
 		}
 
 		if ($this->bLoadScriptaculousBuilder === TRUE) {
-			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms')
+			$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
 				. 'res/jsfwk/scriptaculous/builder.js';
 
 			$this->oForm->additionalHeaderData(
@@ -319,7 +318,7 @@ JAVASCRIPT;
 	}
 
 	private function _includeJSFramework() {
-		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/framework.js';
+		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/framework.js';
 		$tag = '<script type="text/javascript" src="' . $this->getScriptPath($sPath) . '"></script>';
 		$this->oForm->additionalHeaderData(
 			$tag,
@@ -335,7 +334,7 @@ JAVASCRIPT;
 	 *
 	 */
 	private function includeFormidablePath() {
-		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extmgm::siteRelPath('mkforms');
+		$sPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
 		$sScript
 			= <<<JAVASCRIPT
 	Formidable.initialize({path: '{$sPath}'});
@@ -384,7 +383,7 @@ JAVASCRIPT;
 			// tooltip css
 			$sPath
 				=
-				t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.css';
+				t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.css';
 
 			$this->oForm->additionalHeaderData(
 				"<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $sPath . "\" />",
@@ -397,7 +396,7 @@ JAVASCRIPT;
 			// tooltip js
 			$sPath
 				=
-				t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.js';
+				t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.js';
 
 			$this->oForm->additionalHeaderData(
 				"<script type=\"text/javascript\" src=\"" . $sPath . "\"></script>",
@@ -668,14 +667,14 @@ JAVASCRIPT;
 		$sScriptErw = '.' . $sScriptErw;
 		// soll minimierte Version genutzt werden
 		if ($this->minified()) {
-			$sSitePath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . t3lib_extMgm::siteRelPath('mkforms');
+			$sSitePath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
 			$sFile = substr($sPath, strlen($sSitePath), strrpos($sPath, $sScriptErw) - strlen($sSitePath));
 			// prüfen ob gzip genutzt werden soll, wenn ja auf datei prüfen.
-			if ($this->gziped() && file_exists(t3lib_extMgm::extPath('mkforms') . $sFile . '.min' . $sScriptErw . '.php')) {
+			if ($this->gziped() && file_exists(tx_rnbase_util_Extensions::extPath('mkforms') . $sFile . '.min' . $sScriptErw . '.php')) {
 				$sGZipPath = $sSitePath . $sFile . '.min' . $sScriptErw . '.php';
 				$newPath = $sGZipPath;
 			} // prüfen ob minimiertes js verfügbar ist.
-			elseif (file_exists(t3lib_extMgm::extPath('mkforms') . $sFile . '.min' . $sScriptErw)) {
+			elseif (file_exists(tx_rnbase_util_Extensions::extPath('mkforms') . $sFile . '.min' . $sScriptErw)) {
 				$sMinPath = $sSitePath . $sFile . '.min' . $sScriptErw;
 				$newPath = $sMinPath;
 			}

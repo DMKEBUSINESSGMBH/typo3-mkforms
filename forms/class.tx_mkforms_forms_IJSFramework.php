@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('mkforms') . 'api/class.tx_ameosformidable.php');
+require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameosformidable.php');
 
 /**
  * Factory for forms.

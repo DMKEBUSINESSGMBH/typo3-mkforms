@@ -136,7 +136,7 @@ INITSCRIPT;
 
 	function handleAjaxRequest($oRequest) {
 
-		$oFile = t3lib_div::makeInstance("t3lib_basicFileFunctions");
+		$oFile = tx_rnbase::makeInstance("t3lib_basicFileFunctions");
 		$aFile = $GLOBALS["_FILES"]["rdt_swfupload"];
 
 		$sFileName = $aFile["name"];
@@ -182,7 +182,7 @@ INITSCRIPT;
 
 	function getTargetDir() {
 
-		$oFileTool = t3lib_div::makeInstance("t3lib_basicFileFunctions");
+		$oFileTool = tx_rnbase::makeInstance("t3lib_basicFileFunctions");
 
 		if($this->oForm->isRunneable(($sTargetDir = $this->_navConf("/data/targetdir/")))) {
 			$sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);

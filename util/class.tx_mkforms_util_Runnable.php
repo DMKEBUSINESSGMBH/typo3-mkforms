@@ -230,7 +230,7 @@ class tx_mkforms_util_Runnable {
 			tx_rnbase::load($extension);
 		}
 
-		$oExtension = (strcasecmp($extension, 'this') == 0) ? $this->getForm()->getParent() : t3lib_div::makeInstance($extension);
+		$oExtension = (strcasecmp($extension, 'this') == 0) ? $this->getForm()->getParent() : tx_rnbase::makeInstance($extension);
 
 		if(!is_object($oExtension)) return;
 
@@ -289,7 +289,7 @@ class tx_mkforms_util_Runnable {
 					' . $sTs . '
 				}';
 
-		$oParser = t3lib_div::makeInstance('t3lib_tsparser');
+		$oParser = tx_rnbase::makeInstance('t3lib_tsparser');
 		$oParser->tt_track = 0;	// Do not log time-performance information
 		$oParser->setup = $GLOBALS['TSFE']->tmpl->setup;
 
@@ -485,7 +485,7 @@ class tx_mkforms_util_Runnable {
 		// den loader benutzen, damit die klasse beim ajax geladen wird
 		$oJsCb = $this->getForm()->getObjectLoader()->makeInstance(
 					'formidable_mainjscb',
-					t3lib_extMgm::extPath('mkforms', 'api/class.mainjscb.php')
+					tx_rnbase_util_Extensions::extPath('mkforms', 'api/class.mainjscb.php')
 				);
 		$oJsCb->init($this,$aCB);
 		return $oJsCb;

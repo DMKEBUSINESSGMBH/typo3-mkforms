@@ -91,7 +91,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 		$oJsLoader = $this->getForm()->getJSLoader();
 		$oJsLoader->loadScriptaculous();
 
-		$sPath = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . t3lib_extMgm::siteRelPath("ameos_formidable") . "api/base/rdt_modalbox/res/js/modalbox.js";
+		$sPath = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . tx_rnbase_util_Extensions::siteRelPath("ameos_formidable") . "api/base/rdt_modalbox/res/js/modalbox.js";
 
 		$oForm->additionalHeaderData(
 			"<script type=\"text/javascript\" src=\"" . $oJsLoader->getScriptPath($sPath) . "\"></script>",

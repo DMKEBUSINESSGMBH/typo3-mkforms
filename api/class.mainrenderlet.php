@@ -2041,7 +2041,7 @@ JAVASCRIPT;
 					}
 				}
 
-				if (($this->_defaultFalse('/db/static/') === TRUE) && (t3lib_extMgm::isLoaded('static_info_tables'))) {
+				if (($this->_defaultFalse('/db/static/') === TRUE) && (tx_rnbase_util_Extensions::isLoaded('static_info_tables'))) {
 					// If it is a static table
 					$aDbItems = $this->__getItemsStaticTable($mTable, $mValueField, $mWhere);
 				} else {

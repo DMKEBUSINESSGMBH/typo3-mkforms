@@ -29,7 +29,6 @@
 /**
  * benötigte Klassen einbinden
  */
-require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
 tx_rnbase::load('tx_mkforms_forms_Factory');
 /**
  * Statische Hilfsmethoden für Tests
@@ -47,7 +46,7 @@ class tx_mkforms_tests_Util {
 		if(is_array($configArray) && !$force) {
 			return $configArray;
 		}
-		t3lib_extMgm::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
+		tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
 
 		tx_rnbase::load('tx_rnbase_configurations');
 		tx_rnbase::load('tx_rnbase_util_Misc');
