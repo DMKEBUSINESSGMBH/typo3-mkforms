@@ -654,11 +654,10 @@ class tx_mkforms_util_Config {
 					}
 
 					$sPath = $this->getForm()->getRunnable()->callRunnable($sPath);
-
 					$bInclude = TRUE;
 
 					if(array_key_exists('condition', $val)) {
-						$bInclude = $this->_defaultTrue('/condition', $val);
+						$bInclude = $this->defaultTrue('/condition', $val);
 					}
 
 					$bInclude = trim($sPath) === '' ? false : $bInclude;
