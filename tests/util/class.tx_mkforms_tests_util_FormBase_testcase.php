@@ -51,7 +51,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 	public function testGetConfigurationValue() {
 		$form = tx_mkforms_tests_Util::getForm(
 			TRUE,
-				t3lib_div::array_merge_recursive_overrule(
+				$this->arrayMerge(
 					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 					array('myConf.' => array('path' => 'test'))
 				)
@@ -64,6 +64,35 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+	private function arrayMerge($arr1, $arr2) {
+		$libdiv_clazz = tx_rnbase_util_Typo3Classes::getGeneralUtilityClass();
+		return $libdiv_clazz::array_merge_recursive_overrule($arr1, $arr2);
+	}
+
+	/**
+	 * @group unit
+	 */
+	public function testGetConfigurationValueDeep() {
+		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+		$form = tx_mkforms_tests_Util::getForm(
+				TRUE,
+				$this->arrayMerge(
+					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
+					array('myConf.' => array(
+							'path' => 'TEXT',
+							'path.' => array('value' => 'textvalue'),
+						)
+					)
+				)
+		);
+
+		self::assertEquals(
+				'textvalue',
+				tx_mkforms_util_FormBase::getConfigurationValue(
+						array('configurationId' => 'myConf.path'), $form
+				)
+		);
+	}
 
 	/**
 	 * @group unit
@@ -71,7 +100,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 	public function testGetConfigurationValueIfCastToBoolean() {
 		$form = tx_mkforms_tests_Util::getForm(
 			TRUE,
-			t3lib_div::array_merge_recursive_overrule(
+			$this->arrayMerge(
 				tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 				array('myConf.' => array('path' => 'test'))
 			)

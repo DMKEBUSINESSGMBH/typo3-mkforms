@@ -629,7 +629,7 @@ class tx_mkforms_util_FormBase {
 			);
 		}
 
-		$configurationValue = $form->getConfigurations()->get($params['configurationId']);
+		$configurationValue = $form->getConfigurations()->get($params['configurationId'], TRUE);
 
 		if ($params['castToBoolean']) {
 			$configurationValue = (boolean) $configurationValue;
