@@ -1,7 +1,7 @@
 {
 	"name" : "dmk/mkforms",
 	"description" : "Making HTML forms for TYPO3",
-	"version" : "1.0.40",
+	"version" : "1.0.41",
 	"type" : "typo3-cms-extension",
 	"keywords" : [
 		"TYPO3 CMS",
