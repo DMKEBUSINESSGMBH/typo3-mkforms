@@ -26,7 +26,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 
 			if($sFileName !== '') {
 				if($oRdt->isMultiple()) {
-					$aFileList = t3lib_div::trimExplode(',', $sFileName);
+					$aFileList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sFileName);
 					$sFileName = array_pop($aFileList);	// last one, and remove from list; will be added later if valid
 				}
 			}
@@ -53,14 +53,14 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 			*
 			***********************************************************************/
 
-			if($sKey{0} === 'e' && t3lib_div::isFirstPartOfStr($sKey, 'extension')) {
+			if($sKey{0} === 'e' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'extension')) {
 
 				$sFileExts = $this->_navConf('/' . $sKey . '/value');
 				if($this->oForm->isRunneable($sFileExts)) {
 					$sFileExts = $this->callRunneable($sFileExts);
 				}
 
-				$aExtensions = t3lib_div::trimExplode(
+				$aExtensions = Tx_Rnbase_Utility_Strings::trimExplode(
 					',',
 					$sFileExts
 				);
@@ -87,7 +87,9 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 			*
 			***********************************************************************/
 
-			if($sKey{0} === 'f' && t3lib_div::isFirstPartOfStr($sKey, 'filesize') && t3lib_div::isFirstPartOfStr($sKey, 'filesizekb') && t3lib_div::isFirstPartOfStr($sKey, 'filesizemb')) {
+			if($sKey{0} === 'f' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesize') &&
+					Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizekb') &&
+					Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
 				$mSize = $this->_navConf('/' . $sKey . '/value');
 
 				if($this->oForm->isRunneable($mSize)) {
@@ -115,7 +117,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 			*
 			***********************************************************************/
 
-			if($sKey{0} === 'f' && t3lib_div::isFirstPartOfStr($sKey, 'filesizekb')) {
+			if($sKey{0} === 'f' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizekb')) {
 				$mSize = $this->_navConf('/' . $sKey . '/value');
 
 				if($this->oForm->isRunneable($mSize)) {
@@ -143,7 +145,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 			*
 			***********************************************************************/
 
-			if($sKey{0} === 'f' && t3lib_div::isFirstPartOfStr($sKey, 'filesizemb')) {
+			if($sKey{0} === 'f' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
 				$mSize = $this->_navConf('/' . $sKey . '/value');
 
 				if($this->oForm->isRunneable($mSize)) {

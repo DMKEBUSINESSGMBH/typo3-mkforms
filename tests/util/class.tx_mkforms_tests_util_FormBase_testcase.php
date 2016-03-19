@@ -51,7 +51,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 	public function testGetConfigurationValue() {
 		$form = tx_mkforms_tests_Util::getForm(
 			TRUE,
-				$this->arrayMerge(
+				Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 					array('myConf.' => array('path' => 'test'))
 				)
@@ -63,10 +63,6 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 				array('configurationId' => 'myConf.path'), $form
 			)
 		);
-	}
-	private function arrayMerge($arr1, $arr2) {
-		$libdiv_clazz = tx_rnbase_util_Typo3Classes::getGeneralUtilityClass();
-		return $libdiv_clazz::array_merge_recursive_overrule($arr1, $arr2);
 	}
 
 	/**
@@ -100,7 +96,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 	public function testGetConfigurationValueIfCastToBoolean() {
 		$form = tx_mkforms_tests_Util::getForm(
 			TRUE,
-			$this->arrayMerge(
+			Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 				tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 				array('myConf.' => array('path' => 'test'))
 			)

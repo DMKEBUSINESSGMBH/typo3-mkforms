@@ -131,7 +131,7 @@ TEMPLATE;
 
 			$wrapForm = array('', '');
 			if (($sWrap = $oForm->getConfigXML()->get('/meta/form/wrap')) !== FALSE) {
-				$wrapForm = t3lib_div::trimExplode('|', $sWrap);
+				$wrapForm = Tx_Rnbase_Utility_T3General::trimExplode('|', $sWrap);
 			}
 
 			if ($oForm->getFormMethod() === tx_mkforms_util_Constants::FORM_METHOD_GET) {
@@ -192,18 +192,18 @@ TEMPLATE;
 
 		if (strpos($url, '?') !== FALSE) {
 			$params = substr($url, strpos($url, '?') + 1);
-			$params = t3lib_div::explodeUrl2Array($params);
+			$params = Tx_Rnbase_Utility_T3General::explodeUrl2Array($params);
 			$url = substr($url, 0, strpos($url, '?'));
 		}
 		// alle Parameter als Hidden Felder bereitstellen
 		foreach ($params as $name => $value) {
 			// nur für die Parameter, die nicht zum Formular gehören
 			// @TODO: die widgets prüfen, nicht nur den parametername!
-			if (t3lib_div::isFirstPartOfStr($name, $formId . '[')) {
+			if (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($name, $formId . '[')) {
 				continue;
 			}
-			$name = t3lib_div::removeXSS($name);
-			$value = t3lib_div::removeXSS($value);
+			$name = Tx_Rnbase_Utility_T3General::removeXSS($name);
+			$value = Tx_Rnbase_Utility_T3General::removeXSS($value);
 			$sysHidden .= '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
 		}
 
@@ -402,7 +402,7 @@ TEMPLATE;
 		if (($mParams = $this->getForm()->_navConf('/params', $aEvent)) !== FALSE) {
 			if (is_string($mParams)) {
 				// Das ist der Normalfall. Die Parameter als String
-				$aTemp = t3lib_div::trimExplode(',', $mParams);
+				$aTemp = Tx_Rnbase_Utility_T3General::trimExplode(',', $mParams);
 				reset($aTemp);
 				foreach ($aTemp As $sParam) {
 					$aParamsCollection[] = array(
@@ -425,13 +425,13 @@ TEMPLATE;
 
 				$sParam = $param['get'];
 				$sAs = $param['as'];
-				if (t3lib_div::isFirstPartOfStr($sParam, 'rowData::')) {
+				if (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sParam, 'rowData::')) {
 					$sParamName = substr($sParam, 9);
 					$aRowParams[$sParamName] = '';
 					if (($sValue = $this->getForm()->getDataHandler()->_getListData($sParamName)) !== FALSE) {
 						$aRowParams[$sParamName] = $sValue;
 					}
-				} elseif (t3lib_div::isFirstPartOfStr($sParam, 'rowInput::')) {
+				} elseif (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sParam, 'rowInput::')) {
 					$sParamName = substr($sParam, 10);
 					/* replacing *id* with *id for this row*; will be handled by JS framework */
 
@@ -442,7 +442,7 @@ TEMPLATE;
 					if (array_key_exists($sParamName, $this->getForm()->aORenderlets)) {
 						$aParams[] = 'rowInput::' . $sAs . '::' . $this->getForm()->getWidget($sParamName)->_getElementHtmlId();
 					}
-				} elseif (t3lib_div::isFirstPartOfStr($sParam, 'sys_event.')) {
+				} elseif (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sParam, 'sys_event.')) {
 					$aParams[] = $sParam;
 				} elseif (array_key_exists($sParam, $this->getForm()->aORenderlets)) {
 					$sAs = (!$sAs) ? $sParam : $sAs;
@@ -654,7 +654,7 @@ TEMPLATE;
 
 					if (!tx_mkforms_util_Div::isAbsWebPath($sUrl)) {
 						$sUrl = tx_mkforms_util_Div::toServerPath($sUrl);
-						$sStyle = t3lib_div::getUrl($sUrl);
+						$sStyle = Tx_Rnbase_Utility_T3General::getUrl($sUrl);
 						$sUrl = FALSE;
 					}
 				}

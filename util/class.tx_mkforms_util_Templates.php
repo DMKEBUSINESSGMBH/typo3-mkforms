@@ -63,7 +63,7 @@ class tx_mkforms_util_Templates {
 	 * @return	string		HTML string with substituted values
 	 */
 	public function parseTemplate($templatePath,$templateMarker,$aTags = array(),$aExclude = array(),$bClearNotUsed = TRUE,$aLabels = array()) {
-		// $tempUrl : the path of the template for use with t3lib_div::getUrl()
+		// $tempUrl : the path of the template for use with Tx_Rnbase_Utility_T3General::getUrl()
 		// $tempMarker :  the template subpart marker
 		// $aTags : the marker array for substitution
 		// $aExclude : tag names that should not be substituted
@@ -74,7 +74,7 @@ class tx_mkforms_util_Templates {
 		$templatePath = tx_mkforms_util_Div::toServerPath($templatePath);
 
 		return $this->parseTemplateCode(
-			t3lib_parsehtml::getSubpart(t3lib_div::getUrl($templatePath),$templateMarker),
+			t3lib_parsehtml::getSubpart(Tx_Rnbase_Utility_T3General::getUrl($templatePath),$templateMarker),
 			$aTags,$aExclude,$bClearNotUsed,$aLabels);
 	}
 
@@ -259,7 +259,7 @@ class tx_mkforms_util_Templates {
 		$aParams = array();
 		$sArgs = trim($sArgs);
 		if($sArgs !== '') {
-			$aArgs = t3lib_div::trimExplode(',', $sArgs);
+			$aArgs = Tx_Rnbase_Utility_Strings::trimExplode(',', $sArgs);
 			reset($aArgs);
 			while(list(, $sArg) = each($aArgs)) {
 				$sTrimArg = trim($sArg);

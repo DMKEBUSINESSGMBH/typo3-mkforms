@@ -466,25 +466,25 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 
 		$sEnvMode = tx_mkforms_util_Div::getEnvExecMode();
 		if($sEnvMode === "BE") {
-			$sBaseUrl = t3lib_div::getIndpEnv("TYPO3_REQUEST_URL");
+			$sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_REQUEST_URL");
 			$aQueryParts = parse_url($sBaseUrl);
 			$aParams = array();
 			if($aQueryParts['query']) {
 				parse_str($aQueryParts['query'], $aParams);
 			}
 		} elseif($sEnvMode === "EID") {
-			$sBaseUrl = t3lib_div::getIndpEnv("HTTP_REFERER");
+			$sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv("HTTP_REFERER");
 			$aQueryParts = parse_url($sBaseUrl);
 			$aParams = array();
 			if($aQueryParts['query']) {
 				parse_str($aQueryParts['query'], $aParams);
 			}
 		} elseif($sEnvMode === "FE") {
-			$aParams = t3lib_div::_GET();
+			$aParams = Tx_Rnbase_Utility_T3General::_GET();
 		}
 
 
-		$aFullParams = t3lib_div::array_merge_recursive_overrule(
+		$aFullParams = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 			$aParams,
 			$aRdtParams
 		);
@@ -499,7 +499,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 			);
 
 
-			$aRdtParamsExclude = t3lib_div::array_merge_recursive_overrule(
+			$aRdtParamsExclude = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 				$aRdtParamsExclude,
 				$this->oForm->aParamsToRemove
 			);
@@ -522,10 +522,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 		}
 
 		if($this->oForm->_defaultFalse("/cachehash", $this->aElement) === TRUE) {
-			$aFullParams["cHash"] = t3lib_div::shortMD5(
+			$aFullParams["cHash"] = Tx_Rnbase_Utility_T3General::shortMD5(
 				serialize(
-					t3lib_div::cHashParams(
-						t3lib_div::implodeArrayForUrl('',$aFullParams)
+					Tx_Rnbase_Utility_T3General::cHashParams(
+						Tx_Rnbase_Utility_T3General::implodeArrayForUrl('',$aFullParams)
 					)
 				)
 			);
@@ -533,7 +533,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 
 		if($sEnvMode === "BE" || $sEnvMode === "EID") {
 			return $this->oForm->xhtmlUrl(
-				t3lib_div::linkThisUrl(
+				Tx_Rnbase_Utility_T3General::linkThisUrl(
 					$sBaseUrl,
 					$aFullParams
 				)
@@ -546,7 +546,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 
 			return $this->getForm()->getCObj()->typolink_URL(array(
 				"parameter" => $GLOBALS["TSFE"]->id,
-				"additionalParams" => t3lib_div::implodeArrayForUrl(
+				"additionalParams" => Tx_Rnbase_Utility_T3General::implodeArrayForUrl(
 					"",
 					$aFullParams
 				)
@@ -663,7 +663,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				$this->oForm->mayday('RENDERLET LISTER <b>' . $this->_getName() . '</b> requires /template/alternaterows to be properly set. Please check your XML configuration');
 			}
 
-			$aAltList = t3lib_div::trimExplode(',', $sAltList);
+			$aAltList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sAltList);
 			if(sizeof($aAltList) > 0) {
 				reset($aAltList);
 				while(list(, $sAltSubpart) = each($aAltList)) {
@@ -1079,7 +1079,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 			if(file_exists($aTemplate['path'])) {
 				if(is_readable($aTemplate['path'])) {
 					$aRes['html'] = t3lib_parsehtml::getSubpart(
-						t3lib_div::getUrl($aTemplate['path']),
+						Tx_Rnbase_Utility_T3General::getUrl($aTemplate['path']),
 						$aTemplate['subpart']
 					);
 
@@ -1138,7 +1138,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				if(file_exists($aPagerTemplate['path'])) {
 					if(is_readable($aPagerTemplate['path'])) {
 						$aRes['pager'] = t3lib_parsehtml::getSubpart(
-							t3lib_div::getUrl($aPagerTemplate['path']),
+							Tx_Rnbase_Utility_T3General::getUrl($aPagerTemplate['path']),
 							$aPagerTemplate['subpart']
 						);
 
@@ -1234,7 +1234,7 @@ ERRORMESSAGE;
 		$sSubPart = '###LISTPAGER###';
 
 		return t3lib_parsehtml::getSubpart(
-			t3lib_div::getUrl($sPath),
+			Tx_Rnbase_Utility_T3General::getUrl($sPath),
 			$sSubPart
 		);
 	}
@@ -1261,7 +1261,7 @@ ERRORMESSAGE;
 		$sSubpart	= '###LIST###';
 
 		$aRes['html'] = t3lib_parsehtml::getSubpart(
-			t3lib_div::getUrl($sPath),
+			Tx_Rnbase_Utility_T3General::getUrl($sPath),
 			$sSubpart
 		);
 
@@ -1269,7 +1269,7 @@ ERRORMESSAGE;
 
 		$aRes['styles'] = $this->_parseThrustedTemplateCode(
 			t3lib_parsehtml::getSubpart(
-				t3lib_div::getUrl($sPath),
+				Tx_Rnbase_Utility_T3General::getUrl($sPath),
 				'###STYLES###'
 			),
 			array(

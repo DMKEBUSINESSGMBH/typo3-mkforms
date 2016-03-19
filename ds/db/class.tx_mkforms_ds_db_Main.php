@@ -234,7 +234,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 			$sEnableFields = "";
 		}
 
-		if (t3lib_div::isFirstPartOfStr(strtoupper($sSqlBase), "SELECT")) {
+		if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtoupper($sSqlBase), "SELECT")) {
 			// modify the SQL query to include SQL_CALC_FOUND_ROWS
 			$sSqlBase = "SELECT SQL_CALC_FOUND_ROWS " . substr($sSqlBase, strlen("SELECT"));
 		} else {

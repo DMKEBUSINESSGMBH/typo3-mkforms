@@ -96,7 +96,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 		reset($this->aElement);
 		while (list($sElementName,) = each($this->aElement)) {
 
-			if ($sElementName{0} === 'a' && t3lib_div::isFirstPartOfStr($sElementName, 'aggregate')) {
+			if ($sElementName{0} === 'a' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'aggregate')) {
 
 				if (($sClassFile = $this->_navConf('/' . $sElementName . '/classfile')) === FALSE) {
 					$this->oForm->mayday(

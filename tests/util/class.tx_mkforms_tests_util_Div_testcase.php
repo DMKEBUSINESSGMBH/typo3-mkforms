@@ -108,7 +108,7 @@ class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
 	 * @dataProvider providerCleanupFileName
 	 */
 	public function testCleanupFileName($rawFile, $expectedFile, $usesIconv = FALSE) {
-		if ($usesIconv && strpos(t3lib_div::getHostname(), 'project.dmknet.de') === FALSE) {
+		if ($usesIconv && strpos(Tx_Rnbase_Utility_T3General::getHostname(), 'project.dmknet.de') === FALSE) {
 			// die Tests wurden direct für die locales konfig auf dmknet abgestimmt!
 			$this->markTestSkipped(
 				'Dieser Test kann wegen den locale' .

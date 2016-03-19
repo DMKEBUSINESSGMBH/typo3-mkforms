@@ -33,7 +33,7 @@ tx_rnbase::load('tx_mkforms_util_Constants');
 class tx_mkforms_util_Div {
 
 	public static function isAbsServerPath($sPath) {
-		$sServerRoot = t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT');
+		$sServerRoot = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 		return (substr($sPath, 0, strlen($sServerRoot)) === $sServerRoot);
 	}
 
@@ -56,7 +56,7 @@ class tx_mkforms_util_Div {
 		}elseif(TYPO3_MODE == 'BE'){
 			return TYPO3_MODE;
 		}
-		return (is_null(t3lib_div::_GP('eID'))) ? 'FE' : 'EID';
+		return (is_null(Tx_Rnbase_Utility_T3General::_GP('eID'))) ? 'FE' : 'EID';
 	}
 
 	/**
@@ -176,7 +176,7 @@ class tx_mkforms_util_Div {
 		}
 
 		$GLOBALS['TT'] = new t3lib_timeTrack;
-		$GLOBALS['CLIENT'] = t3lib_div::clientInfo();
+		$GLOBALS['CLIENT'] = Tx_Rnbase_Utility_T3General::clientInfo();
 
 		// ***********************************
 		// Create $TSFE object (TSFE = TypoScript Front End)
@@ -187,13 +187,13 @@ class tx_mkforms_util_Div {
 		$GLOBALS['TSFE'] = tx_rnbase::makeInstance(
 			'tslib_fe',
 			$GLOBALS['TYPO3_CONF_VARS'],
-			t3lib_div::_GP('id'),
-			t3lib_div::_GP('type'),
-			t3lib_div::_GP('no_cache'),
-			t3lib_div::_GP('cHash'),
-			t3lib_div::_GP('jumpurl'),
-			t3lib_div::_GP('MP'),
-			t3lib_div::_GP('RDCT')
+			Tx_Rnbase_Utility_T3General::_GP('id'),
+			Tx_Rnbase_Utility_T3General::_GP('type'),
+			Tx_Rnbase_Utility_T3General::_GP('no_cache'),
+			Tx_Rnbase_Utility_T3General::_GP('cHash'),
+			Tx_Rnbase_Utility_T3General::_GP('jumpurl'),
+			Tx_Rnbase_Utility_T3General::_GP('MP'),
+			Tx_Rnbase_Utility_T3General::_GP('RDCT')
 		);
 
 		/* @var $tsfe tslib_fe */
@@ -253,14 +253,14 @@ class tx_mkforms_util_Div {
 		if($form) {
 			$aDebug[] = "<span class='notice'><strong>XML: </strong> " . $form->_xmlPath . "</span><br />";
 			$aDebug[] = "<span class='notice'><strong>MKFORMS Version: </strong>v" . self::getVersion() . "</span><br />";
-			$aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>" . round(t3lib_div::milliseconds() - $form->start_tstamp, 4) / 1000 ." sec</span><br />";
+			$aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>" . round(Tx_Rnbase_Utility_T3General::milliseconds() - $form->start_tstamp, 4) / 1000 ." sec</span><br />";
 		}
 		$aDebug[] = "<br />";
 
 		$aDebug[] = '<span class="notice"><strong>debug trail: </strong></span><ol>';
 
 		tx_rnbase::load('tx_rnbase_util_Debug');
-		foreach(t3lib_div::trimExplode('//',tx_rnbase_util_Debug::getDebugTrail()) as $bt) {
+		foreach(Tx_Rnbase_Utility_Strings::trimExplode('//',tx_rnbase_util_Debug::getDebugTrail()) as $bt) {
 			$aDebug[] = "\t<li>".$bt."</li>";
 		}
 		$aDebug[] = "</ol>";
@@ -440,7 +440,7 @@ MAYDAYPAGE;
 	}
 
 	public static function isDebugIP() {
-		return (t3lib_div::cmpIP(t3lib_div::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']));
+		return (Tx_Rnbase_Utility_T3General::cmpIP(Tx_Rnbase_Utility_T3General::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']));
 	}
 
 	/**
@@ -518,7 +518,7 @@ MAYDAYPAGE;
 			$aDebug[] = "<a href = '#" . $form->formid . "formidable_call" . ($numcall - 1) . "'>&lt;&lt; prev</a> / <a href = '#" . $form->formid . "formidable_call" . ($numcall + 1) . "'>next &gt;&gt;</a><br>";
 			$aDebug[] = "<strong>#" . $numcall ." - " . $name . "</strong>";
 			$aDebug[] = "<br/>";
-			$aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>" . round(t3lib_div::milliseconds() - $form->start_tstamp, 4) / 1000 ." sec)</span>";
+			$aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>" . round(Tx_Rnbase_Utility_T3General::milliseconds() - $form->start_tstamp, 4) / 1000 ." sec)</span>";
 			$aDebug[] = "<br/>";
 
 
@@ -679,10 +679,10 @@ ERRORMESSAGE;
 	 * @return	[type]		...
 	 */
 	public static function toWebPath($sPath) {
-		if(t3lib_div::isFirstPartOfStr(strtolower($sPath), 'http://') || t3lib_div::isFirstPartOfStr(strtolower($sPath), 'https://')) {
+		if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtolower($sPath), 'http://') || Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtolower($sPath), 'https://')) {
 			return $sPath;
 		}
-		return self::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/' . self::removeStartingSlash(self::toRelPath($sPath));
+		return self::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')) . '/' . self::removeStartingSlash(self::toRelPath($sPath));
 	}
 
 	/**
@@ -695,7 +695,7 @@ ERRORMESSAGE;
 	 */
 	function toRelPath($sPath) {
 		if (substr($sPath, 0, 4) === 'EXT:') {
-			$sPath = t3lib_div::getFileAbsFileName($sPath);
+			$sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath);
 		}
 		$sPath = str_replace(PATH_site, '', $sPath);
 		if ($sPath{0} != '/') {
@@ -769,12 +769,12 @@ ERRORMESSAGE;
 	}
 
 	public static function mkdirDeep($destination,$deepDir) {
-		$allParts = t3lib_div::trimExplode('/',$deepDir,1);
+		$allParts = Tx_Rnbase_Utility_Strings::trimExplode('/',$deepDir,1);
 		$root = '';
 		foreach($allParts as $part)	{
 			$root.= $part.'/';
 			if (!is_dir($destination.$root))	{
-				t3lib_div::mkdir($destination.$root);
+				Tx_Rnbase_Utility_T3General::mkdir($destination.$root);
 				if (!@is_dir($destination.$root))	{
 					return 'Error: The directory "'.$destination.$root.'" could not be created...';
 				}
@@ -902,9 +902,9 @@ ERRORMESSAGE;
 
 		if(is_string($mParams)) {
 			// Das ist der Normalfall. Die Parameter als String
-			$aTemp = t3lib_div::trimExplode(',', $mParams);
+			$aTemp = Tx_Rnbase_Utility_Strings::trimExplode(',', $mParams);
 			foreach($aTemp As $sParam) {
-				$paramArr = t3lib_div::trimExplode('::', $mParams);
+				$paramArr = Tx_Rnbase_Utility_Strings::trimExplode('::', $mParams);
 				$aParamsCollection[$paramArr[0]] = (count($paramArr) > 0) ? $paramArr[1] : '';
 			}
 		} else {

@@ -61,7 +61,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
 		$sSafeLock = $this->_getSessionDataHashKey();
 		$sThrower = $sHtmlId;
 
-		$sUrl = tx_mkforms_util_Div::removeEndingSlash(t3lib_div::getIndpEnv("TYPO3_SITE_URL")) . '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . "&servicekey=" . $sServiceKey . "&formid=" . $sFormId . "&safelock=" . $sSafeLock . "&thrower=" . $sThrower;
+		$sUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL")) . '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . "&servicekey=" . $sServiceKey . "&formid=" . $sFormId . "&safelock=" . $sSafeLock . "&thrower=" . $sThrower;
 		$sButtonUrl = $this->oForm->getConfigXML()->getLLLabel("LLL:EXT:mkforms/widgets/swfupload/res/locallang.xml:buttonbrowse.image_url");
 
 		$aConf = array(
@@ -142,7 +142,7 @@ INITSCRIPT;
 		$sFileName = $aFile["name"];
 
 		if($this->_defaultTrue("/usedenypattern") !== FALSE) {
-			if(!t3lib_div::verifyFilenameAgainstDenyPattern($sFileName)) {
+			if(!Tx_Rnbase_Utility_T3General::verifyFilenameAgainstDenyPattern($sFileName)) {
 				die("FILE EXTENSION DENIED");
 			}
 		}
@@ -172,7 +172,7 @@ INITSCRIPT;
 			$sFileName = basename($sTarget);
 		}
 
-		t3lib_div::upload_copy_move(
+		Tx_Rnbase_Utility_T3General::upload_copy_move(
 			$aFile["tmp_name"],
 			$sTarget
 		);
@@ -188,7 +188,7 @@ INITSCRIPT;
 			$sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
 		}
 
-		return t3lib_div::fixWindowsFilePath(
+		return Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
 			$oFileTool->slashPath(
 				$oFileTool->rmDoubleSlash(
 					$sTargetDir
@@ -243,7 +243,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonupload")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -276,7 +276,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/listqueue")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);

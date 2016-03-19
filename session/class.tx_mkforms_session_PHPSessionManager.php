@@ -147,7 +147,7 @@ class tx_mkforms_session_PHPSessionManager implements tx_mkforms_session_IManage
 
 			$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['parent'] = array(
 				'classpath' => tx_mkforms_util_Div::removeEndingSlash(
-					t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT')) . '/' . tx_mkforms_util_Div::removeStartingSlash($aParentConf['includeLibs']),
+					Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT')) . '/' . tx_mkforms_util_Div::removeStartingSlash($aParentConf['includeLibs']),
 			);
 		}
 

@@ -138,7 +138,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	function _unFlatten($sData) {
 
 		if(!$this->_emptyFormValue($sData)) {
-			return t3lib_div::trimExplode(',', $sData);
+			return Tx_Rnbase_Utility_Strings::trimExplode(',', $sData);
 		}
 
 		return array();
@@ -147,7 +147,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	function _getHumanReadableValue($data) {
 
 		if(!is_array($data)) {
-			$data = t3lib_div::trimExplode(',', $data);
+			$data = Tx_Rnbase_Utility_Strings::trimExplode(',', $data);
 		}
 
 		$aLabels = array();
@@ -173,7 +173,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	function _sqlSearchClause($sValues, $sFieldPrefix = '') {
 
 		$aParts = array();
-		$aValues = t3lib_div::trimExplode(',', $sValues);
+		$aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $sValues);
 
 		if(sizeof($aValues) > 0) {
 
@@ -197,7 +197,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 						$sOnFields = $aConf['onfields'];
 					}
 
-					$aFields = t3lib_div::trimExplode(',', $sOnFields);
+					$aFields = Tx_Rnbase_Utility_Strings::trimExplode(',', $sOnFields);
 					reset($aFields);
 				} else {
 					$aFields = array($this->_getName());

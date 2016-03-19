@@ -26,7 +26,7 @@ class formidable_mainobject {
 
 		$this->sExtPath = $aObjectType['PATH'];
 		$this->sExtRelPath = $aObjectType['RELPATH'];
-		$this->sExtWebPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath;
+		$this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath;
 
 		$this->sXPath = $sXPath;
 

@@ -79,7 +79,7 @@ EVENT;
 						);
 
 						if(($aCustomConf = $this->_navConf("/stdbutton")) !== FALSE) {
-							$aConf = t3lib_div::array_merge_recursive_overrule(
+							$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 								$aConf,
 								$aCustomConf
 							);

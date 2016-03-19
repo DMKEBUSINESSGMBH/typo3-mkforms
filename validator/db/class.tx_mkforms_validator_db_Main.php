@@ -29,7 +29,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 			*
 			***********************************************************************/
 
-			if($sKey{0} === 'u' && t3lib_div::isFirstPartOfStr($sKey, 'unique')) {
+			if($sKey{0} === 'u' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'unique')) {
 				// field value has to be unique in the database
 				// checking this
 
@@ -49,7 +49,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 			*
 			***********************************************************************/
 
-			elseif($sKey{0} === 'd' && t3lib_div::isFirstPartOfStr($sKey, 'differsfromdb')) {
+			elseif($sKey{0} === 'd' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'differsfromdb')) {
 				// field value has to differ from the one in the database
 				// checking this
 

@@ -162,7 +162,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 			$this->errors[] = 'No XML file found (TS: ' . $confId . 'xml).';
 		}
 		// existiert das xml
-		$absXmlPath = t3lib_div::getFileAbsFileName($xmlPath);
+		$absXmlPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($xmlPath);
 		if (empty($absXmlPath) || !file_exists($absXmlPath)) {
 			$this->errors[] = 'The given XML file path (' . $xmlPath . ') doesn\'t exists.';
 		}

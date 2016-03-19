@@ -39,7 +39,7 @@ class tx_rdtselector extends formidable_mainrenderlet {
 			$this->oAvailable->_getItems()
 		);
 
-		$aSelected = t3lib_div::trimExplode(",", $this->getValue());
+		$aSelected = Tx_Rnbase_Utility_Strings::trimExplode(",", $this->getValue());
 		$aSelectedItems = array();
 
 		reset($aSelected);
@@ -161,7 +161,7 @@ PHP;
 			if(($aCustomConf = $this->_navConf("/available")) !== FALSE) {
 				if(!is_array($aCustomConf)) { $aCustomConf = array();}
 
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -191,7 +191,7 @@ PHP;
 				"style" => "width: 100%;"	//	100% of TD
 			);
 			if(($aCustomConf = $this->_navConf("/selected")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -262,7 +262,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonremove")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -306,7 +306,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttontop")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -350,7 +350,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonup")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -392,7 +392,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttondown")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -435,7 +435,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonbottom")) !== FALSE) {
-				$aConf = t3lib_div::array_merge_recursive_overrule(
+				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aConf,
 					$aCustomConf
 				);

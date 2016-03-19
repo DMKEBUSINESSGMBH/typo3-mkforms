@@ -33,7 +33,7 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework {
 	}
 
 	private function loadIncludes($confId) {
-		$server = t3lib_div::getIndpEnv('TYPO3_SITE_URL');
+		$server = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL');
 
 		// TODO: Wir benötigen den Pfad für die URL und den absoluten Serverpfad.
 		// Ob das wirklich so ist, muss aber noch geklärt werden: minify und zip
@@ -48,7 +48,7 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework {
 				$pagePath = tx_mkforms_util_Div::getRelExtensionPath($jsPath);
 			}
 			$pagePath = $server . $pagePath;
-			$serverPath = t3lib_div::getFileAbsFileName($jsPath);
+			$serverPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($jsPath);
 			$ret[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, $key);
 		}
 

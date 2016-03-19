@@ -318,7 +318,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_substr($mData, $aParams) {
-		return t3lib_div::fixed_lgd_cs(
+		return Tx_Rnbase_Utility_T3General::fixed_lgd_cs(
 			$this->templateDataAsString($mData),
 			$aParams[0],
 			$aParams[1]
@@ -540,7 +540,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 			$sSep = $aParams[0];
 		}
 
-		$aRes = t3lib_div::trimExplode(
+		$aRes = Tx_Rnbase_Utility_Strings::trimExplode(
 			$sSep,
 			$this->templateDataAsString($mData)
 		);

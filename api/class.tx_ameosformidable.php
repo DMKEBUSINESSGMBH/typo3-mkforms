@@ -382,7 +382,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	 * @return    void
 	 */
 	function init(&$oParent, $mXml, $iForcedEntryId = FALSE, $configurations = FALSE, $confid = '') {
-		$this->start_tstamp = t3lib_div::milliseconds();
+		$this->start_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();
 
 		if (!$this->isTestMode()) {
 			$sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -403,7 +403,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		 */
 		$this->sExtPath = tx_rnbase_util_Extensions::extPath('mkforms');
 		$this->sExtRelPath = tx_rnbase_util_Extensions::siteRelPath('mkforms');
-		$this->sExtWebPath = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
+		$this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
 
 		// TODO: Der Zugriff auf conf wird durch tx_rnbase_configurations ersetzt
 		$this->setConfigurations($configurations, $confid);
@@ -668,7 +668,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 	function initAPI(&$oParent) {
 		$this->_oParent =& $oParent;
-		$this->formid = t3lib_div::shortMD5(rand());
+		$this->formid = Tx_Rnbase_Utility_T3General::shortMD5(rand());
 	}
 
 	/**
@@ -711,7 +711,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	function analyzeFormAction() {
 
 		if ($this->isFormActionTransparent()) {
-			$aGet = t3lib_div::_GET();
+			$aGet = Tx_Rnbase_Utility_T3General::_GET();
 
 			if (array_key_exists('id', $aGet)) {
 				unset($aGet['id']);
@@ -736,7 +736,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 	function formActionAdd($aParams) {
 		if ($this->isFormActionTransparent()) {
-			$this->aFormAction = t3lib_div::array_merge_recursive_overrule($this->aFormAction, $aParams);
+			$this->aFormAction = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($this->aFormAction, $aParams);
 		}
 	}
 
@@ -846,13 +846,13 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 			$sEnvMode = tx_mkforms_util_Div::getEnvExecMode();
 
 			if ($sEnvMode === 'BE') {
-				$sBaseUrl = t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
+				$sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
 			} elseif ($sEnvMode === 'EID') {
-				$sBaseUrl = t3lib_div::getIndpEnv('HTTP_REFERER');
+				$sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('HTTP_REFERER');
 			}
 
 			if ($sEnvMode === 'BE' || $sEnvMode === 'EID') {
-				$sNewUrl = t3lib_div::linkThisUrl($sBaseUrl, $this->aFormAction);
+				$sNewUrl = Tx_Rnbase_Utility_T3General::linkThisUrl($sBaseUrl, $this->aFormAction);
 			} elseif ($sEnvMode === 'FE') {
 				$pid = $this->getConfTS('pid');
 				$pid = $pid ? $pid : $GLOBALS["TSFE"]->id;
@@ -867,7 +867,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 					$this->getCObj()->typolink_URL(
 						array(
 							'parameter' => $pid,
-							'additionalParams' => t3lib_div::implodeArrayForUrl('', $this->aFormAction)
+							'additionalParams' => Tx_Rnbase_Utility_T3General::implodeArrayForUrl('', $this->aFormAction)
 						)
 					)
 				);
@@ -904,7 +904,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	}
 
 	function setParamsToRemove($aParams) {
-		$this->aParamsToRemove = t3lib_div::array_merge_recursive_overrule(
+		$this->aParamsToRemove = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 			$this->aParamsToRemove,
 			$aParams
 		);
@@ -921,7 +921,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 			$sFormId = $this->formid;
 		}
 
-		$aRawPost = t3lib_div::_POST();
+		$aRawPost = Tx_Rnbase_Utility_T3General::_POST();
 		$aRawPost = is_array($aRawPost[$sFormId]) ? $aRawPost[$sFormId] : array();
 
 		if (array_key_exists('AMEOSFORMIDABLE_ADDPOSTVARS', $aRawPost) && trim($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS']) !== '') {
@@ -1036,7 +1036,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 		$aExtends = explode('::', $sExtends);
 		if (sizeof($aExtends) == 2) {
-			$sFile = t3lib_div::getFileAbsFileName($aExtends[0]);
+			$sFile = Tx_Rnbase_Utility_T3General::getFileAbsFileName($aExtends[0]);
 			$sClass = $aExtends[1];
 
 			if (file_exists($sFile) && is_readable($sFile)) {
@@ -1051,7 +1051,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 			// trying to auto-determine class-name
 
-			$sFile = t3lib_div::getFileAbsFileName($aExtends[0]);
+			$sFile = Tx_Rnbase_Utility_T3General::getFileAbsFileName($aExtends[0]);
 			if (file_exists($sFile) && is_readable($sFile)) {
 				$aClassesBefore = get_declared_classes();
 
@@ -1186,7 +1186,7 @@ SANDBOXCLASS;
 				unset($GLOBALS['_SESSION']['ameos_formidable']['stepper'][$sStepperId]);
 			} else {
 
-				$aP = t3lib_div::_POST();
+				$aP = Tx_Rnbase_Utility_T3General::_POST();
 
 				if (array_key_exists('AMEOSFORMIDABLE_STEP', $aP) && array_key_exists('AMEOSFORMIDABLE_STEP_HASH', $aP)) {
 
@@ -1443,14 +1443,14 @@ SANDBOXCLASS;
 		}
 
 		if (!array_key_exists((string)$sFormId, $this->aRawPost) || ($bCache === FALSE)) {
-			$aPost = t3lib_div::_POST();
+			$aPost = Tx_Rnbase_Utility_T3General::_POST();
 			if ($this->_useGP) {
-				$aGet = t3lib_div::_GET();
+				$aGet = Tx_Rnbase_Utility_T3General::_GET();
 				//wurden die Daten Urlencodiert?
 				if ($this->_useGPWithUrlDecode) {
 					tx_mkforms_util_Div::urlDecodeRecursive($aGet);
 				}
-				$aPost = t3lib_div::array_merge_recursive_overrule(
+				$aPost = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aGet,
 					is_array($aPost) ? $aPost : array()
 				);
@@ -1476,9 +1476,9 @@ SANDBOXCLASS;
 						reset($aAddPostVars[$sKey]['params']);
 						while (list($sParam, $sValue) = each($aAddPostVars[$sKey]['params'])) {
 
-							$aAddParams = t3lib_div::array_merge_recursive_overrule(
+							$aAddParams = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 								$aAddParams,
-								t3lib_div::explodeUrl2Array(
+								Tx_Rnbase_Utility_T3General::explodeUrl2Array(
 									$sParam . '=' . $sValue,
 									TRUE    // multidim ?
 								)
@@ -1488,8 +1488,8 @@ SANDBOXCLASS;
 				}
 			}
 
-			$aRes = t3lib_div::array_merge_recursive_overrule($aPost, $aFiles);
-			$aRes = t3lib_div::array_merge_recursive_overrule($aRes, $aAddParams);
+			$aRes = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aPost, $aFiles);
+			$aRes = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aRes, $aAddParams);
 			reset($aRes);
 
 			if ($bCache === FALSE) {
@@ -1513,7 +1513,7 @@ SANDBOXCLASS;
 		}
 
 		if (!array_key_exists((string)$sFormId, $this->aRawGet)) {
-			$aGet = t3lib_div::_GET($sFormId);
+			$aGet = Tx_Rnbase_Utility_T3General::_GET($sFormId);
 			//wurden die Daten Urlencodiert?
 			if ($this->_useGPWithUrlDecode) {
 				tx_mkforms_util_Div::urlDecodeRecursive($aGet);
@@ -1650,14 +1650,14 @@ SANDBOXCLASS;
 	 */
 	function _substituteDynaXml($aXml, $aDynaXml) {
 
-		$sXml = t3lib_div::array2xml($aXml);
+		$sXml = Tx_Rnbase_Utility_T3General::array2xml($aXml);
 
 		reset($aDynaXml);
 		while (list(, $aDynaSubst) = each($aDynaXml)) {
 			$sXml = str_replace('[' . $aDynaSubst['name'] . ']', $aDynaSubst['value'], $sXml);
 		}
 
-		return t3lib_div::xml2array($sXml);
+		return Tx_Rnbase_Utility_T3General::xml2array($sXml);
 	}
 
 	/**
@@ -1683,7 +1683,7 @@ SANDBOXCLASS;
 	}
 
 	function relativizeName($sOurs, $sTheirs) {
-		if (t3lib_div::isFirstPartOfStr($sOurs, $sTheirs)) {
+		if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sOurs, $sTheirs)) {
 			return substr($sOurs, strlen($sTheirs) + 1);
 		}
 
@@ -1790,8 +1790,8 @@ SANDBOXCLASS;
 			reset($aConf);
 			while (list($sElementName,) = each($aConf)) {
 
-				if ($sElementName{0} === 'd' && t3lib_div::isFirstPartOfStr($sElementName, 'datasource')
-					&& !t3lib_div::isFirstPartOfStr($sElementName, 'datasources')
+				if ($sElementName{0} === 'd' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasource')
+					&& !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasources')
 				) {
 
 					$aElement =& $aConf[$sElementName];
@@ -1848,7 +1848,7 @@ SANDBOXCLASS;
 			reset($aConf);
 			while (list($sElementName,) = each($aConf)) {
 
-				if ($sElementName{0} === 'r' && t3lib_div::isFirstPartOfStr($sElementName, 'renderlet')) {
+				if ($sElementName{0} === 'r' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'renderlet')) {
 
 					if (array_key_exists('name', $aConf[$sElementName]) && (trim($aConf[$sElementName]['name']) != '')) {
 						$sName = trim($aConf[$sElementName]['name']);
@@ -2032,7 +2032,7 @@ SANDBOXCLASS;
 
 				if (is_array($curZone) && is_array($mValue) && $bMergeIfArray === TRUE) {
 					// merging arrays
-					$curZone = t3lib_div::array_merge_recursive_overrule(
+					$curZone = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 						$curZone,
 						$mValue
 					);
@@ -2126,7 +2126,7 @@ SANDBOXCLASS;
 			$aPath = explode('/', $sPath);
 			$sTable = $aPath[0];
 
-			t3lib_div::loadTCA($sTable);
+			Tx_Rnbase_Utility_T3General::loadTCA($sTable);
 
 			return $this->getConfig()->get($sPath, $GLOBALS['TCA']);
 		}
@@ -2159,7 +2159,7 @@ SANDBOXCLASS;
 	function _render() {
 
 		if ($this->bInited === FALSE) {
-			$this->start_tstamp = t3lib_div::milliseconds();    // because it has not been initialized yet
+			$this->start_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();    // because it has not been initialized yet
 			$this->mayday('TRIED TO RENDER FORM BEFORE CALLING INIT() !');
 		}
 
@@ -2196,7 +2196,7 @@ SANDBOXCLASS;
 				$sDH = $this->getDataHandler()->_doTheMagic(TRUE);
 
 				// Renderlets are rendered
-				$aRendered = t3lib_div::array_merge_recursive_overrule(
+				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2268,7 +2268,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
-				$aRendered = t3lib_div::array_merge_recursive_overrule(
+				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2297,7 +2297,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
-				$aRendered = t3lib_div::array_merge_recursive_overrule(
+				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2326,7 +2326,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(TRUE);
 
 				// Renderlets are rendered
-				$aRendered = t3lib_div::array_merge_recursive_overrule(
+				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2378,7 +2378,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
-				$aRendered = t3lib_div::array_merge_recursive_overrule(
+				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2402,7 +2402,7 @@ SANDBOXCLASS;
 			$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 			// Renderlets are rendered
-			$aRendered = t3lib_div::array_merge_recursive_overrule(
+			$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 				$this->_renderElements(),
 				$this->aPreRendered
 			);
@@ -2551,7 +2551,7 @@ SANDBOXCLASS;
 			$this->_clearFormInSession();
 		}
 
-		$this->end_tstamp = t3lib_div::milliseconds();
+		$this->end_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();
 		if (!empty($sDH)) {
 			return $aHtmlBag['FORMBEGIN'] . $sDH . $aHtmlBag['HIDDEN'] . $aHtmlBag['FORMEND'] . $debug;
 		} else {
@@ -3195,8 +3195,8 @@ JAVASCRIPT;
 
 		if (is_array($aActionlets)) {
 			while (list($sKey, $aActionlet) = each($aActionlets)) {
-				if ($sKey{0} === 'a' && $sKey{1} === 'c' && t3lib_div::isFirstPartOfStr($sKey, 'actionlet')
-					&& !t3lib_div::isFirstPartOfStr($sKey, 'actionlets')
+				if ($sKey{0} === 'a' && $sKey{1} === 'c' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlet')
+					&& !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlets')
 				) {
 					$this->_executeActionlet($aActionlet, $aRendered, $sForm);
 				}
@@ -3260,12 +3260,12 @@ JAVASCRIPT;
 		// wenn kein js immer ausklappen
 		if ($bExpand === FALSE && $this->getJSLoader()->mayLoadJsFramework()) {
 			$aHtml[] = '<a href="javascript:void(Formidable.f(\'' . $this->formid . '\').toggleDebug())"><img src="'
-				. t3lib_div::getIndpEnv("TYPO3_SITE_URL") . tx_rnbase_util_Extensions::siteRelPath('mkforms')
+				. Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") . tx_rnbase_util_Extensions::siteRelPath('mkforms')
 				. '/res/images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
 			$aHtml[] = '<div id="' . $this->formid
 				. '_debugzone" style="font-family: Verdana; display: none; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;">';
 		} else {
-			$aHtml[] = '<img src="' . t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
+			$aHtml[] = '<img src="' . Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
 				. '/res/images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
 			$aHtml[] = "<div id = '" . $this->formid
 				. "_debugzone' style = 'font-family: Verdana; display: block; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;'>";
@@ -3273,11 +3273,11 @@ JAVASCRIPT;
 
 		$aHtml[] = "<h4>FORMidable debug()</h4>";
 
-		$aHtml[] = "<h5>t3lib_div::_POST()</h5>";
-		$aHtml[] = tx_rnbase_util_Debug::viewArray(t3lib_div::_POST());
+		$aHtml[] = "<h5>Tx_Rnbase_Utility_T3General::_POST()</h5>";
+		$aHtml[] = tx_rnbase_util_Debug::viewArray(Tx_Rnbase_Utility_T3General::_POST());
 
-		$aHtml[] = "<h5>t3lib_div::_GET()</h5>";
-		$aHtml[] = tx_rnbase_util_Debug::viewArray(t3lib_div::_GET());
+		$aHtml[] = "<h5>Tx_Rnbase_Utility_T3General::_GET()</h5>";
+		$aHtml[] = tx_rnbase_util_Debug::viewArray(Tx_Rnbase_Utility_T3General::_GET());
 
 		$aHtml[] = "<br>";
 		$aHtml[] = "<ul>";
@@ -3416,11 +3416,11 @@ JAVASCRIPT;
 			$sExtKey = $GLOBALS['_EXTKEY'];
 		}
 
-		return t3lib_div::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath($sExtKey);
+		return Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath($sExtKey);
 	}
 
 	function _substLLLInHtml($sHtml) {
-		if ($sHtml{0} === 'L' && t3lib_div::isFirstPartOfStr($sHtml, 'LLL:')) {
+		if ($sHtml{0} === 'L' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sHtml, 'LLL:')) {
 			return $this->getConfigXML()->getLLLabel($sHtml);
 		}
 
@@ -3739,7 +3739,7 @@ JAVASCRIPT;
 			$sStr = $this->getConfTS('misc.safelockseed');
 		}
 
-		return t3lib_div::shortMD5(
+		return Tx_Rnbase_Utility_T3General::shortMD5(
 			$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . '||' . $sStr
 		);
 	}
@@ -3756,7 +3756,7 @@ JAVASCRIPT;
 			$sStr = $this->getConfTS('misc.safelockseed');
 		}
 
-		return (t3lib_div::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . '||' . $sStr) === $sLock);
+		return (Tx_Rnbase_Utility_T3General::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . '||' . $sStr) === $sLock);
 	}
 
 	function _watchOutDB($rRes, $sSql = FALSE) {
@@ -3875,7 +3875,7 @@ JAVASCRIPT;
 			reset($aAttachPaths);
 			while (list(, $sPath) = each($aAttachPaths)) {
 
-				$sFilePath = t3lib_div::fixWindowsFilePath(
+				$sFilePath = Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
 					$oFile->rmDoubleSlash(
 						$sPath
 					)
@@ -4576,7 +4576,7 @@ JAVASCRIPT;
 
 	function reloadCurrentUrl() {
 		$this->sendToPage(
-			t3lib_div::getIndpEnv('TYPO3_REQUEST_URL')
+			Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL')
 		);
 	}
 
@@ -4821,7 +4821,7 @@ JAVASCRIPT;
 
 	function div_arrayToCsvFile($aData, $sFilePath = FALSE, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"') {
 		if ($sFilePath === FALSE) {
-			$sFilePath = t3lib_div::tempnam('csv-' . strftime('%Y.%m.%d-%Hh%Mm%Ss' . '-')) . '.csv';
+			$sFilePath = Tx_Rnbase_Utility_T3General::tempnam('csv-' . strftime('%Y.%m.%d-%Hh%Mm%Ss' . '-')) . '.csv';
 		} else {
 			$sFilePath = tx_mkforms_util_Div::toServerPath($sFilePath);
 		}
@@ -4856,8 +4856,8 @@ JAVASCRIPT;
 
 		$aRes = array();
 
-		if (($sHeaders = t3lib_div::getURL($sUrl, 2)) !== FALSE) {
-			$aHeaders = t3lib_div::trimExplode("\n", $sHeaders);
+		if (($sHeaders = Tx_Rnbase_Utility_T3General::getURL($sUrl, 2)) !== FALSE) {
+			$aHeaders = Tx_Rnbase_Utility_Strings::trimExplode("\n", $sHeaders);
 
 			reset($aHeaders);
 			while (list($sKey, $sLine) = each($aHeaders)) {

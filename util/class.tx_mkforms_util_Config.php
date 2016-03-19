@@ -22,6 +22,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 tx_rnbase::load('tx_rnbase_util_Arrays');
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
+
+
 
 /**
  * Die Klasse ist für die Verarbeitung der XML-Formulardatei verantwortlich.
@@ -118,7 +122,7 @@ class tx_mkforms_util_Config {
 	 */
 	public function getLLLabel($mLabel) {
 		$mLabel = $this->findLLLabel($mLabel);
-		if(is_string($mLabel) && t3lib_div::isFirstPartOfStr(strtoupper($mLabel), 'LABEL_')) {
+		if(is_string($mLabel) && Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtoupper($mLabel), 'LABEL_')) {
 			$mLabel = $this->getForm()->getConfigurations()->getLL($mLabel, $mLabel);
 		}
 		return $mLabel;
@@ -145,12 +149,12 @@ class tx_mkforms_util_Config {
 		// Wenn im meta der XML Form ein defaultLLL gesetzt ist,
 		// wird versucht anand des absoluten namens vom renderlet ein label zu finden.
 		if($this->getForm()->sDefaultLLLPrefix !== FALSE) {
-			if(t3lib_div::isFirstPartOfStr($mLabel, 'LLL:') && !t3lib_div::isFirstPartOfStr($mLabel, 'LLL:EXT:')) {
+			if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:') && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:EXT:')) {
 				$mLabel = str_replace('LLL:', 'LLL:' . $this->getForm()->sDefaultLLLPrefix . ':', $mLabel);
 			}
 		}
 
-		if($mLabel{0} === "L" && t3lib_div::isFirstPartOfStr($mLabel, "LLL:")) {
+		if($mLabel{0} === "L" && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, "LLL:")) {
 			if(TYPO3_MODE == "FE") {
 				// front end
 				if(!$GLOBALS["TSFE"]){
@@ -194,7 +198,7 @@ class tx_mkforms_util_Config {
 			if(!array_key_exists('formidable', $this->config)) {
 				tx_mkforms_util_Div::mayday('Root "mkforms" not found in XML. ('.$xmlPath.')');
 			}
-			t3lib_div::deprecationLog(
+			Tx_Rnbase_Utility_T3General::deprecationLog(
 				'Root node "mkforms" in "' . $xmlPath . '" missed, but deprecated "formidable" found.'
 			);
 		}
@@ -271,7 +275,7 @@ class tx_mkforms_util_Config {
 						);
 
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
-							$aTemp['control']['datahandler'] = t3lib_div::array_merge_recursive_overrule(
+							$aTemp['control']['datahandler'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 								$aTemp['control']['datahandler'],
 								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
@@ -282,7 +286,7 @@ class tx_mkforms_util_Config {
 						);
 
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
-							$aTemp['control']['renderer'] = t3lib_div::array_merge_recursive_overrule(
+							$aTemp['control']['renderer'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 								$aTemp['control']['renderer'],
 								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
@@ -300,7 +304,7 @@ class tx_mkforms_util_Config {
 								);
 
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
+									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 										$aTemp['control']['actionlets']['actionlet-' . $sActKey],
 										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
@@ -318,7 +322,7 @@ class tx_mkforms_util_Config {
 								);
 
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-									$aTemp['control']['datasources']['datasource-' . $sActKey] = t3lib_div::array_merge_recursive_overrule(
+									$aTemp['control']['datasources']['datasource-' . $sActKey] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 										$aTemp['control']['datasources']['datasource-' . $sActKey],
 										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
@@ -414,7 +418,7 @@ class tx_mkforms_util_Config {
 						$aValidator['type'] = $aValType[1];
 
 						if(array_key_exists($sKey . '.', $aTenDot['validators.'])) {
-							$aValidator = t3lib_div::array_merge_recursive_overrule(
+							$aValidator = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 								$aValidator,
 								tx_mkforms_util_Div::removeDots($aTenDot['validators.'][$sKey . '.'])
 							);
@@ -428,7 +432,7 @@ class tx_mkforms_util_Config {
 			unset($aTenDot['validators.']);
 		}
 
-		$aRdt = t3lib_div::array_merge_recursive_overrule(
+		$aRdt = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 			$aRdt,
 			tx_mkforms_util_Div::removeDots($aTenDot)
 		);
@@ -608,7 +612,7 @@ class tx_mkforms_util_Config {
 		reset($aConf);
 		while(list($key, $val) = each($aConf)) {
 			if(is_array($val)) {
-				if($key{0} === 'x' && t3lib_div::isFirstPartOfStr($key, 'xmlbuilder')) {
+				if($key{0} === 'x' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'xmlbuilder')) {
 					$aTemp = $this->array_add($this->getForm()->getRunnable()->callRunnable($val), $aTemp);
 				} else {
 					$aTemp[$key] = $this->insertXmlBuilder($val);
@@ -643,7 +647,7 @@ class tx_mkforms_util_Config {
 		while(list($key, $val) = each($aConf)) {
 			if(is_array($val)) {
 
-				if($key{0} === 'i' && t3lib_div::isFirstPartOfStr($key, 'includexml')) {
+				if($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
 
 					if(array_key_exists('path', $val)) {
 						$sPath = $val['path'];
@@ -730,7 +734,7 @@ class tx_mkforms_util_Config {
 				}
 			} else {
 
-				if($key{0} === 'i' && t3lib_div::isFirstPartOfStr($key, 'includexml')) {
+				if($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
 
 					$aDebug[] = array(
 						$sParent => $val,
@@ -740,7 +744,7 @@ class tx_mkforms_util_Config {
 					$iNewKey = count($aDebug) - 1;
 
 					tx_rnbase::load('tx_mkforms_util_XMLParser');
-					$aXml = tx_mkforms_util_XMLParser::getXml(t3lib_div::getFileAbsFileName($val), TRUE);
+					$aXml = tx_mkforms_util_XMLParser::getXml(Tx_Rnbase_Utility_T3General::getFileAbsFileName($val), TRUE);
 
 					$aTemp = $this->array_add(
 						$this->insertSubXml($aXml,$aDebug[$iNewKey]['subxml'],$sParent . '/' . $key),
@@ -792,11 +796,11 @@ class tx_mkforms_util_Config {
 			if(count($aTemp) > 1) {
 				// we have to search on a criteria sequence
 				$sWhat = $aTemp[0];
-				$aTempCrits = t3lib_div::trimExplode(',', $aTemp[1]);
+				$aTempCrits = Tx_Rnbase_Utility_Strings::trimExplode(',', $aTemp[1]);
 				reset($aTempCrits);
 				$aCrits = array();
 				while(list(, $sTempCrit) = each($aTempCrits)) {
-					$aCrit = t3lib_div::trimExplode('=', $sTempCrit);
+					$aCrit = Tx_Rnbase_Utility_Strings::trimExplode('=', $sTempCrit);
 					$aCrits[$aCrit[0]] = $aCrit[1];
 				}
 				$aSegments[] = array('what' => $sWhat,'crits' => $aCrits,'segment' => $sPart);
@@ -871,7 +875,7 @@ class tx_mkforms_util_Config {
 	private function insertSubTS($aConf, $aTemp = array()) {
 		reset($aConf);
 		while(list($key, $val) = each($aConf)) {
-			$isIncludeTS = ($key{0} === 'i' && t3lib_div::isFirstPartOfStr($key, 'includets'));
+			$isIncludeTS = ($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includets'));
 			if(is_array($val)) {
 				if($isIncludeTS) {
 					if(array_key_exists('path', $val)) {
@@ -954,7 +958,7 @@ class tx_mkforms_util_Config {
 				if($this->_matchConditions($aModifier)) {
 
 					$aSubConf =
-						t3lib_div::array_merge_recursive_overrule(
+						Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 							$aSubConf,
 							$aSubConf['modifiers'][$sModKey]['modification']
 						);
@@ -986,7 +990,7 @@ class tx_mkforms_util_Config {
 
 			while(list($sCondKey, ) = each($aConditions)) {
 
-				if($sCondKey{0} === 'c' && $sCondKey{1} === 'o' && t3lib_div::isFirstPartOfStr($sCondKey, 'condition')) {
+				if($sCondKey{0} === 'c' && $sCondKey{1} === 'o' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCondKey, 'condition')) {
 					$aCondition = $this->get($sCondKey, $aConditions);
 					switch($sLogic) {
 						case 'OR': {
@@ -1038,7 +1042,7 @@ class tx_mkforms_util_Config {
 				case 'USERID' :
 				case 'USERIDS' : {
 
-					$aUserIds = t3lib_div::trimExplode(',', $aInfos);
+					$aUserIds = Tx_Rnbase_Utility_Strings::trimExplode(',', $aInfos);
 
 					if(is_array($aUserIds)) {
 						return in_array(
@@ -1058,7 +1062,7 @@ class tx_mkforms_util_Config {
 				case 'USERNAME' :
 				case 'USERNAMES' : {
 
-					$aUserNames = t3lib_div::trimExplode(',', $aInfos);
+					$aUserNames = Tx_Rnbase_Utility_Strings::trimExplode(',', $aInfos);
 					if(is_array($aUserNames)) {
 						return @in_array(
 							$GLOBALS['TSFE']->fe_user->user[$GLOBALS['TSFE']->fe_user->username_column],
@@ -1070,8 +1074,8 @@ class tx_mkforms_util_Config {
 				case 'USERGROUP' :
 				case 'USERGROUPS' : {
 
-					$aUserGroups = t3lib_div::trimExplode(',', $aInfos);
-					$aCurrentUserGroups = t3lib_div::trimExplode(',',$GLOBALS['TSFE']->fe_user->user['usergroup']);
+					$aUserGroups = Tx_Rnbase_Utility_Strings::trimExplode(',', $aInfos);
+					$aCurrentUserGroups = Tx_Rnbase_Utility_Strings::trimExplode(',',$GLOBALS['TSFE']->fe_user->user['usergroup']);
 					return (count(array_intersect($aUserGroups, $aCurrentUserGroups)) > 0);
 
 					break;
@@ -1159,7 +1163,7 @@ class tx_mkforms_util_Config {
 	 */
 	public static function createInstanceByPath($path, $form) {
 		$cfg = new tx_mkforms_util_Config($form);
-		$cfg->loadXmlConf(t3lib_div::getFileAbsFileName($path));
+		$cfg->loadXmlConf(Tx_Rnbase_Utility_T3General::getFileAbsFileName($path));
 		// default config laden hinzufügen
 		$cfg->loadDefaultXmlConf();
 		return $cfg;

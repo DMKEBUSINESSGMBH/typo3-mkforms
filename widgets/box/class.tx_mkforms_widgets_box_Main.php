@@ -124,7 +124,7 @@ new Draggable("' . $sHtmlId . '", ' . $sJson . ');
 					}
 
 					if(($sContainment = $this->_navConf("/droppable/containment")) !== FALSE) {
-						$aConf["containment"] = t3lib_div::trimExplode($sContainment);
+						$aConf["containment"] = Tx_Rnbase_Utility_Strings::trimExplode($sContainment);
 						reset($aConf["containment"]);
 						while(list($iKey,) = each($aConf["containment"])) {
 							$aConf["containment"][$iKey] = $this->oForm->aORenderlets[$aConf["containment"][$iKey]]->_getElementHtmlId();

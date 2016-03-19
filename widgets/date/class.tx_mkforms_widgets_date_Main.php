@@ -40,7 +40,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 		$sLabel = $this->getLabel();
 
 		$sTriggerId = $this->getTriggerId();
-		$sTrigger = " <img src='" . t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . "res/lib/js_calendar/img.gif' id='" . $sTriggerId . "' style='cursor: pointer;' alt='Pick date' /> ";
+		$sTrigger = " <img src='" . Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . "res/lib/js_calendar/img.gif' id='" . $sTriggerId . "' style='cursor: pointer;' alt='Pick date' /> ";
 
 		$this->_initJs();
 
@@ -372,14 +372,14 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 			$sLang = 'en';
 		}
 
-		$sLangFile = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
+		$sLangFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
 
 		$oJsLoader =$this->getForm()->getJSLoader();
 		$oJsLoader->additionalHeaderData(
 			'
-				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath. 'res/lib/js_calendar/calendar.js') . '"></script>
+				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath. 'res/lib/js_calendar/calendar.js') . '"></script>
 				<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sLangFile) . '"></script>
-				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(t3lib_div::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . 'res/lib/js_calendar/calendar-setup.js') . '"></script>
+				<script type="text/javascript" src="' . $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") . $this->sExtRelPath . 'res/lib/js_calendar/calendar-setup.js') . '"></script>
 
 			',
 			'mkforms_date_includeonce'

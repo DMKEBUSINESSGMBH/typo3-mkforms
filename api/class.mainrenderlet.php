@@ -2,6 +2,9 @@
 
 define('AMEOSFORMIDABLE_VALUE_NOT_SET', 'AMEOSFORMIDABLE_VALUE_NOT_SET');
 
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+
+
 class formidable_mainrenderlet extends formidable_mainobject {
 
 	var $__aCacheItems = array();
@@ -136,7 +139,7 @@ class formidable_mainrenderlet extends formidable_mainobject {
 		if (($sDeps = $this->_navConf('/dependson')) === FALSE) {
 			return;
 		}
-		$aDeps = t3lib_div::trimExplode(',', trim($sDeps));
+		$aDeps = Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sDeps));
 
 		reset($aDeps);
 		while (list(, $sDep) = each($aDeps)) {
@@ -423,7 +426,7 @@ class formidable_mainrenderlet extends formidable_mainobject {
 					$aNeededParams = array();
 
 					if (array_key_exists('params', $aEvent) && is_string($aEvent['params'])) {
-						$aNeededParams = t3lib_div::trimExplode(',', $aEvent['params']);
+						$aNeededParams = Tx_Rnbase_Utility_Strings::trimExplode(',', $aEvent['params']);
 						$aEvent['params'] = $aNeededParams;
 					}
 
@@ -1029,7 +1032,7 @@ class formidable_mainrenderlet extends formidable_mainobject {
 			$ret = $ret[$this->getIteratingId()];
 			//wir müssen XSS nur bei strings entfernen und wenn es gewünscht ist
 		} elseif (is_string($ret) && $this->sanitize()) {
-			$ret = t3lib_div::removeXSS($ret);
+			$ret = Tx_Rnbase_Utility_Strings::removeXSS($ret);
 		}
 
 		return $ret;
@@ -1261,11 +1264,11 @@ TOOLTIP;
 			)
 		) {
 			// bei hideIfDependancyIs & hideIfDependancyIsNot sind mehrere Werte Kommasepariert möglich.
-			$sIs = $sIs ? t3lib_div::trimExplode(',', trim($sIs)) : FALSE;
+			$sIs = $sIs ? Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sIs)) : FALSE;
 			$sOperator = $this->_navConf('/hideifoperator');
 			$sOperator = ($sOperator === FALSE || strtoupper($sOperator) != 'OR') ? 'AND' : 'OR';
 			$bHide = FALSE;
-			$sIsNot = $sIsNot ? t3lib_div::trimExplode(',', trim($sIsNot)) : FALSE;
+			$sIsNot = $sIsNot ? Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sIsNot)) : FALSE;
 			$sIsHiddenD = $this->_defaultFalse('/hideifdependancyishiddenbecausedependancy');
 			reset($this->aDependsOn);
 			while (list(, $sKey) = each($this->aDependsOn)) {
@@ -1342,11 +1345,11 @@ TOOLTIP;
 		$aStyles = array();
 
 		if (trim($sStyle) !== '') {
-			$aTemp = t3lib_div::trimExplode(';', $sStyle);
+			$aTemp = Tx_Rnbase_Utility_Strings::trimExplode(';', $sStyle);
 			reset($aTemp);
 			while (list($sKey,) = each($aTemp)) {
 				if (trim($aTemp[$sKey]) !== '') {
-					$aStyleItem = t3lib_div::trimExplode(':', $aTemp[$sKey]);
+					$aStyleItem = Tx_Rnbase_Utility_Strings::trimExplode(':', $aTemp[$sKey]);
 					$aStyles[$aStyleItem[0]] = $aStyleItem[1];
 				}
 			}
@@ -1439,7 +1442,7 @@ TOOLTIP;
 			}
 
 			if (is_string($mClass) && (trim($mClass) !== '')) {
-				$aClasses = t3lib_div::trimExplode(' ', $mClass);
+				$aClasses = Tx_Rnbase_Utility_Strings::trimExplode(' ', $mClass);
 			}
 		}
 
@@ -1526,7 +1529,7 @@ TOOLTIP;
 						if (array_key_exists('params', $mEvent)) {
 							if (is_string($mEvent['params'])) {
 
-								$aTemp = t3lib_div::trimExplode(',', $mEvent['params']);
+								$aTemp = Tx_Rnbase_Utility_Strings::trimExplode(',', $mEvent['params']);
 								reset($aTemp);
 								while (list($sKey,) = each($aTemp)) {
 									$aNeededParams[] = array(
@@ -1953,7 +1956,7 @@ JAVASCRIPT;
 		$aUserItems = array();
 
 		if (($bFromTCA = $this->_defaultFalse('/data/items/fromtca')) === TRUE) {
-			t3lib_div::loadTCA($this->oForm->oDataHandler->tableName());
+			Tx_Rnbase_Utility_T3General::loadTCA($this->oForm->oDataHandler->tableName());
 			if (($aItems = $this->oForm->_navConf(
 					'columns/' . $this->_getName() . '/config/items',
 					$GLOBALS['TCA'][$this->oForm->oDataHandler->tableName()]
@@ -2186,7 +2189,7 @@ JAVASCRIPT;
 					$sOnFields = $aConf['onfields'];
 				}
 
-				$aFields = t3lib_div::trimExplode(',', $sOnFields);
+				$aFields = Tx_Rnbase_Utility_Strings::trimExplode(',', $sOnFields);
 				reset($aFields);
 			} else {
 				$aFields = array($sName);
@@ -2288,7 +2291,7 @@ JAVASCRIPT;
 							'+',
 							trim($sValue)
 						);
-						$aWords = t3lib_div::trimExplode('+', $sValue);
+						$aWords = Tx_Rnbase_Utility_Strings::trimExplode('+', $sValue);
 
 						if (is_array($aConf['mode']) && array_key_exists('handlepluriels', $aConf['mode'])) {
 							reset($aWords);
@@ -2647,7 +2650,7 @@ JAVASCRIPT;
 
 		if (($mValue = $this->oForm->navDeepData($sAbsPath, $this->oForm->aPreRendered)) !== FALSE) {
 			if (is_array($mValue) && array_key_exists('childs', $mValue)) {
-				$aRendered = t3lib_div::array_merge_recursive_overrule(
+				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$aRendered,
 					$mValue['childs']
 				);
@@ -2693,7 +2696,7 @@ JAVASCRIPT;
 			}
 
 			$mHtml = t3lib_parsehtml::getSubpart(
-				t3lib_div::getUrl($sPath),
+				Tx_Rnbase_Utility_T3General::getUrl($sPath),
 				$sSubpart
 			);
 
@@ -2946,7 +2949,7 @@ JAVASCRIPT;
 					while (list(, $aSubManifest) = each($aManifest['skin'][$this->aObjectType['OBJECT']])) {
 						if ($aSubManifest['type'] == $this->aObjectType['TYPE']) {
 
-							$aModes = t3lib_div::trimExplode(',', $aSubManifest['modes']);
+							$aModes = Tx_Rnbase_Utility_Strings::trimExplode(',', $aSubManifest['modes']);
 							if (in_array($sMode, $aModes)) {
 
 								$this->aSkin = array(
@@ -2970,7 +2973,7 @@ JAVASCRIPT;
 									if (file_exists($sSrc) && is_readable($sSrc)) {
 
 										$this->aSkin['template']['full'] = t3lib_parsehtml::getSubpart(
-											t3lib_div::getUrl($sSrc),
+											Tx_Rnbase_Utility_T3General::getUrl($sSrc),
 											$this->aSkin['submanifest']['resources']['template']['subpart']
 										);
 
@@ -3348,7 +3351,7 @@ JAVASCRIPT;
 
 		if (($sClass = $this->_navConf('/class')) !== FALSE) {
 			$sClass = trim($sClass);
-			$aClasses = t3lib_div::trimExplode(' ', $sClass);
+			$aClasses = Tx_Rnbase_Utility_Strings::trimExplode(' ', $sClass);
 		} else {
 			$aClasses = array();
 		}
@@ -4123,8 +4126,8 @@ JAVASCRIPT;
 				$sAbsName = $this->getAbsName();
 
 				while (!$this->hasError() && list($sKey, $aValidator) = each($aConf)) {
-					if ($sKey{0} === 'v' && $sKey{1} === 'a' && t3lib_div::isFirstPartOfStr($sKey, 'validator')
-						&& !t3lib_div::isFirstPartOfStr($sKey, 'validators')
+					if ($sKey{0} === 'v' && $sKey{1} === 'a' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validator')
+						&& !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validators')
 					) {
 						// the conf section exists
 						// call validator

@@ -57,7 +57,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 				$sValue = trim($sValue);
 				$aParsedURL = @parse_url($sValue);
 
-				if(t3lib_div::inList('ftp,ftps,http,https,gopher,telnet', $aParsedURL['scheme'])) {
+				if(Tx_Rnbase_Utility_T3General::inList('ftp,ftps,http,https,gopher,telnet', $aParsedURL['scheme'])) {
 					$sUrl = $sValue;
 				} else {
 					$sUrl = FALSE;
@@ -79,7 +79,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 
 			if($sAnchor !== "") {
 				if($sUrl === FALSE) {
-					$sUrl = t3lib_div::getIndpEnv("REQUEST_URI");
+					$sUrl = Tx_Rnbase_Utility_T3General::getIndpEnv("REQUEST_URI");
 				}
 
 				if(array_key_exists($sAnchor, $this->oForm->aORenderlets)) {

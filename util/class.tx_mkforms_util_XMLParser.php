@@ -135,8 +135,8 @@ class tx_mkforms_util_XMLParser {
 			if(self::$useCache) {
 
 				if(!@is_dir(PATH_site . 'typo3temp/' . $sCacheDir)) {
-					if(function_exists('t3lib_div::mkdir_deep')) {
-						t3lib_div::mkdir_deep(PATH_site . 'typo3temp/', $sCacheDir);
+					if(function_exists('Tx_Rnbase_Utility_T3General::mkdir_deep')) {
+						Tx_Rnbase_Utility_T3General::mkdir_deep(PATH_site . 'typo3temp/', $sCacheDir);
 					} else {
 						tx_mkforms_util_Div::mkdirDeep(PATH_site . 'typo3temp/', $sCacheDir);
 					}
@@ -288,7 +288,7 @@ class tx_mkforms_util_XMLParser {
 				}
 
 				// Get the tag name (without prefix if specified)
-				$tagName = ($prefix && t3lib_div::isFirstPartOfStr($val['tag'], $prefix)) ? substr($val['tag'],strlen($prefix)) : $val['tag'];
+				$tagName = ($prefix && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($val['tag'], $prefix)) ? substr($val['tag'],strlen($prefix)) : $val['tag'];
 				if($bPlain === FALSE) {
 					$aTagName = explode(
 						':',

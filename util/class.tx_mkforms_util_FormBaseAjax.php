@@ -26,6 +26,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 tx_rnbase::load('tx_mkforms_util_FormBase');
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 
 /**
  * Some static util functions für ajax calls.
@@ -74,7 +75,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase {
 		$result = array();
 		$foo = preg_split('/[\s]*,[\s]*/', $param, -1, PREG_SPLIT_NO_EMPTY);
 		foreach ($foo as $f) {
-			$bar = t3lib_div::trimExplode('|', $f);
+			$bar = Tx_Rnbase_Utility_Strings::trimExplode('|', $f);
 			// Return suboptions as array, but remain scalar value if no suboption was identified
 			$result[] = ($forceSubOptionArray || count($bar) > 1) ? $bar : $bar[0];
 		}

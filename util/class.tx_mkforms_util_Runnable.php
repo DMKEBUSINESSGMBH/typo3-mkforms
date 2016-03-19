@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  * Execute code within XML.
@@ -307,7 +309,7 @@ class tx_mkforms_util_Runnable {
 						$aUserObjParams = array();
 					}
 				}
-				$oParser->setup['params.'] = t3lib_div::array_merge_recursive_overrule(
+				$oParser->setup['params.'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$oParser->setup['params.'],
 					$aUserObjParams
 				);
@@ -375,7 +377,7 @@ class tx_mkforms_util_Runnable {
 
 		if(!empty($this->aForcedUserObjParamsStack)) {
 			$aForcedParams = $this->getForcedUserObjParams();
-			$aParams = t3lib_div::array_merge_recursive_overrule($aParams, $aForcedParams);
+			$aParams = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aParams, $aForcedParams);
 		}
 
 		return $aParams;
@@ -461,7 +463,7 @@ class tx_mkforms_util_Runnable {
 		if(!is_array($aMetas)) $aMetas[0] = $aMetas;
 		reset($aMetas);
 		while(list($sKey,) = each($aMetas)) {
-			if($sKey{0} === "c" && $sKey{1} === "o" && t3lib_div::isFirstPartOfStr(strtolower($sKey), "codebehind")) {
+			if($sKey{0} === "c" && $sKey{1} === "o" && Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtolower($sKey), "codebehind")) {
 
 				$aCB = $this->initCodeBehind($aMetas[$sKey]);
 
@@ -507,7 +509,7 @@ class tx_mkforms_util_Runnable {
 			);
 		}
 
-		if($sCBRef{0} === "E" && $sCBRef{1} === "X" && t3lib_div::isFirstPartOfStr($sCBRef, "EXT:")) {
+		if($sCBRef{0} === "E" && $sCBRef{1} === "X" && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCBRef, "EXT:")) {
 			$sCBRef = substr($sCBRef, 4);
 			$sPrefix = "EXT:";
 		} else {
@@ -520,7 +522,7 @@ class tx_mkforms_util_Runnable {
 		$sFilePath = tx_mkforms_util_Div::toServerPath($sFileRef);
 
 		// determining type of the CB
-		$sFileExt = strtolower(array_pop(t3lib_div::revExplode(".", $sFileRef, 2)));
+		$sFileExt = strtolower(array_pop(Tx_Rnbase_Utility_T3General::revExplode(".", $sFileRef, 2)));
 		switch($sFileExt) {
 			case "php": {
 				if(is_file($sFilePath) && is_readable($sFilePath)) {
@@ -621,7 +623,7 @@ class tx_mkforms_util_Runnable {
 		// array([expr] => btnUserSave_click,  [rec] => '', [args] => '')
 
 		// Es gibt anscheinend den Sonderfall von rdt( als CB -Code...
-		if(t3lib_div::isFirstPartOfStr($sCBRef, 'rdt(')) {
+		if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCBRef, 'rdt(')) {
 			$bCbRdt = TRUE;
 			$aCbRdtArgs = $this->getForm()->getTemplateTool()->parseTemplateMethodArgs($aExec[0]['args']);
 			if(($oRdt =& $this->getForm()->getWidget($aCbRdtArgs[0])) === FALSE) {

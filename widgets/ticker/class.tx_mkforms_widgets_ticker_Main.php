@@ -213,7 +213,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 			$this->oForm->mayday("RENDERLET TICKER <b>" . $this->_getName() . "</b> requires /template/alternaterows to be properly set. Please check your XML configuration");
 		}
 
-		$aAltList = t3lib_div::trimExplode(",", $sAltList);
+		$aAltList = Tx_Rnbase_Utility_Strings::trimExplode(",", $sAltList);
 		if(sizeof($aAltList) > 0) {
 			$sRowsPart = t3lib_parsehtml::getSubpart($sTemplate, "###ROWS###");
 
@@ -230,7 +230,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 
 		if(($aTemplate = $this->_navConf("/template")) !== FALSE) {
 
-			$sPath = t3lib_div::getFileAbsFileName($this->oForm->_navConf("/path", $aTemplate));
+			$sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($this->oForm->_navConf("/path", $aTemplate));
 			if(!file_exists($sPath)) {
 				$this->oForm->mayday("renderlet:" . $this->_getType() . "[name=" . $this->getName() . "] - The given template file path (<b>'" . $sPath . "'</b>) doesn't exists.");
 			} elseif(is_dir($sPath)) {
@@ -244,7 +244,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 			}
 
 			$sHtml = t3lib_parsehtml::getSubpart(
-				t3lib_div::getUrl($sPath),
+				Tx_Rnbase_Utility_T3General::getUrl($sPath),
 				$sSubpart
 			);
 

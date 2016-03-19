@@ -64,7 +64,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 		$sInput .= '<input type="hidden" name="' . $this->_getElementHtmlName() . '[backup]" value="' . $this->getValueForHtml($sValue) . '" />';
 
 		if(!empty($sValue) && $this->defaultTrue('showfilelist')) {
-			$aValues = t3lib_div::trimExplode(',', $this->getValueForHtml($sValue));
+			$aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValueForHtml($sValue));
 
 			reset($aValues);
 
@@ -177,7 +177,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 			// a file has just been uploaded
 
 			if(($sTargetFile = $this->getTargetFile()) !== FALSE) {
-				$sTargetDir = t3lib_div::dirname($sTargetFile);
+				$sTargetDir = Tx_Rnbase_Utility_T3General::dirname($sTargetFile);
 				$sName = basename($sTargetFile);
 				$sTarget = $sTargetFile;
 			} else {
@@ -241,7 +241,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 					if($sCurrent !== '') {
 
-						$aCurrent = t3lib_div::trimExplode(',', $sCurrent);
+						$aCurrent = Tx_Rnbase_Utility_Strings::trimExplode(',', $sCurrent);
 						if(!in_array($sCurFile, $aCurrent)) {
 							$aCurrent[] = $sCurFile;
 						}
@@ -304,8 +304,8 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 							'$aData' 				=> $aData,
 							'getValue' 				=> $this->getValue(),
 							'Validierungsfehler'	=> $this->getForm()->_aValidationErrors,
-							'$GET'					=> t3lib_div::_GET(),
-							'$POST'					=> t3lib_div::_POST(),
+							'$GET'					=> Tx_Rnbase_Utility_T3General::_GET(),
+							'$POST'					=> Tx_Rnbase_Utility_T3General::_POST(),
 						)
 					);
 				}
@@ -374,7 +374,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 	}
 
 	function deleteFile($sFile) {
-		$aValues = t3lib_div::trimExplode(',', $this->getValue());
+		$aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValue());
 		unset($aValues[array_search($sFile, $aValues)]);
 		@unlink($this->getFullServerPath($sFile));
 		$this->setValue(implode(',', $aValues));
@@ -402,7 +402,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 		if($this->useDam()) {
 
 			if($this->isMultiple()) {
-				$aFiles = t3lib_div::trimExplode(',', $this->getValue());
+				$aFiles = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValue());
 			} else {
 				$aFiles = array($this->getValue());
 			}
@@ -452,7 +452,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 					if(!is_array($mCategories)) {
 						if(trim($mCategories) !== '') {
-							$aCategories = t3lib_div::trimExplode(',', trim($mCategories));
+							$aCategories = Tx_Rnbase_Utility_Strings::trimExplode(',', trim($mCategories));
 						}
 					} else {
 						$aCategories = $mCategories;

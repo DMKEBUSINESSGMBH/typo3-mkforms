@@ -180,7 +180,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_phpunit_t
 	protected function getForm() {
 		return tx_mkforms_tests_Util::getForm(
 			TRUE,
-			t3lib_div::array_merge_recursive_overrule(
+			Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 				tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 				array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/timetracking.xml'))
 			)

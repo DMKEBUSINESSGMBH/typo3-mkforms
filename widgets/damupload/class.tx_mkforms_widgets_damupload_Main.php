@@ -237,7 +237,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			// wir müssen die renderlets noch refreshen damit der Lister neue Daten bekommt
 			// es gibt keine anderen weg als das formular neu zu rendern
 			if(isset($options['renderedRenderlets'])) {
-				$options['renderedRenderlets'] = t3lib_div::array_merge_recursive_overrule(
+				$options['renderedRenderlets'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					$this->getForm()->_renderElements(),
 					$this->getForm()->aPreRendered
 				);
@@ -263,7 +263,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 		$sessionIdForCurrentWidget = $this->getSessionIdForCurrentWidget();
 		if($uploadedFileIdsFromSession = $sessionData[$sessionIdForCurrentWidget . '_fileIds']) {
-			$uploadedFileIds = t3lib_div::trimExplode(',', $uploadedFileIdsFromSession);
+			$uploadedFileIds = Tx_Rnbase_Utility_Strings::trimExplode(',', $uploadedFileIdsFromSession);
 		}
 
 		if($valid && (is_array($aData) && $aData['error'] == 0)) {
@@ -363,7 +363,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	function getTargetFileData($aData) {
 		$ret = array();
 		if(($sTargetFile = $this->getTargetFile()) !== FALSE) {
-			$ret['sTargetDir'] = t3lib_div::dirname($sTargetFile);
+			$ret['sTargetDir'] = Tx_Rnbase_Utility_T3General::dirname($sTargetFile);
 			$ret['sName'] = basename($sTargetFile);
 			$ret['sTarget'] = $sTargetFile;
 		} else {
@@ -560,7 +560,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		if($this->oForm->isRunneable(($sTargetDir = $this->_navConf('/data/targetdir/')))) {
 			$sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
 		}
-		return t3lib_div::fixWindowsFilePath(
+		return Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
 			$oFileTool->slashPath(
 				$oFileTool->rmDoubleSlash($sTargetDir)
 			)
@@ -776,7 +776,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$oJsLoader = $this->getForm()->getJSLoader();
 		// JS-Lib ermitteln
 		$dir = $oJsLoader->getJSFrameworkId();
-		$sFile = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/js/'.$dir.'/ajaxfileupload.js';
+		$sFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/js/'.$dir.'/ajaxfileupload.js';
 
 		$oJsLoader->additionalHeaderData(
 			'<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sFile) . '"></script>',
@@ -841,7 +841,7 @@ INITSCRIPT;
 		$sFormId = $this->getForm()->getFormId();
 		$sSafeLock = $this->_getSessionDataHashKey();
 		$sUploadUrl = tx_mkforms_util_Div::removeEndingSlash(
-			t3lib_div::getIndpEnv('TYPO3_SITE_URL')) .
+			Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')) .
 			'/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
 
 		$GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(

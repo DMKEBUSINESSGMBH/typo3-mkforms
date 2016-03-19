@@ -115,7 +115,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 		}
 
 		if($this->_isMultiple() && !is_array($data)) {
-			$data = t3lib_div::trimExplode(",", $data);
+			$data = Tx_Rnbase_Utility_Strings::trimExplode(",", $data);
 		}
 
 		if(is_array($data)) {
@@ -159,7 +159,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 
 	function _sqlSearchClause($sValue, $sFieldPrefix = "", $sFieldName = "", $bRec = TRUE) {
 
-		$aValues = t3lib_div::trimExplode(",", $sValue);
+		$aValues = Tx_Rnbase_Utility_Strings::trimExplode(",", $sValue);
 		$aParts = array();
 
 		if($sFieldName === "") {
@@ -334,7 +334,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 	function _unFlatten($sData) {
 		if($this->_isMultiple()) {
 			if(!$this->_emptyFormValue($sData)) {
-				return t3lib_div::trimExplode(",", $sData);
+				return Tx_Rnbase_Utility_Strings::trimExplode(",", $sData);
 			} else {
 				return array();
 			}

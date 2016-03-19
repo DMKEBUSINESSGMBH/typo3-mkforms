@@ -60,7 +60,7 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator {
 			}
 
 			//pattern
-			if($sKey{0} === 'p' && t3lib_div::isFirstPartOfStr($sKey, 'pattern')) {
+			if($sKey{0} === 'p' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'pattern')) {
 				$sPattern = $this->_navConf('/' . $sKey . '/value');
 
 				if(!$this->_isValid($sPattern)) {

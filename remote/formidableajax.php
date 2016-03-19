@@ -49,16 +49,16 @@ class formidableajax {
 		$this->ttTimes = array();
 
 		$this->aRequest = array(
-			'safelock'		=> t3lib_div::_GP('safelock'),
-			'object'		=> t3lib_div::_GP('object'),
-			'servicekey'	=> t3lib_div::_GP('servicekey'),
-			'eventid'		=> t3lib_div::_GP('eventid'),
-			'serviceid'		=> t3lib_div::_GP('serviceid'),
-			'value'			=> stripslashes(t3lib_div::_GP('value')),
-			'formid'		=> t3lib_div::_GP('formid'),
-			'thrower'		=> t3lib_div::_GP('thrower'),
-			'arguments'		=> t3lib_div::_GP('arguments'),
-			'trueargs'		=> t3lib_div::_GP('trueargs'),
+			'safelock'		=> Tx_Rnbase_Utility_T3General::_GP('safelock'),
+			'object'		=> Tx_Rnbase_Utility_T3General::_GP('object'),
+			'servicekey'	=> Tx_Rnbase_Utility_T3General::_GP('servicekey'),
+			'eventid'		=> Tx_Rnbase_Utility_T3General::_GP('eventid'),
+			'serviceid'		=> Tx_Rnbase_Utility_T3General::_GP('serviceid'),
+			'value'			=> stripslashes(Tx_Rnbase_Utility_T3General::_GP('value')),
+			'formid'		=> Tx_Rnbase_Utility_T3General::_GP('formid'),
+			'thrower'		=> Tx_Rnbase_Utility_T3General::_GP('thrower'),
+			'arguments'		=> Tx_Rnbase_Utility_T3General::_GP('arguments'),
+			'trueargs'		=> Tx_Rnbase_Utility_T3General::_GP('trueargs'),
 		);
 
 		// Wir starten zuerst die DB, damit das Caching funktioniert
@@ -277,16 +277,16 @@ class formidableajax {
 						$TSFE->displayEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayIcons');
 						$TSFE->displayFieldEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayFieldIcons');
 
-						if (t3lib_div::_GP('ADMCMD_editIcons'))	{
+						if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_editIcons'))	{
 							$TSFE->displayFieldEditIcons=1;
 							$BE_USER->uc['TSFE_adminConfig']['edit_editNoPopup']=1;
 						}
-						if (t3lib_div::_GP('ADMCMD_simUser'))	{
-							$BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup']=intval(t3lib_div::_GP('ADMCMD_simUser'));
+						if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser'))	{
+							$BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup']=intval(Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser'));
 							$BE_USER->ext_forcePreview=1;
 						}
-						if (t3lib_div::_GP('ADMCMD_simTime'))	{
-							$BE_USER->uc['TSFE_adminConfig']['preview_simulateDate']=intval(t3lib_div::_GP('ADMCMD_simTime'));
+						if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime'))	{
+							$BE_USER->uc['TSFE_adminConfig']['preview_simulateDate']=intval(Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime'));
 							$BE_USER->ext_forcePreview=1;
 						}
 

@@ -52,7 +52,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
 				if(($sSubpart = $this->getTemplateSubpart()) !== FALSE) {
 					$mHtml = t3lib_parsehtml::getSubpart(
-						t3lib_div::getUrl($sPath),
+						Tx_Rnbase_Utility_T3General::getUrl($sPath),
 						$sSubpart
 					);
 
@@ -60,7 +60,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 						$this->oForm->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with subpart marker " . $sSubpart . " <b>returned an empty string</b> - Check your template");
 					}
 				} else {
-					$mHtml = t3lib_div::getUrl($sPath);
+					$mHtml = Tx_Rnbase_Utility_T3General::getUrl($sPath);
 					if(trim($mHtml) == "") {
 						$this->oForm->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
 					}

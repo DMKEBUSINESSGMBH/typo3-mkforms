@@ -52,8 +52,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 
 				$aInfosPath = parse_url($sAbsWebPath);
 
-				$aInfosFile = t3lib_div::split_fileref($sAbsWebPath);
-				if(strtolower($aInfosPath['host']) !== strtolower(t3lib_div::getIndpEnv('TYPO3_HOST_ONLY'))) {
+				$aInfosFile = Tx_Rnbase_Utility_T3General::split_fileref($sAbsWebPath);
+				if(strtolower($aInfosPath['host']) !== strtolower(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_HOST_ONLY'))) {
 
 					// it's an external image
 					$bExternal = TRUE;
@@ -82,9 +82,9 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 					$sTempFilePath = PATH_site . 'typo3temp/' . $sTempFileName;
 
 					if(!file_exists($sTempFilePath)) {
-						t3lib_div::writeFileToTypo3tempDir(
+						Tx_Rnbase_Utility_T3General::writeFileToTypo3tempDir(
 							$sTempFilePath,
-							t3lib_div::getUrl($sAbsWebPath)
+							Tx_Rnbase_Utility_T3General::getUrl($sAbsWebPath)
 						);
 					}
 
@@ -95,8 +95,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				} else {
 					// it's an local image given as an absolute web url
 						// trying to convert pathes to handle the image as a local one
-					if(t3lib_div::getIndpEnv('TYPO3_REQUEST_DIR') ==  substr($sAbsWebPath,0,strlen(t3lib_div::getIndpEnv('TYPO3_REQUEST_DIR'))))
-						$sTrimmedWebPath = substr($sAbsWebPath,strlen(t3lib_div::getIndpEnv('TYPO3_REQUEST_DIR')));
+					if(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR') ==  substr($sAbsWebPath,0,strlen(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR'))))
+						$sTrimmedWebPath = substr($sAbsWebPath,strlen(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR')));
 					else
 						$sTrimmedWebPath = $aInfosPath['path'];
 
@@ -248,11 +248,11 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 			$sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
 		}
 
-		if(t3lib_div::isFirstPartOfStr($sPath, 'EXT:')) {
+		if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sPath, 'EXT:')) {
 
 			$sPath = $this->oForm->_removeStartingSlash(
 				tx_mkforms_util_Div::toRelPath(
-					t3lib_div::getFileAbsFileName($sPath)
+					Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath)
 				)
 			);
 		}

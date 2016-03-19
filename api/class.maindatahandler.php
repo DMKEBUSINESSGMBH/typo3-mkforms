@@ -118,7 +118,7 @@ class formidable_maindatahandler extends formidable_mainobject {
 	 */
 	function _GP() {
 
-		return t3lib_div::array_merge_recursive_overrule(
+		return Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 			$this->_G(),
 			$this->_P()
 		);
@@ -134,7 +134,7 @@ class formidable_maindatahandler extends formidable_mainobject {
 	 * @return    array        GET and POST vars array
 	 */
 	function _PG() {
-		return t3lib_div::array_merge_recursive_overrule(
+		return Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 			$this->_P(),
 			$this->_G()
 		);
@@ -462,13 +462,13 @@ class formidable_maindatahandler extends formidable_mainobject {
 
 			$form_id = $this->getForm()->formid;
 
-			$aPost = t3lib_div::_POST();
+			$aPost = Tx_Rnbase_Utility_T3General::_POST();
 
 			$aPost = is_array($aPost[$form_id]) ? $aPost[$form_id] : array();
 			$aFiles = is_array($GLOBALS["_FILES"][$form_id]) ? $GLOBALS["_FILES"][$form_id] : array();
-			$aP = t3lib_div::array_merge_recursive_overrule($aPost, $aFiles);
+			$aP = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aPost, $aFiles);
 
-			t3lib_div::stripSlashesOnArray($aP);
+			Tx_Rnbase_Utility_T3General::stripSlashesOnArray($aP);
 
 			if (array_key_exists("AMEOSFORMIDABLE_ENTRYID", $aP) && trim($aP["AMEOSFORMIDABLE_ENTRYID"]) !== "") {
 				return intval($aP["AMEOSFORMIDABLE_ENTRYID"]);
@@ -915,7 +915,7 @@ class formidable_maindatahandler extends formidable_mainobject {
 					$oDataSet =& $this->getForm()->getWidget($sAbsName)->dbridged_getCurrentDsetObject();
 
 					// sure that dataset is anchored, as we already tested it to be in noSubmit_edit
-					$aData = t3lib_div::array_merge_recursive_overrule(        // allowing GET to set values
+					$aData = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(        // allowing GET to set values
 						$oDataSet->getData(),
 						$this->_G()
 					);
@@ -942,7 +942,7 @@ class formidable_maindatahandler extends formidable_mainobject {
 					$aStored = $this->_getStoredData();
 
 					if (is_array($aStored)) {
-						$aData = t3lib_div::array_merge_recursive_overrule(        // allowing GET to set values
+						$aData = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(        // allowing GET to set values
 							$aStored,
 							$this->_G()
 						);

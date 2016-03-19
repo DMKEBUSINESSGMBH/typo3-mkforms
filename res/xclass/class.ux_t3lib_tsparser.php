@@ -100,8 +100,8 @@ class ux_t3lib_TSparser extends t3lib_TSparser {
 											$newValue = (strcmp('',$currentValue) ? $currentValue.',' : '') . trim($tsFuncArg);
 										break;
 										case 'removeFromList':
-											$existingElements = t3lib_div::trimExplode(',',$currentValue);
-											$removeElements = t3lib_div::trimExplode(',',$tsFuncArg);
+											$existingElements = Tx_Rnbase_Utility_Strings::trimExplode(',',$currentValue);
+											$removeElements = Tx_Rnbase_Utility_Strings::trimExplode(',',$tsFuncArg);
 											if (count($removeElements))	{
 												$newValue = implode(',', array_diff($existingElements, $removeElements));
 											}
@@ -111,9 +111,9 @@ class ux_t3lib_TSparser extends t3lib_TSparser {
 												$hookMethod = $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tsparser.php']['preParseFunc'][$tsFunc];
 												$params = array('currentValue'=>$currentValue, 'functionArgument'=>$tsFuncArg);
 												$fakeThis = FALSE;
-												$newValue = t3lib_div::callUserFunction($hookMethod,$params,$fakeThis);
+												$newValue = Tx_Rnbase_Utility_T3General::callUserFunction($hookMethod,$params,$fakeThis);
 											} else {
-												t3lib_div::sysLog('Missing function definition for '.$tsFunc.' on TypoScript line '.$lineP,'Core',2);
+												Tx_Rnbase_Utility_T3General::sysLog('Missing function definition for '.$tsFunc.' on TypoScript line '.$lineP,'Core',2);
 											}
 									}
 

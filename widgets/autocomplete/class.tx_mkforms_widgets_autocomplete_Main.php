@@ -80,7 +80,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 		// thwoerID without iterating id
 		$sThrower = $this->_getElementHtmlId(false, true, false);
 
-		$sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(t3lib_div::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
+		$sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
 
 		$GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
 			'requester' => array(
@@ -147,7 +147,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			}
 		}
 
-		$aAltList = t3lib_div::trimExplode(",", $sAltRows);
+		$aAltList = Tx_Rnbase_Utility_Strings::trimExplode(",", $sAltRows);
 		if(sizeof($aAltList) > 0) {
 			$sRowsPart = t3lib_parsehtml::getSubpart($sTemplate, "###ROWS###");
 
@@ -168,7 +168,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 
 		if(($aTemplate = $this->_navConf("/template")) !== FALSE) {
 
-			$sPath = t3lib_div::getFileAbsFileName($this->oForm->_navConf("/path", $aTemplate));
+			$sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($this->oForm->_navConf("/path", $aTemplate));
 			if(!file_exists($sPath)) {
 				$this->oForm->mayday("renderlet:" . $this->_getType() . "[name=" . $this->getName() . "] - The given template file path (<b>'" . $sPath . "'</b>) doesn't exists.");
 			} elseif(is_dir($sPath)) {
@@ -182,7 +182,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			}
 
 			$sHtml = t3lib_parsehtml::getSubpart(
-				t3lib_div::getUrl($sPath),
+				Tx_Rnbase_Utility_T3General::getUrl($sPath),
 				$sSubpart
 			);
 
@@ -197,9 +197,9 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 	}
 
 	function handleAjaxRequest($oRequest) {
-		$this->aConfig['searchType'] = t3lib_div::_GP('searchType');
-		$this->aConfig['searchText'] = t3lib_div::_GP('searchText');
-		$this->aConfig['searchCounter'] = (int)t3lib_div::_GP('searchCounter');
+		$this->aConfig['searchType'] = Tx_Rnbase_Utility_T3General::_GP('searchType');
+		$this->aConfig['searchText'] = Tx_Rnbase_Utility_T3General::_GP('searchText');
+		$this->aConfig['searchCounter'] = (int)Tx_Rnbase_Utility_T3General::_GP('searchCounter');
 
 		$this->renderList($aParts, $aRowsHtml);
 

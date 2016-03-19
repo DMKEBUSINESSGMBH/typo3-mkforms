@@ -265,7 +265,7 @@ class tx_mkforms_util_Json {
                 // STRINGS ARE EXPECTED TO BE IN ASCII OR UTF-8 FORMAT
 				//$ascii = addslashes(utf8_encode($var));
 
-				if(t3lib_div::isFirstPartOfStr($var, "function(")) {
+				if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($var, "function(")) {
 					return $var;
 				}
 

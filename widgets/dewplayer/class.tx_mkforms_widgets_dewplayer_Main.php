@@ -90,13 +90,13 @@ FLASHOBJECT;
 				$sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
 			}
 
-			if(t3lib_div::isFirstPartOfStr($sPath, "EXT:")) {
+			if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sPath, "EXT:")) {
 
-				$sPath = t3lib_div::getIndpEnv("TYPO3_SITE_URL") .
+				$sPath = Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") .
 					str_replace(
-						t3lib_div::getIndpEnv("TYPO3_DOCUMENT_ROOT"),
+						Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_DOCUMENT_ROOT"),
 						"",
-						t3lib_div::getFileAbsFileName($sPath)
+						Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath)
 					);
 			}
 		}

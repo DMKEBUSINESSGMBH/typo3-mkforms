@@ -51,7 +51,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 		}
 
 		$aChildsBag = $this->renderChildsBag();
-		$aChildsBag = t3lib_div::array_merge_recursive_overrule($aChildsBag, $aTags);
+		$aChildsBag = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aChildsBag, $aTags);
 
 		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
 			$aEventsAfter = array_keys($this->oForm->aRdtEvents);
@@ -91,7 +91,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 		$oJsLoader = $this->getForm()->getJSLoader();
 		$oJsLoader->loadScriptaculous();
 
-		$sPath = t3lib_div::getIndpEnv("TYPO3_SITE_URL") . tx_rnbase_util_Extensions::siteRelPath("ameos_formidable") . "api/base/rdt_modalbox/res/js/modalbox.js";
+		$sPath = Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") . tx_rnbase_util_Extensions::siteRelPath("ameos_formidable") . "api/base/rdt_modalbox/res/js/modalbox.js";
 
 		$oForm->additionalHeaderData(
 			"<script type=\"text/javascript\" src=\"" . $oJsLoader->getScriptPath($sPath) . "\"></script>",
