@@ -472,9 +472,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		 *
 		 */
 		$this->formid = $this->getConfig()->get('/meta/form/formid');
-		tx_rnbase::load('tx_mkforms_util_Templates');
-		tx_mkforms_util_Templates::setFormId($this->formid);
-
+		
 		if ($this->getRunnable()->isRunnable($this->formid)) {
 			$this->formid = $this->getRunnable()->callRunnable($this->formid);
 		}
