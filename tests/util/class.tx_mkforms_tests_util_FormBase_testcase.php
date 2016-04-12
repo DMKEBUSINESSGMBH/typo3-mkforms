@@ -72,7 +72,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 		$form = tx_mkforms_tests_Util::getForm(
 				TRUE,
-				$this->arrayMerge(
+				Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
 					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 					array('myConf.' => array(
 							'path' => 'TEXT',
