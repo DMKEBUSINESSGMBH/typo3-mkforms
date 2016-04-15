@@ -112,6 +112,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 			$where[] = $sKey . ' != \'' . $datahandler->currentId() . '\'';
 		}
 
+		tx_rnbase::load('Tx_Rnbase_Database_Connection');
 		$rs = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
 			'count(*) as nbentries',
 			$sTable,
