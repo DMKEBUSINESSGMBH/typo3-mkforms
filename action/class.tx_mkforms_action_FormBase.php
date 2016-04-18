@@ -305,7 +305,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		tx_rnbase_util_Misc::callHook(
 			'mkforms',
 			'action_formbase_before_filldata',
-			array('data' => &$data),
+			array('data' => &$params),
 			$this
 		);
 
@@ -345,7 +345,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	}
 
 	/**
-	 * Actually process the data, e.g. save it to the table...
+	 * Actually fill the data to be published in form
 	 *
 	 * @param    array $params Parameters from the form
 	 *
