@@ -83,7 +83,7 @@ class tx_mkforms_js_Loader {
 		if ($this->mayLoadJsFramework()) {
 			if (!self::$isLoaded) {
 
-				$this->_includePrototype();
+				$this->_includeBaseFramework();
 				$this->_includeJSFramework();
 				$this->additionalHeaderData(
 					'<!-- consider formidable core loaded after this line -->',
@@ -213,14 +213,16 @@ JAVASCRIPT;
 	}
 
 	/**
-	 * Einbindung der Prototype-Basisskripte
+	 * Einbindung der Basisskripte des Base-JS-Frameworks. Derzeit werden
+	 * Prototype und jQuery unterstützt. Wobei aktiv nur noch für jQuery entwickelt wird.
+	 *
 	 * - res/jsfwk/prototype/prototype.js
 	 * - res/jsfwk/prototype/addons/lowpro/lowpro.js
 	 * - res/jsfwk/prototype/addons/base/Base.js
 	 * - res/jsfwk/json/json.js
 	 *
 	 */
-	private function _includePrototype() {
+	private function _includeBaseFramework() {
 
 		$includes = $this->getJSFramework()->getBaseIncludes();
 		$ext = 'mkforms';

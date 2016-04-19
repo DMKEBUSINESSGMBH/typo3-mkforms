@@ -2,7 +2,13 @@
 tx_rnbase::load('tx_mkforms_forms_IJSFramework');
 
 /**
- * Diese Klasse bindet das notwendige Javascript für Prototype/scriptaculous ein.
+ * Diese Klasse bindet das notwendige Javascript für ein.
+ * Die Konfiguration erfolgt vollständig per Typoscript.
+ *
+ * config.tx_mkforms.jsframework.jscore = jquery | prototype
+ * config.tx_mkforms.jsframework.jscore.tx_mkforms_jsbase = EXT:path_to_query.js
+ *
+ *
  */
 class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework {
 
