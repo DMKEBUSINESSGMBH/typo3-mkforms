@@ -5,8 +5,11 @@
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
 
-
-class tx_rdtselector extends formidable_mainrenderlet {
+/**
+ * FIXME: Das Widget liefert noch keine Items raus.
+ *
+ */
+class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet {
 
 	var $sMajixClass = "Selector";
 	var $aLibs = array(
