@@ -11,6 +11,9 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet {
 		if (!$this->getForm()->getDataHandler()->_allIsValid()) {
 			return;
 		}
+		if(!$this->shouldProcess()) {
+			return;
+		}
 
 		$sUrl = '';
 		if (($mPage = $this->_navConf('/pageid')) !== FALSE) {
