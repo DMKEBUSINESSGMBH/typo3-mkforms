@@ -414,10 +414,10 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 					// on va rechercher la configuration du champ en question
 					reset($this->oForm->aORenderlets);
 					$aRdts = array_keys($this->oForm->aORenderlets);
-					while (list(, $sName) = each($aRdts)) {
+					while (list(, $fieldName) = each($aRdts)) {
 						// Das ist nur für Confirm-Felder interessant
-						if (($sConfirm = $this->oForm->aORenderlets[$sName]->_navConf("/confirm")) !== FALSE) {
-							$this->__aStoredData[$sName] = $this->__aStoredData[$sConfirm];
+						if (($sConfirm = $this->oForm->aORenderlets[$fieldName]->_navConf("/confirm")) !== FALSE) {
+							$this->__aStoredData[$fieldName] = $this->__aStoredData[$sConfirm];
 						}
 					}
 				} else {
