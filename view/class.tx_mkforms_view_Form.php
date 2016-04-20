@@ -72,6 +72,8 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 					$currentMarkerPrefix = strtoupper($key).'_';
 					$currentConfId = $confId.$key.'.';
 					/*
+					 * @TODO: bei den Values sollte man auch Objekte übergeben können und die
+					 * Markerklasse wird konfiguriert
 					 * @TODO: Lister ausgeben
 					 * @TODO: sollte über markerklassen geregelt werden!
 					 *
@@ -85,14 +87,13 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 						$currentSubpartArray = $currentWrappedSubpartArray = array();
 						$currentMarkerArray = $formatter->getItemMarkerArrayWrapped(
 								$values, $currentConfId, 0, $currentMarkerPrefix, null);
-
 						// wir suchen für jede Tabelle eine parse Methode in der Kindklasse!
 						$method = 'add'.tx_mkforms_util_Div::toCamelCase($key).'Markers';
 						if(method_exists($this, $method)) {
 							$template = $this->{$method}(
 									$values, $currentMarkerPrefix,
 									$currentMarkerArray, $currentSubpartArray, $currentWrappedSubpartArray,
-									$currentConfId, $formatter, $template
+									$currentConfId, $formatter, $template, $viewData
 								);
 						}
 						if(!empty($currentMarkerArray))
@@ -112,11 +113,10 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 					: call_user_func_array('array_merge', $wrappedSubpartArrays);
 			}
 		}
-
 		//
 		$template = $this->addAdditionalMarkers($data, 'DATA',
 			$markerArray, $subpartArray, $wrappedSubpartArray,
-			$confId, $formatter, $template
+			$confId, $formatter, $template, $viewData
 		);
 
 		$markerArray['###FORM###'] = $viewData->offsetGet('form');
@@ -146,7 +146,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 	protected function addAdditionalMarkers(
 			$data, $markerPrefix,
 			&$markerArray, &$subpartArray, &$wrappedSubpartArray,
-			$confId, &$formatter, $template) {
+			$confId, &$formatter, $template, $viewData) {
 
 
 		// links parsen
