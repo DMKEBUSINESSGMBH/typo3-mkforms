@@ -389,7 +389,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		$aRes = array();
 		$options = array();
 		$options['enablefieldsoff'] = 1;
-		$options['where'] = $sKeyname . " = '" . $iUid . "'";
+		$options['where'] = $sKeyname . " = " . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($iUid, $sTablename);
 		$ret = tx_rnbase_util_DB::doSelect($sFields, $sTablename, $options, 0);
 
 		return count($ret) ? $ret[0] : FALSE;

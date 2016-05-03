@@ -93,7 +93,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 		$value = addslashes($value);
 
 		$where = array();
-		$where[] = $sField . ' = \'' . $value . '\'';
+		$where[] = $sField . ' = ' . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($value, '');
 
 		tx_rnbase::load('tx_rnbase_util_TCA');
 		if ($this->_defaultFalse('/unique/deleted/') === TRUE) {
