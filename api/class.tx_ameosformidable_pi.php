@@ -1,6 +1,7 @@
 <?php
+tx_rbbase::looad('Tx_Rnbase_Frontend_Plugin');
 
-class tx_ameosformidable_pi extends tslib_pibase {
+class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin {
 
 	var $extKey = 'ameos_formidable';
 

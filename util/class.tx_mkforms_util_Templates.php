@@ -21,7 +21,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+tx_rnbase::load('tx_rnbase_util_Templates');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
  * Ersatz für einige Methoden aus Ameos.
@@ -74,7 +75,7 @@ class tx_mkforms_util_Templates {
 		$templatePath = tx_mkforms_util_Div::toServerPath($templatePath);
 
 		return $this->parseTemplateCode(
-			t3lib_parsehtml::getSubpart(Tx_Rnbase_Utility_T3General::getUrl($templatePath),$templateMarker),
+			tx_rnbase_util_Templates::getSubpart(Tx_Rnbase_Utility_T3General::getUrl($templatePath),$templateMarker),
 			$aTags,$aExclude,$bClearNotUsed,$aLabels);
 	}
 
@@ -407,8 +408,9 @@ class tx_mkforms_util_Templates {
 		}
 		reset($aTags);
 		while(list($sName, $mVal) = each($aTags)) {
-			if(($sRdtSubPart = t3lib_parsehtml::getSubpart($sHtml, "###" . $sName . "###")) !== "") {
-				$sHtml = t3lib_parsehtml::substituteSubpart(
+			if(($sRdtSubPart = tx_rnbase_util_Templates::getSubpart($sHtml, "###" . $sName . "###")) !== "") {
+				$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
+				$sHtml = $htmlParser::substituteSubpart(
 					$sHtml,
 					"###" . $sName . "###",
 					$mVal["__compiled"],

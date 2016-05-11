@@ -18,6 +18,7 @@
 							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.action</label>
 							<config>
 								<type>select</type>
+								<renderType>selectMultipleSideBySide</renderType>
 								<items type="array">
 									<numIndex index="16" type="array">
 										<numIndex index="0">LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.action.FormBase</numIndex>
@@ -57,6 +58,7 @@
 									<title>Link</title>
 									<icon>link_popup.gif</icon>
 									<script>browse_links.php?mode=wizard&amp;act=file</script>
+									<module><name>wizard_link</name></module>
 									<params type="array">
 										<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
 										<allowedExtensions>htm,html</allowedExtensions>
@@ -83,6 +85,7 @@
 									<title>Link</title>
 									<icon>link_popup.gif</icon>
 									<script>browse_links.php?mode=wizard&amp;act=file</script>
+									<module><name>wizard_link</name></module>
 									<params type="array">
 										<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
 										<allowedExtensions>xml</allowedExtensions>
@@ -119,6 +122,7 @@
 	                                    <title>Link</title>
 	                                    <icon>link_popup.gif</icon>
 	                                    <script>browse_links.php?mode=wizard</script>
+	                                    <module><name>wizard_link</name></module>
 	                                    <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
                                  	</link>
                              	</wizards>

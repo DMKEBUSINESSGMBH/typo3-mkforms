@@ -3,6 +3,8 @@
 // Exit, if script is called directly (must be included via eID in index_ts.php)
 if (!defined ('PATH_typo3conf')) 	die ('Could not access this script directly!');
 
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+
 class formidableajax {
 
 	var $aRequest	= array();
@@ -62,7 +64,11 @@ class formidableajax {
 		);
 
 		// Wir starten zuerst die DB, damit das Caching funktioniert
-		tslib_eidtools::connectDB();
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		if (!tx_rnbase_util_TYPO3::isTYPO61OrHigher()) {
+			$eidUtility = tx_rnbase_util_Typo3Classes::getEidUtilityClass();
+			$eidUtility::connectDB();
+		}
 		tx_rnbase::load('tx_mkforms_session_Factory');
 		$sesMgr = tx_mkforms_session_Factory::getSessionManager();
 
@@ -152,7 +158,8 @@ class formidableajax {
 
 
 	function _initFeUser() {
-		tslib_eidtools::initFeUser();
+		$eidUtility = tx_rnbase_util_Typo3Classes::getEidUtilityClass();
+		$eidUtility::initFeUser();
 	}
 
 	public function handleRequest() {
@@ -244,8 +251,9 @@ class formidableajax {
 
 		global $BE_USER, $_COOKIE;
 
-		$temp_TSFEclassName = tx_rnbase::makeInstanceClassName('tslib_fe');
-		$TSFE = new $temp_TSFEclassName($GLOBALS['TYPO3_CONF_VARS'],0,0);
+		$TSFE = tx_rnbase::makeInstance(
+			tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(), $GLOBALS['TYPO3_CONF_VARS'],0,0
+		);
 		$TSFE->connectToDB();
 
 		// *********
@@ -255,8 +263,10 @@ class formidableajax {
 		if ($_COOKIE['be_typo_user']) {		// If the backend cookie is set, we proceed and checks if a backend user is logged in.
 
 					// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-				$BE_USER = tx_rnbase::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
-				$BE_USER->OS = TYPO3_OS;
+				$BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());	// New backend user object
+				if (property_exists($BE_USER, 'OS')) {
+					$BE_USER->OS = TYPO3_OS;
+				}
 				$BE_USER->lockIP = $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'];
 				$BE_USER->start();			// Object is initialized
 				$BE_USER->unpack_uc('');
@@ -310,9 +320,11 @@ class formidableajax {
 		} elseif ($TSFE->ADMCMD_preview_BEUSER_uid)	{
 
 				// the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-			$BE_USER = tx_rnbase::makeInstance('t3lib_tsfeBeUserAuth');	// New backend user object
+			$BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());	// New backend user object
 			$BE_USER->userTS_dontGetCached = 1;
-			$BE_USER->OS = TYPO3_OS;
+			if (property_exists($BE_USER, 'OS')) {
+				$BE_USER->OS = TYPO3_OS;
+			}
 			$BE_USER->setBeUserByUid($TSFE->ADMCMD_preview_BEUSER_uid);
 			$BE_USER->unpack_uc('');
 			if ($BE_USER->user['uid'])	{

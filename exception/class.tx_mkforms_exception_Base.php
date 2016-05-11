@@ -21,11 +21,12 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+tx_rnbase::load('Tx_Rnbase_Exception_Base');
 
 /**
  * Base-Exception for mkforms
  */
-class tx_mkforms_exception_Base extends t3lib_exception {
+class tx_mkforms_exception_Base extends Tx_Rnbase_Exception_Base {
 }
 
 if (defined('TYPO3_MODE')

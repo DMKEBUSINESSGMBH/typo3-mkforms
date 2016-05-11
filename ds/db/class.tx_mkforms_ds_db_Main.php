@@ -109,7 +109,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 	function initDb() {
 		if ($this->oDb === FALSE) {
 			if (($aLink = $this->_navConf("/link")) !== FALSE) {
-				$this->oDb = tx_rnbase::makeInstance("t3lib_db");
+				$this->oDb = Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection();
 
 				if ($this->oForm->isRunneable(($sHost = $aLink["host"]))) {
 					$sHost = $this->callRunneable($sHost);
@@ -213,7 +213,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 			if ($mEnableFields === TRUE) {
 				// we have to determine the table name
 
-				$oParser = tx_rnbase::makeInstance("t3lib_sqlparser");
+				$oParser = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getSqlParserClass());
 				$aParsed = $oParser->parseSQL($sSqlBase);
 
 				if (is_array($aParsed) && count($aParsed["FROM"]) == 1) {

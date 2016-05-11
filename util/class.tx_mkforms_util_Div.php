@@ -24,6 +24,8 @@
 
 // @TODO: remove in 2 or 4 versions! it is only a localconf caching workaround
 tx_rnbase::load('tx_mkforms_util_Constants');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 
 /**
@@ -167,7 +169,7 @@ class tx_mkforms_util_Div {
 	 */
 	public static function virtualizeFE($aConfig = FALSE, $feSetup = false) {
 
-		if (!defined('PATH_tslib')) {
+		if (!tx_rnbase_util_TYPO3::isTYPO76OrHigher() && !defined('PATH_tslib')) {
 			if (@is_dir(PATH_site.TYPO3_mainDir.'sysext/cms/tslib/')) {
 				define('PATH_tslib', PATH_site.TYPO3_mainDir.'sysext/cms/tslib/');
 			} elseif (@is_dir(PATH_site.'tslib/')) {
@@ -175,17 +177,16 @@ class tx_mkforms_util_Div {
 			}
 		}
 
-		$GLOBALS['TT'] = new t3lib_timeTrack;
+		$GLOBALS['TT'] = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getTimeTrackClass());
 		$GLOBALS['CLIENT'] = Tx_Rnbase_Utility_T3General::clientInfo();
 
 		// ***********************************
 		// Create $TSFE object (TSFE = TypoScript Front End)
 		// Connecting to database
 		// ***********************************
-		$sExecMode = tx_mkforms_util_Div::getEnvExecMode();
 
 		$GLOBALS['TSFE'] = tx_rnbase::makeInstance(
-			'tslib_fe',
+			tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(),
 			$GLOBALS['TYPO3_CONF_VARS'],
 			Tx_Rnbase_Utility_T3General::_GP('id'),
 			Tx_Rnbase_Utility_T3General::_GP('type'),
@@ -209,7 +210,12 @@ class tx_mkforms_util_Div {
 		$tsfe->connectToDB(); // takes 0.0000 T3 6.2
 		$tsfe->initFEuser(); // takes 0.0400 T3 6.2
 		$tsfe->determineId(); // takes 0.0240 T3 6.2
-		$tsfe->getCompressedTCarray(); // takes 0.0000 T3 6.2
+
+		tx_rnbase::load('tx_rnbase_util_TYPO3');
+		if (!tx_rnbase_util_TYPO3::isTYPO61OrHigher()) {
+			$tsfe->getCompressedTCarray(); // takes 0.0000 T3 6.2
+		}
+
 		$tsfe->initTemplate(); // takes 0.0030 T3 6.2
 		$tsfe->getFromCache(); // takes 0.0040 T3 6.2
 
@@ -232,7 +238,7 @@ class tx_mkforms_util_Div {
 		$tsfe->settingLanguage();
 		$tsfe->settingLocale();
 
-		$tsfe->cObj = tx_rnbase::makeInstance('tslib_cObj');
+		$tsfe->cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 	}
 
 

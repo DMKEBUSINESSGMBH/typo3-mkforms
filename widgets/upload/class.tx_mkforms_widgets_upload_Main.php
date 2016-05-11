@@ -500,8 +500,10 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					// we found user _formidable+dam
 						// simulating user
 					unset($BE_USER);
-					$BE_USER = tx_rnbase::makeInstance('t3lib_beUserAuth');
-					$BE_USER->OS = TYPO3_OS;
+					$BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBackendUserAuthenticationClass());
+					if (property_exists($BE_USER, 'OS')) {
+						$BE_USER->OS = TYPO3_OS;
+					}
 					$BE_USER->setBeUserByUid($aRs['uid']);
 					$BE_USER->fetchGroupData();
 					$BE_USER->backendSetUC();

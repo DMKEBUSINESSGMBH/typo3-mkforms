@@ -21,6 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  *
@@ -32,7 +33,7 @@
  * @license 		http://www.gnu.org/licenses/lgpl.html
  * 					GNU Lesser General Public License, version 3 or later
  */
-class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	/**
 	 * (non-PHPdoc)
@@ -180,7 +181,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_phpunit_t
 	protected function getForm() {
 		return tx_mkforms_tests_Util::getForm(
 			TRUE,
-			Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+			tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 				tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 				array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/timetracking.xml'))
 			)

@@ -106,7 +106,6 @@ Die eigene Action leitet von der Basis Action ab und benötigt im Grunde nur zwe
 
 .. code-block:: php
 
-   require_once(t3lib_extMgm::extPath('rn_base') . 'class.tx_rnbase.php');
    tx_rnbase::load('tx_mkforms_action_FormBase');
    class tx_mkforms_action_Extended extends tx_mkforms_action_FormBase {
       /**

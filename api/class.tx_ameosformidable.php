@@ -53,6 +53,8 @@ tx_rnbase::load('tx_mkforms_util_Templates');
 tx_rnbase::load('tx_mkforms_util_Json');
 tx_rnbase::load('tx_mkforms_forms_IForm');
 tx_rnbase::load('tx_mkforms_session_Factory');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindataset.php');
@@ -276,7 +278,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	/**
 	 * Liefert ein cObj
 	 *
-	 * @return tslib_cObj
+	 * @return TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
 	public function &getCObj() {
 		if (!is_object($this->cObj)) {
@@ -285,7 +287,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 				$this->cObj = $this->configurations->getCObj();
 			}
 			if (!is_object($this->cObj)) {
-				$this->cObj = tx_rnbase::makeInstance('tslib_cObj');
+				$this->cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
 			}
 		}
 
@@ -472,7 +474,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		 *
 		 */
 		$this->formid = $this->getConfig()->get('/meta/form/formid');
-		
+
 		if ($this->getRunnable()->isRunnable($this->formid)) {
 			$this->formid = $this->getRunnable()->callRunnable($this->formid);
 		}
@@ -587,7 +589,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 			);
 		}
 
-		if ($this->sDefaultLLLPrefix === FALSE && ($this->oParent instanceof tslib_pibase)) {
+		if ($this->sDefaultLLLPrefix === FALSE && ($this->oParent instanceof Tx_Rnbase_Frontend_Plugin)) {
 			if ($this->oParent->scriptRelPath) {
 				$sLLPhp = 'EXT:' . $this->oParent->extKey . '/' . dirname($this->oParent->scriptRelPath) . '/locallang.php';
 				$sLLXml = 'EXT:' . $this->oParent->extKey . '/' . dirname($this->oParent->scriptRelPath) . '/locallang.xml';
@@ -690,7 +692,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	 */
 	function makeHtmlParser() {
 		if ($this->oHtml === FALSE) {
-			$this->oHtml = tx_rnbase::makeInstance('t3lib_parsehtml');
+			$this->oHtml = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getHtmlParserClass());
 		}
 	}
 
@@ -734,7 +736,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 
 	function formActionAdd($aParams) {
 		if ($this->isFormActionTransparent()) {
-			$this->aFormAction = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($this->aFormAction, $aParams);
+			$this->aFormAction = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($this->aFormAction, $aParams);
 		}
 	}
 
@@ -902,7 +904,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	}
 
 	function setParamsToRemove($aParams) {
-		$this->aParamsToRemove = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+		$this->aParamsToRemove = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 			$this->aParamsToRemove,
 			$aParams
 		);
@@ -1448,7 +1450,7 @@ SANDBOXCLASS;
 				if ($this->_useGPWithUrlDecode) {
 					tx_mkforms_util_Div::urlDecodeRecursive($aGet);
 				}
-				$aPost = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aPost = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aGet,
 					is_array($aPost) ? $aPost : array()
 				);
@@ -1474,7 +1476,7 @@ SANDBOXCLASS;
 						reset($aAddPostVars[$sKey]['params']);
 						while (list($sParam, $sValue) = each($aAddPostVars[$sKey]['params'])) {
 
-							$aAddParams = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+							$aAddParams = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 								$aAddParams,
 								Tx_Rnbase_Utility_T3General::explodeUrl2Array(
 									$sParam . '=' . $sValue,
@@ -1486,8 +1488,8 @@ SANDBOXCLASS;
 				}
 			}
 
-			$aRes = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aPost, $aFiles);
-			$aRes = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aRes, $aAddParams);
+			$aRes = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
+			$aRes = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aRes, $aAddParams);
 			reset($aRes);
 
 			if ($bCache === FALSE) {
@@ -2030,7 +2032,7 @@ SANDBOXCLASS;
 
 				if (is_array($curZone) && is_array($mValue) && $bMergeIfArray === TRUE) {
 					// merging arrays
-					$curZone = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+					$curZone = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 						$curZone,
 						$mValue
 					);
@@ -2194,7 +2196,7 @@ SANDBOXCLASS;
 				$sDH = $this->getDataHandler()->_doTheMagic(TRUE);
 
 				// Renderlets are rendered
-				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2266,7 +2268,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
-				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2295,7 +2297,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
-				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2324,7 +2326,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(TRUE);
 
 				// Renderlets are rendered
-				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2376,7 +2378,7 @@ SANDBOXCLASS;
 				$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 				// Renderlets are rendered
-				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$this->_renderElements(),
 					$this->aPreRendered
 				);
@@ -2400,7 +2402,7 @@ SANDBOXCLASS;
 			$sDH = $this->oDataHandler->_doTheMagic(FALSE);
 
 			// Renderlets are rendered
-			$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+			$aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 				$this->_renderElements(),
 				$this->aPreRendered
 			);
@@ -3409,7 +3411,7 @@ JAVASCRIPT;
 
 	function _getParentExtSitePath() {
 		if (TYPO3_MODE === 'FE') {
-			$sExtKey = (is_subclass_of($this->_oParent, 'tslib_pibase')) ? $this->_oParent->extKey : 'mkforms';
+			$sExtKey = (is_subclass_of($this->_oParent, 'Tx_Rnbase_Frontend_Plugin')) ? $this->_oParent->extKey : 'mkforms';
 		} else {
 			$sExtKey = $GLOBALS['_EXTKEY'];
 		}
@@ -3842,58 +3844,35 @@ JAVASCRIPT;
 			$sMessage .= '<hr />Formidable /meta/debugSendMail: This mail would be sent to ' . $sAdresseOld;
 		}
 
-		$oMail = tx_rnbase::makeInstance('t3lib_htmlmail');
-		$oMail->start();
-		$oMail->useBase64();
+		$oMail = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getMailMessageClass());
 
-		$oMail->subject = $sSubject;
-		$oMail->from_email = $sFromAd;
-		$oMail->from_name = $sFromName;
-		$oMail->replyto_email = $sReplyAd;
-		$oMail->replyto_name = $sReplyName;
-		$oMail->organisation = '';
-		$oMail->priority = 3;
+		$oMail->setSubject($sSubject);
+		$oMail->setFrom($sFromAd, $sFromName);
+		$oMail->setReplyTo($sReplyAd, $sReplyName);
 
 		// HTML
-		$oMail->theParts['html']['content'] = $sMessage;    // Fetches the content of the page
-		$oMail->theParts['html']['path'] = '';
-		$oMail->extractMediaLinks();
-		$oMail->extractHyperLinks();
-		$oMail->fetchHTMLMedia();
-		$oMail->substMediaNamesInHTML($iMediaRef);    // 0 = relative
-		$oMail->substHREFsInHTML();
-		$oMail->setHTML($oMail->encodeMsg($oMail->theParts['html']['content']));
+		$oMail->setBody($sMessage);
 
 		// SET Attachements
 
 		if (is_array($aAttachPaths) && !empty($aAttachPaths)) {
 
-			$oFile = tx_rnbase::makeInstance('t3lib_basicFileFunctions');
+			$oFile = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 
 			reset($aAttachPaths);
 			while (list(, $sPath) = each($aAttachPaths)) {
 
-				$sFilePath = Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
-					$oFile->rmDoubleSlash(
-						$sPath
-					)
-				);
+				$sFilePath = Tx_Rnbase_Utility_T3General::fixWindowsFilePath($sPath);
 
 				if (file_exists($sFilePath) && is_file($sFilePath) && is_readable($sFilePath)) {
-					$oMail->addAttachment($sFilePath);
-					$oMail->theParts['attach'][count($oMail->theParts['attach']) - 1]['content_type']
-						= 'application/force-download';
-					$oMail->theParts['attach'][count($oMail->theParts['attach']) - 1]['filename'] = basename($sFilePath);
+					$oMail->attach(Swift_Attachment::fromPath($sFilePath));
 				}
 			}
 		}
 
-		// SET Headers and Content
-		$oMail->setHeaders();
-		$oMail->setContent();
 
-		$oMail->setRecipient($sAdresse);
-		$oMail->sendTheMail();
+		$oMail->setTo($sAdresse);
+		$oMail->send();
 	}
 
 	function _arrayToJs($sVarName, $aData, $bMultiLines = FALSE) {
@@ -3988,12 +3967,12 @@ JAVASCRIPT;
 	function _parseTsInBE($iTemplateUid, $iPageId) {
 		global $tmpl;
 
-		$tmpl = tx_rnbase::makeInstance('t3lib_tsparser_ext');    // Defined global here!
+		$tmpl = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getExtendedTypoScriptTemplateServiceClass());    // Defined global here!
 		$tmpl->tt_track = 0;    // Do not log time-performance information
 		$tmpl->init();
 
 		// Gets the rootLine
-		$sys_page = tx_rnbase::makeInstance('t3lib_pageSelect');
+		$sys_page = tx_rnbase::makeInstance(tx_rnbase_util_TYPO3::getSysPage());
 
 		$tmpl->runThroughTemplates(
 			$sys_page->getRootLine(
@@ -4767,7 +4746,8 @@ JAVASCRIPT;
 			$sColumn => $sRteHtml,
 		);
 
-		return t3lib_rteapi::transformContent(
+		$rteClass = tx_rnbase_util_Typo3Classes::getAbstractRteClass();
+		return $rteClass::transformContent(
 			'rte',
 			$sRteHtml,
 			$sTable,

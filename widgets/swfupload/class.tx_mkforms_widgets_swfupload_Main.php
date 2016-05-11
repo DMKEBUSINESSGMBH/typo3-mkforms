@@ -4,6 +4,7 @@
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
+tx_rnbase::load('tx_rnbase_util_Typo3Classes')
 
 
 class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
@@ -136,7 +137,7 @@ INITSCRIPT;
 
 	function handleAjaxRequest($oRequest) {
 
-		$oFile = tx_rnbase::makeInstance("t3lib_basicFileFunctions");
+		$oFile = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 		$aFile = $GLOBALS["_FILES"]["rdt_swfupload"];
 
 		$sFileName = $aFile["name"];
@@ -182,18 +183,14 @@ INITSCRIPT;
 
 	function getTargetDir() {
 
-		$oFileTool = tx_rnbase::makeInstance("t3lib_basicFileFunctions");
+		$oFileTool = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 
 		if($this->oForm->isRunneable(($sTargetDir = $this->_navConf("/data/targetdir/")))) {
 			$sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
 		}
 
 		return Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
-			$oFileTool->slashPath(
-				$oFileTool->rmDoubleSlash(
-					$sTargetDir
-				)
-			)
+			$oFileTool->slashPath($sTargetDir)
 		);
 	}
 
@@ -243,7 +240,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonupload")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -276,7 +273,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/listqueue")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);

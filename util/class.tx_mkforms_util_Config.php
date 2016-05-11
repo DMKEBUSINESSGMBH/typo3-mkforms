@@ -275,7 +275,7 @@ class tx_mkforms_util_Config {
 						);
 
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
-							$aTemp['control']['datahandler'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+							$aTemp['control']['datahandler'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 								$aTemp['control']['datahandler'],
 								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
@@ -286,7 +286,7 @@ class tx_mkforms_util_Config {
 						);
 
 						if(array_key_exists($sKey . '.', $aConf['control.'])) {
-							$aTemp['control']['renderer'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+							$aTemp['control']['renderer'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 								$aTemp['control']['renderer'],
 								tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
 							);
@@ -304,7 +304,7 @@ class tx_mkforms_util_Config {
 								);
 
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+									$aTemp['control']['actionlets']['actionlet-' . $sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 										$aTemp['control']['actionlets']['actionlet-' . $sActKey],
 										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
@@ -322,7 +322,7 @@ class tx_mkforms_util_Config {
 								);
 
 								if(array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-									$aTemp['control']['datasources']['datasource-' . $sActKey] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+									$aTemp['control']['datasources']['datasource-' . $sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 										$aTemp['control']['datasources']['datasource-' . $sActKey],
 										tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
 									);
@@ -418,7 +418,7 @@ class tx_mkforms_util_Config {
 						$aValidator['type'] = $aValType[1];
 
 						if(array_key_exists($sKey . '.', $aTenDot['validators.'])) {
-							$aValidator = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+							$aValidator = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 								$aValidator,
 								tx_mkforms_util_Div::removeDots($aTenDot['validators.'][$sKey . '.'])
 							);
@@ -432,7 +432,7 @@ class tx_mkforms_util_Config {
 			unset($aTenDot['validators.']);
 		}
 
-		$aRdt = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+		$aRdt = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 			$aRdt,
 			tx_mkforms_util_Div::removeDots($aTenDot)
 		);
@@ -958,7 +958,7 @@ class tx_mkforms_util_Config {
 				if($this->_matchConditions($aModifier)) {
 
 					$aSubConf =
-						Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+						tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 							$aSubConf,
 							$aSubConf['modifiers'][$sModKey]['modification']
 						);

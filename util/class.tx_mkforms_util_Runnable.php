@@ -291,7 +291,7 @@ class tx_mkforms_util_Runnable {
 					' . $sTs . '
 				}';
 
-		$oParser = tx_rnbase::makeInstance('t3lib_tsparser');
+		$oParser = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getTypoScriptParserClass());
 		$oParser->tt_track = 0;	// Do not log time-performance information
 		$oParser->setup = $GLOBALS['TSFE']->tmpl->setup;
 
@@ -304,12 +304,12 @@ class tx_mkforms_util_Runnable {
 			if(is_array($aUserObjParams)) {
 
 				if($this->getForm()->isRunneable($aUserObjParams)) {
-					$aUserObjParams = $this->getForm()->callRunneable($aUserObjParams);
+					$aUserObjParams = $this->getForm()->getRunnable()->callRunnable($aUserObjParams);
 					if(!is_array($aUserObjParams)) {
 						$aUserObjParams = array();
 					}
 				}
-				$oParser->setup['params.'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$oParser->setup['params.'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$oParser->setup['params.'],
 					$aUserObjParams
 				);
@@ -377,7 +377,7 @@ class tx_mkforms_util_Runnable {
 
 		if(!empty($this->aForcedUserObjParamsStack)) {
 			$aForcedParams = $this->getForcedUserObjParams();
-			$aParams = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aParams, $aForcedParams);
+			$aParams = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aParams, $aForcedParams);
 		}
 
 		return $aParams;

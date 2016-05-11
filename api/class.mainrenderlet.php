@@ -3,6 +3,7 @@
 define('AMEOSFORMIDABLE_VALUE_NOT_SET', 'AMEOSFORMIDABLE_VALUE_NOT_SET');
 
 tx_rnbase::load('Tx_Rnbase_Utility_Strings');
+tx_rnbase::load('tx_rnbase_util_Templates');
 
 
 class formidable_mainrenderlet extends formidable_mainobject {
@@ -2650,7 +2651,7 @@ JAVASCRIPT;
 
 		if (($mValue = $this->oForm->navDeepData($sAbsPath, $this->oForm->aPreRendered)) !== FALSE) {
 			if (is_array($mValue) && array_key_exists('childs', $mValue)) {
-				$aRendered = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aRendered,
 					$mValue['childs']
 				);
@@ -2695,7 +2696,7 @@ JAVASCRIPT;
 				$sSubpart = $this->getName();
 			}
 
-			$mHtml = t3lib_parsehtml::getSubpart(
+			$mHtml = tx_rnbase_util_Templates::getSubpart(
 				Tx_Rnbase_Utility_T3General::getUrl($sPath),
 				$sSubpart
 			);
@@ -2972,7 +2973,7 @@ JAVASCRIPT;
 										);
 									if (file_exists($sSrc) && is_readable($sSrc)) {
 
-										$this->aSkin['template']['full'] = t3lib_parsehtml::getSubpart(
+										$this->aSkin['template']['full'] = tx_rnbase_util_Templates::getSubpart(
 											Tx_Rnbase_Utility_T3General::getUrl($sSrc),
 											$this->aSkin['submanifest']['resources']['template']['subpart']
 										);
@@ -2987,7 +2988,7 @@ JAVASCRIPT;
 
 												$this->aSkin['template']['channels'][$aChannel['name']]
 													= $this->oForm->getTemplateTool()->parseTemplateCode(
-													t3lib_parsehtml::getSubpart(
+													tx_rnbase_util_Templates::getSubpart(
 														$this->aSkin['template']['full'],
 														'###CHANNEL:' . $aChannel['name'] . '###'
 													),    // HTML code
@@ -2999,7 +3000,7 @@ JAVASCRIPT;
 
 											$this->aSkin['template']['compiled'] = $this->oForm->getTemplateTool()
 												->parseTemplateCode(
-													t3lib_parsehtml::getSubpart(
+													tx_rnbase_util_Templates::getSubpart(
 														$this->aSkin['template']['full'],
 														'###COMPILED###'
 													),

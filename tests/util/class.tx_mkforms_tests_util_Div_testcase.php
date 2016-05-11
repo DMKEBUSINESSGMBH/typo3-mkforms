@@ -26,13 +26,14 @@
  * benötigte Klassen einbinden
  */
 tx_rnbase::load('tx_mkforms_util_Div');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Array util tests
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_Div_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_util_Div_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	public function testToCamelCase() {
 		self::assertEquals('FeUsers',tx_mkforms_util_Div::toCamelCase('fe_users'));

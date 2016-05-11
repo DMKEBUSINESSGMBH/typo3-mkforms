@@ -35,7 +35,7 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet {
 		}
 
 		$aChildsBag = $this->renderChildsBag();
-		$aChildsBag = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule($aChildsBag, $aTags);
+		$aChildsBag = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aChildsBag, $aTags);
 
 		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
 			$aEventsAfter = array_keys($this->oForm->aRdtEvents);

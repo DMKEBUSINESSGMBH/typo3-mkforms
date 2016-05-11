@@ -27,12 +27,13 @@
  */
 tx_rnbase::load('tx_mkforms_util_FormBase');
 tx_rnbase::load('tx_mkforms_tests_Util');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	/**
 	 * @group unit
@@ -51,7 +52,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 	public function testGetConfigurationValue() {
 		$form = tx_mkforms_tests_Util::getForm(
 			TRUE,
-				Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 					array('myConf.' => array('path' => 'test'))
 				)
@@ -72,7 +73,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 		$form = tx_mkforms_tests_Util::getForm(
 				TRUE,
-				Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 					array('myConf.' => array(
 							'path' => 'TEXT',
@@ -96,7 +97,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_phpunit_testcase {
 	public function testGetConfigurationValueIfCastToBoolean() {
 		$form = tx_mkforms_tests_Util::getForm(
 			TRUE,
-			Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+			tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 				tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
 				array('myConf.' => array('path' => 'test'))
 			)

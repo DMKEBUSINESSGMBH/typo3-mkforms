@@ -12,6 +12,7 @@ if(tx_rnbase_util_Extensions::isLoaded('dam')) {
 tx_rnbase::load('tx_rnbase_util_TYPO3');
 tx_rnbase::load('tx_rnbase_util_TSFAL');
 tx_rnbase::load('tx_rnbase_util_TSDAM');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	var $aLibs = array(
@@ -237,7 +238,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 			// wir müssen die renderlets noch refreshen damit der Lister neue Daten bekommt
 			// es gibt keine anderen weg als das formular neu zu rendern
 			if(isset($options['renderedRenderlets'])) {
-				$options['renderedRenderlets'] = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$options['renderedRenderlets'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$this->getForm()->_renderElements(),
 					$this->getForm()->aPreRendered
 				);
@@ -556,14 +557,12 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @return string
 	 */
 	function getTargetDir() {
-		$oFileTool = tx_rnbase::makeInstance('t3lib_basicFileFunctions');
+		$oFileTool = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 		if($this->oForm->isRunneable(($sTargetDir = $this->_navConf('/data/targetdir/')))) {
 			$sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
 		}
 		return Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
-			$oFileTool->slashPath(
-				$oFileTool->rmDoubleSlash($sTargetDir)
-			)
+			$oFileTool->slashPath($sTargetDir)
 		);
 	}
 
@@ -747,8 +746,10 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		if(!is_object($BE_USER) || !is_array($BE_USER->user)) {
 			if(!$beUserId) $this->getForm()->mayday('NO BE User id given!');
 			unset($BE_USER);
-			$BE_USER = tx_rnbase::makeInstance('t3lib_tsfeBeUserAuth');
-			$BE_USER->OS = TYPO3_OS;
+			$BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());
+			if (property_exists($BE_USER, 'OS')) {
+				$BE_USER->OS = TYPO3_OS;
+			}
 			$BE_USER->setBeUserByUid($beUserId);
 			$BE_USER->fetchGroupData();
 			$BE_USER->backendSetUC();
@@ -855,7 +856,7 @@ INITSCRIPT;
 
 	function handleAjaxRequest($oRequest) {
 
-		$oFile = tx_rnbase::makeInstance('t3lib_basicFileFunctions');
+		$oFile = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 		$aData = $this->getForm()->getRawFile(FALSE, true);
 
 		//Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen

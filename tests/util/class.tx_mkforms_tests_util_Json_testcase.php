@@ -25,13 +25,14 @@
 /**
  * benötigte Klassen einbinden
  */
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Array util tests
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_Json_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_util_Json_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	protected function getNewInstance() {
 		return tx_rnbase::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);

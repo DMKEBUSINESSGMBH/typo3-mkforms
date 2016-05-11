@@ -164,7 +164,7 @@ PHP;
 			if(($aCustomConf = $this->_navConf("/available")) !== FALSE) {
 				if(!is_array($aCustomConf)) { $aCustomConf = array();}
 
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -194,7 +194,7 @@ PHP;
 				"style" => "width: 100%;"	//	100% of TD
 			);
 			if(($aCustomConf = $this->_navConf("/selected")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -265,7 +265,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonremove")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -309,7 +309,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttontop")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -353,7 +353,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonup")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -395,7 +395,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttondown")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);
@@ -438,7 +438,7 @@ PHP;
 			);
 
 			if(($aCustomConf = $this->_navConf("/buttonbottom")) !== FALSE) {
-				$aConf = Tx_Rnbase_Utility_T3General::array_merge_recursive_overrule(
+				$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 					$aConf,
 					$aCustomConf
 				);

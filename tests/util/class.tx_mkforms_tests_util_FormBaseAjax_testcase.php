@@ -27,13 +27,14 @@
  */
 tx_rnbase::load('tx_mkforms_util_FormBaseAjax');
 tx_rnbase::load('tx_mkforms_tests_Util');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Array util tests
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_FormBaseAjax_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_util_FormBaseAjax_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	public function testRepaintDependenciesReturnsCorrectArray(){#
 		$params = array('me' => 'fieldset__widget-listbox');

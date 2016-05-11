@@ -33,6 +33,7 @@ require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobje
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainvalidator.php');
 tx_rnbase::load('tx_rnbase_util_Strings');
 tx_rnbase::load('tx_mkforms_tests_Util');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Testfälle für tx_mkforms_util_Solr
@@ -41,7 +42,7 @@ tx_rnbase::load('tx_mkforms_tests_Util');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_filter
  */
-class tx_mkforms_tests_api_mainvalidator_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	/**
 	 * Unser Mainvalidator

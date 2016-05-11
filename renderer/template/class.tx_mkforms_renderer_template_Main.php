@@ -4,6 +4,7 @@
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
+tx_rnbase::load('tx_rnbase_util_Templates');
 
 class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
@@ -51,7 +52,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 				}
 
 				if(($sSubpart = $this->getTemplateSubpart()) !== FALSE) {
-					$mHtml = t3lib_parsehtml::getSubpart(
+					$mHtml = tx_rnbase_util_Templates::getSubpart(
 						Tx_Rnbase_Utility_T3General::getUrl($sPath),
 						$sSubpart
 					);

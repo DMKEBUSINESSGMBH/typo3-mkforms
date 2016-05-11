@@ -33,6 +33,7 @@ require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobje
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindatahandler.php');
 tx_rnbase::load('tx_mkforms_tests_Util');
 require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet
@@ -42,7 +43,7 @@ require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.ph
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_filter
  */
-class tx_mkforms_tests_api_maindatahandler_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_api_maindatahandler_testcase extends tx_rnbase_tests_BaseTestCase {
 
 	public function setUp() {
 		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');

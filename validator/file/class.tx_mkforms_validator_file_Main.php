@@ -4,7 +4,7 @@
  *
  * @author	Luc Muller <typo3dev@ameos.com>
  */
-
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 
@@ -17,7 +17,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 
 		$bError = FALSE;
 
-		$this->oFileFunc = tx_rnbase::makeInstance('t3lib_basicFileFunctions');
+		$this->oFileFunc = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 
 		if($oRdt->_getType() === 'FILE') {	// renderlet:FILE
 			$sFileName = strtolower($this->oFileFunc->cleanFileName($sFileName));
@@ -221,8 +221,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 				$iSize = intval($sFileName['size']);
 			} else {
 				$sFullPath = $this->_getFullServerPath($sAbsName, $sFileName);
-				$aInfos = t3lib_basicFileFunctions::getTotalFileInfo($sFullPath);
-				$iSize = intval($aInfos['size']);
+				$iSize = intval(@filesize($sFullPath));
 			}
 
 			switch($sType) {

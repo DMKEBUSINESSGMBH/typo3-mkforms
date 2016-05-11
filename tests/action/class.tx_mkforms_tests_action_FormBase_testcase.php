@@ -28,10 +28,10 @@
 
 tx_rnbase::load('tx_mkforms_forms_Factory');
 require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
-
+tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
-class tx_mkforms_tests_action_FormBase_testcase extends tx_phpunit_testcase {
+class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTestCase {
 	protected $sCachefile;
 
 	/**
@@ -210,7 +210,7 @@ public function test_processForm() {
 				'AMEOSFORMIDABLE_SERVEREVENT' => '',
 				'AMEOSFORMIDABLE_SERVEREVENT_PARAMS' => '',
 				'AMEOSFORMIDABLE_SERVEREVENT_HASH' => '',
-				'AMEOSFORMIDABLE_ADDPOSTVARS' => '[{\"action\":\"formData\",\"params\":{\"widget-submit\":\"1\"}}]',
+				'AMEOSFORMIDABLE_ADDPOSTVARS' => '[{"action":"formData","params":{"widget-submit":"1"}}]',
 				'AMEOSFORMIDABLE_VIEWSTATE' => '',
 				'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
 				'AMEOSFORMIDABLE_SUBMITTER' => '',

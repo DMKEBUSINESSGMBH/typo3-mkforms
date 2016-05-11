@@ -59,7 +59,8 @@ class tx_mkforms_tests_Util {
 		 * um das umzugehen, kann man das RootLine Parameter leer setzen.
 		 * Siehe: TYPO3\CMS\Backend\Utility\BackendUtility:getPagesTSconfig();
 		 */
-		$tsConfig = t3lib_BEfunc::getPagesTSconfig(0,'');
+		tx_rnbase::load('Tx_Rnbase_Backend_Utility');
+		$tsConfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0,'');
 
 		$configArray = $tsConfig['plugin.']['tx_mkforms.'];
 		// für referenzen im TS!

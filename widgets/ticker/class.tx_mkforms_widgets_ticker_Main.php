@@ -4,7 +4,8 @@
  *
  * @author	Loredana Zeca <typo3dev@ameos.com>
  */
-
+tx_rnbase::load('tx_rnbase_util_Templates');
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 
@@ -170,7 +171,8 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 				$sRowsHtml = implode("", $aRowsHtml);
 			}
 
-			$sHtml = t3lib_parsehtml::substituteSubpart(
+			$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
+			$sHtml = $htmlParser::substituteSubpart(
 				$sTemplate,
 				"###ROWS###",
 				$sRowsHtml,
@@ -215,11 +217,11 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 
 		$aAltList = Tx_Rnbase_Utility_Strings::trimExplode(",", $sAltList);
 		if(sizeof($aAltList) > 0) {
-			$sRowsPart = t3lib_parsehtml::getSubpart($sTemplate, "###ROWS###");
+			$sRowsPart = tx_rnbase_util_Templates::getSubpart($sTemplate, "###ROWS###");
 
 			reset($aAltList);
 			while(list(, $sAltSubpart) = each($aAltList)) {
-				$aRowsTmpl[] = t3lib_parsehtml::getSubpart($sRowsPart, $sAltSubpart);
+				$aRowsTmpl[] = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
 			}
 		}
 
@@ -243,7 +245,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 				$sSubpart = $this->getName();
 			}
 
-			$sHtml = t3lib_parsehtml::getSubpart(
+			$sHtml = tx_rnbase_util_Templates::getSubpart(
 				Tx_Rnbase_Utility_T3General::getUrl($sPath),
 				$sSubpart
 			);
