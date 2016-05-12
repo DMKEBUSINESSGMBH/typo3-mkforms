@@ -4,7 +4,7 @@
  *
  * @author	Jerome Schneider <typo3dev@ameos.com>
  */
-tx_rnbase::load('tx_rnbase_util_Typo3Classes')
+tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 
 class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
