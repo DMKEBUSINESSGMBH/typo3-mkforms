@@ -466,7 +466,6 @@ class tx_mkforms_util_Runnable {
 			if($sKey{0} === "c" && $sKey{1} === "o" && Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtolower($sKey), "codebehind")) {
 
 				$aCB = $this->initCodeBehind($aMetas[$sKey]);
-
 				if($aCB["type"] === "php") {
 					if(tx_mkforms_util_Div::getEnvExecMode() === "EID") {
 						$this->aCodeBehinds["php"][$aCB["name"]]["object"] = unserialize($this->aCodeBehinds["php"][$aCB["name"]]["object"]);
@@ -593,6 +592,9 @@ class tx_mkforms_util_Runnable {
 					$this->getForm()->aCodeBehindJsInits[] = $sScript;
 
 					return array("type" => "js","name" => $sName,"class" => $sClass,);
+				}
+				else {
+					tx_mkforms_util_Div::smartMayday_CBJavascript($sFilePath, $sClass, FALSE);
 				}
 				break;
 			}
