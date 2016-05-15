@@ -507,6 +507,12 @@ class formidable_mainvalidator extends formidable_mainobject {
 			&& intval($aUser['uid']) > 0);
 	}
 
+	/**
+	 *
+	 * @param formidable_mainrenderlet $oRdt
+	 * @param mixed $mValue
+	 * @return boolean
+	 */
 	function _isUnique(&$oRdt, $mValue) {
 
 		$sDeleted = '';

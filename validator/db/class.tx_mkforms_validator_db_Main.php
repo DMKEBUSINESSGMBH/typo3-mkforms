@@ -8,7 +8,7 @@
 
 class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 
-	function validate(&$oRdt) {
+	public function validate(&$oRdt) {
 
 		$sAbsName = $oRdt->getAbsName();
 		$mValue = $oRdt->getValue();
@@ -67,13 +67,16 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see formidable_mainvalidator::_isUnique()
+	 */
 	function _isUnique(&$oRdt, $value) {
 
 		if(($sTable = $this->_navConf('/unique/tablename')) !== FALSE) {
 			if(($sField = $this->_navConf('/unique/field')) === FALSE) {
 				$sField = $oRdt->getName();
 			}
-
 			$aDhConf = $this->oForm->_navConf('/control/datahandler/');
 			$sKey = $aDhConf['keyname'];
 
@@ -92,6 +95,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator {
 
 		$value = addslashes($value);
 
+		tx_rnbase::load('Tx_Rnbase_Database_Connection');
 		$where = array();
 		$where[] = $sField . ' = ' . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($value, '');
 
