@@ -8,7 +8,7 @@ Formidable.Classes.ModalBox2 = Formidable.Classes.RdtBaseClass.extend({
 	},
 	showBox: function(aData){
 
-		oTextNode = $div();
+		oTextNode = MKWrapper.$tag('div');
 		oTextNode.innerHTML = aData.html;
 		oOptions = {
 			afterLoad: function() {

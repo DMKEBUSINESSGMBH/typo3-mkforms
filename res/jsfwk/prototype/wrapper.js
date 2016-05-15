@@ -98,6 +98,9 @@ MKWrapper.createClass = function(){
 	return Class.create();
 }
 
+MKWrapper.scrollTo = function(container) {
+	return Element.scrollTo(container);
+}
 MKWrapper.getDimensions = function(container) {
 	return Element.getDimensions(container);
 }

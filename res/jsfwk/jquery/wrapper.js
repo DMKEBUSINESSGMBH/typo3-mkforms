@@ -135,6 +135,13 @@ MKWrapper.getDimensions = function(container, mode) {
 			return { height: element.height(), width: element.width() };
 	}
 };
+
+MKWrapper.scrollTo = function(container) {
+	return jQuery('html, body').animate({
+        scrollTop: parseInt($(container).offset().top)
+    }, 1000);
+}
+
 MKWrapper.clonePosition = function(element, source, options) {
     var options = jQuery.extend({
     	setLeft: true,

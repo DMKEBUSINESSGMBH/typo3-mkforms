@@ -1017,10 +1017,10 @@ Formidable.Classes.FormBaseClass = Base.extend({
 	scrollTo: function(sName) {
 		var oObj = this.o(sName);
 		if(oObj) {
-			if(typeof oObj.domNode == 'undefined') {
-				Element.scrollTo(oObj);
+			if(typeof (oObj.domNode) === 'undefined') {
+				MKWrapper.scrollTo(oObj);
 			} else {
-				Element.scrollTo(oObj.domNode());
+				MKWrapper.scrollTo(oObj.domNode());
 			}
 		}
 	},
@@ -1131,7 +1131,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 	debug: function(sMessage) {
 
 		if(this.oDebugDiv == false) {
-			this.oDebugDiv = $div({
+			this.oDebugDiv = MKWrapper.$tag('div', {
 				id: this.sFormId + "-majixdebug",
 				style: "padding: 5px; border: 2px solid red; background-color: white; height: 500px; overflow: scroll;"
 			});
