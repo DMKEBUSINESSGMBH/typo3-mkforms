@@ -6,12 +6,17 @@ class formidable_mainjscb {
 
 	var $oForm = NULL;
 
-	function init(&$oForm, $aConf) {
+	public function init(&$oForm, $aConf) {
 		$this->oForm = $oForm;
 		$this->aConf = $aConf;
 	}
 
-	function majixExec($sMethod, $oForm) {
+	/**
+	 *
+	 * @param string $sMethod name of js method to call
+	 * @param tx_mkforms_forms_IForm $oForm
+	 */
+	public function majixExec($sMethod, $oForm) {
 
 		$aArgs = func_get_args();
 		$sMethod = array_shift($aArgs);
