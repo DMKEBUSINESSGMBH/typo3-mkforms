@@ -1689,10 +1689,10 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 		}
 	},
 	addClass: function(sClass) {
-		this.domNode().addClassName(sClass);
+		MKWrapper.addClass(this.domNode(), sClass);
 	},
 	removeClass: function(sClass) {
-		this.domNode().removeClassName(sClass);
+		MKWrapper.removeClass(this.domNode(), sClass);
 	},
 	removeAllClass: function() {
 		this.domNode().classNames().each(function(sClass) {
@@ -1700,7 +1700,8 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 		}.bind(this));
 	},
 	setStyle: function(aStyles) {
-		this.domNode().setStyle(aStyles);
+		// TODO: check array
+		MKWrapper.setStyle(this.domNode(), aStyles);
 	},
 	isNaturalSubmitter: function() {
 		return (this.domNode().nodeName.toUpperCase() === "SUBMIT") || (
