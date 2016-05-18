@@ -9,6 +9,15 @@
 Changelog
 =========
 
+2.0.2
+-----
+
+* Show mayday if codebehind js file was not found
+* visibility of methods set
+* JS wrapper extended
+* old js code fixed
+* fixed a missing include
+
 2.0.1
 -----
 
