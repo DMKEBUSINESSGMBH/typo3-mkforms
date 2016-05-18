@@ -4,6 +4,7 @@
 if (!defined ('PATH_typo3conf')) 	die ('Could not access this script directly!');
 
 tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 class formidableajax {
 
