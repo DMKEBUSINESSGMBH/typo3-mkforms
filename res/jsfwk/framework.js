@@ -603,7 +603,8 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				console.log("executeClientEvent: single task: No method named " + oTask.method + " on " + oTask.object);
 			}
 		} else {
-			console.log("executeClientEvent: single task: No object named " + oTask.object);
+			if(typeof(oTask.params) === 'undefined') // Parameter-Objekt ignorieren
+				console.log("executeClientEvent: single task: No object named " + oTask.object);
 		}
 	},
 	executeAjaxEvent: function(sEventName, sObjectId, sEventId, sSafeLock, bCache, bPersist, sTrigerTinyMCE, aParams, aRowParams, aLocalArguments, sJsConfirm) {
