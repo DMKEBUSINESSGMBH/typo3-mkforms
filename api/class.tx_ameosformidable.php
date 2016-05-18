@@ -4394,7 +4394,15 @@ JAVASCRIPT;
 		);
 	}
 
-	function buildMajixExecuter($sMethod, $mData, $sElementId, $mDataBag = array()) {
+	/**
+	 *
+	 * @param string $sMethod
+	 * @param mixed $mData
+	 * @param string $sElementId
+	 * @param array $mDataBag
+	 * @return array
+	 */
+	public function buildMajixExecuter($sMethod, $mData, $sElementId, $mDataBag = array()) {
 		return array(
 			'method' => $sMethod,
 			'data' => $mData,

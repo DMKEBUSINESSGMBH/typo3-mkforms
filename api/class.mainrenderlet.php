@@ -2788,7 +2788,7 @@ JAVASCRIPT;
 	}
 
 	function buildMajixExecuter($sMethod, $aData = array()) {
-		return $this->oForm->buildMajixExecuter(
+		return $this->getForm()->buildMajixExecuter(
 			$sMethod,
 			$aData,
 			$this->_getElementHtmlId()
@@ -2857,6 +2857,18 @@ JAVASCRIPT;
 		return $this->buildMajixExecuter(
 			'setValue',
 			$sValue
+		);
+	}
+
+	/**
+	 *
+	 * @param string $sHtml
+	 * @return array
+	 */
+	public function majixSetHtml($sHtml) {
+		return $this->buildMajixExecuter(
+				'setHtml',
+				$sHtml
 		);
 	}
 
