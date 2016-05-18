@@ -87,6 +87,9 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 				)
 			);
 
+			// TODO: ist renderlabelfirst hier sinnvoll?
+			// $renderLabelFirst = $this->isTrue('renderlabelfirst');
+
 			$htmlCode = $sInput . $sLabelStart . $caption . $sLabelEnd;
 			if (array_key_exists('wrapitem', $aItem)) {
 				$htmlCode = str_replace('|', $htmlCode, $aItem['wrapitem']);

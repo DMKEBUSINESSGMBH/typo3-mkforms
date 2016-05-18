@@ -49,11 +49,26 @@ class formidable_mainobject {
 		return $this->aElement['type'];
 	}
 
+	/**
+	 *
+	 * @param string $path
+	 * @param string $aConf
+	 * @return unknown
+	 * @deprecated use getConfigValue
+	 */
 	function _navConf($path, $aConf = FALSE) {
 		if ($aConf !== FALSE) {
 			return $this->getForm()->_navConf($path, $aConf);
 		}
 
+		return $this->getForm()->_navConf($path, $this->aElement);
+	}
+
+	/**
+	 * Read value from objects form definition
+	 * @param string $path
+	 */
+	protected function getConfigValue($path) {
 		return $this->getForm()->_navConf($path, $this->aElement);
 	}
 
@@ -63,12 +78,12 @@ class formidable_mainobject {
 		);
 	}
 
-	function isTrue($sPath, $aConf = FALSE) {
+	public function isTrue($sPath, $aConf = FALSE) {
 		return $this->_isTrue($sPath, $aConf);
 	}
 
 	function _isFalse($sPath) {
-		$mValue = $this->_navConf($sPath);
+		$mValue = $this->getConfigValue($sPath);
 
 		if ($mValue !== FALSE) {
 			return $this->_isFalseVal($mValue);
@@ -77,7 +92,12 @@ class formidable_mainobject {
 		}
 	}
 
-	function isFalse($sPath) {
+	/**
+	 *
+	 * @param string $sPath
+	 * @return boolean
+	 */
+	public function isFalse($sPath) {
 		return $this->_isFalse($sPath);
 	}
 

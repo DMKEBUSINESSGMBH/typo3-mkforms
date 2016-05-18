@@ -61,8 +61,10 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet {
 			$this->getLabel(), $aConfig
 		);
 
+		$renderLabelFirst = $this->isTrue('renderlabelfirst');
+
 		$aHtmlBag = array(
-			'__compiled'		=> $sInput . $sLabelFor,
+			'__compiled'		=> ($renderLabelFirst ? $sLabelFor . $sInput :  $sInput . $sLabelFor),
 			'input'				=> $sInput,
 			'checked'			=> $sChecked,
 			'value' => $iValue,
