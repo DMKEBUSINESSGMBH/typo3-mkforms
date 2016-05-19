@@ -1461,9 +1461,6 @@ Formidable.Classes.RdtBaseClass = Base.extend({
 		}
 		this.userChanged(false);
 	},
-	setHtml: function(sHtml) {
-		this.domNode().innerHTML = sHtml;
-	},
 	displayBlock: function() {
 		if(oDomNode=this.domNode()) {
 			MKWrapper.setStyle(oDomNode, {'display':'block'});

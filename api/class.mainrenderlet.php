@@ -2847,13 +2847,21 @@ JAVASCRIPT;
 		);
 	}
 
-	function majixClearValue() {
+	/**
+	 * Remove current value of widget
+	 */
+	public function majixClearValue() {
 		return $this->buildMajixExecuter(
 			'clearValue'
 		);
 	}
 
-	function majixSetValue($sValue) {
+	/**
+	 * Set a value of current widget/input field.
+	 * 
+	 * @param string $sValue
+	 */
+	public function majixSetValue($sValue) {
 		return $this->buildMajixExecuter(
 			'setValue',
 			$sValue
@@ -2861,13 +2869,13 @@ JAVASCRIPT;
 	}
 
 	/**
-	 *
+	 * Replaces the inner HTML content of current widget.
 	 * @param string $sHtml
 	 * @return array
 	 */
 	public function majixSetHtml($sHtml) {
 		return $this->buildMajixExecuter(
-				'setHtml',
+				'repaintInner',
 				$sHtml
 		);
 	}
@@ -3476,6 +3484,8 @@ JAVASCRIPT;
 		);
 	}
 
+	/**
+	 */
 	function majixRepaintInner() {
 
 		$aHtmlBag = $this->render();
