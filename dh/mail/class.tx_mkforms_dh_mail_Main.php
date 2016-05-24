@@ -1,11 +1,8 @@
 <?php
-/**
- * @package    tx_mkforms
- * @subpackage tx_mkforms_dh
- *
+/***************************************************************
  * Copyright notice
  *
- * (c) 2013 DMK E-BUSINESS GmbH <dev@dmk-business.de>
+ * (c) 20013-2016 DMK E-BUSINESS GmbH <dev@dmk-ebusiness.de>
  * All rights reserved
  *
  * This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,25 +20,34 @@
  * GNU General Public License for more details.
  *
  * This copyright notice MUST APPEAR in all copies of the script!
- */
+ ***************************************************************/
 
 tx_rnbase::load('tx_rnbase_action_BaseIOC');
 
 /**
  * Datahandler um anhand von den Formulardaten E-Mails zu versenden.
  *
- * @package    tx_mkforms
- * @subpackage tx_mkforms_dh
- * @author     Michael Wagner <dev@dmk-business.de>
+ * @package TYPO3
+ * @subpackage tx_mkmailer
+ * @author Michael Wagner
+ * @license http://www.gnu.org/licenses/lgpl.html
+ *          GNU Lesser General Public License, version 3 or later
  */
-class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
+class tx_mkforms_dh_mail_Main
+	extends formidable_maindatahandler
+{
 
 	/**
 	 * Nimmt die Formulardaten und generiert daraus eine E-Mail.
 	 *
+	 * @param bool $bShouldProcess
+	 *
 	 * @TODO: die einzelnen engines sollten ausgelagert werden!
+	 *
+	 * @return void
 	 */
-	function _doTheMagic($bShouldProcess = TRUE) {
+	function _doTheMagic($bShouldProcess = true)
+	{
 
 		// Nur, wenn das Formular abgesendet wurde
 		if (!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())) {
@@ -50,17 +56,19 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 
 		$data = $this->getFlattenFormData();
 
+		// wir erzeugen keine E-Mail, nur den debug!
 		if ($this->defaultFalse('/debugdata')) {
 			tx_rnbase_util_Debug::debug($data, 'Flatten Data for Model:');
 
-			return; // wir erzeugen keine E-Mail, nur den debug!
+			return;
 		}
 
-		$sendMethod = $this->findEngineMethod();
+		$engine = $this->findEngine();
 
 		$params = array();
 		$params[0] = $this->getDataModel($data);
-		$ret = call_user_func_array(array($this, $sendMethod), $params);
+
+		call_user_func_array($engine, $params);
 	}
 
 	/**
@@ -70,11 +78,12 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 * wird dann anstelle von array('main'=>array('sub'=>'value'))
 	 * ein flaches array array('main_sub'=>'value')
 	 *
-	 * @param array $data
+	 * @param array|null $data
 	 *
 	 * @return array
 	 */
-	private function getFlattenFormData($data = NULL) {
+	private function getFlattenFormData($data = null)
+	{
 		$data = is_array($data) ? $data : $this->getFormData();
 		$flatten = array();
 		foreach ($data as $field => $value) {
@@ -91,16 +100,21 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	}
 
 	/**
-	 * @return string
+	 * Returns the engine callback to use
+	 *
+	 * @return mixed Callable
 	 */
-	private function findEngineMethod() {
+	private function findEngine()
+	{
 		$engine = $this->_navConf('/engine');
 		$method = 'send' . ucfirst($engine);
 		if (method_exists($this, $method)) {
-			return $method;
+			return array($this, $method);
 		} else {
 			$this->getForm()->mayday(
-				'Invalid engine "' . $engine . '" configured.' . ' Valid engines are mkmailer.' . ' Excample: ' . htmlentities(
+				'Invalid engine "' . $engine . '" configured.' .
+				' Valid engines are mkmailer.' .
+				' Excample: ' . htmlentities(
 					'<datahandler:MAIL engine="mkmailer" />'
 				)
 			);
@@ -114,18 +128,12 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 *
 	 * @return tx_rnbase_model_base
 	 */
-	private function getDataModel(array $record) {
+	private function getDataModel(array $record)
+	{
 		$class = $this->_navConf('/model');
-		$class = $class ? $class : 'tx_rnbase_model_base';
-		if (tx_rnbase::load($class)) {
-			$model = tx_rnbase::makeInstance($class, $record);
-		} else {
-			$this->getForm()->mayday(
-				'Model "' . $class . '" not found.'
-			);
-		}
+		$class = $class ? $class : 'Tx_Rnbase_Domain_Model_Data';
 
-		return $model;
+		return tx_rnbase::makeInstance($class, $record);
 	}
 
 	/**
@@ -133,14 +141,20 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 *
 	 * @return string
 	 */
-	private function getMailTo() {
+	private function getMailTo()
+	{
 		$mail = $this->_navConf('/mailto');
-		if ($mail) {
-			return $mail;
+
+		if (!$mail) {
+			$this->getForm()->mayday(
+				'No mail to defined.' .
+				' Excample: ' . htmlentities(
+					'<datahandler:MAIL mailTo="electronic@mail.net" />'
+				)
+			);
 		}
-		$this->getForm()->mayday(
-			'No mail to defined.' . ' Excample: ' . htmlentities('<datahandler:MAIL mailTo="electronic@mail.net" />')
-		);
+
+		return $mail;
 	}
 
 	/**
@@ -148,7 +162,8 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 *
 	 * @return string
 	 */
-	private function getMailFrom() {
+	private function getMailFrom()
+	{
 		$mail = $this->_navConf('/mailfrom');
 
 		return $mail ? $mail : get_cfg_var('sendmail_from');
@@ -159,25 +174,50 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 	 *
 	 * @return string
 	 */
-	private function getMailFromName() {
+	private function getMailFromName()
+	{
 		$mail = $this->_navConf('/mailfromname');
 
 		return $mail ? $mail : $this->getMailFrom();
 	}
 
 	/**
+	 * Returns a template object.
 	 *
-	 * @param tx_rnbase_model_base $model
+	 * @TODO: add own model/interface, currently the template model from mkmailer is used.
+	 *
+	 * @return tx_mkmailer_models_Template
 	 */
-	protected function sendMkmailer(
-		tx_rnbase_model_base $model) {
+	private function getTemplateObject()
+	{
+		$templateObj = $this->buildTemplateObject();
+		if ($templateObj instanceof tx_mkmailer_models_Template) {
+			return $templateObj;
+		}
 
 		// Das E-Mail-Template holen
-		$template = $this->_navConf('/mkmailer/templatekey');
+		$template = $this->_navConf('/mkmailer/template/key');
+		// fallback, check the old deprecated config!
 		if (!$template) {
+			$template = $this->_navConf('/mkmailer/templatekey');
+			if ($template) {
+				Tx_Rnbase_Utility_T3General::deprecationLog(
+					'MKFORMS (' . $this->getForm()->_xmlPath . '):' .
+					' config key "/mkmailer/templatekey" is deprecated,' .
+					' use "/mkmailer/template/key" instead.'
+				);
+			}
+		}
+		if (!$template) {
+			// check for direct content, instead of a template key.
 			$this->getForm()->mayday(
-				'No template key defined.' . ' Excample: ' . htmlentities(
-					'<datahandler:MAIL engine="mkmailer"><mkmailer templateKey="appelrath-template" /></datahandler:MAIL>'
+				'No template key defined.' .
+				' Excample: ' . LF . htmlentities(
+					'<datahandler:MAIL engine="mkmailer">' . LF .
+					'    <mkmailer>' . LF .
+					'        <template key="general-contact" />' . LF .
+					'    </mkmailer>' . LF .
+					'</datahandler:MAIL>'
 				)
 			);
 		}
@@ -188,13 +228,76 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 			$this->getForm()->mayday($e->getMessage());
 		}
 
+		return $templateObj;
+	}
+
+	/**
+	 * Builds a teplate object by xml config
+	 *
+	 * @return tx_mkmailer_models_Template
+	 */
+	private function buildTemplateObject()
+	{
+		/* @var $templateObj tx_mkmailer_models_Template */
+		$templateObj = tx_rnbase::makeInstance(
+			'tx_mkmailer_models_Template'
+		);
+
+		// set the contents
+		foreach (array('subject', 'contenttext', 'contenthtml') as $key) {
+			$content = $this->_navConf('/mkmailer/template/' . $key);
+			if (is_array($content)) {
+				$content = tx_rnbase_util_Templates::getSubpartFromFile(
+					$content['file'],
+					$content['subpart']
+				);
+			}
+			$templateObj->setProperty($key, (string) $content);
+		}
+
+		if ($this->_navConf('/mailfrom')) {
+			$templateObj->setProperty(
+				'mail_from',
+				$this->_navConf('/mailfrom')
+			);
+		}
+		if ($this->_navConf('/mailfromname')) {
+			$templateObj->setProperty(
+				'mail_fromName',
+				$this->_navConf('/mailfromname')
+			);
+		}
+
+		// the template is only valid with a subject and contenttext!
+		if (!$templateObj->getSubject() || !$templateObj->getContenttext()) {
+			return null;
+		}
+
+		return $templateObj;
+	}
+
+	/**
+	 * Sends a mail via mkmailer
+	 *
+	 * @param Tx_Rnbase_Domain_Model_DataInterface $model
+	 *
+	 * @return void
+	 */
+	protected function sendMkmailer(
+		Tx_Rnbase_Domain_Model_DataInterface $model
+	) {
+		// Das E-Mail-Template holen
+		$templateObj = $this->getTemplateObject();
+
 		// den E-Mail-Empfänger erzeugen
 		/* @var $receiver tx_mkmailer_receiver_Email */
 		$receiver = tx_rnbase::makeInstance(
-		// @TODO: den receiver konfigurierbar machen!
+			// @TODO: den receiver konfigurierbar machen!
 			'tx_mkmailer_receiver_Email',
 			$this->getMailTo()
 		);
+
+		$this->parseMail($templateObj, $model);
 
 		// Einen E-Mail-Job anlegen.
 		/* @var $job tx_mkmailer_mail_MailJob */
@@ -204,42 +307,6 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 			$templateObj
 		);
 
-		// Die Daten in die E-Mail Rendern.
-		$markerClass = tx_rnbase::makeInstance('tx_rnbase_util_SimpleMarker');
-		$formatter = $this->getForm()->getConfigurations()->getFormatter();
-		$confId = $this->_navConf('/mkmailer/markerconfid');
-		$confId = $confId ? $confId : $this->getForm()->getConfId() . 'sendmail.';
-		$itemName = $this->_navConf('/mkmailer/itemname');
-		$itemName = $itemName ? $itemName : 'item';
-
-		//@TODO: auslagern! Das Parsen muss sicher auch in anderen methoden gemacht werden!
-		$job->setSubject( // Betreff rendern.
-			$markerClass->parseTemplate(
-				$job->getSubject(),
-				$model,
-				$formatter,
-				$confId . strtolower($itemName) . 'subject.',
-				strtoupper($itemName)
-			)
-		);
-		$job->setContentText( // Text Nachricht rendern.
-			$markerClass->parseTemplate(
-				$job->getContentText(),
-				$model,
-				$formatter,
-				$confId . strtolower($itemName) . 'text.',
-				strtoupper($itemName)
-			)
-		);
-		$job->setContentHtml(  // HTML Nachricht rendern.
-			$markerClass->parseTemplate(
-				$job->getContentHtml(),
-				$model,
-				$formatter,
-				$confId . strtolower($itemName) . 'html.',
-				strtoupper($itemName)
-			)
-		);
 		// solte über das mailtemplate gesteuert werden!
 		// optional kann das überschreiben erzwungen werden.
 		if ($this->defaultFalse('/mkmailer/forcemailfrom')) {
@@ -253,9 +320,90 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler {
 		}
 
 		// E-Mail für den versand in die Queue legen.
-		tx_mkmailer_util_ServiceRegistry::getMailService()->spoolMailJob($job);
+		$service = tx_mkmailer_util_ServiceRegistry::getMailService();
 
-		return TRUE;
+		if ($this->_defaultTrue('/mkmailer/usequeue')) {
+			$service->spoolMailJob($job);
+		} else {
+			$service->executeMailJob(
+				$job,
+				$this->getForm()->getConfigurations(),
+				'sendmails.'
+			);
+		}
+	}
+
+	/**
+	 * Parses the content of the mail
+	 *
+	 * @param object $content With setter for subject contenttext, contenthtml
+	 * @param Tx_Rnbase_Domain_Model_DataInterface $model
+	 *
+	 * @return void
+	 */
+	protected function parseMail(
+		$content,
+		Tx_Rnbase_Domain_Model_DataInterface $model
+	) {
+		// Die Daten in die E-Mail Rendern.
+		foreach (array(
+			'subject',
+			'contenttext',
+			'contenthtml',
+			'mail_from',
+			'mail_fromName',
+			'mail_bcc',
+		) as $key) {
+			if (!$content->getProperty($key)) {
+				continue;
+			}
+			$content->setProperty(
+				$key,
+				$this->parseContent(
+					$content->getProperty($key),
+					$model,
+					$key . '.'
+				)
+			);
+		}
+
+	}
+
+	/**
+	 * Parses the data into the content
+	 *
+	 * @param string $content
+	 * @param Tx_Rnbase_Domain_Model_DataInterface $model
+	 * @param string $fieldId
+	 *
+	 * @return string
+	 */
+	protected function parseContent(
+		$content,
+		Tx_Rnbase_Domain_Model_DataInterface $model,
+		$fieldId = ''
+	) {
+		// @TODO: make marker class configurable
+		$markerClass = tx_rnbase::makeInstance('tx_rnbase_util_SimpleMarker');
+		$formatter = $this->getForm()->getConfigurations()->getFormatter();
+
+		$itemName = $this->_navConf('/mkmailer/itemname');
+		$itemName = $itemName ? $itemName : 'item';
+
+		$confId = $this->_navConf('/mkmailer/markerconfid');
+		if (empty($confId)) {
+			$confId = $this->getForm()->getConfId() . 'sendmail.' . strtolower($itemName) . '.';
+		}
+
+		$content = $markerClass->parseTemplate(
+			$content,
+			$model,
+			$formatter,
+			$confId . $fieldId,
+			strtoupper($itemName)
+		);
+
+		return $content;
 	}
 }
 
