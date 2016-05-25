@@ -68,7 +68,13 @@ class tx_mkforms_dh_mail_Main
 		$params = array();
 		$params[0] = $this->getDataModel($data);
 
-		call_user_func_array($engine, $params);
+		$success = call_user_func_array($engine, $params);
+
+		if ($success) {
+			$this->getForm()->getRunnable()->callRunnable(
+				$this->_navConf('/onsuccess')
+			);
+		}
 	}
 
 	/**
@@ -349,6 +355,8 @@ class tx_mkforms_dh_mail_Main
 				'sendmails.'
 			);
 		}
+
+		return true;
 	}
 
 	/**
