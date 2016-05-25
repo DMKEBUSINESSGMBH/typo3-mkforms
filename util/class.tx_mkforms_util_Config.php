@@ -205,25 +205,25 @@ class tx_mkforms_util_Config {
 
 		// the root is deleted
 		$this->config = $this->config[$sRoot];
-		$this->sXmlVersion = $this->get('/version', $this->config);
+		$sXmlVersion = $this->get('/version', $this->config);
 
 		tx_rnbase::load('tx_rnbase_util_TYPO3');
-		if(($this->sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== FALSE) {
-			if(tx_mkforms_util_Div::getVersionInt() < tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->sXmlMinVersion)) {
+		if(($sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== FALSE) {
+			if(tx_mkforms_util_Div::getVersionInt() < tx_rnbase_util_TYPO3::convertVersionNumberToInteger($sXmlMinVersion)) {
 				tx_mkforms_util_Div::mayday(
 					'The given XML requires a version of MKFORMS' .
-					' (<b>' . $this->sXmlMinVersion . '</b> or above)' .
+					' (<b>' . $sXmlMinVersion . '</b> or above)' .
 					' more recent than the one installed' .
 					' (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).'
 				);
 			}
 		}
 
-		if(($this->sXmlMaxVersion = $this->get('/maxversion', $this->_aConf)) !== FALSE) {
-			if(tx_mkforms_util_Div::getVersionInt() > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->sXmlMaxVersion)) {
+		if(($sXmlMaxVersion = $this->get('/maxversion', $this->_aConf)) !== FALSE) {
+			if(tx_mkforms_util_Div::getVersionInt() > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($sXmlMaxVersion)) {
 				tx_mkforms_util_Div::mayday(
 					'The given XML requires a version of MKFORMS' .
-					' (<b>' . $this->sXmlMaxVersion . '</b> maximum)' .
+					' (<b>' . $sXmlMaxVersion . '</b> maximum)' .
 					' older than the one installed' .
 					' (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).'
 				);
