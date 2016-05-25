@@ -1,24 +1,12 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-.. include:: ../Includes.txt
-
-
-.. _formConfig:
-
 Form XML: form config
 =====================
 
 Im XML sind nun unter anderem Folgende Konfigurationen für /meta/form/ möglich:
 
-
 wrap
 ----
 
 Wrapt das enthaltene und durch eine Pipe (|) getrennte HTML um das Formular herum.
-
 
 method
 ------

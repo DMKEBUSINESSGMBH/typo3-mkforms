@@ -1,21 +1,10 @@
-.. ==================================================
-.. FOR YOUR INFORMATION
-.. --------------------------------------------------
-.. -*- coding: utf-8 -*- with BOM.
-
-
-.. _widgets:
-
 Widgets
 =======
 
 Allgemein
 ---------
 
-Neben den bekannten Attributen, die ein Widget haben kann (siehe :ref:`formidableDocLinks`),
-kann auch das placeholder Attribut gesetzt werden. Innerhalb des Attributes kann sowohl normaler Text,
-ein Runnable oder auch ein LL Label (LLL:EXT:myext/locallang.xml:label_path) angegeben werden.
-
+Neben den bekannten Attributen, die ein Widget haben kann (siehe formidableDocLinks), kann auch das placeholder Attribut gesetzt werden. Innerhalb des Attributes kann sowohl normaler Text, ein Runnable oder auch ein LL Label (LLL:EXT:myext/locallang.xml:label\_path) angegeben werden.
 
 Box
 ---
@@ -33,10 +22,9 @@ Wenn man z.B. einen Löschen-Button in einem Lister hat, dann benötigt dieser d
 
 Wenn es eine column "uid" gibt, dann muss dem onclick Event (oder was sonst verwendet wird) folgender param gesetzt werden:
 
-.. code-block:: xml
-
-   <param get="rowData::uid" />
-
+~~~~ {.sourceCode .xml}
+<param get="rowData::uid" />
+~~~~
 
 autcomplete
 -----------
@@ -50,12 +38,12 @@ Damit ist es möglich, einen ViewHelper für das Rendern zu erzeugen. Im Node pa
 
 Beispiel im ein Bild anhand einer FAL-Referenz zu rendern:
 
-.. code-block:: xml
-
-   <renderlet:FLUIDVIEWHELPER name="companies-logos_uid" viewhelper="image">
-      <params src="rdt:value">
-         <param name="treatIdAsReference" value="true" />
-         <param name="maxWidth" value="220" />
-         <param name="maxHeight" value="145" />
-      </params>
-   </renderlet:FLUIDVIEWHELPER>
+~~~~ {.sourceCode .xml}
+<renderlet:FLUIDVIEWHELPER name="companies-logos_uid" viewhelper="image">
+   <params src="rdt:value">
+      <param name="treatIdAsReference" value="true" />
+      <param name="maxWidth" value="220" />
+      <param name="maxHeight" value="145" />
+   </params>
+</renderlet:FLUIDVIEWHELPER>
+~~~~
