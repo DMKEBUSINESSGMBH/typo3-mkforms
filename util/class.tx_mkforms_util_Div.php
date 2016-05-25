@@ -699,7 +699,7 @@ ERRORMESSAGE;
 	 * @return	string		$sPath converted to a relative path plus a leading
 	 * 						slash
 	 */
-	function toRelPath($sPath) {
+	public static function toRelPath($sPath) {
 		if (substr($sPath, 0, 4) === 'EXT:') {
 			$sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath);
 		}
