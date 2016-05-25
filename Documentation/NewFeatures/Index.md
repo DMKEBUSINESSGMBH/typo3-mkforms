@@ -1,16 +1,16 @@
 New Features
 ============
 
-[Caching](Documentation/NewFeatures/Caching.md)
+[Caching](Caching.md)
 
-[DependsOn](Documentation/NewFeatures/DependsOn.md)
+[DependsOn](DependsOn.md)
 
-[FormConfig](Documentation/NewFeatures/FormConfig.md)
+[FormConfig](FormConfig.md)
 
-[Process](Documentation/NewFeatures/Process.md)
+[Process](Process.md)
 
-[Datahandler](Documentation/NewFeatures/Datahandler.md)
+[Datahandler](Datahandler.md)
 
-[AjaxCalls](Documentation/NewFeatures/AjaxCalls.md)
+[AjaxCalls](AjaxCalls.md)
 
-[Sicherheit](Documentation/NewFeatures/Sicherheit.md)
+[Sicherheit](Sicherheit.md)

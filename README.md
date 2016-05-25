@@ -47,4 +47,4 @@ Obwohl **ameos\_formidable** einen extrem hohen Entwicklungsgrad hat, gibt es ei
 
 [Tipps](Documentation/Tipps/Index.md)
 
-[ChangeLog](Documentation/ChangeLog.md)
+[Changelog](Documentation/Changelog.md)
