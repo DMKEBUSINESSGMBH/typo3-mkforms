@@ -16,7 +16,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 	function _renderReadOnly() {
 
 		$sPath = $this->_getPath();
-
 		if(
 			$sPath !== FALSE || (
 				is_array($this->_navConf('/imageconf/')) &&
@@ -204,7 +203,13 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 			return $sPath;
 		} else {
 
-			if(($mFolder = $this->_navConf('/folder')) !== FALSE) {
+			// FAL-Referenz?
+			tx_rnbase::load('tx_rnbase_util_Math');
+			if(tx_rnbase_util_Math::isInteger($sPath) && $this->defaultFalse('/treatidasreference')) {
+				$reference = tx_rnbase_util_TSFAL::getFileReferenceById($sPath);
+				$sPath = $reference->getForLocalProcessing(FALSE);
+			}
+			elseif(($mFolder = $this->_navConf('/folder')) !== FALSE) {
 				if($this->oForm->isRunneable($mFolder)) {
 					$mFolder = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFolder);
 				}

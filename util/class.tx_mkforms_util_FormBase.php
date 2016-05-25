@@ -77,12 +77,28 @@ class tx_mkforms_util_FormBase {
 	 * @param 	tx_ameosformidable		$form
 	 * @return 	void
 	 */
-	public function processForm(array $params, tx_ameosformidable $form) {
+	public function processForm(array $params, tx_mkforms_forms_Base $form) {
 		if(is_object($oParent = self::getParent($form, 'processForm'))) {
 			$oParent->processForm($params, $form);
 		}
 	}
 
+	/**
+	 *
+	 * @param array $params
+	 * @param tx_mkforms_forms_Base $form
+	 * @return number
+	 */
+	public function loadFirstReferenceUid(array $params, tx_mkforms_forms_Base $form) {
+		$refTable = $params['tablename'];
+		$refUid = $params['uid'];
+		$refField = $params['refField'];
+
+		$ref = tx_rnbase_util_TSFAL::getFirstReference($refTable, $refUid, $refField);
+		if(is_object($ref))
+			return $ref->getUid();
+		return NULL;
+	}
 	/**
 	 * Flatten a deep array to one single level
 	 *
