@@ -131,7 +131,12 @@ class tx_mkforms_dh_mail_Main
 	private function getDataModel(array $record)
 	{
 		$class = $this->_navConf('/model');
-		$class = $class ? $class : 'Tx_Rnbase_Domain_Model_Data';
+
+		if ($class) {
+			$class = $this->getForm()->getRunnable()->callRunnable($class);
+		} else {
+			$class = 'Tx_Rnbase_Domain_Model_Data';
+		}
 
 		return tx_rnbase::makeInstance($class, $record);
 	}
@@ -145,6 +150,7 @@ class tx_mkforms_dh_mail_Main
 	{
 		$mail = $this->_navConf('/mailto');
 
+
 		if (!$mail) {
 			$this->getForm()->mayday(
 				'No mail to defined.' .
@@ -154,7 +160,7 @@ class tx_mkforms_dh_mail_Main
 			);
 		}
 
-		return $mail;
+		return $this->getForm()->getRunnable()->callRunnable($mail);
 	}
 
 	/**
@@ -166,7 +172,13 @@ class tx_mkforms_dh_mail_Main
 	{
 		$mail = $this->_navConf('/mailfrom');
 
-		return $mail ? $mail : get_cfg_var('sendmail_from');
+		if ($mail) {
+			$mail = $this->getForm()->getRunnable()->callRunnable($mail);
+		} else {
+			$mail = get_cfg_var('sendmail_from');
+		}
+
+		return $mail;
 	}
 
 	/**
@@ -178,7 +190,13 @@ class tx_mkforms_dh_mail_Main
 	{
 		$mail = $this->_navConf('/mailfromname');
 
-		return $mail ? $mail : $this->getMailFrom();
+		if ($mail) {
+			$mail = $this->getForm()->getRunnable()->callRunnable($mail);
+		} else {
+			$mail = $this->getMailFrom();
+		}
+
+		return $mail;;
 	}
 
 	/**
