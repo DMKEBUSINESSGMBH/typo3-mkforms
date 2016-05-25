@@ -605,11 +605,13 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		}
 
 		$this->sDefaultWrapClass = $this->getConfig()->get('/meta/defaultwrapclass');
-		if ($this->sDefaultWrapClass === FALSE)
-			// @TODO: das muss auf mkforms umgestellt werden,
-			// formidable-rdrstd wird in einigen projekten allerdings noch verwendet.
-		{
-			$this->sDefaultWrapClass = 'formidable-rdrstd';
+		if ($this->sDefaultWrapClass === FALSE) {
+			// set classes for all new xml versions to mkforms
+			$this->sDefaultWrapClass = 'mkforms-rdrstd';
+			// for older forms leave as formidable!
+			if (2000000 > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->getConfig()->get('/version'))) {
+				$this->sDefaultWrapClass = 'formidable-rdrstd';
+			}
 		}
 
 		$this->makeCallDebug($this->iForcedEntryId);
