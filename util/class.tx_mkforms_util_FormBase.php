@@ -84,6 +84,16 @@ class tx_mkforms_util_FormBase {
 	}
 
 	/**
+	 * Useful to render fal image in IMAGE widget:
+	 * <renderlet:IMAGE name="uploadfield1" treatIdAsReference="true">
+	 *   <path>
+	 *     <userobj extension="tx_mkforms_util_FormBase" method="loadFirstReferenceUid">
+	 *        <params>
+	 *          <param name="tablename" value="tx_myext_table" />
+	 *          <param name="refField" value="logo" />
+	 *        </params>
+	 *   	 </userobj>
+	 *   </path>
 	 *
 	 * @param array $params
 	 * @param tx_mkforms_forms_Base $form
@@ -93,6 +103,9 @@ class tx_mkforms_util_FormBase {
 		$refTable = $params['tablename'];
 		$refUid = $params['uid'];
 		$refField = $params['refField'];
+		$refUid = $refUid ? $refUid : $form->getDataHandler()->entryId;
+		if(!$refUid)
+			return NULL;
 
 		$ref = tx_rnbase_util_TSFAL::getFirstReference($refTable, $refUid, $refField);
 		if(is_object($ref))
