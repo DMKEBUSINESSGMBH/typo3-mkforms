@@ -1,10 +1,10 @@
-mkforms
+MKFORMS
 =======
 
 What does it do?
 ----------------
 
-Die Extension MKFORMS ermöglicht es relativ einfach HTML-Formulare für das Frontend zu erstellen. Das komplette Formular wird dabei in einer XML-Datei beschrieben.
+Die TYPO3-Extension **MKFORMS** ermöglicht es HTML-Formulare für das Frontend zu erstellen. Das komplette Formular wird dabei in einer XML-Datei (oder alternativ per Typoscript) beschrieben.
 
 Fork von ameos\_formidable
 --------------------------
@@ -14,6 +14,10 @@ Bei **MKFORMS** handelt es sich um einen Fork der TYPO3-Extension **ameos\_formi
 -   <http://formidable.typo3.ug/>
 -   <http://formidable.typo3.ug/reference.html>
 -   <http://wiki.typo3.org/index.php/Formidable_documentation>
+
+[Zur Online Dokumentation](Documentation/README.md)
+-------------------------------------------------
+
 
 Ziele des Forks
 ---------------
@@ -37,14 +41,4 @@ Obwohl **ameos\_formidable** einen extrem hohen Entwicklungsgrad hat, gibt es ei
 -   verbesserter userfunc Ausruf innerhalb von Formularen
 
 
-[NewFeatures](Documentation/NewFeatures/Index.md)
 
-[FormBase](Documentation/FormBase/Index.md)
-
-[SpamProtection](Documentation/SpamProtection/Index.md)
-
-[Widgets](Documentation/Widgets/Index.md)
-
-[Tipps](Documentation/Tipps/Index.md)
-
-[Changelog](Documentation/Changelog.md)
