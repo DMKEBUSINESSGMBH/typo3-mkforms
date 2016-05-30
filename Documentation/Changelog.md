@@ -1,6 +1,29 @@
 Changelog
 =========
 
+2.0.4
+-----
+
+-   first datahandler mail refactoring, template object by config added
+-   Cleanup version properties in config for xmls
+-   set default wrap class to mkforms
+-   add runable support for some config paths in mail datahandler
+-   add sucess callback for mail datahandler
+-   converted documentation from reSt to markdown
+-   support for fal references in image renderlet
+-   tx_mkforms_util_Div::toRelPath is now static
+-   minor bugfix
+-   loadFirstReferenceUid uses entryId from datahandler
+
+
+2.0.3
+-----
+
+-   Missing include added
+-   Avoid js warning in console
+-   Implemented majixSetHtml to replace content of boxes
+-   new option renderLabelFirst in CHECKSINGLE
+
 2.0.2
 -----
 
