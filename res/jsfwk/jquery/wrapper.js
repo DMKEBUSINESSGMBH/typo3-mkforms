@@ -404,7 +404,10 @@ MKWrapper.handleValidationErrors = function(oErrors, form, msgDiv) {
 			}
 		}
 	}
-	if(msgDiv && jQuery(errContainer).children().length) msgDiv.append(errContainer);
+	if(msgDiv && jQuery(errContainer).children().length) {
+		msgDiv.append(errContainer);
+		MKWrapper.scrollTo(msgDiv);
+	}
 };
 MKWrapper._changeHandler = function() {
 	jQuery(this).removeClass('hasError');
