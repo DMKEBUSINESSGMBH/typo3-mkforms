@@ -409,7 +409,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return    string
 	 */
-	private function getViewClassName() {
+	protected function getViewClassName() {
 		$class = $this->getConfigurations()->get($this->getConfId() . 'viewClassName');
 
 		return $class ? $class : 'tx_mkforms_view_Form';
