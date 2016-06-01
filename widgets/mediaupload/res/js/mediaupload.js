@@ -1,4 +1,4 @@
-Formidable.Classes.DamUpload = Formidable.Classes.RdtBaseClass.extend({
+Formidable.Classes.MediaUpload = Formidable.Classes.RdtBaseClass.extend({
 
 	onajaxstart: null,
 	onajaxcomplete: null,

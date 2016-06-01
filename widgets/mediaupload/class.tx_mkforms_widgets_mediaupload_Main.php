@@ -1,26 +1,29 @@
 <?php
 /**
- * Plugin 'rdt_damupload' for the 'ameos_formidable' extension.
+ * Plugin 'rdt_mediaupload' for the 'mkforms' extension.
  * Based on original rdt_upload from Jerome Schneider <typo3dev@ameos.com>
  * @author	René Nitzsche <rene@system25.de>
+ * @author	Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 
 if(tx_rnbase_util_Extensions::isLoaded('dam')) {
 	require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam.php');
 	require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_db.php');
+	tx_rnbase::load('tx_rnbase_util_TSDAM');
+}
+else {
+	tx_rnbase::load('tx_rnbase_util_TSFAL');
 }
 tx_rnbase::load('tx_rnbase_util_TYPO3');
-tx_rnbase::load('tx_rnbase_util_TSFAL');
-tx_rnbase::load('tx_rnbase_util_TSDAM');
 tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
-class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet {
 	var $aLibs = array(
-		'widget_damupload_class' => 'res/js/damupload.js',
+		'widget_mediaupload_class' => 'res/js/mediaupload.js',
 	);
 
 	var $bArrayValue = true;
-	var $sMajixClass = 'DamUpload';
+	var $sMajixClass = 'MediaUpload';
 	var $aPossibleCustomEvents = array (
 		"onajaxstart",
 		"onajaxcomplete",
@@ -33,7 +36,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	private $uploadedMediaFiles = array();
 
 	/**
-	 * folgendes brauch man um eine Liste der DAM Uploads auszugeben:
+	 * folgendes brauch man um eine Liste der DAM/FAL Uploads auszugeben:
 	 *
 	    <datasources>
 			<datasource:PHPARRAY name="mediaUploadList">
@@ -122,19 +125,19 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		es wird von tx_mkforms_util_FormBase geerbt:
 
 		public function fillForm(array $formParameters, tx_mkforms_forms_Base $form) {
-			// DAM Uploads vorbefüllen
+			// Media Uploads vorbefüllen
 			$form->getDataHandler()->newEntryId = HIER DIE UID DES JEWEILIGEN MODELS BZW. NICHTS;
 
 			return $formData;
 		}
 
 		public function processForm(array $formParameters, tx_mkforms_forms_Base $form) {
-			// damit die Formularverarbeitung bei DAM Uploads nicht anspringt
+			// damit die Formularverarbeitung bei DAM/FAL Uploads nicht anspringt
 			if(!$form->isFullySubmitted()) {
 				return;
 			}
 
-			// UID für DAM Uploads setzen
+			// UID für DAM/FAL Uploads setzen
 			$form->getDataHandler()->newEntryId = HIER DIE UID DES JEWEILIGEN MODELS, DAS GERADE ERSTELLT ODER BEARBEITET WURDE
 			parent::processForm($formParameters, $form);
 		}
@@ -205,7 +208,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @deprecated use getUploadedMediaFiles instead
 	 */
 	public function getUploadedDamPics() {
-		return $this->getUploadedDamPics();
+		return $this->getUploadedMediaFiles();
 	}
 
 	function getServerPath($sFileName = FALSE) {
@@ -351,7 +354,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
 		// wird von tx_mkforms_util_DamUpload::getUploadsByWidget benötigt um die Liste
-		// der DAM Uploads ausgeben zu können
+		// der DAM/FAL Uploads ausgeben zu können
 		$this->uploadedMediaFiles = $mediaFiles;
 	}
 
@@ -781,7 +784,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 
 		$oJsLoader->additionalHeaderData(
 			'<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sFile) . '"></script>',
-			'mkforms_damupload_includeonce'
+			'mkforms_mediaupload_includeonce'
 		);
 	}
 
@@ -791,7 +794,7 @@ class tx_mkforms_widgets_damupload_Main extends formidable_mainrenderlet {
 	 * @return string
 	 */
 	protected function getMajixClass() {
-		return ($this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) ? 'DamUpload' : 'RdtBaseClass';
+		return ($this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) ? 'MediaUpload' : 'RdtBaseClass';
 	}
 
 	/**
@@ -837,7 +840,7 @@ INITSCRIPT;
 
 	private function createUploadUrl() {
 		$sThrower = $this->_getElementHtmlId();
-		$sObject = 'widget_damupload';
+		$sObject = 'widget_mediaupload';
 		$sServiceKey = 'upload'; // Die Daten sind in der ext_localconf vordefiniert.
 		$sFormId = $this->getForm()->getFormId();
 		$sSafeLock = $this->_getSessionDataHashKey();
@@ -902,7 +905,3 @@ INITSCRIPT;
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/damupload/class.tx_mkforms_widgets_damupload_Main.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/damupload/class.tx_mkforms_widgets_damupload_Main.php']);
-}
