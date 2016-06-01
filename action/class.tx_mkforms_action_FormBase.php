@@ -258,7 +258,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 		//update dam references
 		$tempId = $form->getDataHandler()->entryId;
 		foreach ($this->getForm()->getWidgetNames() as $rdtName) {
-			if (($widget = $form->getWidget($rdtName)) && ($widget instanceof tx_mkforms_widgets_damupload_Main)
+			if (($widget = $form->getWidget($rdtName)) && ($widget instanceof tx_mkforms_widgets_mediaupload_Main)
 				&& method_exists(
 					$widget,
 					'handleCreation'
