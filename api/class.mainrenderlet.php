@@ -2858,7 +2858,7 @@ JAVASCRIPT;
 
 	/**
 	 * Set a value of current widget/input field.
-	 * 
+	 *
 	 * @param string $sValue
 	 */
 	public function majixSetValue($sValue) {
@@ -3882,6 +3882,16 @@ JAVASCRIPT;
 
 	function isNaturalSubmitter() {
 		return FALSE;
+	}
+	/**
+	 * Whether or not the value of this widget should be saved to database.
+	 * Used by datahandler DB. This way a widget can be processed and handle
+	 * storage process on its own.
+	 *
+	 * @return boolean
+	 */
+	public function isSaveable() {
+		return !$this->_readOnly();
 	}
 
 	function dbridge_getPostedSignature($bDecode = TRUE) {

@@ -294,6 +294,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 
 		while (list(, $sAbsName) = each($aKeys)) {
 			if (!$this->oForm->aORenderlets[$sAbsName]->_renderOnly()
+				&& $this->oForm->aORenderlets[$sAbsName]->isSaveable()
 				&& (!$this->oForm->aORenderlets[$sAbsName]->maySubmit()
 					|| $this->oForm->aORenderlets[$sAbsName]->hasBeenDeeplySubmitted())
 			) {

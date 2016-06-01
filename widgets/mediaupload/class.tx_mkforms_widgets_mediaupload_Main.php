@@ -497,7 +497,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet {
 		$entryId = $entryId ? $entryId : intval($this->getDataHandler()->newEntryId);
 		return $entryId;
 	}
-	function handleCreation() {
+	/**
+	 * Call this method after insert of main record to set references
+	 */
+	public function handleCreation() {
+
 		if(!$this->openUid && !$this->uploadsWithoutReferences) {
 			return;
 		}
@@ -681,7 +685,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet {
 	 *
 	 * @param int $mediaUid
 	 */
-	function addReference($mediaUid) {
+	protected function addReference($mediaUid) {
 		$tableName = trim($this->getRefTable());
 		$fieldName = $this->getRefField();
 		$itemId = $this->getEntryId();
@@ -902,6 +906,14 @@ INITSCRIPT;
 				'object' => $this->getAbsName(),
 			)
 		);
+	}
+	/**
+	 * (non-PHPdoc)
+	 * @see formidable_mainrenderlet::isSaveable()
+	 */
+	public function isSaveable() {
+		// widget value should not be processed by datahandler
+		return FALSE;
 	}
 }
 
