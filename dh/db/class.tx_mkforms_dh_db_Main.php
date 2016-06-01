@@ -11,7 +11,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 
 	var $__aStoredI18NParent = FALSE;
 
-	function _doTheMagic($bShouldProcess = TRUE) {
+	public function _doTheMagic($bShouldProcess = TRUE) {
 
 		$tablename = $this->tableName();
 		$keyname = $this->keyName();
@@ -24,7 +24,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 			$bShouldProcess = FALSE;
 		}
 
-		if ($tablename != "" && $keyname != "") {
+		if ($tablename != '' && $keyname != '') {
 
 			if ($this->i18n() && ($aNewI18n = $this->newI18nRequested()) !== FALSE) {
 
@@ -84,14 +84,13 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 				// on peut traiter les donnes
 				// on met a jour / insere l'enregistrement dans la base de donnees
 
-				$aRs = array();
-
 				$aFormData = $this->_processBeforeInsertion(
 					$this->getDataPreparedForDB()
 				);
 
 				if (count($aFormData) > 0) {
 
+					$aFormData = $this->cleanNonTcaFields($aFormData);
 					$editEntry = $this->_currentEntryId();
 
 					if ($editEntry) {
@@ -251,7 +250,44 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		}
 	}
 
-	function getDataPreparedForDB() {
+	/**
+	 * Remove all non TCA field from fromData. Can be disabled by cleanNonTcaFields="false"
+	 * @param array $aFormData
+	 * @return array cleaned data array
+	 */
+	protected function cleanNonTcaFields($aFormData) {
+		if ($this->_defaultTrue("/cleannontcafields")) {
+			$tablename = $this->tableName();
+			$cols = tx_rnbase_util_TCA::getTcaColumns($tablename);
+			if(!empty($cols)) {
+				$cols = array_keys($cols);
+				if($field = tx_rnbase_util_TCA::getCrdateFieldForTable($tablename))
+					$cols[] = $field;
+				if($field = tx_rnbase_util_TCA::getTstampFieldForTable($tablename))
+					$cols[] = $field;
+				if($field = tx_rnbase_util_TCA::getDeletedFieldForTable($tablename))
+					$cols[] = $field;
+				if($field = tx_rnbase_util_TCA::getLanguageFieldForTable($tablename))
+					$cols[] = $field;
+				if($field = tx_rnbase_util_TCA::getTransOrigPointerFieldForTable($tablename))
+					$cols[] = $field;
+				if($field = tx_rnbase_util_TCA::getSortbyFieldForTable($tablename))
+					$cols[] = $field;
+			}
+			if(!empty($cols)) {
+				$cols[] = 'pid';
+				$aFormData = tx_rnbase_util_Arrays::removeNotIn($aFormData, $cols);
+			}
+		}
+
+		return $aFormData;
+	}
+
+	/**
+	 * Look up all data for database from widgets
+	 * @return multitype:NULL
+	 */
+	protected function getDataPreparedForDB() {
 		$aRes = array();
 		$aKeys = array_keys($this->oForm->aORenderlets);
 		reset($aKeys);
@@ -273,7 +309,11 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		return $aRes;
 	}
 
-	function _processBeforeInsertion($aData) {
+	/**
+	 * called before any database insert or update
+	 * @param array $aData
+	 */
+	protected function _processBeforeInsertion($aData) {
 
 		if (($aUserObj = $this->_navConf("/process/beforeinsertion/")) !== FALSE) {
 			if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
@@ -293,7 +333,11 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		return $aData;
 	}
 
-	function _processAfterInsertion($aData) {
+	/**
+	 * called after any database insert or update
+	 * @param array $aData
+	 */
+	protected function _processAfterInsertion($aData) {
 		if (($aUserObj = $this->_navConf("/process/afterinsertion/")) !== FALSE) {
 			if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
 				$this->getForm()->getRunnable()->callRunnable(
@@ -304,7 +348,12 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		}
 	}
 
-	function _processBeforeCreation($aData) {
+	/**
+	 * called before insert data into database
+	 * @param array $aData
+	 * @return array
+	 */
+	protected function _processBeforeCreation($aData) {
 
 		if (($aUserObj = $this->_navConf("/process/beforecreation/")) !== FALSE) {
 
@@ -325,7 +374,12 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		return $aData;
 	}
 
-	function _processAfterCreation($aData) {
+	/**
+	 * called before insert data into database
+	 * @param array $aData
+	 * @return array
+	 */
+	protected function _processAfterCreation($aData) {
 		if (($aUserObj = $this->_navConf("/process/aftercreation/")) !== FALSE) {
 			if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
 				$this->getForm()->getRunnable()->callRunnable(
@@ -336,7 +390,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		}
 	}
 
-	function _processBeforeEdition($aData) {
+	protected function _processBeforeEdition($aData) {
 
 		if (($aUserObj = $this->_navConf("/process/beforeedition/")) !== FALSE) {
 
@@ -357,7 +411,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		return $aData;
 	}
 
-	function _processAfterEdition($aData) {
+	protected function _processAfterEdition($aData) {
 		if (($aUserObj = $this->_navConf("/process/afteredition/")) !== FALSE) {
 			if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
 				$this->getForm()->getRunnable()->callRunnable(
@@ -384,9 +438,8 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		return ($this->_currentEntryId() !== FALSE);
 	}
 
-	function __getDbData($sTablename, $sKeyname, $iUid, $sFields = "*") {
+	protected function __getDbData($sTablename, $sKeyname, $iUid, $sFields = "*") {
 
-		$aRes = array();
 		$options = array();
 		$options['enablefieldsoff'] = 1;
 		$options['where'] = $sKeyname . " = " . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($iUid, $sTablename);
@@ -527,7 +580,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 		return FALSE;
 	}
 
-	function fillStandardTYPO3fields() {
+	protected function fillStandardTYPO3fields() {
 		return $this->_isTrue("/fillstandardtypo3fields");
 	}
 }
