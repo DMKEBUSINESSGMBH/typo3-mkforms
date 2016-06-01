@@ -131,7 +131,7 @@ class tx_mkforms_action_Extended extends tx_mkforms_action_FormBase {
     *
     * @return  string
     */
-   public function getTemplateName() {
+   protected function getTemplateName() {
       return 'extended';
    }
 }

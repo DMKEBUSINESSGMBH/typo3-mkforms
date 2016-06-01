@@ -438,7 +438,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC {
 	 *
 	 * @return    string
 	 */
-	public function getTemplateName() {
+	protected function getTemplateName() {
 		return 'generic';
 	}
 }
