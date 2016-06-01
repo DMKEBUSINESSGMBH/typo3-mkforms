@@ -5,14 +5,23 @@
  * @author	Luc Muller <typo3dev@ameos.com>
  */
 tx_rnbase::load('tx_rnbase_util_Typo3Classes');
+tx_rnbase::load('tx_rnbase_util_Math');
 
 class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 
 	var $oFileFunc = null; //object for basics file function
 
+	/**
+	 * (non-PHPdoc)
+	 * @see formidable_mainvalidator::validate()
+	 */
 	function validate($oRdt) {
 
 		$sAbsName = $oRdt->getAbsName();
+		// Der Rückgabewert kann drei Zustände annehmen:
+		// - Bei normalen Upload-Felder ist es ein String oder leer
+		// - beim MEDIAUPLOAD ist es ein Array oder leer oder ein Integer
+		// - bei sonstigen Widgets ein String
 		$sFileName = $oRdt->getValue();
 
 		$bError = FALSE;
@@ -30,6 +39,11 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator {
 					$sFileName = array_pop($aFileList);	// last one, and remove from list; will be added later if valid
 				}
 			}
+		}
+		elseif ($oRdt->_getType() === 'MEDIAUPLOAD' && tx_rnbase_util_Math::isInteger($sFileName)) {
+			// Wenn das Upload-Widget einen Integer liefert, dann ist das nur die Anzahl der Referenzen
+			// In dem Fall hat kein Upload stattgefunden. Es gibt also nichts zu validieren.
+			$sFileName = '';
 		}
 
 		if($sFileName === '') {
