@@ -29,6 +29,8 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 			}
 		}
 
+		$strictCheck = $this->defaultFalse('/strictselectedcheck');
+
 		$aSelectedCaptions = array();
 		$bSelected = FALSE;
 
@@ -47,15 +49,39 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 						: $aItem['value']
 					;
 
-				if($this->_isMultiple()) {
+				if ($this->_isMultiple()) {
 					if(is_array($sValue)) {
-						if(in_array($value, $sValue)) {
+						if (in_array($value, $sValue, $strictCheck)) {
 							$sSelected = ' selected="selected" ';
 							$aSelectedCaptions[] = $sCaption;
 						}
 					}
 				} else {
-					if($bSelected === FALSE && $aItem['value'] == $sValue) {
+					\tx_rnbase_util_Debug::debug(array(
+							$strictCheck,
+							$aItem['value'],
+							gettype($aItem['value']),
+							$sValue,
+							gettype($sValue),
+							$aItem['value'] == $sValue,
+							$aItem['value'] === $sValue,
+							(
+								(
+									!$strictCheck && $aItem['value'] == $sValue
+								) ||(
+									$strictCheck && $aItem['value'] === $sValue
+								)
+							)
+						), 'DEBUG: '.__FILE__.'LINE: '.__LINE__);
+					if (
+						$bSelected === FALSE && (
+							(
+								!$strictCheck && $aItem['value'] == $sValue
+							) ||(
+								$strictCheck && $aItem['value'] === $sValue
+							)
+						)
+					) {
 						$bSelected = TRUE;
 						$sSelected = ' selected="selected" ';
 						$aSelectedCaptions[] = $sCaption;
@@ -64,6 +90,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 
 				$sCustom = $this->_getCustom($aItem);
 				$sClass = $this->_getClasses($aItem, FALSE);
+				// style is unused, why?
 				$sStyle = $this->_getStyle($aItem);
 
 				$sInput = '<option value="' . $aItem['value'] . '" ' . $sSelected . $sClass . $sCustom . '>' . $sCaption . '</option>';
