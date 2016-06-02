@@ -57,22 +57,6 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 						}
 					}
 				} else {
-					\tx_rnbase_util_Debug::debug(array(
-							$strictCheck,
-							$aItem['value'],
-							gettype($aItem['value']),
-							$sValue,
-							gettype($sValue),
-							$aItem['value'] == $sValue,
-							$aItem['value'] === $sValue,
-							(
-								(
-									!$strictCheck && $aItem['value'] == $sValue
-								) ||(
-									$strictCheck && $aItem['value'] === $sValue
-								)
-							)
-						), 'DEBUG: '.__FILE__.'LINE: '.__LINE__);
 					if (
 						$bSelected === FALSE && (
 							(
