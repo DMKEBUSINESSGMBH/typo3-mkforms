@@ -2089,6 +2089,8 @@ JAVASCRIPT;
 
 			if (($mBlankValue = $this->_defaultFalseMixed('/blankvalue')) === FALSE) {
 				$mBlankValue = '';
+			} elseif (strtoupper($mBlankValue) === 'NULL') {
+				$mBlankValue = NULL;
 			}
 
 			array_unshift(
