@@ -15,7 +15,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 	function getTemplatePath() {
 
 		$sPath = $this->_navConf("/template/path/");
-		if($this->oForm->isRunneable($sPath)) {
+		if($this->getForm()->isRunneable($sPath)) {
 			$sPath = $this->callRunneable(
 				$sPath
 			);
@@ -30,7 +30,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
 	function getTemplateSubpart() {
 		 $sSubpart = $this->_navConf("/template/subpart/");
-		 if($this->oForm->isRunneable($sSubpart)) {
+		 if($this->getForm()->isRunneable($sSubpart)) {
 			$sSubpart = $this->callRunneable(
 				$sSubpart
 			);
@@ -48,7 +48,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
 			if(!empty($sPath)) {
 				if(!file_exists($sPath)) {
-					$this->oForm->mayday("RENDERER TEMPLATE - Template file does not exist <b>" . $sPath . "</b>");
+					$this->getForm()->mayday("RENDERER TEMPLATE - Template file does not exist <b>" . $sPath . "</b>");
 				}
 
 				if(($sSubpart = $this->getTemplateSubpart()) !== FALSE) {
@@ -58,19 +58,19 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 					);
 
 					if(trim($mHtml) == "") {
-						$this->oForm->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with subpart marker " . $sSubpart . " <b>returned an empty string</b> - Check your template");
+						$this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with subpart marker " . $sSubpart . " <b>returned an empty string</b> - Check your template");
 					}
 				} else {
 					$mHtml = Tx_Rnbase_Utility_T3General::getUrl($sPath);
 					if(trim($mHtml) == "") {
-						$this->oForm->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
+						$this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
 					}
 				}
 
 			} elseif(($mHtml = $this->_navConf("/html")) !== FALSE) {
 
 				if(is_array($mHtml)) {
-					if($this->oForm->isRunneable($mHtml)) {
+					if($this->getForm()->isRunneable($mHtml)) {
 						$mHtml = $this->callRunneable($mHtml);
 					} else {
 						$mHtml = $mHtml["__value"];
@@ -78,10 +78,10 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 				}
 
 				if(trim($mHtml) == "") {
-					$this->oForm->mayday("RENDERER TEMPLATE - The given <b>/html</b> provides an empty string</b> - Check your template");
+					$this->getForm()->mayday("RENDERER TEMPLATE - The given <b>/html</b> provides an empty string</b> - Check your template");
 				}
 			} else {
-				$this->oForm->mayday("RENDERER TEMPLATE - You have to provide either <b>/template/path</b> or <b>/html</b>");
+				$this->getForm()->mayday("RENDERER TEMPLATE - You have to provide either <b>/template/path</b> or <b>/html</b>");
 			}
 
 			$this->sTemplateHtml = $mHtml;
@@ -94,7 +94,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
 		$aRendered = $this->beforeDisplay($aRendered);
 
-		$this->oForm->_debug($aRendered, "RENDERER TEMPLATE - rendered elements array");
+		$this->getForm()->_debug($aRendered, "RENDERER TEMPLATE - rendered elements array");
 
 		if(($sErrorTag = $this->_navConf("/template/errortag/")) === FALSE) {
 			if(($sErrorTag = $this->_navConf("/html/errortag")) === FALSE) {
@@ -102,7 +102,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 			}
 		}
 
-		if($this->oForm->isRunneable($sErrorTag)) {
+		if($this->getForm()->isRunneable($sErrorTag)) {
 			$sErrorTag = $this->callRunneable(
 				$sErrorTag
 			);
@@ -110,13 +110,13 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
 		$aErrors = array();
 		$aCompiledErrors = array();
-		$aErrorKeys = array_keys($this->oForm->_aValidationErrors);
+		$aErrorKeys = array_keys($this->getForm()->_aValidationErrors);
 		while(list(, $sRdtName) = each($aErrorKeys)) {
-			$sShortRdtName = $this->oForm->aORenderlets[$sRdtName]->_getNameWithoutPrefix();
-			if(trim($this->oForm->_aValidationErrors[$sRdtName]) !== "") {
+			$sShortRdtName = $this->getForm()->aORenderlets[$sRdtName]->_getNameWithoutPrefix();
+			if(trim($this->getForm()->_aValidationErrors[$sRdtName]) !== "") {
 
-				$sWrapped = $this->wrapErrorMessage($this->oForm->_aValidationErrors[$sRdtName]);
-				$aErrors[$sShortRdtName] = $this->oForm->_aValidationErrors[$sRdtName];
+				$sWrapped = $this->wrapErrorMessage($this->getForm()->_aValidationErrors[$sRdtName]);
+				$aErrors[$sShortRdtName] = $this->getForm()->_aValidationErrors[$sRdtName];
 				$aErrors[$sShortRdtName . "."]["tag"] = $sWrapped;
 				$aCompiledErrors[] = $sWrapped;
 			}
@@ -130,13 +130,13 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
 		$aErrors["__compiled"] = $this->compileErrorMessages($aCompiledErrors);
 
-		$aErrors["cssdisplay"] = ($this->oForm->oDataHandler->_allIsValid()) ? "none" : "block";
+		$aErrors["cssdisplay"] = ($this->getForm()->oDataHandler->_allIsValid()) ? "none" : "block";
 
 		$aRendered = $this->displayOnlyIfJs($aRendered);
 		$aRendered[$sErrorTag] = $aErrors;
 
 		$mHtml = $this->getTemplateHtml();
-		$sForm = $this->oForm->getTemplateTool()->parseTemplateCode(
+		$sForm = $this->getForm()->getTemplateTool()->parseTemplateCode(
 			$mHtml,
 			$aRendered,
 			$this->aExcludeTags,
@@ -150,7 +150,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 
 		if(($aUserObj = $this->_navConf("/beforedisplay/")) !== FALSE) {
 
-			if($this->oForm->isRunneable($aUserObj)) {
+			if($this->getForm()->isRunneable($aUserObj)) {
 				$aRendered = $this->callRunneable(
 					$aUserObj,
 					$aRendered
