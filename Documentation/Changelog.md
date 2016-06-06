@@ -1,6 +1,19 @@
 Changelog
 =========
 
+2.0.5
+-----
+
+-   tx_mkforms_action_FormBase::getViewClassName() and tx_mkforms_action_FormBase::getTemplateName() now protected
+-   database datahandler now removes all fields that are not in the TCA of the given table
+-   moved tx_mkforms_widgets_damupload_Main to tx_mkforms_widgets_mediaupload_Main
+-   new attribute isSaveable for all widgets. default is true except for the MEDIAUPLOAD widget
+-   fixed FILE validator for MEDIAUPLOAD widget
+-   Scroll to error box after validation on ajaxcalls
+-   support for null as blank value in renderlets items
+-   strict check option added to listbox
+-   small refactoring
+
 2.0.4
 -----
 
