@@ -256,6 +256,9 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 	 * @return array cleaned data array
 	 */
 	protected function cleanNonTcaFields($aFormData) {
+		tx_rnbase::load('tx_rnbase_util_TCA');
+		tx_rnbase::load('tx_rnbase_util_Arrays');
+
 		if ($this->_defaultTrue("/cleannontcafields")) {
 			$tablename = $this->tableName();
 			$cols = tx_rnbase_util_TCA::getTcaColumns($tablename);
