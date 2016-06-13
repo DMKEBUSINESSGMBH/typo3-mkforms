@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.6
+-----
+
+-   added missing load
+
 2.0.5
 -----
 
