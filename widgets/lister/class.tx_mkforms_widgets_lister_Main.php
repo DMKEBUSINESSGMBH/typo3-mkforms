@@ -545,7 +545,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				unset($aFullParams["id"]);
 			}
 
-			return $this->getForm()->getCObj()->typolink_URL(array(
+			return $this->getForm()->getCObj()->typoLink_URL(array(
 				"parameter" => $GLOBALS["TSFE"]->id,
 				"additionalParams" => Tx_Rnbase_Utility_T3General::implodeArrayForUrl(
 					"",
@@ -671,7 +671,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 					$aAltRows[] = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
 				}
 
-				$iNbAlt = sizeOf($aAltRows);
+				$iNbAlt = sizeof($aAltRows);
 			}
 		}
 
@@ -1345,7 +1345,7 @@ ERRORMESSAGE;
 		$aRes['html'] = $this->_parseThrustedTemplateCode(
 			$aRes['html'],
 			array(
-				'NBCOLS' => sizeOf($this->aOColumns)
+				'NBCOLS' => sizeof($this->aOColumns)
 			),
 			array(),
 			FALSE
@@ -1653,7 +1653,7 @@ ERRORMESSAGE;
 				$sSort = $aGet[$sName]['sort'];
 				$aSort = explode('-', $sSort);
 
-				if(sizeOf($aSort) == 2) {
+				if(sizeof($aSort) == 2) {
 					$sCol = $aSort[0];
 					if(!array_key_exists($sCol, $this->aOColumns)) {
 						$sCol = array_shift(array_keys($this->aOColumns));

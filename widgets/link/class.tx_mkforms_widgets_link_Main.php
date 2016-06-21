@@ -24,7 +24,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		$sValue = $this->getValue();
 
 		if($this->_isTrue("/typolink")) {
-			$sUrl = $this->getForm()->getCObj()->typolink_URL(array(
+			$sUrl = $this->getForm()->getCObj()->typoLink_URL(array(
 				"parameter" => $sValue,
 				"additionalParams" => "",
 			));
@@ -36,7 +36,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 				$iPageId = $this->getForm()->getRunnable()->callRunnableWidget($this, $iPageId);
 			}
 			$absoluteUrl = $this->_defaultFalse("forceabsoluteurl");
-			$sUrl = $this->getForm()->getCObj()->typolink_URL(array(
+			$sUrl = $this->getForm()->getCObj()->typoLink_URL(array(
 				"parameter" => $iPageId ? $iPageId : $GLOBALS['TSFE']->id,
 				"additionalParams" => "",
 				"forceAbsoluteUrl" => $absoluteUrl

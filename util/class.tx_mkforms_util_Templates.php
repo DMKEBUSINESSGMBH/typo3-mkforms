@@ -382,8 +382,8 @@ class tx_mkforms_util_Templates {
 		$sHtml = tx_rnbase_util_Templates::includeSubTemplates($sHtml);
 
 		if(!isset($this->sPfxBegin)) {
-			$this->sPfxBegin = MD5(rand());
-			$this->sPfxEnd = MD5(rand());
+			$this->sPfxBegin = md5(rand());
+			$this->sPfxEnd = md5(rand());
 		}
 
 		if(!is_array($aTags)) {

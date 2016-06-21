@@ -37,13 +37,13 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				$sRelWebPath = tx_mkforms_util_Div::removeStartingSlash(tx_mkforms_util_Div::toRelPath($sAbsServerPath));
 				$sAbsWebPath = tx_mkforms_util_Div::toWebPath($sRelWebPath);
 				$sFileName = basename($sRelWebPath);
-				$aSize = @getImageSize($sAbsServerPath);
+				$aSize = @getimagesize($sAbsServerPath);
 			} else {
 				if(!tx_mkforms_util_Div::isAbsWebPath($sPath)) {
 					// relative web path given
 						// turn it into absolute web path
 					$sPath = tx_mkforms_util_Div::toWebPath($sPath);
-					$aSize = @getImageSize(tx_mkforms_util_Div::toServerPath($sPath));
+					$aSize = @getimagesize(tx_mkforms_util_Div::toServerPath($sPath));
 				}
 
 				// absolute web path
@@ -106,7 +106,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				$sFileName = $aInfosFile['file'];
 			}
 
-			$sRelWebPath = tx_mkforms_util_Div::removeStartingslash($sRelWebPath);
+			$sRelWebPath = tx_mkforms_util_Div::removeStartingSlash($sRelWebPath);
 
 			$aHtmlBag = array(
 				'filepath' => $sAbsWebPath,
@@ -162,7 +162,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				$aHtmlBag['filepath.']['web'] = tx_mkforms_util_Div::toWebPath(tx_mkforms_util_Div::toServerPath($sNewPath));
 				$aHtmlBag['filename'] = basename($sNewPath);
 
-				$aNewSize = @getImageSize(tx_mkforms_util_Div::toServerPath($sNewPath));
+				$aNewSize = @getimagesize(tx_mkforms_util_Div::toServerPath($sNewPath));
 
 				$aHtmlBag['filesize.']['width'] = $aNewSize[0];
 				$aHtmlBag['filesize.']['width.']['px'] = $aNewSize[0] . 'px';

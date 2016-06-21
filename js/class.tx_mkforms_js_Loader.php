@@ -126,7 +126,7 @@ class tx_mkforms_js_Loader {
 			} elseif ($sLib === 'builder') {
 				$this->loadScriptaculousBuilder();
 			} elseif ($sLib === 'tooltip') {
-				$this->loadToolTip();
+				$this->loadTooltip();
 			}
 		}
 	}

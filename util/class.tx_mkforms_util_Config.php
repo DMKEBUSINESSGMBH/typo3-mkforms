@@ -72,7 +72,7 @@ class tx_mkforms_util_Config {
 		}
 		$aPath = $this->explodePath($path, $sSep);
 
-		$iSize = sizeOf($aPath);
+		$iSize = sizeof($aPath);
 		for($i = 0; $i < $iSize; $i++) {
 
 			if(is_array($curZone) && array_key_exists($aPath[$i], $curZone)) {

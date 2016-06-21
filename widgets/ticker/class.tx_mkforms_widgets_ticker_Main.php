@@ -48,7 +48,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 			if(($sScrollDirection = $this->_navConf("/scrolling/direction")) === FALSE || ($sScrollDirection !== "left" && $sScrollDirection !== "right")) {
 				$sScrollDirection = "left";
 			}
-			$this->sSeparatorHtml = "<div id='".$this->_getelementHtmlId().".clear' style='border:medium none; clear:both; font-size:1px; height:1px; line-height:1px;'><hr style='position:absolute; top:-50000px;' /></div>";
+			$this->sSeparatorHtml = "<div id='".$this->_getElementHtmlId().".clear' style='border:medium none; clear:both; font-size:1px; height:1px; line-height:1px;'><hr style='position:absolute; top:-50000px;' /></div>";
 			break;
 		case "vertical":
 			if(($sScrollDirection = $this->_navConf("/scrolling/direction")) === FALSE || ($sScrollDirection !== "top" && $sScrollDirection !== "bottom")) {
@@ -128,9 +128,9 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 		$sLabel = $this->oForm->getConfigXML()->getLLLabel($this->_navConf("/label"));
 
 		$sHtml = $this->_renderList();
-		$sBox1 = "<div id='" . $this->_getelementHtmlId() . ".1'>" . $sHtml . "</div>";
-		$sBox2 = "<div id='" . $this->_getelementHtmlId() . ".2'>" . $sHtml . "</div>";
-		$sHtml = "<div id='" . $this->_getelementHtmlId() . "'>" . $this->_displayLabel($sLabel) . $sBox1 . $sBox2 . "</div>";
+		$sBox1 = "<div id='" . $this->_getElementHtmlId() . ".1'>" . $sHtml . "</div>";
+		$sBox2 = "<div id='" . $this->_getElementHtmlId() . ".2'>" . $sHtml . "</div>";
+		$sHtml = "<div id='" . $this->_getElementHtmlId() . "'>" . $this->_displayLabel($sLabel) . $sBox1 . $sBox2 . "</div>";
 		$sHtml = "<div " . $this->_getAddInputParams() . ">" . $sHtml . "</div>";
 
 

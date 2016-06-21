@@ -509,7 +509,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 				if (array_key_exists("action", $this->oForm->aAddPostVars[$sKey])
 					&& $this->oForm->aAddPostVars[$sKey]["action"] === "requestNewI18n"
 				) {
-					if ($this->tablename() === $this->oForm->aAddPostVars[$sKey]["params"]["tablename"] && $this->tablename()) {
+					if ($this->tableName() === $this->oForm->aAddPostVars[$sKey]["params"]["tablename"] && $this->tableName()) {
 						$sOurSafeLock = $this->oForm->_getSafeLock(
 							"requestNewI18n" . ":" . $this->oForm->aAddPostVars[$sKey]["params"]["tablename"] . ":"
 							. $this->oForm->aAddPostVars[$sKey]["params"]["recorduid"] . ":"
@@ -564,7 +564,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 					$this->__aStoredI18NParent = $aData;
 				} else {
 					$iParent = intval($aData["l18n_parent"]);
-					if (($aParent = $this->__getDbData($this->tablename(), $this->keyname(), $iParent)) !== FALSE) {
+					if (($aParent = $this->__getDbData($this->tableName(), $this->keyName(), $iParent)) !== FALSE) {
 						$this->__aStoredI18NParent = $aParent;
 					}
 				}
