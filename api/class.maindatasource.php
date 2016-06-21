@@ -78,8 +78,6 @@ abstract class formidable_maindatasource extends formidable_mainobject {
 		} else {
 			return $this->dset_mapPathAnchored($sSignature, $oDataBridge, $sAbsName);
 		}
-
-		return FALSE;
 	}
 
 	function dset_mapPathFloating($sSignature, &$oDataBridge, $sAbsName) {
