@@ -390,9 +390,7 @@ class tx_mkforms_util_Templates {
 			$aTags = array();
 		}
 
-		if(is_object($this)) {
-			$this->pushTemplateMarkers($aTags);
-		}
+		$this->pushTemplateMarkers($aTags);
 
 		if(count($aExclude) > 0) {
 
@@ -442,9 +440,7 @@ class tx_mkforms_util_Templates {
 			}
 		}
 
-		if(is_object($this)) {
-			$this->pullTemplateMarkers();
-		}
+		$this->pullTemplateMarkers();
 
 		if($bClearNotUsed) {
 			$sHtml = str_replace(
@@ -489,7 +485,7 @@ class tx_mkforms_util_Templates {
 	}
 
 	private function resolveForTemplate($sPath, $aConf = FALSE, $mStackedValue = array()) {
-		if($aConf === FALSE && is_object($this)) {
+		if($aConf === FALSE) {
 			$aConf = self::currentTemplateMarkers($this->getFormId());
 		}
 		return $this->resolveScripting('templatemethods', $sPath, $aConf, $mStackedValue);
@@ -637,7 +633,7 @@ class tx_mkforms_util_Templates {
 
 	function resolveScripting_atomic($sInterpreter, $sPath, $aConf = AMEOSFORMIDABLE_LEXER_VOID, $sNextPath = FALSE) {
 
-		if($aConf === AMEOSFORMIDABLE_LEXER_VOID && is_object($this)) {
+		if($aConf === AMEOSFORMIDABLE_LEXER_VOID) {
 			$aConf = self::currentTemplateMarkers($this->getFormId());
 		}
 
