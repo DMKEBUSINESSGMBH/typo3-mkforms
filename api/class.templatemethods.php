@@ -487,8 +487,6 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 		} else {
 			return !$this->oForm->oDataHandler->_allIsValid();
 		}
-
-		return AMEOSFORMIDABLE_LEXER_BREAKED;
 	}
 
 	function method_includeCss($mData, $aParams) {

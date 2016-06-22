@@ -647,13 +647,6 @@ JAVASCRIPT;
 
 	function manuallyInjectHeaders() {
 		return intval($this->getForm()->getConfTS('injectHeadersManually')) > 0;
-
-		if (isset($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersManually"])) {
-			// notnot returns real boolean
-			return !!intval($GLOBALS["TSFE"]->tmpl->setup["config."]["tx_ameosformidable."]["injectHeadersManually"]);
-		}
-
-		return FALSE;
 	}
 
 	/**

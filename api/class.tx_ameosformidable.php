@@ -2181,7 +2181,7 @@ SANDBOXCLASS;
 				throw new RuntimeException(
 					'Das Formular ist nicht valide! erwarteter Token: ' . $this->getRequestTokenFromSession(),
 					$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] . '1'
-				);;
+				);
 			}
 
 			if ($this->getDataHandler()->_isFullySubmitted()) {
@@ -3677,8 +3677,6 @@ JAVASCRIPT;
 		} else {
 			return tx_rnbase_util_Extensions::extPath($aInfos['EXTKEY']);
 		}
-
-		return $extsrcpath;
 	}
 
 	function _getCustomTags($aTags, $aUserobjParams = array()) {

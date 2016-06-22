@@ -243,8 +243,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 				return $sFullPath;
 			}
 		}
-
-		return $sPath;
 	}
 
 	function _processPath($sPath) {

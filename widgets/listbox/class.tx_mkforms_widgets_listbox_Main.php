@@ -164,8 +164,6 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 
 			return $data;
 		}
-
-		return "";
 	}
 
 	function _sqlSearchClause($sValue, $sFieldPrefix = "", $sFieldName = "", $bRec = TRUE) {

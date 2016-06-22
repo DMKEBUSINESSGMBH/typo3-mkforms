@@ -395,8 +395,6 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 
 	function dset_getSignature() {
 		die("dsdb:dset_getSignature() disabled");
-
-		return $this->oDataSet->getSignature();
 	}
 
 	function dset_setCellValue($sSignature, $sPath, $mValue, $sAbsName = FALSE) {

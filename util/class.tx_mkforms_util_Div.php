@@ -127,28 +127,6 @@ class tx_mkforms_util_Div {
 	function getExtRelPath($clazzname) {
 		$infos = tx_rnbase::getClassInfo($clazzname);
 		return tx_rnbase_util_Extensions::siteRelPath($infos['extkey']) . $infos['dir'];
-
-		if(!is_array($mInfos)) {
-			// should be object type
-
-			if(isset($this)) {
-				$aInfos = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['renderlets'][$sType];
-				$aInfos = $this->_getInfosRenderletForType($mInfos);
-			} else {
-				$aInfos = tx_ameosformidable::_getInfosForType(
-					$mInfos,
-					$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['renderlets']
-				);
-			}
-		} else {
-			$aInfos = $mInfos;
-		}
-
-		if($aInfos['BASE'] === TRUE) {
-			return tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
-		} else {
-			return tx_rnbase_util_Extensions::siteRelPath($aInfos['EXTKEY']);
-		}
 	}
 
 	/**
@@ -286,94 +264,6 @@ class tx_mkforms_util_Div {
 		}
 
 		tx_rnbase_util_Misc::mayday($sDebug, 'mkforms');
-		return;
-
-		$aTrace		= debug_backtrace();
-		$aLocation	= array_shift($aTrace);
-		$aTrace1	= array_shift($aTrace);
-		$aTrace2	= array_shift($aTrace);
-		$aTrace3	= array_shift($aTrace);
-		$aTrace4	= array_shift($aTrace);
-
-		$aDebug[] = "<h2 id='backtracetitle'>Call stack</h2>";
-		$aDebug[] = "<div class='backtrace'>";
-		$aDebug[] = "<span class='notice'><b>Call 0: </b>" . str_replace(PATH_site, "/", $aLocation["file"]) . ":" . $aLocation["line"]  . " | <b>" . $aTrace1["class"] . $aTrace1["type"] . $aTrace1["function"] . "</b></span><br/>With parameters: " . (!empty($aTrace1["args"]) ? self::viewMixed($aTrace1["args"]) : " no parameters");
-		$aDebug[] = "<hr/>";
-		$aDebug[] = "<span class='notice'><b>Call -1: </b>" . str_replace(PATH_site, "/", $aTrace1["file"]) . ":" . $aTrace1["line"]  . " | <b>" . $aTrace2["class"] . $aTrace2["type"] . $aTrace2["function"] . "</b></span><br />With parameters: " . (!empty($aTrace2["args"]) ? self::viewMixed($aTrace2["args"]) : " no parameters");
-		$aDebug[] = "<hr/>";
-		$aDebug[] = "<span class='notice'><b>Call -2: </b>" . str_replace(PATH_site, "/", $aTrace2["file"]) . ":" . $aTrace2["line"]  . " | <b>" . $aTrace3["class"] . $aTrace3["type"] . $aTrace3["function"] . "</b></span><br />With parameters: " . (!empty($aTrace3["args"]) ? self::viewMixed($aTrace3["args"]) : " no parameters");
-		$aDebug[] = "<hr/>";
-		$aDebug[] = "<span class='notice'><b>Call -3: </b>" . str_replace(PATH_site, "/", $aTrace3["file"]) . ":" . $aTrace3["line"]  . " | <b>" . $aTrace4["class"] . $aTrace4["type"] . $aTrace4["function"] . "</b></span><br />With parameters: " . (!empty($aTrace4["args"]) ? self::viewMixed($aTrace4["args"]) : " no parameters");
-		$aDebug[] = "<hr/>";
-
-		tx_rnbase::load('tx_rnbase_util_Debug');
-		$aDebug[] = "<span class='notice'>" . tx_rnbase_util_Debug::getDebugTrail() . "</span>";
-		$aDebug[] = "<hr/>";
-
-		$aDebug[] = "</div>";
-
-		$aDebug[] = "<br/>";
-
-		$sContent =	"<h1 id='title'>Formidable::Mayday</h1>";
-		$sContent .= "<div id='errormessage'>" . $msg . "</div>";
-		$sContent .= "<hr />";
-		$sContent .= implode("", $aDebug);
-
-		$sPage =<<<MAYDAYPAGE
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-	<head>
-		<title>Formidable::Mayday</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="robots" content="noindex, nofollow" />
-		<style type="text/css">
-
-			#title {
-				color: red;
-				font-family: Verdana;
-			}
-
-			#errormessage {
-				border: 2px solid red;
-				padding: 10px;
-				color: white;
-				background-color: red;
-				font-family: Verdana;
-				font-size: 12px;
-			}
-
-			.notice {
-				font-family: Verdana;
-				font-size: 9px;
-				font-style: italic;
-			}
-
-			#backtracetitle {
-			}
-
-			.backtrace {
-				background-color: #FFFFCC;
-			}
-
-			HR {
-				border: 1px solid silver;
-			}
-		</style>
-	</head>
-	<body>
-		{$sContent}
-	</body>
-</html>
-
-MAYDAYPAGE;
-
-		//@todo
-		//müssen wir hier wirklich die() verwenden? In Tests werden fehler
-		//somit verschluckt.
-		// mw: wie wäre es mit $form->isTestMode()?
-		die($sPage);
 	}
 
 	/**

@@ -880,8 +880,6 @@ class tx_mkforms_util_Config {
 				if($isIncludeTS) {
 					if(array_key_exists('path', $val)) {
 						throw new Exception('insertSubTS not supported yet. has to be reimplementet to new config');
-						$aTs = $this->getTS($val);
-						$aTemp = $this->array_add($this->insertSubTS($aTs),$aTemp);
 					}
 				} else {
 					$aTemp[$key] = $this->insertSubTS($val);
@@ -890,8 +888,6 @@ class tx_mkforms_util_Config {
 			else {
 				if($isIncludeTS) {
 					throw new Exception('insertSubTS not supported yet. has to be reimplementet to new config');
-					$aTs = $this->getTS($val);
-					$aTemp = $this->array_add($aTs,$aTemp);
 				} else {
 					$aTemp[$key] = $val;
 				}

@@ -202,7 +202,7 @@ class tx_mkforms_dh_mail_Main
 			$mail = $this->getMailFrom();
 		}
 
-		return $mail;;
+		return $mail;
 	}
 
 	/**
