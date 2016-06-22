@@ -866,7 +866,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 					}
 				}
 				$sNewUrl = tx_mkforms_util_Div::toWebPath(
-					$this->getCObj()->typolink_URL(
+					$this->getCObj()->typoLink_URL(
 						array(
 							'parameter' => $pid,
 							'additionalParams' => Tx_Rnbase_Utility_T3General::implodeArrayForUrl('', $this->aFormAction)
@@ -881,7 +881,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		// Z.b bei Formularen mit Pagebrowsern interessant
 		elseif ($this->isFormActionCurrent()) {
 			$sRes = tx_mkforms_util_Div::toWebPath(
-				$this->getCObj()->typolink_URL(
+				$this->getCObj()->typoLink_URL(
 					array('parameter' => $GLOBALS['TSFE']->id)
 				)
 			);
@@ -2016,7 +2016,7 @@ SANDBOXCLASS;
 		reset($aConf);
 		$curZone =& $aConf;
 
-		$iSize = sizeOf($aPath);
+		$iSize = sizeof($aPath);
 		for ($i = 0; $i < $iSize; $i++) {
 
 			if (!is_array($curZone) && ($i !== ($iSize - 1))) {
@@ -2069,7 +2069,7 @@ SANDBOXCLASS;
 		reset($aConf);
 		$curZone =& $aConf;
 
-		$iSize = sizeOf($aPath);
+		$iSize = sizeof($aPath);
 		for ($i = 0; $i < $iSize; $i++) {
 
 			if (!is_array($curZone) && ($i !== ($iSize - 1))) {
@@ -2839,7 +2839,7 @@ JAVASCRIPT;
 		$aHtml = array();
 
 		$aKeys = array_keys($this->aORenderlets);
-		$iKeys = sizeOf($aKeys);
+		$iKeys = sizeof($aKeys);
 
 		for ($k = 0; $k < $iKeys; $k++) {
 
@@ -4547,7 +4547,7 @@ JAVASCRIPT;
 	function sendToPage($sUrl) {
 		if (is_numeric($sUrl)) {
 			$sUrl = tx_mkforms_util_Div::toWebPath(
-				$this->getCObj()->typolink_URL(
+				$this->getCObj()->typoLink_URL(
 					array(
 						'parameter' => $sUrl
 					)
@@ -4842,7 +4842,7 @@ JAVASCRIPT;
 
 		$aRes = array();
 
-		if (($sHeaders = Tx_Rnbase_Utility_T3General::getURL($sUrl, 2)) !== FALSE) {
+		if (($sHeaders = Tx_Rnbase_Utility_T3General::getUrl($sUrl, 2)) !== FALSE) {
 			$aHeaders = Tx_Rnbase_Utility_Strings::trimExplode("\n", $sHeaders);
 
 			reset($aHeaders);

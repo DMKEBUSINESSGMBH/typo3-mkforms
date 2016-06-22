@@ -298,7 +298,7 @@ class formidable_mainvalidator extends formidable_mainobject {
 			 ***********************************************************************/
 
 			if ($sKey{0} === 'c' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'custom')) {
-				$mCustom = $this->_navconf('/' . $sKey);
+				$mCustom = $this->_navConf('/' . $sKey);
 				if ($this->oForm->isRunneable($mCustom)) {
 
 					if (($mResult = $this->getForm()->getRunnable()->callRunnable(

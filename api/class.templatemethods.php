@@ -593,7 +593,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods {
 	}
 
 	function method_linkUrl($mData, $aParams) {
-		return $this->oForm->getCObj()->typolink_URL(
+		return $this->oForm->getCObj()->typoLink_URL(
 			array(
 				'parameter' => $aParams[0]
 			)

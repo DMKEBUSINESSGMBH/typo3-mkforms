@@ -329,7 +329,7 @@ class tx_mkforms_util_Div {
 		} elseif(is_integer($mMixed)) {
 			$result = "<span style='" . $sStyleGreen . "'>INTEGER: </span>" . $mMixed;
 		} else {
-			$result = "<span style='" . $sStyleGreen . "'>MIXED: </span>" . nl2br(htmlspecialchars(strVal($mMixed)));
+			$result = "<span style='" . $sStyleGreen . "'>MIXED: </span>" . nl2br(htmlspecialchars(strval($mMixed)));
 		}
 
 		return $result;

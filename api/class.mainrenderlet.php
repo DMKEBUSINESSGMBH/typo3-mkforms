@@ -193,7 +193,7 @@ class formidable_mainrenderlet extends formidable_mainobject {
 
 	function doBeforeIteratingRender(&$oIterating) {
 		if ($this->mayBeDataBridge()) {
-			$this->initDatasource();
+			$this->initDataSource();
 			$this->processDataBridge();
 		}
 	}
@@ -466,7 +466,7 @@ class formidable_mainrenderlet extends formidable_mainobject {
 			$this->doBeforeNonIteratingRender($oIterating);
 		}
 
-		if ($bForceReadonly === TRUE || $this->_readonly()) {
+		if ($bForceReadonly === TRUE || $this->_readOnly()) {
 			$mRendered = $this->_renderReadOnly();
 		} else {
 			$mRendered = $this->_render();

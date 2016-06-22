@@ -4592,7 +4592,7 @@
         $v_byte = @fread($this->zip_fd, 1);
 
         // -----  Add the byte
-        $v_bytes = ($v_bytes << 8) | Ord($v_byte);
+        $v_bytes = ($v_bytes << 8) | ord($v_byte);
 
         // ----- Compare the bytes
         if ($v_bytes == 0x504b0506)
