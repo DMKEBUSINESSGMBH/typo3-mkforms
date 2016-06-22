@@ -183,7 +183,6 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main {
 					}
 				}
 			}
-			$this->__aStoredData = $this->__aStoredData;
 		}
 
 		// return the complete data or a specific value
