@@ -27,11 +27,6 @@ require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameos
 /**
  * Base for forms.
  */
-class tx_mkforms_forms_Base extends tx_ameosformidable {
-}
-
-if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_Base.php']
-) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_Base.php']);
+class tx_mkforms_forms_Base extends tx_ameosformidable
+{
 }

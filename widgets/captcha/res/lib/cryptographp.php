@@ -16,4 +16,3 @@ session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 setcookie("cryptcookietest", "1");
 header("Location: cryptographp.inc.php?cfg=".$_GET['cfg']."&sn=".session_name()."&".SID);
-
