@@ -5,114 +5,118 @@
  *
  * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
+class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
+{
 
-	var $aSource = FALSE;
+    var $aSource = false;
 
-	var $aPosByUid = FALSE;
+    var $aPosByUid = false;
 
-	var $aConfig = array();
+    var $aConfig = array();
 
-	var $aFilters = array();
+    var $aFilters = array();
 
-	var $iTotalRows = 0;
+    var $iTotalRows = 0;
 
-	function &_fetchData($aConfig = array(), $aFilters = array()) {
+    function &_fetchData($aConfig = array(), $aFilters = array())
+    {
 
-		$this->aConfig =& $aConfig;
-		$this->aFilters =& $aFilters;
+        $this->aConfig =& $aConfig;
+        $this->aFilters =& $aFilters;
 
-		$this->initBinding($aConfig, $aFilters);
+        $this->initBinding($aConfig, $aFilters);
 
-		return array(
-			'numrows' => $this->iTotalRows,
-			'results' => &$this->aSource,
-		);
-	}
+        return array(
+            'numrows' => $this->iTotalRows,
+            'results' => &$this->aSource,
+        );
+    }
 
-	private function initBinding($aConfig, $aFilters) {
-		if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
-			$params = array('config' => $aConfig, 'filters' => $aFilters);
-			$this->aSource =& $this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
+    private function initBinding($aConfig, $aFilters)
+    {
+        if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
+            $params = array('config' => $aConfig, 'filters' => $aFilters);
+            $this->aSource =& $this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
 
-			if (!is_array($this->aSource)) {
-				$this->aSource = array();
-				$this->iTotalRows = 0;
-			} else {
-				$this->iTotalRows = count($this->aSource);
-			}
-		}
+            if (!is_array($this->aSource)) {
+                $this->aSource = array();
+                $this->iTotalRows = 0;
+            } else {
+                $this->iTotalRows = count($this->aSource);
+            }
+        }
 
-		$this->_sortSource();
-		$this->_limitSource();
-	}
+        $this->_sortSource();
+        $this->_limitSource();
+    }
 
-	function _sortSource() {
-		if (trim($this->aConfig['sortcolumn']) !== '') {
+    function _sortSource()
+    {
+        if (trim($this->aConfig['sortcolumn']) !== '') {
+            $aSorted = array();
 
-			$aSorted = array();
+            reset($this->aSource);
+            $named_hash = array();
 
-			reset($this->aSource);
-			$named_hash = array();
+            foreach ($this->aSource as $key => $fields) {
+                $named_hash[$key] = $fields[$this->aConfig['sortcolumn']];
+            }
 
-			foreach ($this->aSource as $key => $fields) {
-				$named_hash[$key] = $fields[$this->aConfig['sortcolumn']];
-			}
+            if ($this->aConfig['sortdirection'] === 'desc') {
+                arsort($named_hash, $flags = 0);
+            } else {
+                asort($named_hash, $flags = 0);
+            }
 
-			if ($this->aConfig['sortdirection'] === 'desc') {
-				arsort($named_hash, $flags = 0);
-			} else {
-				asort($named_hash, $flags = 0);
-			}
+            $k = 1;
+            $this->aPosByUid = array();
+            $sorted_records = array();
 
-			$k = 1;
-			$this->aPosByUid = array();
-			$sorted_records = array();
+            foreach ($named_hash as $key => $val) {
+                $aSorted[$key] = $this->aSource[$key];
+                $this->aPosByUid[$aSorted[$key]['uid']] = $k;
+                $k++;
+            }
 
-			foreach ($named_hash as $key => $val) {
-				$aSorted[$key] = $this->aSource[$key];
-				$this->aPosByUid[$aSorted[$key]['uid']] = $k;
-				$k++;
-			}
+            reset($this->aPosByUid);
 
-			reset($this->aPosByUid);
+            return $this->aSource =& $aSorted;
+        } else {
+            $k = 1;
+            $this->aPosByUid = array();
+            $aKeys = array_keys($this->aSource);
 
-			return $this->aSource =& $aSorted;
-		} else {
+            reset($aKeys);
+            while (list(, $sKey) = each($aKeys)) {
+                $this->aPosByUid[$this->aSource[$sKey]['uid']] = $k;
+                $k++;
+            }
 
-			$k = 1;
-			$this->aPosByUid = array();
-			$aKeys = array_keys($this->aSource);
+            reset($this->aPosByUid);
+        }
+    }
 
-			reset($aKeys);
-			while (list(, $sKey) = each($aKeys)) {
-				$this->aPosByUid[$this->aSource[$sKey]['uid']] = $k;
-				$k++;
-			}
+    function _limitSource()
+    {
 
-			reset($this->aPosByUid);
-		}
-	}
+        $aLimit = $this->_getRecordWindow(
+            $this->aConfig['page'],
+            $this->aConfig['perpage']
+        );
 
-	function _limitSource() {
+        $this->aSource = array_slice(
+            $this->aSource,
+            $aLimit['offset'],
+            $aLimit['nbdisplayed']
+        );
+    }
 
-		$aLimit = $this->_getRecordWindow(
-			$this->aConfig['page'],
-			$this->aConfig['perpage']
-		);
+    function getRowNumberForUid($iUid)
+    {
+        if (array_key_exists($iUid, $this->aPosByUid)) {
+            return $this->aPosByUid[$iUid];
+        }
 
-		$this->aSource = array_slice(
-			$this->aSource,
-			$aLimit['offset'],
-			$aLimit['nbdisplayed']
-		);
-	}
-
-	function getRowNumberForUid($iUid) {
-		if (array_key_exists($iUid, $this->aPosByUid)) {
-			return $this->aPosByUid[$iUid];
-		}
-
-		return FALSE;
-	}
+        return false;
+    }
 }

@@ -32,16 +32,19 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_Json_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_util_Json_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	protected function getNewInstance() {
-		return tx_rnbase::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
-	}
+    protected function getNewInstance()
+    {
+        return tx_rnbase::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
+    }
 
-	public function testUnicodeCharacterU2028() {
-		$string = pack("H*", 'e280a8');
-		$string = 'davor '.$string.' dazwischen'.$string.'dahinter';
-		$json = $this->getNewInstance()->encode($string);
-		self::assertEquals('"davor \n dazwischen\ndahinter"', $json);
-	}
+    public function testUnicodeCharacterU2028()
+    {
+        $string = pack("H*", 'e280a8');
+        $string = 'davor '.$string.' dazwischen'.$string.'dahinter';
+        $json = $this->getNewInstance()->encode($string);
+        self::assertEquals('"davor \n dazwischen\ndahinter"', $json);
+    }
 }

@@ -5,103 +5,110 @@
  *
  * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-class tx_mkforms_ds_php_Main extends formidable_maindatasource {
+class tx_mkforms_ds_php_Main extends formidable_maindatasource
+{
 
-	var $sKey = FALSE;
+    var $sKey = false;
 
-	function writable() {
-		return ($this->_navConf('/set') !== FALSE);
-	}
+    function writable()
+    {
+        return ($this->_navConf('/set') !== false);
+    }
 
-	function initDataSet($sKey) {
-		$sSignature = FALSE;
-		$oDataSet = tx_rnbase::makeInstance('formidable_maindataset');
+    function initDataSet($sKey)
+    {
+        $sSignature = false;
+        $oDataSet = tx_rnbase::makeInstance('formidable_maindataset');
 
-		if ($sKey === 'new') {
-			// new record to create
-			$oDataSet->initFloating($this);
-		} else {
-			// existing record to grab
+        if ($sKey === 'new') {
+            // new record to create
+            $oDataSet->initFloating($this);
+        } else {
+            // existing record to grab
 
-			if ($this->_navConf('/get') === FALSE) {
-				$oDataSet->initAnchored(
-					$this,
-					array(),
-					$sKey
-				);
-			} else {
-				if (($aDataSet = $this->getSyncData($sKey)) !== FALSE) {
-					$oDataSet->initAnchored(
-						$this,
-						$aDataSet,
-						$sKey
-					);
-				} else {
-					$this->oForm->mayday(
-						"datasource:PHP[name='" . $this->getName() . "'] No dataset matching key '" . $sKey . "' was found."
-					);
-				}
-			}
-		}
+            if ($this->_navConf('/get') === false) {
+                $oDataSet->initAnchored(
+                    $this,
+                    array(),
+                    $sKey
+                );
+            } else {
+                if (($aDataSet = $this->getSyncData($sKey)) !== false) {
+                    $oDataSet->initAnchored(
+                        $this,
+                        $aDataSet,
+                        $sKey
+                    );
+                } else {
+                    $this->oForm->mayday(
+                        "datasource:PHP[name='" . $this->getName() . "'] No dataset matching key '" . $sKey . "' was found."
+                    );
+                }
+            }
+        }
 
-		$sSignature = $oDataSet->getSignature();
-		$this->aODataSets[$sSignature] =& $oDataSet;
+        $sSignature = $oDataSet->getSignature();
+        $this->aODataSets[$sSignature] =& $oDataSet;
 
-		return $sSignature;
-	}
+        return $sSignature;
+    }
 
-	function getSyncData($sKey) {
-		if (($aGet = $this->_navConf('/get')) !== FALSE) {
-			if ($this->oForm->isRunneable($aGet)) {
-				$aGet = $this->callRunneable(
-					$aGet,
-					array('key' => $sKey)
-				);
-			} else {
-				$this->oForm->mayday(
-					"datasource:PHP[name='" . $this->getName()
-					. "'] /get has to be runnable (userobj, or reference to a code-behind)."
-				);
-			}
-		} else {
-			$this->oForm->mayday(
-				"datasource:PHP[name='" . $this->getName() . "'] You have to provide a runnable on <b>/get</b>."
-			);
-		}
+    function getSyncData($sKey)
+    {
+        if (($aGet = $this->_navConf('/get')) !== false) {
+            if ($this->oForm->isRunneable($aGet)) {
+                $aGet = $this->callRunneable(
+                    $aGet,
+                    array('key' => $sKey)
+                );
+            } else {
+                $this->oForm->mayday(
+                    "datasource:PHP[name='" . $this->getName()
+                    . "'] /get has to be runnable (userobj, or reference to a code-behind)."
+                );
+            }
+        } else {
+            $this->oForm->mayday(
+                "datasource:PHP[name='" . $this->getName() . "'] You have to provide a runnable on <b>/get</b>."
+            );
+        }
 
-		return $aGet;
-	}
+        return $aGet;
+    }
 
-	function setSyncData($sSignature, $sKey, $aData) {
-		if (($aSet = $this->_navConf('/set')) !== FALSE) {
-			if ($this->oForm->isRunneable($aSet)) {
-				$aSet = $this->callRunneable(
-					$aSet,
-					$this->aODataSets[$sSignature]->getDataSet()
-				);
-			} else {
-				$this->oForm->mayday(
-					"datasource:PHP[name='" . $this->getName()
-					. "'] /set has to be runnable (userobj, or reference to a code-behind)."
-				);
-			}
-		}
+    function setSyncData($sSignature, $sKey, $aData)
+    {
+        if (($aSet = $this->_navConf('/set')) !== false) {
+            if ($this->oForm->isRunneable($aSet)) {
+                $aSet = $this->callRunneable(
+                    $aSet,
+                    $this->aODataSets[$sSignature]->getDataSet()
+                );
+            } else {
+                $this->oForm->mayday(
+                    "datasource:PHP[name='" . $this->getName()
+                    . "'] /set has to be runnable (userobj, or reference to a code-behind)."
+                );
+            }
+        }
 
-		return $aSet;
-	}
+        return $aSet;
+    }
 
-	function &_fetchData($aConfig = array(), $aFilters = array()) {
+    function &_fetchData($aConfig = array(), $aFilters = array())
+    {
 
-		$aResults = array();
-		$iNumRows = 0;
+        $aResults = array();
+        $iNumRows = 0;
 
-		return array(
-			'numrows' => $iNumRows,
-			'results' => &$aResults,
-		);
-	}
+        return array(
+            'numrows' => $iNumRows,
+            'results' => &$aResults,
+        );
+    }
 
-	function dset_alwaysNeedsToBeWritten() {
-		return TRUE;
-	}
+    function dset_alwaysNeedsToBeWritten()
+    {
+        return true;
+    }
 }

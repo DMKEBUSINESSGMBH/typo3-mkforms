@@ -1,6 +1,6 @@
 <?php
 /**
- * 	@package tx_mkforms
+ *  @package tx_mkforms
  *  @subpackage tx_mkforms_tests_api
  *  @author Hannes Bochmann
  *
@@ -41,20 +41,22 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_filter
  */
-class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		tx_rnbase::load('tx_mklib_tests_Util');
-		tx_mklib_tests_Util::prepareTSFE(array('force' => TRUE, 'initFEuser' => TRUE));
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        tx_rnbase::load('tx_mklib_tests_Util');
+        tx_mklib_tests_Util::prepareTSFE(array('force' => true, 'initFEuser' => true));
 
-		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		/*
+        /*
 		 * warning "Cannot modify header information" abfangen.
 		*
 		* Einige Tests lassen sich leider nicht ausführen:
@@ -70,111 +72,120 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 		*
 		* Wir gehen also erst mal den Weg, den Fehler abzufangen.
 		*/
-		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
-	}
+        set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::tearDown()
-	 */
-	protected function tearDown() {
-		// error handler zurücksetzen
-		restore_error_handler();
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::tearDown()
+     */
+    protected function tearDown()
+    {
+        // error handler zurücksetzen
+        restore_error_handler();
+    }
 
-	/**
-	 *
-	 * @param integer $errno
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param integer $errline
-	 * @param array $errcontext
-	 */
-	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
-		$ignoreMsg = array(
-				'Cannot modify header information - headers already sent by',
-		);
-		foreach($ignoreMsg as $msg) {
-			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
-				// Don't execute PHP internal error handler
-				return FALSE;
-			}
-		}
-		return NULL;
-	}
+    /**
+     *
+     * @param integer $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param integer $errline
+     * @param array $errcontext
+     */
+    public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+    {
+        $ignoreMsg = array(
+                'Cannot modify header information - headers already sent by',
+        );
+        foreach ($ignoreMsg as $msg) {
+            if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== false) {
+                // Don't execute PHP internal error handler
+                return false;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 *
-	 * @expectedException RuntimeException
-	 * @expectedExceptionCode 2001
-	 * @expectedExceptionMessage Das Formular ist nicht valide
-	 */
-	public function testRenderThrowsExceptionIfRequestTokenIsNotSet() {
-		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-		$oForm = tx_mkforms_tests_Util::getForm()->render();
-	}
+    /**
+     *
+     * @expectedException RuntimeException
+     * @expectedExceptionCode 2001
+     * @expectedExceptionMessage Das Formular ist nicht valide
+     */
+    public function testRenderThrowsExceptionIfRequestTokenIsNotSet()
+    {
+        $_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
+        $oForm = tx_mkforms_tests_Util::getForm()->render();
+    }
 
-	/**
-	 *
-	 * @expectedException RuntimeException
-	 * @expectedExceptionCode 2001
-	 * @expectedExceptionMessage Das Formular ist nicht valide
-	 */
-	public function testRenderThrowsExceptionIfRequestTokenIsInvalid() {
-		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
-		$oForm = tx_mkforms_tests_Util::getForm()->render();
-	}
+    /**
+     *
+     * @expectedException RuntimeException
+     * @expectedExceptionCode 2001
+     * @expectedExceptionMessage Das Formular ist nicht valide
+     */
+    public function testRenderThrowsExceptionIfRequestTokenIsInvalid()
+    {
+        $_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
+        $_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
+        $oForm = tx_mkforms_tests_Util::getForm()->render();
+    }
 
-	/**
-	 */
-	public function testRenderThrowsNoExceptionIfCsrfProtectionDeactivated() {
-		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
-		$oForm = tx_mkforms_tests_Util::getForm(false);
+    /**
+     */
+    public function testRenderThrowsNoExceptionIfCsrfProtectionDeactivated()
+    {
+        $_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
+        $_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
+        $oForm = tx_mkforms_tests_Util::getForm(false);
 
-		self::assertNotContains(
-			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
-			$oForm->render(),
-			'Es ist nicht der richtige request token enthalten!'
-		);
-	}
+        self::assertNotContains(
+            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
+            $oForm->render(),
+            'Es ist nicht der richtige request token enthalten!'
+        );
+    }
 
-	/**
-	 */
-	public function testRenderThrowsNoExceptionIfRequestTokenIsValid() {
-		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-		//damit wir getCsrfProtectionToken aufrufen können
-		$oForm = tx_mkforms_tests_Util::getForm();
-		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->getCsrfProtectionToken();
-		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($oForm->getFormId() => $oForm->getCsrfProtectionToken())));
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+    /**
+     */
+    public function testRenderThrowsNoExceptionIfRequestTokenIsValid()
+    {
+        $_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
+        //damit wir getCsrfProtectionToken aufrufen können
+        $oForm = tx_mkforms_tests_Util::getForm();
+        $_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->getCsrfProtectionToken();
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($oForm->getFormId() => $oForm->getCsrfProtectionToken())));
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		//jetzt die eigentliche initialisierung
-		$oForm = tx_mkforms_tests_Util::getForm();
+        //jetzt die eigentliche initialisierung
+        $oForm = tx_mkforms_tests_Util::getForm();
 
-		self::assertContains(
-			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
-			$oForm->render(),
-			'Es ist nicht der richtige request token enthalten!'
-		);
-	}
+        self::assertContains(
+            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
+            $oForm->render(),
+            'Es ist nicht der richtige request token enthalten!'
+        );
+    }
 
-	/**
-	 */
-	public function testGetCreationTimestamp() {
-		$form = tx_mkforms_tests_Util::getForm();
-		$GLOBALS['TSFE']->fe_user->setKey(
-			'ses', 'mkforms', array('creationTimestamp' => array($form->getFormId() => 123))
-		);
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+    /**
+     */
+    public function testGetCreationTimestamp()
+    {
+        $form = tx_mkforms_tests_Util::getForm();
+        $GLOBALS['TSFE']->fe_user->setKey(
+            'ses',
+            'mkforms',
+            array('creationTimestamp' => array($form->getFormId() => 123))
+        );
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		$form = tx_mkforms_tests_Util::getForm();
+        $form = tx_mkforms_tests_Util::getForm();
 
-		self::assertEquals(
-			123,
-			$form->getCreationTimestamp(),
-			'falscher timestamp der Erstellung'
-		);
-	}
+        self::assertEquals(
+            123,
+            $form->getCreationTimestamp(),
+            'falscher timestamp der Erstellung'
+        );
+    }
 }

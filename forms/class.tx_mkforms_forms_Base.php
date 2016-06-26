@@ -27,5 +27,6 @@ require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameos
 /**
  * Base for forms.
  */
-class tx_mkforms_forms_Base extends tx_ameosformidable {
+class tx_mkforms_forms_Base extends tx_ameosformidable
+{
 }

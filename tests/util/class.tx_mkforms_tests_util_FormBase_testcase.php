@@ -33,80 +33,88 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * @group unit
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage Please provide the parameter for 'configurationId'
-	 */
-	public function testGetConfigurationValueThrowsExceptionIfNoCondifurationIdConfigured() {
-		$form = tx_mkforms_tests_Util::getForm();
+    /**
+     * @group unit
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Please provide the parameter for 'configurationId'
+     */
+    public function testGetConfigurationValueThrowsExceptionIfNoCondifurationIdConfigured()
+    {
+        $form = tx_mkforms_tests_Util::getForm();
 
-		tx_mkforms_util_FormBase::getConfigurationValue(array(), $form);
-	}
+        tx_mkforms_util_FormBase::getConfigurationValue(array(), $form);
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetConfigurationValue() {
-		$form = tx_mkforms_tests_Util::getForm(
-			TRUE,
-				tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
-					array('myConf.' => array('path' => 'test'))
-				)
-		);
+    /**
+     * @group unit
+     */
+    public function testGetConfigurationValue()
+    {
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                tx_mkforms_tests_Util::getDefaultFormConfig(true),
+                array('myConf.' => array('path' => 'test'))
+            )
+        );
 
-		self::assertEquals(
-			'test',
-			tx_mkforms_util_FormBase::getConfigurationValue(
-				array('configurationId' => 'myConf.path'), $form
-			)
-		);
-	}
+        self::assertEquals(
+            'test',
+            tx_mkforms_util_FormBase::getConfigurationValue(
+                array('configurationId' => 'myConf.path'),
+                $form
+            )
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetConfigurationValueDeep() {
-		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
-		$form = tx_mkforms_tests_Util::getForm(
-				TRUE,
-				tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-					tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
-					array('myConf.' => array(
-							'path' => 'TEXT',
-							'path.' => array('value' => 'textvalue'),
-						)
-					)
-				)
-		);
+    /**
+     * @group unit
+     */
+    public function testGetConfigurationValueDeep()
+    {
+        tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                tx_mkforms_tests_Util::getDefaultFormConfig(true),
+                array('myConf.' => array(
+                            'path' => 'TEXT',
+                            'path.' => array('value' => 'textvalue'),
+                        )
+                    )
+            )
+        );
 
-		self::assertEquals(
-				'textvalue',
-				tx_mkforms_util_FormBase::getConfigurationValue(
-						array('configurationId' => 'myConf.path'), $form
-				)
-		);
-	}
+        self::assertEquals(
+            'textvalue',
+            tx_mkforms_util_FormBase::getConfigurationValue(
+                array('configurationId' => 'myConf.path'),
+                $form
+            )
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetConfigurationValueIfCastToBoolean() {
-		$form = tx_mkforms_tests_Util::getForm(
-			TRUE,
-			tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-				tx_mkforms_tests_Util::getDefaultFormConfig(TRUE),
-				array('myConf.' => array('path' => 'test'))
-			)
-		);
+    /**
+     * @group unit
+     */
+    public function testGetConfigurationValueIfCastToBoolean()
+    {
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                tx_mkforms_tests_Util::getDefaultFormConfig(true),
+                array('myConf.' => array('path' => 'test'))
+            )
+        );
 
-		self::assertTrue(
-			tx_mkforms_util_FormBase::getConfigurationValue(
-				array('configurationId' => 'myConf.path', 'castToBoolean' => 1), $form
-			)
-		);
-	}
+        self::assertTrue(
+            tx_mkforms_util_FormBase::getConfigurationValue(
+                array('configurationId' => 'myConf.path', 'castToBoolean' => 1),
+                $form
+            )
+        );
+    }
 }

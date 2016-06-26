@@ -2,172 +2,175 @@
 /**
  * Plugin 'rdr_template' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 tx_rnbase::load('tx_rnbase_util_Templates');
 
-class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
+class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
+{
 
-	var $aCustomTags	= array();
-	var $aExcludeTags	= array();
-	var $sTemplateHtml	= FALSE;
+    var $aCustomTags    = array();
+    var $aExcludeTags   = array();
+    var $sTemplateHtml  = false;
 
-	function getTemplatePath() {
+    function getTemplatePath()
+    {
 
-		$sPath = $this->_navConf("/template/path/");
-		if($this->getForm()->isRunneable($sPath)) {
-			$sPath = $this->callRunneable(
-				$sPath
-			);
-		}
+        $sPath = $this->_navConf("/template/path/");
+        if ($this->getForm()->isRunneable($sPath)) {
+            $sPath = $this->callRunneable(
+                $sPath
+            );
+        }
 
-		if(is_string($sPath)) {
-			return tx_mkforms_util_Div::toServerPath($sPath);
-		}
+        if (is_string($sPath)) {
+            return tx_mkforms_util_Div::toServerPath($sPath);
+        }
 
-		return "";
-	}
+        return "";
+    }
 
-	function getTemplateSubpart() {
-		 $sSubpart = $this->_navConf("/template/subpart/");
-		 if($this->getForm()->isRunneable($sSubpart)) {
-			$sSubpart = $this->callRunneable(
-				$sSubpart
-			);
-		}
+    function getTemplateSubpart()
+    {
+         $sSubpart = $this->_navConf("/template/subpart/");
+        if ($this->getForm()->isRunneable($sSubpart)) {
+            $sSubpart = $this->callRunneable(
+                $sSubpart
+            );
+        }
 
-		return $sSubpart;
-	}
+        return $sSubpart;
+    }
 
-	function getTemplateHtml() {
+    function getTemplateHtml()
+    {
 
-		if($this->sTemplateHtml === FALSE) {
+        if ($this->sTemplateHtml === false) {
+            $mHtml = "";
+            $sPath = $this->getTemplatePath();
 
-			$mHtml = "";
-			$sPath = $this->getTemplatePath();
+            if (!empty($sPath)) {
+                if (!file_exists($sPath)) {
+                    $this->getForm()->mayday("RENDERER TEMPLATE - Template file does not exist <b>" . $sPath . "</b>");
+                }
 
-			if(!empty($sPath)) {
-				if(!file_exists($sPath)) {
-					$this->getForm()->mayday("RENDERER TEMPLATE - Template file does not exist <b>" . $sPath . "</b>");
-				}
+                if (($sSubpart = $this->getTemplateSubpart()) !== false) {
+                    $mHtml = tx_rnbase_util_Templates::getSubpart(
+                        Tx_Rnbase_Utility_T3General::getUrl($sPath),
+                        $sSubpart
+                    );
 
-				if(($sSubpart = $this->getTemplateSubpart()) !== FALSE) {
-					$mHtml = tx_rnbase_util_Templates::getSubpart(
-						Tx_Rnbase_Utility_T3General::getUrl($sPath),
-						$sSubpart
-					);
+                    if (trim($mHtml) == "") {
+                        $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with subpart marker " . $sSubpart . " <b>returned an empty string</b> - Check your template");
+                    }
+                } else {
+                    $mHtml = Tx_Rnbase_Utility_T3General::getUrl($sPath);
+                    if (trim($mHtml) == "") {
+                        $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
+                    }
+                }
 
-					if(trim($mHtml) == "") {
-						$this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with subpart marker " . $sSubpart . " <b>returned an empty string</b> - Check your template");
-					}
-				} else {
-					$mHtml = Tx_Rnbase_Utility_T3General::getUrl($sPath);
-					if(trim($mHtml) == "") {
-						$this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
-					}
-				}
+            } elseif (($mHtml = $this->_navConf("/html")) !== false) {
+                if (is_array($mHtml)) {
+                    if ($this->getForm()->isRunneable($mHtml)) {
+                        $mHtml = $this->callRunneable($mHtml);
+                    } else {
+                        $mHtml = $mHtml["__value"];
+                    }
+                }
 
-			} elseif(($mHtml = $this->_navConf("/html")) !== FALSE) {
+                if (trim($mHtml) == "") {
+                    $this->getForm()->mayday("RENDERER TEMPLATE - The given <b>/html</b> provides an empty string</b> - Check your template");
+                }
+            } else {
+                $this->getForm()->mayday("RENDERER TEMPLATE - You have to provide either <b>/template/path</b> or <b>/html</b>");
+            }
 
-				if(is_array($mHtml)) {
-					if($this->getForm()->isRunneable($mHtml)) {
-						$mHtml = $this->callRunneable($mHtml);
-					} else {
-						$mHtml = $mHtml["__value"];
-					}
-				}
+            $this->sTemplateHtml = $mHtml;
+        }
 
-				if(trim($mHtml) == "") {
-					$this->getForm()->mayday("RENDERER TEMPLATE - The given <b>/html</b> provides an empty string</b> - Check your template");
-				}
-			} else {
-				$this->getForm()->mayday("RENDERER TEMPLATE - You have to provide either <b>/template/path</b> or <b>/html</b>");
-			}
+        return $this->sTemplateHtml;
+    }
 
-			$this->sTemplateHtml = $mHtml;
-		}
+    function _render($aRendered)
+    {
 
-		return $this->sTemplateHtml;
-	}
+        $aRendered = $this->beforeDisplay($aRendered);
 
-	function _render($aRendered) {
+        $this->getForm()->_debug($aRendered, "RENDERER TEMPLATE - rendered elements array");
 
-		$aRendered = $this->beforeDisplay($aRendered);
+        if (($sErrorTag = $this->_navConf("/template/errortag/")) === false) {
+            if (($sErrorTag = $this->_navConf("/html/errortag")) === false) {
+                $sErrorTag = "errors";
+            }
+        }
 
-		$this->getForm()->_debug($aRendered, "RENDERER TEMPLATE - rendered elements array");
+        if ($this->getForm()->isRunneable($sErrorTag)) {
+            $sErrorTag = $this->callRunneable(
+                $sErrorTag
+            );
+        }
 
-		if(($sErrorTag = $this->_navConf("/template/errortag/")) === FALSE) {
-			if(($sErrorTag = $this->_navConf("/html/errortag")) === FALSE) {
-				$sErrorTag = "errors";
-			}
-		}
+        $aErrors = array();
+        $aCompiledErrors = array();
+        $aErrorKeys = array_keys($this->getForm()->_aValidationErrors);
+        while (list(, $sRdtName) = each($aErrorKeys)) {
+            $sShortRdtName = $this->getForm()->aORenderlets[$sRdtName]->_getNameWithoutPrefix();
+            if (trim($this->getForm()->_aValidationErrors[$sRdtName]) !== "") {
+                $sWrapped = $this->wrapErrorMessage($this->getForm()->_aValidationErrors[$sRdtName]);
+                $aErrors[$sShortRdtName] = $this->getForm()->_aValidationErrors[$sRdtName];
+                $aErrors[$sShortRdtName . "."]["tag"] = $sWrapped;
+                $aCompiledErrors[] = $sWrapped;
+            }
+        }
 
-		if($this->getForm()->isRunneable($sErrorTag)) {
-			$sErrorTag = $this->callRunneable(
-				$sErrorTag
-			);
-		}
+        if (strtolower(trim($this->_navConf("/template/errortagcompilednobr"))) == "true") {
+            $aErrors["__compiled"] = implode("", $aCompiledErrors);
+        } else {
+            $aErrors["__compiled"] = implode("<br />", $aCompiledErrors);
+        }
 
-		$aErrors = array();
-		$aCompiledErrors = array();
-		$aErrorKeys = array_keys($this->getForm()->_aValidationErrors);
-		while(list(, $sRdtName) = each($aErrorKeys)) {
-			$sShortRdtName = $this->getForm()->aORenderlets[$sRdtName]->_getNameWithoutPrefix();
-			if(trim($this->getForm()->_aValidationErrors[$sRdtName]) !== "") {
+        $aErrors["__compiled"] = $this->compileErrorMessages($aCompiledErrors);
 
-				$sWrapped = $this->wrapErrorMessage($this->getForm()->_aValidationErrors[$sRdtName]);
-				$aErrors[$sShortRdtName] = $this->getForm()->_aValidationErrors[$sRdtName];
-				$aErrors[$sShortRdtName . "."]["tag"] = $sWrapped;
-				$aCompiledErrors[] = $sWrapped;
-			}
-		}
+        $aErrors["cssdisplay"] = ($this->getForm()->oDataHandler->_allIsValid()) ? "none" : "block";
 
-		if(strtolower(trim($this->_navConf("/template/errortagcompilednobr"))) == "true") {
-			$aErrors["__compiled"] = implode("", $aCompiledErrors);
-		} else {
-			$aErrors["__compiled"] = implode("<br />", $aCompiledErrors);
-		}
+        $aRendered = $this->displayOnlyIfJs($aRendered);
+        $aRendered[$sErrorTag] = $aErrors;
 
-		$aErrors["__compiled"] = $this->compileErrorMessages($aCompiledErrors);
+        $mHtml = $this->getTemplateHtml();
+        $sForm = $this->getForm()->getTemplateTool()->parseTemplateCode(
+            $mHtml,
+            $aRendered,
+            $this->aExcludeTags,
+            $this->_defaultTrue("/template/clearmarkersnotused")
+        );
 
-		$aErrors["cssdisplay"] = ($this->getForm()->oDataHandler->_allIsValid()) ? "none" : "block";
+        return $this->_wrapIntoForm($sForm);
+    }
 
-		$aRendered = $this->displayOnlyIfJs($aRendered);
-		$aRendered[$sErrorTag] = $aErrors;
+    function beforeDisplay($aRendered)
+    {
 
-		$mHtml = $this->getTemplateHtml();
-		$sForm = $this->getForm()->getTemplateTool()->parseTemplateCode(
-			$mHtml,
-			$aRendered,
-			$this->aExcludeTags,
-			$this->_defaultTrue("/template/clearmarkersnotused")
-		);
+        if (($aUserObj = $this->_navConf("/beforedisplay/")) !== false) {
+            if ($this->getForm()->isRunneable($aUserObj)) {
+                $aRendered = $this->callRunneable(
+                    $aUserObj,
+                    $aRendered
+                );
+            }
+        }
 
-		return $this->_wrapIntoForm($sForm);
-	}
+        if (!is_array($aRendered)) {
+            $aRendered = array();
+        }
 
-	function beforeDisplay($aRendered) {
+        reset($aRendered);
+        return $aRendered;
+    }
 
-		if(($aUserObj = $this->_navConf("/beforedisplay/")) !== FALSE) {
-
-			if($this->getForm()->isRunneable($aUserObj)) {
-				$aRendered = $this->callRunneable(
-					$aUserObj,
-					$aRendered
-				);
-			}
-		}
-
-		if(!is_array($aRendered)) {
-			$aRendered = array();
-		}
-
-		reset($aRendered);
-		return $aRendered;
-	}
-
-	function cleanBeforeSession() {
-		$this->sTemplateHtml = FALSE;
-		$this->baseCleanBeforeSession();
-	}
+    function cleanBeforeSession()
+    {
+        $this->sTemplateHtml = false;
+        $this->baseCleanBeforeSession();
+    }
 }

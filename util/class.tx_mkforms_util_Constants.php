@@ -26,13 +26,13 @@
 /**
  *
  */
-class tx_mkforms_util_Constants {
+class tx_mkforms_util_Constants
+{
 
-	const FORM_METHOD_POST = 'POST';
-	const FORM_METHOD_GET = 'GET';
+    const FORM_METHOD_POST = 'POST';
+    const FORM_METHOD_GET = 'GET';
 
-	const FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
-	const FORM_ENCTYPE_MULTIPART_FORM_DATA = 'multipart/form-data';
-	const FORM_ENCTYPE_TEXT_PLAIN = 'text/plain';
-
+    const FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
+    const FORM_ENCTYPE_MULTIPART_FORM_DATA = 'multipart/form-data';
+    const FORM_ENCTYPE_TEXT_PLAIN = 'text/plain';
 }

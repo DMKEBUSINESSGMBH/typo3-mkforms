@@ -2,228 +2,244 @@
 /**
  * Plugin 'rdt_progressbar' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
 
-class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
+{
 
-	var $aLibs = array(
-		"rdt_progressbar_class" => "res/js/progressbar.js",
-	);
+    var $aLibs = array(
+        "rdt_progressbar_class" => "res/js/progressbar.js",
+    );
 
-	var $sMajixClass = "ProgressBar";
-	var $bCustomIncludeScript = TRUE;
-	var $aSteps = FALSE;
+    var $sMajixClass = "ProgressBar";
+    var $bCustomIncludeScript = true;
+    var $aSteps = false;
 
-	function _render() {
+    function _render()
+    {
 
-		$fValue = $this->getValue();
-		$fMin = $this->getMinValue();
-		$fMax = $this->getMaxValue();
-		$iWidth = $this->getPxWidth();
-		$fPercent = $this->getPercent();
-		$bEffects = $this->defaultFalse("/effects");
+        $fValue = $this->getValue();
+        $fMin = $this->getMinValue();
+        $fMax = $this->getMaxValue();
+        $iWidth = $this->getPxWidth();
+        $fPercent = $this->getPercent();
+        $bEffects = $this->defaultFalse("/effects");
 
-		$sBegin = "<div id='" . $this->_getElementHtmlId() . "' " . $this->_getAddInputParams() . ">";
-		$sEnd = "</div>";
+        $sBegin = "<div id='" . $this->_getElementHtmlId() . "' " . $this->_getAddInputParams() . ">";
+        $sEnd = "</div>";
 
-		// allowed because of $bCustomIncludeScript = TRUE
-		$this->includeScripts(
-			array(
-				"min" => $fMin,
-				"max" => $fMax,
-				"precision" => $iPrecision,
-				"value" => $fValue,
-				"percent" => $fPercent,
-				"width" => $iWidth,
-				"steps" => $this->aSteps,
-				"effects" => $bEffects,
-			)
-		);
+        // allowed because of $bCustomIncludeScript = TRUE
+        $this->includeScripts(
+            array(
+                "min" => $fMin,
+                "max" => $fMax,
+                "precision" => $iPrecision,
+                "value" => $fValue,
+                "percent" => $fPercent,
+                "width" => $iWidth,
+                "steps" => $this->aSteps,
+                "effects" => $bEffects,
+            )
+        );
 
-		if(($aStep = $this->getStep($fValue)) === FALSE) {
-			$sProgressLabel = $fPercent . "%";
-		} else {
-			$sProgressLabel = $aStep["label"];
-		}
+        if (($aStep = $this->getStep($fValue)) === false) {
+            $sProgressLabel = $fPercent . "%";
+        } else {
+            $sProgressLabel = $aStep["label"];
+        }
 
-		$aHtmlBag = array(
-			"__compiled" => $sBegin . "<span>" . $sProgressLabel . "</span>" . $sEnd,
-		);
+        $aHtmlBag = array(
+            "__compiled" => $sBegin . "<span>" . $sProgressLabel . "</span>" . $sEnd,
+        );
 
-		return $aHtmlBag;
-	}
+        return $aHtmlBag;
+    }
 
-	function getMaxValue() {
-		$mMax = 100;
+    function getMaxValue()
+    {
+        $mMax = 100;
 
-		if(($mMax = $this->_navConf("/max")) !== FALSE) {
-			$mMax = $this->getForm()->getRunnable()->callRunnable($mMax);
-		}
+        if (($mMax = $this->_navConf("/max")) !== false) {
+            $mMax = $this->getForm()->getRunnable()->callRunnable($mMax);
+        }
 
-		return floatval($mMax);
-	}
+        return floatval($mMax);
+    }
 
-	function getMinValue() {
-		$mMin = 0;
+    function getMinValue()
+    {
+        $mMin = 0;
 
-		if(($mMin = $this->_navConf("/min")) !== FALSE) {
-			$mMin = $this->getForm()->getRunnable()->callRunnable($mMin);
-		}
+        if (($mMin = $this->_navConf("/min")) !== false) {
+            $mMin = $this->getForm()->getRunnable()->callRunnable($mMin);
+        }
 
-		return floatval($mMin);
-	}
+        return floatval($mMin);
+    }
 
-	function getPrecision() {
-		$iPrecision = 0;
+    function getPrecision()
+    {
+        $iPrecision = 0;
 
-		if(($iPrecision = $this->oForm->_navConf("/precision")) !== FALSE) {
-			$iPrecision = intval($mPrecision);
-		}
+        if (($iPrecision = $this->oForm->_navConf("/precision")) !== false) {
+            $iPrecision = intval($mPrecision);
+        }
 
-		return intval($iPrecision);
-	}
+        return intval($iPrecision);
+    }
 
-	function _readOnly() {
-		return TRUE;
-	}
+    function _readOnly()
+    {
+        return true;
+    }
 
-	function _renderOnly() {
-		return TRUE;
-	}
+    function _renderOnly()
+    {
+        return true;
+    }
 
-	function _renderReadOnly() {
-		return $this->_render();
-	}
+    function _renderReadOnly()
+    {
+        return $this->_render();
+    }
 
-	function _activeListable() {
-		return FALSE;
-	}
+    function _activeListable()
+    {
+        return false;
+    }
 
-	function getStep($iValue) {
+    function getStep($iValue)
+    {
 
-		$this->initSteps();
+        $this->initSteps();
 
-		reset($this->aSteps);
-		while(list(, $aStep) = each($this->aSteps)) {
-			if($aStep["value"] <= $iValue) {
-				return $aStep;
-			}
-		}
+        reset($this->aSteps);
+        while (list(, $aStep) = each($this->aSteps)) {
+            if ($aStep["value"] <= $iValue) {
+                return $aStep;
+            }
+        }
 
-		return FALSE;
-	}
+        return false;
+    }
 
-	function initSteps() {
-		if($this->aSteps === FALSE) {
-			$aResSteps = array();
-			if(($aSteps = $this->_navConf("/steps")) !== FALSE) {
-				reset($aSteps);
-				while(list(, $aStep) = each($aSteps)) {
-					$aResSteps[$aStep["value"]] = array(
-						"value" => $aStep["value"],
-						"label" => $this->oForm->getLLLabel($aStep["label"]),
-						"className" => $aStep["class"],
-					);
-				}
+    function initSteps()
+    {
+        if ($this->aSteps === false) {
+            $aResSteps = array();
+            if (($aSteps = $this->_navConf("/steps")) !== false) {
+                reset($aSteps);
+                while (list(, $aStep) = each($aSteps)) {
+                    $aResSteps[$aStep["value"]] = array(
+                        "value" => $aStep["value"],
+                        "label" => $this->oForm->getLLLabel($aStep["label"]),
+                        "className" => $aStep["class"],
+                    );
+                }
 
-				krsort($aResSteps);
-			}
+                krsort($aResSteps);
+            }
 
-			reset($aResSteps);
-			$this->aSteps = $aResSteps;
-		}
-	}
+            reset($aResSteps);
+            $this->aSteps = $aResSteps;
+        }
+    }
 
-	function getValue() {
-		$fValue = floatval(parent::getValue());
+    function getValue()
+    {
+        $fValue = floatval(parent::getValue());
 
-		$fMin = $this->getMinValue();
-		$fMax = $this->getMaxValue();
+        $fMin = $this->getMinValue();
+        $fMax = $this->getMaxValue();
 
-		if($fValue < $fMin) {
-			$mValue = $fMin;
-		}
+        if ($fValue < $fMin) {
+            $mValue = $fMin;
+        }
 
-		if($fValue > $fMax) {
-			$fValue = $fMax;
-		}
+        if ($fValue > $fMax) {
+            $fValue = $fMax;
+        }
 
-		return $fValue;
-	}
+        return $fValue;
+    }
 
-	function _getClassesArray($aConf = FALSE) {
-		$aClasses = parent::_getClassesArray($aConf);
-		$mValue = $this->getValue();
-		$aStep = $this->getStep($mValue);
+    function _getClassesArray($aConf = false)
+    {
+        $aClasses = parent::_getClassesArray($aConf);
+        $mValue = $this->getValue();
+        $aStep = $this->getStep($mValue);
 
-		$aClasses[] = $aStep["className"];
-		return $aClasses;
-	}
+        $aClasses[] = $aStep["className"];
+        return $aClasses;
+    }
 
-	function getPxWidth() {
-		$mWidth = FALSE;
+    function getPxWidth()
+    {
+        $mWidth = false;
 
-		if(($mWidth = $this->_navConf("/width")) !== FALSE) {
-			$mWidth = intval($this->getForm()->getRunnable()->callRunnable($mWidth));
+        if (($mWidth = $this->_navConf("/width")) !== false) {
+            $mWidth = intval($this->getForm()->getRunnable()->callRunnable($mWidth));
 
-			if(($mWidth = intval($mWidth)) === 0) {
-				$mWidth = FALSE;
-			}
-		}
+            if (($mWidth = intval($mWidth)) === 0) {
+                $mWidth = false;
+            }
+        }
 
-		return $mWidth;
-	}
+        return $mWidth;
+    }
 
-	function getPercent() {
+    function getPercent()
+    {
 
-		$fValue = $this->getValue();
-		$fMin = $this->getMinValue();
-		$fMax = $this->getMaxValue();
-		$iPrecision = $this->getPrecision();
+        $fValue = $this->getValue();
+        $fMin = $this->getMinValue();
+        $fMax = $this->getMaxValue();
+        $iPrecision = $this->getPrecision();
 
-		if($fMax === $fMin) {
-			return 100;
-		}
+        if ($fMax === $fMin) {
+            return 100;
+        }
 
-		return round(($fValue / ($fMax - $fMin)) * 100, $iPrecision);
-	}
+        return round(($fValue / ($fMax - $fMin)) * 100, $iPrecision);
+    }
 
-	function _getStyleArray() {
+    function _getStyleArray()
+    {
 
-		$aStyles = parent::_getStyleArray();
+        $aStyles = parent::_getStyleArray();
 
-		$iWidth = $this->getPxWidth();
+        $iWidth = $this->getPxWidth();
 
-		if($iWidth !== FALSE) {
-			$iStepWidth = round((($iWidth * $this->getPercent()) / 100), 0);
-			$aStyles["width"] = $iStepWidth . "px";
-		}
+        if ($iWidth !== false) {
+            $iStepWidth = round((($iWidth * $this->getPercent()) / 100), 0);
+            $aStyles["width"] = $iStepWidth . "px";
+        }
 
-		if($this->defaultTrue("/usedefaultstyle")) {
-			if(!array_key_exists("border", $aStyles) && !array_key_exists("border-width", $aStyles)) {
-				$aStyles["border-width"] = "2px";
-			}
+        if ($this->defaultTrue("/usedefaultstyle")) {
+            if (!array_key_exists("border", $aStyles) && !array_key_exists("border-width", $aStyles)) {
+                $aStyles["border-width"] = "2px";
+            }
 
-			if(!array_key_exists("border", $aStyles) && !array_key_exists("border-color", $aStyles)) {
-				$aStyles["border-color"] = "silver";
-			}
+            if (!array_key_exists("border", $aStyles) && !array_key_exists("border-color", $aStyles)) {
+                $aStyles["border-color"] = "silver";
+            }
 
-			if(!array_key_exists("border", $aStyles) && !array_key_exists("border-style", $aStyles)) {
-				$aStyles["border-style"] = "solid";
-			}
+            if (!array_key_exists("border", $aStyles) && !array_key_exists("border-style", $aStyles)) {
+                $aStyles["border-style"] = "solid";
+            }
 
-			if(!array_key_exists("text-align", $aStyles)) {
-				$aStyles["text-align"] = "center";
-			}
+            if (!array_key_exists("text-align", $aStyles)) {
+                $aStyles["text-align"] = "center";
+            }
 
-			if(!array_key_exists("overflow", $aStyles)) {
-				$aStyles["overflow"] = "hidden";
-			}
-		}
+            if (!array_key_exists("overflow", $aStyles)) {
+                $aStyles["overflow"] = "hidden";
+            }
+        }
 
-		reset($aStyles);
-		return $aStyles;
-	}
+        reset($aStyles);
+        return $aStyles;
+    }
 }

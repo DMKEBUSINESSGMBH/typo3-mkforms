@@ -26,5 +26,6 @@ tx_rnbase::load('tx_mkforms_exception_Base');
 /**
  * DataSource
  */
-class tx_mkforms_exception_DataSourceNotFound extends tx_mkforms_exception_Base {
+class tx_mkforms_exception_DataSourceNotFound extends tx_mkforms_exception_Base
+{
 }

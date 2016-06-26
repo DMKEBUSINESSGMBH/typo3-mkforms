@@ -1,6 +1,6 @@
 <?php
 /**
- * 	@package tx_mkforms
+ *  @package tx_mkforms
  *  @subpackage tx_mkforms_util
  *  @author Michael Wagner
  *  Copyright notice
@@ -34,82 +34,84 @@ tx_rnbase::load('tx_mkforms_tests_Util');
  * @subpackage tx_mkforms_tests_util
  * @author Michael Wagner
  */
-class tx_mkforms_tests_util_FormFill_testcase
-	extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_util_FormFill_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * @group unit
-	 */
-	public function testGetItemsFromDb() {
-		$formBase = $this->getMock(
-			'tx_mkforms_util_FormFill',
-			array('getRowsFromDataBase')
-		);
-		$form = tx_mkforms_tests_Util::getForm();
-		$formBase->expects(self::once())
-			->method('getRowsFromDataBase')
-			->with(array('someParams'), $form)
-			->will(self::returnValue(
-				array(
-					0 => array(
-						'__value__' => 123, '__caption__' => 'first'
-					),
-					1 => array(
-						'__value__' => 456, '__caption__' => 'second'
-					),
-				)
-			));
+    /**
+     * @group unit
+     */
+    public function testGetItemsFromDb()
+    {
+        $formBase = $this->getMock(
+            'tx_mkforms_util_FormFill',
+            array('getRowsFromDataBase')
+        );
+        $form = tx_mkforms_tests_Util::getForm();
+        $formBase->expects(self::once())
+            ->method('getRowsFromDataBase')
+            ->with(array('someParams'), $form)
+            ->will(self::returnValue(
+                array(
+                    0 => array(
+                        '__value__' => 123, '__caption__' => 'first'
+                    ),
+                    1 => array(
+                        '__value__' => 456, '__caption__' => 'second'
+                    ),
+                )
+            ));
 
-		self::assertEquals(
-			array(
-				0 => array('value' => 123, 'caption' => 'first'),
-				1 => array('value' => 456, 'caption' => 'second'),
-			),
-			$formBase->getItemsFromDb(array('someParams'), $form),
-			'rückgabe falsch'
-		);
-	}
+        self::assertEquals(
+            array(
+                0 => array('value' => 123, 'caption' => 'first'),
+                1 => array('value' => 456, 'caption' => 'second'),
+            ),
+            $formBase->getItemsFromDb(array('someParams'), $form),
+            'rückgabe falsch'
+        );
+    }
 
 
-	public function testGetCountries() {
-		tx_rnbase::load('tx_rnbase_util_Extensions');
-		if (!tx_rnbase_util_Extensions::isLoaded('static_info_tables')) {
-			self::markTestSkipped('Die Extension static_info_tables ist nicht installiert.');
-		}
+    public function testGetCountries()
+    {
+        tx_rnbase::load('tx_rnbase_util_Extensions');
+        if (!tx_rnbase_util_Extensions::isLoaded('static_info_tables')) {
+            self::markTestSkipped('Die Extension static_info_tables ist nicht installiert.');
+        }
 
-		$form = tx_mkforms_tests_Util::getForm();
-		$formFill = $this->getMock(
-			'tx_mkforms_util_FormFill',
-			array('getItemsFromDb')
-		);
+        $form = tx_mkforms_tests_Util::getForm();
+        $formFill = $this->getMock(
+            'tx_mkforms_util_FormFill',
+            array('getItemsFromDb')
+        );
 
-		$formFill
-			->expects(self::once())
-			->method('getItemsFromDb')
-			->with()
-			->will(
-				$this->returnValue(
-					array(
-						array('value' => '13','caption' => 'Oesterreich'),
-						array('value' => '54','caption' => 'Deutschland'),
-						array('value' => '41','caption' => 'Schweiz'),
-					)
-				)
-			)
-		;
+        $formFill
+            ->expects(self::once())
+            ->method('getItemsFromDb')
+            ->with()
+            ->will(
+                $this->returnValue(
+                    array(
+                        array('value' => '13','caption' => 'Oesterreich'),
+                        array('value' => '54','caption' => 'Deutschland'),
+                        array('value' => '41','caption' => 'Schweiz'),
+                    )
+                )
+            )
+        ;
 
-		$countries = $formFill->getStaticCountries(
-			array(
-				'add_top_countries' => '54',
-				'add_top_country_delimiter' => '---',
-			),
-			$form
-		);
+        $countries = $formFill->getStaticCountries(
+            array(
+                'add_top_countries' => '54',
+                'add_top_country_delimiter' => '---',
+            ),
+            $form
+        );
 
-		self::assertEquals(54, $countries[0]['value']);
-		self::assertEquals(0, $countries[1]['value']);
-		self::assertEquals('---', $countries[1]['caption']);
-		self::assertEquals(13, $countries[2]['value']);
-		self::assertEquals(41, $countries[3]['value']);
-	}
+        self::assertEquals(54, $countries[0]['value']);
+        self::assertEquals(0, $countries[1]['value']);
+        self::assertEquals('---', $countries[1]['caption']);
+        self::assertEquals(13, $countries[2]['value']);
+        self::assertEquals(41, $countries[3]['value']);
+    }
 }

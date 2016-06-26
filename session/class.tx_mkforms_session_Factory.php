@@ -27,16 +27,18 @@
  * Returns the SessionManager
  *
  */
-class tx_mkforms_session_Factory {
-	private static $manager = false;
-	/**
-	 *
-	 * @return tx_mkforms_session_MixedSessionManager
-	 */
-	public static function getSessionManager() {
-		if(!self::$manager) {
-			self::$manager = tx_rnbase::makeInstance('tx_mkforms_session_MixedSessionManager');
-		}
-		return self::$manager;
-	}
+class tx_mkforms_session_Factory
+{
+    private static $manager = false;
+    /**
+     *
+     * @return tx_mkforms_session_MixedSessionManager
+     */
+    public static function getSessionManager()
+    {
+        if (!self::$manager) {
+            self::$manager = tx_rnbase::makeInstance('tx_mkforms_session_MixedSessionManager');
+        }
+        return self::$manager;
+    }
 }

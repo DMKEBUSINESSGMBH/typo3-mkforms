@@ -26,15 +26,17 @@
 /**
  * Factory for forms.
  */
-class tx_mkforms_forms_Factory {
-	/**
-	 * Create form instance
-	 *
-	 * @param string $name
-	 *
-	 * @return tx_mkforms_forms_Base
-	 */
-	public static function createForm($name) {
-		return tx_rnbase::makeInstance('tx_mkforms_forms_Base', $name);
-	}
+class tx_mkforms_forms_Factory
+{
+    /**
+     * Create form instance
+     *
+     * @param string $name
+     *
+     * @return tx_mkforms_forms_Base
+     */
+    public static function createForm($name)
+    {
+        return tx_rnbase::makeInstance('tx_mkforms_forms_Base', $name);
+    }
 }

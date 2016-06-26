@@ -27,63 +27,71 @@
  * Verarbeitet die Validierung eines Formulars
  *
  */
-class tx_mkforms_util_Validation {
-	private $form;
+class tx_mkforms_util_Validation
+{
+    private $form;
 
-	private function __construct($form) {
-		$this->form = $form;
-	}
+    private function __construct($form)
+    {
+        $this->form = $form;
+    }
 
 
-	/**
-	 * Liefert das Formular
-	 *
-	 * @return tx_ameosformidable
-	 */
-	private function getForm() {
-		return $this->form;
-	}
+    /**
+     * Liefert das Formular
+     *
+     * @return tx_ameosformidable
+     */
+    private function getForm()
+    {
+        return $this->form;
+    }
 
-	/**
-	 * Validiert ein Set von Widgets. Als Parameter wird ein Namen der Widgets erwartet. Sollte ein Name keinem
-	 * Widget entsprechend, dann wird es ignoriert.
-	 *
-	 * @param array $widgetNames ein Array (widgetName => value)
-	 * @return array Array der Fehler oder ein leeres Array
-	 */
-	public function validateWidgets4Ajax($widgetNames) {
-		$this->getForm()->clearValidationErrors();
-		$widgets = array();
+    /**
+     * Validiert ein Set von Widgets. Als Parameter wird ein Namen der Widgets erwartet. Sollte ein Name keinem
+     * Widget entsprechend, dann wird es ignoriert.
+     *
+     * @param array $widgetNames ein Array (widgetName => value)
+     * @return array Array der Fehler oder ein leeres Array
+     */
+    public function validateWidgets4Ajax($widgetNames)
+    {
+        $this->getForm()->clearValidationErrors();
+        $widgets = array();
 
-		// erstmal den neuen Wert setzen
-		foreach ($widgetNames As $name => $value) {
-			$widget = $this->getForm()->getWidget($name);
-			if(!$widget || !$widget->isVisibleBecauseDependancyEmpty()) continue;
-			$widget->cancelError();
-			$widget->setValue($value);
-			$widgets[] = $widget;
-		}
+        // erstmal den neuen Wert setzen
+        foreach ($widgetNames as $name => $value) {
+            $widget = $this->getForm()->getWidget($name);
+            if (!$widget || !$widget->isVisibleBecauseDependancyEmpty()) {
+                continue;
+            }
+            $widget->cancelError();
+            $widget->setValue($value);
+            $widgets[] = $widget;
+        }
 
-		foreach($widgets As $widget) {
-			$widget->validate();
-		}
-		return $this->isAllValid() ? array() : $this->getForm()->_aValidationErrorsByHtmlId;
-	}
-	/**
-	 * Prüft, ob Validierungsfehler von Renderlets vorliegen. Das funktioniert aber erst, wenn
-	 * eine Validierung gestartet wurde.
-	 * @return boolean
-	 */
-	public function isAllValid() {
-		return (count($this->getForm()->_aValidationErrors) == 0);
-	}
+        foreach ($widgets as $widget) {
+            $widget->validate();
+        }
+        return $this->isAllValid() ? array() : $this->getForm()->_aValidationErrorsByHtmlId;
+    }
+    /**
+     * Prüft, ob Validierungsfehler von Renderlets vorliegen. Das funktioniert aber erst, wenn
+     * eine Validierung gestartet wurde.
+     * @return boolean
+     */
+    public function isAllValid()
+    {
+        return (count($this->getForm()->_aValidationErrors) == 0);
+    }
 
-	/**
-	 * @param tx_mkforms_forms_IForm $form
-	 * @return tx_mkforms_util_Validation
-	 */
-	public static function createInstance(tx_mkforms_forms_IForm $form) {
-		$runnable = new tx_mkforms_util_Validation($form);
-		return $runnable;
-	}
+    /**
+     * @param tx_mkforms_forms_IForm $form
+     * @return tx_mkforms_util_Validation
+     */
+    public static function createInstance(tx_mkforms_forms_IForm $form)
+    {
+        $runnable = new tx_mkforms_util_Validation($form);
+        return $runnable;
+    }
 }

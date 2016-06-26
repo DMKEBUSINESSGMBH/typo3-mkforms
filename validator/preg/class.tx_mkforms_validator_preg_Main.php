@@ -24,71 +24,76 @@
 /**
  * Plugin 'va_preg' for the 'ameos_formidable' extension.
  *
- * @author	J�r�my Lecour <jeremy.lecour@nurungrandsud.com>
+ * @author  J�r�my Lecour <jeremy.lecour@nurungrandsud.com>
  */
 
 
-class tx_mkforms_validator_preg_Main extends formidable_mainvalidator {
+class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
+{
 
-	/**
-	 * Beispiel Regex:
-	 *
-	 * keine Zahlen erlaubt: !/[0-9]/
-	 * nur Zahlen erlaubt: /[0-9]/
-	 *
-	 * (non-PHPdoc)
-	 * @see formidable_mainvalidator::validate()
-	 */
-	function validate(&$oRdt) {
+    /**
+     * Beispiel Regex:
+     *
+     * keine Zahlen erlaubt: !/[0-9]/
+     * nur Zahlen erlaubt: /[0-9]/
+     *
+     * (non-PHPdoc)
+     * @see formidable_mainvalidator::validate()
+     */
+    function validate(&$oRdt)
+    {
 
-		$sAbsName = $oRdt->getAbsName();
-		$sValue = $oRdt->getValue();
+        $sAbsName = $oRdt->getAbsName();
+        $sValue = $oRdt->getValue();
 
-		if($sValue === '') {
-			// never evaluate if value is empty
-			// as this is left to STANDARD:required
-			return;
-		}
+        if ($sValue === '') {
+            // never evaluate if value is empty
+            // as this is left to STANDARD:required
+            return;
+        }
 
-		$aKeys = array_keys($this->_navConf('/'));
-		reset($aKeys);
-		while(!$oRdt->hasError() && list(, $sKey) = each($aKeys)) {
+        $aKeys = array_keys($this->_navConf('/'));
+        reset($aKeys);
+        while (!$oRdt->hasError() && list(, $sKey) = each($aKeys)) {
+            // Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
+            if (!$this->canValidate($oRdt, $sKey, $sValue)) {
+                break;
+            }
 
-			// Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
-			if(!$this->canValidate($oRdt, $sKey, $sValue)){
-				break;
-			}
+            //pattern
+            if ($sKey{0} === 'p' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'pattern')) {
+                $sPattern = $this->_navConf('/' . $sKey . '/value');
 
-			//pattern
-			if($sKey{0} === 'p' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'pattern')) {
-				$sPattern = $this->_navConf('/' . $sKey . '/value');
+                if (!$this->_isValid($sPattern)) {
+                    $this->oForm->mayday('<b>validator:PREG</b> on renderlet ' . $sAbsName . ': the given regular expression pattern seems to be not valid');
+                }
 
-				if(!$this->_isValid($sPattern)) {
-					$this->oForm->mayday('<b>validator:PREG</b> on renderlet ' . $sAbsName . ': the given regular expression pattern seems to be not valid');
-				}
+                if (!$this->_isMatch($sPattern, $sValue)) {
+                    $this->oForm->_declareValidationError(
+                        $sAbsName,
+                        'PREG:pattern',
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message'))
+                    );
 
-				if(!$this->_isMatch($sPattern, $sValue)) {
-					$this->oForm->_declareValidationError(
-						$sAbsName,
-						'PREG:pattern',
-						$this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message'))
-					);
+                    break;
+                }
+            }
+        }
+    }
 
-					break;
-				}
-			}
-		}
-	}
+    function _isValid($sPattern)
+    {
+        return preg_match('/!*\/[^\/]+\//', $sPattern);
+    }
 
-	function _isValid($sPattern) {
-		return preg_match('/!*\/[^\/]+\//',$sPattern);
-	}
-
-	function _isMatch($sPattern, $value) {
-		if($value == '')
-			return TRUE;
-		if ($sPattern{0} == '!')
-			return !preg_match(substr($sPattern,1),$value);
-		return preg_match($sPattern,$value);
-	}
+    function _isMatch($sPattern, $value)
+    {
+        if ($value == '') {
+            return true;
+        }
+        if ($sPattern{0} == '!') {
+            return !preg_match(substr($sPattern, 1), $value);
+        }
+        return preg_match($sPattern, $value);
+    }
 }

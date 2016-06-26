@@ -1,4 +1,5 @@
 <?php
 
-	class formidable_defaultsandbox {
-	}
+class formidable_defaultsandbox
+{
+}
