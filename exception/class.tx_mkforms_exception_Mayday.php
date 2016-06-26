@@ -60,9 +60,3 @@ class tx_mkforms_exception_Mayday extends tx_rnbase_util_Exception {
 		return is_array($additional) ? print_r($additional, TRUE) : $additional;
 	}
 }
-
-if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Mayday.php']
-) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Mayday.php']);
-}

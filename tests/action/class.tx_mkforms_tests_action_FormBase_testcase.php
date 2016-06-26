@@ -348,7 +348,3 @@ public function test_processForm() {
 		self::assertFalse(isset($fillData['widget-remove']), 'LINE:'.__LINE__);
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']);
-}

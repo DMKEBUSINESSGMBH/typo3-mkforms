@@ -120,9 +120,3 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_rnbase_tests_Base
 		self::assertFalse(isset($formData['widget-thatDoesNotExistInTheXml2']),'wert für nicht existentes widget nicht auf null gesetzt');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
-}
-
-

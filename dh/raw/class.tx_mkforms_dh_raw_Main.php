@@ -178,9 +178,3 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler {
 		return $this->editionMode;
 	}
 }
-
-if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/dh/raw/class.tx_mkforms_dh_raw_Main.php']
-) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/dh/raw/class.tx_mkforms_dh_raw_Main.php']);
-}

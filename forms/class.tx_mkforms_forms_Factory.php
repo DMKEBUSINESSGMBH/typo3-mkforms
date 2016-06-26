@@ -38,9 +38,3 @@ class tx_mkforms_forms_Factory {
 		return tx_rnbase::makeInstance('tx_mkforms_forms_Base', $name);
 	}
 }
-
-if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_Factory.php']
-) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_Factory.php']);
-}

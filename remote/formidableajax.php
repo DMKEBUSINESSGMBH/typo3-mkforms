@@ -404,7 +404,3 @@ try {
 		tx_rnbase_util_Logger::warn('Exception in ajax call', 'mkforms', array('Exception' => $e, 'Request'=> $request, 'Widgets' => $widgets));
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']);
-}

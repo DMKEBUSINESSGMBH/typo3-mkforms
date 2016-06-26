@@ -218,7 +218,3 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase
 	}
 
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php']);
-}

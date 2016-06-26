@@ -213,9 +213,3 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		return $this->buildMajixExecuter( "follow", $bDisplayLoader);
 	}
 }
-
-
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_link/api/class.tx_rdtlink.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_link/api/class.tx_rdtlink.php"]);
-	}
-

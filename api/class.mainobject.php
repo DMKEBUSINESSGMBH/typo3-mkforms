@@ -228,7 +228,3 @@ class formidable_mainobject {
 		return $this->aObjectType['CLASS'];
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.mainobject.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.mainobject.php']);
-}

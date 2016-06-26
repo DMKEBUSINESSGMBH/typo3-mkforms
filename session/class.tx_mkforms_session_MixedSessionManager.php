@@ -339,8 +339,3 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		return $this->form;
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_MixedSessionManager.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_MixedSessionManager.php']);
-}
-
