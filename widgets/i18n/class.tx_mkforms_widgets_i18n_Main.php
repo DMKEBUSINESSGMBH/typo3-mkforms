@@ -2,49 +2,48 @@
 /**
  * Plugin 'rdt_i18n' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
 
-class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
+{
 
-	var $aOButtons = array();
+    var $aOButtons = array();
 
-	function _render() {
+    function _render()
+    {
 
-		if(!$this->oForm->oDataHandler->i18n()) {
-			$this->oForm->mayday("renderlet:I18N <b>'" . $this->_getName() . "'</b>: Datahandler has to declare <b>/i18n/use=true</b> for renderlet:I18N to work");
-		}
+        if (!$this->oForm->oDataHandler->i18n()) {
+            $this->oForm->mayday("renderlet:I18N <b>'" . $this->_getName() . "'</b>: Datahandler has to declare <b>/i18n/use=true</b> for renderlet:I18N to work");
+        }
 
-		$aHtmlBag = array();
+        $aHtmlBag = array();
 
-		$aCurData = $this->oForm->oDataHandler->_getListData();
+        $aCurData = $this->oForm->oDataHandler->_getListData();
 
-		if(empty($aCurData)) {
-			$aCurData = $this->oForm->oDataHandler->i18n_getStoredParent();
-		}
+        if (empty($aCurData)) {
+            $aCurData = $this->oForm->oDataHandler->i18n_getStoredParent();
+        }
 
-		if(!empty($aCurData)) {
+        if (!empty($aCurData)) {
+            $aLangs = $this->oForm->oDataHandler->getT3Languages();
 
-			$aLangs = $this->oForm->oDataHandler->getT3Languages();
+            $iUid = $aCurData["uid"];
+            $aChildRecords = $this->oForm->oDataHandler->i18n_getChildRecords($iUid);
+            $aChildLanguages = array_keys($aChildRecords);
 
-			$iUid = $aCurData["uid"];
-			$aChildRecords = $this->oForm->oDataHandler->i18n_getChildRecords($iUid);
-			$aChildLanguages = array_keys($aChildRecords);
+            $aHtml = array();
+            reset($aLangs);
+            $aKeys = array_keys($aLangs);
+            while (list(, $iLangUid) = each($aKeys)) {
+                if ($iLangUid != $this->oForm->oDataHandler->i18n_getDefLangUid()) {
+                    if (tx_mkforms_util_Div::getEnvExecMode() !== "BE" || $GLOBALS["BE_USER"]->checkLanguageAccess($iLangUid)) {
+                        $aLang = $aLangs[$iLangUid];
 
-			$aHtml = array();
-			reset($aLangs);
-			$aKeys = array_keys($aLangs);
-			while(list(, $iLangUid) = each($aKeys)) {
-
-				if($iLangUid != $this->oForm->oDataHandler->i18n_getDefLangUid()) {
-
-					if(tx_mkforms_util_Div::getEnvExecMode() !== "BE" || $GLOBALS["BE_USER"]->checkLanguageAccess($iLangUid)) {
-						$aLang = $aLangs[$iLangUid];
-
-						if(in_array($iLangUid, $aChildLanguages)) {
-							$bExists = TRUE;
-							$sEvent = <<<EVENT
+                        if (in_array($iLangUid, $aChildLanguages)) {
+                            $bExists = true;
+                            $sEvent = <<<EVENT
 
 							\$aParams = \$this->getUserObjParams();
 
@@ -53,9 +52,9 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet {
 								\$this->oDataHandler->tablename()
 							);
 EVENT;
-						} else {
-							$bExists = FALSE;
-							$sEvent = <<<EVENT
+                        } else {
+                            $bExists = false;
+                            $sEvent = <<<EVENT
 
 							\$aParams = \$this->getUserObjParams();
 
@@ -65,120 +64,118 @@ EVENT;
 								\$aParams["sys_language_uid"]
 							);
 EVENT;
-						}
+                        }
 
-						$aConf = array(
-							"type" => "BUTTON",
-							"label" => $aLang["title"] . ($bExists ? "" : " [NEW]"),
-							"onclick-default" => array(
-								"runat" => "client",
-								"userobj" => array(
-									"php" => $sEvent,
-								)
-							)
-						);
+                        $aConf = array(
+                            "type" => "BUTTON",
+                            "label" => $aLang["title"] . ($bExists ? "" : " [NEW]"),
+                            "onclick-default" => array(
+                                "runat" => "client",
+                                "userobj" => array(
+                                    "php" => $sEvent,
+                                )
+                            )
+                        );
 
-						if(($aCustomConf = $this->_navConf("/stdbutton")) !== FALSE) {
-							$aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-								$aConf,
-								$aCustomConf
-							);
-						}
+                        if (($aCustomConf = $this->_navConf("/stdbutton")) !== false) {
+                            $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                                $aConf,
+                                $aCustomConf
+                            );
+                        }
 
-						$sName = $this->_getName() . "-record-" . $iUid . "-lang-" . $iLangUid;
-						$aConf["name"] = $sName;
+                        $sName = $this->_getName() . "-record-" . $iUid . "-lang-" . $iLangUid;
+                        $aConf["name"] = $sName;
 
-						$this->aOButtons[$sName] = $this->oForm->_makeRenderlet(
-							$aConf,
-							$this->sXPath . $sName. "/",
-							FALSE,
-							$this,
-							FALSE,
-							FALSE
-						);
+                        $this->aOButtons[$sName] = $this->oForm->_makeRenderlet(
+                            $aConf,
+                            $this->sXPath . $sName. "/",
+                            false,
+                            $this,
+                            false,
+                            false
+                        );
 
-						$this->oForm->aORenderlets[$sName] =& $this->aOButtons[$sName];
+                        $this->oForm->aORenderlets[$sName] =& $this->aOButtons[$sName];
 
 
-						$iIndex = $this->oForm->getRunnable()->pushForcedUserObjParam(
-							array(
-								"translation_exists" => $bExists,
-								"sys_language_uid" => $iLangUid,
-								"childrecords" => $aChildRecords,
-								"childlanguages" => $aChildLanguages,
-								"record" => $aCurData,
-								"lang" => $aLang,
-								"langs" => $aLangs,
-							)
-						);
+                        $iIndex = $this->oForm->getRunnable()->pushForcedUserObjParam(
+                            array(
+                                "translation_exists" => $bExists,
+                                "sys_language_uid" => $iLangUid,
+                                "childrecords" => $aChildRecords,
+                                "childlanguages" => $aChildLanguages,
+                                "record" => $aCurData,
+                                "lang" => $aLang,
+                                "langs" => $aLangs,
+                            )
+                        );
 
-						$aRendered = $this->aOButtons[$sName]->render();
-						$aHtmlBag[] = $this->aOButtons[$sName]->wrap($aRendered["__compiled"]);
+                        $aRendered = $this->aOButtons[$sName]->render();
+                        $aHtmlBag[] = $this->aOButtons[$sName]->wrap($aRendered["__compiled"]);
 
-						$this->oForm->getRunnable()->pullForcedUserObjParam($iIndex);
-					}
-				}
-			}
-		}
+                        $this->oForm->getRunnable()->pullForcedUserObjParam($iIndex);
+                    }
+                }
+            }
+        }
 
-		return implode("", $aHtmlBag);
-	}
+        return implode("", $aHtmlBag);
+    }
 
-	function _getFlag($sPath, $bExists, $aLang) {
+    function _getFlag($sPath, $bExists, $aLang)
+    {
 
-		if(($aFlags = $this->_navConf("/flags")) !== FALSE) {
+        if (($aFlags = $this->_navConf("/flags")) !== false) {
+            $aDefinition = false;
 
-			$aDefinition = FALSE;
+            reset($aFlags);
+            while (list(, $aFlag) = each($aFlags)) {
+                if ($aFlag["uid"] == $aLang["uid"]) {
+                    $aDefinition = $aFlag;
+                    break;
+                }
+            }
 
-			reset($aFlags);
-			while(list(, $aFlag) = each($aFlags)) {
-				if($aFlag["uid"] == $aLang["uid"]) {
-					$aDefinition = $aFlag;
-					break;
-				}
-			}
+            if ($aDefinition !== false) {
+                if ($bExists === true) {
+                    $aDefinition = $aDefinition["exists"];
+                } else {
+                    $aDefinition = $aDefinition["dontexist"];
+                }
 
-			if($aDefinition !== FALSE) {
+                if (array_key_exists("path", $aDefinition)) {
+                    // on renvoie l'image
 
-				if($bExists === TRUE) {
-					$aDefinition = $aDefinition["exists"];
-				} else {
-					$aDefinition = $aDefinition["dontexist"];
-				}
+                    if ($this->oForm->isRunneable($aDefinition["path"])) {
+                        $aDefinition["path"] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aDefinition["path"]);
+                    }
 
-				if(array_key_exists("path", $aDefinition)) {
-					// on renvoie l'image
+                    return array(
+                        "type" => "image",
+                        "value" => $this->oForm->toWebPath($aDefinition["path"])
+                    );
+                } elseif (array_key_exists("label", $aDefinition)) {
+                    // on renvoie le label
 
-					if($this->oForm->isRunneable($aDefinition["path"])) {
-						$aDefinition["path"] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aDefinition["path"]);
-					}
+                    if ($this->oForm->isRunneable($aDefinition["label"])) {
+                        $aDefinition["label"] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aDefinition["label"]);
+                    }
 
-					return array(
-						"type" => "image",
-						"value" => $this->oForm->toWebPath($aDefinition["path"])
-					);
-				} elseif(array_key_exists("label", $aDefinition)) {
-					// on renvoie le label
+                    return array(
+                        "type" => "text",
+                        "value" => $this->oForm->getConfigXML()->getLLLabel($aDefinition["label"])
+                    );
+                } else {
+                    /* on renvoie le flag par defaut */
+                }
+            } else {
+                /* on renvoie le flag par defaut */
+            }
+        }
 
-					if($this->oForm->isRunneable($aDefinition["label"])) {
-						$aDefinition["label"] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aDefinition["label"]);
-					}
-
-					return array(
-						"type" => "text",
-						"value" => $this->oForm->getConfigXML()->getLLLabel($aDefinition["label"])
-					);
-				} else {
-					/* on renvoie le flag par defaut */
-				}
-			} else {
-				/* on renvoie le flag par defaut */
-			}
-		}
-
-		if($bExists === TRUE) {
-
-			$sTypoScript =<<<TYPOSCRIPT
+        if ($bExists === true) {
+            $sTypoScript =<<<TYPOSCRIPT
 
 	file = GIFBUILDER
 	file {
@@ -190,9 +187,8 @@ EVENT;
 
 TYPOSCRIPT;
 
-		} else {
-
-			$sTypoScript =<<<TYPOSCRIPT
+        } else {
+            $sTypoScript =<<<TYPOSCRIPT
 
 	file = GIFBUILDER
 	file {
@@ -207,45 +203,46 @@ TYPOSCRIPT;
 
 TYPOSCRIPT;
 
-		}
+        }
 
-		$this->getForm()->getRunnable()->callRunnableWidget($this,
-			array(
-				"userobj" => array(
-					"ts" => $sTypoScript
-				)
-			)
-		);
+        $this->getForm()->getRunnable()->callRunnableWidget(
+            $this,
+            array(
+                "userobj" => array(
+                    "ts" => $sTypoScript
+                )
+            )
+        );
 
-		return array(
-			"type" => "image",
-			"value" => $this->oForm->toWebPath(
-				$this->getForm()->getCObj()->IMG_RESOURCE(
-					$this->oForm->aLastTs
-				)
-			)
-		);
-	}
+        return array(
+            "type" => "image",
+            "value" => $this->oForm->toWebPath(
+                $this->getForm()->getCObj()->IMG_RESOURCE(
+                    $this->oForm->aLastTs
+                )
+            )
+        );
+    }
 
-	function _listable() {
-		return $this->oForm->_defaultTrue("/listable/", $this->aElement) && $this->oForm->oDataHandler->i18n();
-	}
+    function _listable()
+    {
+        return $this->oForm->_defaultTrue("/listable/", $this->aElement) && $this->oForm->oDataHandler->i18n();
+    }
 
-	function _activeListable() {		// listable as an active HTML FORM field or not in the lister
-		return $this->oForm->_defaultTrue("/activelistable/", $this->aElement);
-	}
+    function _activeListable()
+    {
+        // listable as an active HTML FORM field or not in the lister
+        return $this->oForm->_defaultTrue("/activelistable/", $this->aElement);
+    }
 
-	function _renderonly() {
-		return TRUE;
-	}
+    function _renderonly()
+    {
+        return true;
+    }
 
-	function cleanBeforeSession() {
-		$this->aOButtons = array();
-		$this->baseCleanBeforeSession();
-	}
+    function cleanBeforeSession()
+    {
+        $this->aOButtons = array();
+        $this->baseCleanBeforeSession();
+    }
 }
-
-
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_i18n/api/class.tx_rdti18n.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_i18n/api/class.tx_rdti18n.php"]);
-	}

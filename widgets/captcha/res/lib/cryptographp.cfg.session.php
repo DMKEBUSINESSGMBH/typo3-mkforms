@@ -29,7 +29,7 @@ $bgclear = $_SESSION["rdt_captcha"]["config"]["bgClear"];     // Fond transparen
 $bgimg = '';          // Le fond du cryptogramme peut-�tre une image
                              // PNG, GIF ou JPG. Indiquer le fichier image
                              // Exemple: $fondimage = 'photo.gif';
-				                     // L'image sera redimensionn�e si n�cessaire
+                                     // L'image sera redimensionn�e si n�cessaire
                              // pour tenir dans le cryptogramme
 
 $bgframe = $_SESSION["rdt_captcha"]["config"]["bgFrame"];    // Ajoute un cadre de l'image (true/false)
@@ -55,8 +55,8 @@ $charcolorrndlevel = $_SESSION["rdt_captcha"]["config"]["charcolorrndlevel"];   
 
 $charclear = $_SESSION["rdt_captcha"]["config"]["charclear"];   // Intensit� de la transparence des caract�res (0->127)
                   // 0=opaques; 127=invisibles
-	                // interessant si vous utilisez une image $bgimg
-	                // Uniquement si PHP >=3.2.1
+                    // interessant si vous utilisez une image $bgimg
+                    // Uniquement si PHP >=3.2.1
 
 // Polices de caract�res
 
@@ -117,8 +117,8 @@ $noisecolorchar  = $_SESSION["rdt_captcha"]["config"]["noisecolorchar"];  // Bru
 // --------------------------------
 
 $cryptformat = $_SESSION["rdt_captcha"]["config"]["cryptformat"];   // Format du fichier image g�n�r� "GIF", "PNG" ou "JPG"
-				                // Si vous souhaitez un fond transparent, utilisez "PNG" (et non "GIF")
-				                // Attention certaines versions de la bibliotheque GD ne gerent pas GIF !!!
+                                // Si vous souhaitez un fond transparent, utilisez "PNG" (et non "GIF")
+                                // Attention certaines versions de la bibliotheque GD ne gerent pas GIF !!!
 
 $cryptsecure = $_SESSION["rdt_captcha"]["config"]["cryptsecure"];    // M�thode de crytpage utilis�e: "md5", "sha1" ou "" (aucune)
                       // "sha1" seulement si PHP>=4.2.0
@@ -138,4 +138,3 @@ $cryptusemax = $_SESSION["rdt_captcha"]["config"]["cryptusemax"];  // Nb maximum
                       // PS: Par d�faut, la dur�e d'une session PHP est de 180 mn, sauf si
                       // l'hebergeur ou le d�veloppeur du site en on d�cid� autrement...
                       // Cette limite est effective pour toute la dur�e de la session.
-

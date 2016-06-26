@@ -1,6 +1,6 @@
 <?php
 /**
- * 	@package tx_mkforms
+ *  @package tx_mkforms
  *  @subpackage tx_mkforms_tests_api
  *  @author Hannes Bochmann
  *
@@ -43,20 +43,22 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_filter
  */
-class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		tx_rnbase::load('tx_mklib_tests_Util');
-		tx_mklib_tests_Util::prepareTSFE(array('force' => TRUE, 'initFEuser' => TRUE));
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        tx_rnbase::load('tx_mklib_tests_Util');
+        tx_mklib_tests_Util::prepareTSFE(array('force' => true, 'initFEuser' => true));
 
-		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		/*
+        /*
 		 * warning "Cannot modify header information" abfangen.
 		*
 		* Einige Tests lassen sich leider nicht ausführen:
@@ -72,161 +74,170 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 		*
 		* Wir gehen also erst mal den Weg, den Fehler abzufangen.
 		*/
-		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
-	}
+        set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::tearDown()
-	 */
-	protected function tearDown() {
-		// error handler zurücksetzen
-		restore_error_handler();
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::tearDown()
+     */
+    protected function tearDown()
+    {
+        // error handler zurücksetzen
+        restore_error_handler();
+    }
 
-	/**
-	 *
-	 * @param integer $errno
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param integer $errline
-	 * @param array $errcontext
-	 */
-	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
-		$ignoreMsg = array(
-			'Cannot modify header information - headers already sent by',
-		);
-		foreach($ignoreMsg as $msg) {
-			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
-				// Don't execute PHP internal error handler
-				return FALSE;
-			}
-		}
-		return NULL;
-	}
+    /**
+     *
+     * @param integer $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param integer $errline
+     * @param array $errcontext
+     */
+    public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+    {
+        $ignoreMsg = array(
+            'Cannot modify header information - headers already sent by',
+        );
+        foreach ($ignoreMsg as $msg) {
+            if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== false) {
+                // Don't execute PHP internal error handler
+                return false;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 */
-	public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSession() {
-		$form = tx_mkforms_tests_Util::getForm();
-		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-		$renderer->_init($form,array(),array(),'');
+    /**
+     */
+    public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSession()
+    {
+        $form = tx_mkforms_tests_Util::getForm();
+        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer->_init($form, array(), array(), '');
 
-		$rendered = $renderer->_render(array());
+        $rendered = $renderer->_render(array());
 
-		self::assertContains(
-			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$form->getCsrfProtectionToken().'" />',
-			$rendered['HIDDEN'],
-			'Es ist nicht der richtige request token enthalten!'
-		);
-
-
-		//requestToken auch in der session?
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-		self::assertEquals(1,count($sessionData['requestToken']),'mehr request tokens in der session als erwartet!');
-		self::assertEquals($sessionData['requestToken']['radioTestForm'],$form->getCsrfProtectionToken(),'falscher request token in der session!');
-	}
-
-	/**
-	 */
-	public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSessionIfRequestTokensExist() {
-		$GLOBALS['TSFE']->fe_user->setKey(
-			'ses', 'mkforms', array(
-				'requestToken' => array(
-					'firstForm' => 'secret',
-					'secondForm' => 'anotherSecret',
-				)
-			)
-		);
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+        self::assertContains(
+            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$form->getCsrfProtectionToken().'" />',
+            $rendered['HIDDEN'],
+            'Es ist nicht der richtige request token enthalten!'
+        );
 
 
-		$form = tx_mkforms_tests_Util::getForm();
-		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-		$renderer->_init($form,array(),array(),'');
+        //requestToken auch in der session?
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertEquals(1, count($sessionData['requestToken']), 'mehr request tokens in der session als erwartet!');
+        self::assertEquals($sessionData['requestToken']['radioTestForm'], $form->getCsrfProtectionToken(), 'falscher request token in der session!');
+    }
 
-		$rendered = $renderer->_render(array());
+    /**
+     */
+    public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSessionIfRequestTokensExist()
+    {
+        $GLOBALS['TSFE']->fe_user->setKey(
+            'ses',
+            'mkforms',
+            array(
+                'requestToken' => array(
+                    'firstForm' => 'secret',
+                    'secondForm' => 'anotherSecret',
+                )
+            )
+        );
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		self::assertContains(
-			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$form->getCsrfProtectionToken().'" />',
-			$rendered['HIDDEN'],
-			'Es ist nicht der richtige request token enthalten!'
-		);
+
+        $form = tx_mkforms_tests_Util::getForm();
+        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer->_init($form, array(), array(), '');
+
+        $rendered = $renderer->_render(array());
+
+        self::assertContains(
+            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$form->getCsrfProtectionToken().'" />',
+            $rendered['HIDDEN'],
+            'Es ist nicht der richtige request token enthalten!'
+        );
 
 
-		//requestToken auch in der session?
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-		self::assertEquals(3,count($sessionData['requestToken']),'mehr request tokens in der session als erwartet!');
-		self::assertEquals($sessionData['requestToken']['radioTestForm'],$form->getCsrfProtectionToken(),'falscher request token in der session!');
-		//alte request tokens richtig?
-		self::assertEquals($sessionData['requestToken']['firstForm'],'secret','falscher request token in der session!');
-		self::assertEquals($sessionData['requestToken']['secondForm'],'anotherSecret','falscher request token in der session!');
+        //requestToken auch in der session?
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertEquals(3, count($sessionData['requestToken']), 'mehr request tokens in der session als erwartet!');
+        self::assertEquals($sessionData['requestToken']['radioTestForm'], $form->getCsrfProtectionToken(), 'falscher request token in der session!');
+        //alte request tokens richtig?
+        self::assertEquals($sessionData['requestToken']['firstForm'], 'secret', 'falscher request token in der session!');
+        self::assertEquals($sessionData['requestToken']['secondForm'], 'anotherSecret', 'falscher request token in der session!');
 
-	}
+    }
 
-	/**
-	 */
-	public function testRenderInsertsCorrectCreationTimeIntoSession() {
-		$form = tx_mkforms_tests_Util::getForm();
-		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-		$renderer->_init($form,array(),array(),'');
+    /**
+     */
+    public function testRenderInsertsCorrectCreationTimeIntoSession()
+    {
+        $form = tx_mkforms_tests_Util::getForm();
+        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer->_init($form, array(), array(), '');
 
-		$renderer->_render(array());
+        $renderer->_render(array());
 
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-		self::assertEquals(
-			1, count($sessionData['creationTimestamp']),
-			'der timestamp für die Erstellung des Formulars nicht in der Session'
-		);
-		self::assertEquals(
-			$GLOBALS['EXEC_TIME'],
-			$sessionData['creationTimestamp']['radioTestForm'],
-			'falscher timestamp in der session!'
-		);
-	}
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertEquals(
+            1,
+            count($sessionData['creationTimestamp']),
+            'der timestamp für die Erstellung des Formulars nicht in der Session'
+        );
+        self::assertEquals(
+            $GLOBALS['EXEC_TIME'],
+            $sessionData['creationTimestamp']['radioTestForm'],
+            'falscher timestamp in der session!'
+        );
+    }
 
-	/**
-	 */
-	public function testRenderInsertsCorrectCreationTimeIntoSessionIfAlreadyTimestampsInSession() {
-		$GLOBALS['TSFE']->fe_user->setKey(
-			'ses', 'mkforms', array(
-				'creationTimestamp' => array(
-					'firstForm' => 123,
-					'secondForm' => 456,
-				)
-			)
-		);
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+    /**
+     */
+    public function testRenderInsertsCorrectCreationTimeIntoSessionIfAlreadyTimestampsInSession()
+    {
+        $GLOBALS['TSFE']->fe_user->setKey(
+            'ses',
+            'mkforms',
+            array(
+                'creationTimestamp' => array(
+                    'firstForm' => 123,
+                    'secondForm' => 456,
+                )
+            )
+        );
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		$form = tx_mkforms_tests_Util::getForm();
-		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-		$renderer->_init($form,array(),array(),'');
+        $form = tx_mkforms_tests_Util::getForm();
+        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer->_init($form, array(), array(), '');
 
-		$renderer->_render(array());
+        $renderer->_render(array());
 
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-		self::assertEquals(
-			3, count($sessionData['creationTimestamp']),
-			'der timestamp für die Erstellung des Formulars nicht in der Session'
-		);
-		self::assertEquals(
-			$GLOBALS['EXEC_TIME'],
-			$sessionData['creationTimestamp']['radioTestForm'],
-			'falscher timestamp in der session!'
-		);
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertEquals(
+            3,
+            count($sessionData['creationTimestamp']),
+            'der timestamp für die Erstellung des Formulars nicht in der Session'
+        );
+        self::assertEquals(
+            $GLOBALS['EXEC_TIME'],
+            $sessionData['creationTimestamp']['radioTestForm'],
+            'falscher timestamp in der session!'
+        );
 
-		self::assertEquals(
-			123, $sessionData['creationTimestamp']['firstForm'],
-			'falscher timestamp in der session von firstForm!'
-		);
-		self::assertEquals(
-			456, $sessionData['creationTimestamp']['secondForm'],
-			'falscher timestamp in der session von secondForm!'
-		);
-	}
+        self::assertEquals(
+            123,
+            $sessionData['creationTimestamp']['firstForm'],
+            'falscher timestamp in der session von firstForm!'
+        );
+        self::assertEquals(
+            456,
+            $sessionData['creationTimestamp']['secondForm'],
+            'falscher timestamp in der session von secondForm!'
+        );
+    }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
-}
-

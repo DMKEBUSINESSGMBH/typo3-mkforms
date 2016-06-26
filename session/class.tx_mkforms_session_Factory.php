@@ -27,21 +27,18 @@
  * Returns the SessionManager
  *
  */
-class tx_mkforms_session_Factory {
-	private static $manager = false;
-	/**
-	 *
-	 * @return tx_mkforms_session_MixedSessionManager
-	 */
-	public static function getSessionManager() {
-		if(!self::$manager) {
-			self::$manager = tx_rnbase::makeInstance('tx_mkforms_session_MixedSessionManager');
-		}
-		return self::$manager;
-	}
+class tx_mkforms_session_Factory
+{
+    private static $manager = false;
+    /**
+     *
+     * @return tx_mkforms_session_MixedSessionManager
+     */
+    public static function getSessionManager()
+    {
+        if (!self::$manager) {
+            self::$manager = tx_rnbase::makeInstance('tx_mkforms_session_MixedSessionManager');
+        }
+        return self::$manager;
+    }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_Factory.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_Factory.php']);
-}
-

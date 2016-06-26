@@ -32,28 +32,31 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_Templates_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_util_Templates_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * @group unit
-	 */
-	public function testSanitizeStringForTemplateEngine() {
-		self::assertEquals(
-			'&#123;test&#125;',
-			tx_mkforms_util_Templates::sanitizeStringForTemplateEngine('{test}'),
-			'string falsch bereinigt'
-		);
+    /**
+     * @group unit
+     */
+    public function testSanitizeStringForTemplateEngine()
+    {
+        self::assertEquals(
+            '&#123;test&#125;',
+            tx_mkforms_util_Templates::sanitizeStringForTemplateEngine('{test}'),
+            'string falsch bereinigt'
+        );
 
-	}
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testParseTemplateCodeIncludesSubtemplates() {
-		$templatesUtility = tx_mkforms_util_Templates::createInstance(tx_mkforms_tests_Util::getForm());
-		$template = '<!-- ### INCLUDE_TEMPLATE EXT:mkforms/tests/fixtures/subtemplate.html@SUBPART ### -->';
-		$parsedTemplate = $templatesUtility->parseTemplateCode($template, array());
+    /**
+     * @group unit
+     */
+    public function testParseTemplateCodeIncludesSubtemplates()
+    {
+        $templatesUtility = tx_mkforms_util_Templates::createInstance(tx_mkforms_tests_Util::getForm());
+        $template = '<!-- ### INCLUDE_TEMPLATE EXT:mkforms/tests/fixtures/subtemplate.html@SUBPART ### -->';
+        $parsedTemplate = $templatesUtility->parseTemplateCode($template, array());
 
-		self::assertEquals('Subtemplate parsed', $parsedTemplate, 'Subtemplate nicht eingebunden');
-	}
+        self::assertEquals('Subtemplate parsed', $parsedTemplate, 'Subtemplate nicht eingebunden');
+    }
 }
