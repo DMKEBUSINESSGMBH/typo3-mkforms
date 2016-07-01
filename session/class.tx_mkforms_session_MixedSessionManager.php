@@ -103,9 +103,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 		}
 		$sessData['parent'] = FALSE;
 
-		$cache = tx_rnbase_cache_Manager::getCache('mkforms');
-		$serData = $cache->get($this->getPageFormKey($formId, $GLOBALS['TSFE']->id));
-
 		if(is_array($GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]))
 			$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId] = array_merge($GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId], $sessData);
 		else
@@ -248,7 +245,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
 		if(TYPO3_UseCachingFramework) {
 			// Zur Sicherheit den Cache initialisieren. Sonst kann es zu Exceptions kommen.
-			$c = tx_rnbase_cache_Manager::getCache('cache_hash');
+			tx_rnbase_cache_Manager::getCache('cache_hash');
 		}
 
 		/* @var $oForm tx_ameosformidable */

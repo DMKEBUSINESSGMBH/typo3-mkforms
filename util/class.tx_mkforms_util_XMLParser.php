@@ -219,10 +219,6 @@ class tx_mkforms_util_XMLParser {
 	 * @return	An		array with the XML structure, or an XML error message if the data is not valid
 	 */
 	private static function div_xml2array($data,$keepAttribs=1,$caseFolding=0,$skipWhite=0,$prefix=FALSE,$numeric='n',$index='index',$type='type',$base64='base64',$php5defCharset='UTF-8', $bPlain=FALSE) {
-
-		// Function ID
-		$funcId = 'div_xml2array';
-
 		// Storage
 		$xml = array();
 		$xmlValues = array();

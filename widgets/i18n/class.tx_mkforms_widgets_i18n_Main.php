@@ -32,7 +32,6 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet {
 			$aChildRecords = $this->oForm->oDataHandler->i18n_getChildRecords($iUid);
 			$aChildLanguages = array_keys($aChildRecords);
 
-			$aHtml = array();
 			reset($aLangs);
 			$aKeys = array_keys($aLangs);
 			while(list(, $iLangUid) = each($aKeys)) {

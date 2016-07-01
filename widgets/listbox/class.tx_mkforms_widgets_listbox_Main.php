@@ -74,8 +74,6 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet {
 
 				$sCustom = $this->_getCustom($aItem);
 				$sClass = $this->_getClasses($aItem, FALSE);
-				// style is unused, why?
-				$sStyle = $this->_getStyle($aItem);
 
 				$sInput = '<option value="' . $aItem['value'] . '" ' . $sSelected . $sClass . $sCustom . '>' . $sCaption . '</option>';
 				$aHtml[] = $sInput;

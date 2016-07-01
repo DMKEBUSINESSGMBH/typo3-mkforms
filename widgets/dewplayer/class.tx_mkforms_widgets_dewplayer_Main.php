@@ -25,7 +25,6 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet {
 
 		$sColor = str_replace("#", "", $sBgColor);
 		$sMoviePath .= "?bgcolor=" . $sColor;
-		$sFlashParams .= '<param name="bgcolor" value="' . $sColor . '" />';
 
 		$sFlashParams = "";
 

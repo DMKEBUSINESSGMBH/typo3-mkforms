@@ -68,7 +68,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 
 			reset($aValues);
 
-			$sLinks = array();
 			while(list($sKey,) = each($aValues)) {
 				$sWebPath = tx_mkforms_util_Div::toWebPath(
 					$this->getServerPath($aValues[$sKey])
@@ -220,12 +219,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 					'path' => $sTarget,
 					'infos' => $aData,
 				);
-
-				if($this->useDam()) {
-					$iUid = $this->damify(
-						$this->getServerPath($sName)
-					);
-				}
 
 				$sCurFile = $sName;
 

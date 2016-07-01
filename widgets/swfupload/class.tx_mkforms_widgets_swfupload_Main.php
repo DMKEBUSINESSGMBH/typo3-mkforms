@@ -89,8 +89,6 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet {
 
 		$this->includeScripts($aConf);
 
-		$sAddInputParams = $this->_getAddInputParams();
-
 		$GLOBALS["_SESSION"]["ameos_formidable"]["ajax_services"][$sObject][$sServiceKey][$sSafeLock] = array(
 			"requester" => array(
 				"name" => $this->getAbsName(),
@@ -169,8 +167,6 @@ INITSCRIPT;
 			for($i=1; file_exists($sTarget); $i++) {
 				$sTarget = $sTargetDir . substr($sFileName, 0, strlen($sFileName)-strlen($sExt)).'['.$i.']'.$sExt;
 			}
-
-			$sFileName = basename($sTarget);
 		}
 
 		Tx_Rnbase_Utility_T3General::upload_copy_move(

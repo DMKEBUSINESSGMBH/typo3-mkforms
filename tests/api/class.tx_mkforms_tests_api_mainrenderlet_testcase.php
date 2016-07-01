@@ -98,7 +98,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
 		$dTime = microtime(true);
 		// sind 100 aufrufe real? es sind sicher um einiges mehr.
 		for ($i = 0; $i < 99; $i++) {
-			$value = $this->oForm->getWidget('widget-text')->getValue();
+			$this->oForm->getWidget('widget-text')->getValue();
 		}
 		$dUsedtime = microtime(true) -$dTime;
 
@@ -120,7 +120,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
 		$dTime = microtime(true);
 		// sind 100 aufrufe real? es sind sicher um einiges mehr.
 		for ($i = 0; $i < 99; $i++) {
-			$value = $this->oForm->getWidget('widget-text2')->getValue();
+			$this->oForm->getWidget('widget-text2')->getValue();
 		}
 		$dUsedtime = microtime(true) -$dTime;
 		//der grenzwert sollte nicht überschritten werden

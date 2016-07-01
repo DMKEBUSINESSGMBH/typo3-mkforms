@@ -24,7 +24,7 @@ class CSV{
  		if(!(($bl = strlen($b = $this->rowDelimiter)) && ($dl = strlen($d = $this->cellDelimiter)) && ($ql = strlen($q = $this->valueEnclosure))))
  			return '';
  		for($o = $this->o, $i = -1; ++$i < count($o);){
- 			for($e = 0, $j = -1; ++$j < count($o[$i]);)
+ 			for($j = -1; ++$j < count($o[$i]);)
  				(($e = strpos($o[$i][$j], $q) !== false) || strpos($o[$i][$j], $b) !== false || strpos($o[$i][$j], $d) !== false)
  				&& $o[$i][$j] = $q . ($e ? str_replace($q, $q . $q, $o[$i][$j]) : $o[$i][$j]) . $q;
  			$o[$i] = implode($d, $o[$i]);

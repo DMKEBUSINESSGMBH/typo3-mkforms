@@ -89,8 +89,6 @@ class tx_mkforms_util_Templates {
 		$iCurrent = 0;
 		$aCurrent = array(0 => array(	"expr" => "", "rec" => FALSE, "args" => FALSE	));
 
-		$sArgs = "";
-
 		$aStr = self::str_split($sPath, 1);
 		reset($aStr);
 		$sLastCar = '';
@@ -202,7 +200,6 @@ class tx_mkforms_util_Templates {
 	}
 
 	private function processPerimeters($sHtml, $bClearNotUsed = TRUE) {
-		$aMatches = array();
 		$sPattern = '/\<\!\-\-.*(\#\#\#(.+)\ \bperimeter\b\#\#\#).*\-\-\>([^\1]*?)\<\!\-\-.*\1.*\-\-\>/';
 
 		$sCbk = ($bClearNotUsed === TRUE) ? 'processPerimetersCallBackClearNotUsed' : 'processPerimetersCallBackKeepNotUsed';
@@ -576,8 +573,6 @@ class tx_mkforms_util_Templates {
 
 					$aValue = $this->resolveScripting($sInterpreter,$sExecString,$aBeforeValue);
 				}
-
-				$sDebug = $aExp["args"];
 			} else {
 				if($sTrimExpr{0} == '"' && $sTrimExpr{(strlen($sTrimExpr) - 1)} == '"') {
 					$aValue = substr($sTrimExpr, 1, -1);
@@ -600,7 +595,6 @@ class tx_mkforms_util_Templates {
 
 					$aValue = $this->resolveScripting_atomic($sInterpreter,$sExecString,$aValue,$sNextExecString);
 				}
-				$sDebug = $sExecString;
 			}
 		}
 

@@ -37,8 +37,6 @@ TEMPLATE;
 		$aHtmlBag['__compiled'] = $sHtml;
 
 		if (array_key_exists('input', $aHtmlBag)) {
-
-			$sInfos = rawurlencode($aHtmlBag['input']);
 			$sHtml
 				= <<<TEMPLATE
 				<div class="ameosformidable_debugcontainer_void">
@@ -102,11 +100,7 @@ TEMPLATE;
 		}
 
 		if ($this->bFormWrap) {
-
-			$formid = '';
-			$formaction = '';
 			$formonsubmit = '';
-			$formmethod = '';
 			$formcustom = '';
 
 			$formid = ' id="' . $iFormId . '" ';
@@ -477,8 +471,6 @@ TEMPLATE;
 					// Ein freier Parameter
 					$aParams[] = $sParam;
 				} else {
-
-					$sAs = ($sAs === FALSE) ? $sParam : $sAs;
 					// $oRdt will be $mData in the majixmethods class
 					// Hier wird wohl nach einer Majix-Methode gesucht, die ein Widget zurückliefert
 					$mResult = $this->getForm()->resolveForMajixParams($sParam, $oRdt);

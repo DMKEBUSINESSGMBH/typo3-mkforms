@@ -1379,7 +1379,6 @@ ERRORMESSAGE;
 					$aColumns[$sTagName]['type'] = str_replace('renderlet:', '', $aColumns[$sTagName]['type']);
 
 					if(array_key_exists('name', $aColumns[$sTagName]) && (trim($aColumns[$sTagName]['name']) != '')) {
-						$sName = trim($aColumns[$sTagName]['name']);
 						$bAnonymous = FALSE;
 					} else {
 						// Hier wurde kein Name angegeben. Dieser wird somit dynamisch erstellt und nachträglich

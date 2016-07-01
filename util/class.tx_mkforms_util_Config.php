@@ -105,8 +105,6 @@ class tx_mkforms_util_Config {
 	public function getExtConfVal($sExtConf) {
 		if($sExtConf{0} === 'E' && $sExtConf{1} === 'X' && substr($sExtConf, 0, 8) === 'EXTCONF:') {
 			$sExtConf = substr($sExtConf, 8);
-		} else {
-			$sPath = $sExtConf;
 		}
 
 		$sPath = str_replace('.', '/', $sExtConf);
@@ -205,7 +203,6 @@ class tx_mkforms_util_Config {
 
 		// the root is deleted
 		$this->config = $this->config[$sRoot];
-		$sXmlVersion = $this->get('/version', $this->config);
 
 		tx_rnbase::load('tx_rnbase_util_TYPO3');
 		if(($sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== FALSE) {
@@ -916,8 +913,6 @@ class tx_mkforms_util_Config {
 	private function array_add($a1, $a2) {
 
 		if(is_array($a1)) {
-			$aTemp = array();
-			$aTemp2 = array();
 			reset($a1);
 			reset($a2);
 

@@ -68,7 +68,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler {
 					$aChild
 				);
 
-				$rSql = $this->oForm->_watchOutDB(
+				$this->oForm->_watchOutDB(
 					$GLOBALS["TYPO3_DB"]->sql_query($sSql),
 					$sSql
 				);

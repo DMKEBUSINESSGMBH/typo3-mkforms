@@ -73,7 +73,6 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 			$sSelectedItemClass = 'selected';
 		}
 
-		$sHtmlId = $this->_getElementHtmlId();
 		$sObject = 'rdt_autocomplete';
 		$sServiceKey = 'lister';
 		$sFormId = $this->oForm->formid;

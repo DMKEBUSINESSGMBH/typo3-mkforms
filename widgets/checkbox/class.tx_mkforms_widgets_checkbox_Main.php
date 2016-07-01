@@ -182,7 +182,6 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 
 			reset($aValues);
 
-			$sFieldName = $this->_navConf('/name');
 			$sTableName = $this->oForm->_navConf('/tablename', $this->oForm->oDataHandler->aElement);
 			$aConf = $this->_navConf('/search');
 
@@ -300,9 +299,6 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 	}
 
 	function _displayLabel($sLabel) {
-
-		// für bestehende projekte, das main label darf nicht die klasse -radio haben!
-		$sDefaultLabelClass = $this->sDefaultLabelClass;
 		$this->sDefaultLabelClass = $this->getForm()->sDefaultWrapClass.'-label';
 
 		$aConfig =  $this->aElement;

@@ -52,8 +52,6 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 			$this->_getElementHtmlNameWithoutFormId() => '1'		// to simulate default browser behaviour
 		);
 
-		$sEvent = '';
-
 		if($sMode == 'refresh' || $this->_navConf('/refresh') !== FALSE) {
 			$sOnclick = $this->oForm->oRenderer->_getRefreshSubmitEvent();
 		} elseif($sMode == 'draft' || $this->_navConf('/draft') !== FALSE) {
