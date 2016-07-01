@@ -520,19 +520,6 @@ class tx_mkforms_util_Templates {
 		$iCount = count($GLOBALS['tx_ameosformidable'][$formId]['aTags']);
 		return $GLOBALS['tx_ameosformidable'][$formId]['aTags'][($iCount-1)];
 	}
-	/**
-	 * Wird wohl nie aufgerufen...
-	 *
-	 * @return unknown
-	 */
-	private function templateMarkersStack() {
-		if(!isset($GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags'])) {
-			return array();
-		}
-
-		reset($GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags']);
-		return $GLOBALS['tx_ameosformidable'][$this->getFormId()]['aTags'];
-	}
 
 	/**
 	 * Aufruf in Form->resolveForMajixParams und Rekursiv!
