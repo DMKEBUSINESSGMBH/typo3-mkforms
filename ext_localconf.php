@@ -151,7 +151,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['rdt_ajaxlist
 	'initBEuser' => FALSE,
 );
 
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['widget_damupload']['upload']['conf'] = array(
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['widget_mediaupload']['upload']['conf'] = array(
 	'virtualizeFE' => TRUE,
 	'initBEuser' => FALSE,
 );
