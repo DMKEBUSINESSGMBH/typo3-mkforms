@@ -2128,7 +2128,8 @@ SANDBOXCLASS;
 			$aPath = explode('/', $sPath);
 			$sTable = $aPath[0];
 
-			Tx_Rnbase_Utility_T3General::loadTCA($sTable);
+			tx_rnbase::load('tx_rnbase_util_TCA');
+			tx_rnbase_util_TCA::loadTCA($sTable);
 
 			return $this->getConfig()->get($sPath, $GLOBALS['TCA']);
 		}

@@ -1957,7 +1957,8 @@ JAVASCRIPT;
 		$aUserItems = array();
 
 		if (($bFromTCA = $this->_defaultFalse('/data/items/fromtca')) === TRUE) {
-			Tx_Rnbase_Utility_T3General::loadTCA($this->oForm->oDataHandler->tableName());
+			tx_rnbase::load('tx_rnbase_util_TCA');
+			tx_rnbase_util_TCA::loadTCA($this->oForm->oDataHandler->tableName());
 			if (($aItems = $this->oForm->_navConf(
 					'columns/' . $this->_getName() . '/config/items',
 					$GLOBALS['TCA'][$this->oForm->oDataHandler->tableName()]
