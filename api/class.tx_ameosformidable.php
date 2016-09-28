@@ -4755,8 +4755,11 @@ JAVASCRIPT;
 			$sColumn => $sRteHtml,
 		);
 
-		$rteClass = tx_rnbase_util_Typo3Classes::getAbstractRteClass();
-		return $rteClass::transformContent(
+		/** @var $rte TYPO3\CMS\Backend\Rte\AbstractRte */
+		$rte = tx_rnbase::makeInstance(
+			tx_rnbase_util_Typo3Classes::getAbstractRteClass()
+		);
+		return $rte->transformContent(
 			'rte',
 			$sRteHtml,
 			$sTable,
