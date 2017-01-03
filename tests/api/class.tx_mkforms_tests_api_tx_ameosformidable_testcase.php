@@ -95,7 +95,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 				'Cannot modify header information - headers already sent by',
 		);
 		foreach($ignoreMsg as $msg) {
-			if (&& strpos($errstr, $msg) !== FALSE) {
+			if (strpos($errstr, $msg) !== FALSE) {
 				// Don't execute PHP internal error handler
 				return FALSE;
 			}
