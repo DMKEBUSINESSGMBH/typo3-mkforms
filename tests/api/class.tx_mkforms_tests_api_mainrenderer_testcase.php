@@ -34,6 +34,7 @@ require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrend
 tx_rnbase::load('tx_mkforms_tests_Util');
 require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
+tx_rnbase::load('tx_mkforms_tests_Util');
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet
@@ -56,23 +57,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		/*
-		 * warning "Cannot modify header information" abfangen.
-		*
-		* Einige Tests lassen sich leider nicht ausführen:
-		* "Cannot modify header information - headers already sent by"
-		* Diese wird an unterschiedlichen stellen ausgelöst,
-		* meißt jedoch bei Session operationen
-		* Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
-		* Eigentlich gibt es dafür die runInSeparateProcess Anotation,
-		* Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
-		* die GLOBALS in den anderen Prozess zu Übertragen.
-		* Ein Deaktivierend er Übertragung führt dazu,
-		* das Typo3 nicht initialisiert ist.
-		*
-		* Wir gehen also erst mal den Weg, den Fehler abzufangen.
-		*/
-		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+		set_error_handler(array('tx_mkforms_tests_Util', 'errorHandler'), E_WARNING);
 	}
 
 	/**
@@ -82,27 +67,6 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 	protected function tearDown() {
 		// error handler zurücksetzen
 		restore_error_handler();
-	}
-
-	/**
-	 *
-	 * @param integer $errno
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param integer $errline
-	 * @param array $errcontext
-	 */
-	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
-		$ignoreMsg = array(
-			'Cannot modify header information - headers already sent by',
-		);
-		foreach($ignoreMsg as $msg) {
-			if (strpos($errstr, $msg) !== FALSE) {
-				// Don't execute PHP internal error handler
-				return FALSE;
-			}
-		}
-		return NULL;
 	}
 
 	/**

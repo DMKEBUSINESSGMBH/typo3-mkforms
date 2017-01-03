@@ -182,6 +182,40 @@ class tx_mkforms_tests_Util {
 		);
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 	}
+
+	/**
+	 *
+	 * warning "Cannot modify header information" abfangen.
+	 *
+	 * Einige Tests lassen sich leider nicht ausführen:
+	 * "Cannot modify header information - headers already sent by"
+	 * Diese wird an unterschiedlichen stellen ausgelöst,
+	 * meißt jedoch bei Session operationen
+	 * Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
+	 * Eigentlich gibt es dafür die runInSeparateProcess Anotation,
+	 * Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
+	 * die GLOBALS in den anderen Prozess zu Übertragen.
+	 * Ein Deaktivierend er Übertragung führt dazu,
+	 * das Typo3 nicht initialisiert ist.
+	 *
+	 * Wir gehen also erst mal den Weg, den Fehler abzufangen.
+	 *
+	 * @param integer $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param integer $errline
+	 * @param array $errcontext
+	 *
+	 * @return mixed
+	 */
+	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
+		$ignoreMsg = 'Cannot modify header information - headers already sent by';
+		if (strpos($errstr, $ignoreMsg) !== FALSE) {
+			// Don't execute PHP internal error handler
+			return TRUE;
+		}
+		return NULL;
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']) {

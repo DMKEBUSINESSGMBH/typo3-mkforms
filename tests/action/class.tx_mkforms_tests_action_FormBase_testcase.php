@@ -29,6 +29,7 @@
 tx_rnbase::load('tx_mkforms_forms_Factory');
 require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
+tx_rnbase::load('tx_mkforms_tests_Utils');
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
 class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTestCase {
@@ -38,23 +39,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
 	 *
 	 */
 	public function setUp() {
-		/*
-		 * warning "Cannot modify header information" abfangen.
-		 *
-		 * Einige Tests lassen sich leider nicht ausführen:
-		 * "Cannot modify header information - headers already sent by"
-		 * Diese wird an unterschiedlichen stellen ausgelöst,
-		 * meißt jedoch bei Session operationen
-		 * Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
-		 * Eigentlich gibt es dafür die runInSeparateProcess Anotation,
-		 * Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
-		 * die GLOBALS in den anderen Prozess zu Übertragen.
-		 * Ein Deaktivierend er Übertragung führt dazu,
-		 * das Typo3 nicht initialisiert ist.
-		 *
-		 * Wir gehen also erst mal den Weg, den Fehler abzufangen.
-		 */
-		set_error_handler(array(__CLASS__, 'errorHandler'), E_WARNING);
+		set_error_handler(array('tx_mkforms_tests_Util', 'errorHandler'), E_WARNING);
 
 		tx_rnbase_util_Misc::prepareTSFE()->sys_page = tx_rnbase_util_TYPO3::getSysPage();
 
@@ -137,29 +122,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
 		return $action;
 	}
 
-
-	/**
-	 *
-	 * @param integer $errno
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param integer $errline
-	 * @param array $errcontext
-	 */
-	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
-		$ignoreMsg = array(
-				'Cannot modify header information - headers already sent by',
-		);
-		foreach($ignoreMsg as $msg) {
-			if (strpos($errstr, $msg) !== FALSE) {
-				// Don't execute PHP internal error handler
-				return FALSE;
-			}
-		}
-		return NULL;
-	}
-
-public function test_processForm() {
+	public function test_processForm() {
 		$sData = array(
 				'fieldset' => array(
 					'texte' => array(
