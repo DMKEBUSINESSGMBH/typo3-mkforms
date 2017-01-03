@@ -512,7 +512,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet {
 		}
 
 		foreach ($mediaUids as $mediaUid) {
-			$newSize = $this->addReference($mediaUid);
+			$this->addReference($mediaUid);
 		}
 		$this->openUid = 0;
 	}
@@ -740,7 +740,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet {
 	 *
 	 */
 	function initBE4DAM($beUserId) {
-		global $PAGES_TYPES, $BE_USER, $TCA;
+		global $PAGES_TYPES, $BE_USER;
 		if(!is_array($PAGES_TYPES) || !array_key_exists(254, $PAGES_TYPES)) {
 			// SysFolder als definieren
 			$PAGES_TYPES[254] = array(
@@ -862,8 +862,6 @@ INITSCRIPT;
 	}
 
 	function handleAjaxRequest($oRequest) {
-
-		$oFile = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 		$aData = $this->getForm()->getRawFile(FALSE, true);
 
 		//Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen

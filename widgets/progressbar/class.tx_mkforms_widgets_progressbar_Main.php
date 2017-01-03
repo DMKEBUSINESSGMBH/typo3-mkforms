@@ -56,8 +56,6 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 	}
 
 	function getMaxValue() {
-		$mMax = 100;
-
 		if(($mMax = $this->_navConf("/max")) !== FALSE) {
 			$mMax = $this->getForm()->getRunnable()->callRunnable($mMax);
 		}
@@ -66,8 +64,6 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 	}
 
 	function getMinValue() {
-		$mMin = 0;
-
 		if(($mMin = $this->_navConf("/min")) !== FALSE) {
 			$mMin = $this->getForm()->getRunnable()->callRunnable($mMin);
 		}
@@ -76,8 +72,6 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 	}
 
 	function getPrecision() {
-		$iPrecision = 0;
-
 		if(($iPrecision = $this->oForm->_navConf("/precision")) !== FALSE) {
 			$iPrecision = intval($mPrecision);
 		}
@@ -143,7 +137,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 		$fMax = $this->getMaxValue();
 
 		if($fValue < $fMin) {
-			$mValue = $fMin;
+			$fValue = $fMin;
 		}
 
 		if($fValue > $fMax) {
@@ -163,8 +157,6 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet {
 	}
 
 	function getPxWidth() {
-		$mWidth = FALSE;
-
 		if(($mWidth = $this->_navConf("/width")) !== FALSE) {
 			$mWidth = intval($this->getForm()->getRunnable()->callRunnable($mWidth));
 

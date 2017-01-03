@@ -12,7 +12,6 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet {
 
 		$aHtml = array();
 		$aHtmlBag = array();
-		$sLabel = $this->getLabel();
 		$sValue = $this->getValue();
 		$sValueForHtml = $this->getValueForHtml($sValue);
 

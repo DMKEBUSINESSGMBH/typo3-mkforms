@@ -95,7 +95,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 				'Cannot modify header information - headers already sent by',
 		);
 		foreach($ignoreMsg as $msg) {
-			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
+			if (&& strpos($errstr, $msg) !== FALSE) {
 				// Don't execute PHP internal error handler
 				return FALSE;
 			}
@@ -111,7 +111,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 	 */
 	public function testRenderThrowsExceptionIfRequestTokenIsNotSet() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-		$oForm = tx_mkforms_tests_Util::getForm()->render();
+		tx_mkforms_tests_Util::getForm()->render();
 	}
 
 	/**
@@ -123,7 +123,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 	public function testRenderThrowsExceptionIfRequestTokenIsInvalid() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
-		$oForm = tx_mkforms_tests_Util::getForm()->render();
+		tx_mkforms_tests_Util::getForm()->render();
 	}
 
 	/**

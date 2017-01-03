@@ -139,7 +139,6 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet {
 
 		$sFormat = $this->_getFormat();
 		$bTime		= $this->oForm->_defaultFalse('/data/datetime/displaytime/', $this->aElement);
-		$sFieldName	= $this->oForm->formid . '::' . $this->_getName();
 		$sHtmlId	= $this->_getElementHtmlId();
 
 		$aConfig = array(

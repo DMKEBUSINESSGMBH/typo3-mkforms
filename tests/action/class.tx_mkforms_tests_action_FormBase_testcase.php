@@ -132,7 +132,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
 		$configurations->setParameters($parameters);
 		$action->setConfigurations($configurations);
 		if($execute) {
-			$out = $action->handleRequest($parameters, $configurations, $configurations->getViewData());
+			$action->handleRequest($parameters, $configurations, $configurations->getViewData());
 		}
 		return $action;
 	}
@@ -151,7 +151,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
 				'Cannot modify header information - headers already sent by',
 		);
 		foreach($ignoreMsg as $msg) {
-			if ((is_string($ignoreMsg) || is_numeric($ignoreMsg)) && strpos($errstr, $ignoreMsg) !== FALSE) {
+			if (strpos($errstr, $msg) !== FALSE) {
 				// Don't execute PHP internal error handler
 				return FALSE;
 			}
@@ -303,7 +303,7 @@ public function test_processForm() {
 
 		$_POST['radioTestForm'] = $sData;
 
-		$action = self::getAction();
+		self::getAction();
 	}
 
 	public function test_fillForm() {

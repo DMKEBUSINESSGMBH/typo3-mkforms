@@ -23,7 +23,6 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 			$this->sKey = "uid";
 		}
 
-		$sSignature = FALSE;
 		$this->initDb();
 
 		$oDataSet = tx_rnbase::makeInstance("formidable_maindataset");
@@ -175,12 +174,8 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource {
 	}
 
 	function _getSql($aConfig = array(), $aFilters = array()) {
-
-		$sSqlBase = "";
 		$sSqlFilters = "";
 		$sSqlOrderBy = "";
-		$sSqlLimit = "";
-		$sSqlGroupBy = "";
 
 		if ($this->_isFalse("/sql") && $this->_isFalse("/table")) {
 			return FALSE;

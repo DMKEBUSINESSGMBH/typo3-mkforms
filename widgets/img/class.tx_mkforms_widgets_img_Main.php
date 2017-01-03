@@ -25,7 +25,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 
 			$sTag = FALSE;
 			$aSize = FALSE;
-			$bExternal = FALSE;
 			$bReprocess = FALSE;
 
 			if(is_array($mConf = $this->_navConf('/imageconf/')) && $this->oForm->isRunneable($mConf)) {
@@ -53,10 +52,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 
 				$aInfosFile = Tx_Rnbase_Utility_T3General::split_fileref($sAbsWebPath);
 				if(strtolower($aInfosPath['host']) !== strtolower(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_HOST_ONLY'))) {
-
-					// it's an external image
-					$bExternal = TRUE;
-					$sAbsServerPath = '';
 					if($bReprocess === TRUE) {
 						// we have to make a local copy of the image to enable TS processing
 						$aHeaders = $this->oForm->div_getHeadersForUrl($sAbsWebPath);

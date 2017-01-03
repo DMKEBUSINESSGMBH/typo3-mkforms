@@ -776,8 +776,6 @@ class formidable_mainrenderlet extends formidable_mainobject {
 		}
 
 		if (!array_key_exists($sName, $this->aStatics['elementHtmlName'])) {
-			$sPrefix = '';
-
 			if ($this->hasParent()) {
 				$parent = $this->getParent();
 				$this->aStatics['elementHtmlName'][$sName] = $parent->getElementHtmlName4Child($this);
@@ -795,8 +793,6 @@ class formidable_mainrenderlet extends formidable_mainobject {
 		if ($sName === FALSE) {
 			$sName = $this->_getNameWithoutPrefix();
 		}
-
-		$sRes = '';
 
 		if (!array_key_exists($sName, $this->aStatics['elementHtmlNameWithoutFormId'])) {
 			if ($this->hasParent()) {
@@ -880,7 +876,6 @@ class formidable_mainrenderlet extends formidable_mainobject {
 	protected function buildHtmlId($withForm = TRUE, $withIteratingId = TRUE) {
 		$sId = $this->_getNameWithoutPrefix();
 
-		$ret = '';
 		if ($this->hasParent()) {
 			$parent = $this->getParent();
 			$ret = $parent->getElementHtmlId4Child($this, $withForm, $withIteratingId);
@@ -1207,7 +1202,6 @@ TOOLTIP;
 	 * @return string
 	 */
 	protected function _getPlaceholder() {
-		$placeholder = '';
 		if (($placeholder = $this->_navConf('/placeholder/')) !== FALSE) {
 			if ($this->oForm->isRunneable($placeholder)) {
 				$placeholder = $this->getForm()->getRunnable()->callRunnableWidget(
@@ -1496,7 +1490,6 @@ TOOLTIP;
 	}
 
 	function fetchServerEvents() {
-		$aEvents = array();
 		$aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
 		reset($aGrabbedEvents);
 		while (list(, $sEvent) = each($aGrabbedEvents)) {
@@ -1950,12 +1943,6 @@ JAVASCRIPT;
 			return $this->aForcedItems;
 		}
 
-		$elementname = $this->_getName();
-
-		$aItems = array();
-		$aXmlItems = array();
-		$aUserItems = array();
-
 		if (($bFromTCA = $this->_defaultFalse('/data/items/fromtca')) === TRUE) {
 			tx_rnbase::load('tx_rnbase_util_TCA');
 			tx_rnbase_util_TCA::loadTCA($this->oForm->oDataHandler->tableName());
@@ -2180,8 +2167,6 @@ JAVASCRIPT;
 		} else {
 			$sName = $sFieldName;
 		}
-
-		$aFields = array($sName);
 
 		if (($aConf = $this->_navConf('/search/')) !== FALSE) {
 
@@ -3238,15 +3223,6 @@ JAVASCRIPT;
 
 		$bRes = FALSE;
 
-		$aSubmitValues = array(
-			AMEOSFORMIDABLE_EVENT_SUBMIT_FULL,
-			AMEOSFORMIDABLE_EVENT_SUBMIT_REFRESH,
-			AMEOSFORMIDABLE_EVENT_SUBMIT_TEST,
-			AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT,
-			AMEOSFORMIDABLE_EVENT_SUBMIT_CLEAR,
-			AMEOSFORMIDABLE_EVENT_SUBMIT_SEARCH,
-		);
-
 		$mPostValue = $this->getRawPostValue($sFormId, $sAbsName);
 
 		if ($sFormId === FALSE && $sAbsName === FALSE) {
@@ -4074,7 +4050,6 @@ JAVASCRIPT;
 
 	function getError() {
 		if ($this->hasError()) {
-			$sAbsName = $this->getAbsName();
 			$sHtmlId = $this->_getElementHtmlIdWithoutFormId();
 
 			return array(

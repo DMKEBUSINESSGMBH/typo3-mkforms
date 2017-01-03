@@ -67,7 +67,6 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource {
 
 			$k = 1;
 			$this->aPosByUid = array();
-			$sorted_records = array();
 
 			foreach ($named_hash as $key => $val) {
 				$aSorted[$key] = $this->aSource[$key];

@@ -15,7 +15,6 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet {
 			return;
 		}
 
-		$sUrl = '';
 		if (($mPage = $this->_navConf('/pageid')) !== FALSE) {
 			$mPage = $this->callRunneable($mPage);
 			$sUrl = $this->getForm()->getCObj()->typoLink_URL(array('parameter' => $mPage));

@@ -286,7 +286,6 @@ class formidable_maindatahandler extends formidable_mainobject {
 				if ($this->getForm()->useNewDataStructure()) {
 					$this->getForm()->mayday("not implemented yet:" . __FILE__ . ":" . __LINE__);
 					// data will be stored under abs name
-					$sNewName = $sAbsName;
 				} else {
 					if (!$this->getForm()->getWidget($sAbsName)->_renderOnly()
 						&& !$this->getForm()

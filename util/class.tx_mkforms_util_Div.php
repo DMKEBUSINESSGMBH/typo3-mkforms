@@ -798,11 +798,8 @@ ERRORMESSAGE;
 
 		if(is_string($mParams)) {
 			// Das ist der Normalfall. Die Parameter als String
-			$aTemp = Tx_Rnbase_Utility_Strings::trimExplode(',', $mParams);
-			foreach($aTemp As $sParam) {
-				$paramArr = Tx_Rnbase_Utility_Strings::trimExplode('::', $mParams);
-				$aParamsCollection[$paramArr[0]] = (count($paramArr) > 0) ? $paramArr[1] : '';
-			}
+			$paramArr = Tx_Rnbase_Utility_Strings::trimExplode('::', $mParams);
+			$aParamsCollection[$paramArr[0]] = (count($paramArr) > 0) ? $paramArr[1] : '';
 		} else {
 			foreach($mParams As $mParam) {
 				$aParamsCollection[$mParam['name']] = $mParam['value'];

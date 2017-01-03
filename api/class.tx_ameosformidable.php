@@ -1012,8 +1012,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		$aKeys = array_keys($aMeta);
 		reset($aKeys);
 		while (list(, $sKey) = each($aKeys)) {
-			$sWhen = '';
-
 			if ($sKey{0} == 'o' && $sKey{1} == 'n' && (substr($sKey, 0, 12) === 'oncheckpoint')) {
 				$sWhen = $this->getConfig()->get('/meta/' . $sKey . '/when');
 				if (in_array($sWhen, $aPoints)) {
@@ -1089,11 +1087,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 		}
 
 		if (($sPhp = $this->getConfigXML('/userobj/php', $aBox)) !== FALSE) {
-
-			if (class_exists($sClass)) {
-				$sExtends = ' extends ' . $sClass;
-			}
-
 			$sClassName = 'formidablesandbox_' . md5($sPhp);    // these 2 lines
 			if (!class_exists($sClassName)) {                    // allows same sandbox twice or more on the same page
 
@@ -1547,7 +1540,6 @@ SANDBOXCLASS;
 		}
 
 		if ($forced || !array_key_exists((string)$sFormId, $this->aRawFile)) {
-			$aElements = array();
 			$aTemp = is_array($GLOBALS['_FILES'][$sFormId]) ? $GLOBALS['_FILES'][$sFormId] : array();
 			$aF = array();
 
@@ -2740,11 +2732,6 @@ JAVASCRIPT;
 	}
 
 	private function attachPostInitTask_plain($sScript, $sDesc = '', $sKey = FALSE) {
-
-		if ($sDesc != '') {
-			$sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(array('/*', '*/', '//'), '', $sDesc)) . ' */';
-		}
-
 		$sJs = "\n" . trim($sScript);
 		if ($sKey === FALSE) {
 			$this->aPostInitTasks[] = $sJs;
@@ -2791,11 +2778,6 @@ JAVASCRIPT;
 	}
 
 	function attachInitTask_plain($sScript, $sDesc = '', $sKey = FALSE, $bOutsideLoad = FALSE) {
-
-		if ($sDesc != '') {
-			$sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(array('/*', '*/', '//'), '', $sDesc)) . ' */';
-		}
-
 		$sJs = "\n" . trim($sScript);
 
 		if ($bOutsideLoad) {
@@ -2870,9 +2852,6 @@ JAVASCRIPT;
 	function _renderElement(&$oRdt) {
 
 		if (!$oRdt->i18n_hideBecauseNotTranslated()) {
-
-			$mHtml = '';
-			$sAbsName = $oRdt->getAbsName();
 			$mHtml = $this->oRenderer->processHtmlBag(
 				$oRdt->render(),
 				$oRdt    // changed: avoid call-time pass-by-reference
@@ -3857,9 +3836,6 @@ JAVASCRIPT;
 		// SET Attachements
 
 		if (is_array($aAttachPaths) && !empty($aAttachPaths)) {
-
-			$oFile = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
-
 			reset($aAttachPaths);
 			while (list(, $sPath) = each($aAttachPaths)) {
 
@@ -3880,24 +3856,6 @@ JAVASCRIPT;
 		// deprecated; use array2json instead
 		$aJs = array();
 		$aJs[] = 'var ' . $sVarName . ' = new Array();';
-
-		$aJsSafe = array(
-			rawurlencode('-'),
-			rawurlencode('_'),
-			rawurlencode('.'),
-			rawurlencode('!'),
-			rawurlencode('~'),
-			rawurlencode('*'),
-		);
-
-		$aJsSafeReplace = array(
-			'-',
-			'_',
-			'.',
-			'!',
-			'~',
-			'*',
-		);
 
 		reset($aData);
 		while (list($sKey, $mVal) = each($aData)) {
@@ -4176,7 +4134,6 @@ JAVASCRIPT;
 				}
 
 				if ($oThrower === FALSE) {
-					$oObject =& $this;
 					$aArgs = array();
 					$aArgs[0] = $this->aAjaxEvents[$sEventId]['event']; // Wir ersetzen den ersten Parameter
 					$aArgs[1] = $oRequest->aRequest['params'];
@@ -4776,8 +4733,6 @@ JAVASCRIPT;
 	}
 
 	function div_camelize($sString) {
-		$sCamelized = '';
-
 		$aParts = explode('-', $sString);
 		$iLen = count($aParts);
 		if ($iLen == 1) {

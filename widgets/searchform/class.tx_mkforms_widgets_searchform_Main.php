@@ -343,14 +343,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet {
 	}
 
 	function shouldUpdateCriterias() {
-
-		$bRes = FALSE;
-
-		if($this->isRemoteReceiver()) {
-			if(($bRes = $this->shouldUpdateCriteriasRemoteReceiver()) === FALSE && $this->mayDisplayRemoteReceiver()) {
-				$bRes = $this->shouldUpdateCriteriasClassical();
-			}
-		} else {
+		if (!$this->isRemoteReceiver()) {
 			return $this->shouldUpdateCriteriasClassical();
 		}
 

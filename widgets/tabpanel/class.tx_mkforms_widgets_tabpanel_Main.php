@@ -20,10 +20,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet {
 		$sBegin = '<ul id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' onmouseup="this.blur()">';
 		$sEnd = '</ul>';
 
-		$sCssId = $this->_getElementCssId();
-
 		$aTabs = array();
-		$aHtmlTabs = array();
 		reset($this->aChilds);
 		while(list($sName, ) = each($this->aChilds)) {
 			$oRdt =& $this->aChilds[$sName];

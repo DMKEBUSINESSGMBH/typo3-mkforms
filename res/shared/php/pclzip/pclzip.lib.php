@@ -255,9 +255,6 @@
   // --------------------------------------------------------------------------------
   function create($p_filelist)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::create', "filelist='$p_filelist', ...");
-    $v_result=1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -444,9 +441,6 @@
   // --------------------------------------------------------------------------------
   function add($p_filelist)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::add', "filelist='$p_filelist', ...");
-    $v_result=1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -638,9 +632,6 @@
   // --------------------------------------------------------------------------------
   function listContent()
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::listContent', "");
-    $v_result=1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -699,9 +690,6 @@
   // --------------------------------------------------------------------------------
   function extract()
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::extract", "");
-    $v_result=1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -860,9 +848,6 @@
   //function extractByIndex($p_index, options...)
   function extractByIndex($p_index)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::extractByIndex", "index='$p_index', ...");
-    $v_result=1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -1016,9 +1001,6 @@
   // --------------------------------------------------------------------------------
   function delete()
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::delete", "");
-    $v_result=1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -1186,9 +1168,6 @@
   // --------------------------------------------------------------------------------
   function duplicate($p_archive)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::duplicate", "");
-    $v_result = 1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -1249,9 +1228,6 @@
   // --------------------------------------------------------------------------------
   function merge($p_archive_to_add)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::merge", "");
-    $v_result = 1;
-
     // ----- Reset the error handler
     $this->privErrorReset();
 
@@ -1701,9 +1677,6 @@
 
               // ----- Look for list sort
               if ($v_result_list[$p_options_list[$i]][$j]['start'] < $v_sort_value) {
-                  //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "The list should be sorted ...");
-                  $v_sort_flag=true;
-
                   // ----- TBC : An automatic sort should be writen ...
                   // ----- Error log
                   PclZip::privErrorLog(PCLZIP_ERR_INVALID_OPTION_VALUE, "Invalid order of index range for option '".PclZipUtilOptionText($p_options_list[$i])."'");
@@ -2129,10 +2102,6 @@
   // --------------------------------------------------------------------------------
   function privCreate($p_filedescr_list, &$p_result_list, &$p_options)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privCreate", "list");
-    $v_result=1;
-    $v_list_detail = array();
-
     // ----- Magic quotes trick
     $this->privDisableMagicQuotes();
 
@@ -2167,10 +2136,6 @@
   // --------------------------------------------------------------------------------
   function privAdd($p_filedescr_list, &$p_result_list, &$p_options)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privAdd", "list");
-    $v_result=1;
-    $v_list_detail = array();
-
     // ----- Look if the archive exists or is empty
     if ((!is_file($this->zipname)) || (filesize($this->zipname) == 0))
     {
@@ -2431,9 +2396,6 @@
 //  function privAddList($p_list, &$p_result_list, $p_add_dir, $p_remove_dir, $p_remove_all_dir, &$p_options)
   function privAddList($p_filedescr_list, &$p_result_list, &$p_options)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privAddList", "list");
-    $v_result=1;
-
     // ----- Add the files
     $v_header_list = array();
     if (($v_result = $this->privAddFileList($p_filedescr_list, $v_header_list, $p_options)) != 1)
@@ -3097,9 +3059,6 @@
   // --------------------------------------------------------------------------------
   function privList(&$p_list)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privList", "list");
-    $v_result=1;
-
     // ----- Magic quotes trick
     $this->privDisableMagicQuotes();
 
@@ -3234,9 +3193,6 @@
   // --------------------------------------------------------------------------------
   function privExtractByRule(&$p_file_list, $p_path, $p_remove_path, $p_remove_all_path, &$p_options)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privExtractByRule", "path='$p_path', remove_path='$p_remove_path', remove_all_path='".($p_remove_all_path?'true':'false')."'");
-    $v_result=1;
-
     // ----- Magic quotes trick
     $this->privDisableMagicQuotes();
 
@@ -3264,7 +3220,6 @@
     {
       $p_remove_path .= '/';
     }
-    $p_remove_path_size = strlen($p_remove_path);
 
     // ----- Open the zip file
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Open file in binary read mode");
@@ -3616,9 +3571,6 @@
   // --------------------------------------------------------------------------------
   function privExtractFile(&$p_entry, $p_path, $p_remove_path, $p_remove_all_path, &$p_options)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::privExtractFile', "path='$p_path', remove_path='$p_remove_path', remove_all_path='".($p_remove_all_path?'true':'false')."'");
-    $v_result=1;
-
     // ----- Read the file header
     if (($v_result = $this->privReadFileHeader($v_header)) != 1)
     {
@@ -4010,9 +3962,6 @@
   // --------------------------------------------------------------------------------
   function privExtractFileInOutput(&$p_entry, &$p_options)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::privExtractFileInOutput', "");
-    $v_result=1;
-
     // ----- Read the file header
     if (($v_result = $this->privReadFileHeader($v_header)) != 1) {
       //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
@@ -4135,9 +4084,6 @@
   // --------------------------------------------------------------------------------
   function privExtractFileAsString(&$p_entry, &$p_string)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::privExtractFileAsString', "p_entry['filename']='".$p_entry['filename']."'");
-    $v_result=1;
-
     // ----- Read the file header
     $v_header = array();
     if (($v_result = $this->privReadFileHeader($v_header)) != 1)
@@ -4702,10 +4648,6 @@
   // --------------------------------------------------------------------------------
   function privDeleteByRule(&$p_result_list, &$p_options)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privDeleteByRule", "");
-    $v_result=1;
-    $v_list_detail = array();
-
     // ----- Open the zip file
     //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Open file in binary read mode");
     if (($v_result=$this->privOpenFd('rb')) != 1)
@@ -5124,9 +5066,6 @@
   // --------------------------------------------------------------------------------
   function privMerge(&$p_archive_to_add)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privMerge", "archive='".$p_archive_to_add->zipname."'");
-    $v_result=1;
-
     // ----- Look if the archive_to_add exists
     if (!is_file($p_archive_to_add->zipname))
     {
@@ -5333,9 +5272,6 @@
   // --------------------------------------------------------------------------------
   function privDuplicate($p_archive_filename)
   {
-    //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZip::privDuplicate", "archive_filename='$p_archive_filename'");
-    $v_result=1;
-
     // ----- Look if the $p_archive_filename exists
     if (!is_file($p_archive_filename))
     {

@@ -42,8 +42,6 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer {
 	function getTemplateHtml() {
 
 		if($this->sTemplateHtml === FALSE) {
-
-			$mHtml = "";
 			$sPath = $this->getTemplatePath();
 
 			if(!empty($sPath)) {

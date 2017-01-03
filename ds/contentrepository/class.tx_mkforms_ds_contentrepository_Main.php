@@ -145,7 +145,6 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource {
 	}
 
 	function initDataSet($sKey) {
-		$sSignature = FALSE;
 		$oDataSet = tx_rnbase::makeInstance('formidable_maindataset');
 
 		if ($sKey === 'new') {
