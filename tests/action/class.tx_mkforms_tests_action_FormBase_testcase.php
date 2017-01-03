@@ -29,7 +29,7 @@
 tx_rnbase::load('tx_mkforms_forms_Factory');
 require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkforms_tests_Utils');
+tx_rnbase::load('tx_mkforms_tests_Util');
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
 class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTestCase {
