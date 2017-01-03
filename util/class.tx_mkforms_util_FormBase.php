@@ -447,38 +447,6 @@ class tx_mkforms_util_FormBase {
 		}
 		return $splitData;
 	}
-	/**
-	 * @TODO: fertig umsetzen und integrieren, fals nötig!
-	 *
-	 * @param 	array $data
-	 * @param 	mixed $value
-	 * @param 	string $key
-	 * @param 	string $subKey
-	 * @return 	void
-	 */
-	private static function explodeArrayWithArrayKeys_setValue(array &$data, $value, $key, $subKey=false) {
-		if ($subKey && !isset($data[$key])) {
-			$data[$key] = array();
-		}
-		$keyData = &$data;
-		if($subKey) {
-			$keyData = &$keyData[$key];
-			$key = $subKey;
-		}
-
-		// Wurde bereits gesetzt
-		if(array_key_exists($key, $keyData)){
-			// in ein Array umwandeln, wenn noch nicht geschehen
-			if (!is_array($keyData[$key])) {
-				$keyData[$key] = array( $keyData[$key] );
-			}
-			$keyData[$key][] = $value;
-		}
-		// wert erstmals setzen
-		else {
-			$keyData[$subKey] = $value;
-		}
-	}
 
 	/**
 	 * Merge data of several arrays into one single data array

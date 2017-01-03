@@ -8,9 +8,6 @@ tx_rnbase::load('tx_rnbase_util_Templates');
 tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
-
-	private static $ignoreCharacters = array('/');
-
 	var $aLibs = array(
 		'widget_autocomplete_class' => 'res/js/autocomplete.js',
 	);
