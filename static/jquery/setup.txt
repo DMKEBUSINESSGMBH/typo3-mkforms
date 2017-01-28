@@ -4,7 +4,7 @@ config.tx_mkforms {
 	mayLoadScriptaculous = 1
 	jsframework {
 	  jscore = jquery
-	  jscore.tx_mkforms_jsbase = EXT:mkforms/res/jsfwk/jquery/jquery-1.4.3.js
+	  jscore.tx_mkforms_jsbase = EXT:mkforms/res/jsfwk/jquery/jquery-2.2.4.min.js
 	  jscore.tx_mkforms_base = EXT:mkforms/res/jsfwk/prototype/addons/base/Base.js
 	  jscore.basewrapper = EXT:mkforms/res/jsfwk/wrapper.js
 	  jscore.wrapper = EXT:mkforms/res/jsfwk/jquery/wrapper.js
