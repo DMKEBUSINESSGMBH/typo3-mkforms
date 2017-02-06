@@ -94,6 +94,7 @@ config.tx_mkforms {
 				}
 			}
 		}
+		date.css = EXT:mkforms/widgets/date/res/lib/js_calendar/calendar-system.css
 	}
 
 	actionlets {
@@ -343,8 +344,4 @@ config.tx_mkforms {
 			}
 		}
 	}
-}
-
-page.includeCSSLibs {
-	mkforms-datepicker = EXT:mkforms/widgets/date/res/lib/js_calendar/calendar-system.css
 }
