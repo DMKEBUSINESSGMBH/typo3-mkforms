@@ -2651,64 +2651,96 @@ JAVASCRIPT;
 		return $aRendered;
 	}
 
+	/**
+	 *
+	 * @param string $pathToTemplate something like "/childs/template"
+	 */
+	protected function findTemplate($pathToTemplate) {
+		if (($sPath = $this->getConfigValue($pathToTemplate.'/path')) === FALSE) {
+			return FALSE;
+		}
+		$aTemplate = $this->getConfigValue('/childs/template');
+		if($this->getForm()->isRunneable($aTemplate)) {
+			$aTemplate = $this->getForm()->getRunnable()->callRunnableWidget($this, $aTemplate);
+		}
+
+		if(is_array($aTemplate) && array_key_exists('path', $aTemplate)) {
+			if($this->getForm()->isRunneable($aTemplate['path'])) {
+				$aTemplate['path'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aTemplate['path']);
+			}
+			else {
+				if(!$sPath && $aTemplate['path']) {
+					$this->mayday('No filepath for \'path='.$aTemplate['path'].'\' found.');
+				}
+				$aTemplate['path'] = $sPath; // Der Wert muss über getConfigValue geholt werden, damit auch TS: funktioniert
+			}
+		} else {
+			$this->mayday('Template defined, but <b>/template/path</b> is missing. Please check your XML configuration.');
+		}
+
+		if(is_array($aTemplate) && array_key_exists('subpart', $aTemplate)) {
+			if($this->oForm->isRunneable($aTemplate['subpart'])) {
+				$aTemplate['subpart'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aTemplate['subpart']);
+			}
+			else {
+				if(!$sPath && $aTemplate['subpart']) {
+					$this->mayday('No subpart for \'subpart='.$aTemplate['subpart'].'\' found.');
+				}
+				$aTemplate['subpart'] = $this->getConfigValue($pathToTemplate.'/subpart');
+			}
+		} else {
+			$this->mayday('Template defined, but <b>/template/subpart</b> is missing. Please check your XML configuration.');
+		}
+
+		$aTemplate['path'] = tx_mkforms_util_Div::toServerPath($aTemplate['path']);
+
+		$sHtml = '';
+		if(file_exists($aTemplate['path'])) {
+			if(is_readable($aTemplate['path'])) {
+				$sHtml = tx_rnbase_util_Templates::getSubpart(
+						Tx_Rnbase_Utility_T3General::getUrl($aTemplate['path']),
+						$aTemplate['subpart']
+						);
+
+				if(trim($sHtml) === '') {
+					$this->mayday("The given template (<b>'" . $aTemplate['path']
+						. "'</b> with subpart marquer <b>'" . $aTemplate['subpart']
+						. "'</b>) <b>returned an empty string</b> - Check your template"
+					);
+				}
+			} else {
+				$this->mayday('the given template file \'<b>' . $aTemplate['path'] . "</b>' isn't readable. Please check permissions for this file.");
+			}
+		} else {
+			// TODO: hier Vorschlag für valide Datei einblenden. Siehe widget LISTER::_autoTemplateMayday
+			$this->mayday('the given template file \'<b>' . $aTemplate['path'] . "</b>' is empty.");
+		}
+		return $sHtml;
+
+	}
+	/**
+	 * Render mayday box for this widget
+	 * @param string $msg
+	 */
+	protected function mayday($msg) {
+		$this->getForm()->mayday(
+			"RENDERLET:" . $this->_getType() . "[name=" . $this->getName() . "] - ".$msg
+		);
+	}
 	function renderChildsCompiled($aChildsBag) {
-
-		if (($this->_navConf('/childs/template/path')) !== FALSE) {
-			// templating childs
-			// mechanism:
-			// childs can be templated if name of parent renderlet is present in template as a subpart marker
-			// like for instance with renderlet:BOX name="mybox", subpart will be <!-- ###mybox### begin--> My childs here <!-- ###mybox### end-->
-
-			$aTemplate = $this->_navConf('/childs/template');
-
-			$sPath = $this->oForm->toServerPath($this->oForm->_navConf('/path', $aTemplate));
-
-			if (!file_exists($sPath)) {
-				$this->oForm->mayday(
-					"renderlet:" . $this->_getType() . "[name=" . $this->getName() . "] - The given template file path (<b>'"
-					. $sPath . "'</b>) doesn't exists."
-				);
-			} elseif (is_dir($sPath)) {
-				$this->oForm->mayday(
-					"renderlet:" . $this->_getType() . "[name=" . $this->getName() . "] - The given template file path (<b>'"
-					. $sPath . "'</b>) is a directory, and should be a file."
-				);
-			} elseif (!is_readable($sPath)) {
-				$this->oForm->mayday(
-					"renderlet:" . $this->_getType() . "[name=" . $this->getName()
-					. "] - The given template file path exists but is not readable."
-				);
-			}
-
-			if (($sSubpart = $this->oForm->_navConf('/subpart', $aTemplate)) === FALSE) {
-				$sSubpart = $this->getName();
-			}
-
-			$mHtml = tx_rnbase_util_Templates::getSubpart(
-				Tx_Rnbase_Utility_T3General::getUrl($sPath),
-				$sSubpart
-			);
-
-			if (trim($mHtml) == '') {
-				$this->oForm->mayday(
-					"renderlet:" . $this->_getType() . "[name=" . $this->getName() . "] - The given template (<b>'" . $sPath
-					. "'</b> with subpart marquer <b>'" . $sSubpart
-					. "'</b>) <b>returned an empty string</b> - Check your template"
-				);
-			}
-
-			return $this->oForm->getTemplateTool()->parseTemplateCode(
-				$mHtml,
-				$aChildsBag,
-				array(),
-				FALSE
-			);
+		if(($mHtml = $this->findTemplate('/childs/template')) !== FALSE) {
+			return $this->getForm()->getTemplateTool()->parseTemplateCode(
+					$mHtml,
+					$aChildsBag,
+					array(),
+					FALSE
+					);
 		} else {
 
-			if ($this->oForm->oRenderer->_getType() === 'TEMPLATE') {
+			if ($this->getForm()->getRenderer()->_getType() === 'TEMPLATE') {
 
 				// child-template is not defined, but maybe is it implicitely the same as current template renderer ?
-				if (($sSubpartName = $this->_navConf('/childs/template/subpart')) === FALSE) {
+				if (($sSubpartName = $this->getConfigValue('/childs/template/subpart')) === FALSE) {
 					$sSubpartName = $this->getName();
 				}
 

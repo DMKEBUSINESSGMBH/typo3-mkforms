@@ -1,8 +1,8 @@
 Tipps und Tricks
 ================
 
-Tests
------
+Unit-Testing
+------------
 
 **FormAction**
 
@@ -48,15 +48,21 @@ Folgende Prefixe sind von Ameos vorgegeben:
 -   **rowInput::** - Zugriff auf einen Wert im aktuellen Formular. Alternativ kann man auch direkt den Namen des Widgets angeben. Siehe unten.
 -   **sysEvent.** - Funktion noch unbekannt
 -   **[absWidgetName]** - Wenn man nur den absoluten Namen eines Widget angibt, dann wird dessen Wert übertragen.
+-   **[absBoxName__]** - Wenn man nur den absoluten Namen eines BOX-Widgets angibt, dann werden alle Widgets innerhalb dieser Box übertragen.
 
-**Nochmal zur Klarheit**: Diese Angaben werden letztendlich auf Client-Seite per Javascript ausgewertet. Der Server stellt sie nur in einem Format bereit, damit der Client weiß, was am Ende genau übertragen werden soll. Somit wird bei Ajax-Call letztendlich der aktuelle Wert des entsprechenden Widgets übertragen.
+**Nochmal zur Klarheit**: Diese Angaben werden letztendlich auf Client-Seite per Javascript ausgewertet. Der Server 
+stellt sie nur in einem Format bereit, damit der Client weiß, was am Ende genau übertragen werden soll. Somit wird 
+bei Ajax-Call letztendlich der aktuelle Wert des entsprechenden Widgets übertragen.
 
 Action URL
 ----------
 
-Wenn ein Formular in Zusammenspiel mit einem Pagebrowser verwendet wird, kann es zu Problemen mit der Action URL kommen. Folgendes Szenario:
+Wenn ein Formular in Zusammenspiel mit einem Pagebrowser verwendet wird, kann es zu Problemen mit der Action URL 
+kommen. Folgendes Szenario:
 
-Ein Formular wird für eine Suche verwendet. Hat man nun Suchergebnisse für 3 Seiten und schickt auf der 3. Seite die Suche mit einem neuen Suchbegriff ab, der nur Treffer für 1 Seite zurück liefert, würden angeblich keine Ergebnisse gefunden, was auch logisch ist. Man ist in diesem Moment auf der 3. Ergebnisseite, hat aber nur Treffer für die 1. Ergebnisseite.
+Ein Formular wird für eine Suche verwendet. Hat man nun Suchergebnisse für 3 Seiten und schickt auf der 3. Seite 
+die Suche mit einem neuen Suchbegriff ab, der nur Treffer für 1 Seite zurück liefert, würden angeblich keine Ergebnisse 
+gefunden, was auch logisch ist. Man ist in diesem Moment auf der 3. Ergebnisseite, hat aber nur Treffer für die 1. Ergebnisseite.
 
 Daher gibt es die Möglichkeit in Formularen in folgenden Pfad "/meta/form/" das Attribut "action" auf "current" zu setzen. Damit wird immer die URL der aktuellen Seite ohne zusätzliche Parameter angegeben.
 
@@ -112,7 +118,7 @@ Beispiel für ein XML, welches seine Elemente aus einem anderen XML zieht. Dabei
 </mkforms>
 ~~~~
 
-Mehrfach abschicken eines Fromulares verhindern (Doppelklick)
+Mehrfaches abschicken eines Formulars verhindern (Doppelklick)
 -------------------------------------------------------------
 
 -   **disableButtonsOnSubmit** - Buttons werden nach einem Submit deaktiviert (Default = true)
@@ -147,3 +153,4 @@ Das dazugehörige Subtemplate könnte so aussehen:
    {mySubTemplateWidget}
 ###MYSUBPART###
 ~~~~
+
