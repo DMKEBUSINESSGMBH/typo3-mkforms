@@ -587,8 +587,7 @@ class tx_mkforms_util_Runnable {
 						$this->getForm()->getJSLoader()->getScriptPath(
 								tx_mkforms_util_Div::toWebPath($sFilePath)
 							) . '"></script>';
-
-					$sScript = "Formidable.CodeBehind." . $sClass . " = new Formidable.Classes." . $sClass . "({formid: '" . $this->formid . "'});";
+					$sScript = "Formidable.CodeBehind." . $sClass . " = new Formidable.Classes." . $sClass . "({formid: '" . $this->getForm()->getFormId() . "'});";
 					$this->getForm()->aCodeBehindJsInits[] = $sScript;
 
 					return array("type" => "js","name" => $sName,"class" => $sClass,);
@@ -777,7 +776,9 @@ class tx_mkforms_util_Runnable {
 	 */
 	public static function createInstance(tx_mkforms_util_Config $config, $form) {
 		$runnable = new tx_mkforms_util_Runnable($config, $form);
-		$runnable->initCodeBehinds();
+		if($form->getFormId()) { // without a formid the CodeBehind is not valid
+			$runnable->initCodeBehinds();
+		}
 		return $runnable;
 	}
 

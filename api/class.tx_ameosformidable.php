@@ -674,13 +674,22 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm {
 	}
 
 	/**
-	 * Liefert eine Instanz von tx_mkforms_util_Runnable
+	 * Liefert eine Instanz von tx_mkforms_util_Runnable. Es wird systemweit nur eine einzige Instanz
+	 * verwendet.
+	 *
+	 * Im Runnable werden auch die CodeBehinds initialisiert. Wenn der erste Zugriff auf
+	 * ein Runnable aber erfolgt, bevor das Formular seine formid gelesen hat, dann werden die CodeBehinds
+	 * ohne gültige formid initialisiert. Darum wird solange ein neues Runnable instanziiert, bis eine formid
+	 * vorhanden ist. (Es ist aber nur eine weitere Instanz.)
+	 *
 	 *
 	 * @return tx_mkforms_util_Runnable
 	 */
 	public function getRunnable() {
 		if (!$this->runnable) {
-			$this->runnable = tx_mkforms_util_Runnable::createInstance($this->getConfig(), $this);
+			if(!$this->getFormId())
+				return tx_mkforms_util_Runnable::createInstance($this->getConfigXML(), $this);
+			$this->runnable = tx_mkforms_util_Runnable::createInstance($this->getConfigXML(), $this);
 		}
 
 		return $this->runnable;
