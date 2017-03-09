@@ -214,7 +214,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base {
 	 *
 	 * @return string
 	 */
-	public function getMainSubpart() {
+	function getMainSubpart(&$viewData) {
 		tx_rnbase::load('tx_rnbase_action_BaseIOC');
 		$controller = $this->getController();
 		if($controller instanceof tx_rnbase_action_BaseIOC) {
