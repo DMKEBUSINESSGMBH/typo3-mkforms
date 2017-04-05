@@ -31,7 +31,7 @@ class tx_mkforms_widgets_label_Main extends formidable_mainrenderlet {
 		return $sCaption;
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

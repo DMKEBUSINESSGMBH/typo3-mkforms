@@ -31,7 +31,7 @@ class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet {
 		);
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

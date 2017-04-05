@@ -1703,7 +1703,7 @@ ERRORMESSAGE;
 		return $this->oForm->_defaultTrue('/activelistable/', $this->aElement);
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

@@ -30,7 +30,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 
 	function _renderReadOnly()	{ return $this->_render();}
 	function _readOnly()		{ return TRUE;}
-	function _renderOnly()		{ return TRUE;}
+	function _renderOnly($bForAjax = FALSE) { return TRUE;}
 	function mayHaveChilds()	{ return TRUE;}
 
 	function majixShowFreshBox($aConfig = array(), $aTags = array()) {

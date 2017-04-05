@@ -98,7 +98,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet {
 		return $this->_defaultFalse('/searchable/');
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

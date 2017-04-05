@@ -463,7 +463,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet {
 		);
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return $this->_defaultTrue("/renderonly");
 	}
 

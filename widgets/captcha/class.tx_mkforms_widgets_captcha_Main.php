@@ -78,7 +78,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet {
 		return $aHtmlBag;
 	}
 
-	function _renderOnly($bForAjax=false) {
+	function _renderOnly($bForAjax = FALSE) {
 		// bei ajax requests muss hier false zurückgegeben werden,
 		// da sonst der captcha ignoriert wird
 		return $bForAjax ? false : true;

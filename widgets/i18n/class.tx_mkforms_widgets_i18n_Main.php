@@ -234,7 +234,7 @@ TYPOSCRIPT;
 		return $this->oForm->_defaultTrue("/activelistable/", $this->aElement);
 	}
 
-	function _renderonly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

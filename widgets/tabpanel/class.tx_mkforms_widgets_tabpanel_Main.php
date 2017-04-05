@@ -109,7 +109,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet {
 		return TRUE;
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

@@ -258,7 +258,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet {
 		return $sPath;
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

@@ -197,7 +197,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 		return TRUE;
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return $this->_defaultTrue("/renderonly/");
 	}
 

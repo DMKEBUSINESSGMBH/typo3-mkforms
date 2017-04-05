@@ -179,7 +179,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet {
 		return $aHtmlBag;
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return TRUE;
 	}
 

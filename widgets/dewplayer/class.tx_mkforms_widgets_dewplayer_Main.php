@@ -77,7 +77,7 @@ FLASHOBJECT;
 		return $aHtmlBag;
 	}
 
-	function _renderOnly() {
+	function _renderOnly($bForAjax = FALSE) {
 		return true;
 	}
 
