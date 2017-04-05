@@ -124,7 +124,7 @@ class tx_mkforms_util_Div {
 	 * @param	string $$clazzname classname
 	 * @return string
 	 */
-	function getExtRelPath($clazzname) {
+	public static function getExtRelPath($clazzname) {
 		$infos = tx_rnbase::getClassInfo($clazzname);
 		return tx_rnbase_util_Extensions::siteRelPath($infos['extkey']) . $infos['dir'];
 	}
@@ -135,7 +135,7 @@ class tx_mkforms_util_Div {
 	 * @param	[type]		$mInfos: ...
 	 * @return	[type]		...
 	 */
-	function getExtPath($clazzname) {
+	public static function getExtPath($clazzname) {
 		$infos = tx_rnbase::getClassInfo($clazzname);
 		return tx_rnbase_util_Extensions::extPath($infos['extkey']) . $infos['dir'];
 	}
@@ -635,7 +635,7 @@ ERRORMESSAGE;
 	 * @param	string		$sPath: absolute server path to file
 	 * @return	string		file contents
 	 */
-	function fileReadBin($sPath) {
+	public static function fileReadBin($sPath) {
 		$sData = '';
 		$rFile = fopen($sPath, "rb");
 		while(!feof($rFile)) {
@@ -654,7 +654,7 @@ ERRORMESSAGE;
 	 * @param	boolean		$bUTF8: add UTF8-BOM or not ?
 	 * @return	void
 	 */
-	function fileWriteBin($sPath, $sData, $bUTF8 = TRUE) {
+	public static function fileWriteBin($sPath, $sData, $bUTF8 = TRUE) {
 		$rFile=fopen($sPath, "wb");
 		if($bUTF8 === TRUE) {
 			fputs($rFile, "\xEF\xBB\xBF" . $sData);
