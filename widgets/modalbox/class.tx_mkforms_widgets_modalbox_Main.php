@@ -100,7 +100,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
 	}
 
 	// this has to be static !!!
-	function loaded(&$aParams) {
+	public static function loaded(&$aParams) {
 		$aParams["form"]->getJSLoader()->loadScriptaculous();
 	}
 

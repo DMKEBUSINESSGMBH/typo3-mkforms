@@ -189,7 +189,7 @@ class formidable_mainobject {
 	}
 
 	// this has to be static !!!
-	function loaded(&$aParams) {
+	public static function loaded(&$aParams) {
 	}
 
 	function cleanBeforeSession() {

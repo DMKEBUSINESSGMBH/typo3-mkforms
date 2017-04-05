@@ -73,7 +73,8 @@ class tx_mkforms_util_Loader {
 		// calls tx_myrdtclass::loaded();
 			// params are not passed by ref with call_user_func, so have to pass an array with &
 		$aLoadedObjects =& $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType];
-		call_user_func(array($aLoadedObjects[$objectKey]['CLASS'], 'loaded'), array('form' => &$form));
+		$params = array('form' => &$form);
+		call_user_func_array(array($aLoadedObjects[$objectKey]['CLASS'], 'loaded'), array(&$params));
 
 		if(!is_array($aObj)) {
 			tx_mkforms_util_Div::mayday('TYPE ' . $aElement['type'] . ' is not associated to any ' . $objectType);

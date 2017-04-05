@@ -104,7 +104,7 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet {
 	}
 
 	// this has to be static !!!
-	function loaded(&$aParams) {
+	public static function loaded(&$aParams) {
 		$aParams["form"]->getJSLoader()->loadScriptaculous();
 		$sCss = $aParams["form"]->toWebPath("EXT:ameos_formidable/api/base/rdt_modalbox2/res/js/modalbox1.6.0/modalbox.css");
 		$aParams["form"]->additionalHeaderData(
