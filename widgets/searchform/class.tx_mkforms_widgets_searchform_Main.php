@@ -13,7 +13,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet {
 	var $aFilters = FALSE;
 	var $aDescendants = FALSE;
 
-	function _init(&$oForm, $aElement, $aObjectType, $sXPath) {
+	function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
 		parent::_init($oForm, $aElement, $aObjectType, $sXPath);
 		$this->_initDescendants();	// early init (meaning before removing unprocessed rdts)
 	}

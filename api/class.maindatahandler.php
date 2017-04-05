@@ -36,7 +36,7 @@ class formidable_maindatahandler extends formidable_mainobject {
 	 * @param array              $aObjectType
 	 * @param string             $sXPath
 	 */
-	function _init(&$oForm, $aElement, $aObjectType, $sXPath) {
+	function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
 		parent::_init($oForm, $aElement, $aObjectType, $sXPath);
 
 		if (!is_null($dhos = $oForm->getConfTS('datahandleronsubmit'))) {

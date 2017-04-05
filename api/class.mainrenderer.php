@@ -11,7 +11,7 @@ class formidable_mainrenderer extends formidable_mainobject {
 
 	var $bDisplayLabels = TRUE;
 
-	function _init(&$oForm, $aElement, $aObjectType, $sXPath) {
+	function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = FALSE) {
 
 		parent::_init($oForm, $aElement, $aObjectType, $sXPath);
 
