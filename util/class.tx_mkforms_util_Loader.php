@@ -32,13 +32,13 @@ class tx_mkforms_util_Loader {
 	private $loadedClasses = array();
 	private static $instances = array();
 
-
 	/**
 	 * constructor
 	 *
 	 * @param string $formid
 	 */
-	public function tx_mkforms_util_Loader($formid=false){
+	public function __construct($formid = false)
+	{
 		$this->formId = $formid;
 	}
 
