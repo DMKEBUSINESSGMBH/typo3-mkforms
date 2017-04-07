@@ -61,7 +61,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet {
 		}
 
 		$sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
-		$sInput .= '<input type="hidden" name="' . $this->_getElementHtmlName() . '[backup]" value="' . $this->getValueForHtml($sValue) . '" />';
+		$sInput .= '<input type="hidden" name="' . $this->_getElementHtmlName() . '[backup]" id="' . $this->_getElementHtmlId() . '_backup" value="' . $this->getValueForHtml($sValue) . '" />';
 
 		if(!empty($sValue) && $this->defaultTrue('showfilelist')) {
 			$aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValueForHtml($sValue));
