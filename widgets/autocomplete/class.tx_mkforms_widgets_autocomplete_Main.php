@@ -232,8 +232,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet {
 				$aRowsHtml[] = trim($sRowHtml);
 			}
 
-			$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
-			$sHtml = $htmlParser::substituteSubpart(
+			$sHtml = tx_rnbase_util_Typo3Classes::substituteSubpart(
 				trim($this->sTemplate),
 				'###ROWS###',
 				'###ROWS###',

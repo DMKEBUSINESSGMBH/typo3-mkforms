@@ -755,8 +755,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				}
 			}
 
-			$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
-			$aTemplate['html'] = $htmlParser::substituteSubpart(
+			$aTemplate['html'] = tx_rnbase_util_Templates::substituteSubpart(
 				$aTemplate['html'],
 				'###ROWS###',
 				implode('', $aRowsHtml),
@@ -858,15 +857,13 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 				}
 			}
 
-			$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
-			$sPager = $htmlParser::substituteSubpart($sPager, '###LINKFIRST###',$aLinks['first'], FALSE, FALSE);
-			$sPager = $htmlParser::substituteSubpart($sPager, '###LINKPREV###',	$aLinks['prev'], FALSE, FALSE);
-			$sPager = $htmlParser::substituteSubpart($sPager, '###LINKNEXT###',	$aLinks['next'], FALSE, FALSE);
-			$sPager = $htmlParser::substituteSubpart($sPager, '###LINKLAST###',	$aLinks['last'], FALSE, FALSE);
+			$sPager = tx_rnbase_util_Templates::substituteSubpart($sPager, '###LINKFIRST###',$aLinks['first'], FALSE, FALSE);
+			$sPager = tx_rnbase_util_Templates::substituteSubpart($sPager, '###LINKPREV###',	$aLinks['prev'], FALSE, FALSE);
+			$sPager = tx_rnbase_util_Templates::substituteSubpart($sPager, '###LINKNEXT###',	$aLinks['next'], FALSE, FALSE);
+			$sPager = tx_rnbase_util_Templates::substituteSubpart($sPager, '###LINKLAST###',	$aLinks['last'], FALSE, FALSE);
 
 			// generating window
 			$sWindow = '';
-			$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
 			if(!empty($this->aPager['window'])) {
 				$sWindow = tx_rnbase_util_Templates::getSubpart($aTemplate['pager'], '###WINDOW###');
 				$sLinkNo = tx_rnbase_util_Templates::getSubpart($sWindow, '###NORMAL###');
@@ -930,10 +927,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 
 				$sLinks = implode(' ', $aLinks);
 
-				$sWindow = $htmlParser::substituteSubpart($sWindow, '###WINDOWLINKS###', $sLinks, FALSE, FALSE);
+				$sWindow = tx_rnbase_util_Templates::substituteSubpart($sWindow, '###WINDOWLINKS###', $sLinks, FALSE, FALSE);
 			}
 
-			$sPager = $htmlParser::substituteSubpart($sPager, '###WINDOW###', $sWindow, FALSE, FALSE);
+			$sPager = tx_rnbase_util_Templates::substituteSubpart($sPager, '###WINDOW###', $sWindow, FALSE, FALSE);
 
 			$sPager = '<div id="'.$sPagerHtmlId.'">'.$sPager.'</div>';
 		} else {
@@ -1011,8 +1008,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet {
 					$sTag = $sSortHtml;
 				}
 
-				$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
-				$aTemplate['html'] = $htmlParser::substituteSubpart(
+				$aTemplate['html'] = tx_rnbase_util_Templates::substituteSubpart(
 					$aTemplate['html'],
 					$sSubpart,
 					$sTag,
@@ -1336,11 +1332,10 @@ ERRORMESSAGE;
 			);
 		}
 
-		$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
-		$aRes['html'] = $htmlParser::substituteSubpart($aRes['html'], '###STYLES###', '', FALSE, FALSE);
-		$aRes['html'] = $htmlParser::substituteSubpart($aRes['html'], '###DATACOLUMN1###', implode('', $aHtml['DATA']['ROW1']), FALSE, FALSE);
-		$aRes['html'] = $htmlParser::substituteSubpart($aRes['html'], '###DATACOLUMN2###', implode('', $aHtml['DATA']['ROW2']), FALSE, FALSE);
-		$aRes['html'] = $htmlParser::substituteSubpart($aRes['html'], '###TOPCOLUMN###', implode('', $aHtml['TOP']), FALSE, FALSE);
+		$aRes['html'] = tx_rnbase_util_Templates::substituteSubpart($aRes['html'], '###STYLES###', '', FALSE, FALSE);
+		$aRes['html'] = tx_rnbase_util_Templates::substituteSubpart($aRes['html'], '###DATACOLUMN1###', implode('', $aHtml['DATA']['ROW1']), FALSE, FALSE);
+		$aRes['html'] = tx_rnbase_util_Templates::substituteSubpart($aRes['html'], '###DATACOLUMN2###', implode('', $aHtml['DATA']['ROW2']), FALSE, FALSE);
+		$aRes['html'] = tx_rnbase_util_Templates::substituteSubpart($aRes['html'], '###TOPCOLUMN###', implode('', $aHtml['TOP']), FALSE, FALSE);
 
 		$aRes['html'] = $this->_parseThrustedTemplateCode(
 			$aRes['html'],

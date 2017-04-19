@@ -404,8 +404,7 @@ class tx_mkforms_util_Templates {
 		reset($aTags);
 		while(list($sName, $mVal) = each($aTags)) {
 			if(($sRdtSubPart = tx_rnbase_util_Templates::getSubpart($sHtml, "###" . $sName . "###")) !== "") {
-				$htmlParser = tx_rnbase_util_Typo3Classes::getHtmlParserClass();
-				$sHtml = $htmlParser::substituteSubpart(
+				$sHtml = tx_rnbase_util_Typo3Classes::substituteSubpart(
 					$sHtml,
 					"###" . $sName . "###",
 					$mVal["__compiled"],
