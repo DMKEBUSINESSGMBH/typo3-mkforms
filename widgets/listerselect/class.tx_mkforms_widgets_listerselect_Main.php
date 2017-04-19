@@ -75,9 +75,9 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 	 * Liefert hier die ID ohne das Iterating. Das wird bei der Abfrage der Daten vom DataHandler benötigt.
 	 * @see api/formidable_mainrenderlet#getElementId()
 	 */
-	public function getElementId() {
+	function getElementId($withForm = TRUE) {
 		$lister = $this->getParent();
-		$sId  = $lister ? $lister->_getElementHtmlId() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN : '';
+		$sId  = $lister ? $lister->_getElementHtmlId(FALSE, $withForm) . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN : '';
 		$sId .= $this->_getNameWithoutPrefix();
 		return $sId;
 	}
@@ -186,7 +186,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet {
 		return $sHtml;
 	}
 
-	function _displayLabel($sLabel) {
+	function _displayLabel($sLabel, $aConfig = false) {
 		$sId = $this->_getElementHtmlId() . "_label";
 		return ($this->oForm->oRenderer->bDisplayLabels && (trim($sLabel) != "")) ? "<label id='" . $sId . "' class='".$this->getForm()->sDefaultWrapClass."-label " . $sId . "'>" . $sLabel . "</label>\n" : "";
 	}

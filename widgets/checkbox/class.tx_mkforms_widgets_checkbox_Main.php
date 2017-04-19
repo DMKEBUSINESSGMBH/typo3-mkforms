@@ -173,7 +173,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 		return implode(', ', $aLabels);
 	}
 
-	function _sqlSearchClause($sValues, $sFieldPrefix = '') {
+	function _sqlSearchClause($sValues, $sFieldPrefix = '', $sFieldName = '', $bRec = true) {
 
 		$aParts = array();
 		$aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $sValues);
@@ -298,7 +298,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet {
 		return $sHtml;
 	}
 
-	function _displayLabel($sLabel) {
+	function _displayLabel($sLabel, $aConfig = false) {
 		$this->sDefaultLabelClass = $this->getForm()->sDefaultWrapClass.'-label';
 
 		$aConfig =  $this->aElement;

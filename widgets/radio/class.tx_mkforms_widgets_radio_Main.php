@@ -192,7 +192,7 @@ class tx_mkforms_widgets_radio_Main
 		return $sHtml;
 	}
 
-	function _displayLabel($sLabel) {
+	function _displayLabel($sLabel, $aConfig = false) {
 
 		// für bestehende projekte, das main label darf nicht die klasse -radio haben!
 		$sDefaultLabelClass = $this->sDefaultLabelClass;
