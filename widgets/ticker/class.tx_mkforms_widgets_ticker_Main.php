@@ -171,7 +171,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet {
 				$sRowsHtml = implode("", $aRowsHtml);
 			}
 
-			$sHtml = tx_rnbase_util_Typo3Classes::substituteSubpart(
+			$sHtml = tx_rnbase_util_Templates::substituteSubpart(
 				$sTemplate,
 				"###ROWS###",
 				$sRowsHtml,
