@@ -41,7 +41,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCa
 	 * @expectedExceptionMessage Please provide the parameter for 'configurationId'
 	 */
 	public function testGetConfigurationValueThrowsExceptionIfNoCondifurationIdConfigured() {
-		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
+		$form = tx_mkforms_tests_Util::getForm();
 
 		tx_mkforms_util_FormBase::getConfigurationValue(array(), $form);
 	}
@@ -55,8 +55,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCa
 			tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 				tx_mkforms_tests_Util::getDefaultFormConfig(true),
 				array('myConf.' => array('path' => 'test'))
-			),
-			$this
+			)
 		);
 
 		self::assertEquals(
@@ -81,8 +80,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCa
 						'path.' => array('value' => 'textvalue'),
 					)
 				)
-			),
-			$this
+			)
 		);
 
 		self::assertEquals(
@@ -102,8 +100,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCa
 			tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 				tx_mkforms_tests_Util::getDefaultFormConfig(true),
 				array('myConf.' => array('path' => 'test'))
-			),
-			$this
+			)
 		);
 
 		self::assertTrue(

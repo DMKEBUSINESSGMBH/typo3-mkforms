@@ -62,7 +62,7 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTe
 	 */
 	public function setUp(){
 		$this->oMainValidator = tx_rnbase::makeInstance('formidable_mainvalidator');
-		$this->oForm = tx_mkforms_tests_Util::getForm(true, array(), $this);
+		$this->oForm = tx_mkforms_tests_Util::getForm();
 		$this->oMainValidator->_init($this->oForm,null,null,null);
 
 		//evtl. aus vorherigen Tests

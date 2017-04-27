@@ -184,8 +184,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
 			tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
 				tx_mkforms_tests_Util::getDefaultFormConfig(true),
 				array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/timetracking.xml'))
-			),
-			$this
+			)
 		);
 	}
 

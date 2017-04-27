@@ -75,7 +75,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 	 */
 	public function testRenderThrowsExceptionIfRequestTokenIsNotSet() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-		tx_mkforms_tests_Util::getForm(true, array(), $this)->render();
+		tx_mkforms_tests_Util::getForm()->render();
 	}
 
 	/**
@@ -87,7 +87,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 	public function testRenderThrowsExceptionIfRequestTokenIsInvalid() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
-		tx_mkforms_tests_Util::getForm(true, array(), $this)->render();
+		tx_mkforms_tests_Util::getForm()->render();
 	}
 
 	/**
@@ -95,7 +95,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 	public function testRenderThrowsNoExceptionIfCsrfProtectionDeactivated() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = 'iAmInvalid';
-		$oForm = tx_mkforms_tests_Util::getForm(false, array(), $this);
+		$oForm = tx_mkforms_tests_Util::getForm(false);
 
 		self::assertNotContains(
 			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
@@ -109,13 +109,13 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 	public function testRenderThrowsNoExceptionIfRequestTokenIsValid() {
 		$_POST['radioTestForm']["AMEOSFORMIDABLE_SUBMITTED"] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
 		//damit wir getCsrfProtectionToken aufrufen können
-		$oForm = tx_mkforms_tests_Util::getForm(true, array(), $this);
+		$oForm = tx_mkforms_tests_Util::getForm();
 		$_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->getCsrfProtectionToken();
 		$GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($oForm->getFormId() => $oForm->getCsrfProtectionToken())));
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
 		//jetzt die eigentliche initialisierung
-		$oForm = tx_mkforms_tests_Util::getForm(true, array(), $this);
+		$oForm = tx_mkforms_tests_Util::getForm();
 
 		self::assertContains(
 			'<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
@@ -127,13 +127,13 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 	/**
 	 */
 	public function testGetCreationTimestamp() {
-		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
+		$form = tx_mkforms_tests_Util::getForm();
 		$GLOBALS['TSFE']->fe_user->setKey(
 			'ses', 'mkforms', array('creationTimestamp' => array($form->getFormId() => 123))
 		);
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
+		$form = tx_mkforms_tests_Util::getForm();
 
 		self::assertEquals(
 			123,

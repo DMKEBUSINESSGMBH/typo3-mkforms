@@ -96,7 +96,7 @@ class tx_mkforms_tests_api_maindatahandler_testcase extends tx_rnbase_tests_Base
 			);
 		$_POST['radioTestForm'] = $sData;
 
-		$oForm = tx_mkforms_tests_Util::getForm(true, array(), $this);
+		$oForm = tx_mkforms_tests_Util::getForm();
 		$oHandler = tx_rnbase::makeInstance('formidable_maindatahandler');
 		$oHandler->_init($oForm,array(),array(),'');
 
