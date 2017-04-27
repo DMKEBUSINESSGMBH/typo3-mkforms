@@ -120,9 +120,6 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTe
 	public function testCheckDependsOnReturnsTrueWhenDependentWidgetHasValue(){
 		$this->oForm->getWidget('fieldset__texte__area__textarea')->setValue('sometext');
 
-		$method = new ReflectionMethod('formidable_mainvalidator', 'checkDependsOn');
-		$method->setAccessible(true);
-
 		$this->oMainValidator->aElement = array(
 			'type' => 'STANDARD',
 			'required' => array(
@@ -131,11 +128,12 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTe
 			)
 		);
 
+		$widget = $this->oForm->getWidget('fieldset__widget-radiobutton');
+
 		self::assertTrue(
-			$method->invoke(
-				$this->oMainValidator,
-				$this->oForm->getWidget('fieldset__widget-radiobutton'),
-				'required'
+			$this->callInaccessibleMethod(
+				array($this->oMainValidator, 'checkDependsOn'),
+				array(&$widget, 'required')
 			),
 			'Es wurde nicht true zurück gegeben!'
 		);
@@ -143,9 +141,6 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTe
 
 	public function testCheckDependsOnReturnsFalseWhenDependentWidgetHasNoValue(){
 		$this->oForm->getWidget('fieldset__texte__area__textarea')->setValue('');
-
-		$method = new ReflectionMethod('formidable_mainvalidator', 'checkDependsOn');
-		$method->setAccessible(true);
 
 		$this->oMainValidator->aElement = array(
 			'type' => 'STANDARD',
@@ -155,13 +150,14 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTe
 			)
 		);
 
+		$widget = $this->oForm->getWidget('fieldset__widget-radiobutton');
+
 		self::assertFalse(
-				$method->invoke(
-					$this->oMainValidator,
-					$this->oForm->getWidget('fieldset__widget-radiobutton'),
-					'required'
-				),
-				'Es wurde nicht false zurück gegeben!'
+			$this->callInaccessibleMethod(
+				array($this->oMainValidator, 'checkDependsOn'),
+				array(&$widget, 'required')
+			),
+			'Es wurde nicht false zurück gegeben!'
 		);
 	}
 }
