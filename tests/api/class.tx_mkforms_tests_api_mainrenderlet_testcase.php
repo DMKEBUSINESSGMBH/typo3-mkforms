@@ -60,7 +60,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
 	 * setUp() = init DB etc.
 	 */
 	protected function setUp(){
-		$this->oForm = tx_mkforms_tests_Util::getForm();
+		$this->oForm = tx_mkforms_tests_Util::getForm(true, array(), $this);
 		$this->languageBackup = $GLOBALS['LANG']->lang;
 	}
 

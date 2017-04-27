@@ -75,7 +75,7 @@ class tx_mkforms_tests_Util {
 	 * @return tx_mkforms_forms_Base
 	 */
 	public static function getForm(
-		$bCsrfProtection = true, $aConfigArray = array(), $parent = null
+		$bCsrfProtection , array $aConfigArray, $parent
 	) {
 		$oForm = tx_mkforms_forms_Factory::createForm('generic');
 		$oForm->setTestMode();

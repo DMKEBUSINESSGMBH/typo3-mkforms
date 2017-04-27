@@ -72,7 +72,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 	/**
 	 */
 	public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSession() {
-		$form = tx_mkforms_tests_Util::getForm();
+		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
 		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
 		$renderer->_init($form,array(),array(),'');
 
@@ -105,7 +105,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
 
-		$form = tx_mkforms_tests_Util::getForm();
+		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
 		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
 		$renderer->_init($form,array(),array(),'');
 
@@ -131,7 +131,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 	/**
 	 */
 	public function testRenderInsertsCorrectCreationTimeIntoSession() {
-		$form = tx_mkforms_tests_Util::getForm();
+		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
 		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
 		$renderer->_init($form,array(),array(),'');
 
@@ -162,7 +162,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 		);
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 
-		$form = tx_mkforms_tests_Util::getForm();
+		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
 		$renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
 		$renderer->_init($form,array(),array(),'');
 

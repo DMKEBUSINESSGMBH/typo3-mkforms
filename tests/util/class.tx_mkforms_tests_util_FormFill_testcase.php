@@ -45,7 +45,7 @@ class tx_mkforms_tests_util_FormFill_testcase
 			'tx_mkforms_util_FormFill',
 			array('getRowsFromDataBase')
 		);
-		$form = tx_mkforms_tests_Util::getForm();
+		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
 		$formBase->expects(self::once())
 			->method('getRowsFromDataBase')
 			->with(array('someParams'), $form)
@@ -77,7 +77,7 @@ class tx_mkforms_tests_util_FormFill_testcase
 			self::markTestSkipped('Die Extension static_info_tables ist nicht installiert.');
 		}
 
-		$form = tx_mkforms_tests_Util::getForm();
+		$form = tx_mkforms_tests_Util::getForm(true, array(), $this);
 		$formFill = $this->getMock(
 			'tx_mkforms_util_FormFill',
 			array('getItemsFromDb')
