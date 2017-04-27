@@ -38,7 +38,7 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator {
 	 * @param 	formidable_mainrenderlet $renderlet
 	 * @return 	boolean
 	 */
-	public function validate(formidable_mainrenderlet $renderlet) {
+	public function validate(&$renderlet) {
 		$validationKeys = array_keys($this->_navConf('/'));
 		reset($validationKeys);
 
