@@ -23,114 +23,116 @@
 ***************************************************************/
 
 /**
- *
  * tx_mkforms_validator_timetracking_Main
  *
- * @package 		TYPO3
- * @subpackage	 	mkforms
- * @author 			Hannes Bochmann
- * @license 		http://www.gnu.org/licenses/lgpl.html
- * 					GNU Lesser General Public License, version 3 or later
+ * @package         TYPO3
+ * @subpackage      mkforms
+ * @author          Hannes Bochmann
+ * @license         http://www.gnu.org/licenses/lgpl.html
+ *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator {
+class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
+{
 
-	/**
-	 * @param 	formidable_mainrenderlet $renderlet
-	 * @return 	boolean
-	 */
-	public function validate(&$renderlet) {
-		$validationKeys = array_keys($this->_navConf('/'));
-		reset($validationKeys);
+    /**
+     * @param   formidable_mainrenderlet $renderlet
+     * @return  bool
+     */
+    public function validate(&$renderlet)
+    {
+        $validationKeys = array_keys($this->_navConf('/'));
+        reset($validationKeys);
 
-		while(!$renderlet->hasError() && list(, $validationKey) = each($validationKeys)) {
-			if (!$this->canValidate($renderlet, $validationKey, $renderlet->getValue())){
-				break;
-			}
+        while (!$renderlet->hasError() && list(, $validationKey) = each($validationKeys)) {
+            if (!$this->canValidate($renderlet, $validationKey, $renderlet->getValue())) {
+                break;
+            }
 
-			if ($this->formSendTooFast($validationKey, $renderlet)) {
-				break;
-			}
+            if ($this->formSendTooFast($validationKey, $renderlet)) {
+                break;
+            }
 
-			if ($this->formSendTooSlow($validationKey, $renderlet)) {
-				break;
-			}
-		}
-	}
+            if ($this->formSendTooSlow($validationKey, $renderlet)) {
+                break;
+            }
+        }
+    }
 
-	/**
-	 * @param string $validationKey
-	 * @param formidable_mainrenderlet $renderlet
-	 * @return boolean
-	 */
-	protected function formSendTooFast($validationKey, formidable_mainrenderlet $renderlet) {
-		$formSendTooFast = FALSE;
-		if(
-			$validationKey{0} === 't' &&
-			Tx_Rnbase_Utility_Strings::isFirstPartOfStr($validationKey, 'toofast')
-		) {
-			$timeNeededToSendForm = $GLOBALS['EXEC_TIME'] - $this->getForm()->getCreationTimestamp();
-			if($timeNeededToSendForm < $this->getThresholdByValidationKey($validationKey)) {
-				$this->declareValidationErrorByValidationKey($validationKey, $renderlet);
-				$formSendTooFast = TRUE;
-			}
-		}
+    /**
+     * @param string $validationKey
+     * @param formidable_mainrenderlet $renderlet
+     * @return bool
+     */
+    protected function formSendTooFast($validationKey, formidable_mainrenderlet $renderlet)
+    {
+        $formSendTooFast = false;
+        if ($validationKey{0} === 't' &&
+            Tx_Rnbase_Utility_Strings::isFirstPartOfStr($validationKey, 'toofast')
+        ) {
+            $timeNeededToSendForm = $GLOBALS['EXEC_TIME'] - $this->getForm()->getCreationTimestamp();
+            if ($timeNeededToSendForm < $this->getThresholdByValidationKey($validationKey)) {
+                $this->declareValidationErrorByValidationKey($validationKey, $renderlet);
+                $formSendTooFast = true;
+            }
+        }
 
-		return $formSendTooFast;
-	}
+        return $formSendTooFast;
+    }
 
-	/**
-	 * @param string $validationKey
-	 * @param formidable_mainrenderlet $renderlet
-	 * @return boolean
-	 */
-	protected function formSendTooSlow($validationKey, formidable_mainrenderlet $renderlet) {
-		$formSendTooSlow = FALSE;
-		if(
-			$validationKey{0} === 't' &&
-			Tx_Rnbase_Utility_Strings::isFirstPartOfStr($validationKey, 'tooslow')
-		) {
-			if(
-				$this->getForm()->getCreationTimestamp() <
-				($GLOBALS['EXEC_TIME'] - $this->getThresholdByValidationKey($validationKey))
-			) {
-				$this->declareValidationErrorByValidationKey($validationKey, $renderlet);
-				$formSendTooSlow = TRUE;
-			}
-		}
+    /**
+     * @param string $validationKey
+     * @param formidable_mainrenderlet $renderlet
+     * @return bool
+     */
+    protected function formSendTooSlow($validationKey, formidable_mainrenderlet $renderlet)
+    {
+        $formSendTooSlow = false;
+        if ($validationKey{0} === 't' &&
+            Tx_Rnbase_Utility_Strings::isFirstPartOfStr($validationKey, 'tooslow')
+        ) {
+            if ($this->getForm()->getCreationTimestamp() <
+                ($GLOBALS['EXEC_TIME'] - $this->getThresholdByValidationKey($validationKey))
+            ) {
+                $this->declareValidationErrorByValidationKey($validationKey, $renderlet);
+                $formSendTooSlow = true;
+            }
+        }
 
-		return $formSendTooSlow;
-	}
+        return $formSendTooSlow;
+    }
 
-	/**
-	 * @param string $validationKey
-	 * @param formidable_mainrenderlet $renderlet
-	 */
-	protected function declareValidationErrorByValidationKey(
-		$validationKey, formidable_mainrenderlet $renderlet
-	) {
-		$this->getForm()->_declareValidationError(
-			$renderlet->getAbsName(),
-			'TIMERACKING:' . $validationKey,
-			$this->getForm()->getConfigXML()->getLLLabel(
-				$this->_navConf('/' . $validationKey . '/message')
-			)
-		);
-	}
+    /**
+     * @param string $validationKey
+     * @param formidable_mainrenderlet $renderlet
+     */
+    protected function declareValidationErrorByValidationKey(
+        $validationKey,
+        formidable_mainrenderlet $renderlet
+    ) {
+        $this->getForm()->_declareValidationError(
+            $renderlet->getAbsName(),
+            'TIMERACKING:' . $validationKey,
+            $this->getForm()->getConfigXML()->getLLLabel(
+                $this->_navConf('/' . $validationKey . '/message')
+            )
+        );
+    }
 
-	/**
-	 *
-	 * @param string $validationKey
-	 * @throws InvalidArgumentException
-	 *
-	 * @return int
-	 */
-	protected function getThresholdByValidationKey($validationKey) {
-		if (!$threshold = $this->_navConf('/' . $validationKey . '/threshold')) {
-			throw new InvalidArgumentException(
-				'Please provide the threshold parameter for the tooFast validation'
-			);
-		}
+    /**
+     *
+     * @param string $validationKey
+     * @throws InvalidArgumentException
+     *
+     * @return int
+     */
+    protected function getThresholdByValidationKey($validationKey)
+    {
+        if (!$threshold = $this->_navConf('/' . $validationKey . '/threshold')) {
+            throw new InvalidArgumentException(
+                'Please provide the threshold parameter for the tooFast validation'
+            );
+        }
 
-		return $threshold;
-	}
+        return $threshold;
+    }
 }

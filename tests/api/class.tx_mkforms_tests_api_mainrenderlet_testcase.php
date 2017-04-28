@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package tx_mkforms
- *  @subpackage tx_mkforms_tests_api
- *  @author Hannes Bochmann
+ * @package tx_mkforms
+ * @subpackage tx_mkforms_tests_api
+ * @author Hannes Bochmann
  *
  *  Copyright notice
  *
@@ -42,165 +42,182 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_filter
  */
-class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * Unser Mainvalidator
-	 * @var tx_ameosformidable
-	 */
-	protected $oForm;
+    /**
+     * Unser Mainvalidator
+     * @var tx_ameosformidable
+     */
+    protected $oForm;
 
-	/**
-	 *
-	 * @var unknown
-	 */
-	protected $languageBackup;
+    /**
+     *
+     * @var unknown
+     */
+    protected $languageBackup;
 
-	/**
-	 * setUp() = init DB etc.
-	 */
-	protected function setUp(){
-		$this->oForm = tx_mkforms_tests_Util::getForm();
-		$this->languageBackup = $GLOBALS['LANG']->lang;
-	}
+    /**
+     * setUp() = init DB etc.
+     */
+    protected function setUp()
+    {
+        $this->oForm = tx_mkforms_tests_Util::getForm();
+        $this->languageBackup = $GLOBALS['LANG']->lang;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::tearDown()
-	 */
-	protected function tearDown() {
-		$GLOBALS['LANG']->lang = $this->languageBackup;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::tearDown()
+     */
+    protected function tearDown()
+    {
+        $GLOBALS['LANG']->lang = $this->languageBackup;
+    }
 
-	/**
-	 * Prüft _isTooLongByChars mit Multi-byte zeichen und ohne
-	 */
-	public function testSetValueSanitizesStringIfConfigured() {
-		//per default soll bereinigt werden
-		$this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
-		self::assertEquals('<sc<x>ript>alert("ohoh");</script>',$this->oForm->getWidget('widget-text')->getValue(),'JS wurde nicht entfernt bei widget-text!');
-		//hier ist sanitize auf false gesetzt
-		$this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
-		self::assertEquals('<script>alert("ohoh");</script>',$this->oForm->getWidget('widget-text2')->getValue(),'JS wurde nicht entfernt bei widget-text2!');
-	}
+    /**
+     * Prüft _isTooLongByChars mit Multi-byte zeichen und ohne
+     */
+    public function testSetValueSanitizesStringIfConfigured()
+    {
+        //per default soll bereinigt werden
+        $this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
+        self::assertEquals('<sc<x>ript>alert("ohoh");</script>', $this->oForm->getWidget('widget-text')->getValue(), 'JS wurde nicht entfernt bei widget-text!');
+        //hier ist sanitize auf false gesetzt
+        $this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
+        self::assertEquals('<script>alert("ohoh");</script>', $this->oForm->getWidget('widget-text2')->getValue(), 'JS wurde nicht entfernt bei widget-text2!');
+    }
 
-	/**
-	 * Performance bei hundertfachen aufruf von getvalue testen
-	 * mit bereinigung
-	 * sollte 3 mal so langsam wie ohne bereinigung sein
-	 */
-	public function testPerformanceOfSetValueWithSanitizingString() {
-		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
-			$this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
-		}
-		$this->oForm->getWidget('widget-text')->setValue('<script type="text/javascript">alert("XSS");</script>');
+    /**
+     * Performance bei hundertfachen aufruf von getvalue testen
+     * mit bereinigung
+     * sollte 3 mal so langsam wie ohne bereinigung sein
+     */
+    public function testPerformanceOfSetValueWithSanitizingString()
+    {
+        if (defined('TYPO3_cliMode') && TYPO3_cliMode) {
+            $this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
+        }
+        $this->oForm->getWidget('widget-text')->setValue('<script type="text/javascript">alert("XSS");</script>');
 
-		$dTime = microtime(true);
-		// sind 100 aufrufe real? es sind sicher um einiges mehr.
-		for ($i = 0; $i < 99; $i++) {
-			$this->oForm->getWidget('widget-text')->getValue();
-		}
-		$dUsedtime = microtime(true) -$dTime;
+        $dTime = microtime(true);
+        // sind 100 aufrufe real? es sind sicher um einiges mehr.
+        for ($i = 0; $i < 99; $i++) {
+            $this->oForm->getWidget('widget-text')->getValue();
+        }
+        $dUsedtime = microtime(true) - $dTime;
 
-		//der grenzwert sollte nicht überschritten werden
-		self::assertLessThanOrEqual('0.1200000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
-	}
+        //der grenzwert sollte nicht überschritten werden
+        self::assertLessThanOrEqual('0.1200000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
+    }
 
-	/**
-	 * Performance bei hundertfachen aufruf von getvalue testen
-	 * ohne bereinigung
-	 * sollte 3 mal so schnell wie mit bereinigung sein
-	 */
-	public function testPerformanceOfSetValueWithoutSanitizingString() {
-		if(defined('TYPO3_cliMode') && TYPO3_cliMode){
-			$this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
-		}
-		$this->oForm->getWidget('widget-text2')->setValue('<script type="text/javascript">alert("XSS");</script>');
+    /**
+     * Performance bei hundertfachen aufruf von getvalue testen
+     * ohne bereinigung
+     * sollte 3 mal so schnell wie mit bereinigung sein
+     */
+    public function testPerformanceOfSetValueWithoutSanitizingString()
+    {
+        if (defined('TYPO3_cliMode') && TYPO3_cliMode) {
+            $this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
+        }
+        $this->oForm->getWidget('widget-text2')->setValue('<script type="text/javascript">alert("XSS");</script>');
 
-		$dTime = microtime(true);
-		// sind 100 aufrufe real? es sind sicher um einiges mehr.
-		for ($i = 0; $i < 99; $i++) {
-			$this->oForm->getWidget('widget-text2')->getValue();
-		}
-		$dUsedtime = microtime(true) -$dTime;
-		//der grenzwert sollte nicht überschritten werden
-		self::assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
-	}
+        $dTime = microtime(true);
+        // sind 100 aufrufe real? es sind sicher um einiges mehr.
+        for ($i = 0; $i < 99; $i++) {
+            $this->oForm->getWidget('widget-text2')->getValue();
+        }
+        $dUsedtime = microtime(true) - $dTime;
+        //der grenzwert sollte nicht überschritten werden
+        self::assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetValueForHtmlConvertsHtmlSpecialCharsCorrectIfIsString() {
-		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+    /**
+     * @group unit
+     */
+    public function testGetValueForHtmlConvertsHtmlSpecialCharsCorrectIfIsString()
+    {
+        $mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
 
-		self::assertEquals(
-			'&quot;test&quot;',$mainRenderlet->getValueForHtml('"test"'), 'falsche bereinigt'
-		);
-	}
+        self::assertEquals(
+            '&quot;test&quot;',
+            $mainRenderlet->getValueForHtml('"test"'),
+            'falsche bereinigt'
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetValueForHtmlConvertsCurlyBracketsCorrect() {
-		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+    /**
+     * @group unit
+     */
+    public function testGetValueForHtmlConvertsCurlyBracketsCorrect()
+    {
+        $mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
 
-		self::assertEquals(
-			'&#123;test&#125;',$mainRenderlet->getValueForHtml('{test}'), 'falsche bereinigt'
-		);
-	}
+        self::assertEquals(
+            '&#123;test&#125;',
+            $mainRenderlet->getValueForHtml('{test}'),
+            'falsche bereinigt'
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetValueForHtmlConvertsNotHtmlSpecialCharsCorrectIfIsArray() {
-		$mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+    /**
+     * @group unit
+     */
+    public function testGetValueForHtmlConvertsNotHtmlSpecialCharsCorrectIfIsArray()
+    {
+        $mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
 
-		self::assertEquals(
-			array('test'),$mainRenderlet->getValueForHtml(array('test')), 'array bereinigt'
-		);
-	}
+        self::assertEquals(
+            array('test'),
+            $mainRenderlet->getValueForHtml(array('test')),
+            'array bereinigt'
+        );
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetAddInputParamsArrayWithPlaceholderDefinedAsLocallangLabel() {
-		$GLOBALS['LANG']->lang = 'default';
-		$addInputParams = $this->oForm
-							->getWidget('widget-text-with-placeholder')
-							->_getAddInputParamsArray();
+    /**
+     * @group unit
+     */
+    public function testGetAddInputParamsArrayWithPlaceholderDefinedAsLocallangLabel()
+    {
+        $GLOBALS['LANG']->lang = 'default';
+        $addInputParams = $this->oForm
+                            ->getWidget('widget-text-with-placeholder')
+                            ->_getAddInputParamsArray();
 
-		$placeholderFound = FALSE;
-		foreach ($addInputParams as $addInputParam) {
-			if (strpos($addInputParam, 'placeholder') !== FALSE) {
-				self::assertEquals(
-					'placeholder="Jump to last page"', $addInputParam,
-					'placeholder falsch'
-				);
-				$placeholderFound = TRUE;
-			}
-		}
-		self::assertTrue($placeholderFound, 'placeholder attribut nicht gefunden');
-	}
+        $placeholderFound = false;
+        foreach ($addInputParams as $addInputParam) {
+            if (strpos($addInputParam, 'placeholder') !== false) {
+                self::assertEquals(
+                    'placeholder="Jump to last page"',
+                    $addInputParam,
+                    'placeholder falsch'
+                );
+                $placeholderFound = true;
+            }
+        }
+        self::assertTrue($placeholderFound, 'placeholder attribut nicht gefunden');
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetAddInputParamsArrayWithNoPlaceholder() {
-		$addInputParams = $this->oForm
-							->getWidget('widget-text')
-							->_getAddInputParamsArray();
+    /**
+     * @group unit
+     */
+    public function testGetAddInputParamsArrayWithNoPlaceholder()
+    {
+        $addInputParams = $this->oForm
+                            ->getWidget('widget-text')
+                            ->_getAddInputParamsArray();
 
-		$placeholderFound = FALSE;
-		foreach ($addInputParams as $addInputParam) {
-			if (strpos($addInputParam, 'placeholder') !== FALSE) {
-				$placeholderFound = TRUE;
-			}
-		}
-		self::assertFalse($placeholderFound, 'placeholder attribut gefunden');
-	}
+        $placeholderFound = false;
+        foreach ($addInputParams as $addInputParam) {
+            if (strpos($addInputParam, 'placeholder') !== false) {
+                $placeholderFound = true;
+            }
+        }
+        self::assertFalse($placeholderFound, 'placeholder attribut gefunden');
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
 }
-

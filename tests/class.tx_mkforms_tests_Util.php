@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package tx_mklib
- *  @subpackage tx_mklib_tests
- *  @author Hannes Bochmann
+ * @package tx_mklib
+ * @subpackage tx_mklib_tests
+ * @author Hannes Bochmann
  *
  *  Copyright notice
  *
@@ -36,188 +36,204 @@ tx_rnbase::load('tx_mkforms_forms_Factory');
  * @package tx_mklib
  * @subpackage tx_mklib_tests
  */
-class tx_mkforms_tests_Util {
+class tx_mkforms_tests_Util
+{
 
-	/**
-	 * @param boolean $force
-	 */
-	public static function getStaticTS($force = false){
-		static $configArray = false;
-		if(is_array($configArray) && !$force) {
-			return $configArray;
-		}
-		tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
+    /**
+     * @param boolean $force
+     */
+    public static function getStaticTS($force = false)
+    {
+        static $configArray = false;
+        if (is_array($configArray) && !$force) {
+            return $configArray;
+        }
+        tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
 
-		tx_rnbase::load('tx_rnbase_configurations');
-		tx_rnbase::load('tx_rnbase_util_Misc');
+        tx_rnbase::load('tx_rnbase_configurations');
+        tx_rnbase::load('tx_rnbase_util_Misc');
 
-		tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 
-		/*
-		 * pk: Danke mw
-		 * getPagesTSconfig benutzt static Cache und bearbeitet nicht das was wir mit addPageTSConfig hinzugefügt haben.
-		 * um das umzugehen, kann man das RootLine Parameter leer setzen.
-		 * Siehe: TYPO3\CMS\Backend\Utility\BackendUtility:getPagesTSconfig();
-		 */
-		tx_rnbase::load('Tx_Rnbase_Backend_Utility');
-		$tsConfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0,'');
+        /*
+         * pk: Danke mw
+         * getPagesTSconfig benutzt static Cache und bearbeitet nicht das was wir mit addPageTSConfig hinzugefügt haben.
+         * um das umzugehen, kann man das RootLine Parameter leer setzen.
+         * Siehe: TYPO3\CMS\Backend\Utility\BackendUtility:getPagesTSconfig();
+         */
+        tx_rnbase::load('Tx_Rnbase_Backend_Utility');
+        $tsConfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0, '');
 
-		$configArray = $tsConfig['plugin.']['tx_mkforms.'];
-		// für referenzen im TS!
-		$GLOBALS['TSFE']->tmpl->setup['lib.']['mkforms.'] = $tsConfig['lib.']['mkforms.'];
-		$GLOBALS['TSFE']->tmpl->setup['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
-		$GLOBALS['TSFE']->config['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
-		return $configArray;
-	}
+        $configArray = $tsConfig['plugin.']['tx_mkforms.'];
+        // für referenzen im TS!
+        $GLOBALS['TSFE']->tmpl->setup['lib.']['mkforms.'] = $tsConfig['lib.']['mkforms.'];
+        $GLOBALS['TSFE']->tmpl->setup['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
+        $GLOBALS['TSFE']->config['config.']['tx_mkforms.'] = $tsConfig['config.']['tx_mkforms.'];
 
-	/**
-	 * Liefert ein Form Objekt
-	 * @return tx_mkforms_forms_Base
-	 */
-	public static function getForm(
-		$bCsrfProtection = true, $aConfigArray = array(), $parent = null
-	) {
-		$oForm = tx_mkforms_forms_Factory::createForm('generic');
-		$oForm->setTestMode();
+        return $configArray;
+    }
 
-		$oParameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
-		$oConfigurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
-		if(!$aConfigArray){
-			$aConfigArray = self::getDefaultFormConfig($bCsrfProtection);
-		}
-		$oConfigurations->init(
-			$aConfigArray,
-			$oConfigurations->getCObj(1),
-			'mkforms', 'mkforms'
-		);
-		$oConfigurations->setParameters($oParameters);
+    /**
+     * Liefert ein Form Objekt
+     * @return tx_mkforms_forms_Base
+     */
+    public static function getForm(
+        $bCsrfProtection = true,
+        $aConfigArray = array(),
+        $parent = null
+    ) {
+        $oForm = tx_mkforms_forms_Factory::createForm('generic');
+        $oForm->setTestMode();
 
-		if(!$parent) {
-			$parent = new stdClass();
-		}
+        $oParameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $oConfigurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
+        if (!$aConfigArray) {
+            $aConfigArray = self::getDefaultFormConfig($bCsrfProtection);
+        }
+        $oConfigurations->init(
+            $aConfigArray,
+            $oConfigurations->getCObj(1),
+            'mkforms',
+            'mkforms'
+        );
+        $oConfigurations->setParameters($oParameters);
 
-		$oForm->init(
-			$parent,
-			$oConfigurations->get('generic.xml'),
-			0,
-			$oConfigurations,
-			'generic.formconfig.'
-		);
+        if (!$parent) {
+            $parent = new stdClass();
+        }
 
-		// logoff für phpmyadmin deaktivieren
-		/*
-		 * Error in test case test_handleRequest
-		 * in file C:\xampp\htdocs\typo3\typo3conf\ext\phpmyadmin\res\class.tx_phpmyadmin_utilities.php
-		 * on line 66:
-		 * Message:
-		 * Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\typo3\typo3conf\ext\phpunit\mod1\class.tx_phpunit_module1.php:112)
-		 *
-		 * Diese Fehler passiert, wenn die usersession ausgelesen wird. der feuser hat natürlich keine.
-		 * Das Ganze passiert in der t3lib_userauth->fetchUserSession.
-		 * Dort wird t3lib_userauth->logoff aufgerufen, da keine session vorhanden ist.
-		 * phpmyadmin klingt sich da ein und schreibt daten in die session.
-		 */
-		if(is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing']))
-			foreach($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'] as $k=>$v){
-				if($v = 'tx_phpmyadmin_utilities->pmaLogOff'){
-					unset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][$k]);
-				}
-			}
+        $oForm->init(
+            $parent,
+            $oConfigurations->get('generic.xml'),
+            0,
+            $oConfigurations,
+            'generic.formconfig.'
+        );
 
-		return $oForm;
-	}
+        // logoff für phpmyadmin deaktivieren
+        /*
+         * Error in test case test_handleRequest
+         * in file C:\xampp\htdocs\typo3\typo3conf\ext\phpmyadmin\res\class.tx_phpmyadmin_utilities.php
+         * on line 66:
+         * Message:
+         * Cannot modify header information - headers already sent by (output started at C:\xampp\htdocs\typo3\typo3conf\ext\phpunit\mod1\class.tx_phpunit_module1.php:112)
+         *
+         * Diese Fehler passiert, wenn die usersession ausgelesen wird. der feuser hat natürlich keine.
+         * Das Ganze passiert in der t3lib_userauth->fetchUserSession.
+         * Dort wird t3lib_userauth->logoff aufgerufen, da keine session vorhanden ist.
+         * phpmyadmin klingt sich da ein und schreibt daten in die session.
+         */
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'])) {
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'] as $k => $v) {
+                if ($v = 'tx_phpmyadmin_utilities->pmaLogOff') {
+                    unset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][$k]);
+                }
+            }
+        }
 
-	public static function getDefaultFormConfig($bCsrfProtection = true) {
-		return array(
-			'generic.' => array(
-				'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
-				'addfields.' => array(
-						'widget-addfield' => 'addfield feld',
-						'widget-remove' => 'unset',
-					),
-				'fieldSeparator' => '-',
-				'addPostVars' => 1,
-				'formconfig.' => array(
-					'loadJsFramework' => 0, // formconfig für config check setzen.
-					'csrfProtection' => $bCsrfProtection,
-					'checkWidgetsExist' => 1,
-				),
+        return $oForm;
+    }
 
-			)
-		);
-	}
+    public static function getDefaultFormConfig($bCsrfProtection = true)
+    {
+        return array(
+            'generic.' => array(
+                'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
+                'addfields.' => array(
+                        'widget-addfield' => 'addfield feld',
+                        'widget-remove' => 'unset',
+                    ),
+                'fieldSeparator' => '-',
+                'addPostVars' => 1,
+                'formconfig.' => array(
+                    'loadJsFramework' => 0, // formconfig für config check setzen.
+                    'csrfProtection' => $bCsrfProtection,
+                    'checkWidgetsExist' => 1,
+                ),
 
-	/**
-	 * Setzt die werte aus dem array für die korrespondierenden widgets.
-	 * bei boxen wird rekursiv durchgegangen.
-	 *
-	 * @param array $aData	|	Die Daten wie sie in processForm ankommen
-	 * @param $oForm
-	 * @return void
-	 */
-	public static function setWidgetValues($aData, $oForm) {
-		foreach ($aData as $sName => $mValue){
-			if(is_array($mValue)) self::setWidgetValues($mValue,$oForm);
-			else $oForm->getWidget($sName)->setValue($mValue);
-		}
-	}
+            )
+        );
+    }
 
-	/**
-	 * @param string $formId
-	 * @param array $formData
-	 * @param string $requestToken
-	 */
-	public static function setRequestTokenForFormId(
-		$formId, array &$formData, $requestToken = 's3cr3tT0k3n'
-	) {
-		$formData['MKFORMS_REQUEST_TOKEN'] = $requestToken;
+    /**
+     * Setzt die werte aus dem array für die korrespondierenden widgets.
+     * bei boxen wird rekursiv durchgegangen.
+     *
+     * @param array $aData  |   Die Daten wie sie in processForm ankommen
+     * @param $oForm
+     * @return void
+     */
+    public static function setWidgetValues($aData, $oForm)
+    {
+        foreach ($aData as $sName => $mValue) {
+            if (is_array($mValue)) {
+                self::setWidgetValues($mValue, $oForm);
+            } else {
+                $oForm->getWidget($sName)->setValue($mValue);
+            }
+        }
+    }
 
-		$GLOBALS['TSFE']->fe_user->setKey(
-			'ses', 'mkforms',
-			array('requestToken' =>
-				array(
-					$formId => $requestToken
-				)
-			)
-		);
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
-	}
+    /**
+     * @param string $formId
+     * @param array $formData
+     * @param string $requestToken
+     */
+    public static function setRequestTokenForFormId(
+        $formId,
+        array &$formData,
+        $requestToken = 's3cr3tT0k3n'
+    ) {
+        $formData['MKFORMS_REQUEST_TOKEN'] = $requestToken;
 
-	/**
-	 *
-	 * warning "Cannot modify header information" abfangen.
-	 *
-	 * Einige Tests lassen sich leider nicht ausführen:
-	 * "Cannot modify header information - headers already sent by"
-	 * Diese wird an unterschiedlichen stellen ausgelöst,
-	 * meißt jedoch bei Session operationen
-	 * Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
-	 * Eigentlich gibt es dafür die runInSeparateProcess Anotation,
-	 * Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
-	 * die GLOBALS in den anderen Prozess zu Übertragen.
-	 * Ein Deaktivierend er Übertragung führt dazu,
-	 * das Typo3 nicht initialisiert ist.
-	 *
-	 * Wir gehen also erst mal den Weg, den Fehler abzufangen.
-	 *
-	 * @param integer $errno
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param integer $errline
-	 * @param array $errcontext
-	 *
-	 * @return mixed
-	 */
-	public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext) {
-		$ignoreMsg = 'Cannot modify header information - headers already sent by';
-		if (strpos($errstr, $ignoreMsg) !== FALSE) {
-			// Don't execute PHP internal error handler
-			return TRUE;
-		}
-		return NULL;
-	}
+        $GLOBALS['TSFE']->fe_user->setKey(
+            'ses',
+            'mkforms',
+            array('requestToken' =>
+                array(
+                    $formId => $requestToken
+                )
+            )
+        );
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
+    }
+
+    /**
+     * warning "Cannot modify header information" abfangen.
+     *
+     * Einige Tests lassen sich leider nicht ausführen:
+     * "Cannot modify header information - headers already sent by"
+     * Diese wird an unterschiedlichen stellen ausgelöst,
+     * meißt jedoch bei Session operationen
+     * Ab Typo3 6.1 laufend die Tests auch auf der CLI nicht.
+     * Eigentlich gibt es dafür die runInSeparateProcess Anotation,
+     * Allerdings funktioniert diese bei Typo3 nicht, wenn versucht wird
+     * die GLOBALS in den anderen Prozess zu Übertragen.
+     * Ein Deaktivierend er Übertragung führt dazu,
+     * das Typo3 nicht initialisiert ist.
+     *
+     * Wir gehen also erst mal den Weg, den Fehler abzufangen.
+     *
+     * @param int $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int $errline
+     * @param array $errcontext
+     *
+     * @return mixed
+     */
+    public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+    {
+        $ignoreMsg = 'Cannot modify header information - headers already sent by';
+        if (strpos($errstr, $ignoreMsg) !== false) {
+            // Don't execute PHP internal error handler
+            return true;
+        }
+
+        return null;
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']);
 }

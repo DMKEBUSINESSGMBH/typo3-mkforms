@@ -25,53 +25,54 @@
 /**
  * Factory for forms.
  */
-interface tx_mkforms_forms_IForm {
-	/**
-	 * @param                          object          Parent extension using FORMidable
-	 * @param                          mixed           Absolute path to the XML configuration file
-	 * @param    int                   $iForcedEntryId :
-	 * @param tx_rnbase_configurations $configurations TS-Configuration
-	 * @param string                   $confid         ;
-	 *
-	 * @return    void
-	 */
-	public function init(&$oParent, $mXml, $iForcedEntryId = FALSE, $configurations = FALSE, $confid = '');
+interface tx_mkforms_forms_IForm
+{
+    /**
+     * @param                          object          Parent extension using FORMidable
+     * @param                          mixed           Absolute path to the XML configuration file
+     * @param    int                   $iForcedEntryId :
+     * @param tx_rnbase_configurations $configurations TS-Configuration
+     * @param string                   $confid         ;
+     *
+     * @return    void
+     */
+    public function init(&$oParent, $mXml, $iForcedEntryId = false, $configurations = false, $confid = '');
 
-	public function getFormId();
+    public function getFormId();
 
-	/**
-	 * Return the typoscript configurations object
-	 *
-	 * @return tx_rnbase_configurations
-	 */
-	public function getConfigurations();
+    /**
+     * Return the typoscript configurations object
+     *
+     * @return tx_rnbase_configurations
+     */
+    public function getConfigurations();
 
-	/**
-	 * Basic typoscript confid-path
-	 *
-	 * @return string
-	 */
-	public function getConfId();
+    /**
+     * Basic typoscript confid-path
+     *
+     * @return string
+     */
+    public function getConfId();
 
-	/**
-	 * Returns a value from TS configurations. The confid will be used relativ to $this->confid.
-	 *
-	 * @param string $confid
-	 *
-	 * @return mixed
-	 */
-	public function getConfTS($confid);
+    /**
+     * Returns a value from TS configurations. The confid will be used relativ to $this->confid.
+     *
+     * @param string $confid
+     *
+     * @return mixed
+     */
+    public function getConfTS($confid);
 
-	/**
-	 * Liefert den aktuellen DataHandler
-	 *
-	 * @return formidable_maindatahandler
-	 */
-	public function getDataHandler();
+    /**
+     * Liefert den aktuellen DataHandler
+     *
+     * @return formidable_maindatahandler
+     */
+    public function getDataHandler();
 }
 
 if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IForm.php']
+    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IForm.php']
 ) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IForm.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IForm.php']);
 }

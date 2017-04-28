@@ -27,29 +27,31 @@ tx_rnbase::load('tx_mkforms_util_FormBaseAjax');
 /**
  * zum Testen von ajaxcalls in renderlets.xml im FE
  */
-class tx_mkforms_tests_xml_UserObjects extends tx_mkforms_util_FormBaseAjax {
+class tx_mkforms_tests_xml_UserObjects extends tx_mkforms_util_FormBaseAjax
+{
 
-	/**
-	 * Gibt die Parameter aus.
-	 *
-	 * @param array					$params
-	 * @param tx_ameosformidable	$form
-	 * @return string
-	 */
-	public function getParams4Ajax(array $params, tx_ameosformidable $form){
-		if($params['flatten']) {
-			$params['flatten'] = self::flatArray2MultipleTableStructure($params, $form);
-		}
-		if($params['multiple'] && $params['flatten']) {
-			$params['multiple'] = self::multipleTableStructure2FlatArray($params['flatten'], $form);
-		}
-		if($params['deep'] && $params['flatten']) {
-			$params['deep'] = self::multipleTableStructure2DeepArray($params['flatten'], $form, 'fieldset__texte');
-		}
-		$params['flatten'] = $params['flatten'] ? $params['flatten'] : array();
-		$params['flatten']['textarea'] = 'neuer langer Teste Text für die Textarea';
-		tx_mkforms_util_Div::debug4ajax($params, 'DEBUG: '.__METHOD__.' Line: '.__LINE__); // @TODO: remove me
-		return self::buildAjaxReturn($params, $form, $params['flatten']);
-	}
+    /**
+     * Gibt die Parameter aus.
+     *
+     * @param array                 $params
+     * @param tx_ameosformidable    $form
+     * @return string
+     */
+    public function getParams4Ajax(array $params, tx_ameosformidable $form)
+    {
+        if ($params['flatten']) {
+            $params['flatten'] = self::flatArray2MultipleTableStructure($params, $form);
+        }
+        if ($params['multiple'] && $params['flatten']) {
+            $params['multiple'] = self::multipleTableStructure2FlatArray($params['flatten'], $form);
+        }
+        if ($params['deep'] && $params['flatten']) {
+            $params['deep'] = self::multipleTableStructure2DeepArray($params['flatten'], $form, 'fieldset__texte');
+        }
+        $params['flatten'] = $params['flatten'] ? $params['flatten'] : array();
+        $params['flatten']['textarea'] = 'neuer langer Teste Text für die Textarea';
+        tx_mkforms_util_Div::debug4ajax($params, 'DEBUG: '.__METHOD__.' Line: '.__LINE__); // @TODO: remove me
 
+        return self::buildAjaxReturn($params, $form, $params['flatten']);
+    }
 }

@@ -27,110 +27,129 @@ require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameos
 /**
  * Factory for forms.
  */
-interface tx_mkforms_forms_IJSFramework {
-	public function getBaseIncludes();
+interface tx_mkforms_forms_IJSFramework
+{
+    public function getBaseIncludes();
 
-	public function includeBase();
+    public function includeBase();
 
-	public function getEffectIncludes();
+    public function getEffectIncludes();
 
-	public function includeTooltips();
+    public function includeTooltips();
 
-	public function includeDragDrop();
+    public function includeDragDrop();
 
-	/**
-	 * Liefert den Namen des JSFrameworks: jquery, prototype usw.
-	 * Dieser Wert wird von Widgets verwendet um zusätzliche Dateien abhängig vom aktuellen Framework einzubinden.
-	 *
-	 * @return string
-	 */
-	public function getId();
+    /**
+     * Liefert den Namen des JSFrameworks: jquery, prototype usw.
+     * Dieser Wert wird von Widgets verwendet um zusätzliche Dateien abhängig vom aktuellen Framework einzubinden.
+     *
+     * @return string
+     */
+    public function getId();
 }
 
-interface tx_mkforms_forms_IPageInclude {
-	public function getPagePath();
+interface tx_mkforms_forms_IPageInclude
+{
+    public function getPagePath();
 
-	public function getServerPath();
+    public function getServerPath();
 
-	public function getKey();
+    public function getKey();
 
-	/**
-	 * Bei einem JS-Incluce true, bei CSS false
-	 *
-	 * @return string
-	 */
-	public function isJS();
+    /**
+     * Bei einem JS-Incluce true, bei CSS false
+     *
+     * @return string
+     */
+    public function isJS();
 
-	public function isFirstPos();
+    public function isFirstPos();
 
-	public function getBeforeKey();
+    public function getBeforeKey();
 
-	public function getAfterKey();
+    public function getAfterKey();
 }
 
-class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude {
+class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude
+{
+    private $pagePath;
+    private $serverPath;
+    private $key;
+    private $firstPos;
+    private $beforeKey;
+    private $afterKey;
+    private $isJS;
 
-	private $pagePath, $serverPath, $key, $firstPos, $beforeKey, $afterKey, $isJS;
+    public static function createInstance(
+        $pagePath,
+        $serverPath = '',
+        $sKey = '',
+        $isJS = true,
+        $bFirstPos = false,
+        $sBefore = '',
+        $sAfter = ''
+    ) {
+    
+        return new tx_mkforms_forms_PageInclude($pagePath, $serverPath, $sKey, $isJS, $bFirstPos, $sBefore, $sAfter);
+    }
 
-	public static function createInstance(
-		$pagePath,
-		$serverPath = '',
-		$sKey = '',
-		$isJS = TRUE,
-		$bFirstPos = FALSE,
-		$sBefore = '',
-		$sAfter = '') {
-		return new tx_mkforms_forms_PageInclude($pagePath, $serverPath, $sKey, $isJS, $bFirstPos, $sBefore, $sAfter);
-	}
+    public function __construct(
+        $pagePath,
+        $serverPath = '',
+        $sKey = '',
+        $isJS = true,
+        $bFirstPos = false,
+        $sBefore = '',
+        $sAfter = ''
+    ) {
+    
+        $this->pagePath = $pagePath;
+        $this->serverPath = $serverPath;
+        $this->key = $sKey;
+        $this->firstPos = $bFirstPos;
+        $this->beforeKey = $sBefore;
+        $this->afterKey = $sAfter;
+        $this->isJS = $isJS;
+    }
 
-	public function __construct(
-		$pagePath,
-		$serverPath = '',
-		$sKey = '',
-		$isJS = TRUE,
-		$bFirstPos = FALSE,
-		$sBefore = '',
-		$sAfter = '') {
-		$this->pagePath = $pagePath;
-		$this->serverPath = $serverPath;
-		$this->key = $sKey;
-		$this->firstPos = $bFirstPos;
-		$this->beforeKey = $sBefore;
-		$this->afterKey = $sAfter;
-		$this->isJS = $isJS;
-	}
+    public function getPagePath()
+    {
+        return $this->pagePath;
+    }
 
-	public function getPagePath() {
-		return $this->pagePath;
-	}
+    public function getServerPath()
+    {
+        return $this->serverPath;
+    }
 
-	public function getServerPath() {
-		return $this->serverPath;
-	}
+    public function getKey()
+    {
+        return $this->key;
+    }
 
-	public function getKey() {
-		return $this->key;
-	}
+    public function isFirstPos()
+    {
+        return $this->firstPos;
+    }
 
-	public function isFirstPos() {
-		return $this->firstPos;
-	}
+    public function getBeforeKey()
+    {
+        return $this->beforeKey;
+    }
 
-	public function getBeforeKey() {
-		return $this->beforeKey;
-	}
+    public function getAfterKey()
+    {
+        return $this->afterKey;
+    }
 
-	public function getAfterKey() {
-		return $this->afterKey;
-	}
-
-	public function isJS() {
-		return $this->isJS;
-	}
+    public function isJS()
+    {
+        return $this->isJS;
+    }
 }
 
 if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']
+    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']
 ) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']);
 }

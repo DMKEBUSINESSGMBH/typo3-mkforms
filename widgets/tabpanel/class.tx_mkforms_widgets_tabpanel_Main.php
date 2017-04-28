@@ -2,165 +2,173 @@
 /**
  * Plugin 'rdt_box' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
 
-class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
+{
+    public $sMajixClass = 'TabPanel';
+    public $aLibs = array(
+        'rdt_tabpanel_lib' => 'res/js/libs/control.tabs.2.1.1.js',
+        'rdt_tabpanel_class' => 'res/js/tabpanel.js',
+    );
+    public $bCustomIncludeScript = true;
 
-	var $sMajixClass = 'TabPanel';
-	var $aLibs = array(
-		'rdt_tabpanel_lib' => 'res/js/libs/control.tabs.2.1.1.js',
-		'rdt_tabpanel_class' => 'res/js/tabpanel.js',
-	);
-	var $bCustomIncludeScript = TRUE;
+    public function _render()
+    {
+        $sBegin = '<ul id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' onmouseup="this.blur()">';
+        $sEnd = '</ul>';
 
-	function _render() {
+        $aTabs = array();
+        reset($this->aChilds);
+        while (list($sName, ) = each($this->aChilds)) {
+            $oRdt =& $this->aChilds[$sName];
 
-		$sBegin = '<ul id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' onmouseup="this.blur()">';
-		$sEnd = '</ul>';
+            if ($oRdt->_getType() == 'TAB') {
+                $sId = $oRdt->_getElementHtmlId();
+                $aTabs[$sId] = array(
+                    'name' => $sName,
+                    'label' => $this->getLabel(),
+                    'htmlid' => $sId,
+                );
+            }
+        }
 
-		$aTabs = array();
-		reset($this->aChilds);
-		while(list($sName, ) = each($this->aChilds)) {
-			$oRdt =& $this->aChilds[$sName];
+        $visible = true;
+        $aConfig = array(
+            'setClassOnContainer' => 'false',
+            'activeClassName' => 'active',
+            'defaultTab' => 'first',
+            'linkSelector' => 'li a.rdttab',
+            'visible' => &$visible,
+            'tabs' => $aTabs,
+        );
 
-			if($oRdt->_getType() == 'TAB') {
+        if (($aUserConfig = $this->_navConf('config')) !== false) {
+            if (array_key_exists('activeclassname', $aUserConfig)) {
+                $aConfig['activeClassName'] = $aUserConfig['activeclassname'];
+            }
+            if (array_key_exists('setclassoncontainer', $aUserConfig)) {
+                $aConfig['setclassoncontainer'] = $aUserConfig['setclassoncontainer'];
+            }
 
-				$sId = $oRdt->_getElementHtmlId();
-				$aTabs[$sId] = array(
-					'name' => $sName,
-					'label' => $this->getLabel(),
-					'htmlid' => $sId,
-				);
-			}
-		}
+            if (array_key_exists('defaulttab', $aUserConfig)) {
+                if (array_key_exists($aUserConfig['defaulttab'], $this->aChilds)) {
+                    // tab id
+                    $aConfig['defaultTab'] = $this->oForm->aORenderlets[$this->aChilds[$aUserConfig['defaulttab']]->_navConf('/content')]->_getElementHtmlId();
+                } else {
+                    // first, last, none
+                    $aConfig['defaultTab'] = $aUserConfig['defaulttab'];
+                }
+            }
+        }
 
-		$visible = TRUE;
-		$aConfig = array(
-			'setClassOnContainer' => 'false',
-			'activeClassName' => 'active',
-			'defaultTab' => 'first',
-			'linkSelector' => 'li a.rdttab',
-			'visible' => &$visible,
-			'tabs' => $aTabs,
-		);
+        $aChilds = $this->renderChildsBag();
 
-		if(($aUserConfig = $this->_navConf('config')) !== FALSE) {
+        $hideIfChildsBagCount = array();
+        if ($this->_navConf('hideifchildsbagcount') !== false) {
+            $hideIfChildsBagCount = $this->_navConf('hideifchildsbagcount');
+            $hideIfChildsBagCount = Tx_Rnbase_Utility_Strings::trimExplode(',', $hideIfChildsBagCount);
+            $hideIfChildsBagCount = array_flip($hideIfChildsBagCount);
+        }
 
-			if(array_key_exists('activeclassname', $aUserConfig)) {
-				$aConfig['activeClassName'] = $aUserConfig['activeclassname'];
-			}
-			if(array_key_exists('setclassoncontainer', $aUserConfig)) {
-				$aConfig['setclassoncontainer'] = $aUserConfig['setclassoncontainer'];
-			}
+        $visible = !array_key_exists(count($aChilds), $hideIfChildsBagCount);
 
-			if(array_key_exists('defaulttab', $aUserConfig)) {
-				if(array_key_exists($aUserConfig['defaulttab'], $this->aChilds)) {
-					// tab id
-					$aConfig['defaultTab'] = $this->oForm->aORenderlets[$this->aChilds[$aUserConfig['defaulttab']]->_navConf('/content')]->_getElementHtmlId();
-				} else {
-					// first, last, none
-					$aConfig['defaultTab'] = $aUserConfig['defaulttab'];
-				}
-			}
+        if ($visible) {
+            $sCompiledChilds = $this->renderChildsCompiled(
+                $aChilds
+            );
+            $compiled = $this->_displayLabel($sLabel) . $sBegin . $sCompiledChilds . $sEnd;
+        }
 
-		}
-
-		$aChilds = $this->renderChildsBag();
-
-		$hideIfChildsBagCount = array();
-		if($this->_navConf('hideifchildsbagcount') !== FALSE) {
-			$hideIfChildsBagCount = $this->_navConf('hideifchildsbagcount');
-			$hideIfChildsBagCount = Tx_Rnbase_Utility_Strings::trimExplode(',', $hideIfChildsBagCount);
-			$hideIfChildsBagCount = array_flip($hideIfChildsBagCount);
-		}
-
-		$visible = !array_key_exists(count($aChilds), $hideIfChildsBagCount);
-
-		if ($visible) {
-			$sCompiledChilds = $this->renderChildsCompiled(
-				$aChilds
-			);
-			$compiled = $this->_displayLabel($sLabel) . $sBegin . $sCompiledChilds . $sEnd;
-		}
-
-		$this->includeScripts(
-			array(
-				'libconfig' => $aConfig,
-				'tabs' => $aTabs
-			)
-		);
+        $this->includeScripts(
+            array(
+                'libconfig' => $aConfig,
+                'tabs' => $aTabs
+            )
+        );
 
 
-		$aHtmlBag = array(
-			'__compiled' => $aConfig['visible'] ? $compiled : '',
-			'ul.' => array(
-				'begin' => $sBegin,
-				'end' => $sEnd,
-			),
-			'childs' => $aChilds
-		);
+        $aHtmlBag = array(
+            '__compiled' => $aConfig['visible'] ? $compiled : '',
+            'ul.' => array(
+                'begin' => $sBegin,
+                'end' => $sEnd,
+            ),
+            'childs' => $aChilds
+        );
 
-		return $aHtmlBag;
-	}
+        return $aHtmlBag;
+    }
 
-	function _readOnly() {
-		return TRUE;
-	}
+    public function _readOnly()
+    {
+        return true;
+    }
 
-	function _renderOnly($bForAjax = FALSE) {
-		return TRUE;
-	}
+    public function _renderOnly($bForAjax = false)
+    {
+        return true;
+    }
 
-	function _renderReadOnly() {
-		return $this->_render();
-	}
+    public function _renderReadOnly()
+    {
+        return $this->_render();
+    }
 
-	function _debugable() {
-		return $this->oForm->_defaultFalse('/debugable/', $this->aElement);
-	}
+    public function _debugable()
+    {
+        return $this->oForm->_defaultFalse('/debugable/', $this->aElement);
+    }
 
-	function majixSetActiveTab($sTab) {
-		return $this->buildMajixExecuter(
-			'setActiveTab',
-			$this->oForm->aORenderlets[$this->aChilds[$sTab]->_navConf('/content')]->_getElementHtmlId()
-		);
-	}
+    public function majixSetActiveTab($sTab)
+    {
+        return $this->buildMajixExecuter(
+            'setActiveTab',
+            $this->oForm->aORenderlets[$this->aChilds[$sTab]->_navConf('/content')]->_getElementHtmlId()
+        );
+    }
 
-	function majixNextTab() {
-		return $this->buildMajixExecuter(
-			'next'
-		);
-	}
+    public function majixNextTab()
+    {
+        return $this->buildMajixExecuter(
+            'next'
+        );
+    }
 
-	function majixPreviousTab() {
-		return $this->buildMajixExecuter(
-			'previous'
-		);
-	}
+    public function majixPreviousTab()
+    {
+        return $this->buildMajixExecuter(
+            'previous'
+        );
+    }
 
-	function majixFirstTab() {
-		return $this->buildMajixExecuter(
-			'first'
-		);
-	}
+    public function majixFirstTab()
+    {
+        return $this->buildMajixExecuter(
+            'first'
+        );
+    }
 
-	function majixLastTab() {
-		return $this->buildMajixExecuter(
-			'last'
-		);
-	}
+    public function majixLastTab()
+    {
+        return $this->buildMajixExecuter(
+            'last'
+        );
+    }
 
-	function mayHaveChilds() {
-		return TRUE;
-	}
+    public function mayHaveChilds()
+    {
+        return true;
+    }
 
-	function shouldAutowrap() {
-		return $this->oForm->_defaultFalse('/childs/autowrap/');
-	}
+    public function shouldAutowrap()
+    {
+        return $this->oForm->_defaultFalse('/childs/autowrap/');
+    }
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tabpanel/api/class.tx_rdttabpanel.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tabpanel/api/class.tx_rdttabpanel.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tabpanel/api/class.tx_rdttabpanel.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tabpanel/api/class.tx_rdttabpanel.php']);
 }

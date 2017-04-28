@@ -2,102 +2,102 @@
 /**
  * Plugin 'rdt_accordion' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
 
-class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet
+{
+    public $aLibs = array(
+        'rdt_accordion_lib' => 'res/js/accordion-fixed.js',
+        'rdt_accordion_class' => 'res/js/accordion.js',
+    );
 
-	var $aLibs = array(
-		'rdt_accordion_lib' => 'res/js/accordion-fixed.js',
-		'rdt_accordion_class' => 'res/js/accordion.js',
-	);
+    public $sMajixClass = 'Accordion';
+    public $bCustomIncludeScript = true;
 
-	var $sMajixClass = 'Accordion';
-	var $bCustomIncludeScript = TRUE;
+    public $aPossibleCustomEvents = array(
+        'ontabopen',
+        'ontabclose',
+        'ontabchange',
+    );
 
-	var $aPossibleCustomEvents = array(
-		'ontabopen',
-		'ontabclose',
-		'ontabchange',
-	);
+    public function _render()
+    {
+        $aConf = array();
+        if (($sSpeed = $this->_navConf('/speed')) !== false) {
+            $aConf['resizeSpeed'] = intval($sSpeed);
+        }
 
-	function _render() {
+        if (($sClassToggle = $this->_navConf('/classtoggle')) !== false) {
+            $aConf['classNames']['toggle'] = $sClassToggle;
+        } else {
+            $aConf['classNames']['toggle'] = 'accordion_toggle';
+        }
 
-		$aConf = array();
-		if(($sSpeed = $this->_navConf('/speed')) !== FALSE) {
-			$aConf['resizeSpeed'] = intval($sSpeed);
-		}
+        if (($sClassToggleActive = $this->_navConf('/classtoggleactive')) !== false) {
+            $aConf['classNames']['toggleActive'] = $sClassToggleActive;
+        } else {
+            $aConf['classNames']['toggleActive'] = 'accordion_toggle_active';
+        }
 
-		if(($sClassToggle = $this->_navConf('/classtoggle')) !== FALSE) {
-			$aConf['classNames']['toggle'] = $sClassToggle;
-		} else {
-			$aConf['classNames']['toggle'] = 'accordion_toggle';
-		}
+        if (($sClassContent = $this->_navConf('/classcontent')) !== false) {
+            $aConf['classNames']['content'] = $sClassContent;
+        } else {
+            $aConf['classNames']['content'] = 'accordion_content';
+        }
 
-		if(($sClassToggleActive = $this->_navConf('/classtoggleactive')) !== FALSE) {
-			$aConf['classNames']['toggleActive'] = $sClassToggleActive;
-		} else {
-			$aConf['classNames']['toggleActive'] = 'accordion_toggle_active';
-		}
+        if (($sWidth = $this->_navConf('/width')) !== false) {
+            $aConf['defaultSize']['width'] = $sWidth;
+        }
 
-		if(($sClassContent = $this->_navConf('/classcontent')) !== FALSE) {
-			$aConf['classNames']['content'] = $sClassContent;
-		} else {
-			$aConf['classNames']['content'] = 'accordion_content';
-		}
+        if (($sHeight = $this->_navConf('/height')) !== false) {
+            $aConf['defaultSize']['height'] = $sHeight;
+        }
 
-		if(($sWidth = $this->_navConf('/width')) !== FALSE) {
-			$aConf['defaultSize']['width'] = $sWidth;
-		}
+        if (($sDirection = $this->_navConf('/direction')) !== false) {
+            $aConf['direction'] = $sDirection;
+        }
 
-		if(($sHeight = $this->_navConf('/height')) !== FALSE) {
-			$aConf['defaultSize']['height'] = $sHeight;
-		}
+        // Gibt an, ob alle geöffneten Accordionelemende geschlossen werden sollen, befor das geklickte geöffnet wird.
+        $aConf['closeactive'] = $this->defaultTrue('/closeactive');
 
-		if(($sDirection = $this->_navConf('/direction')) !== FALSE) {
-			$aConf['direction'] = $sDirection;
-		}
+        if (($sEvent = $this->_navConf('/event')) !== false) {
+            $sEvent = strtolower(trim($sEvent));
+            if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sEvent, 'on')) {
+                $sEvent = substr($sEvent, 2);
+            }
 
-		// Gibt an, ob alle geöffneten Accordionelemende geschlossen werden sollen, befor das geklickte geöffnet wird.
-		$aConf['closeactive'] = $this->defaultTrue('/closeactive');
+            $aConf['onEvent'] = $sEvent;
+        }
 
-		if(($sEvent = $this->_navConf('/event')) !== FALSE) {
-			$sEvent = strtolower(trim($sEvent));
-			if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sEvent, 'on')) {
-				$sEvent = substr($sEvent, 2);
-			}
+        reset($this->aChilds);
+        $aKeys = array_keys($this->aChilds);
+        reset($aKeys);
+        while (list(, $sChild) = each($aKeys)) {
+            // even is toggle
+            $aConf['accordions'][] = $this->aChilds[$sChild]->_getElementHtmlId();
 
-			$aConf['onEvent'] = $sEvent;
-		}
+            if ($aConf['direction'] === 'horizontal') {
+                $this->aChilds[$sChild]->addCssClass('rdtaccordion_toggle_horizontal');
+            } else {
+                $this->aChilds[$sChild]->addCssClass('rdtaccordion_toggle');
+            }
 
-		reset($this->aChilds);
-		$aKeys = array_keys($this->aChilds);
-		reset($aKeys);
-		while(list(, $sChild) = each($aKeys)) {
-			// even is toggle
-			$aConf['accordions'][] = $this->aChilds[$sChild]->_getElementHtmlId();
+            $this->aChilds[$sChild]->addCssClass($aConf['classNames']['toggle']);
 
-			if($aConf['direction'] === 'horizontal') {
-				$this->aChilds[$sChild]->addCssClass('rdtaccordion_toggle_horizontal');
-			} else {
-				$this->aChilds[$sChild]->addCssClass('rdtaccordion_toggle');
-			}
+            // odd is content
+            list(, $sChild) = each($aKeys);
+            $this->aChilds[$sChild]->addCssClass('rdtaccordion_content');
+            if ($aConf['direction'] === 'horizontal') {
+                $this->aChilds[$sChild]->addCssClass('rdtaccordion_content_horizontal');
+            } else {
+                $this->aChilds[$sChild]->addCssClass('rdtaccordion_content');
+            }
+        }
 
-			$this->aChilds[$sChild]->addCssClass($aConf['classNames']['toggle']);
-
-			// odd is content
-			list(, $sChild) = each($aKeys);
-			$this->aChilds[$sChild]->addCssClass('rdtaccordion_content');
-			if($aConf['direction'] === 'horizontal') {
-				$this->aChilds[$sChild]->addCssClass('rdtaccordion_content_horizontal');
-			} else {
-				$this->aChilds[$sChild]->addCssClass('rdtaccordion_content');
-			}
-		}
-
-		if($aConf['direction'] === 'horizontal') {
-			$sStyle =<<<STYLE
+        if ($aConf['direction'] === 'horizontal') {
+            $sStyle = <<<STYLE
 .rdtaccordion_toggle_horizontal {
 	/* REQUIRED */
 	float: left;	/* This make sure it stays horizontal */
@@ -110,95 +110,105 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet {
 	/* REQUIRED */
 }
 STYLE;
-		} else {
-			$sStyle =<<<STYLE
+        } else {
+            $sStyle = <<<STYLE
 .rdtaccordion_toggle {}
 .rdtaccordion_content { overflow: hidden;}
 STYLE;
-		}
+        }
 
-		$this->oForm->additionalHeaderData(
-			$this->oForm->inline2TempFile(
-				$sStyle,
-				'css',
-				'CSS required by rdt_accordion'
-			),
-			'rdt_accordion_' . $aConf['direction'] . ' required_css'
-		);
+        $this->oForm->additionalHeaderData(
+            $this->oForm->inline2TempFile(
+                $sStyle,
+                'css',
+                'CSS required by rdt_accordion'
+            ),
+            'rdt_accordion_' . $aConf['direction'] . ' required_css'
+        );
 
-		$this->oForm->getJSLoader()->loadScriptaculous();
+        $this->oForm->getJSLoader()->loadScriptaculous();
 
-		$this->includeScripts(array(
-			'libconf' => $aConf
-		));
+        $this->includeScripts(array(
+            'libconf' => $aConf
+        ));
 
-		$sAddInputParams = $this->_getAddInputParams();
+        $sAddInputParams = $this->_getAddInputParams();
 
-		$aChilds = $this->renderChildsBag();
-		$sCompiledChilds = $this->renderChildsCompiled($aChilds);
+        $aChilds = $this->renderChildsBag();
+        $sCompiledChilds = $this->renderChildsCompiled($aChilds);
 
-		return array(
-			'__compiled' => '<div id="' . $this->_getElementHtmlId() . '" '.$sAddInputParams.'>' . $sCompiledChilds . '</div>',
-			'childs' => $aChilds,
-		);
-	}
+        return array(
+            '__compiled' => '<div id="' . $this->_getElementHtmlId() . '" '.$sAddInputParams.'>' . $sCompiledChilds . '</div>',
+            'childs' => $aChilds,
+        );
+    }
 
-	function majixSetActiveTab($sTab) {
-		return $this->buildMajixExecuter(
-			'setActiveTab',
-			$sTab
-		);
-	}
+    public function majixSetActiveTab($sTab)
+    {
+        return $this->buildMajixExecuter(
+            'setActiveTab',
+            $sTab
+        );
+    }
 
-	function majixCloseTab($sTab) {
-		return $this->buildMajixExecuter(
-			'close',
-			$sTab
-		);
-	}
+    public function majixCloseTab($sTab)
+    {
+        return $this->buildMajixExecuter(
+            'close',
+            $sTab
+        );
+    }
 
-	function majixNextTab() {
-		return $this->buildMajixExecuter(
-			'next'
-		);
-	}
+    public function majixNextTab()
+    {
+        return $this->buildMajixExecuter(
+            'next'
+        );
+    }
 
-	function majixPreviousTab() {
-		return $this->buildMajixExecuter(
-			'previous'
-		);
-	}
+    public function majixPreviousTab()
+    {
+        return $this->buildMajixExecuter(
+            'previous'
+        );
+    }
 
-	function majixFirstTab() {
-		return $this->buildMajixExecuter(
-			'first'
-		);
-	}
+    public function majixFirstTab()
+    {
+        return $this->buildMajixExecuter(
+            'first'
+        );
+    }
 
-	function majixLastTab() {
-		return $this->buildMajixExecuter(
-			'last'
-		);
-	}
+    public function majixLastTab()
+    {
+        return $this->buildMajixExecuter(
+            'last'
+        );
+    }
 
-	function renderOnly() {
-		return TRUE;
-	}
+    public function renderOnly()
+    {
+        return true;
+    }
 
-	function _renderReadOnly() {
-		return $this->_render();
-	}
+    public function _renderReadOnly()
+    {
+        return $this->_render();
+    }
 
-	function mayHaveChilds() {
-		return TRUE;
-	}
+    public function mayHaveChilds()
+    {
+        return true;
+    }
 
-	function shouldAutowrap() {
-		return $this->oForm->_defaultFalse('/childs/autowrap/');
-	}
+    public function shouldAutowrap()
+    {
+        return $this->oForm->_defaultFalse('/childs/autowrap/');
+    }
 }
 
 
-	if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_accordion/api/class.tx_rdtaccordion.php'])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_accordion/api/class.tx_rdtaccordion.php']);
-	}
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_accordion/api/class.tx_rdtaccordion.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_accordion/api/class.tx_rdtaccordion.php']);
+}

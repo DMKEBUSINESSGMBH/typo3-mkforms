@@ -2,186 +2,198 @@
 /**
  * Plugin 'rdt_jstree' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
 
-class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
+{
+    public $aLibs = array(
+        'rdt_jstree_class' => 'res/js/jstree.js',
+        'rdt_jstree_lib_class' => 'res/lib/js/AxentTree.js',
+    );
 
-	var $aLibs = array(
-		"rdt_jstree_class" => "res/js/jstree.js",
-		"rdt_jstree_lib_class" => "res/lib/js/AxentTree.js",
-	);
+    public $sMajixClass = 'JsTree';
+    public $aPossibleCustomEvents = array(
+        'onnodeclick',
+        'onnodeopen',
+        'onnodeclose'
+    );
 
-	var $sMajixClass = "JsTree";
-	var $aPossibleCustomEvents = array(
-		"onnodeclick",
-		"onnodeopen",
-		"onnodeclose"
-	);
+    public $bCustomIncludeScript = true;
 
-	var $bCustomIncludeScript = TRUE;
+    public $aTreeData = array();
 
-	var $aTreeData = array();
+    public function _render()
+    {
+        $this->oForm->getJSLoader()->loadScriptaculousDragDrop();
 
-	function _render() {
-
-		$this->oForm->getJSLoader()->loadScriptaculousDragDrop();
-
-		$this->oForm->additionalHeaderData(
-			'<link rel="stylesheet" type="text/css" href="' . $this->sExtWebPath . 'res/lib/css/tree.css" />',
-			"rdt_jstree_lib_css"
-		);
+        $this->oForm->additionalHeaderData(
+            '<link rel="stylesheet" type="text/css" href="' . $this->sExtWebPath . 'res/lib/css/tree.css" />',
+            'rdt_jstree_lib_css'
+        );
 
 
-		$mValue = $this->getValue();
-		$sLabel = $this->getLabel();
-		$this->aTreeData = $this->_fetchData();
-		$sTree = $this->renderTree($this->aTreeData);
+        $mValue = $this->getValue();
+        $sLabel = $this->getLabel();
+        $this->aTreeData = $this->_fetchData();
+        $sTree = $this->renderTree($this->aTreeData);
 
-		$sInput = "<ul id=\"" . $this->_getElementHtmlId() . "\" " . $this->_getAddInputParams() . ">" . $sTree . "</ul>";
+        $sInput = '<ul id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . '>' . $sTree . '</ul>';
 
-		$this->includeScripts(array(
-			"value" => $mValue
-		));
+        $this->includeScripts(array(
+            'value' => $mValue
+        ));
 
-		return array(
-			"__compiled" => $this->_displayLabel($sLabel) . $sInput,
-			"input" => $sInput,
-			"label" => $sLabel,
-			"value" => $mValue,
-		);
-	}
+        return array(
+            '__compiled' => $this->_displayLabel($sLabel) . $sInput,
+            'input' => $sInput,
+            'label' => $sLabel,
+            'value' => $mValue,
+        );
+    }
 
-	function &_fetchData() {
-		if(($mData = $this->_navConf("/data")) === FALSE || !$this->oForm->isRunneable($mData)) {
-			$this->oForm->mayday("RENDERLET JSTREE <b>" . $this->_getName() . "</b> - requires <b>/data</b> to be properly set with a runneable. Check your XML conf.");
-		}
+    public function &_fetchData()
+    {
+        if (($mData = $this->_navConf('/data')) === false || !$this->oForm->isRunneable($mData)) {
+            $this->oForm->mayday('RENDERLET JSTREE <b>' . $this->_getName() . '</b> - requires <b>/data</b> to be properly set with a runneable. Check your XML conf.');
+        }
 
-		return $this->getForm()->getRunnable()->callRunnable($mData);
-	}
+        return $this->getForm()->getRunnable()->callRunnable($mData);
+    }
 
-	function renderTree($aData) {
-		$aBuffer = array();
-		$this->_renderTree($aData, $aBuffer);
-		return implode("\n", $aBuffer);
-	}
+    public function renderTree($aData)
+    {
+        $aBuffer = array();
+        $this->_renderTree($aData, $aBuffer);
 
-	function _renderTree($aData, &$aBuffer) {
-		reset($aData);
+        return implode("\n", $aBuffer);
+    }
 
-		$aBuffer[] = "<li>";
-		$aBuffer[] = "<span><input type='hidden' value=\"" . htmlspecialchars($aData["value"]) . "\"/>" . $aData["caption"] . "</span>";
+    public function _renderTree($aData, &$aBuffer)
+    {
+        reset($aData);
 
-		if(array_key_exists("childs", $aData)) {
-			$aBuffer[] = "<ul>";
+        $aBuffer[] = '<li>';
+        $aBuffer[] = "<span><input type='hidden' value=\"" . htmlspecialchars($aData['value']) . '"/>' . $aData['caption'] . '</span>';
 
-			reset($aData["childs"]);
-			while(list($sKey,) = each($aData["childs"])) {
-				$this->_renderTree($aData["childs"][$sKey], $aBuffer);
-			}
+        if (array_key_exists('childs', $aData)) {
+            $aBuffer[] = '<ul>';
 
-			$aBuffer[] = "</ul>";
-		}
+            reset($aData['childs']);
+            while (list($sKey, ) = each($aData['childs'])) {
+                $this->_renderTree($aData['childs'][$sKey], $aBuffer);
+            }
 
-		$aBuffer[] = "</li>";
-	}
+            $aBuffer[] = '</ul>';
+        }
 
-	function includeScripts($aConf = array()) {
-		parent::includeScripts($aConf);
+        $aBuffer[] = '</li>';
+    }
 
-		$sAbsName = $this->getAbsName();
+    public function includeScripts($aConf = array())
+    {
+        parent::includeScripts($aConf);
 
-		$sInitScript =<<<INITSCRIPT
+        $sAbsName = $this->getAbsName();
+
+        $sInitScript = <<<INITSCRIPT
 			Formidable.f("{$this->oForm->formid}").o("{$sAbsName}").init();
 INITSCRIPT;
 
-		# initalization is made post-init
-			# as when rendered in an ajax context in a modalbox,
-			# the HTML is available *after* init tasks
-			# as the modalbox HTML is added to the page using after init tasks !
+        // initalization is made post-init
+            // as when rendered in an ajax context in a modalbox,
+            // the HTML is available *after* init tasks
+            // as the modalbox HTML is added to the page using after init tasks !
 
-		$this->oForm->attachPostInitTask(
-			$sInitScript,
-			"Post-init JSTREE initialization",
-			$this->_getElementHtmlId()
-		);
-	}
+        $this->oForm->attachPostInitTask(
+            $sInitScript,
+            'Post-init JSTREE initialization',
+            $this->_getElementHtmlId()
+        );
+    }
 
-	function getSelectedLabel() {
-		return $this->getNodeLabel(
-			$this->getValue()
-		);
-	}
+    public function getSelectedLabel()
+    {
+        return $this->getNodeLabel(
+            $this->getValue()
+        );
+    }
 
-	function getNodeLabel($iUid) {
-		return $this->_getNodeLabel(
-			$iUid,
-			$this->aTreeData
-		);
-	}
+    public function getNodeLabel($iUid)
+    {
+        return $this->_getNodeLabel(
+            $iUid,
+            $this->aTreeData
+        );
+    }
 
-	function _getNodeLabel($iUid, $aData) {
+    public function _getNodeLabel($iUid, $aData)
+    {
+        if ($aData['value'] == $iUid) {
+            return $aData['caption'];
+        }
 
-		if($aData["value"] == $iUid) {
-			return $aData["caption"];
-		}
+        if (array_key_exists('childs', $aData) && is_array($aData['childs']) && !empty($aData['childs'])) {
+            $aKeys = array_keys($aData['childs']);
+            reset($aKeys);
+            while (list(, $sKey) = each($aKeys)) {
+                if (($mRes = $this->_getNodeLabel($iUid, $aData['childs'][$sKey])) !== false) {
+                    return $mRes;
+                }
+            }
+        }
 
-		if(array_key_exists("childs", $aData) && is_array($aData["childs"]) && !empty($aData["childs"])) {
+        return false;
+    }
 
-			$aKeys = array_keys($aData["childs"]);
-			reset($aKeys);
-			while(list(, $sKey) = each($aKeys)) {
-				if(($mRes = $this->_getNodeLabel($iUid, $aData["childs"][$sKey])) !== FALSE) {
-					return $mRes;
-				}
-			}
-		}
+    public function getSelectedPath()
+    {
+        return $this->getPathForNode($this->getValue());
+    }
 
-		return FALSE;
-	}
+    public function getPathForNode($iUid)
+    {
+        return implode('/', $this->getPathArrayForNode($iUid)) . '/';
+    }
 
-	function getSelectedPath() {
-		return $this->getPathForNode($this->getValue());
-	}
+    public function getPathArrayForNode($iUid)
+    {
+        $aNodes = array();    // only to allow pass-by-ref
+        $this->_getPathArrayForNode(
+            $iUid,
+            array('childs' => array($this->aTreeData)),
+            $aNodes
+        );
+        $aNodes = array_reverse($aNodes, true);
+        reset($aNodes);
 
-	function getPathForNode($iUid) {
-		return implode("/", $this->getPathArrayForNode($iUid)) . "/";
-	}
+        return $aNodes;
+    }
 
-	function getPathArrayForNode($iUid) {
-		$aNodes = array();	// only to allow pass-by-ref
-		$this->_getPathArrayForNode(
-			$iUid,
-			array("childs" => array($this->aTreeData)),
-			$aNodes
-		);
-		$aNodes = array_reverse($aNodes, TRUE);
-		reset($aNodes);
-		return $aNodes;
-	}
+    public function _getPathArrayForNode($iUid, $aData, &$aNodes)
+    {
+        if ($aData['value'] == $iUid) {
+            return true;
+        }
 
-	function _getPathArrayForNode($iUid, $aData, &$aNodes) {
-		if($aData["value"] == $iUid) {
-			return TRUE;
-		}
+        if (array_key_exists('childs', $aData) && is_array($aData['childs']) && !empty($aData['childs'])) {
+            $aKeys = array_keys($aData['childs']);
+            reset($aKeys);
+            while (list(, $sKey) = each($aKeys)) {
+                if ($this->_getPathArrayForNode($iUid, $aData['childs'][$sKey], $aNodes)) {
+                    $aNodes[$aData['childs'][$sKey]['value']] = $aData['childs'][$sKey]['caption'];
 
-		if(array_key_exists("childs", $aData) && is_array($aData["childs"]) && !empty($aData["childs"])) {
-			$aKeys = array_keys($aData["childs"]);
-			reset($aKeys);
-			while(list(, $sKey) = each($aKeys)) {
-				if($this->_getPathArrayForNode($iUid, $aData["childs"][$sKey], $aNodes)) {
-					$aNodes[$aData["childs"][$sKey]["value"]] = $aData["childs"][$sKey]["caption"];
-					return TRUE;
-				}
-			}
-		}
+                    return true;
+                }
+            }
+        }
 
-		return FALSE;
-	}
+        return false;
+    }
 }
 
 
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_jstree/api/class.tx_rdttext.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_jstree/api/class.tx_rdttext.php"]);
-	}
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_jstree/api/class.tx_rdttext.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_jstree/api/class.tx_rdttext.php']);
+}

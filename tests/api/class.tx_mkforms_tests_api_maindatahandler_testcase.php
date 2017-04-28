@@ -1,8 +1,8 @@
 <?php
 /**
- * 	@package tx_mkforms
- *  @subpackage tx_mkforms_tests_api
- *  @author Hannes Bochmann
+ * @package tx_mkforms
+ * @subpackage tx_mkforms_tests_api
+ * @author Hannes Bochmann
  *
  *  Copyright notice
  *
@@ -43,86 +43,86 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_filter
  */
-class tx_mkforms_tests_api_maindatahandler_testcase extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_api_maindatahandler_testcase extends tx_rnbase_tests_BaseTestCase
+{
+    public function setUp()
+    {
+        $oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework', 'mkforms');
+        $oTestFramework->createFakeFrontEnd();
+    }
 
-	public function setUp() {
-		$oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework','mkforms');
-		$oTestFramework->createFakeFrontEnd();
-	}
+    /**
+     */
+    public function testGetRdtValueSubmitEditionRemovesValuesOfNoneWidgets()
+    {
+        $sData = array(
+                'fieldset' => array(
+                    'texte' => array(
+                        'input' => array(
+                            'widget-text' => 'Eins',
+                        ),
+                        'widget-thatDoesNotExistInTheXml1' => 'valueThatShouldBeRemoved1',
+                    ),
+                    'widget-checkbox' => array(
+                        'item-5' => '6',
+                        'item-8' => '9',
+                    ),
+                    'widgetlister' => array(
+                        1 => array(
+                            'listerdata-uid' => 1,
+                            'listerdata-title' => 'Titel 1',
+                            'listerdata-thatdoednotexists' => 'Titel 1',
+                        ),
+                        2 => array(
+                            'listerdata-uid' => 2,
+                            'listerdata-title' => 'Titel 2',
+                        ),
+                        3 => array(
+                            'listerdata-uid' => 3,
+                            'listerdata-title' => 'Titel 3',
+                        ),
+                        4 => array(
+                            'listerdata-uid' => 4,
+                            'listerdata-title' => 'Titel 4',
+                        ),
+                        5 => array(
+                            'listerdata-uid' => 5,
+                            'listerdata-title' => 'Titel 5',
+                        ),
+                        'selected' => '5',
+                        'listerdata-thatdoednotexists' => 'Titel 1',
+                    ),
+                    'widget-thatDoesNotExistInTheXml2' => 'valueThatShouldBeRemoved2',
+                ),
+                'widget-thatDoesNotExistInTheXml3' => 'valueThatShouldBeRemoved3',
+            );
+        $_POST['radioTestForm'] = $sData;
 
-	/**
-	 */
-	public function testGetRdtValueSubmitEditionRemovesValuesOfNoneWidgets() {
-		$sData = array(
-				'fieldset' => array(
-					'texte' => array(
-						'input'=> array(
-							'widget-text' => 'Eins',
-						),
-						'widget-thatDoesNotExistInTheXml1' => 'valueThatShouldBeRemoved1',
-					),
-					'widget-checkbox' => array(
-						'item-5' => '6',
-						'item-8' => '9',
-					),
-					'widgetlister' => array(
-						1 => array(
-							'listerdata-uid' => 1,
-							'listerdata-title' => 'Titel 1',
-							'listerdata-thatdoednotexists' => 'Titel 1',
-						),
-						2 => array(
-							'listerdata-uid' => 2,
-							'listerdata-title' => 'Titel 2',
-						),
-						3 => array(
-							'listerdata-uid' => 3,
-							'listerdata-title' => 'Titel 3',
-						),
-						4 => array(
-							'listerdata-uid' => 4,
-							'listerdata-title' => 'Titel 4',
-						),
-						5 => array(
-							'listerdata-uid' => 5,
-							'listerdata-title' => 'Titel 5',
-						),
-						'selected' => '5',
-						'listerdata-thatdoednotexists' => 'Titel 1',
-					),
-					'widget-thatDoesNotExistInTheXml2' => 'valueThatShouldBeRemoved2',
-				),
-				'widget-thatDoesNotExistInTheXml3' => 'valueThatShouldBeRemoved3',
-			);
-		$_POST['radioTestForm'] = $sData;
+        $oForm = tx_mkforms_tests_Util::getForm();
+        $oHandler = tx_rnbase::makeInstance('formidable_maindatahandler');
+        $oHandler->_init($oForm, array(), array(), '');
 
-		$oForm = tx_mkforms_tests_Util::getForm();
-		$oHandler = tx_rnbase::makeInstance('formidable_maindatahandler');
-		$oHandler->_init($oForm,array(),array(),'');
+        //einzelnes renderlet
+        $formData = $oHandler->getRdtValue_submit_edition('widget-thatDoesNotExistInTheXml3');
+        //wert sollte auf null gesetzt werden
+        self::assertNull($formData, 'wert für nicht existentes widget nicht auf null gesetzt');
 
-		//einzelnes renderlet
-		$formData = $oHandler->getRdtValue_submit_edition('widget-thatDoesNotExistInTheXml3');
-		//wert sollte auf null gesetzt werden
-		self::assertNull($formData,'wert für nicht existentes widget nicht auf null gesetzt');
+        //renderlet box
+        $formData = $oHandler->getRdtValue_submit_edition('fieldset');
 
-		//renderlet box
-		$formData = $oHandler->getRdtValue_submit_edition('fieldset');
+        self::assertTrue(isset($formData['texte']['input']['widget-text']), 'LINE:'.__LINE__);
+        self::assertEquals($formData['texte']['input']['widget-text'], 'Eins', 'LINE:'.__LINE__);
+        self::assertTrue(isset($formData['widget-checkbox']), 'LINE:'.__LINE__);
+        self::assertEquals(array('item-5' => '6','item-8' => '9'), $formData['widget-checkbox'], 'LINE:'.__LINE__);
+        self::assertTrue(isset($formData['widgetlister']), 'LINE:'.__LINE__);
+        self::assertEquals(array(1 => array('listerdata-uid' => 1,'listerdata-title' => 'Titel 1',),2 => array('listerdata-uid' => 2,'listerdata-title' => 'Titel 2',),3 => array('listerdata-uid' => 3,'listerdata-title' => 'Titel 3',),4 => array('listerdata-uid' => 4,'listerdata-title' => 'Titel 4',),5 => array('listerdata-uid' => 5,'listerdata-title' => 'Titel 5',),'selected' => '5'), $formData['widgetlister'], 'LINE:'.__LINE__);
 
-		self::assertTrue(isset($formData['texte']['input']['widget-text']), 'LINE:'.__LINE__);
-		self::assertEquals($formData['texte']['input']['widget-text'], 'Eins', 'LINE:'.__LINE__);
-		self::assertTrue(isset($formData['widget-checkbox']), 'LINE:'.__LINE__);
-		self::assertEquals(array('item-5' => '6','item-8' => '9'),$formData['widget-checkbox'], 'LINE:'.__LINE__);
-		self::assertTrue(isset($formData['widgetlister']), 'LINE:'.__LINE__);
-		self::assertEquals(array(1 => array('listerdata-uid' => 1,'listerdata-title' => 'Titel 1',),2 => array('listerdata-uid' => 2,'listerdata-title' => 'Titel 2',),3 => array('listerdata-uid' => 3,'listerdata-title' => 'Titel 3',),4 => array('listerdata-uid' => 4,'listerdata-title' => 'Titel 4',),5 => array('listerdata-uid' => 5,'listerdata-title' => 'Titel 5',),'selected' => '5'),$formData['widgetlister'], 'LINE:'.__LINE__);
-
-		//werte sollte entfernt wurden sein
-		self::assertFalse(isset($formData['texte']['widget-thatDoesNotExistInTheXml1']),'wert für nicht existentes widget nicht auf null gesetzt');
-		self::assertFalse(isset($formData['widget-thatDoesNotExistInTheXml2']),'wert für nicht existentes widget nicht auf null gesetzt');
-	}
+        //werte sollte entfernt wurden sein
+        self::assertFalse(isset($formData['texte']['widget-thatDoesNotExistInTheXml1']), 'wert für nicht existentes widget nicht auf null gesetzt');
+        self::assertFalse(isset($formData['widget-thatDoesNotExistInTheXml2']), 'wert für nicht existentes widget nicht auf null gesetzt');
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
 }
-
-

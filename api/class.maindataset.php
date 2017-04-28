@@ -1,112 +1,128 @@
 <?php
 
-class formidable_maindataset extends formidable_mainobject {
+class formidable_maindataset extends formidable_mainobject
+{
+    public $aData = false;
 
-	var $aData = FALSE;
+    public $sKey = false;
 
-	var $sKey = FALSE;
+    public $oDataSource = false;
 
-	var $oDataSource = FALSE;
+    public $aChangedCells = array();        // stores the new value for cells of data that have changed
 
-	var $aChangedCells = array();        // stores the new value for cells of data that have changed
+    public $aChangedCellsBefore = array(); // stores the previous value for cells of data that have changed
 
-	var $aChangedCellsBefore = array(); // stores the previous value for cells of data that have changed
+    public $bFloating = false;
 
-	var $bFloating = FALSE;
+    public function initFloating(&$oDataSource, $aData = array())
+    {
+        $this->setFloating();
+        $this->_initInternals($oDataSource, $aData);
+    }
 
-	function initFloating(&$oDataSource, $aData = array()) {
-		$this->setFloating();
-		$this->_initInternals($oDataSource, $aData);
-	}
+    public function initAnchored(&$oDataSource, $aData, $sKey)
+    {
+        $this->setAnchored();
+        $this->_initInternals($oDataSource, $aData);
+        $this->sKey = $sKey;
+    }
 
-	function initAnchored(&$oDataSource, $aData, $sKey) {
-		$this->setAnchored();
-		$this->_initInternals($oDataSource, $aData);
-		$this->sKey = $sKey;
-	}
+    public function _initInternals(&$oDataSource, $aData)
+    {
+        $this->oForm =& $oDataSource->oForm;
+        $this->aData = $aData;
+        $this->oDataSource =& $oDataSource;
+        $this->aChangedCells = array();
+    }
 
-	function _initInternals(&$oDataSource, $aData) {
-		$this->oForm =& $oDataSource->oForm;
-		$this->aData = $aData;
-		$this->oDataSource =& $oDataSource;
-		$this->aChangedCells = array();
-	}
+    public function getKey()
+    {
+        return $this->sKey;
+    }
 
-	function getKey() {
-		return $this->sKey;
-	}
+    public function getData()
+    {
+        reset($this->aData);
 
-	function getData() {
-		reset($this->aData);
+        return $this->aData;
+    }
 
-		return $this->aData;
-	}
+    public function setCellValue($sPath, $mValue)
+    {
+        $mPreviousValue = $this->oForm->setDeepData(
+            $sPath,
+            $this->aData,
+            $mValue
+        );
 
-	function setCellValue($sPath, $mValue) {
-		$mPreviousValue = $this->oForm->setDeepData(
-			$sPath,
-			$this->aData,
-			$mValue
-		);
+        if ($mPreviousValue !== false && $mPreviousValue !== $mValue) {
+            $this->aChangedCells[$sPath] = $mValue;
+            $this->aChangedCellsBefore[$sPath] = $mPreviousValue;
+        }
+    }
 
-		if ($mPreviousValue !== FALSE && $mPreviousValue !== $mValue) {
-			$this->aChangedCells[$sPath] = $mValue;
-			$this->aChangedCellsBefore[$sPath] = $mPreviousValue;
-		}
-	}
+    public function getCellValue($sPath)
+    {
+        $sPath = str_replace('.', '/', $sPath);
+        if (($aRes = $this->oForm->navDeepData($sPath, $this->aData)) !== false) {
+            return $aRes;
+        }
 
-	function getCellValue($sPath) {
-		$sPath = str_replace(".", "/", $sPath);
-		if (($aRes = $this->oForm->navDeepData($sPath, $this->aData)) !== FALSE) {
-			return $aRes;
-		}
+        return false;
+    }
 
-		return FALSE;
-	}
+    public function needsToBeWritten()
+    {
+        return $this->somethingHasChanged();
+    }
 
-	function needsToBeWritten() {
-		return $this->somethingHasChanged();
-	}
+    public function somethingHasChanged()
+    {
+        return count($this->aChangedCells) > 0;
+    }
 
-	function somethingHasChanged() {
-		return count($this->aChangedCells) > 0;
-	}
+    public function cellHasChanged($sPath)
+    {
+        return array_key_exists($sPath, $this->aChangedCells);
+    }
 
-	function cellHasChanged($sPath) {
-		return array_key_exists($sPath, $this->aChangedCells);
-	}
+    public function setFloating()
+    {
+        $this->bFloating = true;
+    }
 
-	function setFloating() {
-		$this->bFloating = TRUE;
-	}
+    public function setAnchored()
+    {
+        $this->bFloating = false;
+    }
 
-	function setAnchored() {
-		$this->bFloating = FALSE;
-	}
+    public function isFloating()
+    {
+        return $this->bFloating;
+    }
 
-	function isFloating() {
-		return $this->bFloating;
-	}
+    public function isAnchored()
+    {
+        return !$this->isFloating();
+    }
 
-	function isAnchored() {
-		return !$this->isFloating();
-	}
+    public function getSignature()
+    {
+        return base64_encode($this->oForm->_getSafeLock($this->sKey) . ':' . $this->sKey);
+    }
 
-	function getSignature() {
-		return base64_encode($this->oForm->_getSafeLock($this->sKey) . ":" . $this->sKey);
-	}
+    public function baseCleanBeforeSession()
+    {
+        unset($this->oDataSource);
+        $this->oDataSource = false;
+    }
 
-	function baseCleanBeforeSession() {
-		unset($this->oDataSource);
-		$this->oDataSource = FALSE;
-	}
-
-	function getDataSet() {
-		return array(
-			"mode" => $this->isFloating() ? "create" : "update",
-			"key" => $this->getKey(),
-			"data" => $this->aData,
-		);
-	}
+    public function getDataSet()
+    {
+        return array(
+            'mode' => $this->isFloating() ? 'create' : 'update',
+            'key' => $this->getKey(),
+            'data' => $this->aData,
+        );
+    }
 }
-

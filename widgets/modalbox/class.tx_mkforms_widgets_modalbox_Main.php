@@ -2,120 +2,135 @@
 /**
  * Plugin 'rdt_box' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
 
-class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
+{
+    public $aLibs = array(
+        'rdt_modalbox_class' => 'res/js/modalbox.js',
+    );
 
-	var $aLibs = array(
-		"rdt_modalbox_class" => "res/js/modalbox.js",
-	);
+    public $bCustomIncludeScript = true;
+    public $sMajixClass = 'ModalBox';
 
-	var $bCustomIncludeScript = TRUE;
-	var $sMajixClass = "ModalBox";
+    public function _render()
+    {
 
-	function _render() {
+        // allowed because of $bCustomIncludeScript = TRUE
+        $this->includeScripts(
+            array(
+                'followScrollVertical' => $this->defaultTrue('/followscrollvertical'),
+                'followScrollHorizontal' => $this->_defaultTrue('/followscrollhorizontal'),
+            )
+        );
 
-		// allowed because of $bCustomIncludeScript = TRUE
-		$this->includeScripts(
-			array(
-				"followScrollVertical" => $this->defaultTrue("/followscrollvertical"),
-				"followScrollHorizontal" => $this->_defaultTrue("/followscrollhorizontal"),
-			)
-		);
+        return '';
+    }
 
-		return "";
-	}
+    public function _renderReadOnly()
+    {
+        return $this->_render();
+    }
+    public function _readOnly()
+    {
+        return true;
+    }
+    public function _renderOnly($bForAjax = false)
+    {
+        return true;
+    }
+    public function mayHaveChilds()
+    {
+        return true;
+    }
 
-	function _renderReadOnly()	{ return $this->_render();}
-	function _readOnly()		{ return TRUE;}
-	function _renderOnly($bForAjax = FALSE) { return TRUE;}
-	function mayHaveChilds()	{ return TRUE;}
+    public function majixShowFreshBox($aConfig = array(), $aTags = array())
+    {
+        $this->initChilds(
+            true    // existing renderlets in $this->oForm->aORenderlets will be overwritten
+        );    // re-init childs before rendering
 
-	function majixShowFreshBox($aConfig = array(), $aTags = array()) {
+        $this->oForm->oDataHandler->refreshAllData();
 
-		$this->initChilds(
-			TRUE	// existing renderlets in $this->oForm->aORenderlets will be overwritten
-		);	// re-init childs before rendering
+        return $this->majixShowBox($aConfig, $aTags);
+    }
 
-		$this->oForm->oDataHandler->refreshAllData();
+    public function majixShowBox($aConfig = array(), $aTags = array())
+    {
+        if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
+            $aEventsBefore = array_keys($this->oForm->aRdtEvents);
+        }
 
-		return $this->majixShowBox($aConfig, $aTags);
-	}
+        $aChildsBag = $this->renderChildsBag();
+        $aChildsBag = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aChildsBag, $aTags);
 
-	function majixShowBox($aConfig = array(), $aTags = array()) {
+        if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
+            $aEventsAfter = array_keys($this->oForm->aRdtEvents);
+            $aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
+            $aAddedEvents = array();
+            reset($aAddedKeys);
+            while (list(, $sKey) = each($aAddedKeys)) {
+                $aAddedEvents[$sKey] = $this->oForm->aRdtEvents[$sKey];
+                unset($this->oForm->aRdtEvents[$sKey]);
+                // unset because if rendered in a lister,
+                    // we need to be able to detect the new events even if they were already declared by other loops in the lister
+            }
 
-		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
-			$aEventsBefore = array_keys($this->oForm->aRdtEvents);
-		}
+            $aConfig['attachevents'] = $aAddedEvents;
+        }
 
-		$aChildsBag = $this->renderChildsBag();
-		$aChildsBag = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aChildsBag, $aTags);
+        $sCompiledChilds = $this->renderChildsCompiled(
+            $aChildsBag
+        );
 
-		if(tx_mkforms_util_Div::getEnvExecMode() !== "EID") {
-			$aEventsAfter = array_keys($this->oForm->aRdtEvents);
-			$aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
-			$aAddedEvents = array();
-			reset($aAddedKeys);
-			while(list(, $sKey) = each($aAddedKeys)) {
-				$aAddedEvents[$sKey] = $this->oForm->aRdtEvents[$sKey];
-				unset($this->oForm->aRdtEvents[$sKey]);
-				// unset because if rendered in a lister,
-					// we need to be able to detect the new events even if they were already declared by other loops in the lister
-			}
+        $aConfig['html'] = $sCompiledChilds;
 
-			$aConfig["attachevents"] = $aAddedEvents;
-		}
+        return $this->buildMajixExecuter(
+            'showBox',
+            $aConfig
+        );
+    }
 
-		$sCompiledChilds = $this->renderChildsCompiled(
-			$aChildsBag
-		);
+    public function majixCloseBox()
+    {
+        return $this->buildMajixExecuter(
+            'closeBox'
+        );
+    }
 
-		$aConfig["html"] = $sCompiledChilds;
+    public function loadModalBox(&$oForm)
+    {
+        $oJsLoader = $this->getForm()->getJSLoader();
+        $oJsLoader->loadScriptaculous();
 
-		return $this->buildMajixExecuter(
-			"showBox",
-			$aConfig
-		);
-	}
+        $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('ameos_formidable') . 'api/base/rdt_modalbox/res/js/modalbox.js';
 
-	function majixCloseBox() {
+        $oForm->additionalHeaderData(
+            '<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sPath) . '"></script>',
+            'rdt_modalbox_class'
+        );
+    }
 
-		return $this->buildMajixExecuter(
-			"closeBox"
-		);
-	}
+    // this has to be static !!!
+    public static function loaded(&$aParams)
+    {
+        $aParams['form']->getJSLoader()->loadScriptaculous();
+    }
 
-	function loadModalBox(&$oForm) {
-		$oJsLoader = $this->getForm()->getJSLoader();
-		$oJsLoader->loadScriptaculous();
-
-		$sPath = Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") . tx_rnbase_util_Extensions::siteRelPath("ameos_formidable") . "api/base/rdt_modalbox/res/js/modalbox.js";
-
-		$oForm->additionalHeaderData(
-			"<script type=\"text/javascript\" src=\"" . $oJsLoader->getScriptPath($sPath) . "\"></script>",
-			"rdt_modalbox_class"
-		);
-	}
-
-	// this has to be static !!!
-	public static function loaded(&$aParams) {
-		$aParams["form"]->getJSLoader()->loadScriptaculous();
-	}
-
-	function majixRepaint() {
-		return $this->buildMajixExecuter(
-			"repaint",
-			$this->renderChildsCompiled(
-				$this->renderChildsBag()
-			)
-		);
-	}
+    public function majixRepaint()
+    {
+        return $this->buildMajixExecuter(
+            'repaint',
+            $this->renderChildsCompiled(
+                $this->renderChildsBag()
+            )
+        );
+    }
 }
 
 
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php"]);
-	}
-
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php']);
+}

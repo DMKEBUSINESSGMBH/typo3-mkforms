@@ -33,192 +33,189 @@ tx_rnbase::load('tx_mkforms_widgets_fluidviewhelper_Main');
  * @subpackage tx_mkforms_tests
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mkforms_tests_widgets_fluidviewhelper_testcase
-	extends tx_rnbase_tests_BaseTestCase {
+class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_BaseTestCase
+{
 
-	/**
-	 * (non-PHPdoc)
-	 * @see PHPUnit_Framework_TestCase::setUp()
-	 */
-	protected function setUp() {
-		if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-			$this->markTestSkipped('TYPO3 6.2 required');
-		}
-	}
+    /**
+     * (non-PHPdoc)
+     * @see PHPUnit_Framework_TestCase::setUp()
+     */
+    protected function setUp()
+    {
+        if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
+            $this->markTestSkipped('TYPO3 6.2 required');
+        }
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testGetArguments() {
-		if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
-			$this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
-		}
+    /**
+     * @group unit
+     */
+    public function testGetArguments()
+    {
+        if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
+            $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
+        }
 
-		$widget = $this->getWidgetMock(array('getArguments'));
+        $widget = $this->getWidgetMock(array('getArguments'));
 
-		$parsedParams = $this->callInaccessibleMethod($widget, 'getArguments');
+        $parsedParams = $this->callInaccessibleMethod($widget, 'getArguments');
 
-		self::assertCount(3, $parsedParams);
-		self::assertEquals('DebugTitle', $parsedParams['title']);
-		self::assertEquals(4, $parsedParams['maxDepth']);
-		self::assertEquals('Hello World', $parsedParams['plainText']);
-	}
+        self::assertCount(3, $parsedParams);
+        self::assertEquals('DebugTitle', $parsedParams['title']);
+        self::assertEquals(4, $parsedParams['maxDepth']);
+        self::assertEquals('Hello World', $parsedParams['plainText']);
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testRender() {
-		if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
-			$this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
-		}
+    /**
+     * @group unit
+     */
+    public function testRender()
+    {
+        if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
+            $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
+        }
 
-		$widget = $this->getWidgetMock(array('_render'));
+        $widget = $this->getWidgetMock(array('_render'));
 
-		$helper = $this->getAccessibleMock(
-			'\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
-		);
+        $helper = $this->getAccessibleMock(
+            '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
+        );
 
-		$helper
-			->expects(self::once())
-			->method('initializeArgumentsAndRender')
-			->with()
-			->will(self::returnValue('DEBUGCONTENT'))
-		;
-		$widget
-			->expects(self::once())
-			->method('getViewHelper')
-			->with()
-			->will(self::returnValue($helper))
-		;
-		$widget
-			->expects(self::once())
-			->method('getLabel')
-			->with()
-			->will(self::returnValue('LABEL:'))
-		;
-		$widget
-			->expects(self::once())
-			->method('_displayLabel')
-			->with()
-			->will($this->returnArgument(0))
-		;
-		$htmlBag = $this->callInaccessibleMethod($widget, '_render');
+        $helper
+            ->expects(self::once())
+            ->method('initializeArgumentsAndRender')
+            ->with()
+            ->will(self::returnValue('DEBUGCONTENT'));
+        $widget
+            ->expects(self::once())
+            ->method('getViewHelper')
+            ->with()
+            ->will(self::returnValue($helper));
+        $widget
+            ->expects(self::once())
+            ->method('getLabel')
+            ->with()
+            ->will(self::returnValue('LABEL:'));
+        $widget
+            ->expects(self::once())
+            ->method('_displayLabel')
+            ->with()
+            ->will($this->returnArgument(0));
+        $htmlBag = $this->callInaccessibleMethod($widget, '_render');
 
-		self::assertCount(4, $htmlBag);
-		self::assertEquals('LABEL:DEBUGCONTENT', $htmlBag['__compiled']);
-		self::assertEquals('DEBUGCONTENT', $htmlBag['rendered']);
-		self::assertEquals('LABEL:', $htmlBag['label']);
-		self::assertEquals('DebugTitle', $htmlBag['value']);
-	}
+        self::assertCount(4, $htmlBag);
+        self::assertEquals('LABEL:DEBUGCONTENT', $htmlBag['__compiled']);
+        self::assertEquals('DEBUGCONTENT', $htmlBag['rendered']);
+        self::assertEquals('LABEL:', $htmlBag['label']);
+        self::assertEquals('DebugTitle', $htmlBag['value']);
+    }
 
-	/**
-	 * @group unit
-	 */
-	public function testRenderWithErrors() {
-		if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
-			$this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
-		}
+    /**
+     * @group unit
+     */
+    public function testRenderWithErrors()
+    {
+        if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
+            $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
+        }
 
-		$widget = $this->getWidgetMock(array('_render'));
+        $widget = $this->getWidgetMock(array('_render'));
 
-		$helper = $this->getAccessibleMock(
-			'\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
-		);
+        $helper = $this->getAccessibleMock(
+            '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
+        );
 
-		$helper
-			->expects(self::once())
-			->method('initializeArgumentsAndRender')
-			->with()
-			->will($this->throwException(new Exception('PHPUnitException', 5050)))
-		;
-		$widget
-			->expects(self::once())
-			->method('getViewHelper')
-			->with()
-			->will(self::returnValue($helper))
-		;
-		$widget
-			->expects(self::once())
-			->method('getLabel')
-			->with()
-			->will(self::returnValue(''))
-		;
-		$htmlBag = $this->callInaccessibleMethod($widget, '_render');
+        $helper
+            ->expects(self::once())
+            ->method('initializeArgumentsAndRender')
+            ->with()
+            ->will($this->throwException(new Exception('PHPUnitException', 5050)));
+        $widget
+            ->expects(self::once())
+            ->method('getViewHelper')
+            ->with()
+            ->will(self::returnValue($helper));
+        $widget
+            ->expects(self::once())
+            ->method('getLabel')
+            ->with()
+            ->will(self::returnValue(''));
+        $htmlBag = $this->callInaccessibleMethod($widget, '_render');
 
-		self::assertCount(6, $htmlBag);
-		self::assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['__compiled']);
-		self::assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['rendered']);
-		self::assertEquals('', $htmlBag['label']);
-		self::assertEquals('DebugTitle', $htmlBag['value']);
-		self::assertEquals(TRUE, $htmlBag['renderError']);
-		self::assertEquals(TRUE, is_array($htmlBag['renderError.']));
-		self::assertEquals(5050, $htmlBag['renderError.']['code']);
-		self::assertEquals('PHPUnitException', $htmlBag['renderError.']['message']);
-	}
+        self::assertCount(6, $htmlBag);
+        self::assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['__compiled']);
+        self::assertEquals('<span class="error">PHPUnitException</span>', $htmlBag['rendered']);
+        self::assertEquals('', $htmlBag['label']);
+        self::assertEquals('DebugTitle', $htmlBag['value']);
+        self::assertEquals(true, $htmlBag['renderError']);
+        self::assertEquals(true, is_array($htmlBag['renderError.']));
+        self::assertEquals(5050, $htmlBag['renderError.']['code']);
+        self::assertEquals('PHPUnitException', $htmlBag['renderError.']['message']);
+    }
 
-	/**
-	 * build mock for the widget
-	 *
-	 * @param array $allowedMethods
-	 * @return PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getWidgetMock(array $allowedMethods = array()) {
-		$mockedMethods = array_flip(
-			array_keys(
-				$this->getAllClassMethods('tx_mkforms_widgets_fluidviewhelper_Main')
-			)
-		);
-		// methoden entfernen, die nicht gemockt werden sollen.
-		foreach ($allowedMethods as $method) {
-			unset($mockedMethods[$method]);
-		}
-		$widget = $this->getMock(
-			'tx_mkforms_widgets_fluidviewhelper_Main',
-			array_keys($mockedMethods)
-		);
-		$widget
-			->expects(self::any())
-			->method('getValue')
-			->with()
-			->will(self::returnValue('DebugTitle'))
-		;
-		$widget
-			->expects(self::any())
-			->method('getParams')
-			->with()
-			->will(
-				self::returnValue(
-					array(
-						'title' => 'rdt:value',
-						'maxDepth' => 4,
-						'plainText' => 'Hello World',
-					)
-				)
-			)
-		;
+    /**
+     * build mock for the widget
+     *
+     * @param array $allowedMethods
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getWidgetMock(array $allowedMethods = array())
+    {
+        $mockedMethods = array_flip(
+            array_keys(
+                $this->getAllClassMethods('tx_mkforms_widgets_fluidviewhelper_Main')
+            )
+        );
+        // methoden entfernen, die nicht gemockt werden sollen.
+        foreach ($allowedMethods as $method) {
+            unset($mockedMethods[$method]);
+        }
+        $widget = $this->getMock(
+            'tx_mkforms_widgets_fluidviewhelper_Main',
+            array_keys($mockedMethods)
+        );
+        $widget
+            ->expects(self::any())
+            ->method('getValue')
+            ->with()
+            ->will(self::returnValue('DebugTitle'));
+        $widget
+            ->expects(self::any())
+            ->method('getParams')
+            ->with()
+            ->will(
+                self::returnValue(
+                    array(
+                        'title' => 'rdt:value',
+                        'maxDepth' => 4,
+                        'plainText' => 'Hello World',
+                    )
+                )
+            );
 
-		return $widget;
-	}
+        return $widget;
+    }
 
-	/**
-	 * liefert alle möglichen methoden einer klasse.
-	 * unabhängig von der deklaration
-	 *
-	 * @param unknown $class
-	 * @return multitype:unknown
-	 */
-	protected function getAllClassMethods($class) {
-		$methods = array();
-		tx_rnbase::load($class);
-		$reflection = new ReflectionClass($class);
-		foreach($reflection->getMethods() as $method) {
-			$methods[$method->getName()] = $method;
-		}
-		return $methods;
-	}
+    /**
+     * liefert alle möglichen methoden einer klasse.
+     * unabhängig von der deklaration
+     *
+     * @param unknown $class
+     * @return multitype:unknown
+     */
+    protected function getAllClassMethods($class)
+    {
+        $methods = array();
+        tx_rnbase::load($class);
+        $reflection = new ReflectionClass($class);
+        foreach ($reflection->getMethods() as $method) {
+            $methods[$method->getName()] = $method;
+        }
 
+        return $methods;
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php']);
 }

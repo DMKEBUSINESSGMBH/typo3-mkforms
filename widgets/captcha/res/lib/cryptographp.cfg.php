@@ -29,7 +29,7 @@ $bgclear = true;     // Fond transparent (true/false)
 $bgimg = '';                 // Le fond du cryptogramme peut-�tre une image
                              // PNG, GIF ou JPG. Indiquer le fichier image
                              // Exemple: $fondimage = 'photo.gif';
-				                     // L'image sera redimensionn�e si n�cessaire
+                                     // L'image sera redimensionn�e si n�cessaire
                              // pour tenir dans le cryptogramme.
                              // Si vous indiquez un r�pertoire plut�t qu'un
                              // fichier l'image sera prise au hasard parmi
@@ -58,8 +58,8 @@ $charcolorrndlevel = 2;    // Niveau de clart� des caract�res si choix al�
 
 $charclear = 10;   // Intensit� de la transparence des caract�res (0->127)
                   // 0=opaques; 127=invisibles
-	                // interessant si vous utilisez une image $bgimg
-	                // Uniquement si PHP >=3.2.1
+                    // interessant si vous utilisez une image $bgimg
+                    // Uniquement si PHP >=3.2.1
 
 // Polices de caract�res
 
@@ -127,11 +127,11 @@ $noiseup = false;      // Le bruit est-il par dessus l'ecriture (true) ou en des
 // Configuration syst�me & s�curit�
 // --------------------------------
 
-$cryptformat = "png";   // Format du fichier image g�n�r� "GIF", "PNG" ou "JPG"
-				                // Si vous souhaitez un fond transparent, utilisez "PNG" (et non "GIF")
-				                // Attention certaines versions de la bibliotheque GD ne gerent pas GIF !!!
+$cryptformat = 'png';   // Format du fichier image g�n�r� "GIF", "PNG" ou "JPG"
+                                // Si vous souhaitez un fond transparent, utilisez "PNG" (et non "GIF")
+                                // Attention certaines versions de la bibliotheque GD ne gerent pas GIF !!!
 
-$cryptsecure = "md5";    // M�thode de crytpage utilis�e: "md5", "sha1" ou "" (aucune)
+$cryptsecure = 'md5';    // M�thode de crytpage utilis�e: "md5", "sha1" ou "" (aucune)
                          // "sha1" seulement si PHP>=4.2.0
                          // Si aucune m�thode n'est indiqu�e, le code du cyptogramme est stock�
                          // en clair dans la session.
@@ -156,5 +156,3 @@ $cryptoneuse = false;  // Si vous souhaitez que la page de verification ne valid
                        // Sinon, le rechargement de la page confirmera toujours la saisie.
 
 include 'cryptographp.cfg.session.php';
-
-

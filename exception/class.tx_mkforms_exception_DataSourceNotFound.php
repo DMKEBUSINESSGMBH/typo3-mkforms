@@ -26,11 +26,12 @@ tx_rnbase::load('tx_mkforms_exception_Base');
 /**
  * DataSource
  */
-class tx_mkforms_exception_DataSourceNotFound extends tx_mkforms_exception_Base {
+class tx_mkforms_exception_DataSourceNotFound extends tx_mkforms_exception_Base
+{
 }
 
 if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_DataSourceNotFound.php']
+    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_DataSourceNotFound.php']
 ) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_DataSourceNotFound.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_DataSourceNotFound.php']);
 }

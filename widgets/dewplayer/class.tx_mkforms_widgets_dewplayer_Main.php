@@ -2,47 +2,47 @@
 /**
  * Plugin 'rdt_dewplayer' for the 'ameos_formidable' extension.
  *
- * @author	Jerome Schneider <typo3dev@ameos.com>
+ * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
 
-class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet {
+class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
+{
+    public function _render()
+    {
+        $sLabel = $this->getLabel();
 
-	function _render() {
+        $sPath = $this->_getPath();
+        $sHtmlId = $this->_getElementHtmlId();
+        $sHtmlName = $this->_getElementHtmlName();
+        $sAddParams = $this->_getAddInputParams();
 
-		$sLabel = $this->getLabel();
+        $bAutoStart = $this->oForm->_defaultFalse('/autostart', $this->aElement);
+        $bAutoReplay = $this->oForm->_defaultFalse('/autoreplay', $this->aElement);
+        $sBgColor = (($sTempColor = $this->_navConf('/bgcolor')) !== false) ? $sTempColor : 'FFFFFF';
 
-		$sPath = $this->_getPath();
-		$sHtmlId = $this->_getElementHtmlId();
-		$sHtmlName = $this->_getElementHtmlName();
-		$sAddParams = $this->_getAddInputParams();
+        $sMoviePath = $this->sExtWebPath . 'res/dewplayer.swf';
 
-		$bAutoStart = $this->oForm->_defaultFalse("/autostart", $this->aElement);
-		$bAutoReplay = $this->oForm->_defaultFalse("/autoreplay", $this->aElement);
-		$sBgColor = (($sTempColor = $this->_navConf("/bgcolor")) !== FALSE) ? $sTempColor : "FFFFFF";
+        $sColor = str_replace('#', '', $sBgColor);
+        $sMoviePath .= '?bgcolor=' . $sColor;
 
-		$sMoviePath = $this->sExtWebPath . "res/dewplayer.swf";
+        $sFlashParams = '';
 
-		$sColor = str_replace("#", "", $sBgColor);
-		$sMoviePath .= "?bgcolor=" . $sColor;
+        if ($bAutoStart) {
+            $sMoviePath .= '&autostart=1';
+            $sFlashParams .= '<param name="autostart" value="1" />';
+        }
 
-		$sFlashParams = "";
-
-		if($bAutoStart) {
-			$sMoviePath .= "&autostart=1";
-			$sFlashParams .= '<param name="autostart" value="1" />';
-		}
-
-		if($bAutoReplay) {
-			$sMoviePath .= "&autoreplay=1";
-			$sFlashParams .= '<param name="autoreplay" value="1" />';
-		}
+        if ($bAutoReplay) {
+            $sMoviePath .= '&autoreplay=1';
+            $sFlashParams .= '<param name="autoreplay" value="1" />';
+        }
 
 
 
-		$sMoviePath .= "&mp3=" . rawurlencode($sPath);
+        $sMoviePath .= '&mp3=' . rawurlencode($sPath);
 
-		$sInput =<<< FLASHOBJECT
+        $sInput = <<< FLASHOBJECT
 
 			<object
 				name=		"{$sHtmlName}"
@@ -66,45 +66,44 @@ FLASHOBJECT;
 
 
 
-		$aHtmlBag = array(
-			"__compiled" => $this->_displayLabel($sLabel) . $sInput,
-			"input" => $sInput,
-			"mp3." => array(
-				"file" => $sPath,
-			)
-		);
+        $aHtmlBag = array(
+            '__compiled' => $this->_displayLabel($sLabel) . $sInput,
+            'input' => $sInput,
+            'mp3.' => array(
+                'file' => $sPath,
+            )
+        );
 
-		return $aHtmlBag;
-	}
+        return $aHtmlBag;
+    }
 
-	function _renderOnly($bForAjax = FALSE) {
-		return true;
-	}
+    public function _renderOnly($bForAjax = false)
+    {
+        return true;
+    }
 
-	function _getPath() {
+    public function _getPath()
+    {
+        if (($sPath = $this->_navConf('/path')) !== false) {
+            if ($this->oForm->isRunneable($sPath)) {
+                $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
+            }
 
-		if(($sPath = $this->_navConf("/path")) !== FALSE) {
+            if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sPath, 'EXT:')) {
+                $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') .
+                    str_replace(
+                        Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
+                        '',
+                        Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath)
+                    );
+            }
+        }
 
-			if($this->oForm->isRunneable($sPath)) {
-				$sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
-			}
-
-			if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sPath, "EXT:")) {
-
-				$sPath = Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_SITE_URL") .
-					str_replace(
-						Tx_Rnbase_Utility_T3General::getIndpEnv("TYPO3_DOCUMENT_ROOT"),
-						"",
-						Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath)
-					);
-			}
-		}
-
-		return $sPath;
-	}
+        return $sPath;
+    }
 }
 
 
-	if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_dewplayer/api/class.tx_rdtdewplayer.php"])	{
-		include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/ameos_formidable/api/base/rdt_dewplayer/api/class.tx_rdtdewplayer.php"]);
-	}
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_dewplayer/api/class.tx_rdtdewplayer.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_dewplayer/api/class.tx_rdtdewplayer.php']);
+}

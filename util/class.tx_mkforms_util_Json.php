@@ -59,22 +59,22 @@
 /**
  * Marker constant for Services_JSON::decode(), used to flag stack state
  */
-define('SERVICES_JSON_SLICE',   1);
+define('SERVICES_JSON_SLICE', 1);
 
 /**
  * Marker constant for Services_JSON::decode(), used to flag stack state
  */
-define('SERVICES_JSON_IN_STR',  2);
+define('SERVICES_JSON_IN_STR', 2);
 
 /**
  * Marker constant for Services_JSON::decode(), used to flag stack state
  */
-define('SERVICES_JSON_IN_ARR',  3);
+define('SERVICES_JSON_IN_ARR', 3);
 
 /**
  * Marker constant for Services_JSON::decode(), used to flag stack state
  */
-define('SERVICES_JSON_IN_OBJ',  4);
+define('SERVICES_JSON_IN_OBJ', 4);
 
 /**
  * Marker constant for Services_JSON::decode(), used to flag stack state
@@ -112,37 +112,41 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  * $value = $json->decode($input);
  * </code>
  */
-class tx_mkforms_util_Json {
-	private static $instance = null;
+class tx_mkforms_util_Json
+{
+    private static $instance = null;
 
-	/**
-	 * Returns an instance of this class
-	 *
-	 * @return tx_mkforms_util_Json
-	 */
-	public static function getInstance() {
-		if(!self::$instance) {
-			self::$instance = tx_rnbase::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
-		}
-		return self::$instance;
-	}
-	 /**
-    * constructs a new JSON instance
-    *
-    * @param    int     $use    object behavior flags; combine with boolean-OR
-    *
-    *                           possible values:
-    *                           - SERVICES_JSON_LOOSE_TYPE:  loose typing.
-    *                                   "{...}" syntax creates associative arrays
-    *                                   instead of objects in decode().
-    *                           - SERVICES_JSON_SUPPRESS_ERRORS:  error suppression.
-    *                                   Values which can't be encoded (e.g. resources)
-    *                                   appear as NULL instead of throwing errors.
-    *                                   By default, a deeply-nested resource will
-    *                                   bubble up with an error, so all return values
-    *                                   from encode() should be checked with isError()
-    */
-    function __construct($use = 0) {
+    /**
+     * Returns an instance of this class
+     *
+     * @return tx_mkforms_util_Json
+     */
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = tx_rnbase::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
+        }
+
+        return self::$instance;
+    }
+     /**
+      * constructs a new JSON instance
+      *
+      * @param    boollean-OR
+      *
+      *                           possible values:
+      *                           - SERVICES_JSON_LOOSE_TYPE:  loose typing.
+      *                                   "{...}" syntax creates associative arrays
+      *                                   instead of objects in decode().
+      *                           - SERVICES_JSON_SUPPRESS_ERRORS:  error suppression.
+      *                                   Values which can't be encoded (e.g. resources)
+      *                                   appear as NULL instead of throwing errors.
+      *                                   By default, a deeply-nested resource will
+      *                                   bubble up with an error, so all return values
+      *                                   from encode() should be checked with isError()
+      */
+    public function __construct($use = 0)
+    {
         $this->use = $use;
     }
 
@@ -157,16 +161,16 @@ class tx_mkforms_util_Json {
     * @return   string  UTF-8 character
     * @access   private
     */
-    function utf162utf8($utf16)
+    public function utf162utf8($utf16)
     {
         // oh please oh please oh please oh please oh please
-        if(function_exists('mb_convert_encoding')) {
+        if (function_exists('mb_convert_encoding')) {
             return mb_convert_encoding($utf16, 'UTF-8', 'UTF-16');
         }
 
         $bytes = (ord($utf16{0}) << 8) | ord($utf16{1});
 
-        switch(true) {
+        switch (true) {
             case ((0x7F & $bytes) == $bytes):
                 // this case should never be reached, because we are in ASCII range
                 // see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -201,14 +205,14 @@ class tx_mkforms_util_Json {
     * @return   string  UTF-16 character
     * @access   private
     */
-    function utf82utf16($utf8)
+    public function utf82utf16($utf8)
     {
         // oh please oh please oh please oh please oh please
-        if(function_exists('mb_convert_encoding')) {
+        if (function_exists('mb_convert_encoding')) {
             return mb_convert_encoding($utf8, 'UTF-16', 'UTF-8');
         }
 
-        switch(strlen($utf8)) {
+        switch (strlen($utf8)) {
             case 1:
                 // this case should never be reached, because we are in ASCII range
                 // see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
@@ -218,16 +222,13 @@ class tx_mkforms_util_Json {
                 // return a UTF-16 character from a 2-byte UTF-8 char
                 // see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
                 return chr(0x07 & (ord($utf8{0}) >> 2))
-                     . chr((0xC0 & (ord($utf8{0}) << 6))
-                         | (0x3F & ord($utf8{1})));
+                     . chr((0xC0 & (ord($utf8{0}) << 6)) | (0x3F & ord($utf8{1})));
 
             case 3:
                 // return a UTF-16 character from a 3-byte UTF-8 char
                 // see: http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
-                return chr((0xF0 & (ord($utf8{0}) << 4))
-                         | (0x0F & (ord($utf8{1}) >> 2)))
-                     . chr((0xC0 & (ord($utf8{1}) << 6))
-                         | (0x7F & ord($utf8{2})));
+                return chr((0xF0 & (ord($utf8{0}) << 4)) | (0x0F & (ord($utf8{1}) >> 2)))
+                     . chr((0xC0 & (ord($utf8{1}) << 6)) | (0x7F & ord($utf8{2})));
         }
 
         // ignoring UTF-32 for now, sorry
@@ -237,7 +238,7 @@ class tx_mkforms_util_Json {
    /**
     * encodes an arbitrary variable into JSON format
     *
-    * @param    mixed   $var    any number, boolean, string, array, or object to be encoded.
+    * @param    boollean, string, array, or object to be encoded.
     *                           see argument 1 to Services_JSON() above for array-parsing behavior.
     *                           if var is a strng, note that encode() always expects it
     *                           to be in ASCII or UTF-8 format!
@@ -245,7 +246,7 @@ class tx_mkforms_util_Json {
     * @return   mixed   JSON string representation of input var or an error if a problem occurs
     * @access   public
     */
-    function encode($var)
+    public function encode($var)
     {
         switch (gettype($var)) {
             case 'boolean':
@@ -263,11 +264,11 @@ class tx_mkforms_util_Json {
 
             case 'string':
                 // STRINGS ARE EXPECTED TO BE IN ASCII OR UTF-8 FORMAT
-				//$ascii = addslashes(utf8_encode($var));
+                //$ascii = addslashes(utf8_encode($var));
 
-				if(Tx_Rnbase_Utility_Strings::isFirstPartOfStr($var, "function(")) {
-					return $var;
-				}
+                if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($var, 'function(')) {
+                    return $var;
+                }
 
                 $ascii = '';
                 $strlen_var = strlen($var);
@@ -277,7 +278,6 @@ class tx_mkforms_util_Json {
                // escaping with a slash or encoding to UTF-8 where necessary
                //
                 for ($c = 0; $c < $strlen_var; ++$c) {
-
                     $ord_var_c = ord($var{$c});
 
                     switch (true) {
@@ -310,13 +310,13 @@ class tx_mkforms_util_Json {
                         // Dieser Char zerstört das Javascript
                         // und wird erstmal durch einen normalen umbruch ersetzt!
                         // @TODO: spezielles encoding fürs javascript?
-                        case $ord_var_c == 0xe2 && ord($var{$c+1}) == 0x80 && ord($var{$c+2}) == 0xa8:
-                        	$c += 2;
-                        	$ascii .= '\n';
-                        	break;
+                        case $ord_var_c == 0xe2 && ord($var{$c + 1}) == 0x80 && ord($var{$c + 2}) == 0xa8:
+                            $c += 2;
+                            $ascii .= '\n';
+                            break;
 
                         case (($ord_var_c >= 0x20) && ($ord_var_c <= 0x7F)):
-						default:
+                        default:
                             // characters U-00000000 - U-0000007F (same as ASCII)
                             $ascii .= $var{$c};
                             break;
@@ -346,27 +346,31 @@ class tx_mkforms_util_Json {
 
                 // treat as a JSON object
 
-				$properties = array_map(array($this, 'name_value'),
-										array_keys($var),
-										array_values($var));
+                $properties = array_map(
+                    array($this, 'name_value'),
+                    array_keys($var),
+                    array_values($var)
+                );
 
-				foreach($properties as $property) {
-					if(self::isError($property)) {
-						return $property;
-					}
-				}
+                foreach ($properties as $property) {
+                    if (self::isError($property)) {
+                        return $property;
+                    }
+                }
 
-				return '{' . join(',', $properties) . '}';
+                return '{' . join(',', $properties) . '}';
 
             case 'object':
                 $vars = get_object_vars($var);
 
-                $properties = array_map(array($this, 'name_value'),
-                                        array_keys($vars),
-                                        array_values($vars));
+                $properties = array_map(
+                    array($this, 'name_value'),
+                    array_keys($vars),
+                    array_values($vars)
+                );
 
-                foreach($properties as $property) {
-                    if(self::isError($property)) {
+                foreach ($properties as $property) {
+                    if (self::isError($property)) {
                         return $property;
                     }
                 }
@@ -374,9 +378,7 @@ class tx_mkforms_util_Json {
                 return '{' . join(',', $properties) . '}';
 
             default:
-                return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS)
-                    ? 'null'
-                    : new tx_mkforms_util_Json(gettype($var)." can not be encoded as JSON string");
+                return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS) ? 'null' : new tx_mkforms_util_Json(gettype($var).' can not be encoded as JSON string');
         }
     }
 
@@ -389,11 +391,11 @@ class tx_mkforms_util_Json {
     * @return   string  JSON-formatted name-value pair, like '"name":value'
     * @access   private
     */
-    function name_value($name, $value)
+    public function name_value($name, $value)
     {
         $encoded_value = $this->encode($value);
 
-        if(self::isError($encoded_value)) {
+        if (self::isError($encoded_value)) {
             return $encoded_value;
         }
 
@@ -408,7 +410,7 @@ class tx_mkforms_util_Json {
     * @return   string  string value stripped of comments and whitespace
     * @access   private
     */
-    function reduce_string($str)
+    public function reduce_string($str)
     {
         $str = preg_replace(array(
 
@@ -432,14 +434,14 @@ class tx_mkforms_util_Json {
     *
     * @param    string  $str    JSON-formatted string
     *
-    * @return   mixed   number, boolean, string, array, or object
+    * @return   boollean, string, array, or object
     *                   corresponding to given JSON input string.
     *                   See argument 1 to Services_JSON() above for object-output behavior.
     *                   Note that decode() always returns strings
     *                   in ASCII or UTF-8 format!
     * @access   public
     */
-    function decode($str)
+    public function decode($str)
     {
         $str = $this->reduce_string($str);
 
@@ -464,10 +466,7 @@ class tx_mkforms_util_Json {
                     // return (float)$str;
 
                     // Return float or int, as appropriate
-                    return ((float)$str == (integer)$str)
-                        ? (integer)$str
-                        : (float)$str;
-
+                    return ((float)$str == (integer)$str) ? (integer)$str : (float)$str;
                 } elseif (preg_match('/^("|\').*(\1)$/s', $str, $m) && $m[1] == $m[2]) {
                     // STRINGS RETURNED IN UTF-8 FORMAT
                     $delim = substr($str, 0, 1);
@@ -476,7 +475,6 @@ class tx_mkforms_util_Json {
                     $strlen_chrs = strlen($chrs);
 
                     for ($c = 0; $c < $strlen_chrs; ++$c) {
-
                         $substr_chrs_c_2 = substr($chrs, $c, 2);
                         $ord_chrs_c = ord($chrs{$c});
 
@@ -558,13 +556,10 @@ class tx_mkforms_util_Json {
                                 $utf8 .= substr($chrs, $c, 6);
                                 $c += 5;
                                 break;
-
                         }
-
                     }
 
                     return $utf8;
-
                 } elseif (preg_match('/^\[.*\]$/s', $str) || preg_match('/^\{.*\}$/s', $str)) {
                     // array, or object notation
 
@@ -591,10 +586,8 @@ class tx_mkforms_util_Json {
                     if ($chrs == '') {
                         if (reset($stk) == SERVICES_JSON_IN_ARR) {
                             return $arr;
-
                         } else {
                             return $obj;
-
                         }
                     }
 
@@ -603,7 +596,6 @@ class tx_mkforms_util_Json {
                     $strlen_chrs = strlen($chrs);
 
                     for ($c = 0; $c <= $strlen_chrs; ++$c) {
-
                         $top = end($stk);
                         $substr_chrs_c_2 = substr($chrs, $c, 2);
 
@@ -617,7 +609,6 @@ class tx_mkforms_util_Json {
                             if (reset($stk) == SERVICES_JSON_IN_ARR) {
                                 // we are in an array, so just push an element onto the stack
                                 array_push($arr, $this->decode($slice));
-
                             } elseif (reset($stk) == SERVICES_JSON_IN_OBJ) {
                                 // we are in an object, so figure
                                 // out the property name and set an
@@ -646,14 +637,11 @@ class tx_mkforms_util_Json {
                                         $obj->$key = $val;
                                     }
                                 }
-
                             }
-
                         } elseif ((($chrs{$c} == '"') || ($chrs{$c} == "'")) && ($top['what'] != SERVICES_JSON_IN_STR)) {
                             // found a quote, and we are not inside a string
                             array_push($stk, array('what' => SERVICES_JSON_IN_STR, 'where' => $c, 'delim' => $chrs{$c}));
                             //print("Found start of string at {$c}\n");
-
                         } elseif (($chrs{$c} == $top['delim']) &&
                                  ($top['what'] == SERVICES_JSON_IN_STR) &&
                                  ((strlen(substr($chrs, 0, $c)) - strlen(rtrim(substr($chrs, 0, $c), '\\'))) % 2 != 1)) {
@@ -662,58 +650,48 @@ class tx_mkforms_util_Json {
                             // odd number of backslashes at the end of the string so far
                             array_pop($stk);
                             //print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
-
                         } elseif (($chrs{$c} == '[') &&
                                  in_array($top['what'], array(SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ))) {
                             // found a left-bracket, and we are in an array, object, or slice
                             array_push($stk, array('what' => SERVICES_JSON_IN_ARR, 'where' => $c, 'delim' => false));
                             //print("Found start of array at {$c}\n");
-
                         } elseif (($chrs{$c} == ']') && ($top['what'] == SERVICES_JSON_IN_ARR)) {
                             // found a right-bracket, and we're in an array
                             array_pop($stk);
                             //print("Found end of array at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
-
                         } elseif (($chrs{$c} == '{') &&
                                  in_array($top['what'], array(SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ))) {
                             // found a left-brace, and we are in an array, object, or slice
                             array_push($stk, array('what' => SERVICES_JSON_IN_OBJ, 'where' => $c, 'delim' => false));
                             //print("Found start of object at {$c}\n");
-
                         } elseif (($chrs{$c} == '}') && ($top['what'] == SERVICES_JSON_IN_OBJ)) {
                             // found a right-brace, and we're in an object
                             array_pop($stk);
                             //print("Found end of object at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
-
                         } elseif (($substr_chrs_c_2 == '/*') &&
                                  in_array($top['what'], array(SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ))) {
                             // found a comment start, and we are in an array, object, or slice
                             array_push($stk, array('what' => SERVICES_JSON_IN_CMT, 'where' => $c, 'delim' => false));
                             $c++;
                             //print("Found start of comment at {$c}\n");
-
                         } elseif (($substr_chrs_c_2 == '*/') && ($top['what'] == SERVICES_JSON_IN_CMT)) {
                             // found a comment end, and we're in one now
                             array_pop($stk);
                             $c++;
 
-                            for ($i = $top['where']; $i <= $c; ++$i)
+                            for ($i = $top['where']; $i <= $c; ++$i) {
                                 $chrs = substr_replace($chrs, ' ', $i, 1);
+                            }
 
                             //print("Found end of comment at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
-
                         }
-
                     }
 
                     if (reset($stk) == SERVICES_JSON_IN_ARR) {
                         return $arr;
-
                     } elseif (reset($stk) == SERVICES_JSON_IN_OBJ) {
                         return $obj;
-
                     }
-
                 }
         }
     }
@@ -721,7 +699,7 @@ class tx_mkforms_util_Json {
     /**
      * @todo Ultimately, this should just call PEAR::isError()
      */
-    function isError($data, $code = null)
+    public function isError($data, $code = null)
     {
         if (class_exists('pear')) {
             return PEAR::isError($data, $code);
@@ -735,29 +713,37 @@ class tx_mkforms_util_Json {
 }
 
 if (class_exists('PEAR_Error')) {
-
-    class mkforms_json_Error extends PEAR_Error {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
-                                     $mode = null, $options = null, $userinfo = null) {
+    class mkforms_json_Error extends PEAR_Error
+    {
+        public function Services_JSON_Error(
+            $message = 'unknown error',
+            $code = null,
+            $mode = null,
+            $options = null,
+            $userinfo = null
+        ) {
+        
             parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
         }
     }
-
-}
-else {
+} else {
 
     /**
      * @todo Ultimately, this class shall be descended from PEAR_Error
      */
-    class mkforms_json_Error {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
-                                     $mode = null, $options = null, $userinfo = null){
+    class mkforms_json_Error
+    {
+        public function Services_JSON_Error(
+            $message = 'unknown error',
+            $code = null,
+            $mode = null,
+            $options = null,
+            $userinfo = null
+        ) {
         }
     }
 }
 
-if (defined("TYPO3_MODE") && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/mkforms/util/class.tx_mkforms_util_Json.php"])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]["XCLASS"]["ext/mkforms/util/class.tx_mkforms_util_Json.php"]);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Json.php']) {
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Json.php']);
 }
-
-

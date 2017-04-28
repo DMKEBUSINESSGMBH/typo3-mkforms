@@ -5,87 +5,85 @@
  *
  * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-class tx_mkforms_action_stepper_Main extends formidable_mainactionlet {
+class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
+{
+    public function _doTheMagic($aRendered, $sForm)
+    {
+        $sUrl = null;
 
-	function _doTheMagic($aRendered, $sForm) {
+        if ($this->oForm->oDataHandler->_allIsValid()) {
+            $iStep = $this->oForm->_getStep();
 
-		$sUrl = NULL;
+            switch ($this->aElement['step']) {
+                case 'next': {
 
-		if ($this->oForm->oDataHandler->_allIsValid()) {
+                    $iStepToGo = $this->oForm->_getNextInArray(
+                        $iStep,
+                        $this->oForm->aSteps,
+                        false,    // cycle ?
+                        true    // key only ?
+                    );
 
-			$iStep = $this->oForm->_getStep();
+                    break;
+                }
+                case 'previous': {
 
-			switch ($this->aElement['step']) {
-				case 'next': {
+                    $iStepToGo = $this->oForm->_getPrevInArray(
+                        $iStep,
+                        $this->oForm->aSteps,
+                        false,
+                        true
+                    );
 
-					$iStepToGo = $this->oForm->_getNextInArray(
-						$iStep,
-						$this->oForm->aSteps,
-						FALSE,    // cycle ?
-						TRUE    // key only ?
-					);
+                    break;
+                }
+                default: {
+                    $iStepToGo = $iStep;
+                }
+                }
 
-					break;
-				}
-				case 'previous': {
+                $sUid = '';
 
-					$iStepToGo = $this->oForm->_getPrevInArray(
-						$iStep,
-						$this->oForm->aSteps,
-						FALSE,
-						TRUE
-					);
+                if (array_key_exists('uid', $this->aElement)) {
+                    switch ($this->aElement['uid']) {
+                        case 'follow': {
+                            $sUid = $this->oForm->oDataHandler->_currentEntryId();
+                            break;
+                        }
+                        default: {
+                            $sUid = $this->aElement['uid'];
+                        }
+                        }
+                }
 
-					break;
-				}
-				default: {
-					$iStepToGo = $iStep;
-				}
-			}
+                $sStepperId = $this->oForm->_getStepperId();
 
-			$sUid = '';
+                if (!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {
+                    $GLOBALS['_SESSION']['ameos_formidable'] = array();
+                }
 
-			if (array_key_exists('uid', $this->aElement)) {
+                if (!array_key_exists('stepper', $GLOBALS['_SESSION']['ameos_formidable'])) {
+                    $GLOBALS['_SESSION']['ameos_formidable']['stepper'] = array();
+                }
 
-				switch ($this->aElement['uid']) {
-					case 'follow' : {
-						$sUid = $this->oForm->oDataHandler->_currentEntryId();
-						break;
-					}
-					default : {
-						$sUid = $this->aElement['uid'];
-					}
-				}
-			}
+                $GLOBALS['_SESSION']['ameos_formidable']['stepper'][$sStepperId] = array(
+                'AMEOSFORMIDABLE_STEP' => $iStepToGo,
+                'AMEOSFORMIDABLE_STEP_UID' => $sUid,
+                'AMEOSFORMIDABLE_STEP_HASH' => $this->oForm->_getSafeLock($iStepToGo . $sUid)
+            );
 
-			$sStepperId = $this->oForm->_getStepperId();
+            $sUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
 
-			if (!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {
-				$GLOBALS['_SESSION']['ameos_formidable'] = array();
-			}
-
-			if (!array_key_exists('stepper', $GLOBALS['_SESSION']['ameos_formidable'])) {
-				$GLOBALS['_SESSION']['ameos_formidable']['stepper'] = array();
-			}
-
-			$GLOBALS['_SESSION']['ameos_formidable']['stepper'][$sStepperId] = array(
-				'AMEOSFORMIDABLE_STEP' => $iStepToGo,
-				'AMEOSFORMIDABLE_STEP_UID' => $sUid,
-				'AMEOSFORMIDABLE_STEP_HASH' => $this->oForm->_getSafeLock($iStepToGo . $sUid)
-			);
-
-			$sUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
-
-			if (!is_null($sUrl)) {
-				header('Location: ' . $sUrl);
-				die();
-			}
-		}
-	}
+            if (!is_null($sUrl)) {
+                header('Location: ' . $sUrl);
+                die();
+            }
+        }
+    }
 }
 
 if (defined('TYPO3_MODE')
-	&& $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/stepper/class.tx_mkforms_action_stepper_Main.php']
+    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/stepper/class.tx_mkforms_action_stepper_Main.php']
 ) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/stepper/class.tx_mkforms_action_stepper_Main.php']);
+    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/stepper/class.tx_mkforms_action_stepper_Main.php']);
 }
