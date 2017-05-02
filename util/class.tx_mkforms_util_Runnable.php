@@ -185,7 +185,7 @@ class tx_mkforms_util_Runnable
             // weil hier Runnable gesetzt wird
             $form = $this->getForm();
             $GLOBALS['mkforms_forminstance'] =& $contextObj;
-            $sPhp = str_replace('\$this', "\$GLOBALS['mkforms_forminstance']", $sPhp);
+            $sPhp = str_replace('$this', '$GLOBALS[\'mkforms_forminstance\']', $sPhp);
 
             $sClass =    'class ' . $sClassName . ' {'
                 .    '	function ' . $sMethodName . "(\$_this, \$aParams) { \$_this=&\$GLOBALS['mkforms_forminstance'];"
@@ -259,7 +259,7 @@ class tx_mkforms_util_Runnable
         set_error_handler(array(&$form, '__catchEvalException'));
 
         if (!method_exists($oExtension, $method)) {
-            $sObject = ($extension == 'this') ? '\$this (<b>' . get_class($this->getForm()->getParent()) . '</b>)' : $extension;
+            $sObject = ($extension == 'this') ? '$this (<b>' . get_class($this->getForm()->getParent()) . '</b>)' : $extension;
             tx_mkforms_util_Div::mayday($this->getConfig()->get('/type/', $aElement) . ' <b>' . $this->getConfig()->get('/name/', $aElement) . '</b> : callback method <b>' . $method . '</b> of the Object <b>' . $sObject . '</b> doesn\'t exist');
         }
 

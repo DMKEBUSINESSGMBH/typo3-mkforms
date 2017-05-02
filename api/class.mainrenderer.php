@@ -331,7 +331,6 @@ TEMPLATE;
         $bCache = true,
         $bSyncValue = false
     ) {
-    
         $aEvent = array(
             'runat' => 'ajax',
             'cache' => intval($bCache),    // intval because FALSE would be bypassed by navconf
@@ -452,7 +451,7 @@ TEMPLATE;
                 } elseif (array_key_exists($sParam, $this->getForm()->aORenderlets)) {
                     $sAs = (!$sAs) ? $sParam : $sAs;
                     $aParams[] = 'rowInput::' . $sAs . '::' . $this->getForm()->getWidget($sParam)->_getElementHtmlId();
-                } elseif ($sParam === '\$this') {
+                } elseif ($sParam === '$this') {
                     $aParams[] = 'rowInput::this::' . $oRdt->getAbsName();
                 } elseif (strstr($sParam, AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . '*')) {
                     // Shortcut um alle Werte einer Box übergeben

@@ -3073,7 +3073,6 @@ JAVASCRIPT;
         $bAnonymous = false,
         $sNamePrefix = false
     ) {
-    
         $aOParent = array();
         $aRawPost = $this->_getRawPost();
 
@@ -3463,7 +3462,6 @@ JAVASCRIPT;
         $bClearNotUsed = true,
         $aLabels = array()
     ) {
-    
         return $this->getTemplateTool()->parseTemplate(
             $templatePath,
             $templateMarker,
@@ -3878,7 +3876,6 @@ JAVASCRIPT;
         $aAttachPaths = array(),
         $iMediaRef = 0
     ) {
-    
         if (is_object($this)) {
             return $this->__sendMail(
                 $sAdresse,
@@ -3917,7 +3914,6 @@ JAVASCRIPT;
         $aAttachPaths = array(),
         $iMediaRef = 0
     ) {
-    
         $sDebugSendMail = trim($GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.']['debugSendMail']);
 
         if (is_object($this)) {
