@@ -21,8 +21,7 @@ if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms
         $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
             'frontend' => 'TYPO3\CMS\Core\Cache\Frontend\VariableFrontend',
             'backend' => 'TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend',
-            'options' => array(),
-            'groups' => array('pages', 'all')
+            'options' => array()
         );
     } else {
         $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
@@ -31,8 +30,7 @@ if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms
             'options' => array(
                 'cacheTable' => 'cf_mkforms',
                 'tagsTable' => 'cf_mkforms_tags',
-            ),
-            'groups' => array('pages', 'all')
+            )
         );
     }
 }
