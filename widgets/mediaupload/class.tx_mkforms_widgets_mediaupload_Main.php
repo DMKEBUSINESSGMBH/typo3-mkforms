@@ -325,6 +325,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
                 $mediaFiles = tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
             } else {
+                /* @todo: refactor to tx_rnbase_util_TSDAM */
                 $mediaFiles = tx_mklib_util_DAM::getRecords($uploadedFileIds);
                 $mediaFiles = $mediaFiles['files'];
             }
