@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.0.0
+-----
+
+-   TYPO3 8.7 LTS Support
+-   Templates for renderlet box fixed
+
 2.0.6
 -----
 
