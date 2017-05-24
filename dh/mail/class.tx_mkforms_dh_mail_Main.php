@@ -342,6 +342,20 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
             );
         }
 
+        // Hook to handle data before sending
+        tx_rnbase_util_Misc::callHook(
+            'mkforms',
+            'dh_mail_beforeSpoolMailJob',
+            array(
+                'job' => &$job,
+                'templateObj' => $templateObj,
+                'model' => $model,
+                'receiver' => $receiver,
+                'form' => $this->getForm()
+            ),
+            $this
+        );
+
         // E-Mail für den versand in die Queue legen.
         $service = tx_mkmailer_util_ServiceRegistry::getMailService();
 
