@@ -407,7 +407,7 @@ class formidable_mainvalidator extends formidable_mainobject
                 if (is_array($mValue)) {
                     $inArray = false;
                     foreach ($mValue as $mTempValue) {
-                        if (in_array($mTempValue, $aDependsOnIf)) {
+                        if (in_array($mTempValue, $aDependsOnIf, $this->_defaultTrue('/' . $sKey . '/dependsonifstrict'))) {
                             $inArray = true;//treffer?
                             break;
                         }
