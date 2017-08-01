@@ -86,6 +86,8 @@ class tx_mkforms_tests_Util
         $oForm->setTestMode();
 
         $oParameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $oParameters->init('mkforms');
+
         $oConfigurations = tx_rnbase::makeInstance('tx_rnbase_configurations');
         if (!$aConfigArray) {
             $aConfigArray = self::getDefaultFormConfig($bCsrfProtection);
