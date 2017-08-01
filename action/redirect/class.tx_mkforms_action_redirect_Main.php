@@ -31,6 +31,8 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
             return $sUrl;
         } else {
             if (is_string($sUrl) && trim($sUrl) !== '') {
+                header('HTTP/1.1 303 See Other');
+                header('Status: 303 See Other');
                 header('Location: ' . $sUrl);
                 exit();
             }
