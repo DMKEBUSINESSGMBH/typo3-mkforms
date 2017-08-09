@@ -101,11 +101,17 @@ class formidableajax
         tx_rnbase::load('tx_mkforms_util_Validation');
         tx_rnbase::load('tx_mkforms_ds_db_Main');
 
+        $formid = $this->aRequest['formid'];
+
         // Hier wird ein Array mit verschiedenen Objekten und Daten aus der Session geladen.
-        $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$this->aRequest['formid']];
+        $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
+
+        // Die TSFE muss vor dem Form wieder hergestellt werden, damit die LANG stimmt
+        $this->initTSFE($formid, $sesMgr, $aHibernation);
+
         // Das Formular aus der Session holen.
         $start = microtime(true);
-        $this->oForm =& $sesMgr->restoreForm($this->aRequest['formid']);
+        $this->oForm = $sesMgr->restoreForm($formid);
         $this->ttTimes['frest'] = microtime(true) - $start;
         if (!$this->oForm) {
             $this->denyService(
@@ -118,26 +124,6 @@ class formidableajax
         $sesMgr->setForm($this->oForm);
         $formid = $this->oForm->getFormId();
 
-        if ($this->aConf['virtualizeFE']) {
-            // Hier wird eine TSFE erstellt. Das hängt vom jeweiligen Ajax-Call ab.
-            $start = microtime(true);
-            $feConfig = $sesMgr->restoreFeConfig($formid);
-            $feSetup = $sesMgr->restoreFeSetup($formid);
-            // Das dauert hier echt lang. Ca. 70% der Init-Zeit
-            tx_mkforms_util_Div::virtualizeFE($feConfig, $feSetup);
-            $this->ttTimes['fecrest'] = microtime(true) - $start;
-
-            $GLOBALS['TSFE']->config = $feConfig;
-            $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] = $aHibernation['sys_language_uid'];
-            $GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.'] = $aHibernation['formidable_tsconfig'];
-            $GLOBALS['TSFE']->sys_language_uid = $aHibernation['sys_language_uid'];
-            $GLOBALS['TSFE']->sys_language_content = $aHibernation['sys_language_content'];
-            $GLOBALS['TSFE']->lang = $aHibernation['lang'];
-            $GLOBALS['TSFE']->id = $aHibernation['pageid'];
-            $GLOBALS['TSFE']->spamProtectEmailAddresses = $aHibernation['spamProtectEmailAddresses'];
-            $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_atSubst'] = $aHibernation['spamProtectEmailAddresses_atSubst'];
-            $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_lastDotSubst'] = $aHibernation['spamProtectEmailAddresses_lastDotSubst'];
-        }
 
         if ($this->aConf['initBEuser']) {
             $this->_initBeUser();
@@ -168,6 +154,36 @@ class formidableajax
         return true;
     }
 
+    /**
+     *
+     * @param string $formid
+     * @param tx_mkforms_session_IManager $sesMgr
+     * @param array $aHibernation
+     */
+    private function initTSFE($formid, $sesMgr, $aHibernation)
+    {
+        if ($this->aConf['virtualizeFE']) {
+            // Hier wird eine TSFE erstellt. Das hängt vom jeweiligen Ajax-Call ab.
+            $start = microtime(true);
+            // Der sesMgr verwendet hier das FORM um die PID zu ermitteln
+            $feConfig = $sesMgr->restoreFeConfig($formid);
+            $feSetup = $sesMgr->restoreFeSetup($formid);
+            // Das dauert hier echt lang. Ca. 70% der Init-Zeit
+            tx_mkforms_util_Div::virtualizeFE($feConfig, $feSetup);
+            $this->ttTimes['fecrest'] = microtime(true) - $start;
+            $GLOBALS['TSFE']->config = $feConfig;
+            $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] = $aHibernation['sys_language_uid'];
+            $GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.'] = $aHibernation['formidable_tsconfig'];
+            $GLOBALS['TSFE']->sys_language_uid = $aHibernation['sys_language_uid'];
+            $GLOBALS['TSFE']->sys_language_content = $aHibernation['sys_language_content'];
+            $GLOBALS['TSFE']->lang = $aHibernation['lang'];
+            $GLOBALS['TSFE']->config['config']['language'] = $aHibernation['lang'];
+            $GLOBALS['TSFE']->id = $aHibernation['pageid'];
+            $GLOBALS['TSFE']->spamProtectEmailAddresses = $aHibernation['spamProtectEmailAddresses'];
+            $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_atSubst'] = $aHibernation['spamProtectEmailAddresses_atSubst'];
+            $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_lastDotSubst'] = $aHibernation['spamProtectEmailAddresses_lastDotSubst'];
+        }
+    }
 
     public function _initFeUser()
     {

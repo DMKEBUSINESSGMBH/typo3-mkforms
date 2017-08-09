@@ -71,6 +71,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         // ts und tc cachen, wenn aktiviert.
         if (!$fromAjax && $form->getConfTS('cache.enabled')) {
+            $formId = $form->getFormId();
             $this->persistFeConfig($formId);
             // wir cachen das ts setup
             // aber nur die im ts angegebenen pfade
@@ -166,12 +167,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     public function restoreFeConfig($formId)
     {
         if ($this->tsfeMode == 'session') {
-            if (!array_key_exists($formid, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
+            if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
                 return false;
             }
-            $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
+            $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId];
             $feConfig = unserialize(gzuncompress(unserialize($aHibernation['tsfe_config'])));
-
             return $feConfig;
         }
 
@@ -225,10 +225,10 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     public function restoreFeSetup($formId)
     {
         if ($this->tsfeMode == 'session') {
-            if (!array_key_exists($formid, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
+            if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
                 return false;
             }
-            $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
+            $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId];
             $feSetup = unserialize(gzuncompress(unserialize($aHibernation['tsfe_setup'])));
 
             return $feSetup;
@@ -289,10 +289,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $oForm->oSandBox = unserialize($oForm->oSandBox);
         $oForm->oSandBox->oForm =& $oForm;
 
-        // konfiguration und parameters wieder herstellen
+        // configurations und parameters wieder herstellen
         tx_mkforms_util_AutoLoad::setMessage('Unserialize configuration array.');
         $aConfigArray = unserialize(gzuncompress($oForm->getConfigurations()));
-        $config = tx_rnbase::makeInstance('tx_rnbase_configurations');
+        /* @var $config Tx_Rnbase_Configuration_ProcessorInterface */
+        $config = tx_rnbase::makeInstance('Tx_Rnbase_Configuration_Processor');
         $config->init($aConfigArray, $oForm->getCObj(), 'mkforms', 'mkforms');
 
         $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
