@@ -30,20 +30,20 @@ class formidable_mainrenderer extends formidable_mainobject
 
         $sHtml
             = <<<TEMPLATE
-				<div class="ameosformidable_debugcontainer_void">
-					<div style="pointer: help;" class="ameosformidable_debughandler_void">{$oRdt->aElement["type"]}:{$sName}</div>
-					{$aHtmlBag["__compiled"]}
-				</div>
+                <div class="ameosformidable_debugcontainer_void">
+                    <div style="pointer: help;" class="ameosformidable_debughandler_void">{$oRdt->aElement["type"]}:{$sName}</div>
+                    {$aHtmlBag["__compiled"]}
+                </div>
 TEMPLATE;
         $aHtmlBag['__compiled'] = $sHtml;
 
         if (array_key_exists('input', $aHtmlBag)) {
             $sHtml
                 = <<<TEMPLATE
-				<div class="ameosformidable_debugcontainer_void">
-					<div style="pointer: help;" class="ameosformidable_debughandler_void">{$sName}.input</div>
-					{$aHtmlBag["input"]}
-				</div>
+                <div class="ameosformidable_debugcontainer_void">
+                    <div style="pointer: help;" class="ameosformidable_debughandler_void">{$sName}.input</div>
+                    {$aHtmlBag["input"]}
+                </div>
 TEMPLATE;
             $aHtmlBag['input'] = $sHtml;
         }
@@ -78,8 +78,8 @@ TEMPLATE;
             . '_AMEOSFORMIDABLE_SUBMITTER" />';
 
         //CSRF Schutz integrieren
-        if ($this->getForm()->getConfTS('csrfProtection')) {
-            $sRequestToken = $oForm->getCsrfProtectionToken();
+        if ($this->getForm()->isCsrfProtectionActive()) {
+            $sRequestToken = $this->getForm()->generateRequestToken();
             $sSysHidden .= '<input type="hidden" name="' . $iFormId . '[MKFORMS_REQUEST_TOKEN]" id="' . $iFormId
                 . '_MKFORMS_REQUEST_TOKEN" value="' . $sRequestToken . '" />';
             //der request token muss noch in die session damit wir ihn prüfen können.
@@ -800,8 +800,8 @@ TEMPLATE;
 
                 $this->getForm()->attachInitTaskUnobtrusive(
                     '
-						if($("' . $sId . '")) {$("' . $sId . '").innerHTML=' . $sJson . ';}
-					'
+                        if($("' . $sId . '")) {$("' . $sId . '").innerHTML=' . $sJson . ';}
+                    '
                 );
             }
         }

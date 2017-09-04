@@ -1128,12 +1128,12 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                 $sSandClass
                     = <<<SANDBOXCLASS
 
-	class {$sClassName} extends {$sClass} {
+    class {$sClassName} extends {$sClass} {
 
-		var \$oForm = null;
+        var \$oForm = null;
 
-		{$sPhp}
-	}
+        {$sPhp}
+    }
 
 SANDBOXCLASS;
 
@@ -2224,7 +2224,7 @@ SANDBOXCLASS;
         if ($this->getDataHandler()->_isSubmitted()) {
             //jetzt prüfen wir ob das Formular auch vom Nutzer abgeschickt wurde,
             //der das Formular erstellt hat
-            if ($this->getConfTS('csrfProtection') && !$this->validateRequestToken()) {
+            if ($this->isCsrfProtectionActive() && !$this->validateRequestToken()) {
                 throw new RuntimeException(
                     'Das Formular ist nicht valide! erwarteter Token: ' . $this->getRequestTokenFromSession(),
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] . '1'
@@ -5222,8 +5222,8 @@ JAVASCRIPT;
         $errs = tx_mkforms_util_Json::getInstance()->encode($errors);
         $script
             = '
-			Formidable.f("' . $this->getFormId() . '").handleValidationErrors(' . $errs . ',"' . $msgDiv . '");
-		';
+            Formidable.f("' . $this->getFormId() . '").handleValidationErrors(' . $errs . ',"' . $msgDiv . '");
+        ';
         $this->attachPostInitTask($script, 'error messages');
     }
 
@@ -5310,7 +5310,7 @@ JAVASCRIPT;
      *
      * @return string
      */
-    public function getCsrfProtectionToken()
+    public function generateRequestToken()
     {
         return $this->getSafeLock($this->getSessionId() . $this->getFormId());
     }
@@ -5383,6 +5383,22 @@ JAVASCRIPT;
             default:
                 return $this->getFormMethod() === tx_mkforms_util_Constants::FORM_METHOD_POST ? tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA : tx_mkforms_util_Constants::FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED;
         }
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCsrfProtectionActive()
+    {
+        // die XML Konfiguration für das Formular hat Vorrang. Die beachten
+        // wir aber nur, wenn sie wirklich gesetzt ist.
+        $formAttributes = $this->getConfigXML()->get('/meta/form');
+        if (isset($formAttributes['csrfprotection'])) {
+            $csrfProtectionActive = $formAttributes['csrfprotection'];
+        } else {
+            $csrfProtectionActive = $this->getConfTS('csrfProtection');
+        }
+        return (boolean) $csrfProtectionActive;
     }
 }
 

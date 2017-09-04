@@ -190,9 +190,9 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
                 'AMEOSFORMIDABLE_VIEWSTATE' => '',
                 'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
                 'AMEOSFORMIDABLE_SUBMITTER' => '',
-                'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->getCsrfProtectionToken()
+                'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->generateRequestToken()
             );
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->getCsrfProtectionToken())));
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken())));
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         $_POST['radioTestForm'] = $sData;
@@ -276,7 +276,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
                 'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
                 'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid'
             );
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->getCsrfProtectionToken())));
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken())));
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         $_POST['radioTestForm'] = $sData;

@@ -104,7 +104,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
         $oForm = tx_mkforms_tests_Util::getForm(false);
 
         self::assertNotContains(
-            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
+            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->generateRequestToken().'" />',
             $oForm->render(),
             'Es ist nicht der richtige request token enthalten!'
         );
@@ -115,17 +115,17 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
     public function testRenderThrowsNoExceptionIfRequestTokenIsValid()
     {
         $_POST['radioTestForm']['AMEOSFORMIDABLE_SUBMITTED'] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-        //damit wir getCsrfProtectionToken aufrufen können
+        //damit wir generateRequestToken aufrufen können
         $oForm = tx_mkforms_tests_Util::getForm();
-        $_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->getCsrfProtectionToken();
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($oForm->getFormId() => $oForm->getCsrfProtectionToken())));
+        $_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->generateRequestToken();
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($oForm->getFormId() => $oForm->generateRequestToken())));
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         //jetzt die eigentliche initialisierung
         $oForm = tx_mkforms_tests_Util::getForm();
 
         self::assertContains(
-            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->getCsrfProtectionToken().'" />',
+            '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$oForm->generateRequestToken().'" />',
             $oForm->render(),
             'Es ist nicht der richtige request token enthalten!'
         );
@@ -149,6 +149,87 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
             123,
             $form->getCreationTimestamp(),
             'falscher timestamp der Erstellung'
+        );
+    }
+
+    /**
+     * @group unit
+     */
+    public function testGenerateRequestToken()
+    {
+        $form = tx_mkforms_tests_Util::getForm();
+
+        $requestToken = $form->generateRequestToken();
+        self::assertNotNull($form->generateRequestToken(), 'der Token ist leer');
+        self::assertInternalType('string', $requestToken, 'der Token ist kein string');
+        self::assertGreaterThan(8, strlen($requestToken), 'der Token ist nicht mind. 8 Zeichen lang');
+        self::assertEquals($requestToken, $form->generateRequestToken(), 'der 2. Token gleicht nicht dem 1.');
+    }
+
+    /**
+     * @group unit
+     * @dataProvider dataProviderIsCsrfProtectionActive
+     */
+    public function testIsCsrfProtectionActive($typoScriptConfiguration, $expectedReturn)
+    {
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                tx_mkforms_tests_Util::getDefaultFormConfig(true),
+                $typoScriptConfiguration
+            )
+        );
+        self::assertEquals($expectedReturn, $form->isCsrfProtectionActive());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderIsCsrfProtectionActive()
+    {
+        return array(
+            array(
+                array('generic.' => array('formconfig.' => array('csrfProtection' => true))), true
+            ),
+            array(
+                array('generic.' => array('formconfig.' => array('csrfProtection' => false))), false
+            ),
+            array(
+                array(
+                    'generic.' => array(
+                        'formconfig.' => array('csrfProtection' => true),
+                        'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml'
+                    )
+                ),
+                false
+            ),
+            array(
+                array(
+                    'generic.' => array(
+                        'formconfig.' => array('csrfProtection' => false),
+                        'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml'
+                    )
+                ),
+                false
+            ),
+            array(
+                array(
+                    'generic.' => array(
+                        'formconfig.' => array('csrfProtection' => true),
+                        'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml'
+                    )
+                ),
+                true
+            ),
+            array(
+                array(
+                    'generic.' => array(
+                        'formconfig.' => array('csrfProtection' => false),
+                        'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml'
+                    )
+                ),
+                true
+            )
         );
     }
 }
