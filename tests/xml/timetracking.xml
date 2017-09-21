@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mkforms version="1.0.10">
-	<meta>
-		<name>Standard XML file</name>
-		<form formid="timetrackingTestForm" />
-	</meta>
-	<control>
-		<datasources>
-			<datasource:PHPARRAY name="dslisterdata">
-				<bindsto>
-					<userobj>
-						<php><![CDATA[/*<?php*/
+    <meta>
+        <name>Standard XML file</name>
+        <form formid="timetrackingTestForm" />
+    </meta>
+    <control>
+        <datasources>
+            <datasource:PHPARRAY name="dslisterdata">
+                <bindsto>
+                    <userobj>
+                        <php><![CDATA[/*<?php*/
 
-							$aData = array(
-										1 => 'Zeile 1',
-										2 => 'Zeile 2',
-										3 => 'Zeile 3',
-										5 => 'Zeile 5');
+                            $aData = array(
+                                        1 => 'Zeile 1',
+                                        2 => 'Zeile 2',
+                                        3 => 'Zeile 3',
+                                        5 => 'Zeile 5');
 
-							$aDataSource = array();
-							foreach ($aData as $k => $v) {
-								$aDataSource[] = array(
-									"listerdata-uid" => $k,
-									"listerdata-title" => $v,
-									"listerdata-selected" => intval($k) === 1,
-								);
-							}
-							return $aDataSource;
+                            $aDataSource = array();
+                            foreach ($aData as $k => $v) {
+                                $aDataSource[] = array(
+                                    "listerdata-uid" => $k,
+                                    "listerdata-title" => $v,
+                                    "listerdata-selected" => intval($k) === 1,
+                                );
+                            }
+                            return $aDataSource;
 
-						/*?>*/]]></php>
-					</userobj>
-				</bindsto>
-			</datasource:PHPARRAY>
-		</datasources>
-	</control>
-	<elements>
-		<renderlet:HIDDEN name="timetracking-toofast-without-threshold">
-			<validators>
-				<validator:TIMETRACKING>
-					<tooFast message="form send too fast"/>
-				</validator:TIMETRACKING>
-			</validators>
-		</renderlet:HIDDEN>
-		
-		<renderlet:HIDDEN name="timetracking-toofast">
-			<validators>
-				<validator:TIMETRACKING>
-					<tooFast message="form send too fast" threshold="10"/>
-				</validator:TIMETRACKING>
-			</validators>
-		</renderlet:HIDDEN>
-		
-		<renderlet:HIDDEN name="timetracking-tooslow-without-threshold">
-			<validators>
-				<validator:TIMETRACKING>
-					<tooSlow message="form send too slow"/>
-				</validator:TIMETRACKING>
-			</validators>
-		</renderlet:HIDDEN>
-		
-		<renderlet:HIDDEN name="timetracking-tooslow">
-			<validators>
-				<validator:TIMETRACKING>
-					<tooSlow message="form send too slow" threshold="10"/>
-				</validator:TIMETRACKING>
-			</validators>
-		</renderlet:HIDDEN>
-		
-		<renderlet:HIDDEN name="timetracking-tooslow-with-skipifempty">
-			<validators>
-				<validator:TIMETRACKING>
-					<tooSlow message="form send too slow" threshold="1" skipifempty="1"/>
-				</validator:TIMETRACKING>
-			</validators>
-		</renderlet:HIDDEN>
-	</elements>
+                        /*?>*/]]></php>
+                    </userobj>
+                </bindsto>
+            </datasource:PHPARRAY>
+        </datasources>
+    </control>
+    <elements>
+        <renderlet:HIDDEN name="timetracking-toofast-without-threshold">
+            <validators>
+                <validator:TIMETRACKING>
+                    <tooFast message="form send too fast"/>
+                </validator:TIMETRACKING>
+            </validators>
+        </renderlet:HIDDEN>
+
+        <renderlet:HIDDEN name="timetracking-toofast">
+            <validators>
+                <validator:TIMETRACKING>
+                    <tooFast message="form send too fast" threshold="10"/>
+                </validator:TIMETRACKING>
+            </validators>
+        </renderlet:HIDDEN>
+
+        <renderlet:HIDDEN name="timetracking-tooslow-without-threshold">
+            <validators>
+                <validator:TIMETRACKING>
+                    <tooSlow message="form send too slow"/>
+                </validator:TIMETRACKING>
+            </validators>
+        </renderlet:HIDDEN>
+
+        <renderlet:HIDDEN name="timetracking-tooslow">
+            <validators>
+                <validator:TIMETRACKING>
+                    <tooSlow message="form send too slow" threshold="10"/>
+                </validator:TIMETRACKING>
+            </validators>
+        </renderlet:HIDDEN>
+
+        <renderlet:HIDDEN name="timetracking-tooslow-with-skipifempty">
+            <validators>
+                <validator:TIMETRACKING>
+                    <tooSlow message="form send too slow" threshold="1" skipifempty="1"/>
+                </validator:TIMETRACKING>
+            </validators>
+        </renderlet:HIDDEN>
+    </elements>
 </mkforms>
