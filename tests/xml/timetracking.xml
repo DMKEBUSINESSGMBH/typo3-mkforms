@@ -50,6 +50,21 @@
             </validators>
         </renderlet:HIDDEN>
 
+        <renderlet:HIDDEN name="timetracking-toofast-with-runable-for-threshold">
+            <validators>
+                <validator:TIMETRACKING>
+                    <tooFast message="form send too fast" >
+                        <threshold>
+                            <userobj>
+                                <extension>tx_mkforms_tests_validator_timetracking_Main_testcase</extension>
+                                <method>getThresholdForRunable</method>
+                            </userobj>
+                        </threshold>
+                    </tooFast>
+                </validator:TIMETRACKING>
+            </validators>
+        </renderlet:HIDDEN>
+
         <renderlet:HIDDEN name="timetracking-tooslow-without-threshold">
             <validators>
                 <validator:TIMETRACKING>

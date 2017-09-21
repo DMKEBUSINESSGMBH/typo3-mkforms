@@ -127,7 +127,12 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
      */
     protected function getThresholdByValidationKey($validationKey)
     {
-        if (!$threshold = $this->_navConf('/' . $validationKey . '/threshold')) {
+        $threshold = $this->_navConf('/' . $validationKey . '/threshold');
+        if ($this->getForm()->isRunneable($threshold)) {
+            $threshold = $this->getForm()->getRunnable()->callRunnableWidget($this, $threshold);
+        }
+
+        if (!$threshold) {
             throw new InvalidArgumentException(
                 'Please provide the threshold parameter for the tooFast validation'
             );

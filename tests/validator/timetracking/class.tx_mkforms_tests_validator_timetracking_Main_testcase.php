@@ -205,6 +205,46 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
     }
 
     /**
+     * @group unit
+     */
+    public function testGetThresholdByValidationKey()
+    {
+        /* @var $validator tx_mkforms_validator_timetracking_Main */
+        $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $form = $this->getForm();
+        $timetrackingWidget = $form->getWidget('timetracking-toofast');
+        $this->setCreationTimestamp(1);
+        $validator->_init(
+            $form,
+            $timetrackingWidget->aElement['validators']['validator'],
+            array(),
+            ''
+        );
+
+        self::assertEquals(10, $this->callInaccessibleMethod($validator, 'getThresholdByValidationKey', 'toofast'));
+    }
+
+    /**
+     * @group unit
+     */
+    public function testGetThresholdByValidationKeyWithRunable()
+    {
+        /* @var $validator tx_mkforms_validator_timetracking_Main */
+        $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $form = $this->getForm();
+        $timetrackingWidget = $form->getWidget('timetracking-toofast-with-runable-for-threshold');
+        $this->setCreationTimestamp(1);
+        $validator->_init(
+            $form,
+            $timetrackingWidget->aElement['validators']['validator'],
+            array(),
+            ''
+        );
+
+        self::assertEquals(123, $this->callInaccessibleMethod($validator, 'getThresholdByValidationKey', 'toofast'));
+    }
+
+    /**
      * @return tx_mkforms_forms_Base
      */
     protected function getForm()
@@ -234,5 +274,13 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
             )
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
+    }
+
+    /**
+     * @return number
+     */
+    public function getThresholdForRunable()
+    {
+        return 123;
     }
 }
