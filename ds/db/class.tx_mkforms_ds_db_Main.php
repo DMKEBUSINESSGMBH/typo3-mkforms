@@ -312,8 +312,8 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                 $aData = $this->aODataSets[$sSignature]->aChangedCells;
 
                 if ($this->defaultTrue('/addsysfields') === true) {
-                    $aData['crdate'] = time();
-                    $aData['tstamp'] = time();
+                    $aData['crdate'] = $GLOBALS['EXEC_TIME'] ;
+                    $aData['tstamp'] = $GLOBALS['EXEC_TIME'] ;
                 }
 
                 $this->oForm->_watchOutDB(
@@ -363,7 +363,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
                 $aData = $this->aODataSets[$sSignature]->aChangedCells;
                 if ($this->defaultTrue('/addsysfields') === true) {
-                    $aData['tstamp'] = time();
+                    $aData['tstamp'] = $GLOBALS['EXEC_TIME'] ;
                 }
 
                 $this->oForm->_watchOutDB(

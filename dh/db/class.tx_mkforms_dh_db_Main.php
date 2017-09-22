@@ -56,8 +56,8 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                 $aChild = array();
                 $aChild['sys_language_uid'] = $aNewI18n['sys_language_uid'];
                 $aChild['l18n_parent'] = $aNewI18n['i18n_parent'];    // notice difference between i and l
-                $aChild['crdate'] = time();
-                $aChild['tstamp'] = time();
+                $aChild['crdate'] = $GLOBALS['EXEC_TIME'] ;
+                $aChild['tstamp'] = $GLOBALS['EXEC_TIME'] ;
                 $aChild['cruser_id'] = $GLOBALS['TSFE']->fe_user->user['uid'];
                 $aChild['pid'] = $aParent['pid'];
 
@@ -133,7 +133,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
                         if ($this->fillStandardTYPO3fields()) {
                             if (!array_key_exists('tstamp', $aFormData)) {
-                                $aFormData['tstamp'] = time();
+                                $aFormData['tstamp'] = $GLOBALS['EXEC_TIME'] ;
                             }
                         }
 
@@ -188,11 +188,11 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                                 }
 
                                 if (!array_key_exists('crdate', $aFormData)) {
-                                    $aFormData['crdate'] = time();
+                                    $aFormData['crdate'] = $GLOBALS['EXEC_TIME'] ;
                                 }
 
                                 if (!array_key_exists('tstamp', $aFormData)) {
-                                    $aFormData['tstamp'] = time();
+                                    $aFormData['tstamp'] = $GLOBALS['EXEC_TIME'] ;
                                 }
                             }
 
