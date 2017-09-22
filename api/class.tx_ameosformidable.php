@@ -742,8 +742,13 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         if ($this->isFormActionTransparent()) {
             $aGet = Tx_Rnbase_Utility_T3General::_GET();
 
-            if (array_key_exists('id', $aGet)) {
-                unset($aGet['id']);
+            // diese Parameter werden von TYPO3 verwaltet und dürfen nie übernommen
+            // werden
+            $keysToIgnore = array('L', 'cHash', 'id');
+            foreach ($keysToIgnore as $keyToIgnore) {
+                if (array_key_exists($keyToIgnore, $aGet)) {
+                    unset($aGet[$keyToIgnore]);
+                }
             }
             // remove NoKeepVars
             foreach ($aGet as $qualifier => $dataArr) {
@@ -900,7 +905,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                     $this->getCObj()->typoLink_URL(
                         array(
                             'parameter' => $pid,
-                            'additionalParams' => Tx_Rnbase_Utility_T3General::implodeArrayForUrl('', $this->aFormAction)
+                            'additionalParams' => Tx_Rnbase_Utility_T3General::implodeArrayForUrl('', $this->aFormAction),
+                            'useCacheHash' => true
                         )
                     )
                 );
