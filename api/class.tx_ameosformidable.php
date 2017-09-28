@@ -881,38 +881,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public function getFormAction()
     {
         if ($this->isFormActionTransparent()) {
-            $sEnvMode = tx_mkforms_util_Div::getEnvExecMode();
-
-            if ($sEnvMode === 'BE') {
-                $sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
-            } elseif ($sEnvMode === 'EID') {
-                $sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('HTTP_REFERER');
-            }
-
-            if ($sEnvMode === 'BE' || $sEnvMode === 'EID') {
-                $sNewUrl = Tx_Rnbase_Utility_T3General::linkThisUrl($sBaseUrl, $this->aFormAction);
-            } elseif ($sEnvMode === 'FE') {
-                $pid = $this->getConfTS('pid');
-                $pid = $pid ? $pid : $GLOBALS['TSFE']->id;
-                //gibt es extension parameter, die ignoriert werden sollen?
-                $aIgnoreParams = explode(',', $this->getConfTS('ignoreParams'));
-                foreach ($aIgnoreParams as $sIgnoreParam) {
-                    if (isset($this->aFormAction[$sIgnoreParam])) {
-                        unset($this->aFormAction[$sIgnoreParam]);
-                    }
-                }
-                $sNewUrl = tx_mkforms_util_Div::toWebPath(
-                    $this->getCObj()->typoLink_URL(
-                        array(
-                            'parameter' => $pid,
-                            'additionalParams' => Tx_Rnbase_Utility_T3General::implodeArrayForUrl('', $this->aFormAction),
-                            'useCacheHash' => true
-                        )
-                    )
-                );
-            }
-
-            $sRes = $sNewUrl;
+            // an empty URL lets the browser use the current URL
+            $sRes = '';
         } // Link zur aktuellen Seite.
         // Z.b bei Formularen mit Pagebrowsern interessant
         elseif ($this->isFormActionCurrent()) {
