@@ -50,18 +50,6 @@ class tx_mkforms_exception_Mayday extends tx_rnbase_util_Exception
         // html  konvertieren, damit die exception mail nicht zerstört wird!
         return htmlspecialchars($stack);
     }
-
-    /**
-     * Liefert zusätzliche Daten für die Exception-E-Mail.
-     *
-     * @return    string
-     */
-    public function getAdditional()
-    {
-        $additional = parent::getAdditional();
-
-        return is_array($additional) ? print_r($additional, true) : $additional;
-    }
 }
 
 if (defined('TYPO3_MODE')
