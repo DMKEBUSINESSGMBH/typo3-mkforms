@@ -212,14 +212,14 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
         $form
             ->expects(self::once())
             ->method('getFormAction')
-            ->will(self::returnValue('/einkaufszettel.html?xss="/>ohoh'));
+            ->will(self::returnValue('/url.html?xss="/>ohoh'));
 
-        $form = tx_mkforms_tests_Util::getForm(true, array(), null, $form);
+        $form = tx_mkforms_tests_Util::getForm(false, array(), null, $form);
         $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
         $renderer->_init($form, array(), array(), '');
 
         $renderedData = $renderer->_render(array());
-        self::assertContains('action="/einkaufszettel.html?xss=&quot;/&gt;ohoh"', $renderedData['FORMBEGIN']);
+        self::assertContains('action="/url.html?xss=&quot;/&gt;ohoh"', $renderedData['FORMBEGIN']);
     }
 }
 
