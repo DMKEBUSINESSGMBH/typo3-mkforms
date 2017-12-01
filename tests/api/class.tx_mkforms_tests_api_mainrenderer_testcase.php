@@ -215,7 +215,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
             ->will(self::returnValue('/url.html?xss="/>ohoh'));
 
         $form = tx_mkforms_tests_Util::getForm(false, array(), null, $form);
-        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer = $this->getMock('formidable_mainrenderer', array('setCreationTimestampToSession'));
         $renderer->_init($form, array(), array(), '');
 
         $renderedData = $renderer->_render(array());
