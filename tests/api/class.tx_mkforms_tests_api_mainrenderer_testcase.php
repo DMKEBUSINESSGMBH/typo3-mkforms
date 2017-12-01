@@ -202,6 +202,25 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
             'falscher timestamp in der session von secondForm!'
         );
     }
+
+    /**
+     * @group unit
+     */
+    public function testRenderAppliesHtmlspcielcharsToActionUrl()
+    {
+        $form = $this->getMock('tx_mkforms_forms_Base', array('getFormAction'), array('generic'));
+        $form
+            ->expects(self::once())
+            ->method('getFormAction')
+            ->will(self::returnValue('/einkaufszettel.html?xss="/>ohoh'));
+
+        $form = tx_mkforms_tests_Util::getForm(true, array(), null, $form);
+        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer->_init($form, array(), array(), '');
+
+        $renderedData = $renderer->_render(array());
+        self::assertContains('action="/einkaufszettel.html?xss=&quot;/&gt;ohoh"', $renderedData['FORMBEGIN']);
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {

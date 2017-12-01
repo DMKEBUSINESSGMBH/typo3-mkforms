@@ -881,8 +881,13 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public function getFormAction()
     {
         if ($this->isFormActionTransparent()) {
-            // an empty URL lets the browser use the current URL
-            $sRes = '';
+            // we use the current URL including the host. We do this in case
+            // we are on the root page. in this case we would have an empty
+            // action attribute if we only used Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI')
+            // Caution! You need to make sure to escape the URL properly
+            // when using it somewhere as we pass through the current URL
+            // which can be manipulated by users.
+            $sRes = Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI');
         } // Link zur aktuellen Seite.
         // Z.b bei Formularen mit Pagebrowsern interessant
         elseif ($this->isFormActionCurrent()) {

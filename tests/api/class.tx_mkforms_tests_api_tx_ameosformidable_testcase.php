@@ -232,6 +232,14 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
             )
         );
     }
+
+    /**
+     * @group unit
+     */
+    public function testGetFormActionWhenActionIsTransparent()
+    {
+        self::assertEquals(Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI'), tx_mkforms_tests_Util::getForm()->getFormAction());
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {

@@ -80,10 +80,13 @@ class tx_mkforms_tests_Util
     public static function getForm(
         $bCsrfProtection = true,
         $aConfigArray = array(),
-        $parent = null
+        $parent = null,
+        $oForm = null
     ) {
-        $oForm = tx_mkforms_forms_Factory::createForm('generic');
-        $oForm->setTestMode();
+        if ($oForm == null) {
+            $oForm = tx_mkforms_forms_Factory::createForm('generic');
+            $oForm->setTestMode();
+        }
 
         $oParameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
         $oParameters->init('mkforms');
