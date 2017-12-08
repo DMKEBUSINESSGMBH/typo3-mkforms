@@ -133,7 +133,7 @@ TEMPLATE;
                 $sSysHidden .= $this->getHiddenFieldsForUrlParams($formAction);
             }
 
-            $xssSafeUrl = htmlspecialchars($oForm->xhtmlUrl($formAction));
+            $xssSafeUrl = htmlspecialchars($formAction);
             $formBegin
                 = $wrapForm[0] . '<form enctype="' . $oForm->getFormEnctype() . '" ' . ' action="' . $xssSafeUrl
                 . '" ' . $formid . $formonsubmit . $formcustom . ' method="' . $oForm->getFormMethod() . '">';
