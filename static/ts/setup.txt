@@ -12,30 +12,30 @@ tt_content.list.20.tx_mkforms =< plugin.tx_mkforms
 
 lib.mkforms.formbase {
 
-  ### wird nur für tests genutzt. verhindet beispielseise das cachen des formulars.
-  testmode = 0
+    ### wird nur für tests genutzt. verhindet beispielseise das cachen des formulars.
+    testmode = 0
 
-  ### die Basiskonfiguration für mkforms!
-  formconfig =< config.tx_mkforms
-  formconfig.defaultXml {
-    control.datahandler {
-      type = RAW
-      record.userobj {
-        extension = tx_mkforms_util_FormBase
-        method = fillForm
-      }
-      callback.userobj {
-        extension = tx_mkforms_util_FormBase
-        method = processForm
-      }
+    ### die Basiskonfiguration für mkforms!
+    formconfig =< config.tx_mkforms
+    formconfig.defaultXml {
+        control.datahandler {
+            type = RAW
+            record.userobj {
+                extension = tx_mkforms_util_FormBase
+                method = fillForm
+            }
+            callback.userobj {
+                extension = tx_mkforms_util_FormBase
+                method = processForm
+            }
+        }
     }
-  }
 
-  ### XML form - set per action. overwrite this!!!
-  xml =
+    ### XML form - set per action. overwrite this!!!
+    xml =
 
 
-  addfields {
+    addfields {
 #		### setzt den wert title, wenn er noch nicht existiert
 #		tabelle-title = neue Tabelle
 #		### setzt den wert draft oder überschreibt ihn.
@@ -43,305 +43,305 @@ lib.mkforms.formbase {
 #		tabelle-draft.override = 1
 #		### entfernt den Wert. 'unset' führt unset() aus, 'null' setzt den Wert auf null
 #		tabelle-uid = unset
-  }
-
-  ### Table <-> field separator in xml file
-  fieldSeparator = -
-
-  ### Fügt die PostVars zu dem Daten Array hinzu.
-  addPostVars = 0
-
-  ### Redirect options on successfully filled form. If not set, no redirect takes place!
-  redirect {
-    ### Page ID - set this to the target page id
-    pid = 0
-    ### redirect imer an eine absolute url, um browserprobleme zu vermeiden
-    absurl = 1
-    ### To be defined on necessity
-    parameters {
     }
-  }
+
+    ### Table <-> field separator in xml file
+    fieldSeparator = -
+
+    ### Fügt die PostVars zu dem Daten Array hinzu.
+    addPostVars = 0
+
+    ### Redirect options on successfully filled form. If not set, no redirect takes place!
+    redirect {
+        ### Page ID - set this to the target page id
+        pid = 0
+        ### redirect imer an eine absolute url, um browserprobleme zu vermeiden
+        absurl = 1
+        ### To be defined on necessity
+        parameters {
+        }
+    }
 }
 
 plugin.tx_mkforms {
-  ### solll die config geprüft werden?
-  configCheck = 1
+    ### solll die config geprüft werden?
+    configCheck = 1
 
-  ### Allgemeine Formulare ###
-  genericTemplate = EXT:mkforms/templates/formonly.html
-  generic =< lib.mkforms.formbase
+    ### Allgemeine Formulare ###
+    genericTemplate = EXT:mkforms/templates/formonly.html
+    generic =< lib.mkforms.formbase
 
-  ### Konfiguration für die Marker im E-mail-Template (datahandler:MAIL)
-  sendmail {
-  }
+    ### Konfiguration für die Marker im E-mail-Template (datahandler:MAIL)
+    sendmail {
+    }
 
 }
 
 config.tx_mkforms {
 
-  ### default Werte gelten für jedes XML.
-  defaultXml {
-    version = 1.0.20
-  }
+    ### default Werte gelten für jedes XML.
+    defaultXml {
+        version = 1.0.20
+    }
 
-  renderlets {
-    tx_mkforms_widgets_img_Main {
-      image = IMAGE
-      image {
-        file {
-          width = 100m
-          height = 100m
+    renderlets {
+        tx_mkforms_widgets_img_Main {
+            image = IMAGE
+            image {
+                file {
+                    width = 100m
+                    height = 100m
+                }
+            }
         }
-      }
-    }
-    date.css = EXT:mkforms/widgets/date/res/lib/js_calendar/calendar-system.css
-  }
-
-  actionlets {
-  }
-
-  datasources {
-  }
-
-  datahandlers {
-  }
-
-  renderers {
-  }
-
-  validators {
-  }
-
-  misc {
-    safelockseed = MysteriousHashValue
-  }
-
-  cache {
-    ### cache tsSetup
-    tsPaths =  0
-    ### wir cachen den inhalt von lib. und plugin.tx_mkforms.
-    tsPaths {
-      lib = 1
-      plugin.tx_mkforms = 1
-    }
-    enabled = 1
-  }
-
-  minify {
-    enabled = 1
-    gzip = 1
-  }
-
-  ### wird im jquery oder prototype ts aktiviert!
-  loadJsFramework = 0
-  mayLoadScriptaculous = 0
-
-  debugSendMail =
-  injectHeadersInContentAtMarker =
-  injectHeadersManually = 0
-
-  ### deaktiviert exceptions, welche durch ein user object erzeugt werden.
-  disableMaydayOnUserObjExceptions = 1
-
-  ### ist der CSRF Schutz aktiv?
-  csrfProtection = 1
-
-  ### Wir reduzieren die Parameter auf die im XML vorhandenen Widgets
-  checkWidgetsExist = 1
-
-  ### wird das irgendwo verwendet oder ist das nur ein beispiel!?
-  quickconf {
-
-    parts.rootConf {
-      version = 0.20.0
-      meta {
-        name = Default form name
-        form.formid = noformid
-        displaylabels = true
-        debug = false
-      }
-
-      control {
-      }
-
-      elements {
-      }
+        date.css = EXT:mkforms/widgets/date/res/lib/js_calendar/calendar-system.css
     }
 
-    parts.renderer.void = renderer:VOID
-    parts.renderer.standard = renderer:STANDARD
-    parts.renderer.template = renderer:TEMPLATE
-    parts.renderer.template {
-      template.path = ...
-      template.subpart = ...
+    actionlets {
     }
 
-    parts.datahandler.void = datahandler:VOID
-    parts.datahandler.standard = datahandler:STANDARD
-    parts.datahandler.db = datahandler:DB
-    parts.datahandler.db {
-      tablename = ...
-      keyname = ...
-      labelname = ...
+    datasources {
     }
 
-    nodb < .parts.rootConf
-    nodb.control.datahandler < .parts.datahandler.void
-    nodb.control.renderer < .parts.renderer.standard
-  }
+    datahandlers {
+    }
 
-  res {
-    shared {
-      xml {
-        imageprocess {
+    renderers {
+    }
 
-          rounded = IMAGE
-          rounded {
+    validators {
+    }
 
-            file = GIFBUILDER
-            file {
-              XY = [10.w], [10.h]
+    misc {
+        safelockseed = MysteriousHashValue
+    }
 
-              10 = IMAGE
-              10.file = ...
-
-              20 = IMAGE
-              20.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
-              20.offset = 0,0
-
-              30 = IMAGE
-              30.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
-              30.file.params = -rotate 90
-              30.offset = [10.w] - [30.w], 0
-
-              40 = IMAGE
-              40.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
-              40.file.params = -rotate -90
-              40.offset = 0, [10.h] - [40.h]
-
-              50 = IMAGE
-              50.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
-              50.file.params = -rotate 180
-              50.offset = [10.w] - [50.w], [10.h] - [50.h]
-            }
-          }
-
-
-
-
-          shaded = IMAGE
-          shaded {
-            file = GIFBUILDER
-            file {
-              backColor = white
-              XY = [50.w] + 10 + 10 + 15, [50.h] + 10 + 10 + 15
-
-              5 = BOX
-              5 {
-                dimensions = 10, 10, [50.w] + 10 + 10, [50.h] + 10 + 10
-                color = silver
-              }
-
-              10 = EFFECT
-              10.value = blur=60 | gamma=1.5
-
-              15 = BOX
-              15 {
-                dimensions = 0, 0, [50.w]+ 10 + 10 + 2, [50.h] + 10 + 10 + 2
-                color = silver
-              }
-
-              20 = BOX
-              20 {
-                dimensions = 1, 1, [50.w]+ 10 + 10, [50.h] + 10 + 10
-                color = white
-              }
-
-              50 = IMAGE
-              50.file = ...
-              50.offset = 10, 10
-            }
-          }
-
-          fixedwidth = IMAGE
-          fixedwidth {
-            file = GIFBUILDER
-
-            file {
-
-              backColor = white
-              XY = [10.w],[10.h]
-
-              10 = IMAGE
-              10{
-                file = ...
-                file.width = ...
-              }
-
-            }
-
-          }
-
-          fixedheight = IMAGE
-          fixedheight {
-            file = GIFBUILDER
-
-            file {
-
-              backColor = white
-              XY = [10.w],[10.h]
-
-              10 = IMAGE
-              10{
-                file = ...
-                file.height = ...
-              }
-
-            }
-
-          }
-
-          maxwh = IMAGE
-          maxwh {
-            file = GIFBUILDER
-
-            file {
-
-              backColor = white
-              XY = [10.w],[10.h]
-
-              10 = IMAGE
-              10{
-                file = ...
-                file.maxH = ...
-                file.maxW = ...
-              }
-
-            }
-
-          }
-
-          fixedwh = IMAGE
-          fixedwh {
-            file = GIFBUILDER
-
-            file {
-
-              backColor = white
-              XY = [10.w],[10.h]
-
-              10 = IMAGE
-              10{
-                file = ...
-                file.height = ...
-                file.width = ...
-              }
-
-            }
-
-          }
+    cache {
+        ### cache tsSetup
+        tsPaths =  0
+        ### wir cachen den inhalt von lib. und plugin.tx_mkforms.
+        tsPaths {
+            lib = 1
+            plugin.tx_mkforms = 1
         }
-      }
+        enabled = 1
     }
-  }
+
+    minify {
+        enabled = 1
+        gzip = 1
+    }
+
+    ### wird im jquery oder prototype ts aktiviert!
+    loadJsFramework = 0
+    mayLoadScriptaculous = 0
+
+    debugSendMail =
+    injectHeadersInContentAtMarker =
+    injectHeadersManually = 0
+
+    ### deaktiviert exceptions, welche durch ein user object erzeugt werden.
+    disableMaydayOnUserObjExceptions = 1
+
+    ### ist der CSRF Schutz aktiv?
+    csrfProtection = 1
+
+    ### Wir reduzieren die Parameter auf die im XML vorhandenen Widgets
+    checkWidgetsExist = 1
+
+    ### wird das irgendwo verwendet oder ist das nur ein beispiel!?
+    quickconf {
+
+        parts.rootConf {
+            version = 0.20.0
+            meta {
+                name = Default form name
+                form.formid = noformid
+                displaylabels = true
+                debug = false
+            }
+
+            control {
+            }
+
+            elements {
+            }
+        }
+
+        parts.renderer.void = renderer:VOID
+        parts.renderer.standard = renderer:STANDARD
+        parts.renderer.template = renderer:TEMPLATE
+        parts.renderer.template {
+            template.path = ...
+            template.subpart = ...
+        }
+
+        parts.datahandler.void = datahandler:VOID
+        parts.datahandler.standard = datahandler:STANDARD
+        parts.datahandler.db = datahandler:DB
+        parts.datahandler.db {
+            tablename = ...
+            keyname = ...
+            labelname = ...
+        }
+
+        nodb < .parts.rootConf
+        nodb.control.datahandler < .parts.datahandler.void
+        nodb.control.renderer < .parts.renderer.standard
+    }
+
+    res {
+        shared {
+            xml {
+                imageprocess {
+
+                    rounded = IMAGE
+                    rounded {
+
+                        file = GIFBUILDER
+                        file {
+                            XY = [10.w], [10.h]
+
+                            10 = IMAGE
+                            10.file = ...
+
+                            20 = IMAGE
+                            20.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            20.offset = 0,0
+
+                            30 = IMAGE
+                            30.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            30.file.params = -rotate 90
+                            30.offset = [10.w] - [30.w], 0
+
+                            40 = IMAGE
+                            40.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            40.file.params = -rotate -90
+                            40.offset = 0, [10.h] - [40.h]
+
+                            50 = IMAGE
+                            50.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            50.file.params = -rotate 180
+                            50.offset = [10.w] - [50.w], [10.h] - [50.h]
+                        }
+                    }
+
+
+
+
+                    shaded = IMAGE
+                    shaded {
+                        file = GIFBUILDER
+                        file {
+                            backColor = white
+                            XY = [50.w] + 10 + 10 + 15, [50.h] + 10 + 10 + 15
+
+                            5 = BOX
+                            5 {
+                                dimensions = 10, 10, [50.w] + 10 + 10, [50.h] + 10 + 10
+                                color = silver
+                            }
+
+                            10 = EFFECT
+                            10.value = blur=60 | gamma=1.5
+
+                            15 = BOX
+                            15 {
+                                dimensions = 0, 0, [50.w]+ 10 + 10 + 2, [50.h] + 10 + 10 + 2
+                                color = silver
+                            }
+
+                            20 = BOX
+                            20 {
+                                dimensions = 1, 1, [50.w]+ 10 + 10, [50.h] + 10 + 10
+                                color = white
+                            }
+
+                            50 = IMAGE
+                            50.file = ...
+                            50.offset = 10, 10
+                        }
+                    }
+
+                    fixedwidth = IMAGE
+                    fixedwidth {
+                        file = GIFBUILDER
+
+                        file {
+
+                            backColor = white
+                            XY = [10.w],[10.h]
+
+                            10 = IMAGE
+                            10{
+                                file = ...
+                                file.width = ...
+                            }
+
+                        }
+
+                    }
+
+                    fixedheight = IMAGE
+                    fixedheight {
+                        file = GIFBUILDER
+
+                        file {
+
+                            backColor = white
+                            XY = [10.w],[10.h]
+
+                            10 = IMAGE
+                            10{
+                                file = ...
+                                file.height = ...
+                            }
+
+                        }
+
+                    }
+
+                    maxwh = IMAGE
+                    maxwh {
+                        file = GIFBUILDER
+
+                        file {
+
+                            backColor = white
+                            XY = [10.w],[10.h]
+
+                            10 = IMAGE
+                            10{
+                                file = ...
+                                file.maxH = ...
+                                file.maxW = ...
+                            }
+
+                        }
+
+                    }
+
+                    fixedwh = IMAGE
+                    fixedwh {
+                        file = GIFBUILDER
+
+                        file {
+
+                            backColor = white
+                            XY = [10.w],[10.h]
+
+                            10 = IMAGE
+                            10{
+                                file = ...
+                                file.height = ...
+                                file.width = ...
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        }
+    }
 }
