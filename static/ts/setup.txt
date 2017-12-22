@@ -1,6 +1,6 @@
 includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
 
-plugin.tx_mkforms                = USER_INT
+plugin.tx_mkforms                = USER
 plugin.tx_mkforms.flexform       = flexform_main.xml
 plugin.tx_mkforms.userFunc       = tx_rnbase_controller->main
 plugin.tx_mkforms.defaultAction  = tx_mkforms_action_FormBase
@@ -11,6 +11,8 @@ plugin.tx_mkforms.locallangFilename = EXT:mkforms/locallang.xml
 tt_content.list.20.tx_mkforms =< plugin.tx_mkforms
 
 lib.mkforms.formbase {
+
+    toUserInt = 1
 
     ### wird nur für tests genutzt. verhindet beispielseise das cachen des formulars.
     testmode = 0
