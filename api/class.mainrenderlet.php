@@ -1204,7 +1204,7 @@ class formidable_mainrenderlet extends formidable_mainobject
                     $sJs
                         = <<<TOOLTIP
 
-	new Tooltip(Formidable.f("{$this->oForm->formid}").o("{$sId}").domNode(), {$sJsOptions});
+    new Tooltip(Formidable.f("{$this->oForm->formid}").o("{$sId}").domNode(), {$sJsOptions});
 
 TOOLTIP;
                     $this->oForm->attachPostInitTask(
@@ -3464,7 +3464,7 @@ JAVASCRIPT;
         return true;
     }
 
-    public function handleAjaxRequest(&$oRequest)
+    public function handleAjaxRequest($oRequest)
     {
         /* specialize me */
     }
