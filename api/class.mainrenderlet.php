@@ -2819,7 +2819,7 @@ JAVASCRIPT;
 
                 $sSubpartName = str_replace('#', '', $sSubpartName);
 
-                $sSubpart = $this->oForm->oHtml->getSubpart(
+                $sSubpart = tx_rnbase_util_Templates::getSubpart(
                     $this->oForm->oRenderer->getTemplateHtml(),
                     '###' . $sSubpartName . '###'
                 );
