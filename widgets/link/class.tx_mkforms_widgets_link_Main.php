@@ -197,7 +197,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
         return true;
     }
 
-    public function _getAddInputParamsArray()
+    public function _getAddInputParamsArray($aAdditional = array())
     {
         $aAddParams = parent::_getAddInputParamsArray();
         if (($sTarget = $this->_navConf('/target')) !== false) {
