@@ -278,7 +278,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
         return tx_mkforms_util_Div::toServerPath($sPath);
     }
 
-    public function _getAddInputParamsArray()
+    public function _getAddInputParamsArray($aAdditional = array())
     {
         $aAddParams = parent::_getAddInputParamsArray();
 
