@@ -46,6 +46,7 @@
             "remote/",
             "renderer/",
             "session/",
+            "tests/",
             "util/",
             "validator/",
             "view/",
