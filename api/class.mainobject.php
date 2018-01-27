@@ -18,6 +18,14 @@ class formidable_mainobject
 
     public $sNamePrefix = false;
 
+    /**
+     *
+     * @param tx_mkforms_forms_Base $oForm
+     * @param array $aElement
+     * @param array $aObjectType
+     * @param string $sXPath
+     * @param string $sNamePrefix
+     */
     public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
     {
         $this->oForm =& $oForm;
@@ -26,7 +34,8 @@ class formidable_mainobject
 
         $this->sExtPath = $aObjectType['PATH'];
         $this->sExtRelPath = $aObjectType['RELPATH'];
-        $this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath;
+        $absRefPrefix = $oForm->getJSLoader()->getAbsRefPrefix();
+        $this->sExtWebPath = $absRefPrefix . $this->sExtRelPath;
 
         $this->sXPath = $sXPath;
 

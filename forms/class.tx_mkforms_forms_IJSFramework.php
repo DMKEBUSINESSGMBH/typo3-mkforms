@@ -29,7 +29,7 @@ require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameos
  */
 interface tx_mkforms_forms_IJSFramework
 {
-    public function getBaseIncludes();
+    public function getBaseIncludes($absRefPrefix);
 
     public function includeBase();
 
@@ -89,7 +89,7 @@ class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude
         $sBefore = '',
         $sAfter = ''
     ) {
-    
+
         return new tx_mkforms_forms_PageInclude($pagePath, $serverPath, $sKey, $isJS, $bFirstPos, $sBefore, $sAfter);
     }
 
@@ -102,7 +102,7 @@ class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude
         $sBefore = '',
         $sAfter = ''
     ) {
-    
+
         $this->pagePath = $pagePath;
         $this->serverPath = $serverPath;
         $this->key = $sKey;

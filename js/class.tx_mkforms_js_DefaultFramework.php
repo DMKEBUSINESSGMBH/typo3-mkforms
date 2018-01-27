@@ -36,14 +36,14 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
         return $this->getConf('jscore');
     }
 
-    public function getBaseIncludes()
+    public function getBaseIncludes($absRefPrefix)
     {
-        return $this->loadIncludes('jscore.');
+        return $this->loadIncludes('jscore.', $absRefPrefix);
     }
 
-    private function loadIncludes($confId)
+    private function loadIncludes($confId, $absRefPrefix)
     {
-        $server = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL');
+        $server = $absRefPrefix;
 
         // TODO: Wir benötigen den Pfad für die URL und den absoluten Serverpfad.
         // Ob das wirklich so ist, muss aber noch geklärt werden: minify und zip

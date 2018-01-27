@@ -137,6 +137,8 @@ config.tx_mkforms {
     ### wird im jquery oder prototype ts aktiviert!
     loadJsFramework = 0
     mayLoadScriptaculous = 0
+    # should this be default??
+#    absRefPrefix = /
 
     debugSendMail =
     injectHeadersInContentAtMarker =

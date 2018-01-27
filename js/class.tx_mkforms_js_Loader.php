@@ -18,21 +18,23 @@ class tx_mkforms_js_Loader
 {
     private static $isLoaded = false;
 
-    public $oForm = null;
+    protected $oForm = null;
 
-    public $bLoadScriptaculous = false;
+    protected $bLoadScriptaculous = false;
 
-    public $bLoadScriptaculousDragDrop = false;
+    protected $bLoadScriptaculousDragDrop = false;
 
-    public $bLoadScriptaculousBuilder = false;
+    protected $bLoadScriptaculousBuilder = false;
 
-    public $bLoadtooltip = false;
+    protected $bLoadtooltip = false;
 
-    public $headerKeys = array(); // Hier sammeln wir die Keys der zusatzlichen JS-Scripte
+    protected $headerKeys = array(); // Hier sammeln wir die Keys der zusatzlichen JS-Scripte
 
-    public $aHeadersAjax = array();    // stores the headers that are added to the page via ajax
+    protected $aHeadersAjax = array();    // stores the headers that are added to the page via ajax
 
-    public $aHeadersWhenInjectNonStandard = array();    // stores the headers when they have to be injected in the page content at given marker
+    protected $aHeadersWhenInjectNonStandard = array();    // stores the headers when they have to be injected in the page content at given marker
+
+    protected $aCodeBehindJsIncludes = array();
 
     private function __construct($form)
     {
@@ -61,12 +63,12 @@ class tx_mkforms_js_Loader
         return new tx_mkforms_js_Loader($form);
     }
 
-    private function init(&$oForm)
+    private function init($oForm)
     {
         if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
             require_once(PATH_tslib . 'class.tslib_pagegen.php');
         }
-        $this->oForm =& $oForm;
+        $this->oForm = $oForm;
     }
 
     /**
@@ -113,7 +115,30 @@ class tx_mkforms_js_Loader
         $this->includeScriptaculous();
         $this->includeTooltip();
     }
-
+    /**
+     * Include code behind JS files
+     */
+    public function includeCodeBehind()
+    {
+        if (!empty($this->aCodeBehindJsIncludes)) {
+            $this->additionalHeaderData(
+                "<!-- CodeBehind includes -->\n" . implode("\n", $this->aCodeBehindJsIncludes),
+                'codeBehindJSIncludes'
+            );
+        }
+    }
+    /**
+     * Register code behind script
+     * @param string $ref
+     * @param string $file
+     */
+    public function addCodeBehind($ref, $sFilePath)
+    {
+        $path = tx_mkforms_util_Div::removeStartingSlash(tx_mkforms_util_Div::toRelPath($sFilePath));
+        $path = $this->getAbsRefPrefix() . $path;
+        $this->aCodeBehindJsIncludes[$ref] = '<script type="text/javascript" src="' .
+            $this->getForm()->getJSLoader()->getScriptPath($path) . '"></script>';
+    }
     private function includeAdditional()
     {
         if (($sLibs = $this->getForm()->getConfig()->get('/meta/libs')) === false) {
@@ -159,10 +184,10 @@ class tx_mkforms_js_Loader
                 'Urls' => array(
                     'Ajax' => array(
                         'event' =>
-                            tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='
+                            tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()) . '/index.php?eID='
                             . tx_mkforms_util_Div::getAjaxEId() . '&object=tx_ameosformidable&servicekey=ajaxevent',
                         'service' =>
-                            tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')) . '/index.php?eID='
+                            tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()) . '/index.php?eID='
                             . tx_mkforms_util_Div::getAjaxEId() . '&object=tx_ameosformidable&servicekey=ajaxservice',
                     ),
                 ),
@@ -210,7 +235,7 @@ JAVASCRIPT;
     {
         if ($this->oForm->bDebug) {
             $sPath = tx_rnbase_util_Extensions::siteRelPath('mkforms');
-            $this->getForm()->additionalHeaderData(
+            $this->additionalHeaderData(
                 "<link rel='stylesheet' type='text/css' href='" . $sPath . "res/css/debug.css' />",
                 'tx_ameosformidable_debugstyles'
             );
@@ -228,19 +253,21 @@ JAVASCRIPT;
      */
     private function _includeBaseFramework()
     {
-        $includes = $this->getJSFramework()->getBaseIncludes();
+
+        $absRefPrefix = $this->getAbsRefPrefix();
+        $includes = $this->getJSFramework()->getBaseIncludes($absRefPrefix);
         $ext = 'mkforms';
-        $server = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL');
+
         // JSON stringifier
         // http://www.thomasfrank.se/downloadableJS/jsonStringify.js
-        $pagePath = $server . tx_rnbase_util_Extensions::siteRelPath($ext) . 'res/jsfwk/json/json.js';
+        $pagePath = $absRefPrefix . tx_rnbase_util_Extensions::siteRelPath($ext) . 'res/jsfwk/json/json.js';
         $serverPath = tx_rnbase_util_Extensions::extPath($ext) . 'res/jsfwk/json/json.js';
         $includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 
         foreach ($includes as $include) {
             $tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
                 '<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
-            $this->getForm()->additionalHeaderData(
+            $this->additionalHeaderData(
                 $tag,
                 $include->getKey(),
                 $include->isFirstPos(),
@@ -248,7 +275,6 @@ JAVASCRIPT;
                 $include->getAfterKey()
             );
         }
-
         // tx_ameosformidable_prototype_fwk -> tx_mkforms_jsbase_fwk
         $this->additionalHeaderData(
             '<!-- consider base JS-Framework loaded after this line -->',
@@ -270,7 +296,7 @@ JAVASCRIPT;
         foreach ($includes as $include) {
             $tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
                 '<link href="' . $this->getScriptPath($include->getPagePath(), 'css') . '" type="text/css" rel="stylesheet" />';
-            $this->getForm()->additionalHeaderData(
+            $this->additionalHeaderData(
                 $tag,
                 $include->getKey(),
                 $include->isFirstPos(),
@@ -283,10 +309,10 @@ JAVASCRIPT;
         $sNextAfter = 'tx_ameosformidable_scriptaculous_effects';
 
         if ($this->bLoadScriptaculousDragDrop === true) {
-            $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
+            $sPath = $this->getAbsRefPrefix(). tx_rnbase_util_Extensions::siteRelPath('mkforms')
                 . 'res/jsfwk/scriptaculous/dragdrop.js';
 
-            $this->oForm->additionalHeaderData(
+            $this->additionalHeaderData(
                 '<script type="text/javascript" src="' . $this->getScriptPath($sPath) . '"></script>',
                 'tx_ameosformidable_scriptaculous_dragdrop',
                 $bFirstPos = false,
@@ -298,10 +324,10 @@ JAVASCRIPT;
         }
 
         if ($this->bLoadScriptaculousBuilder === true) {
-            $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
+            $sPath = $this->getAbsRefPrefix(). tx_rnbase_util_Extensions::siteRelPath('mkforms')
                 . 'res/jsfwk/scriptaculous/builder.js';
 
-            $this->oForm->additionalHeaderData(
+            $this->additionalHeaderData(
                 '<script type="text/javascript" src="' . $this->getScriptPath($sPath) . '"></script>',
                 'tx_ameosformidable_scriptaculous_builder',
                 $bFirstPos = false,
@@ -312,7 +338,7 @@ JAVASCRIPT;
             $sNextAfter = 'tx_ameosformidable_scriptaculous_builder';
         }
 
-        $this->oForm->additionalHeaderData(
+        $this->additionalHeaderData(
             '<!-- consider scriptaculous loaded after this line -->',
             'tx_ameosformidable_scriptaculous_fwk',
             $bFirstPos = false,
@@ -323,9 +349,9 @@ JAVASCRIPT;
 
     private function _includeJSFramework()
     {
-        $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/framework.js';
+        $sPath = $this->getAbsRefPrefix(). tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/framework.js';
         $tag = '<script type="text/javascript" src="' . $this->getScriptPath($sPath) . '"></script>';
-        $this->oForm->additionalHeaderData(
+        $this->additionalHeaderData(
             $tag,
             'tx_ameosformidable_jsframework',
             $bFirstPos = false,
@@ -334,12 +360,20 @@ JAVASCRIPT;
         );
     }
 
+    public function getAbsRefPrefix()
+    {
+        $absRefPrefix = $this->getForm()->getConfTS('absRefPrefix');
+        if($absRefPrefix === null) {
+            $absRefPrefix = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL');
+        }
+        return $absRefPrefix;
+    }
     /**
      * Bindet das JS für die Initialisierung des Formidable-Objekts ein
      */
     private function includeFormidablePath()
     {
-        $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
+        $sPath = $this->getAbsRefPrefix() . tx_rnbase_util_Extensions::siteRelPath('mkforms');
         $sScript
             = <<<JAVASCRIPT
 	Formidable.initialize({path: '{$sPath}'});
@@ -388,9 +422,9 @@ JAVASCRIPT;
             // tooltip css
             $sPath
                 =
-                Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.css';
+                $this->getAbsRefPrefix(). tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.css';
 
-            $this->oForm->additionalHeaderData(
+            $this->additionalHeaderData(
                 '<link rel="stylesheet" type="text/css" href="' . $sPath . '" />',
                 'tx_ameosformidable_tooltip_css',
                 $bFirstPos = false,
@@ -401,9 +435,9 @@ JAVASCRIPT;
             // tooltip js
             $sPath
                 =
-                Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.js';
+                $this->getAbsRefPrefix() . tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'res/jsfwk/tooltip/tooltips.js';
 
-            $this->oForm->additionalHeaderData(
+            $this->additionalHeaderData(
                 '<script type="text/javascript" src="' . $sPath . '"></script>',
                 'tx_ameosformidable_tooltip_js',
                 $bFirstPos = false,
@@ -509,14 +543,14 @@ JAVASCRIPT;
 
                     $script = 'typo3temp/mkforms/javascript_' . substr(md5($str), 0, 10) . '.js';
                     $output = $sDesc . "\n" . '<script type="text/javascript" src="' . htmlspecialchars(
-                        Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $script
+                        $this->getAbsRefPrefix() . $script
                     ) . '"></script>' . "\n\n";
                     break;
                 }
                 case 'css': {
                     $script = 'typo3temp/mkforms/stylesheet_' . substr(md5($str), 0, 10) . '.css';
                     $output = $sDesc . "\n" . '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars(
-                        Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $script
+                        $this->getAbsRefPrefix() . $script
                     ) . '" />' . "\n\n";
                     break;
                 }
@@ -668,7 +702,7 @@ JAVASCRIPT;
 
     /**
      * Prüft, ob für dieses Script eine minimierte Version vorligt
-     * und giebt diese entsprechend der konfiguration zurück.
+     * und gibt diese entsprechend der konfiguration zurück.
      *
      * @param string $sPath
      *
@@ -680,7 +714,7 @@ JAVASCRIPT;
         $sScriptErw = '.' . $sScriptErw;
         // soll minimierte Version genutzt werden
         if ($this->minified()) {
-            $sSitePath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
+            $sSitePath = $this->getAbsRefPrefix() . tx_rnbase_util_Extensions::siteRelPath('mkforms');
             $sFile = substr($sPath, strlen($sSitePath), strrpos($sPath, $sScriptErw) - strlen($sSitePath));
             // prüfen ob gzip genutzt werden soll, wenn ja auf datei prüfen.
             if ($this->gziped() && file_exists(tx_rnbase_util_Extensions::extPath('mkforms') . $sFile . '.min' . $sScriptErw . '.php')) {

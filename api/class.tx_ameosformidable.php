@@ -245,8 +245,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $aCB = array();
 
-    public $aCodeBehindJsIncludes = array();
-
     public $aCodeBehindJsInits = array();
 
     public $aCurrentRdtStack = array();    // stacks the current renderlets (in majix context, and in normal context)
@@ -2497,7 +2495,7 @@ SANDBOXCLASS;
                 }
             }
 
-            $this->attachCodeBehindJsIncludes();
+            $this->getJSLoader()->includeCodeBehind();
             $this->attachCodeBehindJsInits();
             $this->attachRdtEvents();
             $this->attachAjaxServices();
@@ -2714,16 +2712,6 @@ JAVASCRIPT;
             implode("\n", $this->aRdtEvents),
             'RDT Events'
         );
-    }
-
-    public function attachCodeBehindJsIncludes()
-    {
-        if (!empty($this->aCodeBehindJsIncludes)) {
-            $this->additionalHeaderData(
-                "<!-- CodeBehind includes -->\n" . implode("\n", $this->aCodeBehindJsIncludes),
-                'codeBehindJSIncludes'
-            );
-        }
     }
 
     public function attachCodeBehindJsInits()

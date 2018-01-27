@@ -611,11 +611,7 @@ class tx_mkforms_util_Runnable
                         tx_mkforms_util_Div::smartMayday_CBJavascript($sFilePath, $sClass, false);
                     }
                     // inclusion of the JS
-                    $this->getForm()->aCodeBehindJsIncludes[$sCBRef] =
-                        '<script type="text/javascript" src="' .
-                        $this->getForm()->getJSLoader()->getScriptPath(
-                            tx_mkforms_util_Div::toWebPath($sFilePath)
-                        ) . '"></script>';
+                    $this->getForm()->getJSLoader()->addCodeBehind($sCBRef, $sFilePath);
                     $sScript = 'Formidable.CodeBehind.' . $sClass . ' = new Formidable.Classes.' . $sClass . "({formid: '" . $this->getForm()->getFormId() . "'});";
                     $this->getForm()->aCodeBehindJsInits[] = $sScript;
 
