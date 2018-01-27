@@ -304,7 +304,8 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         $oForm->oDataHandler->oForm =& $oForm;
         $oForm->oRenderer->oForm =& $oForm;
-        $oForm->oJs->oForm =& $oForm;
+        // Das ist vermutlich nicht notwendig...
+        $oForm->getJSLoader()->setForm($oForm);
         tx_mkforms_util_AutoLoad::setMessage('Unserialize code behind objects.');
         $oForm->getRunnable()->initCodeBehinds();
 

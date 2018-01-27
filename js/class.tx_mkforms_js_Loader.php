@@ -730,6 +730,19 @@ JAVASCRIPT;
 
         return $newPath;
     }
+
+    /**
+     *
+     * @param tx_mkforms_forms_Base $form
+     */
+    public function setForm(tx_mkforms_forms_Base $form)
+    {
+        $this->oForm = $form;
+    }
+    public function unsetForm()
+    {
+        unset($this->oForm);
+    }
 }
 
 if (defined('TYPO3_MODE')
