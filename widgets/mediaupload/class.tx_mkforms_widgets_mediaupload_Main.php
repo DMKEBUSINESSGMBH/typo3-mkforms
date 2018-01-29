@@ -240,7 +240,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     /**
      * @see api/formidable_mainrenderlet#checkPoint($aPoints)
      */
-    public function checkPoint($aPoints, array &$options = array())
+    public function checkPoint(&$aPoints, array &$options = array())
     {
 
         // Die Verarbeitung der Datei unmittelbar nach der Initialisierung des DataHandlers starten
