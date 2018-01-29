@@ -2,7 +2,7 @@
 
 class formidable_mainactionlet extends formidable_mainobject
 {
-    public function _doTheMagic()
+    public function _doTheMagic($aRendered, $sForm)
     {
     }
 
