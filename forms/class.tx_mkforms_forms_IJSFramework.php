@@ -33,7 +33,7 @@ interface tx_mkforms_forms_IJSFramework
 
     public function includeBase();
 
-    public function getEffectIncludes();
+    public function getEffectIncludes($absRefPrefix);
 
     public function includeTooltips();
 

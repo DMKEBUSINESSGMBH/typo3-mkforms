@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.0.12
+-----
+
+-   updated tx_mkforms_forms_IJSFramework interface
+
 3.0.11
 -----
 
