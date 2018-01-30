@@ -47,6 +47,8 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
 
         $oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework', 'mkforms');
         $oTestFramework->createFakeFrontEnd();
+        // ip lock not necessary
+        $GLOBALS['TSFE']->fe_user->lockIP = 0;
 
         unset($_POST['radioTestForm']);
 
