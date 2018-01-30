@@ -44,22 +44,24 @@ $EM_CONF[$_EXTKEY] = array(
             'mklib' => '3.0.0-'
         )
     ),
-    'classmap' => array(
-        'action/',
-        'api/',
-        'dh/',
-        'exception/',
-        'forms/',
-        'hooks/',
-        'js/',
-        'remote/',
-        'renderer/',
-        'session/',
-        'tests/',
-        'util/',
-        'validator/',
-        'view/',
-        'widgets/'
+    'autoload' => array(
+        'classmap' => array(
+            'action/',
+            'api/',
+            'dh/',
+            'exception/',
+            'forms/',
+            'hooks/',
+            'js/',
+            'remote/',
+            'renderer/',
+            'session/',
+            'tests/',
+            'util/',
+            'validator/',
+            'view/',
+            'widgets/'
+        ),
     ),
     '_md5_values_when_last_written' => '',
 );

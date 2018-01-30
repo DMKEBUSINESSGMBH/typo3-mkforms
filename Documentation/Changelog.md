@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.0.14
+-----
+
+-   bugfix autoloading definition
+
 3.0.12
 -----
 
