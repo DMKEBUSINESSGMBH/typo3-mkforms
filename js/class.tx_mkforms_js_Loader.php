@@ -203,7 +203,7 @@ class tx_mkforms_js_Loader
             = <<<JAVASCRIPT
 
 Formidable.Context.Forms["{$this->oForm->formid}"] = new Formidable.Classes.FormBaseClass(
-	{$sJson}
+    {$sJson}
 );
 
 JAVASCRIPT;
@@ -215,10 +215,10 @@ JAVASCRIPT;
                 .= <<<JAVASCRIPT
 
 Formidable.f("{$this->oForm->formid}").Manager = {
-	enabled: true,
-	Xml: {
-		path: "{$this->oForm->_xmlPath}"
-	}
+    enabled: true,
+    Xml: {
+        path: "{$this->oForm->_xmlPath}"
+    }
 };
 
 JAVASCRIPT;
@@ -291,7 +291,7 @@ JAVASCRIPT;
             return;
         }
 
-        $includes = $this->getJSFramework()->getEffectIncludes();
+        $includes = $this->getJSFramework()->getEffectIncludes($this->getAbsRefPrefix());
 
         foreach ($includes as $include) {
             $tag = $include->isJS() ? '<script type="text/javascript" src="' . $this->getScriptPath($include->getPagePath()) . '"></script>' :
@@ -376,7 +376,7 @@ JAVASCRIPT;
         $sPath = $this->getAbsRefPrefix() . tx_rnbase_util_Extensions::siteRelPath('mkforms');
         $sScript
             = <<<JAVASCRIPT
-	Formidable.initialize({path: '{$sPath}'});
+    Formidable.initialize({path: '{$sPath}'});
 JAVASCRIPT;
         $this->getForm()->attachInitTask($sScript, 'Framework Formidable.path initialization');
     }

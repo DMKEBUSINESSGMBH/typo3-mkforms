@@ -69,9 +69,13 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
     {
     }
 
-    public function getEffectIncludes()
+    /**
+     * {@inheritDoc}
+     * @see tx_mkforms_forms_IJSFramework::getEffectIncludes()
+     */
+    public function getEffectIncludes($absRefPrefix)
     {
-        return $this->loadIncludes('effects.');
+        return $this->loadIncludes('effects.', $absRefPrefix);
     }
 
     public function includeTooltips()
