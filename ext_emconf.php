@@ -1,13 +1,13 @@
 <?php
 
 //
-// Extension Manager/Repository config file for ext: "mkforms"
+// Extension Manager/Repository config file for ext: 'mkforms'
 //
 // Auto generated 09-03-2008 22:19
 //
 // Manual updates:
 // Only the data in the array - anything else is removed by next write.
-// "version" and "dependencies" must not be touched!
+// 'version' and 'dependencies' must not be touched!
 //
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'MK Forms',
@@ -43,6 +43,23 @@ $EM_CONF[$_EXTKEY] = array(
             'mkmailer' => '3.0.0-',
             'mklib' => '3.0.0-'
         )
+    ),
+    'classmap' => array(
+        'action/',
+        'api/',
+        'dh/',
+        'exception/',
+        'forms/',
+        'hooks/',
+        'js/',
+        'remote/',
+        'renderer/',
+        'session/',
+        'tests/',
+        'util/',
+        'validator/',
+        'view/',
+        'widgets/'
     ),
     '_md5_values_when_last_written' => '',
 );
