@@ -31,7 +31,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
         $this->aStatics['targetfile'] = $this->aEmptyStatics['targetfile'];
     }
 
-    public function checkPoint($aPoints)
+    public function checkPoint(&$aPoints, array &$options = array())
     {
         if (in_array('after-init-datahandler', $aPoints)) {
             $this->manageFile();
