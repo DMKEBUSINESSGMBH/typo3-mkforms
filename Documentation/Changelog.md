@@ -1,6 +1,68 @@
 Changelog
 =========
 
+3.0.11
+-----
+
+-   updated licence as GPL-2.0+ is outdated
+-   fixed compatibility issues in PHP 7 and TYPO3 8.7
+-   support for absRefPrefix with some refactoring
+-   added autoload in ext_emconf.php
+
+3.0.10
+-----
+
+-   plugin changed to User and added toUserInt for all existing actions
+
+
+3.0.9
+-----
+
+-   bugfix dont double encode ampersand in action attribute
+
+3.0.8
+-----
+
+-   additional getter removed from maydey exception since parent owns it
+-   bugfix form action attribute using current URL by default without creating it
+
+3.0.7
+-----
+
+-   bugfix made method declaration of _sqlSearchClause compatible
+
+3.0.6
+-----
+
+-   cleanup use $GLOBALS['EXEC_TIME'] for inserts/updates on crdate/tstamp database fields
+
+3.0.5
+-----
+
+-   time tracking validation: threshold can be a userObj
+
+3.0.4
+-----
+
+-   Ajax-Calls: restore TSFE before form for correct translation handling
+-   csrf protection can be configured in XML structure
+
+3.0.3
+-----
+
+-   [TASK] Remove hard-coded composer version
+-   [BUGFIX] Override HTTP status response headers
+
+3.0.2
+-----
+
+-   bugfix dependsonifstrict also on array values
+
+3.0.1
+-----
+
+-   Hook in Mail-DataHandler added
+
 3.0.0
 -----
 
