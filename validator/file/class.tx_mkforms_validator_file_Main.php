@@ -15,7 +15,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
      * (non-PHPdoc)
      * @see formidable_mainvalidator::validate()
      */
-    public function validate($oRdt)
+    public function validate(&$oRdt)
     {
         $sAbsName = $oRdt->getAbsName();
         // Der Rückgabewert kann drei Zustände annehmen:
