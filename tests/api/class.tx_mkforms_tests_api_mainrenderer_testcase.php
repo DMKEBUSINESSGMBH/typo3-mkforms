@@ -221,6 +221,35 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
         $renderedData = $renderer->_render(array());
         self::assertContains('action="/url.html?parameter=test&amp;xss=&quot;/&gt;ohoh"', $renderedData['FORMBEGIN']);
     }
+
+    /**
+     */
+    public function testRenderInsertsNoCreationTimeIntoSessionWhenPluginIsNotUserInt()
+    {
+        $configurations = $this->getMock('stdClass', array('isPluginUserInt'));
+        $configurations
+            ->expects(self::once())
+            ->method('isPluginUserInt')
+            ->will(self::returnValue(false));
+        $parentAction = $this->getMock('stdClass', array('getConfigurations'));
+        $parentAction
+            ->expects(self::once())
+            ->method('getConfigurations')
+            ->will(self::returnValue($configurations));
+
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_mkforms_tests_Util::getDefaultFormConfig(true),
+            $parentAction
+        );
+        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer->_init($form, array(), array(), '');
+
+        $renderer->_render(array());
+
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertArrayNotHasKey('creationTimestamp', $sessionData);
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
