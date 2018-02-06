@@ -235,6 +235,34 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
 
     /**
      * @group unit
+     * @dataProvider dataProviderIsCsrfProtectionActive
+     */
+    public function testIsCsrfProtectionActiveWhenPluginIsNoUserInt($typoScriptConfiguration)
+    {
+        $configurations = $this->getMock('stdClass', array('isPluginUserInt'));
+        $configurations
+            ->expects(self::once())
+            ->method('isPluginUserInt')
+            ->will(self::returnValue(false));
+        $parentAction = $this->getMock('stdClass', array('getConfigurations'));
+        $parentAction
+            ->expects(self::once())
+            ->method('getConfigurations')
+            ->will(self::returnValue($configurations));
+
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                tx_mkforms_tests_Util::getDefaultFormConfig(true),
+                $typoScriptConfiguration
+            ),
+            $parentAction
+        );
+        self::assertFalse($form->isCsrfProtectionActive());
+    }
+
+    /**
+     * @group unit
      */
     public function testGetFormActionWhenActionIsTransparent()
     {

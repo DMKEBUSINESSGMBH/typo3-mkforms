@@ -127,6 +127,10 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
             'mkforms'
         );
 
+        // the default behaiviour is to have a USER_INT plugin as parent
+        $contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
+        $configurations->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER_INT);
+
         $configurations->setParameters($parameters);
         $action->setConfigurations($configurations);
         if ($execute) {

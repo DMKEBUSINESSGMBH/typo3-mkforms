@@ -5358,14 +5358,25 @@ JAVASCRIPT;
      */
     public function isCsrfProtectionActive()
     {
-        // die XML Konfiguration für das Formular hat Vorrang. Die beachten
-        // wir aber nur, wenn sie wirklich gesetzt ist.
         $formAttributes = $this->getConfigXML()->get('/meta/form');
-        if (isset($formAttributes['csrfprotection'])) {
-            $csrfProtectionActive = $formAttributes['csrfprotection'];
-        } else {
-            $csrfProtectionActive = $this->getConfTS('csrfProtection');
+        switch (true) {
+            // When the plugin is cached it makes no sense to generate a CSRF token.
+            // Otherwise we would create a fe_user session which might for example
+            // not be desired when using a proxy cache like varnish as a fe_typo_user
+            // cookie would be created. Furthermore it would lead to exceptions after
+            // the first submit for all users but the first one as the csrf token
+            // submitted could never be correct.
+            case !$this->getParent()->getConfigurations()->isPluginUserInt():
+                $csrfProtectionActive = false;
+                break;
+            case isset($formAttributes['csrfprotection']):
+                $csrfProtectionActive = $formAttributes['csrfprotection'];
+                break;
+            default:
+                $csrfProtectionActive = $this->getConfTS('csrfProtection');
+                break;
         }
+
         return (boolean) $csrfProtectionActive;
     }
 }

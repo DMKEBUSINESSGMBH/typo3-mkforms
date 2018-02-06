@@ -12,6 +12,8 @@ tt_content.list.20.tx_mkforms =< plugin.tx_mkforms
 
 lib.mkforms.formbase {
 
+    ### Be careful when setting the plugin cached. Features like the CSRF protection
+    ### or the time tracking validation won't work anymore!
     toUserInt = 1
 
     ### wird nur für tests genutzt. verhindet beispielseise das cachen des formulars.
