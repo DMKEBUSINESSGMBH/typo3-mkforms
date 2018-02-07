@@ -37,14 +37,14 @@ tx_rnbase::load('tx_mkforms_session_IManager');
 class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IManager
 {
     private $form;
-    public function __construct()
-    {
-        session_start();
-        $this->init();
-    }
+
     private function init()
     {
-        if (!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!array_key_exists('ameos_formidable', (array) $GLOBALS['_SESSION'])) {
             $GLOBALS['_SESSION']['ameos_formidable'] = array();
             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'] = array();
             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable'] = array();
@@ -64,6 +64,8 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      */
     public function persistForm($fromAjax = false)
     {
+        $this->init();
+
         $form = $this->getForm();
         if (!$form) {
             throw new Exception('No form found to persist!');
@@ -166,6 +168,8 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
     public function restoreFeConfig($formId)
     {
+        $this->init();
+
         if ($this->tsfeMode == 'session') {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
                 return false;
@@ -224,6 +228,8 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
     public function restoreFeSetup($formId)
     {
+        $this->init();
+
         if ($this->tsfeMode == 'session') {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
                 return false;
@@ -256,6 +262,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      */
     public function restoreForm($formid)
     {
+        $this->init();
 
         //registriert eine unserialize_callback_func
         tx_rnbase::load('tx_mkforms_util_AutoLoad');
