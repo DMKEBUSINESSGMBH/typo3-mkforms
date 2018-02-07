@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mkforms version="1.0.10">
+    <meta>
+        <name>Standard XML file</name>
+        <form formid="renderInstantiatesValidators" />
+    </meta>
+    <elements>
+        <renderlet:HIDDEN name="testValidator">
+            <validators>
+                <validator:TEST/>
+            </validators>
+        </renderlet:HIDDEN>
+    </elements>
+</mkforms>

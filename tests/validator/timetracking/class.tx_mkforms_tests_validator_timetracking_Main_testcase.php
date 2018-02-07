@@ -78,13 +78,13 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast');
-        $this->setCreationTimestamp(1);
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
             array(),
             ''
         );
+        $this->setCreationTimestamp(1);
 
         $validator->validate($timetrackingWidget);
         self::assertEmpty($form->_aValidationErrors, 'Es sind doch Validierungsfehler aufgetreten.');
@@ -166,13 +166,13 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-tooslow');
-        $this->setCreationTimestamp(1);
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
             array(),
             ''
         );
+        $this->setCreationTimestamp(1);
 
         $validator->validate($timetrackingWidget);
         self::assertEquals(
@@ -282,5 +282,104 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
     public function getThresholdForRunable()
     {
         return 123;
+    }
+
+    /**
+     */
+    public function testInitInsertsCorrectCreationTimeIntoSession()
+    {
+        $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $form = $this->getForm();
+        $timetrackingWidget = $form->getWidget('timetracking-toofast');
+        $validator->_init(
+            $form,
+            $timetrackingWidget->aElement['validators']['validator'],
+            array(),
+            ''
+        );
+
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertEquals(
+            1,
+            count($sessionData['creationTimestamp']),
+            'der timestamp für die Erstellung des Formulars nicht in der Session'
+        );
+        self::assertEquals(
+            $GLOBALS['EXEC_TIME'],
+            $sessionData['creationTimestamp']['timetrackingTestForm'],
+            'falscher timestamp in der session!'
+        );
+    }
+
+    /**
+     */
+    public function testInitInsertsCorrectCreationTimeIntoSessionIfAlreadyTimestampsInSession()
+    {
+        $GLOBALS['TSFE']->fe_user->setKey(
+            'ses',
+            'mkforms',
+            array(
+                'creationTimestamp' => array(
+                    'firstForm' => 123,
+                    'secondForm' => 456,
+                )
+            )
+        );
+        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $form = $this->getForm();
+        $timetrackingWidget = $form->getWidget('timetracking-toofast');
+        $validator->_init(
+            $form,
+            $timetrackingWidget->aElement['validators']['validator'],
+            array(),
+            ''
+        );
+
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertEquals(
+            3,
+            count($sessionData['creationTimestamp']),
+            'der timestamp für die Erstellung des Formulars nicht in der Session'
+        );
+        self::assertEquals(
+            $GLOBALS['EXEC_TIME'],
+            $sessionData['creationTimestamp']['timetrackingTestForm'],
+            'falscher timestamp in der session!'
+        );
+
+        self::assertEquals(
+            123,
+            $sessionData['creationTimestamp']['firstForm'],
+            'falscher timestamp in der session von firstForm!'
+        );
+        self::assertEquals(
+            456,
+            $sessionData['creationTimestamp']['secondForm'],
+            'falscher timestamp in der session von secondForm!'
+        );
+    }
+
+    /**
+     */
+    public function testInitInsertsNoCreationTimeIntoSessionWhenPluginIsNotUserInt()
+    {
+
+        $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $form = $this->getForm();
+        $contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
+        $form->getParent()->getConfigurations()->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER);
+        // init gets called when the form is initialized. so we need to reset the session data
+        // und call init again to see if everything works as expected
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+        $validator->_init(
+            $form,
+            $timetrackingWidget->aElement['validators']['validator'],
+            array(),
+            ''
+        );
+
+        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+        self::assertArrayNotHasKey('creationTimestamp', $sessionData);
     }
 }

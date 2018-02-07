@@ -140,4 +140,26 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
 
         return $threshold;
     }
+
+    /**
+     * {@inheritDoc}
+     * @see formidable_mainobject::_init()
+     */
+    public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
+    {
+        parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
+
+        // When the plugin is cached it makes no save the creation timestamp.
+        // Otherwise we would create a fe_user session which might for example
+        // not be desired when using a proxy cache like varnish as a fe_typo_user
+        // cookie would be created. Furthermore it would lead to exceptions after
+        // the first submit for all users but the first one as the creation timestamp
+        // submitted could never be correct.
+        if ($this->getForm()->getParent()->getConfigurations()->isPluginUserInt()) {
+            $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
+            $sessionData['creationTimestamp'][$this->getForm()->getFormId()] = $GLOBALS['EXEC_TIME'];
+            $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
+            $GLOBALS['TSFE']->fe_user->storeSessionData();
+        }
+    }
 }

@@ -135,75 +135,6 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
     }
 
     /**
-     */
-    public function testRenderInsertsCorrectCreationTimeIntoSession()
-    {
-        $form = tx_mkforms_tests_Util::getForm();
-        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-        $renderer->_init($form, array(), array(), '');
-
-        $renderer->_render(array());
-
-        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-        self::assertEquals(
-            1,
-            count($sessionData['creationTimestamp']),
-            'der timestamp für die Erstellung des Formulars nicht in der Session'
-        );
-        self::assertEquals(
-            $GLOBALS['EXEC_TIME'],
-            $sessionData['creationTimestamp']['radioTestForm'],
-            'falscher timestamp in der session!'
-        );
-    }
-
-    /**
-     */
-    public function testRenderInsertsCorrectCreationTimeIntoSessionIfAlreadyTimestampsInSession()
-    {
-        $GLOBALS['TSFE']->fe_user->setKey(
-            'ses',
-            'mkforms',
-            array(
-                'creationTimestamp' => array(
-                    'firstForm' => 123,
-                    'secondForm' => 456,
-                )
-            )
-        );
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
-
-        $form = tx_mkforms_tests_Util::getForm();
-        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-        $renderer->_init($form, array(), array(), '');
-
-        $renderer->_render(array());
-
-        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-        self::assertEquals(
-            3,
-            count($sessionData['creationTimestamp']),
-            'der timestamp für die Erstellung des Formulars nicht in der Session'
-        );
-        self::assertEquals(
-            $GLOBALS['EXEC_TIME'],
-            $sessionData['creationTimestamp']['radioTestForm'],
-            'falscher timestamp in der session!'
-        );
-
-        self::assertEquals(
-            123,
-            $sessionData['creationTimestamp']['firstForm'],
-            'falscher timestamp in der session von firstForm!'
-        );
-        self::assertEquals(
-            456,
-            $sessionData['creationTimestamp']['secondForm'],
-            'falscher timestamp in der session von secondForm!'
-        );
-    }
-
-    /**
      * @group unit
      */
     public function testRenderAppliesHtmlspcielcharsToActionUrl()
@@ -220,35 +151,6 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 
         $renderedData = $renderer->_render(array());
         self::assertContains('action="/url.html?parameter=test&amp;xss=&quot;/&gt;ohoh"', $renderedData['FORMBEGIN']);
-    }
-
-    /**
-     */
-    public function testRenderInsertsNoCreationTimeIntoSessionWhenPluginIsNotUserInt()
-    {
-        $configurations = $this->getMock('stdClass', array('isPluginUserInt'));
-        $configurations
-            ->expects(self::once())
-            ->method('isPluginUserInt')
-            ->will(self::returnValue(false));
-        $parentAction = $this->getMock('stdClass', array('getConfigurations'));
-        $parentAction
-            ->expects(self::once())
-            ->method('getConfigurations')
-            ->will(self::returnValue($configurations));
-
-        $form = tx_mkforms_tests_Util::getForm(
-            true,
-            tx_mkforms_tests_Util::getDefaultFormConfig(true),
-            $parentAction
-        );
-        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-        $renderer->_init($form, array(), array(), '');
-
-        $renderer->_render(array());
-
-        $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-        self::assertArrayNotHasKey('creationTimestamp', $sessionData);
     }
 }
 

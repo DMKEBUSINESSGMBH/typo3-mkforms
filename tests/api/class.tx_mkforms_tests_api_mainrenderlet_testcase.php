@@ -46,6 +46,11 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
 {
 
     /**
+     * @var boolean
+     */
+    public static $validatorWasCalled = false;
+
+    /**
      * Unser Mainvalidator
      * @var tx_ameosformidable
      */
@@ -73,6 +78,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
     protected function tearDown()
     {
         $GLOBALS['LANG']->lang = $this->languageBackup;
+        self::$validatorWasCalled = false;
     }
 
     /**
@@ -215,6 +221,25 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
             }
         }
         self::assertFalse($placeholderFound, 'placeholder attribut gefunden');
+    }
+
+    /**
+     * @group unit
+     */
+    public function testInitInstantiatesValidators()
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['TEST'] = array(
+            'key' => 'tx_mkforms_tests_fixtures_testvalidator'
+        );
+        self::assertFalse(self::$validatorWasCalled);
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                tx_mkforms_tests_Util::getDefaultFormConfig(true),
+                array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/renderInstantiatesValidators.xml'))
+            )
+        );
+        self::assertTrue(self::$validatorWasCalled);
     }
 }
 
