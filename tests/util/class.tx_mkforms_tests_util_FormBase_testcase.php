@@ -75,7 +75,7 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCa
      */
     public function testGetConfigurationValueDeep()
     {
-        tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        tx_rnbase_util_Misc::prepareTSFE();
         $form = tx_mkforms_tests_Util::getForm(
             true,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -113,6 +113,27 @@ class tx_mkforms_tests_util_FormBase_testcase extends tx_rnbase_tests_BaseTestCa
         self::assertTrue(
             tx_mkforms_util_FormBase::getConfigurationValue(
                 array('configurationId' => 'myConf.path', 'castToBoolean' => 1),
+                $form
+            )
+        );
+    }
+
+    /**
+     * @group unit
+     */
+    public function testGetConfigurationValueIfPrefixWithConfigurationIdOfForm()
+    {
+        $form = tx_mkforms_tests_Util::getForm(
+            true,
+            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                tx_mkforms_tests_Util::getDefaultFormConfig(true),
+                array('generic.' => array('formconfig.' => array('myConf.' => array('path' => 'test'))))
+            )
+        );
+        self::assertEquals(
+            'test',
+            tx_mkforms_util_FormBase::getConfigurationValue(
+                array('prefixWithConfigurationIdOfForm' => 1, 'configurationId' => 'myConf.path'),
                 $form
             )
         );
