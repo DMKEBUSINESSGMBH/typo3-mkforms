@@ -370,7 +370,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
-        $form->getParent()->getConfigurations()->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER);
+        $form->getConfigurations()->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER);
         // init gets called when the form is initialized. so we need to reset the session data
         // und call init again to see if everything works as expected
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());

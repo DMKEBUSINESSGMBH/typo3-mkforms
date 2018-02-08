@@ -5366,7 +5366,7 @@ JAVASCRIPT;
             // cookie would be created. Furthermore it would lead to exceptions after
             // the first submit for all users but the first one as the csrf token
             // submitted could never be correct.
-            case !$this->getParent()->getConfigurations()->isPluginUserInt():
+            case !$this->getConfigurations()->isPluginUserInt():
                 $csrfProtectionActive = false;
                 break;
             case isset($formAttributes['csrfprotection']):

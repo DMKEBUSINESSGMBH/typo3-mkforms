@@ -152,7 +152,7 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
         // cookie would be created. Furthermore it would lead to exceptions after
         // the first submit for all users but the first one as the creation timestamp
         // submitted could never be correct.
-        if ($this->getForm()->getParent()->getConfigurations()->isPluginUserInt()) {
+        if ($this->getForm()->getConfigurations()->isPluginUserInt()) {
             $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
             $sessionData['creationTimestamp'][$this->getForm()->getFormId()] = $GLOBALS['EXEC_TIME'];
             $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);

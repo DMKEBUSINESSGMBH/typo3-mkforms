@@ -103,12 +103,12 @@ class tx_mkforms_tests_Util
         );
         $oConfigurations->setParameters($oParameters);
 
+        // the default behaiviour is to have a USER_INT plugin
+        $contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
+        $oConfigurations->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER_INT);
+
         if (!$parent) {
-            $parent = tx_rnbase::makeInstance('tx_mkforms_action_FormBase');
-            // the default behaiviour is to have a USER_INT plugin as parent
-            $contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
-            $oConfigurations->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER_INT);
-            $parent->setConfigurations($oConfigurations);
+            $parent = new stdClass();
         }
 
         $oForm->init(
