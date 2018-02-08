@@ -226,23 +226,25 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
     /**
      * @group unit
      */
-    public function testInitInstantiatesValidators()
+    public function testAfterRenderCheckPointHandledCorrect()
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['TEST'] = array(
-            'key' => 'tx_mkforms_tests_fixtures_testvalidator'
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINT'] = array(
+            'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpoint'
+        );
+        // if the method handleAfterRenderCheckPoint would be called on all validators
+        // without checkingif the method exists we would get a fatal error
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINTNOT'] = array(
+            'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpointNot'
         );
         self::assertFalse(self::$validatorWasCalled);
         $form = tx_mkforms_tests_Util::getForm(
-            true,
+            false,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-                tx_mkforms_tests_Util::getDefaultFormConfig(true),
-                array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/renderInstantiatesValidators.xml'))
+                tx_mkforms_tests_Util::getDefaultFormConfig(false),
+                array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/afterRenderCheckPointHandledCorrect.xml'))
             )
         );
+        $form->render();
         self::assertTrue(self::$validatorWasCalled);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
 }

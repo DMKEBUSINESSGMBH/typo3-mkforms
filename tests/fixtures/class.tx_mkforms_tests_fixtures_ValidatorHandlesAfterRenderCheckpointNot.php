@@ -1,6 +1,8 @@
 <?php
 /**
- *  (c) DMK E-BUSINESS GmbH <dev@dmk-business.de>
+ *  Copyright notice
+ *
+ *  (c) 2010 Hannes Bochmann <dev@dmk-business.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -19,24 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-
-/**
- * tx_mkforms_tests_fixtures_testvalidator
- *
- * @package         TYPO3
- * @subpackage      mkforms
- * @author          Hannes Bochmann <hannes.bochmann@dmk-ebusiness.de>
- * @license         http://www.gnu.org/licenses/lgpl.html
- *                  GNU Lesser General Public License, version 3 or later
- */
-class tx_mkforms_tests_fixtures_testvalidator extends formidable_mainvalidator
+class tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpointNot extends formidable_mainvalidator
 {
 
-    /**
-     * @return void
-     */
-    public function _init()
-    {
-        tx_mkforms_tests_api_mainrenderlet_testcase::$validatorWasCalled = true;
-    }
 }

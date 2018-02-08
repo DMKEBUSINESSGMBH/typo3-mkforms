@@ -142,13 +142,10 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     }
 
     /**
-     * {@inheritDoc}
-     * @see formidable_mainobject::_init()
+     * @return void
      */
-    public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
+    public function handleAfterRenderCheckPoint()
     {
-        parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
-
         // When the plugin is cached it makes no save the creation timestamp.
         // Otherwise we would create a fe_user session which might for example
         // not be desired when using a proxy cache like varnish as a fe_typo_user

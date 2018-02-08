@@ -33,6 +33,8 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 
     public function checkPoint(&$aPoints, array &$options = array())
     {
+        parent::checkPoint($aPoints, $options);
+
         if (in_array('after-init-datahandler', $aPoints)) {
             $this->manageFile();
         }

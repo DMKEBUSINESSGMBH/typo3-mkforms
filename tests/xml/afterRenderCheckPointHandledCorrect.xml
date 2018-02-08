@@ -2,12 +2,13 @@
 <mkforms version="1.0.10">
     <meta>
         <name>Standard XML file</name>
-        <form formid="renderInstantiatesValidators" />
+        <form formid="afterRenderCheckPointHandledCorrect" />
     </meta>
     <elements>
         <renderlet:HIDDEN name="testValidator">
             <validators>
-                <validator:TEST/>
+                <validator:HANDLESAFTERRENDERCHECKPOINT/>
+                <validator:HANDLESAFTERRENDERCHECKPOINTNOT/>
             </validators>
         </renderlet:HIDDEN>
     </elements>

@@ -243,6 +243,8 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     public function checkPoint(&$aPoints, array &$options = array())
     {
 
+        parent::checkPoint($aPoints, $options);
+
         // Die Verarbeitung der Datei unmittelbar nach der Initialisierung des DataHandlers starten
         if (in_array('after-init-datahandler', $aPoints)) {
             $this->manageFile();
@@ -883,7 +885,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $sAbsName = $this->_getElementHtmlIdWithoutFormId();
 
         $sInitScript = <<<INITSCRIPT
-		Formidable.f("{$this->getForm()->getFormId()}").o("{$sAbsName}").initAjaxUpload('{$button}');
+        Formidable.f("{$this->getForm()->getFormId()}").o("{$sAbsName}").initAjaxUpload('{$button}');
 INITSCRIPT;
 
         $this->getForm()->attachPostInitTask($sInitScript, 'postinit Ajax upload initialization', $this->_getElementHtmlId());

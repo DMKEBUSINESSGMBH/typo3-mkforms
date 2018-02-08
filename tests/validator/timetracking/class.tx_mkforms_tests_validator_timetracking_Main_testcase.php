@@ -286,7 +286,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
 
     /**
      */
-    public function testInitInsertsCorrectCreationTimeIntoSession()
+    public function testHandleAfterRenderCheckPointInsertsCorrectCreationTimeIntoSession()
     {
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
@@ -297,6 +297,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
             array(),
             ''
         );
+        $validator->handleAfterRenderCheckPoint();
 
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         self::assertEquals(
@@ -313,7 +314,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
 
     /**
      */
-    public function testInitInsertsCorrectCreationTimeIntoSessionIfAlreadyTimestampsInSession()
+    public function testHandleAfterRenderCheckPointInsertsCorrectCreationTimeIntoSessionIfAlreadyTimestampsInSession()
     {
         $GLOBALS['TSFE']->fe_user->setKey(
             'ses',
@@ -335,6 +336,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
             array(),
             ''
         );
+        $validator->handleAfterRenderCheckPoint();
 
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         self::assertEquals(
@@ -362,7 +364,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
 
     /**
      */
-    public function testInitInsertsNoCreationTimeIntoSessionWhenPluginIsNotUserInt()
+    public function testHandleAfterRenderCheckPointInsertsNoCreationTimeIntoSessionWhenPluginIsNotUserInt()
     {
 
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
@@ -378,6 +380,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
             array(),
             ''
         );
+        $validator->handleAfterRenderCheckPoint();
 
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         self::assertArrayNotHasKey('creationTimestamp', $sessionData);

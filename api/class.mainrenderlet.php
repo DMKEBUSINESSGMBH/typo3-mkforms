@@ -116,32 +116,6 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         $this->initChilds();
         $this->initProgEvents();
-
-        $this->instantiateValidators();
-    }
-
-    /**
-     * Some validators might do things initially like the time tracking validator
-     * so we intantiate each validator. no validation is done!
-     *
-     * @return void
-     */
-    protected function instantiateValidators()
-    {
-        $validatorPaths = array('/', '/validators');
-
-        foreach ($validatorPaths as $validatorPath) {
-            $configuration = $this->getConfigValue($validatorPath);
-            if (is_array($configuration) && !empty($configuration)) {
-                foreach ($configuration as $configurationOption => $configurationOptionValue) {
-                    if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($configurationOption, 'validator')
-                        && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($configurationOption, 'validators')
-                    ) {
-                        $this->getForm()->_makeValidator($configurationOptionValue);
-                    }
-                }
-            }
-        }
     }
 
     public function initChilds($bReInit = false)
@@ -451,7 +425,35 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function checkPoint(&$aPoints, array &$options = array())
     {
-        /* nothing by default */
+        if (in_array('after-render', $aPoints)) {
+            $this->signalValidatorsAfterRenderCheckPointReached($options);
+        }
+    }
+
+    /**
+     * Some validators might do things after rendering like the time tracking validator.
+     *
+     * @return void
+     */
+    protected function signalValidatorsAfterRenderCheckPointReached()
+    {
+        $validatorPaths = array('/', '/validators');
+
+        foreach ($validatorPaths as $validatorPath) {
+            $configuration = $this->getConfigValue($validatorPath);
+            if (is_array($configuration) && !empty($configuration)) {
+                foreach ($configuration as $configurationOption => $configurationOptionValue) {
+                    if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($configurationOption, 'validator')
+                        && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($configurationOption, 'validators')
+                    ) {
+                        $validator = $this->getForm()->_makeValidator($configurationOptionValue);
+                        if (method_exists($validator, 'handleAfterRenderCheckPoint')) {
+                            $validator->handleAfterRenderCheckPoint();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public function initProgEvents()
