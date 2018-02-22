@@ -165,7 +165,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $cObj = null;
 
-    public $bStoreFormInSession = false;    // whether or not to keep FORM in session for further use (ex: processing ajax events)
+    protected $bStoreFormInSession = false;    // whether or not to keep FORM in session for further use (ex: processing ajax events)
 
     public $bStoreParentInSession = false;    // whether or not to keep parent in session, if form is stored (ie $bStoreFormInSession==TRUE)
 
@@ -5389,7 +5389,7 @@ JAVASCRIPT;
     {
         $this->bStoreFormInSession = $storeFormInSession;
 
-        if ($storeFormInSession) {
+        if ($storeFormInSession && !$this->bTestMode) {
             tx_mkforms_session_Factory::getSessionManager()->initialize();
         }
 
