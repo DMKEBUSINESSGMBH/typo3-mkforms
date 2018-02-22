@@ -39,7 +39,6 @@ return array(
     'tx_mkforms_session_factory' => $extensionPath . 'session/class.tx_mkforms_session_Factory.php',
     'tx_mkforms_session_imanager' => $extensionPath . 'session/class.tx_mkforms_session_IManager.php',
     'tx_mkforms_session_mixedsessionmanager' => $extensionPath . 'session/class.tx_mkforms_session_MixedSessionManager.php',
-    'tx_mkforms_session_phpsessionmanager' => $extensionPath . 'session/class.tx_mkforms_session_PHPSessionManager.php',
     'tx_mkforms_tests_action_formbase_testcase' => $extensionPath . 'tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php',
     'tx_mkforms_tests_api_maindatahandler_testcase' => $extensionPath . 'tests/api/class.tx_mkforms_tests_api_maindatahandler_testcase.php',
     'tx_mkforms_tests_api_mainrenderer_testcase' => $extensionPath . 'tests/api/class.tx_mkforms_tests_api_mainrenderer_testcase.php',
