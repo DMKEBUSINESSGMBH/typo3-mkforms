@@ -165,11 +165,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $cObj = null;
 
-    protected $bStoreFormInSession = false;    // whether or not to keep FORM in session for further use (ex: processing ajax events)
+    protected $storeFormInSession = false;    // whether or not to keep FORM in session for further use (ex: processing ajax events)
 
     public $bStoreParentInSession = false;    // whether or not to keep parent in session, if form is stored (ie $bStoreFormInSession==TRUE)
 
-    public $bTestMode = false;    // im Test-mode ist $bStoreFormInSession uninteressant um fehler zu vermeiden
+    public $bTestMode = false;    // im Test-mode ist $storeFormInSession uninteressant um fehler zu vermeiden
 
     public $aServerEvents = array();
 
@@ -2562,9 +2562,9 @@ SANDBOXCLASS;
             $this->checkPoint(array('after-js-inclusion', 'after-validation', 'end'));
         }
 
-        $this->setStoreFormInSession(($this->bStoreFormInSession || $this->_defaultFalse('/meta/keepinsession')));
+        $this->setStoreFormInSession(($this->storeFormInSession || $this->_defaultFalse('/meta/keepinsession')));
 
-        if ($this->bStoreFormInSession === true && !$this->isTestMode()) {
+        if ($this->storeFormInSession === true && !$this->isTestMode()) {
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
             $sesMgr->persistForm();
         } else {
@@ -5387,9 +5387,9 @@ JAVASCRIPT;
      */
     public function setStoreFormInSession($storeFormInSession = true)
     {
-        $this->bStoreFormInSession = $storeFormInSession;
+        $this->storeFormInSession = $storeFormInSession;
 
-        if ($storeFormInSession && !$this->bTestMode) {
+        if ($this->storeFormInSession && !$this->bTestMode) {
             tx_mkforms_session_Factory::getSessionManager()->initialize();
         }
 
