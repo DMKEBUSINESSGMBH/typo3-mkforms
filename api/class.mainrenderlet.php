@@ -1760,8 +1760,7 @@ TOOLTIP;
                             // an ajax event is declared
                             // we have to store this form in session
                             // for serving ajax requests
-
-                            $this->oForm->bStoreFormInSession = true;
+                            $this->getForm()->setStoreFormInSession();
 
                             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxevent'][$this->_getSessionDataHashKey(
                             )]

@@ -36,7 +36,8 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        $this->oForm->bStoreFormInSession = true;    // instanciate the Typo3 and formidable context
+        // instanciate the Typo3 and formidable context
+        $this->getForm()->setStoreFormInSession();
 
         $this->_checkRequiredProperties();        // check if all the required fields are specified into XML
 

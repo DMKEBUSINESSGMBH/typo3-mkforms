@@ -904,6 +904,7 @@ INITSCRIPT;
         ) .
             '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
 
+        tx_mkforms_session_Factory::getSessionManager()->initialize();
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
             'requester' => array(
                 'name' => $this->_getName(),

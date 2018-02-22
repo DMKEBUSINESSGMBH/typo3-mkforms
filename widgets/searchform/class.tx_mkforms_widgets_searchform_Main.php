@@ -110,6 +110,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         }
 
         $this->aCriterias = false;
+        tx_mkforms_session_Factory::getSessionManager()->initialize();
         $aAppData =& $GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
         $aAppData['rdt_lister'][$this->oForm->formid][$this->getAbsName()]['criterias'] = array();
 
@@ -166,6 +167,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
             $this->aCriterias = array();
 
+            tx_mkforms_session_Factory::getSessionManager()->initialize();
             $aAppData =& $GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
 
             if (!array_key_exists('rdt_lister', $aAppData)) {

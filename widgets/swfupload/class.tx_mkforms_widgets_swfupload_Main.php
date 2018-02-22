@@ -42,7 +42,8 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        $this->oForm->bStoreFormInSession = true;    // requesting eID context for upload-service
+        // requesting eID context for upload-service
+        $this->getForm()->setStoreFormInSession();
 
         $this->initButtonBrowse();
         $this->initButtonUpload();

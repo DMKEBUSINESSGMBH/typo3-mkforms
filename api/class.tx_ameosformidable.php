@@ -1191,6 +1191,7 @@ SANDBOXCLASS;
         $sStepperId = $this->_getStepperId();
 
         if ($this->_aStep === false) {
+            tx_mkforms_session_Factory::getSessionManager()->initialize();
             if (array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])
                 && array_key_exists('stepper', $GLOBALS['_SESSION']['ameos_formidable'])
                 && array_key_exists($sStepperId, $GLOBALS['_SESSION']['ameos_formidable']['stepper'])
@@ -2561,7 +2562,7 @@ SANDBOXCLASS;
             $this->checkPoint(array('after-js-inclusion', 'after-validation', 'end'));
         }
 
-        $this->bStoreFormInSession = ($this->bStoreFormInSession || $this->_defaultFalse('/meta/keepinsession'));
+        $this->setStoreFormInSession(($this->bStoreFormInSession || $this->_defaultFalse('/meta/keepinsession')));
 
         if ($this->bStoreFormInSession === true && !$this->isTestMode()) {
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -2642,7 +2643,7 @@ SANDBOXCLASS;
             // we have to store this form in session
             // for serving ajax requests
 
-            $this->bStoreFormInSession = true;
+            $this->setStoreFormInSession();
 
             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxservice'][$this->_getSessionDataHashKey(
             )]
@@ -4685,6 +4686,7 @@ JAVASCRIPT;
         }
 
         // else
+        tx_mkforms_session_Factory::getSessionManager()->initialize();
         $GLOBALS['_SESSION']['ameos_formidable']['applicationdata']['rdt_lister'][$sFormId][$sSearchRdtName]['criterias']
             = array();
     }
@@ -5378,6 +5380,20 @@ JAVASCRIPT;
         }
 
         return (boolean) $csrfProtectionActive;
+    }
+
+    /**
+     * @param string $storeFormInSession
+     */
+    public function setStoreFormInSession($storeFormInSession = true)
+    {
+        $this->bStoreFormInSession = $storeFormInSession;
+
+        if ($storeFormInSession) {
+            tx_mkforms_session_Factory::getSessionManager()->initialize();
+        }
+
+        return $this;
     }
 }
 

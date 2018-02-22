@@ -47,6 +47,14 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function initializeSessionArray()
+    {
+        $this->initialize();
 
         if (!array_key_exists('ameos_formidable', (array) $GLOBALS['_SESSION'])) {
             $GLOBALS['_SESSION']['ameos_formidable'] = array();
@@ -69,7 +77,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      */
     public function persistForm($fromAjax = false)
     {
-        $this->initialize();
+        $this->initializeSessionArray();
 
         $form = $this->getForm();
         if (!$form) {
@@ -173,7 +181,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
     public function restoreFeConfig($formId)
     {
-        $this->initialize();
+        $this->initializeSessionArray();
 
         if ($this->tsfeMode == 'session') {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
@@ -233,7 +241,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
     public function restoreFeSetup($formId)
     {
-        $this->initialize();
+        $this->initializeSessionArray();
 
         if ($this->tsfeMode == 'session') {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
@@ -267,7 +275,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      */
     public function restoreForm($formid)
     {
-        $this->initialize();
+        $this->initializeSessionArray();
 
         //registriert eine unserialize_callback_func
         tx_rnbase::load('tx_mkforms_util_AutoLoad');

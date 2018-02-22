@@ -35,6 +35,14 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
         'rdt_captcha_class' => 'res/js/captcha.js',
     );
 
+    /**
+     * @return tx_mkforms_widgets_captcha_Main
+     */
+    public function __construct()
+    {
+        tx_mkforms_session_Factory::getSessionManager()->initialize();
+    }
+
     public function _render()
     {
         $this->_MakeCaptchaConfig();

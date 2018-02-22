@@ -150,6 +150,7 @@ class tx_mkforms_util_Loader
         $formid = $formid ? $formid : $this->formId;
         if (tx_mkforms_util_Div::getEnvExecMode() == 'EID') {
             // Bei Ajax-Call kommen die Daten aus der Session
+            tx_mkforms_session_Factory::getSessionManager()->initialize();
             return $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid]['runningobjects'];
         }
 
@@ -217,6 +218,7 @@ class tx_mkforms_util_Loader
         $formid = $formid ? $formid : $this->formId;
         if (tx_mkforms_util_Div::getEnvExecMode() == 'EID') {
             // Bei Ajax-Call kommen die Daten aus der Session
+            tx_mkforms_session_Factory::getSessionManager()->initialize();
             return $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid]['loadedClasses'];
         }
         $loadedClasses = $this->loadedClasses;

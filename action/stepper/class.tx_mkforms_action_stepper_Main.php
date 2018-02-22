@@ -58,6 +58,8 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
 
                 $sStepperId = $this->oForm->_getStepperId();
 
+                tx_mkforms_session_Factory::getSessionManager()->initialize();
+
                 if (!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {
                     $GLOBALS['_SESSION']['ameos_formidable'] = array();
                 }
