@@ -38,7 +38,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 {
     private $form;
 
-    private function init()
+    /**
+     * {@inheritDoc}
+     * @see tx_mkforms_session_IManager::initialize()
+     */
+    public function initialize()
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -55,6 +59,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             $GLOBALS['_SESSION']['ameos_formidable']['applicationdata'] = array();
         }
     }
+
     /**
      * Legt das Formular und weitere Objekte auf dem Server in einem Cache ab.
      * Optional kann bei Ajax-calls das Laden der TSFE abgeschaltet werden. Beim Persistieren
@@ -64,7 +69,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      */
     public function persistForm($fromAjax = false)
     {
-        $this->init();
+        $this->initialize();
 
         $form = $this->getForm();
         if (!$form) {
@@ -168,7 +173,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
     public function restoreFeConfig($formId)
     {
-        $this->init();
+        $this->initialize();
 
         if ($this->tsfeMode == 'session') {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
@@ -228,7 +233,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
     public function restoreFeSetup($formId)
     {
-        $this->init();
+        $this->initialize();
 
         if ($this->tsfeMode == 'session') {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
@@ -262,7 +267,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      */
     public function restoreForm($formid)
     {
-        $this->init();
+        $this->initialize();
 
         //registriert eine unserialize_callback_func
         tx_rnbase::load('tx_mkforms_util_AutoLoad');

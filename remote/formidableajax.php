@@ -78,6 +78,7 @@ class formidableajax
         }
         tx_rnbase::load('tx_mkforms_session_Factory');
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
+        $sesMgr->initialize();
 
         // TODO: es muss möglich sein freie PHP-Scripte per Ajax aufzurufen
 
