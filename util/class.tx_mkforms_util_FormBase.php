@@ -542,7 +542,7 @@ class tx_mkforms_util_FormBase
      * @param   array   $fields
      * @return rray
      */
-    public function addFields(array $data, array $fields)
+    public static function addFields(array $data, array $fields)
     {
         foreach ($fields as $fieldKey => $fieldValue) {
             // sub config gefunden, weiter machen!
