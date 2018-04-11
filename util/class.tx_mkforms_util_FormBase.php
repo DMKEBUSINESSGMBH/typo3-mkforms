@@ -192,7 +192,7 @@ class tx_mkforms_util_FormBase
      * @param   string                      $confId
      * @return  string
      */
-    protected function getFieldSeparator(tx_rnbase_configurations &$configurations, &$confId)
+    protected static function getFieldSeparator(tx_rnbase_configurations &$configurations, &$confId)
     {
         $separator = $configurations->get($confId.'fieldSeparator');
 
