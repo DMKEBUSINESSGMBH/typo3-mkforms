@@ -53,9 +53,6 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
 
 JAVASCRIPT;
 
-        if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-            require_once(PATH_tslib . 'class.tslib_pagegen.php');
-        }
         $this->oForm->additionalHeaderData(
             $this->oForm->inline2TempFile($sScript, 'js', 'Chooser ' . $sHtmlId . ' stuff')
         );
