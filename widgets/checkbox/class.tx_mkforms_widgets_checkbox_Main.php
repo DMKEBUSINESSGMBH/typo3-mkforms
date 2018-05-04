@@ -218,6 +218,9 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
         );
     }
 
+    /**
+     * @return array
+     */
     public function majixCheckNone()
     {
         return $this->buildMajixExecuter(
@@ -225,6 +228,11 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
         );
     }
 
+    /**
+     * @param string $sValue
+     *
+     * @return array
+     */
     public function majixCheckItem($sValue)
     {
         return $this->buildMajixExecuter(

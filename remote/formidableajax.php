@@ -10,6 +10,9 @@ tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 class formidableajax
 {
+    /**
+     * @var array
+     */
     public $aRequest    = array();
     public $aConf        = false;
     public $aSession    = array();
@@ -402,6 +405,9 @@ class formidableajax
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getParams()
     {
         return $this->aRequest['params'];

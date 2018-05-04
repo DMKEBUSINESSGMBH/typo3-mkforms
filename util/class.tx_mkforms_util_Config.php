@@ -119,7 +119,7 @@ class tx_mkforms_util_Config
     /**
      * Returns the translated string for the given LLL path
      *
-     * @param   string      $label: LLL path
+     * @param   mixed      $label: LLL path
      * @return  string      The translated string
      */
     public function getLLLabel($mLabel)

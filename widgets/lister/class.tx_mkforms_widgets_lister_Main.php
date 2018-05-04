@@ -1814,6 +1814,9 @@ ERRORMESSAGE;
         return $this->majixRepaint();
     }
 
+    /**
+     * @return array
+     */
     public function repaintFirst()
     {
         return $this->majixRepaintPage(1);

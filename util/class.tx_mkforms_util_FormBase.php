@@ -355,7 +355,7 @@ class tx_mkforms_util_FormBase
      * Eliminate renderlet path info from the given data
      *
      * @param array $renderletData
-     * @param tx_ameosformidable $form
+     * @param tx_mkforms_forms_Base $form
      * @return array
      */
     public static function removePathFromWidgetData(array $widgetData, tx_mkforms_forms_Base $form)

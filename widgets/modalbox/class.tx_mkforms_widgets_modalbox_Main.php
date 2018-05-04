@@ -57,6 +57,12 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
         return $this->majixShowBox($aConfig, $aTags);
     }
 
+    /**
+     * @param array $aConfig
+     * @param array $aTags
+     *
+     * @return array
+     */
     public function majixShowBox($aConfig = array(), $aTags = array())
     {
         if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
@@ -93,6 +99,9 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
         );
     }
 
+    /**
+     * @return array
+     */
     public function majixCloseBox()
     {
         return $this->buildMajixExecuter(

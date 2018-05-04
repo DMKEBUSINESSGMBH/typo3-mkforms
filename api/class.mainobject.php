@@ -14,6 +14,9 @@ class formidable_mainobject
 
     public $aObjectType = null;
 
+    /**
+     * @var string|null
+     */
     public $sXPath = null;
 
     public $sNamePrefix = false;

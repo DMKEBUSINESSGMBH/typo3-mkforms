@@ -385,7 +385,10 @@ class formidable_maindatahandler extends formidable_mainobject
      * Note that this is only the 'abstract' definition of this function
      *  in the simple case where your DataHandler should never have to edit data
      *
-     * @return    bool    TRUE if edition mode, FALSE if not
+     * @param string|bool $sName
+     *
+     * @return array|string
+     *
      * @see    formidable_maindatahandler::_edition()
      */
     public function _getStoredData($sName = false)
@@ -397,6 +400,11 @@ class formidable_maindatahandler extends formidable_mainobject
         return array();
     }
 
+    /**
+     * @param string|bool $sName
+     *
+     * @return array|string
+     */
     public function getStoredData($sName = false)
     {
         return $this->_getStoredData($sName);
