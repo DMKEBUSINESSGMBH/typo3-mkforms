@@ -88,7 +88,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
     {
         //per default soll bereinigt werden
         $this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
-        self::assertEquals('<sc<x>ript>alert("ohoh");</script>', $this->oForm->getWidget('widget-text')->getValue(), 'JS wurde nicht entfernt bei widget-text!');
+        self::assertEquals('&lt;script&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;', $this->oForm->getWidget('widget-text')->getValue(), 'JS wurde nicht entfernt bei widget-text!');
         //hier ist sanitize auf false gesetzt
         $this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
         self::assertEquals('<script>alert("ohoh");</script>', $this->oForm->getWidget('widget-text2')->getValue(), 'JS wurde nicht entfernt bei widget-text2!');
