@@ -88,13 +88,11 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
     {
         //per default soll bereinigt werden
         $this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
-        // the removeXss method in rn_base changed
-        if (tx_rnbase_util_TYPO3::isExtMinVersion('rn_base', '1007001')) {
-            $expectedSanitizedString = '&lt;script&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;';
-        } else {
-            $expectedSanitizedString = '<sc<x>ript>alert("ohoh");</script>';
-        }
-        self::assertEquals($expectedSanitizedString, $this->oForm->getWidget('widget-text')->getValue(), 'JS wurde nicht entfernt bei widget-text!');
+        self::assertEquals(
+            '&lt;script&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;',
+            $this->oForm->getWidget('widget-text')->getValue(),
+            'JS wurde nicht entfernt bei widget-text!'
+        );
         //hier ist sanitize auf false gesetzt
         $this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
         self::assertEquals('<script>alert("ohoh");</script>', $this->oForm->getWidget('widget-text2')->getValue(), 'JS wurde nicht entfernt bei widget-text2!');
