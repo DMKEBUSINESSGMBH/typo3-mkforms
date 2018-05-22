@@ -9,6 +9,9 @@ class formidable_mainrenderer extends formidable_mainobject
 
     public $bValidation = true;
 
+    /**
+     * @var bool
+     */
     public $bDisplayLabels = true;
 
     public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
@@ -620,6 +623,11 @@ TEMPLATE;
         return $this->getForm()->getFormId();
     }
 
+    /**
+     * @param bool $bDisplayLabels
+     *
+     * @return void
+     */
     public function _setDisplayLabels($bDisplayLabels)
     {
         $this->bDisplayLabels = $bDisplayLabels;

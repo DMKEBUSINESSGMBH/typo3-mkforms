@@ -31,7 +31,7 @@ class tx_mkforms_forms_Factory
     /**
      * Create form instance
      *
-     * @param string $name
+     * @param string|null $name
      *
      * @return tx_mkforms_forms_Base
      */

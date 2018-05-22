@@ -105,6 +105,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $oDataHandler = null;
 
+    /**
+     * @var formidable_mainrenderlet[]
+     */
     public $aORenderlets = array();
 
     public $aODataSources = array();
@@ -202,6 +205,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $aPreRendered = array();
 
+    /**
+     * @var formidableajax|bool
+     */
     public $oMajixEvent = false;
 
     public $aAvailableCheckPoints
@@ -272,6 +278,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      * @var string
      */
     private $sSessionId;
+
+    /**
+     * @var tx_mkforms_util_Config
+     */
+    private $config = null;
 
     public function __construct()
     {
@@ -1627,13 +1638,15 @@ SANDBOXCLASS;
     /**
      * Initialize formidable with typoscript
      *
-     * @param    object  &$oParent       : ref to parent object (usualy plugin)
-     * @param    array   $aConf          : typoscript array
-     * @param    int $iForcedEntryId : optional; uid to edit, if any
+     * @param object $oParent ref to parent object (usually plugin)
+     * @param array $aConf typoscript array
+     * @param int|bool $iForcedEntryId UID to edit (if any)
+     * @param tx_rnbase_configurations|bool $configurations
+     * @param string $confid
      *
-     * @return    void
+     * @return void
      */
-    public function initFromTs(&$oParent, $aConf, $iForcedEntryId = false, $configurations = false, $confid = '')
+    public function initFromTs($oParent, array $aConf, $iForcedEntryId = false, $configurations = false, $confid = '')
     {
         $this->bInitFromTs = true;
         $this->init($oParent, $aConf, $iForcedEntryId, $configurations, $confid);
@@ -1994,11 +2007,11 @@ SANDBOXCLASS;
     /**
      * TODO: Zugriff ändern auf Config
      *
-     * @param unknown_type $path
-     * @param unknown_type $aConf
-     * @param unknown_type $sSep
+     * @param string $path
+     * @param array|int $aConf
+     * @param string $sSep
      *
-     * @return unknown
+     * @return mixed
      */
     public function _navConf($path, $aConf = -1, $sSep = '/')
     {
@@ -2170,13 +2183,12 @@ SANDBOXCLASS;
     }
 
     /**
-     * Alias for _render()
+     * Renders the whole application. Alias for _render().
      *
-     * @return    string
+     * @return string
      */
     public function render()
     {
-    // alias for _render
         return $this->_render();
     }
 
@@ -3029,14 +3041,17 @@ JAVASCRIPT;
     /**
      * Makes and initializes a renderlet object
      *
-     * @param    array  $aElement : conf for this object instance
-     * @param    string $sXPath   : xpath where this conf is declared
+     * @param array $aElement conf for this object instance
+     * @param string $sXPath xpath where this conf is declared
+     * @param bool $bChilds
+     * @param object|bool $oChildParent
+     * @param bool $bAnonymous
+     * @param string|bool $sNamePrefix
      *
-     * @return    formidable_mainrenderlet
+     * @return formidable_mainrenderlet
      */
-
-    public function &_makeRenderlet(
-        $aElement,
+    public function _makeRenderlet(
+        array $aElement,
         $sXPath,
         $bChilds = false,
         $oChildParent = false,
@@ -4415,6 +4430,12 @@ JAVASCRIPT;
         return $aExecuter;
     }
 
+    /**
+     * @param string $sJs
+     * @param array $aParams
+     *
+     * @return array
+     */
     public function majixExecJs($sJs, $aParams = array())
     {
         $aContext = array();
@@ -4966,6 +4987,9 @@ JAVASCRIPT;
         return false;
     }
 
+    /**
+     * @return formidableajax|bool
+     */
     public function getMajix()
     {
         return $this->oMajixEvent;
@@ -5141,7 +5165,7 @@ JAVASCRIPT;
      *
      * @return formidable_mainrenderlet
      */
-    public function &getWidget($name, $qualified = true)
+    public function getWidget($name, $qualified = true)
     {
         if (array_key_exists($name, $this->aORenderlets)) {
             return $this->aORenderlets[$name];

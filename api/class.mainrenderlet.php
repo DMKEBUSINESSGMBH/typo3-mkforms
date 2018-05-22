@@ -536,6 +536,9 @@ class formidable_mainrenderlet extends formidable_mainobject
         return $mRendered;
     }
 
+    /**
+     * @return string
+     */
     public function _render()
     {
         return $this->getLabel();
@@ -1051,6 +1054,11 @@ class formidable_mainrenderlet extends formidable_mainobject
         return $this->_substituteConstants($mValue);
     }
 
+    /**
+     * @param mixed $mValue
+     *
+     * @return void
+     */
     public function setValue($mValue)
     {
         $sAbsName = $this->getAbsName();
@@ -2606,6 +2614,11 @@ JAVASCRIPT;
         }
     }
 
+    /**
+     * @param array $aConfig
+     *
+     * @return void
+     */
     public function includeScripts($aConfig = array())
     {
         $sClass = $this->getMajixClass() ? $this->getMajixClass() : 'RdtBaseClass';
@@ -2907,6 +2920,12 @@ JAVASCRIPT;
         return $this->_defaultTrue('/childs/autowrap/');
     }
 
+    /**
+     * @param string $sMethod
+     * @param array $aData
+     *
+     * @return array
+     */
     public function buildMajixExecuter($sMethod, $aData = array())
     {
         return $this->getForm()->buildMajixExecuter(
