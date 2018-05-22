@@ -17,7 +17,7 @@ tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mkforms', 'FILE:EXT:' . $_EXTK
 
 tx_rnbase_util_Extensions::addPlugin(
     array(
-        'LLL:EXT:' . $_EXTKEY . '/locallang_db.php:plugin.mkforms.label',
+        'LLL:EXT:' . $_EXTKEY . '/locallang_db.xml:plugin.mkforms.label',
         'tx_mkforms',
         'EXT:mkforms/ext_icon.gif',
     )
