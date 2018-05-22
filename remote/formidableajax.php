@@ -73,12 +73,6 @@ class formidableajax
             'trueargs'        => Tx_Rnbase_Utility_T3General::_GP('trueargs'),
         );
 
-        // Wir starten zuerst die DB, damit das Caching funktioniert
-        tx_rnbase::load('tx_rnbase_util_TYPO3');
-        if (!tx_rnbase_util_TYPO3::isTYPO61OrHigher()) {
-            $eidUtility = tx_rnbase_util_Typo3Classes::getEidUtilityClass();
-            $eidUtility::connectDB();
-        }
         tx_rnbase::load('tx_mkforms_session_Factory');
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
         $sesMgr->initialize();
@@ -96,9 +90,6 @@ class formidableajax
         $this->aSession =&    $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']
                                             [$this->aRequest['object']][$this->aRequest['servicekey']][$this->aRequest['safelock']];
 
-        if (!tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-            require_once(PATH_tslib . 'class.tslib_content.php');
-        }
         tx_rnbase::load('tx_mkforms_forms_Base');
         tx_rnbase::load('tx_mkforms_util_Div');
         tx_rnbase::load('tx_mkforms_util_Config');

@@ -191,21 +191,12 @@ class tx_mkforms_util_Div
         /* @var $tsfe tslib_fe */
         $tsfe = &$GLOBALS['TSFE']; // only an alias for codecomplication
 
-        // for typo3 6.2 the tca is required for determineId.
-        tx_rnbase::load('tx_rnbase_util_TYPO3');
-        if (tx_rnbase_util_TYPO3::isTYPO62OrHigher()) {
-            tx_rnbase::load('tx_rnbase_util_TCA');
-            tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
-        }
+        tx_rnbase::load('tx_rnbase_util_TCA');
+        tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
 
         $tsfe->connectToDB(); // takes 0.0000 T3 6.2
         $tsfe->initFEuser(); // takes 0.0400 T3 6.2
         $tsfe->determineId(); // takes 0.0240 T3 6.2
-
-        tx_rnbase::load('tx_rnbase_util_TYPO3');
-        if (!tx_rnbase_util_TYPO3::isTYPO61OrHigher()) {
-            $tsfe->getCompressedTCarray(); // takes 0.0000 T3 6.2
-        }
 
         $tsfe->initTemplate(); // takes 0.0030 T3 6.2
         $tsfe->getFromCache(); // takes 0.0040 T3 6.2
@@ -554,10 +545,7 @@ ERRORMESSAGE;
     {
         static $version = null;
         if ($version === null) {
-            $version = $GLOBALS['EM_CONF']['mkforms']['version'];
-            if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-                $version = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('mkforms');
-            }
+            $version = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('mkforms');
         }
 
         return $version;

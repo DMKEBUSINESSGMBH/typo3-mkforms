@@ -16,23 +16,11 @@ tx_rnbase::load('tx_rnbase_util_Arrays');
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'])
     && tx_rnbase_configurations::getExtensionCfgValue('mkforms', 'activateCache')
 ) {
-    tx_rnbase::load('tx_rnbase_util_TYPO3');
-    if (tx_rnbase_util_TYPO3::isTYPO60OrHigher()) {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
-            'frontend' => 'TYPO3\CMS\Core\Cache\Frontend\VariableFrontend',
-            'backend' => 'TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend',
-            'options' => array()
-        );
-    } else {
-        $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
-            'frontend' => 't3lib_cache_frontend_VariableFrontend',
-            'backend' => 't3lib_cache_backend_DbBackend',
-            'options' => array(
-                'cacheTable' => 'cf_mkforms',
-                'tagsTable' => 'cf_mkforms_tags',
-            )
-        );
-    }
+    $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'] = array(
+        'frontend' => 'TYPO3\CMS\Core\Cache\Frontend\VariableFrontend',
+        'backend' => 'TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend',
+        'options' => array()
+    );
 }
 
 // defines the Formidable ajax content-engine ID
