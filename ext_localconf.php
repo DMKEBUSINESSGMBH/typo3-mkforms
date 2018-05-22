@@ -41,7 +41,7 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][tx_mkforms_util_Div::getAjaxEId
 
 if (TYPO3_MODE === 'FE') {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][]
-        = 'EXT:mkforms/hooks/class.tx_mkforms_hooks_TSFE.php:&tx_mkforms_hooks_TSFE->contentPostProc_output';
+        = 'tx_mkforms_hooks_TSFE->contentPostProc_output';
 }
 
 tx_rnbase::load('tx_rnbase_util_TYPO3');

@@ -1,6 +1,6 @@
 <?php
 
-class tx_mkforms_hooks_TSFE
+class tx_mkforms_hooks_TSFE implements Tx_Rnbase_Interface_Singleton
 {
     public function contentPostProc_output()
     {
