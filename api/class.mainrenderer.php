@@ -188,8 +188,8 @@ TEMPLATE;
             if (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($name, $formId . '[')) {
                 continue;
             }
-            $name = Tx_Rnbase_Utility_T3General::removeXSS($name);
-            $value = Tx_Rnbase_Utility_T3General::removeXSS($value);
+            $name = htmlspecialchars($name);
+            $value = htmlspecialchars($value);
             $sysHidden .= '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
         }
 

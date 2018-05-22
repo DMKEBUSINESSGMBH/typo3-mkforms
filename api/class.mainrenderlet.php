@@ -1110,9 +1110,8 @@ class formidable_mainrenderlet extends formidable_mainobject
         // Bei Widgets aus dem Lister haben wir eine IteratingId und als Ergebnis ein Array
         if (is_array($ret) && $this->getIteratingId()) {
             $ret = $ret[$this->getIteratingId()];
-            //wir müssen XSS nur bei strings entfernen und wenn es gewünscht ist
         } elseif (is_string($ret) && $this->sanitize()) {
-            $ret = Tx_Rnbase_Utility_Strings::removeXSS($ret);
+            $ret = htmlspecialchars($ret);
         }
 
         return $ret;
