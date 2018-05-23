@@ -101,6 +101,11 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public $aEmptyStatics = array();
 
+    /**
+     * @var bool
+     */
+    protected $forceSanitization = null;
+
     public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
     {
         parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
@@ -1125,7 +1130,16 @@ class formidable_mainrenderlet extends formidable_mainobject
      */
     protected function sanitize()
     {
-        return $this->defaultTrue('/sanitize');
+        return is_bool($this->forceSanitization) ? $this->forceSanitization : $this->defaultTrue('/sanitize');
+    }
+
+    /**
+     * @param bool $forceSanitization
+     * @return void
+     */
+    public function forceSanitization($forceSanitization = true)
+    {
+        $this->forceSanitization = $forceSanitization;
     }
 
     public function getValueForHtml($mValue = false)

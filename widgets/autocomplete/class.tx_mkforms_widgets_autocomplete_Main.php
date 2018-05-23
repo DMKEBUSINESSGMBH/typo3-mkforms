@@ -283,6 +283,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                     if ($sValue != $aData[$sName]) {
                         $bReplaced = true;
                     }
+                    $this->aChilds[$sName]->forceSanitization(false);
                 } else {
                     $sValue = $aData[$sName];
                     $bReplaced = true;
@@ -309,6 +310,17 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
         $rdt->mForcedValue = $mValue;
         $rdt->bForcedValue = true;
+    }
+
+    /**
+     * Soll bei getValue XSS entfernt werden?
+     * default ja
+     *
+     * @return bool
+     */
+    protected function sanitize()
+    {
+        return $this->defaultTrue('/sanitize');
     }
 
     private function highlightSearch($aMatches)

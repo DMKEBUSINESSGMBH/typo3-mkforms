@@ -84,7 +84,7 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
     /**
      * Prüft _isTooLongByChars mit Multi-byte zeichen und ohne
      */
-    public function testSetValueSanitizesStringIfConfigured()
+    public function testGetValueSanitizesStringIfConfigured()
     {
         //per default soll bereinigt werden
         $this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
@@ -96,6 +96,26 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
         //hier ist sanitize auf false gesetzt
         $this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
         self::assertEquals('<script>alert("ohoh");</script>', $this->oForm->getWidget('widget-text2')->getValue(), 'JS wurde nicht entfernt bei widget-text2!');
+
+        // jetzt überschreiben wir die konfiguration
+        $this->oForm->getWidget('widget-text2')->forceSanitization();
+        self::assertEquals(
+            '&lt;script&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;',
+            $this->oForm->getWidget('widget-text2')->getValue(),
+            'JS wurde nicht entfernt bei widget-text2!'
+        );
+
+        // jetzt überschreiben wir die konfiguration erneut
+        $this->oForm->getWidget('widget-text2')->forceSanitization(false);
+        self::assertEquals('<script>alert("ohoh");</script>', $this->oForm->getWidget('widget-text2')->getValue(), 'JS wurde nicht entfernt bei widget-text2!');
+
+        // überschreibt das definitv den konfigurierten Wert
+        $this->oForm->getWidget('widget-text')->forceSanitization(false);
+        self::assertEquals(
+            '<script>alert("ohoh");</script>',
+            $this->oForm->getWidget('widget-text')->getValue(),
+            'JS wurde doch entfernt bei widget-text!'
+        );
     }
 
     /**
