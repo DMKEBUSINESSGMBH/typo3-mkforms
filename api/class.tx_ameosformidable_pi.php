@@ -1,5 +1,5 @@
 <?php
-tx_rbbase::looad('Tx_Rnbase_Frontend_Plugin');
+tx_rnbase::load('Tx_Rnbase_Frontend_Plugin');
 
 class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
 {
