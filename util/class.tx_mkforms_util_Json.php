@@ -399,7 +399,7 @@ class tx_mkforms_util_Json
             return $encoded_value;
         }
 
-        return $this->encode(strval($name)) . ':' . $encoded_value;
+        return $this->encode((string)$name) . ':' . $encoded_value;
     }
 
    /**
@@ -722,7 +722,7 @@ if (class_exists('PEAR_Error')) {
             $options = null,
             $userinfo = null
         ) {
-        
+
             parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
         }
     }

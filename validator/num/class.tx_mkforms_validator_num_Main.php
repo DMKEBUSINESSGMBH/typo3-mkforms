@@ -174,7 +174,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
 
     public function _checkIsInteger($mNum)
     {
-        return ctype_digit($mNum) && intval($mNum) == $mNum;
+        return ctype_digit($mNum) && (int)$mNum == $mNum;
     }
 
     public function _checkIsIn($mNum, $aValues)

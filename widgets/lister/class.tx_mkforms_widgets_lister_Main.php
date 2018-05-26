@@ -80,7 +80,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         $this->aRdtByRow = array();
 
         $aData = $this->fetchListerData();
-        if (intval($aData['numrows']) === 0) {
+        if ((int)$aData['numrows'] === 0) {
             if (($mEmpty = $this->_navConf('/ifempty')) !== false) {
                 if (is_array($mEmpty)) {
                     if ($this->getForm()->_defaultTrue('/process', $mEmpty) === false) {
@@ -288,9 +288,9 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     $mRowsPerPage = $this->getForm()->getRunnable()->callRunnableWidget($this, $mRowsPerPage);
                 }
 
-                if (intval($mRowsPerPage) > 0) {
+                if ((int)$mRowsPerPage > 0) {
                     $iRowsPerPage = $mRowsPerPage;
-                } elseif (intval($mRowsPerPage) === -1) {
+                } elseif ((int)$mRowsPerPage === -1) {
                     $iRowsPerPage = 1000000;
                 }
             }
@@ -318,7 +318,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function getPageForLineNumber($iNum)
     {
-        if (intval($this->aLimitAndSort['rowsperpage']) !== 0) {
+        if ((int)$this->aLimitAndSort['rowsperpage'] !== 0) {
             $iPageMax = (ceil($iNum / $this->aLimitAndSort['rowsperpage']));
         } else {
             $iPageMax = 0;
@@ -384,7 +384,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     $mWidth = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWidth);
                 }
 
-                $iWindowWidth = intval($mWidth);
+                $iWindowWidth = (int)$mWidth;
 
                 if (($mAlwaysFullWidth = $this->_defaultFalse('/pager/window/alwaysfullwidth')) !== false) {
                     if ($this->oForm->isRunneable($mAlwaysFullWidth)) {
@@ -1618,7 +1618,7 @@ ERRORMESSAGE;
                 $sName = $this->_getElementHtmlId();
 
                 if (array_key_exists($sName, $aGet) && array_key_exists('page', $aGet[$sName])) {
-                    return (($iPage = intval($aGet[$sName]['page'])) >= 1) ? $iPage : 1;
+                    return (($iPage = (int)$aGet[$sName]['page']) >= 1) ? $iPage : 1;
                 }
             }
         }
@@ -1803,7 +1803,7 @@ ERRORMESSAGE;
             $this->iTempPage = $iPage;
         } else {
             $this->aLimitAndSort['curpage'] = $iPage;
-            $this->aLimitAndSort['limitoffset'] = (($iPage - 1) * intval($this->aLimitAndSort['rowsperpage']));
+            $this->aLimitAndSort['limitoffset'] = (($iPage - 1) * (int)$this->aLimitAndSort['rowsperpage']);
         }
     }
 

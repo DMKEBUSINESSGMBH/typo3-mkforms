@@ -458,7 +458,7 @@ JAVASCRIPT;
             return false;
         }
 
-        return intval($this->getForm()->getConfTS('loadJsFramework')) > 0;
+        return (int)$this->getForm()->getConfTS('loadJsFramework') > 0;
     }
 
     /**
@@ -472,7 +472,7 @@ JAVASCRIPT;
             return false;
         }
 
-        return intval($this->getForm()->getConfTS('mayLoadScriptaculous')) > 0;
+        return (int)$this->getForm()->getConfTS('mayLoadScriptaculous') > 0;
     }
 
     /**
@@ -507,12 +507,12 @@ JAVASCRIPT;
 
     private function minified()
     {
-        return intval($this->getForm()->getConfTS('minify.enabled')) > 0;
+        return (int)$this->getForm()->getConfTS('minify.enabled') > 0;
     }
 
     private function gziped()
     {
-        return intval($this->getForm()->getConfTS('minify.gzip')) > 0;
+        return (int)$this->getForm()->getConfTS('minify.gzip') > 0;
     }
 
     /**
@@ -694,7 +694,7 @@ JAVASCRIPT;
 
     public function manuallyInjectHeaders()
     {
-        return intval($this->getForm()->getConfTS('injectHeadersManually')) > 0;
+        return (int)$this->getForm()->getConfTS('injectHeadersManually') > 0;
     }
 
     /**

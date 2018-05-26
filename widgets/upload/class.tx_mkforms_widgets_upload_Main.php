@@ -485,7 +485,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                 // see http://lists.typo3.org/pipermail/typo3-project-dam/2009-October/002751.html
                 // and http://lists.netfielders.de/pipermail/typo3-project-dam/2006-August/000481.html
 
-            if (!isset($BE_USER) || !is_object($BE_USER) || intval($GLOBALS['BE_USER']->user['uid']) === 0) {
+            if (!isset($BE_USER) || !is_object($BE_USER) || (int)$GLOBALS['BE_USER']->user['uid'] === 0) {
                 // no be_user available
                     // we are using the one created for formidable+dam, named _formidable+dam
 

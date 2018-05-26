@@ -534,7 +534,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
     public function i18n_currentRecordUsesDefaultLang()
     {
-        return (intval($this->_getStoredData('sys_language_uid')) === 0);
+        return ((int)$this->_getStoredData('sys_language_uid') === 0);
     }
 
     public function i18n_currentRecordUsesLang()
@@ -544,7 +544,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
         $aParams = func_get_args();
 
         return in_array(
-            intval($this->_getStoredData('sys_language_uid')),
+            (int)$this->_getStoredData('sys_language_uid'),
             $aParams
         );
     }
@@ -562,7 +562,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
                     $this->__aStoredI18NParent = $aData;
                 } else {
-                    $iParent = intval($aData['l18n_parent']);
+                    $iParent = (int)$aData['l18n_parent'];
                     if (($aParent = $this->__getDbData($this->tableName(), $this->keyName(), $iParent)) !== false) {
                         $this->__aStoredI18NParent = $aParent;
                     }

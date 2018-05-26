@@ -3565,7 +3565,7 @@ JAVASCRIPT;
                 $aKeys
             );
 
-            $iNeighbourPos = intval($iPos + ($iDirection));
+            $iNeighbourPos = (int)$iPos + ($iDirection);
 
             if (array_key_exists($iNeighbourPos, $aKeys)) {
                 if ($bKey !== false) {
@@ -5118,9 +5118,9 @@ JAVASCRIPT;
      */
     public function getEntryId()
     {
-        $entryId = intval($this->getDataHandler()->entryId);
+        $entryId = (int)$this->getDataHandler()->entryId;
         // Im CreationMode steht die EntryID in einer anderen Variablen
-        $entryId = $entryId ? $entryId : intval($this->getDataHandler()->newEntryId);
+        $entryId = $entryId ? $entryId : (int)$this->getDataHandler()->newEntryId;
 
         return $entryId;
     }

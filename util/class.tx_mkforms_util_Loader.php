@@ -50,8 +50,8 @@ class tx_mkforms_util_Loader
      */
     public static function getInstance($formid)
     {
-        if (!array_key_exists(strval($formid), self::$instances)) {
-            self::$instances[$formid] = new tx_mkforms_util_Loader(strval($formid));
+        if (!array_key_exists((string)$formid, self::$instances)) {
+            self::$instances[$formid] = new tx_mkforms_util_Loader((string)$formid);
         }
 
         return self::$instances[$formid];

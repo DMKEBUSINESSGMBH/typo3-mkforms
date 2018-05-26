@@ -235,10 +235,10 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     return false;
                 }
                 $sFullPath = $sFileName['tmp_name'];
-                $iSize = intval($sFileName['size']);
+                $iSize = (int)$sFileName['size'];
             } else {
                 $sFullPath = $this->_getFullServerPath($sAbsName, $sFileName);
-                $iSize = intval(@filesize($sFullPath));
+                $iSize = (int)@filesize($sFullPath);
             }
 
             switch ($sType) {
@@ -252,7 +252,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                 }
             }
 
-            if ($iSize <= intval($iMaxFileSize)) {
+            if ($iSize <= (int)$iMaxFileSize) {
                 return true;
             } else {
                 $this->_unlink($sFullPath);

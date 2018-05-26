@@ -512,7 +512,7 @@ class formidable_maindatahandler extends formidable_mainobject
             Tx_Rnbase_Utility_T3General::stripSlashesOnArray($aP);
 
             if (array_key_exists('AMEOSFORMIDABLE_ENTRYID', $aP) && trim($aP['AMEOSFORMIDABLE_ENTRYID']) !== '') {
-                return intval($aP['AMEOSFORMIDABLE_ENTRYID']);
+                return (int)$aP['AMEOSFORMIDABLE_ENTRYID'];
             }
         }
 

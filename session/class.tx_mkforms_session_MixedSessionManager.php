@@ -112,8 +112,8 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $sessData['loadedClasses'] = $this->getForm()->getObjectLoader()->getLoadedClasses($formId);
 
         if (!$fromAjax) {
-            $sessData['sys_language_uid'] = intval($GLOBALS['TSFE']->sys_language_uid);
-            $sessData['sys_language_content'] = intval($GLOBALS['TSFE']->sys_language_content);
+            $sessData['sys_language_uid'] = (int)$GLOBALS['TSFE']->sys_language_uid;
+            $sessData['sys_language_content'] = (int)$GLOBALS['TSFE']->sys_language_content;
             $sessData['pageid'] = $GLOBALS['TSFE']->id;
             $sLang = (tx_mkforms_util_Div::getEnvExecMode() === 'BE') ? $GLOBALS['LANG']->lang : $GLOBALS['TSFE']->lang;
             $sessData['lang'] = $sLang;

@@ -165,7 +165,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 
         $this->includeScripts(array(
             // Timeout in ms
-            'followTimeout' => ($timeout = $this->_navConf('/followtimeout')) === false ? 0 : intval($timeout),
+            'followTimeout' => ($timeout = $this->_navConf('/followtimeout')) === false ? 0 : (int)$timeout,
         ));
 
         return $aHtmlBag;
