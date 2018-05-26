@@ -300,9 +300,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
         $validator->handleAfterRenderCheckPoint();
 
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-        self::assertEquals(
-            1,
-            count($sessionData['creationTimestamp']),
+        self::assertCount(1, $sessionData['creationTimestamp'],
             'der timestamp für die Erstellung des Formulars nicht in der Session'
         );
         self::assertEquals(
@@ -339,9 +337,7 @@ class tx_mkforms_tests_validator_timetracking_Main_testcase extends tx_rnbase_te
         $validator->handleAfterRenderCheckPoint();
 
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-        self::assertEquals(
-            3,
-            count($sessionData['creationTimestamp']),
+        self::assertCount(3, $sessionData['creationTimestamp'],
             'der timestamp für die Erstellung des Formulars nicht in der Session'
         );
         self::assertEquals(
