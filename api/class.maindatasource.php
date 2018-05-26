@@ -4,11 +4,6 @@ abstract class formidable_maindatasource extends formidable_mainobject
 {
     public $aODataSets = array();
 
-    public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
-    {
-        parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
-    }
-
     public function _getRecordWindow($iPage, $iRowsPerPage, $bMax = false)
     {
         // page should never be negative

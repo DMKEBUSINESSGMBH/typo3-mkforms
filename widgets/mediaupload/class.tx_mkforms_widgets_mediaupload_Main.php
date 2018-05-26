@@ -665,7 +665,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getForm()
     {
-        return $this->oForm;
+        return parent::getForm();
     }
 
     /**
