@@ -22,13 +22,13 @@ class DHTML_Calendar
     public $calendar_theme_file;
     public $calendar_options;
 
-    public function DHTML_Calendar(
+    public function __construct(
         $calendar_lib_path = '/calendar/',
         $lang = 'en',
         $theme = 'calendar-win2k-1',
         $stripped = true
     ) {
-    
+
         if ($stripped) {
             $this->calendar_file = 'calendar_stripped.js';
             $this->calendar_setup_file = 'calendar-setup_stripped.js';

@@ -186,15 +186,13 @@ class PclZip
     // The class can then disable the magic_quotes and reset it after
     public $magic_quotes_status;
 
-  // --------------------------------------------------------------------------------
-  // Function : PclZip()
-  // Description :
-  //   Creates a PclZip object and set the name of the associated Zip archive
-  //   filename.
-  //   Note that no real action is taken, if the archive does not exist it is not
-  //   created. Use create() for that.
-  // --------------------------------------------------------------------------------
-    public function PclZip($p_zipname)
+    /**
+     * Creates a PclZip object and set the name of the associated Zip archive filename.
+     * Note that no real action is taken, if the archive does not exist it is not created. Use create() for that.
+     *
+     * @param string $p_zipname
+     */
+    public function __construct($p_zipname)
     {
         //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::PclZip', "zipname=$p_zipname");
 
