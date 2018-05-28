@@ -9,7 +9,7 @@ class CSV
     public $valueEnclosure;
     public $rowDelimiter;
 
-    public function CSV($cellDelimiter, $rowDelimiter, $valueEnclosure)
+    public function __construct($cellDelimiter, $rowDelimiter, $valueEnclosure)
     {
         $this->cellDelimiter = $cellDelimiter;
         $this->valueEnclosure = $valueEnclosure;
