@@ -211,22 +211,22 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
         self::assertTrue(isset($formData['submitmode']), 'LINE:'.__LINE__);
         self::assertEquals($formData['submitmode'], 'full', 'LINE:'.__LINE__);
 
-        self::assertTrue(is_array($formData['widget']), 'LINE:'.__LINE__);
+        self::assertInternalType('array', $formData['widget'], 'LINE:' . __LINE__);
         self::assertTrue(isset($formData['widget']['text']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['text'], 'Eins', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['radiobutton']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['radiobutton'], '3', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['listbox']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['listbox'], '7', 'LINE:'.__LINE__);
-        self::assertTrue(is_array($formData['widget']['checkbox']), 'LINE:'.__LINE__);
+        self::assertInternalType('array', $formData['widget']['checkbox'], 'LINE:' . __LINE__);
         self::assertTrue(isset($formData['widget']['checkbox']['5']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['checkbox']['5'], '6', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['checkbox']['8']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['checkbox']['8'], '9', 'LINE:'.__LINE__);
-        self::assertTrue(is_array($formData['widget1']), 'LINE:'.__LINE__);
+        self::assertInternalType('array', $formData['widget1'], 'LINE:' . __LINE__);
         self::assertTrue(isset($formData['widget1']['text']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget1']['text'], 'Zwei', 'LINE:'.__LINE__);
-        self::assertTrue(is_array($formData['widget2']), 'LINE:'.__LINE__);
+        self::assertInternalType('array', $formData['widget2'], 'LINE:' . __LINE__);
         self::assertTrue(isset($formData['widget2']['text']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget2']['text'], 'Zwei', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['textarea']), 'LINE:'.__LINE__);
@@ -235,7 +235,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
         self::assertEquals($formData['widgetlister']['selected'], '5', 'LINE:'.__LINE__);
         self::assertFalse(isset($formData['widgetlister']['notInXml']), 'LINE:'.__LINE__);
         for ($i = 1; $i <= 5; $i++) {
-            self::assertTrue(is_array($formData['widgetlister'][$i]['listerdata']), $i.' LINE:'.__LINE__);
+            self::assertInternalType('array', $formData['widgetlister'][$i]['listerdata'], $i . ' LINE:' . __LINE__);
             self::assertTrue(isset($formData['widgetlister'][$i]['listerdata']['uid']), $i.' LINE:'.__LINE__);
             self::assertEquals($formData['widgetlister'][$i]['listerdata']['uid'], $i, $i.' LINE:'.__LINE__);
             self::assertTrue(isset($formData['widgetlister'][$i]['listerdata']['title']), $i.' LINE:'.__LINE__);
@@ -252,7 +252,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
         self::assertTrue(isset($formData['widget']['date_mysql']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['date_mysql'], '1983-07-05', 'LINE:'.__LINE__);
         //addpostvars
-        self::assertTrue(is_array($formData['addpostvars']), 'LINE:'.__LINE__);
+        self::assertInternalType('array', $formData['addpostvars'], 'LINE:' . __LINE__);
         self::assertEquals($formData['addpostvars'][0]['action'], 'formData', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['addpostvars'][0]['params']['widget']['submit']), 'LINE:'.__LINE__);
         //addfields
@@ -268,7 +268,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
     {
         $action = self::getAction();
 
-        self::assertEquals('tx_mkforms_action_FormBase', get_class($action), 'Wrong class given.');
+        self::assertInstanceOf('\\tx_mkforms_action_FormBase', $action, 'Wrong class given.');
     }
 
     /**

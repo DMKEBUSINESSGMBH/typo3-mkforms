@@ -91,7 +91,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 
         //requestToken auch in der session?
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-        self::assertEquals(1, count($sessionData['requestToken']), 'mehr request tokens in der session als erwartet!');
+        self::assertCount(1, $sessionData['requestToken'], 'mehr request tokens in der session als erwartet!');
         self::assertEquals($sessionData['requestToken']['radioTestForm'], $form->generateRequestToken(), 'falscher request token in der session!');
     }
 
@@ -127,7 +127,7 @@ class tx_mkforms_tests_api_mainrenderer_testcase extends tx_rnbase_tests_BaseTes
 
         //requestToken auch in der session?
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
-        self::assertEquals(3, count($sessionData['requestToken']), 'mehr request tokens in der session als erwartet!');
+        self::assertCount(3, $sessionData['requestToken'], 'mehr request tokens in der session als erwartet!');
         self::assertEquals($sessionData['requestToken']['radioTestForm'], $form->generateRequestToken(), 'falscher request token in der session!');
         //alte request tokens richtig?
         self::assertEquals($sessionData['requestToken']['firstForm'], 'secret', 'falscher request token in der session!');

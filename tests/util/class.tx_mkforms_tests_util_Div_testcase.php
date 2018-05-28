@@ -106,7 +106,6 @@ class tx_mkforms_tests_util_Div_testcase extends tx_rnbase_tests_BaseTestCase
      * @param string $iconv
      *
      * @group unit
-     * @test
      * @dataProvider providerCleanupFileName
      */
     public function testCleanupFileName($rawFile, $expectedFile, $usesIconv = false)
