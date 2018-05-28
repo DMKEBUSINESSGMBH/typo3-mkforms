@@ -392,11 +392,6 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
         die('dsdb:dset_getSignature() disabled');
     }
 
-    public function dset_setCellValue($sSignature, $sPath, $mValue, $sAbsName = false)
-    {
-        $this->aODataSets[$sSignature]->setCellValue($sPath, $mValue);
-    }
-
     public function dset_hasFlexibleStructure()
     {
         // FALSE as structure may not expand / is not flexible (unlike a flexform)

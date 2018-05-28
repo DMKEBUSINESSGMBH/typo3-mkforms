@@ -399,16 +399,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
     }
 
     /**
-     * Returns the parameters of the action to use in form
-     *
-     * @return    tx_rnbase_parameters
-     */
-    public function getParameters()
-    {
-        return $this->getConfigurations()->getParameters();
-    }
-
-    /**
      * Returns the config of the action to use in form
      *
      * @return    tx_ameosformidable
