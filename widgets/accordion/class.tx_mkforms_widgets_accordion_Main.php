@@ -26,7 +26,7 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet
     {
         $aConf = array();
         if (($sSpeed = $this->_navConf('/speed')) !== false) {
-            $aConf['resizeSpeed'] = intval($sSpeed);
+            $aConf['resizeSpeed'] = (int)$sSpeed;
         }
 
         if (($sClassToggle = $this->_navConf('/classtoggle')) !== false) {

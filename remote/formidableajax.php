@@ -219,7 +219,7 @@ class formidableajax
             // Deswegen wandeln wie die erstmal in Strings um.
             $ttTimes = array();
             foreach ($this->ttTimes as $key => $time) {
-                $ttTimes[$key] = strval($time);
+                $ttTimes[$key] = (string)$time;
             }
 
             $sJson = tx_mkforms_util_Json::getInstance()->encode(
@@ -324,11 +324,11 @@ class formidableajax
                         $BE_USER->uc['TSFE_adminConfig']['edit_editNoPopup'] = 1;
                     }
                     if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = intval(Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser'));
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int)Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser');
                         $BE_USER->ext_forcePreview = 1;
                     }
                     if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = intval(Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime'));
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int)Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime');
                         $BE_USER->ext_forcePreview = 1;
                     }
 

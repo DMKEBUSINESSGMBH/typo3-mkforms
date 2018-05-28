@@ -500,9 +500,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return $entryId;
         }
 
-        $entryId = intval($this->getDataHandler()->entryId);
+        $entryId = (int)$this->getDataHandler()->entryId;
         // Im CreationMode steht die EntryID in einer anderen Variablen
-        $entryId = $entryId ? $entryId : intval($this->getDataHandler()->newEntryId);
+        $entryId = $entryId ? $entryId : (int)$this->getDataHandler()->newEntryId;
 
         return $entryId;
     }
@@ -645,7 +645,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         if ($this->oForm->isRunneable(($uid = $this->_navConf('/data/beuser/')))) {
             $uid = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
         }
-        $uid = intval($uid);
+        $uid = (int)$uid;
 
         return $uid ? $uid : 1;
     }

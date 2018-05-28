@@ -106,7 +106,7 @@ class formidable_mainvalidator extends formidable_mainobject
                     'maxsizebychars'
                 ))
             ) {
-                $iMaxSize = intval($this->_navConf('/' . $sKey . '/value/'));
+                $iMaxSize = (int)$this->_navConf('/' . $sKey . '/value/');
 
                 if ($this->_isTooLong($mValue, $iMaxSize)) {
                     $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message/'));
@@ -127,7 +127,7 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ($sKey{0} === 'm' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'maxsizebychars')) {
-                $iMaxSize = intval($this->_navConf('/' . $sKey . '/value/'));
+                $iMaxSize = (int)$this->_navConf('/' . $sKey . '/value/');
                 $sEncoding = $this->_navConf('/' . $sKey . '/encoding/');
 
                 if ($this->_isTooLongByChars($mValue, $iMaxSize, $sEncoding)) {
@@ -170,7 +170,7 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ($sKey{0} === 'm' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'minsize')) {
-                $iMinSize = intval($this->_navConf('/' . $sKey . '/value/'));
+                $iMinSize = (int)$this->_navConf('/' . $sKey . '/value/');
 
                 if ($this->_isTooSmall($mValue, $iMinSize)) {
                     $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message/'));
@@ -191,7 +191,7 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ($sKey{0} === 's' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'size')) {
-                $iSize = intval($this->_navConf('/' . $sKey . '/value/'));
+                $iSize = (int)$this->_navConf('/' . $sKey . '/value/');
 
                 if (!$this->_sizeIs($mValue, $iSize)) {
                     $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message/'));
@@ -484,7 +484,7 @@ class formidable_mainvalidator extends formidable_mainobject
     public function _sizeIs($mValue, $iSize)
     {
         if (is_array($mValue)) {
-            return (count($mValue) == intval($iSize));
+            return (count($mValue) == (int)$iSize);
         }
 
         return (strlen(trim($mValue)) == $iSize);
@@ -503,7 +503,7 @@ class formidable_mainvalidator extends formidable_mainobject
     public function _isAuthentified()
     {
         return (is_array(($aUser = $GLOBALS['TSFE']->fe_user->user)) && array_key_exists('uid', $aUser)
-            && intval($aUser['uid']) > 0);
+            && (int)$aUser['uid'] > 0);
     }
 
     /**

@@ -578,7 +578,7 @@ class tx_mkforms_util_Config
     private function initDebug()
     {
         if ($this->debug == -99) {
-            $this->debug = intval($this->get('/meta/debug'));
+            $this->debug = (int)$this->get('/meta/debug');
             if ($this->debug == 0 && $this->isTrue('/meta/debug/')) {
                 $this->debug = 2;    // LIGHT
             }

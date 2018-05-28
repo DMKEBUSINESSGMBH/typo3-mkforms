@@ -202,7 +202,7 @@ class tx_mkforms_util_Runnable
                 $sRes = call_user_func(array(&$oObj, $sMethodName), $this->getForm(), $aParams);
                 $this->pullUserObjParam();
             } catch (Exception  $e) {
-                $verbose = intval(tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday'));
+                $verbose = (int)tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday');
 
                 $ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
 
@@ -607,7 +607,7 @@ class tx_mkforms_util_Runnable
                 }
 
                 if (is_file($sFilePath) && is_readable($sFilePath)) {
-                    if (intval(filesize($sFilePath)) === 0) {
+                    if ((int)filesize($sFilePath) === 0) {
                         tx_mkforms_util_Div::smartMayday_CBJavascript($sFilePath, $sClass, false);
                     }
                     // inclusion of the JS
@@ -746,8 +746,8 @@ class tx_mkforms_util_Runnable
                         try {
                             $mRes = call_user_func_array(array($oCbObj, $sMethod), $aArgs);
                         } catch (Exception  $e) {
-                            $verbose = intval(tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday'));
-                            $dieOnMayday = intval(tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'dieOnMayday'));
+                            $verbose = (int)tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday');
+                            $dieOnMayday = (int)tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'dieOnMayday');
 
                             $ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
 

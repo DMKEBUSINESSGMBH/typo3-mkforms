@@ -471,10 +471,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
             $sFormat = '%Y/%m/%d';
         }
 
-        return strftime(
-            $sFormat,
-            intval(trim($this->templateDataAsString($mData)))
-        );
+        return strftime($sFormat, (int)trim($this->templateDataAsString($mData)));
     }
 
     public function method_isSubmitted($mData, $aParams)

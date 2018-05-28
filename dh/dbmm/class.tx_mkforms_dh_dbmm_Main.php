@@ -269,7 +269,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                             'data' => array(
                                 // uses the default sorting
                                 'sorting' => $sorting,
-                                'uid_foreign' => intval($currentDataItem)
+                                'uid_foreign' => (int)$currentDataItem
                             )
                         );
                         $sorting++;

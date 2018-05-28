@@ -600,7 +600,7 @@ class formidable_mainrenderlet extends formidable_mainobject
             'additionalinputparams' => $this->_getAddInputParams($sId),
             'value' => $mValue,
             'value.' => array(
-                'nl2br' => nl2br(strval($mValue)),
+                'nl2br' => nl2br((string)$mValue),
                 'humanreadable' => $mHuman,
             )
         );
@@ -931,7 +931,7 @@ class formidable_mainrenderlet extends formidable_mainobject
                 . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $sId . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
         }
 
-        $cacheKey = $sId . '-' . intval($withForm) . '-' . intval($withIteratingId);
+        $cacheKey = $sId . '-' . (int)$withForm . '-' . (int)$withIteratingId;
         if (!array_key_exists($cacheKey, $this->aStatics['elementHtmlId'])) {
             $this->aStatics['elementHtmlId'][$cacheKey] = $this->buildHtmlId($withForm, $withIteratingId);
         }
@@ -1380,7 +1380,7 @@ TOOLTIP;
                     // der Wert leer ist
                     || ($bEmpty && $oRdt->isValueEmpty())
                     // der Wert 0 ist
-                    || ($bOrZero === true && (intval($oRdt->getValue()) === 0))
+                    || ($bOrZero === true && ((int)$oRdt->getValue() === 0))
                     // der Wert eines der angegebenen Werte hat
                     || ($sIs !== false && $this->_isDependancyValue($oRdt->getValue(), $sIs))
                     // der Wert eines der angegebenen Werte nicht hat

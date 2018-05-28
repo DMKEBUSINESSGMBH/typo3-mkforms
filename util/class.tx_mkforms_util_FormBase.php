@@ -559,7 +559,7 @@ class tx_mkforms_util_FormBase
                     unset($data[$fieldKey]);
                 } // Den Wert setzen oder Überschreiben
                 elseif (!$bUnset) {
-                    $bOverride = isset($fields[$fieldKey.'.']) && isset($fields[$fieldKey.'.']['override']) && (intval($fields[$fieldKey.'.']['override']) > 0);
+                    $bOverride = isset($fields[$fieldKey.'.']) && isset($fields[$fieldKey.'.']['override']) && ((int)$fields[$fieldKey . '.']['override'] > 0);
                     if (!isset($data[$fieldKey]) || $bOverride) {
                         $fieldValue = ($fieldValue == 'null') ? null : $fieldValue;
                         $data[$fieldKey] = $fieldValue;

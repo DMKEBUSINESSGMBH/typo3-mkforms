@@ -349,9 +349,9 @@ JAVASCRIPT;
         // sizes are all converted to KB
 
         $aSizes = array(
-            'iPhpFileMax'    => 1024 * intval(ini_get('upload_max_filesize')),
-            'iPhpPostMax'    => 1024 * intval(ini_get('post_max_size')),
-            'iT3FileMax'    => intval($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize']),
+            'iPhpFileMax'    => 1024 * (int)ini_get('upload_max_filesize'),
+            'iPhpPostMax'    => 1024 * (int)ini_get('post_max_size'),
+            'iT3FileMax'    => (int)$GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
         );
 
         if (($mFileSize = $this->_navConf('maxsize')) !== false) {
@@ -361,7 +361,7 @@ JAVASCRIPT;
                 $mFileSize = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFileSize);
             }
 
-            $mFileSize = intval($mFileSize);
+            $mFileSize = (int)$mFileSize;
             if ($mFileSize > 0) {
                 $aSizes['userdefined'] = $mFileSize;
             }
@@ -379,7 +379,7 @@ JAVASCRIPT;
                 $mLimit = $this->getForm()->getRunnable()->callRunnableWidget($this, $mLimit);
             }
 
-            return intval($mLimit);
+            return (int)$mLimit;
         }
 
         return 0;    // no limit

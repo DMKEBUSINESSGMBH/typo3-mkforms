@@ -304,9 +304,9 @@ class tx_mkforms_util_XMLParser
                 // Support for numeric tags (<nXXX>)
                 $numTag = (substr($tagName, 0, 1) == $numeric) ? substr($tagName, 1) : false;
                 // Check if tag is a real numeric value
-                if ($numTag && !strcmp(intval($numTag), $numTag)) {
+                if ($numTag && !strcmp((int)$numTag, $numTag)) {
                     // Store only numeric value
-                    $tagName = intval($numTag);
+                    $tagName = (int)$numTag;
                 }
                 // Support for alternative value
                 if (strlen($val['attributes'][$index])) {

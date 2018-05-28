@@ -201,7 +201,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
     public function __isTimestamp($mData)
     {
-        return (('' . intval($mData)) === ('' . $mData));
+        return (('' . (int)$mData) === ('' . $mData));
     }
 
     public function _allowManualEdition()
@@ -297,7 +297,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
     public function __tstamp2date($data)
     {
         if ($this->shouldConvertToTimestamp()) {
-            if (intval($data) != 0) {
+            if ((int)$data != 0) {
                 // il s'agit d'un champ timestamp
                 // on convertit le timestamp en date lisible
 

@@ -98,7 +98,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
     public function _getHumanReadableValue($data)
     {
-        if (intval($data) === 1) {
+        if ((int)$data === 1) {
             return $this->_getCheckedLabel();
         }
 
@@ -125,7 +125,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
     public function getValue()
     {
-        return intval(parent::getValue());
+        return (int)parent::getValue();
     }
 
     public function isChecked()
@@ -156,7 +156,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
     public function _emptyFormValue($iValue)
     {
-        return(intval($iValue) === 0);
+        return((int)$iValue === 0);
     }
 }
 

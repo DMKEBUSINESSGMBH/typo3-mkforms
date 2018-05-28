@@ -322,8 +322,8 @@ TEMPLATE;
     ) {
         $aEvent = array(
             'runat' => 'ajax',
-            'cache' => intval($bCache),    // intval because FALSE would be bypassed by navconf
-            'syncvalue' => intval($bSyncValue),    // same reason
+            'cache' => (int)$bCache,    // intval because FALSE would be bypassed by navconf
+            'syncvalue' => (int)$bSyncValue,    // same reason
             'params' => $mParams,
         );
 
@@ -343,7 +343,7 @@ TEMPLATE;
             'name' => $sRdtAbsName,
             'eventid' => $sEventId,
             'trigger' => $sEventHandler,
-            'cache' => intval($bCache),    // because FALSE would be bypassed by navconf
+            'cache' => (int)$bCache,    // because FALSE would be bypassed by navconf
             'event' => $aEvent,
         );
 
