@@ -589,7 +589,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
             $aImage['file.']['10.']['file.']['maxW'] = $aParams[0];
             unset($aImage['file.']['10.']['file.']['maxH']);
 
-            $sNewPath = $GLOBALS['TSFE']->cObj->IMG_RESOURCE($aImage);    // IMG_RESOURCE always returns relative path
+            $sNewPath = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMG_RESOURCE', $aImage);    // IMG_RESOURCE always returns relative path
 
             return $sNewPath;
         }

@@ -42,24 +42,24 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
                             $bExists = true;
                             $sEvent = <<<EVENT
 
-							\$aParams = \$this->getUserObjParams();
+                            \$aParams = \$this->getUserObjParams();
 
-							return \$this->majixRequestEdition(
-								\$aParams["childrecords"][\$aParams["sys_language_uid"]]["uid"],
-								\$this->oDataHandler->tablename()
-							);
+                            return \$this->majixRequestEdition(
+                                \$aParams["childrecords"][\$aParams["sys_language_uid"]]["uid"],
+                                \$this->oDataHandler->tablename()
+                            );
 EVENT;
                         } else {
                             $bExists = false;
                             $sEvent = <<<EVENT
 
-							\$aParams = \$this->getUserObjParams();
+                            \$aParams = \$this->getUserObjParams();
 
-							return \$this->majixRequestNewI18n(
-								\$this->oDataHandler->tablename(),
-								\$aParams["record"]["uid"],
-								\$aParams["sys_language_uid"]
-							);
+                            return \$this->majixRequestNewI18n(
+                                \$this->oDataHandler->tablename(),
+                                \$aParams["record"]["uid"],
+                                \$aParams["sys_language_uid"]
+                            );
 EVENT;
                         }
 
@@ -173,28 +173,28 @@ EVENT;
         if ($bExists === true) {
             $sTypoScript = <<<TYPOSCRIPT
 
-	file = GIFBUILDER
-	file {
-		XY = [10.w], [10.h]
+    file = GIFBUILDER
+    file {
+        XY = [10.w], [10.h]
 
-		10 = IMAGE
-		10.file = {$sPath}
-	}
+        10 = IMAGE
+        10.file = {$sPath}
+    }
 
 TYPOSCRIPT;
         } else {
             $sTypoScript = <<<TYPOSCRIPT
 
-	file = GIFBUILDER
-	file {
-		XY = [10.w], [10.h]
+    file = GIFBUILDER
+    file {
+        XY = [10.w], [10.h]
 
-		10 = IMAGE
-		10.file = {$sPath}
+        10 = IMAGE
+        10.file = {$sPath}
 
-		15 = EFFECT
-		15.value = gamma=4
-	}
+        15 = EFFECT
+        15.value = gamma=4
+    }
 
 TYPOSCRIPT;
         }
@@ -211,7 +211,8 @@ TYPOSCRIPT;
         return array(
             'type' => 'image',
             'value' => $this->oForm->toWebPath(
-                $this->getForm()->getCObj()->IMG_RESOURCE(
+                $this->getForm()->getCObj()->cObjGetSingle(
+                    'IMG_RESOURCE',
                     $this->oForm->aLastTs
                 )
             )

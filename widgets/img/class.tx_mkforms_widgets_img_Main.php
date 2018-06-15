@@ -148,7 +148,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
                 $sTag = ($this->_defaultFalse('/imageconf/generatetag') === true) ? $GLOBALS['TSFE']->cObj->IMAGE($aImage) : false;
 
-                $sNewPath = $GLOBALS['TSFE']->cObj->IMG_RESOURCE($aImage);    // IMG_RESOURCE always returns relative path
+                // IMG_RESOURCE always returns relative path
+                $sNewPath = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMG_RESOURCE', $aImage);
 
                 $aHtmlBag['filepath'] = tx_mkforms_util_Div::toWebPath($sNewPath);
                 $aHtmlBag['filepath.']['rel'] = $sNewPath;
