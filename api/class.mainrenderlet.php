@@ -1109,6 +1109,9 @@ class formidable_mainrenderlet extends formidable_mainobject
         }
     }
 
+    /**
+     * @return string will be already htmlspecialchared unless sanitation is explicitly disabled
+     */
     public function getValue()
     {
         $ret = $this->getForm()->getDataHandler()->getRdtValue($this->getAbsName());
