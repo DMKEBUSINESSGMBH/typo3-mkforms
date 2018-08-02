@@ -4,31 +4,28 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_hidden_Main extends formidable_mainrenderlet
 {
 
     /**
-     * {@inheritDoc}
-     * @see formidable_mainrenderlet::_render()
+     * @return string[]
      */
     public function _render()
     {
-        $value = $this->getValue();
+        $encodedValue = $this->getValue();
 
         $inputHtml = '<input ' .
             'type="hidden" ' .
             'name="' . $this->_getElementHtmlName() . '" ' .
             'id="' . $this->_getElementHtmlId() . '" ' .
-            'value="' . $this->getValueForHtml($value) . '"' .
+            'value="' . $encodedValue . '"' .
             $this->_getAddInputParams() .
         ' />';
 
         return array(
             '__compiled' => $inputHtml,
             'input' => $inputHtml,
-            'value' => $value,
+            'value' => $encodedValue,
         );
     }
 
