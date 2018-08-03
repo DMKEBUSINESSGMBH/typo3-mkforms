@@ -1150,7 +1150,8 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         if (is_string($mValue)) {
             tx_rnbase::load('tx_mkforms_util_Templates');
-            $mValue = tx_mkforms_util_Templates::sanitizeStringForTemplateEngine(htmlspecialchars($mValue));
+            $mValue = $this->sanitize() ? $mValue : htmlspecialchars($mValue);
+            $mValue = tx_mkforms_util_Templates::sanitizeStringForTemplateEngine($mValue);
         }
 
         return $mValue;
