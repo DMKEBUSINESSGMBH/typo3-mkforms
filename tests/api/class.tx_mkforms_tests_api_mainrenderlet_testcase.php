@@ -166,9 +166,9 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
     /**
      * @group unit
      */
-    public function testGetValueForHtmlConvertsHtmlSpecialCharsCorrectIfIsString()
+    public function testGetValueForHtmlConvertsHtmlSpecialCharsCorrectIfIsWidgetWithSanitzingDisabled()
     {
-        $mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+        $mainRenderlet = $this->oForm->getWidget('widget-text2');
 
         self::assertEquals(
             '&quot;test&quot;',
@@ -180,9 +180,23 @@ class tx_mkforms_tests_api_mainrenderlet_testcase extends tx_rnbase_tests_BaseTe
     /**
      * @group unit
      */
+    public function testGetValueForHtmlConvertsHtmlSpecialCharsNotIfIsWidgetWithSanitzingEnabled()
+    {
+        $mainRenderlet = $this->oForm->getWidget('widget-text');
+
+        self::assertEquals(
+            '"test"',
+            $mainRenderlet->getValueForHtml('"test"'),
+            'falsche bereinigt'
+        );
+    }
+
+    /**
+     * @group unit
+     */
     public function testGetValueForHtmlConvertsCurlyBracketsCorrect()
     {
-        $mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+        $mainRenderlet = $this->oForm->getWidget('widget-text2');
 
         self::assertEquals(
             '&#123;test&#125;',
