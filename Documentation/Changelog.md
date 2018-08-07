@@ -1,6 +1,49 @@
 Changelog
 =========
 
+3.0.21
+-----
+
+-   added changelog
+
+3.0.20
+-----
+
+-   avoid htmlspecialchars being used twice when value of widget is sanitized 
+
+3.0.19
+-----
+
+-   replaced old IMG_RESOURCE() method 
+
+3.0.18
+-----
+
+-   several cleanups and bugfixes (see git commit history on github)
+
+3.0.17
+-----
+
+-   several cleanups and bugfixes (see git commit history on github)
+-   Stop using the deprecated removeXSS method 
+-   dropped support for TYPO3 < 6.2
+
+3.0.16
+-----
+
+-   removed no longer needed PHP session manager
+-   breaking change: introduced new method to initialize session properly and whenever necessary
+-   breaking change: bStoreFormInSession is no longer public (use API method storeFormInSession() to set the value instead)
+
+3.0.15
+-----
+
+-   disable csrf protection when plugin is cached
+-   don't start a session unless necessary 
+-   dont save creation timestamp in session when plugin not USER_INT
+-   introduced new checkpoint for validators after render
+-   added option to prefix configuration id with configuration id of form when getting TS configuration in forms
+
 3.0.14
 -----
 
