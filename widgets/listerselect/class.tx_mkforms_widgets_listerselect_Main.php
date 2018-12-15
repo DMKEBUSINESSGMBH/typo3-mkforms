@@ -122,8 +122,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
     {
         $aItems = $this->_getItems();
 
-        reset($aItems);
-        while (list(, $aItem) = each($aItems)) {
+        foreach ($aItems as $aItem) {
             if ($aItem['value'] == $data) {
                 return $this->oForm->getConfigXML()->getLLLabel($aItem['caption']);
             }

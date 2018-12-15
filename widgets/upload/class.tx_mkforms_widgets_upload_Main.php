@@ -72,13 +72,11 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
         if (!empty($sValue) && $this->defaultTrue('showfilelist')) {
             $aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValueForHtml($sValue));
 
-            reset($aValues);
-
-            while (list($sKey, ) = each($aValues)) {
+            foreach ($aValues as $url) {
                 $sWebPath = tx_mkforms_util_Div::toWebPath(
-                    $this->getServerPath($aValues[$sKey])
+                    $this->getServerPath($url)
                 );
-                $aLinks[] = '<a href="' . $sWebPath . '" target="_blank">' . $aValues[$sKey] . '</a>';
+                $aLinks[] = '<a href="' . $sWebPath . '" target="_blank">' . $url . '</a>';
             }
 
             $sLis = '<li>' . implode('</li><li>', $aValues) . '</li>';
@@ -406,8 +404,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                 $aFiles = array($this->getValue());
             }
 
-            reset($aFiles);
-            while (list(, $sFileName) = each($aFiles)) {
+            foreach ($aFiles as $sFileName) {
                 $sFilePath = $this->getServerPath($sFileName);
 
                 tx_dam::notify_fileChanged($sFilePath);
@@ -428,9 +425,8 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                         $aCurCats = array();
                     }
 
-                    reset($aCurCats);
-                    while (list($sKey, ) = each($aCurCats)) {
-                        $aCurCats[$sKey] = $aCurCats[$sKey]['uid_foreign'];
+                    foreach ($aCurCats as &$category)
+                        $category = $category['uid_foreign'];
                     }
 
                     if ($this->oForm->isRunneable($mCategories)) {

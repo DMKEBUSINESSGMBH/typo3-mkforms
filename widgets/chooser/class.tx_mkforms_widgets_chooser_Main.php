@@ -62,8 +62,7 @@ JAVASCRIPT;
         $sSelectedId = '';
 
         if (!empty($aItems)) {
-            reset($aItems);
-            while (list($sIndex, $aItem) = each($aItems)) {
+            foreach ($aItems as $sIndex => $aItem) {
                 $sItemValue = $aItem['value'];
                 $sCaption = $aItem['caption'];
 

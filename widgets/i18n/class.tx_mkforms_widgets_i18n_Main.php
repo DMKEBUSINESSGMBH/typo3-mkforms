@@ -31,13 +31,9 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
             $aChildRecords = $this->oForm->oDataHandler->i18n_getChildRecords($iUid);
             $aChildLanguages = array_keys($aChildRecords);
 
-            reset($aLangs);
-            $aKeys = array_keys($aLangs);
-            while (list(, $iLangUid) = each($aKeys)) {
+            foreach ($aLangs as $iLangUid => $aLang) {
                 if ($iLangUid != $this->oForm->oDataHandler->i18n_getDefLangUid()) {
                     if (tx_mkforms_util_Div::getEnvExecMode() !== 'BE' || $GLOBALS['BE_USER']->checkLanguageAccess($iLangUid)) {
-                        $aLang = $aLangs[$iLangUid];
-
                         if (in_array($iLangUid, $aChildLanguages)) {
                             $bExists = true;
                             $sEvent = <<<EVENT
@@ -125,8 +121,7 @@ EVENT;
         if (($aFlags = $this->_navConf('/flags')) !== false) {
             $aDefinition = false;
 
-            reset($aFlags);
-            while (list(, $aFlag) = each($aFlags)) {
+            foreach ($aFlags as $aFlag) {
                 if ($aFlag['uid'] == $aLang['uid']) {
                     $aDefinition = $aFlag;
                     break;

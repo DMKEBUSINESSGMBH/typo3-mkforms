@@ -14,6 +14,10 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public $sMajixClass = 'ProgressBar';
     public $bCustomIncludeScript = true;
+
+    /**
+     * @var array[]|bool
+     */
     public $aSteps = false;
 
     public function _render()
@@ -106,8 +110,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
     {
         $this->initSteps();
 
-        reset($this->aSteps);
-        while (list(, $aStep) = each($this->aSteps)) {
+        foreach ($this->aSteps as $aStep) {
             if ($aStep['value'] <= $iValue) {
                 return $aStep;
             }
@@ -121,8 +124,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
         if ($this->aSteps === false) {
             $aResSteps = array();
             if (($aSteps = $this->_navConf('/steps')) !== false) {
-                reset($aSteps);
-                while (list(, $aStep) = each($aSteps)) {
+                foreach ($aSteps as $aStep) {
                     $aResSteps[$aStep['value']] = array(
                         'value' => $aStep['value'],
                         'label' => $this->oForm->getLLLabel($aStep['label']),

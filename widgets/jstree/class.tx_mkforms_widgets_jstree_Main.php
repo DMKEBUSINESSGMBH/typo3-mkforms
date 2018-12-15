@@ -80,9 +80,8 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
         if (array_key_exists('childs', $aData)) {
             $aBuffer[] = '<ul>';
 
-            reset($aData['childs']);
-            while (list($sKey, ) = each($aData['childs'])) {
-                $this->_renderTree($aData['childs'][$sKey], $aBuffer);
+            foreach ($aData['childs'] as $child)
+                $this->_renderTree($child, $aBuffer);
             }
 
             $aBuffer[] = '</ul>';
@@ -135,10 +134,8 @@ INITSCRIPT;
         }
 
         if (array_key_exists('childs', $aData) && is_array($aData['childs']) && !empty($aData['childs'])) {
-            $aKeys = array_keys($aData['childs']);
-            reset($aKeys);
-            while (list(, $sKey) = each($aKeys)) {
-                if (($mRes = $this->_getNodeLabel($iUid, $aData['childs'][$sKey])) !== false) {
+            foreach ($aData['childs'] as $child) {
+                if (($mRes = $this->_getNodeLabel($iUid, $child)) !== false) {
                     return $mRes;
                 }
             }
@@ -171,6 +168,13 @@ INITSCRIPT;
         return $aNodes;
     }
 
+    /**
+     * @param int $iUid
+     * @param array[] $aData
+     * @param array $aNodes
+     *
+     * @return bool
+     */
     public function _getPathArrayForNode($iUid, $aData, &$aNodes)
     {
         if ($aData['value'] == $iUid) {
@@ -178,11 +182,9 @@ INITSCRIPT;
         }
 
         if (array_key_exists('childs', $aData) && is_array($aData['childs']) && !empty($aData['childs'])) {
-            $aKeys = array_keys($aData['childs']);
-            reset($aKeys);
-            while (list(, $sKey) = each($aKeys)) {
-                if ($this->_getPathArrayForNode($iUid, $aData['childs'][$sKey], $aNodes)) {
-                    $aNodes[$aData['childs'][$sKey]['value']] = $aData['childs'][$sKey]['caption'];
+            foreach ($aData['childs'] as $child) {
+                if ($this->_getPathArrayForNode($iUid, $child, $aNodes)) {
+                    $aNodes[$child['value']] = $child['caption'];
 
                     return true;
                 }

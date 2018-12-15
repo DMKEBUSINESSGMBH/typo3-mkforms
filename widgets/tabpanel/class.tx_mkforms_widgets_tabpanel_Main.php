@@ -21,10 +21,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
         $sEnd = '</ul>';
 
         $aTabs = array();
-        reset($this->aChilds);
-        while (list($sName, ) = each($this->aChilds)) {
-            $oRdt =& $this->aChilds[$sName];
-
+        foreach ($this->aChilds as $sName => $oRdt) {
             if ($oRdt->_getType() == 'TAB') {
                 $sId = $oRdt->_getElementHtmlId();
                 $aTabs[$sId] = array(

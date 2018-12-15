@@ -118,11 +118,15 @@ class DHTML_Calendar
         return ++$id;
     }
 
+    /**
+     * @param array $array
+     *
+     * @return string
+     */
     public function _make_js_hash($array)
     {
         $jstr = '';
-        reset($array);
-        while (list($key, $val) = each($array)) {
+        foreach ($array as $key => $val) {
             if (is_bool($val)) {
                 $val = $val ? 'true' : 'false';
             } elseif (!is_numeric($val)) {
@@ -137,11 +141,15 @@ class DHTML_Calendar
         return $jstr;
     }
 
+    /**
+     * @param array $array
+     *
+     * @return string
+     */
     public function _make_html_attr($array)
     {
         $attrstr = '';
-        reset($array);
-        while (list($key, $val) = each($array)) {
+        foreach ($array as $key => $val) {
             $attrstr .= $key . '="' . $val . '" ';
         }
 

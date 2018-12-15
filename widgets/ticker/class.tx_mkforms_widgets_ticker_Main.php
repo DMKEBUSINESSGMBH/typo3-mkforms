@@ -214,8 +214,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         if (sizeof($aAltList) > 0) {
             $sRowsPart = tx_rnbase_util_Templates::getSubpart($sTemplate, '###ROWS###');
 
-            reset($aAltList);
-            while (list(, $sAltSubpart) = each($aAltList)) {
+            foreach ($aAltList as $sAltSubpart) {
                 $aRowsTmpl[] = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
             }
         }

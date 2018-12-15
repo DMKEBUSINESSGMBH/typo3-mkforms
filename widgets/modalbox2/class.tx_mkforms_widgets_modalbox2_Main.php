@@ -54,8 +54,7 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
             $aEventsAfter = array_keys($this->oForm->aRdtEvents);
             $aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
             $aAddedEvents = array();
-            reset($aAddedKeys);
-            while (list(, $sKey) = each($aAddedKeys)) {
+            foreach ($aAddedKeys as $sKey) {
                 $aAddedEvents[$sKey] = $this->oForm->aRdtEvents[$sKey];
                 unset($this->oForm->aRdtEvents[$sKey]);
                 // unset because if rendered in a lister,

@@ -38,8 +38,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             $aHtml = array();
             $sOptionsListBag = array();
 
-            reset($aItems);
-            while (list(, $aItem) = each($aItems)) {
+            foreach ($aItems as $aItem) {
                 $sSelected = '';
                 $value = $aItem['value'];
                 $sCaption = isset($aItem['caption']) ? $this->getForm()->getConfig()->getLLLabel($aItem['caption']) : $aItem['value'];
@@ -125,10 +124,8 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             $aLabels = array();
             $aItems = $this->_getItems();
 
-            reset($data);
-            while (list(, $selectedItemValue) = each($data)) {
-                reset($aItems);
-                while (list(, $aItem) = each($aItems)) {
+            foreach ($data as $selectedItemValue) {
+                foreach ($aItems as $aItem) {
                     if ($aItem['value'] == $selectedItemValue) {
                         $aLabels[] = $this->oForm->getConfig()->getLLLabel($aItem['caption']);
                         break;
@@ -138,10 +135,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 
             return implode(', ', $aLabels);
         } else {
-            $aItems = $this->_getItems();
-
-            reset($aItems);
-            while (list(, $aItem) = each($aItems)) {
+            foreach ($this->_getItems() as $aItem) {
                 if ($aItem['value'] == $data) {
                     return $this->oForm->getConfig()->getLLLabel($aItem['caption']);
                 }
@@ -163,8 +157,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
         if (sizeof($aValues) > 0) {
             $sTableName = $this->oForm->_navConf('/tablename', $this->oForm->oDataHandler->aElement);
 
-            reset($aValues);
-            while (list(, $uid) = each($aValues)) {
+            foreach ($aValues as $uid) {
                 //$aParts[] = "(FIND_IN_SET('" . addslashes($sValue) . "', " . $sFieldPrefix . $sFieldName . "))";
                 $aParts[] = $GLOBALS['TYPO3_DB']->listQuery($sFieldPrefix . $sFieldName, $uid, $sTableName);
             }
@@ -228,8 +221,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             $aOldData = $aData;
             $aData = array();
 
-            reset($aOldData);
-            while (list(, $aItem) = each($aOldData)) {
+            foreach ($aOldData as $aItem) {
                 $aData[$aItem['value']] = $this->oForm->getConfig()->getLLLabel($aItem['caption']);
             }
         }

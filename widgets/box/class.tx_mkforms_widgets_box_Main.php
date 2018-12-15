@@ -120,9 +120,8 @@ new Draggable("' . $sHtmlId . '", ' . $sJson . ');
 
                     if (($sContainment = $this->_navConf('/droppable/containment')) !== false) {
                         $aConf['containment'] = Tx_Rnbase_Utility_Strings::trimExplode($sContainment);
-                        reset($aConf['containment']);
-                        while (list($iKey, ) = each($aConf['containment'])) {
-                            $aConf['containment'][$iKey] = $this->oForm->aORenderlets[$aConf['containment'][$iKey]]->_getElementHtmlId();
+                        foreach ($aConf['containment'] as $iKey => &$value) {
+                            $value = $this->oForm->aORenderlets[$value]->_getElementHtmlId();
                         }
                     }
 
@@ -278,10 +277,8 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
         parent::doAfterListRender($oListObject);
 
         if ($this->hasChilds()) {
-            $aChildKeys = array_keys($this->aChilds);
-            reset($aChildKeys);
-            while (list(, $sKey) = each($aChildKeys)) {
-                $this->aChilds[$sKey]->doAfterListRender($oListObject);
+            foreach ($this->aChilds as $child) {
+                $child->doAfterListRender($oListObject);
             }
         }
     }

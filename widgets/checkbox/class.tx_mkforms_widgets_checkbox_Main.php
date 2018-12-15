@@ -27,8 +27,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
         $aSubRdts = array();
 
-        reset($aItems);
-        while (list($index, $aItem) = each($aItems)) {
+        foreach ($aItems as $index => $aItem) {
             // item configuration
             $aConfig = array_merge($this->aElement, $aItem);
 
@@ -154,10 +153,8 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
         $aLabels = array();
         $aItems = $this->_getItems();
 
-        reset($data);
-        while (list(, $selectedItemValue) = each($data)) {
-            reset($aItems);
-            while (list(, $aItem) = each($aItems)) {
+        foreach ($data as $selectedItemValue) {
+            foreach ($aItems as $aItem) {
                 if ($aItem['value'] == $selectedItemValue) {
                     $aLabels[] = $this->oForm->getConfigXML()->getLLLabel($aItem['caption']);
                     break;
@@ -183,7 +180,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
                 $aConf = array();
             }
 
-            while (list(, $sValue) = each($aValues)) {
+            forach ($aValues as $sValue) {
                 if (array_key_exists('onfields', $aConf)) {
                     if ($this->oForm->isRunneable($aConf['onfields'])) {
                         $sOnFields = $this->getForm()->getRunnable()->callRunnableWidget($this, $aConf['onfields']);
@@ -197,8 +194,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
                     $aFields = array($this->_getName());
                 }
 
-                reset($aFields);
-                while (list(, $sField) = each($aFields)) {
+                foreach ($aFields as $sField) {
                     $aParts[] = "FIND_IN_SET('" . $GLOBALS['TYPO3_DB']->quoteStr($sValue, $sTableName) . "', " . $sFieldPrefix . $sField . ')';
                 }
             }
