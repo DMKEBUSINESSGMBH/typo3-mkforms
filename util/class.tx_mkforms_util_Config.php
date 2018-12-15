@@ -798,7 +798,7 @@ class tx_mkforms_util_Config
 
         $sPath = tx_mkforms_util_Div::trimSlashes(strtolower(substr($sPath, 6)));
 
-        if (!strpos($sPath, '[')) {
+        if (strpos($sPath, '[') === false) {
             return $this->get($sPath, $aConf);
         }
 

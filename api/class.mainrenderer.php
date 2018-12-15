@@ -442,7 +442,7 @@ TEMPLATE;
                     $aParams[] = 'rowInput::' . $sAs . '::' . $this->getForm()->getWidget($sParam)->_getElementHtmlId();
                 } elseif ($sParam === '$this') {
                     $aParams[] = 'rowInput::this::' . $oRdt->getAbsName();
-                } elseif (strstr($sParam, AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . '*')) {
+                } elseif (strstr($sParam, AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . '*') !== false) {
                     // Shortcut um alle Werte einer Box übergeben
                     // Wir benötigen alle Renderlets mit einem bestimmten Prefix
                     $names = tx_mkforms_util_Div::findKeysWithPrefix(
@@ -466,7 +466,7 @@ TEMPLATE;
                             );
                         }
                     }
-                } elseif (strstr($sParam, '::')) {
+                } elseif (strstr($sParam, '::') !== false) {
                     // Ein freier Parameter
                     $aParams[] = $sParam;
                 } else {

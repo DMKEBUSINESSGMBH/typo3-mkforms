@@ -3710,7 +3710,7 @@ class PclZip
             else {
                 if ((($p_entry['external'] & 0x00000010) == 0x00000010) || (substr($p_entry['filename'], -1) == '/')) {
                     $v_dir_to_check = $p_entry['filename'];
-                } elseif (!strstr($p_entry['filename'], '/')) {
+                } elseif (strstr($p_entry['filename'], '/') === false) {
                     $v_dir_to_check = '';
                 } else {
                     $v_dir_to_check = dirname($p_entry['filename']);
@@ -5637,7 +5637,7 @@ function PclZipUtilOptionText($p_option)
   // --------------------------------------------------------------------------------
 function PclZipUtilTranslateWinPath($p_path, $p_remove_disk_letter = true)
 {
-    if (stristr(php_uname(), 'windows')) {
+    if (stristr(php_uname(), 'windows') !== false) {
         // ----- Look for potential disk letter
         if (($p_remove_disk_letter) && (($v_position = strpos($p_path, ':')) != false)) {
             $p_path = substr($p_path, $v_position + 1);
