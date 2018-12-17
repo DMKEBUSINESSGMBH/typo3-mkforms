@@ -71,28 +71,24 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet
             $aConf['onEvent'] = $sEvent;
         }
 
-        reset($this->aChilds);
-        $aKeys = array_keys($this->aChilds);
-        reset($aKeys);
-        while (list(, $sChild) = each($aKeys)) {
+        foreach ($this->aChilds as $child) {
             // even is toggle
-            $aConf['accordions'][] = $this->aChilds[$sChild]->_getElementHtmlId();
+            $aConf['accordions'][] = $child->_getElementHtmlId();
 
             if ($aConf['direction'] === 'horizontal') {
-                $this->aChilds[$sChild]->addCssClass('rdtaccordion_toggle_horizontal');
+                $child->addCssClass('rdtaccordion_toggle_horizontal');
             } else {
-                $this->aChilds[$sChild]->addCssClass('rdtaccordion_toggle');
+                $child->addCssClass('rdtaccordion_toggle');
             }
 
-            $this->aChilds[$sChild]->addCssClass($aConf['classNames']['toggle']);
+            $child->addCssClass($aConf['classNames']['toggle']);
 
             // odd is content
-            list(, $sChild) = each($aKeys);
-            $this->aChilds[$sChild]->addCssClass('rdtaccordion_content');
+            $child->addCssClass('rdtaccordion_content');
             if ($aConf['direction'] === 'horizontal') {
-                $this->aChilds[$sChild]->addCssClass('rdtaccordion_content_horizontal');
+                $child->addCssClass('rdtaccordion_content_horizontal');
             } else {
-                $this->aChilds[$sChild]->addCssClass('rdtaccordion_content');
+                $child->addCssClass('rdtaccordion_content');
             }
         }
 

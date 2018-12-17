@@ -15,12 +15,9 @@ class tx_mkforms_widgets_label_Main extends formidable_mainrenderlet
 
         $sCaption = $value;
 
-        if (count($aItems) > 0) {
-            reset($aItems);
-            while (list($itemindex, $aItem) = each($aItems)) {
-                if ($aItem['value'] == $value) {
-                    $sCaption = $aItem['caption'];
-                }
+        foreach ($aItems as $aItem) {
+            if ($aItem['value'] == $value) {
+                $sCaption = $aItem['caption'];
             }
         }
 

@@ -44,8 +44,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
         $aSelected = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValue());
         $aSelectedItems = array();
 
-        reset($aSelected);
-        while (list($sKey, $sValue) = each($aSelected)) {
+        foreach ($aSelected as $sValue) {
             if (array_key_exists($sValue, $aItems)) {
                 $aSelectedItems[$sValue] = $aItems[$sValue];
                 unset($aItems[$sValue]);

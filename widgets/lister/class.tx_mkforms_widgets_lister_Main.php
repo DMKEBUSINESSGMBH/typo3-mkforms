@@ -24,9 +24,19 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public $oDataStream = false;
     public $sDsType = false;
+
+    /**
+     * @var array|bool
+     */
     public $aOColumns = false;
+
     public $aChilds = false;        // reference to aOColumns
+
+    /**
+     * @var array|bool
+     */
     public $aPager = false;
+
     public $aLimitAndSort = false;
     public $bDefaultTemplate = false;
     public $bNoTemplate = false;
@@ -509,8 +519,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 // to alter the search
 
             $aPathes = $this->oForm->implodePathesForArray($aRdtParamsExclude);
-            reset($aPathes);
-            while (list(, $sPath) = each($aPathes)) {
+            foreach ($aPathes as $sPath) {
                 $this->oForm->unsetDeepData(
                     $sPath,
                     $aFullParams
@@ -588,8 +597,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         $this->_renderList_displayPager($aTemplate);
         $this->_renderList_displaySortHeaders($aTemplate);
 
-        reset($this->aOColumns);
-        while (list($sColumn, ) = each($this->aOColumns)) {
+        foreach ($this->aOColumns as $sColumn => $_) {
             $aTemplate['html'] = str_replace(
                 '{' . $sColumn . '.label}',
                 $this->getListHeader($sColumn),
@@ -661,20 +669,15 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             }
 
             $aAltList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sAltList);
-            if (sizeof($aAltList) > 0) {
-                reset($aAltList);
-                while (list(, $sAltSubpart) = each($aAltList)) {
-                    $aAltRows[] = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
-                }
-
-                $iNbAlt = sizeof($aAltRows);
+            foreach ($aAltList as $sAltSubpart) {
+                $aAltRows[] = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
             }
+
+            $iNbAlt = sizeof($aAltRows);
         }
 
-        $aColKeys = array_keys($this->aOColumns);
-        reset($aColKeys);
-        while (list(, $sName) = each($aColKeys)) {
-            $this->aOColumns[$sName]->doBeforeListRender($this);
+        foreach ($this->aOColumns as $column) {
+            $column->doBeforeListRender($this);
         }
 
         $iRowNum = 0;
@@ -682,9 +685,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         $aTableCols = false;
         reset($aRows);
-        while (list($iIndex, ) = each($aRows['results'])) {
+        foreach ($aRows['results'] as $iIndex => $aCurRow) {
             $this->iCurRowNum = $iRowNum;
-            $aCurRow = $aRows['results'][$iIndex];
             $iRowUid = $aCurRow[$this->getUidColumn()];
 
             if ($aTableCols === false) {
@@ -703,8 +705,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             $aCurRow = $this->filterUnprocessedColumns($aCurRow, $aTableCols);
 
             if ($this->bNoTemplate === true) {
-                reset($this->aOColumns);
-                while (list($sCol, ) = each($this->aOColumns)) {
+                foreach ($this->aOColumns as $sCol => $_) {
                     $sRowHtml = $aCurRow[$sCol]['__compiled'];
                 }
             } else {
@@ -795,10 +796,15 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         return $aRow;
     }
 
+    /**
+     * @param array $aRow
+     * @param array $aDataSetCols
+     *
+     * @return mixed
+     */
     public function filterUnprocessedColumns($aRow, $aDataSetCols)
     {
-        reset($aRow);
-        while (list($sKey, ) = each($aRow)) {
+        foreach ($aRow as $sKey => $_) {
             if ($sKey !== $this->getUidColumn() && !array_key_exists($sKey, $this->aOColumns) && in_array($sKey, $aDataSetCols)) {
                 unset($aRow[$sKey]);
             }
@@ -836,8 +842,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             );
 
 
-            reset($this->aPager['links']);
-            while (list($sWhich, $sLink) = each($this->aPager['links'])) {
+            foreach ($this->aPager['links'] as $sWhich => $sLink) {
                 if ($sLink !== '') {
                     $aLinks[$sWhich] = $this->oForm->getTemplateTool()->parseTemplateCode(
                         tx_rnbase_util_Templates::getSubpart($sPager, '###LINK' . strtoupper($sWhich) . '###'),
@@ -881,8 +886,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     $aLinks[] = $sMoreBefore;
                 }
 
-                reset($this->aPager['window']);
-                while (list($iPageNum, $sLink) = each($this->aPager['window'])) {
+                foreach ($this->aPager['window'] as $iPageNum => $sLink) {
                     $sPageNumLinkHtmlId = $sPagerHtmlId . '_' . $iPageNum;
 
                     if ($sLink === false) {
@@ -951,8 +955,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
     {
         $sListHtmlId = $this->_getElementHtmlId();
 
-        reset($this->aOColumns);
-        while (list($sColumn, ) = each($this->aOColumns)) {
+        foreach ($this->aOColumns as $sColumn => $_) {
             $sSubpart = '###SORT_' . $sColumn . '###';
 
             if (($sSortHtml = trim(tx_rnbase_util_Templates::getSubpart($aTemplate['html'], $sSubpart))) != '') {
@@ -1276,8 +1279,7 @@ ERRORMESSAGE;
         $sDataColumn1 = tx_rnbase_util_Templates::getSubpart($aRes['html'], '###DATACOLUMN1###');
         $sDataColumn2 = tx_rnbase_util_Templates::getSubpart($aRes['html'], '###DATACOLUMN2###');
 
-        reset($this->aOColumns);
-        while (list($sColName, ) = each($this->aOColumns)) {
+        foreach ($this->aOColumns as $sColName => $_) {
             if ($this->_defaultTrue('/columns/listheaders') === true) {
                 // building sorting header for this column
 
@@ -1709,13 +1711,9 @@ ERRORMESSAGE;
         unset($this->aChilds);
         $this->aChilds = false;
 
-        $aKeys = array_keys($this->aOColumns);
-        reset($aKeys);
-        while (list(, $sKey) = each($aKeys)) {
-            if (is_object($this->aOColumns[$sKey])) {
-                $sName = $this->aOColumns[$sKey]->getAbsName();
-                unset($this->aOColumns[$sKey]);
-                $this->aOColumns[$sKey] = $sName;
+        foreach ($this->aOColumns as $sKey => &$sName) {
+            if (is_object($sName)) {
+                $sName = $sName->getAbsName();
                 $this->oForm->aORenderlets[$sName]->cleanBeforeSession();
             }
         }
@@ -1728,14 +1726,9 @@ ERRORMESSAGE;
     {
         parent::awakeInSession($oForm);
 
-        $aKeys = array_keys($this->aOColumns);
-
-        reset($aKeys);
-        while (list(, $sKey) = each($aKeys)) {
-            $sName = $this->aOColumns[$sKey];
+        foreach ($this->aOColumns as $sKey => &$sName) {
             if (!is_object($sName)) {
-                unset($this->aOColumns[$sKey]);
-                $this->aOColumns[$sKey] =& $this->oForm->aORenderlets[$sName];
+                $sName = $this->oForm->aORenderlets[$sName];
             }
         }
 

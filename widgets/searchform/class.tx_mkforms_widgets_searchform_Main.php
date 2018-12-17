@@ -9,8 +9,16 @@
 class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 {
     public $oDataSource = false;
+
+    /**
+     * @var array|bool
+     */
     public $aCriterias = false;
     public $aFilters = false;
+
+    /**
+     * @var array|bool
+     */
     public $aDescendants = false;
 
     public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
@@ -43,10 +51,8 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         $aDescendants = array();
         $sMyName = $this->getAbsName();
 
-        $aRdts = array_keys($this->oForm->aORenderlets);
-        reset($aRdts);
-        while (list(, $sName) = each($aRdts)) {
-            if ($this->oForm->aORenderlets[$sName]->isDescendantOf($sMyName)) {
+        foreach ($this->oForm->aORenderlets as $sName => $renderlet) {
+            if ($renderlet->isDescendantOf($sMyName)) {
                 $aDescendants[] = $sName;
             }
         }
@@ -104,8 +110,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function clearFilters()
     {
-        reset($this->aDescendants);
-        while (list(, $sName) = each($this->aDescendants)) {
+        foreach ($this->aDescendants as $sName) {
             $this->oForm->aORenderlets[$sName]->setValue('');
         }
 
@@ -191,16 +196,14 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
                 if ($this->isRemoteReceiver()) {
                     // set in session
-                    reset($this->aDescendants);
-                    while (list(, $sAbsName) = each($this->aDescendants)) {
+                    foreach ($this->aDescendants as $sAbsName) {
                         $sRelName = $this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this);
                         $sRemoteAbsName = $sSearchAbsName . '.' . $sRelName;
                         $this->aCriterias[$sRemoteAbsName] = $this->oForm->aORenderlets[$sAbsName]->getValue();
                     }
                 } else {
                     // set in session
-                    reset($this->aDescendants);
-                    while (list(, $sAbsName) = each($this->aDescendants)) {
+                    foreach ($this->aDescendants as $sAbsName) {
                         if (!$this->oForm->aORenderlets[$sAbsName]->hasChilds()) {
                             $this->aCriterias[$sAbsName] = $this->oForm->aORenderlets[$sAbsName]->getValue();
                         }
@@ -213,8 +216,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
                     $aRawPost = $this->oForm->_getRawPost($sFormId);
 
-                    reset($this->aDescendants);
-                    while (list(, $sAbsName) = each($this->aDescendants)) {
+                    foreach ($this->aDescendants as $sAbsName) {
                         $sRelName = $this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this);
                         $sRemoteAbsName = $sSearchAbsName . '.' . $sRelName;
                         $sRemoteAbsPath = str_replace('.', '/', $sRemoteAbsName);
@@ -230,8 +232,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                 if ($this->_getParamsFromGET()) {
                     $aGet = (Tx_Rnbase_Utility_T3General::_GET($sFormId)) ? Tx_Rnbase_Utility_T3General::_GET($sFormId) : array();
 
-                    reset($aGet);
-                    while (list($sAbsName, ) = each($aGet)) {
+                    foreach ($aGet as $sAbsName => $_) {
                         if (array_key_exists($sAbsName, $this->oForm->aORenderlets)) {
                             $this->aCriterias[$sAbsName] = $aGet[$sAbsName];
 
@@ -264,8 +265,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                         $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderAbsName to be properly set. Check your XML conf.');
                     }
 
-                    reset($this->aCriterias);
-                    while (list($sAbsName, ) = each($this->aCriterias)) {
+                    foreach ($this->aCriterias as $sAbsName => $_) {
                         $sRelName = $this->oForm->relativizeName(
                             $sAbsName,
                             $sSearchAbsName
@@ -279,8 +279,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                         }
                     }
                 } else {
-                    reset($this->aCriterias);
-                    while (list($sAbsName, ) = each($this->aCriterias)) {
+                    foreach ($this->aCriterias as $sAbsName => $_) {
                         if (array_key_exists($sAbsName, $this->oForm->aORenderlets)) {
                             $this->oForm->aORenderlets[$sAbsName]->setValue(
                                 $this->aCriterias[$sAbsName]
@@ -304,8 +303,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
             }
 
             if ($this->oForm->oDataHandler->_isSearchSubmitted($sFormId) || $this->oForm->oDataHandler->_isFullySubmitted($sFormId)) {    // full submit to allow no-js browser to search
-                reset($this->aDescendants);
-                while (list(, $sAbsName) = each($this->aDescendants)) {
+                foreach ($this->aDescendants as $sAbsName) {
                     $sRelName = $this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this);
                     $sRemoteAbsName = $sSearchAbsName . '.' . $sRelName;
 
@@ -322,8 +320,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     public function shouldUpdateCriteriasClassical()
     {
         if ($this->oForm->oDataHandler->_isSubmitted() === true) {
-            reset($this->aDescendants);
-            while (list(, $sAbsName) = each($this->aDescendants)) {
+            foreach ($this->aDescendants as $sAbsName) {
                 if (array_key_exists($sAbsName, $this->oForm->aORenderlets) &&
                     $this->oForm->aORenderlets[$sAbsName]->hasSubmitted() &&
                     $this->oForm->oDataHandler->_isSearchSubmitted()) {    // the mode is not determined by the renderlet anymore, but rather by the datahandler (one common submit per page, anyway)
@@ -400,7 +397,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                     $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderAbsName to be properly set. Check your XML conf.');
                 }
 
-                while (list($sRdtName, ) = each($aCriterias)) {
+                foreach ($aCriterias as $sRdtName => $_) {
                     $sRelName = $this->oForm->relativizeName(
                         $sRdtName,
                         $sSearchAbsName
@@ -422,7 +419,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                     }
                 }
             } else {
-                while (list($sRdtName, ) = each($aCriterias)) {
+                foreach ($aCriterias as $sRdtName => $_) {
                     if (array_key_exists($sRdtName, $this->oForm->aORenderlets)) {
                         $oRdt =& $this->oForm->aORenderlets[$sRdtName];
 

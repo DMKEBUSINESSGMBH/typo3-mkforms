@@ -150,8 +150,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         if (sizeof($aAltList) > 0) {
             $sRowsPart = tx_rnbase_util_Templates::getSubpart($sTemplate, '###ROWS###');
 
-            reset($aAltList);
-            while (list(, $sAltSubpart) = each($aAltList)) {
+            foreach ($aAltList as $sAltSubpart) {
                 $sHtml = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
                 if (empty($sHtml)) {
                     $this->oForm->mayday('renderlet:' . $this->_getType() . '[name=' . $this->getName() . "] - The given template with subpart marquer <b>'" . $sAltSubpart . "'</b> returned an empty string - Please check your template!");
