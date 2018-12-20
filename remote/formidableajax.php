@@ -13,10 +13,10 @@ class formidableajax
     /**
      * @var array
      */
-    public $aRequest    = array();
+    public $aRequest    = [];
     public $aConf        = false;
-    public $aSession    = array();
-    public $aHibernation = array();
+    public $aSession    = [];
+    public $aHibernation = [];
     /**
      * @var tx_ameosformidable
      */
@@ -58,9 +58,9 @@ class formidableajax
     public function init()
     {
         $this->ttStart = microtime(true);
-        $this->ttTimes = array();
+        $this->ttTimes = [];
 
-        $this->aRequest = array(
+        $this->aRequest = [
             'safelock'        => Tx_Rnbase_Utility_T3General::_GP('safelock'),
             'object'        => Tx_Rnbase_Utility_T3General::_GP('object'),
             'servicekey'    => Tx_Rnbase_Utility_T3General::_GP('servicekey'),
@@ -71,7 +71,7 @@ class formidableajax
             'thrower'        => Tx_Rnbase_Utility_T3General::_GP('thrower'),
             'arguments'        => Tx_Rnbase_Utility_T3General::_GP('arguments'),
             'trueargs'        => Tx_Rnbase_Utility_T3General::_GP('trueargs'),
-        );
+        ];
 
         tx_rnbase::load('tx_mkforms_session_Factory');
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -188,9 +188,9 @@ class formidableajax
 
     public function handleRequest()
     {
-        $this->oForm->aInitTasksAjax = array();
-        $this->oForm->aPostInitTasksAjax = array();
-        $this->oForm->aRdtEventsAjax = array();
+        $this->oForm->aInitTasksAjax = [];
+        $this->oForm->aPostInitTasksAjax = [];
+        $this->oForm->aRdtEventsAjax = [];
 
         if ($this->aRequest['servicekey'] == 'ajaxservice') {
             // Hier kommt direkt ein String
@@ -209,7 +209,7 @@ class formidableajax
             }
 
             if (!is_array($aData)) {
-                $aData = array();
+                $aData = [];
             }
 
             tx_rnbase::load('tx_mkforms_util_Json');
@@ -217,13 +217,13 @@ class formidableajax
 
             // bei werten wie 1.59740447998E-5 wirft es sehr schnell JS Fehler!
             // Deswegen wandeln wie die erstmal in Strings um.
-            $ttTimes = array();
+            $ttTimes = [];
             foreach ($this->ttTimes as $key => $time) {
                 $ttTimes[$key] = (string)$time;
             }
 
             $sJson = tx_mkforms_util_Json::getInstance()->encode(
-                array(
+                [
                     'init' => $this->oForm->aInitTasksAjax,
                     'postinit' => $this->oForm->aPostInitTasksAjax,
                     'attachevents' => $this->oForm->aRdtEventsAjax,
@@ -231,13 +231,13 @@ class formidableajax
                     // machen die script tags das json kaputt, wir müssen diese also encoden.
                     // wir ersetzen nur die klammern
                     'attachheaders' => str_replace(
-                        array('<', '>'),
-                        array('%3C', '%3E'),
+                        ['<', '>'],
+                        ['%3C', '%3E'],
                         $this->oForm->getJSLoader()->getAjaxHeaders()
                     ),
                     'tasks' => $aData,
                     'time' => $ttTimes,
-                )
+                ]
             );
         }
 
@@ -440,8 +440,8 @@ try {
     tx_rnbase::load('tx_rnbase_util_Logger');
     if (tx_rnbase_util_Logger::isWarningEnabled()) {
         $request = $oAjax instanceof formidableajax ? $oAjax->getRequestData() : 'unkown';
-        $widgets = $oAjax instanceof formidableajax && is_object($oAjax->getForm()) ? $oAjax->getForm()->getWidgetNames() : array();
-        tx_rnbase_util_Logger::warn('Exception in ajax call', 'mkforms', array('Exception' => $e, 'Request' => $request, 'Widgets' => $widgets));
+        $widgets = $oAjax instanceof formidableajax && is_object($oAjax->getForm()) ? $oAjax->getForm()->getWidgetNames() : [];
+        tx_rnbase_util_Logger::warn('Exception in ajax call', 'mkforms', ['Exception' => $e, 'Request' => $request, 'Widgets' => $widgets]);
     }
 }
 

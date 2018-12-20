@@ -44,7 +44,7 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_
             $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
         }
 
-        $widget = $this->getWidgetMock(array('getArguments'));
+        $widget = $this->getWidgetMock(['getArguments']);
 
         $parsedParams = $this->callInaccessibleMethod($widget, 'getArguments');
 
@@ -63,7 +63,7 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_
             $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
         }
 
-        $widget = $this->getWidgetMock(array('_render'));
+        $widget = $this->getWidgetMock(['_render']);
 
         $helper = $this->getAccessibleMock(
             '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
@@ -107,7 +107,7 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_
             $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
         }
 
-        $widget = $this->getWidgetMock(array('_render'));
+        $widget = $this->getWidgetMock(['_render']);
 
         $helper = $this->getAccessibleMock(
             '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
@@ -147,7 +147,7 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_
      * @param array $allowedMethods
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getWidgetMock(array $allowedMethods = array())
+    protected function getWidgetMock(array $allowedMethods = [])
     {
         $mockedMethods = array_flip(
             array_keys(
@@ -173,11 +173,11 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_
             ->with()
             ->will(
                 self::returnValue(
-                    array(
+                    [
                         'title' => 'rdt:value',
                         'maxDepth' => 4,
                         'plainText' => 'Hello World',
-                    )
+                    ]
                 )
             );
 
@@ -193,7 +193,7 @@ class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_
      */
     protected function getAllClassMethods($class)
     {
-        $methods = array();
+        $methods = [];
         tx_rnbase::load($class);
         $reflection = new ReflectionClass($class);
         foreach ($reflection->getMethods() as $method) {

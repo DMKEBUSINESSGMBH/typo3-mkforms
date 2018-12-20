@@ -47,7 +47,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      *        'uid_foreign' => the foreign key
      * )
      */
-    public $mmInserts = array();
+    public $mmInserts = [];
 
     /**
      * Takes the entered form data and inserts/updates it in the DB, using the
@@ -168,7 +168,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                 // Do we have any data (with $result[$key] being the number
                 // of related records)?
                 if ($this->__aStoredData[$key] > 0) {
-                    $foreignUids = array();
+                    $foreignUids = [];
                     $dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                         'uid_foreign',
                         $mmTable,
@@ -215,7 +215,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
             return;
         }
 
-        $this->mmFields = array();
+        $this->mmFields = [];
 
         $relationRawData = $this->oForm->_navConf(
             '/control/datahandler/mmrelations'
@@ -264,14 +264,14 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                     $value = count($allDataItems);
 
                     foreach ($allDataItems as $currentDataItem) {
-                        $this->mmInserts[] = array(
+                        $this->mmInserts[] = [
                             'table' => $this->mmFields[$key],
-                            'data' => array(
+                            'data' => [
                                 // uses the default sorting
                                 'sorting' => $sorting,
                                 'uid_foreign' => (int)$currentDataItem
-                            )
-                        );
+                            ]
+                        ];
                         $sorting++;
                     }
                 } else {

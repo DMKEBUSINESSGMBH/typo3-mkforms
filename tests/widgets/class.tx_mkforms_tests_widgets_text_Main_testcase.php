@@ -41,7 +41,7 @@ class tx_mkforms_tests_widgets_text_Main_testcase extends tx_rnbase_tests_BaseTe
      */
     public function testRenderSetsDefaultTypeIfNoInputTypeIsConfigured()
     {
-        $widget = $this->getWidgetMock(array('_render', 'getInputType'));
+        $widget = $this->getWidgetMock(['_render', 'getInputType']);
 
         $widget->expects(self::once())
             ->method('_navConf')
@@ -61,7 +61,7 @@ class tx_mkforms_tests_widgets_text_Main_testcase extends tx_rnbase_tests_BaseTe
      */
     public function testRenderSetsConfiguredInputType()
     {
-        $widget = $this->getWidgetMock(array('_render', 'getInputType'));
+        $widget = $this->getWidgetMock(['_render', 'getInputType']);
 
         $widget->expects(self::once())
             ->method('_navConf')
@@ -82,7 +82,7 @@ class tx_mkforms_tests_widgets_text_Main_testcase extends tx_rnbase_tests_BaseTe
      * @param array $allowedMethods
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getWidgetMock(array $allowedMethods = array())
+    protected function getWidgetMock(array $allowedMethods = [])
     {
         $mockedMethods = array_flip(
             array_keys(
@@ -115,7 +115,7 @@ class tx_mkforms_tests_widgets_text_Main_testcase extends tx_rnbase_tests_BaseTe
      */
     protected function getAllClassMethods($class)
     {
-        $methods = array();
+        $methods = [];
         tx_rnbase::load($class);
         $reflection = new ReflectionClass($class);
         foreach ($reflection->getMethods() as $method) {

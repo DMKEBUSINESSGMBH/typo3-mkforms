@@ -91,7 +91,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
         $value = addslashes($value);
 
         tx_rnbase::load('Tx_Rnbase_Database_Connection');
-        $where = array();
+        $where = [];
         $where[] = $sField . ' = ' . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($value, '');
 
         tx_rnbase::load('tx_rnbase_util_TCA');
@@ -115,10 +115,10 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
         $rs = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
             'count(*) as nbentries',
             $sTable,
-            array(
+            [
                 'enablefieldsoff' => $this->_defaultTrue('/unique/enablefieldsoff/'),
                 'where' => implode(' AND ', $where),
-            )
+            ]
         );
 
         return !((int) $rs[0]['nbentries'] > 0);

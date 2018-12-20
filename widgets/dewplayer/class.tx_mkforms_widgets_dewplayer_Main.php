@@ -66,13 +66,13 @@ FLASHOBJECT;
 
 
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($sLabel) . $sInput,
             'input' => $sInput,
-            'mp3.' => array(
+            'mp3.' => [
                 'file' => $sPath,
-            )
-        );
+            ]
+        ];
 
         return $aHtmlBag;
     }

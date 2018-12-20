@@ -8,8 +8,8 @@ tx_rnbase::load('tx_rnbase_util_Templates');
 
 class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 {
-    public $aCustomTags    = array();
-    public $aExcludeTags    = array();
+    public $aCustomTags    = [];
+    public $aExcludeTags    = [];
     public $sTemplateHtml    = false;
 
     public function getTemplatePath()
@@ -105,8 +105,8 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
             );
         }
 
-        $aErrors = array();
-        $aCompiledErrors = array();
+        $aErrors = [];
+        $aCompiledErrors = [];
         $aErrorKeys = array_keys($this->getForm()->_aValidationErrors);
         while (list(, $sRdtName) = each($aErrorKeys)) {
             $sShortRdtName = $this->getForm()->aORenderlets[$sRdtName]->_getNameWithoutPrefix();
@@ -154,7 +154,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
         }
 
         if (!is_array($aRendered)) {
-            $aRendered = array();
+            $aRendered = [];
         }
 
         reset($aRendered);

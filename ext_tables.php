@@ -16,11 +16,11 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['tx_mkforms'] = 'pi_flex
 tx_rnbase_util_Extensions::addPiFlexFormValue('tx_mkforms', 'FILE:EXT:' . $_EXTKEY . '/flexform_main.xml');
 
 tx_rnbase_util_Extensions::addPlugin(
-    array(
+    [
         'LLL:EXT:' . $_EXTKEY . '/locallang_db.xml:plugin.mkforms.label',
         'tx_mkforms',
         'EXT:mkforms/ext_icon.gif',
-    )
+    ]
 );
 
 tx_rnbase_util_Extensions::addStaticFile($_EXTKEY, 'static/ts/', 'MKFORMS - Basics');

@@ -8,9 +8,9 @@
 
 class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_progressbar_class' => 'res/js/progressbar.js',
-    );
+    ];
 
     public $sMajixClass = 'ProgressBar';
     public $bCustomIncludeScript = true;
@@ -34,7 +34,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
-            array(
+            [
                 'min' => $fMin,
                 'max' => $fMax,
                 'precision' => $iPrecision,
@@ -43,7 +43,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
                 'width' => $iWidth,
                 'steps' => $this->aSteps,
                 'effects' => $bEffects,
-            )
+            ]
         );
 
         if (($aStep = $this->getStep($fValue)) === false) {
@@ -52,9 +52,9 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
             $sProgressLabel = $aStep['label'];
         }
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $sBegin . '<span>' . $sProgressLabel . '</span>' . $sEnd,
-        );
+        ];
 
         return $aHtmlBag;
     }
@@ -122,14 +122,14 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
     public function initSteps()
     {
         if ($this->aSteps === false) {
-            $aResSteps = array();
+            $aResSteps = [];
             if (($aSteps = $this->_navConf('/steps')) !== false) {
                 foreach ($aSteps as $aStep) {
-                    $aResSteps[$aStep['value']] = array(
+                    $aResSteps[$aStep['value']] = [
                         'value' => $aStep['value'],
                         'label' => $this->oForm->getLLLabel($aStep['label']),
                         'className' => $aStep['class'],
-                    );
+                    ];
                 }
 
                 krsort($aResSteps);

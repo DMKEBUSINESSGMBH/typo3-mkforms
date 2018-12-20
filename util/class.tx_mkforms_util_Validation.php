@@ -56,7 +56,7 @@ class tx_mkforms_util_Validation
     public function validateWidgets4Ajax($widgetNames)
     {
         $this->getForm()->clearValidationErrors();
-        $widgets = array();
+        $widgets = [];
 
         // erstmal den neuen Wert setzen
         foreach ($widgetNames as $name => $value) {
@@ -73,7 +73,7 @@ class tx_mkforms_util_Validation
             $widget->validate();
         }
 
-        return $this->isAllValid() ? array() : $this->getForm()->_aValidationErrorsByHtmlId;
+        return $this->isAllValid() ? [] : $this->getForm()->_aValidationErrorsByHtmlId;
     }
     /**
      * Prüft, ob Validierungsfehler von Renderlets vorliegen. Das funktioniert aber erst, wenn

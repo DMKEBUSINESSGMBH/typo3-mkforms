@@ -91,7 +91,7 @@ class tx_mkforms_util_AutoLoad
             tx_rnbase_util_Misc::callHook(
                 'mkforms',
                 'autoload_unserialize_callback_func',
-                array('class' => &$sClassName),
+                ['class' => &$sClassName],
                 $this
             );
 

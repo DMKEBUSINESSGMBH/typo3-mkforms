@@ -8,9 +8,9 @@
 
 class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_modalbox_class' => 'res/js/modalbox.js',
-    );
+    ];
 
     public $bCustomIncludeScript = true;
     public $sMajixClass = 'ModalBox';
@@ -20,10 +20,10 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
 
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
-            array(
+            [
                 'followScrollVertical' => $this->defaultTrue('/followscrollvertical'),
                 'followScrollHorizontal' => $this->_defaultTrue('/followscrollhorizontal'),
-            )
+            ]
         );
 
         return '';
@@ -46,7 +46,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
         return true;
     }
 
-    public function majixShowFreshBox($aConfig = array(), $aTags = array())
+    public function majixShowFreshBox($aConfig = [], $aTags = [])
     {
         $this->initChilds(
             true    // existing renderlets in $this->oForm->aORenderlets will be overwritten
@@ -63,7 +63,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
      *
      * @return array
      */
-    public function majixShowBox($aConfig = array(), $aTags = array())
+    public function majixShowBox($aConfig = [], $aTags = [])
     {
         if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
             $aEventsBefore = array_keys($this->oForm->aRdtEvents);
@@ -75,7 +75,7 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
         if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
             $aEventsAfter = array_keys($this->oForm->aRdtEvents);
             $aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
-            $aAddedEvents = array();
+            $aAddedEvents = [];
             foreach ($aAddedKeys as $sKey) {
                 $aAddedEvents[$sKey] = $this->oForm->aRdtEvents[$sKey];
                 unset($this->oForm->aRdtEvents[$sKey]);

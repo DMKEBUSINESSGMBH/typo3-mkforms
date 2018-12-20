@@ -28,9 +28,9 @@
 class tx_mkforms_util_Loader
 {
     private $formId = false;
-    private $runningObjects = array();
-    private $loadedClasses = array();
-    private static $instances = array();
+    private $runningObjects = [];
+    private $loadedClasses = [];
+    private static $instances = [];
 
     /**
      * constructor
@@ -65,18 +65,18 @@ class tx_mkforms_util_Loader
      * @param   string      $sXPath: xpath where this conf is declared
      * @return  object
      */
-    public function &makeObject($aElement, $objectType, $sXPath, $form, $sNamePrefix = false, $aOParent = array())
+    public function &makeObject($aElement, $objectType, $sXPath, $form, $sNamePrefix = false, $aOParent = [])
     {
         $objectKey = $aElement['type'];
         $aObj = self::loadObject($objectKey, $objectType, $form);
 
         // Das Objekt speichern, damit es bei einer Serialisierung nicht vergessen wird
-        $this->runningObjects[$objectType . '::' . $objectKey] = array('internalkey' => $objectKey,'objecttype' => $objectType);
+        $this->runningObjects[$objectType . '::' . $objectKey] = ['internalkey' => $objectKey,'objecttype' => $objectType];
         // calls tx_myrdtclass::loaded();
             // params are not passed by ref with call_user_func, so have to pass an array with &
         $aLoadedObjects =& $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType];
-        $params = array('form' => &$form);
-        call_user_func_array(array($aLoadedObjects[$objectKey]['CLASS'], 'loaded'), array(&$params));
+        $params = ['form' => &$form];
+        call_user_func_array([$aLoadedObjects[$objectKey]['CLASS'], 'loaded'], [&$params]);
 
         if (!is_array($aObj)) {
             tx_mkforms_util_Div::mayday('TYPE ' . $aElement['type'] . ' is not associated to any ' . $objectType);
@@ -111,13 +111,13 @@ class tx_mkforms_util_Loader
 
         $aLoadedObjects =& $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType];
         if (!is_array($aLoadedObjects) || !array_key_exists($objectKey, $aLoadedObjects)) {
-            $aTemp = array(
+            $aTemp = [
                 'EXTKEY' => $declaredObjects[$objectKey]['key'],
                 'CLASS' => $declaredObjects[$objectKey]['key'],
                 'TYPE' => $objectKey,
                 'BASE' => $declaredObjects[$objectKey]['base'],
                 'OBJECT' => $objectType,
-            );
+            ];
 
             $aTemp['PATH']            = tx_mkforms_util_Div::getExtPath($aTemp['EXTKEY']);
             $aTemp['RELPATH']        = tx_mkforms_util_Div::getExtRelPath($aTemp['EXTKEY']);
@@ -181,7 +181,7 @@ class tx_mkforms_util_Loader
         if ($this->load($sClass, $sPath)) {
             $args = func_get_args();
             unset($args[1]); // path entfernen
-            $ret = call_user_func_array(array('tx_rnbase','makeInstance'), $args);
+            $ret = call_user_func_array(['tx_rnbase','makeInstance'], $args);
         }
 
         return $ret;

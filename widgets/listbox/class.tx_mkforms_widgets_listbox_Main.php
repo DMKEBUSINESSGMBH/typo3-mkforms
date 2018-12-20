@@ -9,9 +9,9 @@
 class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'ListBox';
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_listbox_class' => 'res/js/listbox.js'
-    );
+    ];
 
     public function _render()
     {
@@ -31,12 +31,12 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 
         $strictCheck = $this->defaultFalse('/strictselectedcheck');
 
-        $aSelectedCaptions = array();
+        $aSelectedCaptions = [];
         $bSelected = false;
 
         if (count($aItems) > 0) {
-            $aHtml = array();
-            $sOptionsListBag = array();
+            $aHtml = [];
+            $sOptionsListBag = [];
 
             foreach ($aItems as $aItem) {
                 $sSelected = '';
@@ -71,14 +71,14 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
                 $sInput = '<option value="' . $aItem['value'] . '" ' . $sSelected . $sClass . $sCustom . '>' . $sCaption . '</option>';
                 $aHtml[] = $sInput;
 
-                $sOptionsListBag[$aItem['value'].'.'] = array(
+                $sOptionsListBag[$aItem['value'].'.'] = [
                     'input' => $sInput,
                     'value' => $aItem['value'],
                     'selected' => $bSelected,
                     'caption' => $sCaption,
                     'class' => $sClass,
                     'custom' => $sCustom
-                );
+                ];
             }
 
             reset($aHtml);
@@ -93,19 +93,19 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             $sMultiple = '';
         }
 
-        $sInputBegin = '<select name="' . $this->_getElementHtmlName() . $sBrackets . '" ' . $sMultiple . ' id="' . $this->_getElementHtmlId() . '"' . $this->_getAddInputParams(array('style' => $sAddStyle)) . '>';
+        $sInputBegin = '<select name="' . $this->_getElementHtmlName() . $sBrackets . '" ' . $sMultiple . ' id="' . $this->_getElementHtmlId() . '"' . $this->_getAddInputParams(['style' => $sAddStyle]) . '>';
         $sInputEnd = '</select>';
         $sInput = $sInputBegin . $sOptionsList . $sInputEnd;
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($sLabel) . $sInput,
             'value' => $sValue,
             'caption' => implode(', ', $aSelectedCaptions),
             'input' => $sInput,
-            'select.' => array('begin' => $sInputBegin, 'end' => $sInputEnd),
+            'select.' => ['begin' => $sInputBegin, 'end' => $sInputEnd],
             'itemcount' => count($sOptionsListBag),
             'items.' => $sOptionsListBag,
-        );
+        ];
 
         return $aHtmlBag;
     }
@@ -121,7 +121,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
         }
 
         if (is_array($data)) {
-            $aLabels = array();
+            $aLabels = [];
             $aItems = $this->_getItems();
 
             foreach ($data as $selectedItemValue) {
@@ -148,7 +148,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     public function _sqlSearchClause($sValue, $sFieldPrefix = '', $sFieldName = '', $bRec = true)
     {
         $aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $sValue);
-        $aParts = array();
+        $aParts = [];
 
         if ($sFieldName === '') {
             $sFieldName = $this->_getName();
@@ -219,7 +219,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             //	1 => array("caption" => "", "value" => "")
             //	)
             $aOldData = $aData;
-            $aData = array();
+            $aData = [];
 
             foreach ($aOldData as $aItem) {
                 $aData[$aItem['value']] = $this->oForm->getConfig()->getLLLabel($aItem['caption']);
@@ -251,10 +251,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     {
         return $this->buildMajixExecuter(
             'transferSelectedTo',
-            array(
+            [
                 'list' => $sRdtId,
                 'removeFromSource' => $bRemoveFromSource,
-            )
+            ]
         );
     }
 
@@ -290,10 +290,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     {
         return $this->buildMajixExecuter(
             'addItem',
-            array(
+            [
                 'caption' => $sCaption,
                 'value' => $sValue
-            )
+            ]
         );
     }
 
@@ -301,10 +301,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     {
         return $this->buildMajixExecuter(
             'modifyItem',
-            array(
+            [
                 'caption' => $sCaption,
                 'value' => $sValue
-            )
+            ]
         );
     }
 
@@ -332,7 +332,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             if (!$this->_emptyFormValue($sData)) {
                 return Tx_Rnbase_Utility_Strings::trimExplode(',', $sData);
             } else {
-                return array();
+                return [];
             }
         } else {
             return $sData;

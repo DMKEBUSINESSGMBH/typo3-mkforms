@@ -52,12 +52,12 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
     protected function setUp()
     {
         tx_rnbase::load('tx_mklib_tests_Util');
-        tx_mklib_tests_Util::prepareTSFE(array('force' => true, 'initFEuser' => true));
+        tx_mklib_tests_Util::prepareTSFE(['force' => true, 'initFEuser' => true]);
 
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', []);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-        set_error_handler(array('tx_mkforms_tests_Util', 'errorHandler'), E_WARNING);
+        set_error_handler(['tx_mkforms_tests_Util', 'errorHandler'], E_WARNING);
     }
 
     /**
@@ -118,7 +118,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
         //damit wir generateRequestToken aufrufen können
         $oForm = tx_mkforms_tests_Util::getForm();
         $_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->generateRequestToken();
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array($oForm->getFormId() => $oForm->generateRequestToken())));
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', ['requestToken' => [$oForm->getFormId() => $oForm->generateRequestToken()]]);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         //jetzt die eigentliche initialisierung
@@ -139,7 +139,7 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
         $GLOBALS['TSFE']->fe_user->setKey(
             'ses',
             'mkforms',
-            array('creationTimestamp' => array($form->getFormId() => 123))
+            ['creationTimestamp' => [$form->getFormId() => 123]]
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
@@ -187,50 +187,50 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
      */
     public function dataProviderIsCsrfProtectionActive()
     {
-        return array(
-            array(
-                array('generic.' => array('formconfig.' => array('csrfProtection' => true))), true
-            ),
-            array(
-                array('generic.' => array('formconfig.' => array('csrfProtection' => false))), false
-            ),
-            array(
-                array(
-                    'generic.' => array(
-                        'formconfig.' => array('csrfProtection' => true),
+        return [
+            [
+                ['generic.' => ['formconfig.' => ['csrfProtection' => true]]], true
+            ],
+            [
+                ['generic.' => ['formconfig.' => ['csrfProtection' => false]]], false
+            ],
+            [
+                [
+                    'generic.' => [
+                        'formconfig.' => ['csrfProtection' => true],
                         'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml'
-                    )
-                ),
+                    ]
+                ],
                 false
-            ),
-            array(
-                array(
-                    'generic.' => array(
-                        'formconfig.' => array('csrfProtection' => false),
+            ],
+            [
+                [
+                    'generic.' => [
+                        'formconfig.' => ['csrfProtection' => false],
                         'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml'
-                    )
-                ),
+                    ]
+                ],
                 false
-            ),
-            array(
-                array(
-                    'generic.' => array(
-                        'formconfig.' => array('csrfProtection' => true),
+            ],
+            [
+                [
+                    'generic.' => [
+                        'formconfig.' => ['csrfProtection' => true],
                         'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml'
-                    )
-                ),
+                    ]
+                ],
                 true
-            ),
-            array(
-                array(
-                    'generic.' => array(
-                        'formconfig.' => array('csrfProtection' => false),
+            ],
+            [
+                [
+                    'generic.' => [
+                        'formconfig.' => ['csrfProtection' => false],
                         'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml'
-                    )
-                ),
+                    ]
+                ],
                 true
-            )
-        );
+            ]
+        ];
     }
 
     /**

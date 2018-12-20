@@ -44,40 +44,40 @@ class tx_mkforms_tests_util_Div_testcase extends tx_rnbase_tests_BaseTestCase
     }
     public function testGetSetupByKeys()
     {
-        $aConfig = array(
-                'lib.' => array(
-                    'mkforms.' => array(
-                        'formbase.' => array(
+        $aConfig = [
+                'lib.' => [
+                    'mkforms.' => [
+                        'formbase.' => [
                             'testmode' => 1,
-                        ),
-                    ),
-                    'mkextension.' => array(
+                        ],
+                    ],
+                    'mkextension.' => [
                         'installed' => 1,
-                    ),
-                ),
-                'plugin.' => array(
+                    ],
+                ],
+                'plugin.' => [
                     'tx_mkforms' => 'USER_INT',
-                    'tx_mkforms.' => array(
+                    'tx_mkforms.' => [
                         'genericTemplate' => 'EXT:mkforms/templates/formonly.html',
-                    ),
-                    'tx_mkextension.' => array(
+                    ],
+                    'tx_mkextension.' => [
                         'extensionTemplate' => 'EXT:mkextension/templates/template.html',
-                    ),
-                ),
-                'config.' => array(
-                    'tx_mkforms.' => array(
-                        'cache.' => array(
+                    ],
+                ],
+                'config.' => [
+                    'tx_mkforms.' => [
+                        'cache.' => [
                             'tsPaths' => 0,
-                        ),
-                    ),
-                ),
-            );
-        $aWill = array(
+                        ],
+                    ],
+                ],
+        ];
+        $aWill = [
                 'lib' => 1,
-                'plugin.' => array(
+                'plugin.' => [
                     'tx_mkforms' => 1,
-                ),
-            );
+                ],
+        ];
         $aArray = tx_mkforms_util_Div::getSetupByKeys($aConfig, $aWill);
         self::assertTrue(array_key_exists('lib.', $aArray), 'lib. not found in array.');
         self::assertTrue(array_key_exists('mkforms.', $aArray['lib.']), 'lib.mkforms. not found in array.');
@@ -128,63 +128,63 @@ class tx_mkforms_tests_util_Div_testcase extends tx_rnbase_tests_BaseTestCase
      */
     public function providerCleanupFileName()
     {
-        return array(
-            'line ' . __LINE__ => array(
+        return [
+            'line ' . __LINE__ => [
                 'Süß_&_Snack.pdf',
                 'suess___snack.pdf',
                 true,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 'Lebenslauf.pdf',
                 'lebenslauf.pdf',
                 false,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.0987654321.jpg',
                 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
                 false,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
                 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
                 false,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 'ÄÖÜ&äöü.gif',
                 'aeoeue_aeoeue.gif',
                 true,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 '-_!"§$%&/()=?²³{[]}\^@€.jpg',
                 '-_____________________eur.jpg',
                 true,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 '.png',
                 'png',
                 false,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 '..png',
                 'png',
                 false,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 'file.',
                 'file',
                 false,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 '.',
                 '',
                 false,
-            ),
-            'line ' . __LINE__ => array(
+            ],
+            'line ' . __LINE__ => [
                 '..',
                 '',
                 false,
-            ),
-        );
+            ],
+        ];
     }
 }
 

@@ -11,9 +11,9 @@ class tx_mkforms_dh_std_Main extends formidable_maindatahandler
     {
         if ($bShouldProcess && $this->_allIsValid()) {
             $this->oForm->_debug(
-                array(
+                [
                     'DATA' => $this->getFormData(),
-                ),
+                ],
                 'DATAHANDLER STANDARD - EXECUTION'
             );
         }

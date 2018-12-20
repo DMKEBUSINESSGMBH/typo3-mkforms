@@ -80,7 +80,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      */
     public static function explodeParam($param, $forceSubOptionArray = false)
     {
-        $result = array();
+        $result = [];
         $foo = preg_split('/[\s]*,[\s]*/', $param, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($foo as $f) {
             $bar = Tx_Rnbase_Utility_Strings::trimExplode('|', $f);
@@ -117,9 +117,9 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      * @param array                 &$data needed for refresh
      * @return array
      */
-    protected static function buildAjaxReturn(array $params, tx_ameosformidable $form, array &$data = array())
+    protected static function buildAjaxReturn(array $params, tx_ameosformidable $form, array &$data = [])
     {
-        $return = array();
+        $return = [];
 
         /*
          * Aktualisiert die Statusnachicht mit der Erfolgsmeldung.
@@ -135,14 +135,14 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         }
 
         // Die einzelnen actions auslesen
-        $displayActions = array();
+        $displayActions = [];
         foreach (self::explodeParam($params['majixActionsAfterFinish']) as $option) {
-            $displayActions[] = array(
+            $displayActions[] = [
                                         'renderlet' => $option[0],
                                         'command' => $option[1],
-                                        'params' => isset($option[2]) ? array($option[2]) : array(),
+                                        'params' => isset($option[2]) ? [$option[2]] : [],
                                         'conditions' => isset($option[3]) ? $option[3] : null,
-                                );
+            ];
         }
         // actions rendern
         foreach ($displayActions as $action) {
@@ -150,10 +150,10 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                 case '__form__':
                     // die action der form aufrufen
                     $return[] = call_user_func_array(
-                        array(
+                        [
                                                         $form,
                                                         'majix' . ucfirst($action['command'])
-                                                    ),
+                        ],
                         $action['params']
                     );
 
@@ -187,10 +187,10 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                         } else {
                             // Just call the requested action
                             $return[] = call_user_func_array(
-                                array(
+                                [
                                                                 $widget,
                                                                 'majix' . ucfirst($action['command'])
-                                                            ),
+                                ],
                                 $action['params']
                             );
                         }
@@ -329,13 +329,13 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         // Arbitrary logical combinations of expression values
         $pattern = $pat_valCmpl . '(' . $pat_op . $pat_valCmpl . ')*?';
 
-        $matches = array();
+        $matches = [];
         if (preg_match('/^'.$pattern.'$/i', $expression, $matches)) {
             $expr = $matches[0];
             self::$evalFormContainer = $form;
             // Replace expression values
-            $expr = preg_replace_callback($pat_sclr, array(self, 'replaceValue'), $expr);
-            $expr = preg_replace_callback($pat_rdt, array(self, 'replaceRdt'), $expr);
+            $expr = preg_replace_callback($pat_sclr, [self, 'replaceValue'], $expr);
+            $expr = preg_replace_callback($pat_rdt, [self, 'replaceRdt'], $expr);
         } else {
             throw new Exception('tx_mkhogafe_forms_php_base->evalSecureExpression(): invalid / insecure expression!');
         }
@@ -435,7 +435,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         tx_ameosformidable $form,
         formidable_mainrenderlet $targetRenderlet
     ) {
-        $res = array();
+        $res = [];
         $trName = $targetRenderlet->getName();
         // Is data available for that special renderlet field?
         // Just return this scalar value!

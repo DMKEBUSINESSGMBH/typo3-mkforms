@@ -37,7 +37,7 @@ class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet
             $this->aLibs['rdt_autoresize_class'] = 'res/js/autoresize.min.js';
             $this->aLibs['rdt_txtarea_class'] = 'res/js/txtarea.js';
             //damit im JS bekannt ist, ob autoresize gesetzt ist
-            $this->includeScripts(array('autoresize' => $this->defaultFalse('/autoresize')));
+            $this->includeScripts(['autoresize' => $this->defaultFalse('/autoresize')]);
         }
 
         /* */
@@ -47,12 +47,12 @@ class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet
 
 
 
-        return array(
+        return [
             '__compiled' => $this->_displayLabel($sLabel) . $sInput,
             'input' => $sInput,
             'label' => $sLabel,
             'value' => $sValue,
-        );
+        ];
     }
 
     public function _getHumanReadableValue($sValue)

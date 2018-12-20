@@ -108,39 +108,39 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     /**
      * @var formidable_mainrenderlet[]
      */
-    public $aORenderlets = array();
+    public $aORenderlets = [];
 
-    public $aODataSources = array();
+    public $aODataSources = [];
 
     public $oSandBox = null;        // stores sandbox for xml-level user-defined 'macros'
 
     public $oJs = null;
 
-    public $aInitTasksUnobtrusive = array();
+    public $aInitTasksUnobtrusive = [];
 
-    public $aInitTasks = array(); // Sammlung von JS-Aufrufen für DOM-Loaded
+    public $aInitTasks = []; // Sammlung von JS-Aufrufen für DOM-Loaded
 
-    public $aInitTasksOutsideLoad = array();    // tinyMCE cannot be init'd within Event.observe(window, 'load', function() {})
+    public $aInitTasksOutsideLoad = [];    // tinyMCE cannot be init'd within Event.observe(window, 'load', function() {})
 
-    public $aInitTasksAjax = array();
+    public $aInitTasksAjax = [];
 
-    public $aPostInitTasks = array();    // post init tasks are JS init executed after the init tasks
+    public $aPostInitTasks = [];    // post init tasks are JS init executed after the init tasks
 
-    public $aPostInitTasksAjax = array();        // modalbox relies on that for it's HTML is added to the page in an init task when ajax
+    public $aPostInitTasksAjax = [];        // modalbox relies on that for it's HTML is added to the page in an init task when ajax
 
     // and so, some renderlets, like swfupload, need a chance to execute something when the HTML is ready
 
-    public $_aValidationErrors = array();
+    public $_aValidationErrors = [];
 
-    public $_aValidationErrorsByHtmlId = array();
+    public $_aValidationErrorsByHtmlId = [];
 
-    public $_aValidationErrorsInfos = array();
+    public $_aValidationErrorsInfos = [];
 
-    public $_aValidationErrorsTypes = array();
+    public $_aValidationErrorsTypes = [];
 
     public $bDebug = false;
 
-    public $aDebug = array();
+    public $aDebug = [];
 
     public $start_tstamp = null;
 
@@ -162,9 +162,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $iForcedEntryId = false;
 
-    public $_aInjectedData = array();    // contains data to inject in the form at init
+    public $_aInjectedData = [];    // contains data to inject in the form at init
 
-    public $aLastTs = array();
+    public $aLastTs = [];
 
     public $cObj = null;
 
@@ -174,36 +174,36 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $bTestMode = false;    // im Test-mode ist $storeFormInSession uninteressant um fehler zu vermeiden
 
-    public $aServerEvents = array();
+    public $aServerEvents = [];
 
-    public $aAjaxEvents = array();
+    public $aAjaxEvents = [];
 
-    public $aAjaxArchive = array();    // archives the successive ajax events that are triggered during the page lifetime
+    public $aAjaxArchive = [];    // archives the successive ajax events that are triggered during the page lifetime
 
     // meant to be accessed thru getPreviousAjaxRequest() and getPreviousAjaxParams()
-    public $aAjaxServices = array();
+    public $aAjaxServices = [];
 
-    public $aTempDebug = array();
+    public $aTempDebug = [];
 
-    public $aCrossRequests = array();
+    public $aCrossRequests = [];
 
     public $aOnloadEvents
-        = array(    // stores events that have to be thrown at onload ( onDOMReady actually )
-            'ajax' => array(),
-            'client' => array()
-        );
+        = [    // stores events that have to be thrown at onload ( onDOMReady actually )
+            'ajax' => [],
+            'client' => []
+        ];
 
-    public $aSkinManifests = array();
+    public $aSkinManifests = [];
 
-    public $__aRunningObjects = array();
+    public $__aRunningObjects = [];
 
     public $oHtml = false;
 
-    public $aRdtEvents = array();
+    public $aRdtEvents = [];
 
-    public $aRdtEventsAjax = array();    // stores the events that are added to the page via ajax
+    public $aRdtEventsAjax = [];    // stores the events that are added to the page via ajax
 
-    public $aPreRendered = array();
+    public $aPreRendered = [];
 
     /**
      * @var formidableajax|bool
@@ -211,7 +211,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public $oMajixEvent = false;
 
     public $aAvailableCheckPoints
-        = array(
+        = [
             'start',
             'before-compilation',    // kept for back-compat, but should not be here
             'after-compilation',
@@ -233,27 +233,27 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             'end-creation',
             'end-edition',
             'end',
-        );
+        ];
 
     public $aAddPostVars = false;
 
-    public $aRawPost = array();    // stores the POST vars array, hashed by formid
+    public $aRawPost = [];    // stores the POST vars array, hashed by formid
 
-    public $aRawGet = array();        // stores the GET vars array, hashed by formid
+    public $aRawGet = [];        // stores the GET vars array, hashed by formid
 
-    public $aRawFile = array();    // stores the FILE vars array, hashed by formid
+    public $aRawFile = [];    // stores the FILE vars array, hashed by formid
 
     public $sFormAction = false;    // if FALSE, form action will be determined from GET() and thus, transparent
 
-    public $aFormAction = array();
+    public $aFormAction = [];
 
-    public $aParamsToRemove = array();
+    public $aParamsToRemove = [];
 
-    public $aCB = array();
+    public $aCB = [];
 
-    public $aCodeBehindJsInits = array();
+    public $aCodeBehindJsInits = [];
 
-    public $aCurrentRdtStack = array();    // stacks the current renderlets (in majix context, and in normal context)
+    public $aCurrentRdtStack = [];    // stacks the current renderlets (in majix context, and in normal context)
 
     private $submittedValue = false;
 
@@ -431,7 +431,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         $this->_oParent =& $oParent;
         $this->oParent =& $oParent;
 
-        $this->aTempDebug = array();
+        $this->aTempDebug = [];
 
         // wird beispielsweise für caching genutzt
         $this->iPageId = $GLOBALS['TSFE']->id;
@@ -513,7 +513,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                 . '</b>\' on this page - cannot continue'
             );
         }
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms'][$this->formid] = array();
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms'][$this->formid] = [];
 
         $this->initAddPost();
 
@@ -593,7 +593,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         /***** GRABBING SERVER EVENTS *****/
 
-        $this->checkPoint(array('start',));
+        $this->checkPoint(['start',]);
 
         $this->bReliableXML = true;
 
@@ -636,7 +636,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         $this->makeCallDebug($this->iForcedEntryId);
 
-        $this->checkPoint(array('after-compilation', 'before-init', 'before-init-renderer'));
+        $this->checkPoint(['after-compilation', 'before-init', 'before-init-renderer']);
 
         $this->sFormAction = false;
         if (($sAction = $this->getConfig()->get('/meta/form/action')) !== false) {
@@ -663,14 +663,14 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         //und dessen request token
         $this->setSessionId($GLOBALS['TSFE']->fe_user->id);
 
-        $this->checkPoint(array('after-init-renderer', 'before-init-renderlets'));
+        $this->checkPoint(['after-init-renderer', 'before-init-renderlets']);
 
         $this->_initRenderlets();
         $this->fetchServerEvents();
 
-        $this->checkPoint(array('after-init-renderlets', 'before-init-datahandler'));
+        $this->checkPoint(['after-init-renderlets', 'before-init-datahandler']);
         $this->_initDataHandler($this->iForcedEntryId);
-        $this->checkPoint(array('after-init-datahandler', 'after-init',));
+        $this->checkPoint(['after-init-datahandler', 'after-init',]);
         $this->bInited = true;
     }
 
@@ -753,7 +753,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
             // diese Parameter werden von TYPO3 verwaltet und dürfen nie übernommen
             // werden
-            $keysToIgnore = array('L', 'cHash', 'id');
+            $keysToIgnore = ['L', 'cHash', 'id'];
             foreach ($keysToIgnore as $keyToIgnore) {
                 if (array_key_exists($keyToIgnore, $aGet)) {
                     unset($aGet[$keyToIgnore]);
@@ -773,7 +773,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
             $this->aFormAction = $aGet;
         } else {
-            $this->aFormAction = array();
+            $this->aFormAction = [];
         }
     }
 
@@ -808,7 +808,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public function array_diff_key_recursive($a1, $a2)
     {
-        $r = array();
+        $r = [];
         reset($a1);
         while (list($k, $v) = each($a1)) {
             if (is_array($v)) {
@@ -828,7 +828,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public function array_diff_recursive($aArray1, $aArray2, $bStrict = false)
     {
-        $aReturn = array();
+        $aReturn = [];
 
         foreach ($aArray1 as $mKey => $mValue) {
             if (is_array($aArray2) && array_key_exists($mKey, $aArray2)) {
@@ -902,7 +902,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         elseif ($this->isFormActionCurrent()) {
             $sRes = tx_mkforms_util_Div::toWebPath(
                 $this->getCObj()->typoLink_URL(
-                    array('parameter' => $GLOBALS['TSFE']->id)
+                    ['parameter' => $GLOBALS['TSFE']->id]
                 )
             );
         } else {
@@ -947,7 +947,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         $aRawPost = Tx_Rnbase_Utility_T3General::_POST();
-        $aRawPost = is_array($aRawPost[$sFormId]) ? $aRawPost[$sFormId] : array();
+        $aRawPost = is_array($aRawPost[$sFormId]) ? $aRawPost[$sFormId] : [];
 
         if (array_key_exists('AMEOSFORMIDABLE_ADDPOSTVARS', $aRawPost) && trim($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS']) !== '') {
             if (!is_array(
@@ -996,7 +996,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      *
      * @return    void
      */
-    public function checkPoint($aPoints, array &$options = array())
+    public function checkPoint($aPoints, array &$options = [])
     {
         $this->_processServerEvents($aPoints, $options);
         $this->_processRdtCheckPoints($aPoints, $options);
@@ -1011,7 +1011,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      *
      * @return    void
      */
-    private function _processRdtCheckPoints(&$aPoints, array &$options = array())
+    private function _processRdtCheckPoints(&$aPoints, array &$options = [])
     {
         if (count($this->aORenderlets) > 0) {
             $aKeys = array_keys($this->aORenderlets);
@@ -1028,7 +1028,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      *
      * @return    void
      */
-    private function _processMetaCheckPoints(&$aPoints, array $options = array())
+    private function _processMetaCheckPoints(&$aPoints, array $options = [])
     {
         $aMeta = $this->getConfig()->get('/meta');
 
@@ -1127,8 +1127,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
 SANDBOXCLASS;
 
-                $this->__sEvalTemp = array('code' => $sSandClass, 'xml' => $aBox);
-                set_error_handler(array(&$this, '__catchEvalException'));
+                $this->__sEvalTemp = ['code' => $sSandClass, 'xml' => $aBox];
+                set_error_handler([&$this, '__catchEvalException']);
                 eval($sSandClass);
                 unset($this->__sEvalTemp);
                 restore_error_handler();
@@ -1214,10 +1214,10 @@ SANDBOXCLASS;
 
                 if (array_key_exists('AMEOSFORMIDABLE_STEP', $aP) && array_key_exists('AMEOSFORMIDABLE_STEP_HASH', $aP)) {
                     if ($this->_getSafeLock($aP['AMEOSFORMIDABLE_STEP']) === $aP['AMEOSFORMIDABLE_STEP_HASH']) {
-                        $this->_aStep = array(
+                        $this->_aStep = [
                             'AMEOSFORMIDABLE_STEP' => $aP['AMEOSFORMIDABLE_STEP'],
                             'AMEOSFORMIDABLE_STEP_UID' => false,
-                        );
+                        ];
                     }
                 }
             }
@@ -1250,7 +1250,7 @@ SANDBOXCLASS;
         return array_merge(// array_merge reindexes array
             array_filter(
                 array_keys($aConf),
-                array($this, '__cbkFilterEvents')
+                [$this, '__cbkFilterEvents']
             )
         );
     }
@@ -1305,7 +1305,7 @@ SANDBOXCLASS;
      *
      * @return    void
      */
-    private function _processServerEvents(&$aTriggers, array &$options = array())
+    private function _processServerEvents(&$aTriggers, array &$options = [])
     {
         $aP = $this->_getRawPost();
         if (array_key_exists('AMEOSFORMIDABLE_SERVEREVENT', $aP) && (trim($aP['AMEOSFORMIDABLE_SERVEREVENT']) !== '')) {
@@ -1345,7 +1345,7 @@ SANDBOXCLASS;
                         if (in_array($aEvent['when'], $aTriggers)) {
                             $this->getRunnable()->callRunnable(
                                 $aEvent['event'],
-                                array()
+                                []
                             );
                         }
                     }
@@ -1372,7 +1372,7 @@ SANDBOXCLASS;
         ) {
             return unserialize(base64_decode($aPost['AMEOSFORMIDABLE_SERVEREVENT_PARAMS']));
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -1477,14 +1477,14 @@ SANDBOXCLASS;
                 }
                 $aPost = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aGet,
-                    is_array($aPost) ? $aPost : array()
+                    is_array($aPost) ? $aPost : []
                 );
             }
 
-            $aPost = is_array($aPost[$sFormId]) ? $aPost[$sFormId] : array();
+            $aPost = is_array($aPost[$sFormId]) ? $aPost[$sFormId] : [];
             $aFiles = $this->_getRawFile();
 
-            $aAddParams = array();
+            $aAddParams = [];
 
             if ($sFormId === false) {
                 $aAddPostVars = $this->aAddPostVars;
@@ -1542,7 +1542,7 @@ SANDBOXCLASS;
             if ($this->_useGPWithUrlDecode) {
                 tx_mkforms_util_Div::urlDecodeRecursive($aGet);
             }
-            $this->aRawGet[$sFormId] = is_array($aGet) ? $aGet : array();
+            $this->aRawGet[$sFormId] = is_array($aGet) ? $aGet : [];
         }
 
         reset($this->aRawGet[$sFormId]);
@@ -1571,11 +1571,11 @@ SANDBOXCLASS;
         }
 
         if ($forced || !array_key_exists((string)$sFormId, $this->aRawFile)) {
-            $aTemp = is_array($GLOBALS['_FILES'][$sFormId]) ? $GLOBALS['_FILES'][$sFormId] : array();
-            $aF = array();
+            $aTemp = is_array($GLOBALS['_FILES'][$sFormId]) ? $GLOBALS['_FILES'][$sFormId] : [];
+            $aF = [];
 
             if (!empty($aTemp)) {
-                $aTemp = array($sFormId => $aTemp);
+                $aTemp = [$sFormId => $aTemp];
                 reset($aTemp);
 
                 foreach ($aTemp as $var => $info) {
@@ -1763,18 +1763,18 @@ SANDBOXCLASS;
     public function _makeDefaultDataHandler()
     {
         return $this->_makeDataHandler(
-            array(
+            [
                 'type' => 'STANDARD'
-            )
+            ]
         );
     }
 
     public function _makeDefaultRenderer()
     {
         return $this->_makeRenderer(
-            array(
+            [
                 'type' => 'STANDARD'
-            )
+            ]
         );
     }
 
@@ -1870,7 +1870,7 @@ SANDBOXCLASS;
      */
     public function _makeRenderlets($aConf, $sXPath, $bChilds, &$oChildParent, $bOverWrite = false)
     {
-        $aRdtRefs = array();
+        $aRdtRefs = [];
 
         if (is_array($aConf)) {
             // ermöglicht das dynamische anlegen von feldern.
@@ -2059,7 +2059,7 @@ SANDBOXCLASS;
             }
 
             if (is_array($curZone) && !array_key_exists($aPath[$i], $curZone)) {
-                $curZone[$aPath[$i]] = array();
+                $curZone[$aPath[$i]] = [];
             }
 
             $curZone =& $curZone[$aPath[$i]];
@@ -2128,14 +2128,14 @@ SANDBOXCLASS;
 
     public function implodePathesForArray($aData)
     {
-        $aPathes = array();
+        $aPathes = [];
         $this->implodePathesForArray_rec($aData, $aPathes);
         reset($aPathes);
 
         return $aPathes;
     }
 
-    public function implodePathesForArray_rec($aData, &$aPathes, $aSegment = array())
+    public function implodePathesForArray_rec($aData, &$aPathes, $aSegment = [])
     {
         $aKeys = array_keys($aData);
         reset($aKeys);
@@ -2204,7 +2204,7 @@ SANDBOXCLASS;
             $this->mayday('TRIED TO RENDER FORM BEFORE CALLING INIT() !');
         }
 
-        $this->checkPoint(array('before-render',));
+        $this->checkPoint(['before-render',]);
 
         //submit mode merken
         $this->setIsFullySubmitted();
@@ -2243,16 +2243,16 @@ SANDBOXCLASS;
 
                 if ($this->oDataHandler->_allIsValid()) {
                     $this->checkPoint(
-                        array(
+                        [
                             'after-validation-ok',
-                        )
+                        ]
                     );
                 } else {
-                    $options = array('renderedRenderlets' => &$aRendered);
+                    $options = ['renderedRenderlets' => &$aRendered];
                     $this->checkPoint(
-                        array(
+                        [
                             'after-validation-nok',
-                        ),
+                        ],
                         $options
                     );
                 }
@@ -2273,17 +2273,17 @@ SANDBOXCLASS;
                 );
 
                 $this->checkPoint(
-                    array(
+                    [
                         'after-render',
-                    )
+                    ]
                 );
 
                 // ACTIONLETS are executed
                 if ($this->oDataHandler->_allIsValid()) {
                     $this->checkPoint(
-                        array(
+                        [
                             'before-actionlets',
-                        )
+                        ]
                     );
 
                     $this->_executeActionlets(
@@ -2292,9 +2292,9 @@ SANDBOXCLASS;
                     );
 
                     $this->checkPoint(
-                        array(
+                        [
                             'after-actionlets',
-                        )
+                        ]
                     );
                 }
             } elseif ($this->getDataHandler()->_isRefreshSubmitted()) {
@@ -2318,9 +2318,9 @@ SANDBOXCLASS;
                 );
 
                 $this->checkPoint(
-                    array(
+                    [
                         'after-render',
-                    )
+                    ]
                 );
             } elseif ($this->oDataHandler->_isTestSubmitted()) {
                 $this->_debug('VALIDATION REQUIRED ( ONLY )', 'HANDLING --- TEST --- SUBMIT EVENT');
@@ -2346,9 +2346,9 @@ SANDBOXCLASS;
                 );
 
                 $this->checkPoint(
-                    array(
+                    [
                         'after-render',
-                    )
+                    ]
                 );
             } elseif ($this->oDataHandler->_isDraftSubmitted()) {
                 $this->_debug('NO VALIDATION REQUIRED', 'HANDLING --- DRAFT --- SUBMIT EVENT');
@@ -2370,16 +2370,16 @@ SANDBOXCLASS;
 
                 if ($this->oDataHandler->_allIsValid()) {
                     $this->checkPoint(
-                        array(
+                        [
                             'after-validation-ok',
-                        )
+                        ]
                     );
                 } else {
-                    $options = array('renderedRenderlets' => &$aRendered);
+                    $options = ['renderedRenderlets' => &$aRendered];
                     $this->checkPoint(
-                        array(
+                        [
                             'after-validation-nok',
-                        ),
+                        ],
                         $options
                     );
                 }
@@ -2400,9 +2400,9 @@ SANDBOXCLASS;
                 );
 
                 $this->checkPoint(
-                    array(
+                    [
                         'after-render',
-                    )
+                    ]
                 );
             } elseif ($this->oDataHandler->_isClearSubmitted() || $this->oDataHandler->_isSearchSubmitted()) {
                 $this->_debug('NO VALIDATION REQUIRED', 'HANDLING --- CLEAR OR SEARCH --- SUBMIT EVENT');
@@ -2424,7 +2424,7 @@ SANDBOXCLASS;
                     $aRendered
                 );
 
-                $this->checkPoint(array('after-render',));
+                $this->checkPoint(['after-render',]);
             }
         } else {
             $this->_debug('NO VALIDATION REQUIRED', 'NO SUBMIT EVENT TO HANDLE');
@@ -2445,10 +2445,10 @@ SANDBOXCLASS;
             // the renderer is executed
             $aHtmlBag = $this->oRenderer->_render($aRendered);
 
-            $this->checkPoint(array('after-render',));
+            $this->checkPoint(['after-render',]);
         }
 
-        $this->checkPoint(array('before-js-inclusion'));
+        $this->checkPoint(['before-js-inclusion']);
 
         if ($this->_defaultTrue('/meta/exportstyles')) {
             $aStyles = $this->getAllHtmlTags('style', $aHtmlBag['CONTENT']);
@@ -2502,7 +2502,7 @@ SANDBOXCLASS;
                     ) {
                         $aTask = $this->aAddPostVars[$sKey]['params'];
                         $this->attachInitTask(
-                            $this->oRenderer->_getClientEvent($aTask['object'], array(), $aTask, 'execOnNextPage')
+                            $this->oRenderer->_getClientEvent($aTask['object'], [], $aTask, 'execOnNextPage')
                         );
                     }
                 }
@@ -2567,11 +2567,11 @@ SANDBOXCLASS;
         }
 
         if ($this->oDataHandler->bHasCreated) {
-            $this->checkPoint(array('after-js-inclusion', 'after-validation', 'end-creation', 'end'));
+            $this->checkPoint(['after-js-inclusion', 'after-validation', 'end-creation', 'end']);
         } elseif ($this->oDataHandler->bHasEdited) {
-            $this->checkPoint(array('after-js-inclusion', 'after-validation', 'end-edition', 'end'));
+            $this->checkPoint(['after-js-inclusion', 'after-validation', 'end-edition', 'end']);
         } else {
-            $this->checkPoint(array('after-js-inclusion', 'after-validation', 'end'));
+            $this->checkPoint(['after-js-inclusion', 'after-validation', 'end']);
         }
 
         $this->setStoreFormInSession(($this->storeFormInSession || $this->_defaultFalse('/meta/keepinsession')));
@@ -2630,7 +2630,7 @@ SANDBOXCLASS;
         $aServices = array_merge(// array_merge reindexes array
             array_filter(
                 array_keys($aMeta),
-                array($this, '__cbkFilterAjaxServices')
+                [$this, '__cbkFilterAjaxServices']
             )
         );
 
@@ -2644,9 +2644,9 @@ SANDBOXCLASS;
                     $this->mayday('Ajax service: ajax service requires /name to be set.');
                 }
 
-                $this->aAjaxServices[$sServiceId] = array(
+                $this->aAjaxServices[$sServiceId] = [
                     'definition' => $mService,
-                );
+                ];
             }
         }
 
@@ -2659,18 +2659,18 @@ SANDBOXCLASS;
 
             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxservice'][$this->_getSessionDataHashKey(
             )]
-                = array(
-                'requester' => array(
+                = [
+                'requester' => [
                     'name' => 'tx_ameosformidable',
                     'xpath' => '/',
-                ),
-            );
+                ],
+            ];
         }
     }
 
     public function attachAjaxServices()
     {
-        $aRes = array();
+        $aRes = [];
         $sSafeLock = $this->_getSessionDataHashKey();
 
         reset($this->aAjaxServices);
@@ -2786,7 +2786,7 @@ JAVASCRIPT;
     private function attachPostInitTask_ajax($sScript, $sDesc = '', $sKey = false)
     {
         if ($sDesc != '') {
-            $sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(array('/*', '*/', '//'), '', $sDesc)) . ' */';
+            $sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(['/*', '*/', '//'], '', $sDesc)) . ' */';
         }
 
         $sJs = $sDesc . "\n" . trim($sScript) . "\n";
@@ -2844,7 +2844,7 @@ JAVASCRIPT;
     public function attachInitTask_ajax($sScript, $sDesc = '', $sKey = false, $bOutsideLoad = false)
     {
         if ($sDesc != '') {
-            $sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(array('/*', '*/', '//'), '', $sDesc)) . ' */';
+            $sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(['/*', '*/', '//'], '', $sDesc)) . ' */';
         }
 
         $sJs = $sDesc . "\n" . trim($sScript) . "\n";
@@ -2865,7 +2865,7 @@ JAVASCRIPT;
      */
     public function _renderElements($bRenderChilds = false)
     {
-        $aHtml = array();
+        $aHtml = [];
 
         $aKeys = array_keys($this->aORenderlets);
         $iKeys = sizeof($aKeys);
@@ -3058,12 +3058,12 @@ JAVASCRIPT;
         $bAnonymous = false,
         $sNamePrefix = false
     ) {
-        $aOParent = array();
+        $aOParent = [];
         $aRawPost = $this->_getRawPost();
 
         if ($bChilds !== false) {
             // optional params cannot be passed by ref, so we're using the array-trick here
-            $aOParent = array(&$oChildParent);
+            $aOParent = [&$oChildParent];
         }
 
         $oRdt =& $this->getObjectLoader()->makeObject($aElement, 'renderlets', $sXPath, $this, $sNamePrefix, $aOParent);
@@ -3186,17 +3186,17 @@ JAVASCRIPT;
                     = $sMessage;    // only one message per renderlet per refresh ( errors displayed one by one )
                 $this->_aValidationErrorsByHtmlId[$sHtmlId] = $sMessage;
 
-                $this->_aValidationErrorsInfos[$sHtmlId] = array(
+                $this->_aValidationErrorsInfos[$sHtmlId] = [
                     'elementname' => $sElementName,
                     'message' => $sMessage,
                     'namespace' => $sNamespace,
                     'type' => $sType,
-                );
+                ];
 
-                $this->_aValidationErrorsTypes[$sKey] = array(
+                $this->_aValidationErrorsTypes[$sKey] = [
                     'namespace' => $sNamespace,
                     'type' => $sType,
-                );
+                ];
             }
         }
     }
@@ -3211,10 +3211,10 @@ JAVASCRIPT;
 
     public function declareAjaxService($sExtKey, $sServiceKey, $bVirtualizeFE = true, $bInitBEuser = false)
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['ajax_services'][$sExtKey][$sServiceKey]['conf'] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['ajax_services'][$sExtKey][$sServiceKey]['conf'] = [
             'virtualizeFE' => $bVirtualizeFE,
             'initBEuser' => $bInitBEuser,
-        );
+        ];
     }
 
     /**
@@ -3297,7 +3297,7 @@ JAVASCRIPT;
     {
         tx_rnbase::load('tx_rnbase_util_Debug');
 
-        $aHtml = array();
+        $aHtml = [];
 
         $aHtml[] = '<a name= "' . $this->formid . 'formidable_debugtop" />';
 
@@ -3423,7 +3423,7 @@ JAVASCRIPT;
     public function _getLLLabelTag($aLabel)
     {
         return $this->getConfig()->getLLLabel(
-            str_replace(array('{', '}'), '', array_pop($aLabel))
+            str_replace(['{', '}'], '', array_pop($aLabel))
         );
     }
 
@@ -3442,10 +3442,10 @@ JAVASCRIPT;
     public function _parseTemplate(
         $templatePath,
         $templateMarker,
-        $aTags = array(),
-        $aExclude = array(),
+        $aTags = [],
+        $aExclude = [],
         $bClearNotUsed = true,
-        $aLabels = array()
+        $aLabels = []
     ) {
         return $this->getTemplateTool()->parseTemplate(
             $templatePath,
@@ -3476,7 +3476,7 @@ JAVASCRIPT;
 
         return @preg_replace_callback(
             '/{LLL:[a-zA-Z0-9_:\/.\-]*}/',
-            array($this, '_getLLLabelTag'),
+            [$this, '_getLLLabelTag'],
             $sHtml
         );
     }
@@ -3515,10 +3515,10 @@ JAVASCRIPT;
 
     public function __catchEvalException($iErrno, $sMessage, $sFile, $iLine, $oObj)
     {
-        $aErrors = array(
+        $aErrors = [
             E_ERROR => 'Error',
             E_PARSE => 'Parse error',
-        );
+        ];
 
         if ((error_reporting() & $iErrno) || array_key_exists($iErrno, $aErrors)) {
             ob_start();
@@ -3739,12 +3739,12 @@ JAVASCRIPT;
         }
     }
 
-    public function _getCustomTags($aTags, $aUserobjParams = array())
+    public function _getCustomTags($aTags, $aUserobjParams = [])
     {
-        $aCustomTags = array(
-            'values' => array(),
-            'labels' => array()
-        );
+        $aCustomTags = [
+            'values' => [],
+            'labels' => []
+        ];
 
         if (is_array($aTags)) {
             reset($aTags);
@@ -3858,7 +3858,7 @@ JAVASCRIPT;
         $sFromName,
         $sReplyAd,
         $sReplyName,
-        $aAttachPaths = array(),
+        $aAttachPaths = [],
         $iMediaRef = 0
     ) {
         if (is_object($this)) {
@@ -3896,7 +3896,7 @@ JAVASCRIPT;
         $sFromName,
         $sReplyAd,
         $sReplyName,
-        $aAttachPaths = array(),
+        $aAttachPaths = [],
         $iMediaRef = 0
     ) {
         $sDebugSendMail = trim($GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.']['debugSendMail']);
@@ -3943,14 +3943,14 @@ JAVASCRIPT;
     public function _arrayToJs($sVarName, $aData, $bMultiLines = false)
     {
         // deprecated; use array2json instead
-        $aJs = array();
+        $aJs = [];
         $aJs[] = 'var ' . $sVarName . ' = new Array();';
 
         reset($aData);
         while (list($sKey, $mVal) = each($aData)) {
             $aJs[] = $sVarName . '["' . $sKey . '"]=unescape(\"' . str_replace(
-                array('%96', '%92'),
-                array('', '\''),
+                ['%96', '%92'],
+                ['', '\''],
                 rawurlencode($mVal)
             ) . '");';
         }
@@ -3981,7 +3981,7 @@ JAVASCRIPT;
 
     public function _rdtItemsToArray($aData)
     {
-        $aArray = array();
+        $aArray = [];
 
         reset($aData);
         while (list($iKey, ) = each($aData)) {
@@ -3995,14 +3995,14 @@ JAVASCRIPT;
 
     public function _arrayRowsToRdtItems($sCaptionKey, $sValueKey, $aData)
     {
-        $aItems = array();
+        $aItems = [];
 
         reset($aData);
         while (list(, $aRow) = each($aData)) {
-            $aItems[] = array(
+            $aItems[] = [
                 'value' => $aRow[$sValueKey],
                 'caption' => $aRow[$sCaptionKey]
-            );
+            ];
         }
 
         reset($aItems);
@@ -4061,29 +4061,29 @@ JAVASCRIPT;
 
     public function array2tree($aArray, $bFirst = true)
     {
-        $aNodes = array();
+        $aNodes = [];
         while (list($sKey, $mVal) = each($aArray)) {
             if (is_array($mVal)) {
-                $aNodes[] = array(
+                $aNodes[] = [
                     'label' => $sKey,
                     'nodes' => $this->array2tree($mVal, false),
-                );
+                ];
             } else {
                 $sLabel = (trim($sKey) !== '') ? trim($sKey) . ': ' : '';
 
-                $aNodes[] = array(
+                $aNodes[] = [
                     'label' => $sLabel . trim($mVal)    // avoiding null values
-                );
+                ];
             }
         }
 
         if ($bFirst && count(array_keys($aArray)) > 1) {
-            return array(
-                array(
+            return [
+                [
                     'label' => 'Root',
                     'nodes' => $aNodes,
-                ),
-            );
+                ],
+            ];
         }
 
         return $aNodes;
@@ -4174,19 +4174,19 @@ JAVASCRIPT;
         $this->cObj = null;
 
         $this->oSandBox = serialize($this->oSandBox);
-        $this->aDebug = array();
-        $this->_aSubXmlCache = array();
-        $this->aInitTasksUnobtrusive = array();
-        $this->aInitTasks = array();
-        $this->aInitTasksOutsideLoad = array();
-        $this->aInitTasksAjax = array();
-        $this->aPostInitTasks = array();
-        $this->aPostInitTasksAjax = array();
-        $this->aOnloadEvents = array(
-            'client' => array(),
-            'ajax' => array(),
-        );
-        $this->aCurrentRdtStack = array();
+        $this->aDebug = [];
+        $this->_aSubXmlCache = [];
+        $this->aInitTasksUnobtrusive = [];
+        $this->aInitTasks = [];
+        $this->aInitTasksOutsideLoad = [];
+        $this->aInitTasksAjax = [];
+        $this->aPostInitTasks = [];
+        $this->aPostInitTasksAjax = [];
+        $this->aOnloadEvents = [
+            'client' => [],
+            'ajax' => [],
+        ];
+        $this->aCurrentRdtStack = [];
     }
 
     public function _clearFormInSession()
@@ -4238,11 +4238,11 @@ JAVASCRIPT;
                 }
 
                 if ($oThrower === false) {
-                    $aArgs = array();
+                    $aArgs = [];
                     $aArgs[0] = $this->aAjaxEvents[$sEventId]['event']; // Wir ersetzen den ersten Parameter
                     $aArgs[1] = $oRequest->aRequest['params'];
 
-                    return call_user_func_array(array($this->getRunnable(), 'callRunnable'), $aArgs);
+                    return call_user_func_array([$this->getRunnable(), 'callRunnable'], $aArgs);
                 }
 
                 // Hier ist kommt der Call von einem Widget in der Seite
@@ -4250,13 +4250,13 @@ JAVASCRIPT;
                 // logic: for back-compat, when trueargs is empty, we pass parameters as we always did
                 // if trueargs set, we replicate arguments
 
-                $aArgs = is_array($aArgs) ? $aArgs : array();
+                $aArgs = is_array($aArgs) ? $aArgs : [];
                 if (!$iNbParams) {
                     array_unshift($aArgs, $oRequest->aRequest['params']);
                 }
                 array_unshift($aArgs, $oObject, $this->aAjaxEvents[$sEventId]['event']);
 
-                return call_user_func_array(array($this->getRunnable(), 'callRunnableWidget'), $aArgs);
+                return call_user_func_array([$this->getRunnable(), 'callRunnableWidget'], $aArgs);
             }
         } elseif ($oRequest->aRequest['servicekey'] == 'ajaxservice') {
             $sServiceId = $oRequest->aRequest['serviceid'];
@@ -4436,9 +4436,9 @@ JAVASCRIPT;
      *
      * @return array
      */
-    public function majixExecJs($sJs, $aParams = array())
+    public function majixExecJs($sJs, $aParams = [])
     {
-        $aContext = array();
+        $aContext = [];
 
         $aListData = $this->oDataHandler->getListData();
         if (!empty($aListData)) {
@@ -4449,19 +4449,19 @@ JAVASCRIPT;
             'execJs',
             $sJs,
             $this->formid,
-            array(
+            [
                 'context' => $aContext,
                 'params' => $aParams
-            )
+            ]
         );
     }
 
     public function addMajixOnload($aMajixTasks)
     {
-        $this->aOnloadEvents['client'][] = array(
+        $this->aOnloadEvents['client'][] = [
             'name' => 'Event added by addMajixOnload()',
             'eventdata' => $aMajixTasks
-        );
+        ];
     }
 
     /**
@@ -4472,14 +4472,14 @@ JAVASCRIPT;
      * @param array $mDataBag
      * @return array
      */
-    public function buildMajixExecuter($sMethod, $mData, $sElementId, $mDataBag = array())
+    public function buildMajixExecuter($sMethod, $mData, $sElementId, $mDataBag = [])
     {
-        return array(
+        return [
             'method' => $sMethod,
             'data' => $mData,
             'object' => $sElementId,
             'databag' => $mDataBag
-        );
+        ];
     }
 
     public function majixSubmit()
@@ -4536,7 +4536,7 @@ JAVASCRIPT;
     {
         $sWebPath = (!tx_mkforms_util_Div::isAbsWebPath($sFilePath)) ? tx_mkforms_util_Div::toWebPath($sFilePath) : $sFilePath;
 
-        $aParams = array();
+        $aParams = [];
         $aParams['url'] = $sWebPath;
 
         return $this->buildMajixExecuter(
@@ -4548,7 +4548,7 @@ JAVASCRIPT;
 
     public function majixOpenPopup($mParams)
     {
-        $aParams = array();
+        $aParams = [];
 
         if (is_string($mParams)) {
             $aParams['url'] = $mParams;
@@ -4576,12 +4576,12 @@ JAVASCRIPT;
     {
         return $this->buildMajixExecuter(
             'requestNewI18n',
-            array(
+            [
                 'tablename' => $sTableName,
                 'recorduid' => $iRecordUid,
                 'languid' => $iLangUid,
                 'hash' => $this->_getSafeLock('requestNewI18n' . ':' . $sTableName . ':' . $iRecordUid . ':' . $iLangUid),
-            ),
+            ],
             $this->formid
         );
     }
@@ -4595,11 +4595,11 @@ JAVASCRIPT;
         if ($sTableName !== false) {
             return $this->buildMajixExecuter(
                 'requestEdition',
-                array(
+                [
                     'tablename' => $sTableName,
                     'recorduid' => $iRecordUid,
                     'hash' => $this->_getSafeLock('requestEdition' . ':' . $sTableName . ':' . $iRecordUid),
-                ),
+                ],
                 $this->formid
             );
         }
@@ -4618,7 +4618,7 @@ JAVASCRIPT;
     {
         return $this->buildMajixExecuter(
             'getLocalAnchor',
-            array(),
+            [],
             'tx_ameosformidable'
         );
     }
@@ -4633,9 +4633,9 @@ JAVASCRIPT;
         if (is_numeric($sUrl)) {
             $sUrl = tx_mkforms_util_Div::toWebPath(
                 $this->getCObj()->typoLink_URL(
-                    array(
+                    [
                         'parameter' => $sUrl
-                    )
+                    ]
                 )
             );
         }
@@ -4709,23 +4709,23 @@ JAVASCRIPT;
         // else
         tx_mkforms_session_Factory::getSessionManager()->initialize();
         $GLOBALS['_SESSION']['ameos_formidable']['applicationdata']['rdt_lister'][$sFormId][$sSearchRdtName]['criterias']
-            = array();
+            = [];
     }
 
     public function backendHeaders(&$oModule)
     {
         $oModule->content = str_replace(
-            array(
+            [
                 '<!--###POSTJSMARKER###-->',
                 $oModule->doc->form,
-            ),
-            array(
+            ],
+            [
                 "<!-- FORMIDABLE JS FWK begin-->\n" . implode(
                     "\n",
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['context']['be_headerdata']
                 ) . "\n<!-- FORMIDABLE JS FWK end-->\n<!--###POSTJSMARKER###-->",
                 '<!-- DEFAULT FORM NEUTRALIZED BY FORMIDABLE ' . $oModule->doc->form . '-->',
-            ),
+            ],
             $oModule->content
         );
     }
@@ -4753,10 +4753,10 @@ JAVASCRIPT;
 
     public function generatePassword($iLength = 6)
     {
-        $aLetters = array(
+        $aLetters = [
             'cons' => 'aeiouy',
             'voy' => 'bcdfghjklmnpqrstvwxz',
-        );
+        ];
 
         $sPassword = '';
         $sType = 'cons';
@@ -4830,7 +4830,7 @@ JAVASCRIPT;
 
     public function wrapImplode($sWrap, $aData, $sGlue = '')
     {
-        $aRes = array();
+        $aRes = [];
         reset($aData);
         while (list($iKey, ) = each($aData)) {
             if (is_string($aData[$iKey])) {
@@ -4846,14 +4846,14 @@ JAVASCRIPT;
         $pageTSConfig = $GLOBALS['TSFE']->getPagesTSconfig();
 
         $aConfig = $pageTSConfig['RTE.']['default.']['FE.'];
-        $aSpecConf['rte_transform']['parameters'] = array(
+        $aSpecConf['rte_transform']['parameters'] = [
             'flag' => 'rte_enabled',
             'mode' => 'ts'
-        );
+        ];
 
-        $aDataArray = array(
+        $aDataArray = [
             $sColumn => $sRteHtml,
-        );
+        ];
 
         /**
  * @var $rte TYPO3\CMS\Backend\Rte\AbstractRte
@@ -4902,7 +4902,7 @@ JAVASCRIPT;
 
     public function div_camelizeKeys($aData)
     {
-        $aRes = array();
+        $aRes = [];
         reset($aData);
         while (list($sKey, ) = each($aData)) {
             $aRes[$this->div_camelize($sKey)] = $aData[$sKey];
@@ -4952,7 +4952,7 @@ JAVASCRIPT;
 
     public function div_getHeadersForUrl($sUrl)
     {
-        $aRes = array();
+        $aRes = [];
 
         if (($sHeaders = Tx_Rnbase_Utility_T3General::getUrl($sUrl, 2)) !== false) {
             $aHeaders = Tx_Rnbase_Utility_Strings::trimExplode("\n", $sHeaders);
@@ -5034,7 +5034,7 @@ JAVASCRIPT;
 
     public function isDomEventHandler($sHandler)
     {
-        $aList = array(
+        $aList = [
             'onabort',        // Refers to the loading of an image that is interrupted.
             'onblur',            // Refers to an element losing the focus of the web browser.
             'onchange',        // Refers to a content is change, usually inside a text input box.
@@ -5062,7 +5062,7 @@ JAVASCRIPT;
             'onbeforecut',        // before something is cut
             'onbeforecopy',        // before something is copied
             'onbeforepaste',    // before something is pasted
-        );
+        ];
 
         return in_array(strtolower(trim($sHandler)), $aList);
     }
@@ -5207,7 +5207,7 @@ JAVASCRIPT;
     public function attachErrorsByJS($errors, $msgDiv, $remove = false)
     {
         if ($remove && !count($errors)) {
-            $errors = array('noErrors' => true);
+            $errors = ['noErrors' => true];
         }
         if (!count($errors)) {
             return;
@@ -5226,10 +5226,10 @@ JAVASCRIPT;
      */
     public function clearValidationErrors()
     {
-        $this->_aValidationErrors = array();
-        $this->_aValidationErrorsByHtmlId = array();
-        $this->_aValidationErrorsInfos = array();
-        $this->_aValidationErrorsTypes = array();
+        $this->_aValidationErrors = [];
+        $this->_aValidationErrorsByHtmlId = [];
+        $this->_aValidationErrorsInfos = [];
+        $this->_aValidationErrorsTypes = [];
     }
 
     /**

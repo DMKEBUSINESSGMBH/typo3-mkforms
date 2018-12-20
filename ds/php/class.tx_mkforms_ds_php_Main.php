@@ -27,7 +27,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
             if ($this->_navConf('/get') === false) {
                 $oDataSet->initAnchored(
                     $this,
-                    array(),
+                    [],
                     $sKey
                 );
             } else {
@@ -57,7 +57,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
             if ($this->oForm->isRunneable($aGet)) {
                 $aGet = $this->callRunneable(
                     $aGet,
-                    array('key' => $sKey)
+                    ['key' => $sKey]
                 );
             } else {
                 $this->oForm->mayday(
@@ -93,15 +93,15 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
         return $aSet;
     }
 
-    public function &_fetchData($aConfig = array(), $aFilters = array())
+    public function &_fetchData($aConfig = [], $aFilters = [])
     {
-        $aResults = array();
+        $aResults = [];
         $iNumRows = 0;
 
-        return array(
+        return [
             'numrows' => $iNumRows,
             'results' => &$aResults,
-        );
+        ];
     }
 
     public function dset_alwaysNeedsToBeWritten()

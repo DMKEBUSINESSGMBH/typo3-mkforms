@@ -8,7 +8,7 @@
 
 class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
 {
-    public $aOButtons = array();
+    public $aOButtons = [];
 
     public function _render()
     {
@@ -16,7 +16,7 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
             $this->oForm->mayday("renderlet:I18N <b>'" . $this->_getName() . "'</b>: Datahandler has to declare <b>/i18n/use=true</b> for renderlet:I18N to work");
         }
 
-        $aHtmlBag = array();
+        $aHtmlBag = [];
 
         $aCurData = $this->oForm->oDataHandler->_getListData();
 
@@ -59,16 +59,16 @@ EVENT;
 EVENT;
                         }
 
-                        $aConf = array(
+                        $aConf = [
                             'type' => 'BUTTON',
                             'label' => $aLang['title'] . ($bExists ? '' : ' [NEW]'),
-                            'onclick-default' => array(
+                            'onclick-default' => [
                                 'runat' => 'client',
-                                'userobj' => array(
+                                'userobj' => [
                                     'php' => $sEvent,
-                                )
-                            )
-                        );
+                                ]
+                            ]
+                        ];
 
                         if (($aCustomConf = $this->_navConf('/stdbutton')) !== false) {
                             $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -93,7 +93,7 @@ EVENT;
 
 
                         $iIndex = $this->oForm->getRunnable()->pushForcedUserObjParam(
-                            array(
+                            [
                                 'translation_exists' => $bExists,
                                 'sys_language_uid' => $iLangUid,
                                 'childrecords' => $aChildRecords,
@@ -101,7 +101,7 @@ EVENT;
                                 'record' => $aCurData,
                                 'lang' => $aLang,
                                 'langs' => $aLangs,
-                            )
+                            ]
                         );
 
                         $aRendered = $this->aOButtons[$sName]->render();
@@ -142,10 +142,10 @@ EVENT;
                         $aDefinition['path'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aDefinition['path']);
                     }
 
-                    return array(
+                    return [
                         'type' => 'image',
                         'value' => $this->oForm->toWebPath($aDefinition['path'])
-                    );
+                    ];
                 } elseif (array_key_exists('label', $aDefinition)) {
                     // on renvoie le label
 
@@ -153,10 +153,10 @@ EVENT;
                         $aDefinition['label'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aDefinition['label']);
                     }
 
-                    return array(
+                    return [
                         'type' => 'text',
                         'value' => $this->oForm->getConfigXML()->getLLLabel($aDefinition['label'])
-                    );
+                    ];
                 } else {
                     /* on renvoie le flag par defaut */
                 }
@@ -196,14 +196,14 @@ TYPOSCRIPT;
 
         $this->getForm()->getRunnable()->callRunnableWidget(
             $this,
-            array(
-                'userobj' => array(
+            [
+                'userobj' => [
                     'ts' => $sTypoScript
-                )
-            )
+                ]
+            ]
         );
 
-        return array(
+        return [
             'type' => 'image',
             'value' => $this->oForm->toWebPath(
                 $this->getForm()->getCObj()->cObjGetSingle(
@@ -211,7 +211,7 @@ TYPOSCRIPT;
                     $this->oForm->aLastTs
                 )
             )
-        );
+        ];
     }
 
     public function _listable()
@@ -232,7 +232,7 @@ TYPOSCRIPT;
 
     public function cleanBeforeSession()
     {
-        $this->aOButtons = array();
+        $this->aOButtons = [];
         $this->baseCleanBeforeSession();
     }
 }

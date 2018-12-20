@@ -75,9 +75,9 @@ class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer
 
         $oVariableContainer = $oObjectFactory->create(
             'Tx_Fluid_Core_VariableContainer',
-            array(
+            [
                 'renderlets' => $aRendered
-            )
+            ]
         );
 
         return $oRootNode->evaluate($oVariableContainer);

@@ -55,7 +55,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
 
         $confId = $this->getController()->getConfId();
 
-        $markerArray = $subpartArray  = $wrappedSubpartArray = array();
+        $markerArray = $subpartArray  = $wrappedSubpartArray = [];
 
         // Wir holen die Daten von der Action ab
         // @TODO: mal auslagern! (handleFormData)
@@ -64,7 +64,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
             if (is_array($data)) {
                 // else:
 
-                $markerArrays = $subpartArrays  = $wrappedSubpartArrays = array();
+                $markerArrays = $subpartArrays  = $wrappedSubpartArrays = [];
 
                 foreach ($data as $key => $values) {
                     $currentMarkerPrefix = strtoupper($key) . '_';
@@ -82,7 +82,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
                      * oder die globale addAdditionalMarkers Methode angelegt werden!
                      */
                     if (tx_rnbase_util_BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
-                        $currentSubpartArray = $currentWrappedSubpartArray = array();
+                        $currentSubpartArray = $currentWrappedSubpartArray = [];
                         $currentMarkerArray = $formatter->getItemMarkerArrayWrapped(
                             $values,
                             $currentConfId,
@@ -111,9 +111,9 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
                     }
                 }
                 // die marker arrays zusammenführen
-                $markerArray = empty($markerArrays) ? array() : call_user_func_array('array_merge', $markerArrays);
-                $subpartArray =    empty($subpartArrays) ? array() : call_user_func_array('array_merge', $subpartArrays);
-                $wrappedSubpartArray = empty($wrappedSubpartArrays) ? array() : call_user_func_array('array_merge', $wrappedSubpartArrays);
+                $markerArray = empty($markerArrays) ? [] : call_user_func_array('array_merge', $markerArrays);
+                $subpartArray =    empty($subpartArrays) ? [] : call_user_func_array('array_merge', $subpartArrays);
+                $wrappedSubpartArray = empty($wrappedSubpartArrays) ? [] : call_user_func_array('array_merge', $wrappedSubpartArrays);
             }
         }
 
@@ -187,7 +187,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
                 $confId,
                 $linkId,
                 $markerPrefix,
-                empty($params) ? array() : $params,
+                empty($params) ? [] : $params,
                 $template
             );
         }
@@ -244,7 +244,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
         // @codingStandardsIgnoreStart (interface/abstract mistake)
         $params    = $viewData->offsetGet('redirect_parameters');
         $link = $configurations->createLink();
-        $link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : array());
+        $link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : []);
         return $link;
     }
 

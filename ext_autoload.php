@@ -4,7 +4,7 @@
 
 $extensionPath = PATH_typo3conf . 'ext/mkforms/';
 
-return array(
+return [
     'tx_mkforms_action_formbase' => $extensionPath . 'action/class.tx_mkforms_action_FormBase.php',
     'tx_mkforms_action_redirect_main' => $extensionPath . 'action/redirect/class.tx_mkforms_action_redirect_Main.php',
     'tx_mkforms_action_stepper_main' => $extensionPath . 'action/stepper/class.tx_mkforms_action_stepper_Main.php',
@@ -115,4 +115,4 @@ return array(
     'tx_mkforms_widgets_ticker_main' => $extensionPath . 'widgets/ticker/class.tx_mkforms_widgets_ticker_Main.php',
     'tx_mkforms_widgets_txtarea_main' => $extensionPath . 'widgets/txtarea/class.tx_mkforms_widgets_txtarea_Main.php',
     'tx_mkforms_widgets_upload_main' => $extensionPath . 'widgets/upload/class.tx_mkforms_widgets_upload_Main.php',
-);
+];

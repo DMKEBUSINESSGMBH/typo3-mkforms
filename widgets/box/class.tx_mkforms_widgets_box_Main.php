@@ -10,13 +10,13 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Box';
     public $bCustomIncludeScript = true;
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_box_class' => 'res/js/box.js',
-    );
-    public $aPossibleCustomEvents = array(
+    ];
+    public $aPossibleCustomEvents = [
         'ondragdrop',
         'ondraghover',
-    );
+    ];
 
     public $oDataSource = false;
     public $sDsKey = false;
@@ -69,13 +69,13 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
 
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
-            array(
+            [
                 'hasdata' => $this->hasData(),
-            )
+            ]
         );
 
         if (($mDraggable = $this->_navConf('/draggable')) !== false) {
-            $aConf = array();
+            $aConf = [];
 
             if (is_array($mDraggable)) {
                 if ($this->_defaultTrue('/draggable/use') === true) {
@@ -108,7 +108,7 @@ new Draggable("' . $sHtmlId . '", ' . $sJson . ');
         }
 
         if (($mDroppable = $this->_navConf('/droppable')) !== false) {
-            $aConf = array();
+            $aConf = [];
 
             if (is_array($mDroppable)) {
                 if ($this->_defaultTrue('/droppable/use') === true) {
@@ -164,16 +164,16 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
             }
         }
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($sLabel) . $sBegin . $sHtml . $sCompiledChilds . $sEnd,
             'html' => $sHtml,
-            'box.' => array(
+            'box.' => [
                 'begin' => $sBegin,
                 'end' => $sEnd,
                 'mode' => $sMode,
-            ),
+            ],
             'childs' => $aChilds
-        );
+        ];
 
         return $aHtmlBag;
     }

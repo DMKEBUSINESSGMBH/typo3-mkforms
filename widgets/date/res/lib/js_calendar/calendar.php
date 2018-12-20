@@ -39,8 +39,10 @@ class DHTML_Calendar
         $this->calendar_lang_file = 'lang/calendar-' . $lang . '.js';
         $this->calendar_theme_file = $theme.'.css';
         $this->calendar_lib_path = preg_replace('/\/+$/', '/', $calendar_lib_path);
-        $this->calendar_options = array('ifFormat' => '%Y/%m/%d',
-                                        'daFormat' => '%Y/%m/%d');
+        $this->calendar_options = [
+            'ifFormat' => '%Y/%m/%d',
+                                        'daFormat' => '%Y/%m/%d'
+        ];
     }
 
     public function set_option($name, $value)
@@ -71,7 +73,7 @@ class DHTML_Calendar
         return $code;
     }
 
-    public function _make_calendar($other_options = array())
+    public function _make_calendar($other_options = [])
     {
         $js_options = $this->_make_js_hash(array_merge($this->calendar_options, $other_options));
         $code  = ('<script type="text/javascript">Calendar.setup({' .
@@ -81,13 +83,15 @@ class DHTML_Calendar
         return $code;
     }
 
-    public function make_input_field($cal_options = array(), $field_attributes = array())
+    public function make_input_field($cal_options = [], $field_attributes = [])
     {
         $id = $this->_gen_id();
         $attrstr = $this->_make_html_attr(array_merge(
             $field_attributes,
-            array('id'   => $this->_field_id($id),
-            'type' => 'text')
+            [
+                'id'   => $this->_field_id($id),
+            'type' => 'text'
+            ]
         ));
         echo '<input ' . $attrstr .'/>';
         echo '<a href="#" id="'. $this->_trigger_id($id) . '">' .
@@ -95,8 +99,10 @@ class DHTML_Calendar
 
         $options = array_merge(
             $cal_options,
-            array('inputField' => $this->_field_id($id),
-            'button'     => $this->_trigger_id($id))
+            [
+                'inputField' => $this->_field_id($id),
+            'button'     => $this->_trigger_id($id)
+            ]
         );
         echo $this->_make_calendar($options);
     }

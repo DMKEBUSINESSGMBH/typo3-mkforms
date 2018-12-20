@@ -33,10 +33,10 @@ class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
             $sCompiledChilds = $this->getLabel();
         }
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($sLabel) . $sBegin . $sCompiledChilds . $sEnd,
             'childs' => $aChilds
-        );
+        ];
 
         return $aHtmlBag;
     }

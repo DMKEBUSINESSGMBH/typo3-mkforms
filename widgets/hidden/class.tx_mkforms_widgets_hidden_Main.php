@@ -25,11 +25,11 @@ class tx_mkforms_widgets_hidden_Main extends formidable_mainrenderlet
             $this->_getAddInputParams() .
         ' />';
 
-        return array(
+        return [
             '__compiled' => $inputHtml,
             'input' => $inputHtml,
             'value' => $value,
-        );
+        ];
     }
 
     /**

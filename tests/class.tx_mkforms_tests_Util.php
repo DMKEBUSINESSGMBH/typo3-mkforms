@@ -79,7 +79,7 @@ class tx_mkforms_tests_Util
      */
     public static function getForm(
         $bCsrfProtection = true,
-        $aConfigArray = array(),
+        $aConfigArray = [],
         $parent = null,
         $oForm = null
     ) {
@@ -145,23 +145,23 @@ class tx_mkforms_tests_Util
 
     public static function getDefaultFormConfig($bCsrfProtection = true)
     {
-        return array(
-            'generic.' => array(
+        return [
+            'generic.' => [
                 'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
-                'addfields.' => array(
+                'addfields.' => [
                         'widget-addfield' => 'addfield feld',
                         'widget-remove' => 'unset',
-                    ),
+                ],
                 'fieldSeparator' => '-',
                 'addPostVars' => 1,
-                'formconfig.' => array(
+                'formconfig.' => [
                     'loadJsFramework' => 0, // formconfig für config check setzen.
                     'csrfProtection' => $bCsrfProtection,
                     'checkWidgetsExist' => 1,
-                ),
+                ],
 
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -198,11 +198,12 @@ class tx_mkforms_tests_Util
         $GLOBALS['TSFE']->fe_user->setKey(
             'ses',
             'mkforms',
-            array('requestToken' =>
-                array(
+            [
+                'requestToken' =>
+                [
                     $formId => $requestToken
-                )
-            )
+                ]
+            ]
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
     }

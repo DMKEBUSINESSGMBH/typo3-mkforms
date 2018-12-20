@@ -11,9 +11,9 @@
 class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Selector';
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_selector_class' => 'res/js/selector.js'
-    );
+    ];
 
     public $bCustomIncludeScript = true;
 
@@ -42,7 +42,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
         );
 
         $aSelected = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValue());
-        $aSelectedItems = array();
+        $aSelectedItems = [];
 
         foreach ($aSelected as $sValue) {
             if (array_key_exists($sValue, $aItems)) {
@@ -75,15 +75,15 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
             $aCustom = $this->oCustomRenderlet->render();
             $sCustomId = $this->oCustomRenderlet->_getElementHtmlId();
         } else {
-            $aCustom = array(
+            $aCustom = [
                 '__compiled' => '',
-            );
+            ];
             $sCustomId = false;
         }
 
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
-            array(
+            [
                 'availableId' => $this->oAvailable->_getElementHtmlId(),
                 'selectedId' => $this->oSelected->_getElementHtmlId(),
                 'buttonRemoveId' => $this->oButtonRemove->_getElementHtmlId(),
@@ -92,7 +92,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
                 'buttonMoveDownId' => $this->oButtonMoveDown->_getElementHtmlId(),
                 'buttonMoveBottomId' => $this->oButtonMoveBottom->_getElementHtmlId(),
                 'customRenderletId' => $sCustomId,
-            )
+            ]
         );
 
         $sHidden = '<input type="hidden" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . htmlspecialchars($this->getValue()) . '" />';
@@ -123,7 +123,7 @@ HTML;
         $aAvailableHtml['__compiled'] .= $sHidden;
         $aAvailableHtml['input'] .= $sHidden;
 
-        return array(
+        return [
             '__compiled' => $sCompiled,
             'available' => $aAvailableHtml,
             'selected' => $aSelectedHtml,
@@ -133,7 +133,7 @@ HTML;
             'buttonBottom' => $aButtonMoveBottom,
             'buttonRemove' => $aButtonRemove,
             'customRenderlet' => $aCustom,
-        );
+        ];
     }
 
     public function initAvailable()
@@ -150,18 +150,18 @@ HTML;
 				);
 PHP;
 
-            $aConf = array(
-                'onmouseup-999' => array(
-                    'userobj' => array(
+            $aConf = [
+                'onmouseup-999' => [
+                    'userobj' => [
                         'php' => $sEvent
-                    )
-                ),
+                    ]
+                ],
                 'style' => 'width: 100%;'    // 100% of TD
-            );
+            ];
 
             if (($aCustomConf = $this->_navConf('/available')) !== false) {
                 if (!is_array($aCustomConf)) {
-                    $aCustomConf = array();
+                    $aCustomConf = [];
                 }
 
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -190,9 +190,9 @@ PHP;
     public function initSelected()
     {
         if ($this->oSelected === false) {
-            $aConf = array(
+            $aConf = [
                 'style' => 'width: 100%;'    //	100% of TD
-            );
+            ];
             if (($aCustomConf = $this->_navConf('/selected')) !== false) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aConf,
@@ -252,16 +252,16 @@ PHP;
 
 PHP;
 
-            $aConf = array(
+            $aConf = [
                 'type' => 'IMAGE',
                 'path' => $this->sExtPath . 'res/img/remove.gif',
-                'onclick-999' => array(            // 999 to avoid overruling by potential customly defined event
+                'onclick-999' => [            // 999 to avoid overruling by potential customly defined event
                     'runat' => 'client',
-                    'userobj' => array(
+                    'userobj' => [
                         'php' => $sEvent,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
 
             if (($aCustomConf = $this->_navConf('/buttonremove')) !== false) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -297,16 +297,16 @@ PHP;
 			);
 
 PHP;
-            $aConf = array(
+            $aConf = [
                 'type' => 'IMAGE',
                 'path' => $this->sExtPath . 'res/img/top.gif',
-                'onclick-999' => array(
+                'onclick-999' => [
                     'runat' => 'client',
-                    'userobj' => array(
+                    'userobj' => [
                         'php' => $sEvent,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
 
             if (($aCustomConf = $this->_navConf('/buttontop')) !== false) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -342,16 +342,16 @@ PHP;
 			);
 
 PHP;
-            $aConf = array(
+            $aConf = [
                 'type' => 'IMAGE',
                 'path' => $this->sExtPath . 'res/img/up.gif',
-                'onclick-999' => array(
+                'onclick-999' => [
                     'runat' => 'client',
-                    'userobj' => array(
+                    'userobj' => [
                         'php' => $sEvent,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
 
             if (($aCustomConf = $this->_navConf('/buttonup')) !== false) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -385,16 +385,16 @@ PHP;
 				);
 
 PHP;
-            $aConf = array(
+            $aConf = [
                 'type' => 'IMAGE',
                 'path' => $this->sExtPath . 'res/img/down.gif',
-                'onclick-999' => array(
+                'onclick-999' => [
                     'runat' => 'client',
-                    'userobj' => array(
+                    'userobj' => [
                         'php' => $sEvent,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
 
             if (($aCustomConf = $this->_navConf('/buttondown')) !== false) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -429,16 +429,16 @@ PHP;
 				);
 
 PHP;
-            $aConf = array(
+            $aConf = [
                 'type' => 'IMAGE',
                 'path' => $this->sExtPath . 'res/img/bottom.gif',
-                'onclick-999' => array(
+                'onclick-999' => [
                     'runat' => 'client',
-                    'userobj' => array(
+                    'userobj' => [
                         'php' => $sEvent,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
 
             if (($aCustomConf = $this->_navConf('/buttonbottom')) !== false) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(

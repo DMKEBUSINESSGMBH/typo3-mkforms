@@ -10,16 +10,16 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
 {
     public function _render()
     {
-        $aHtml = array();
-        $aHtmlBag = array();
+        $aHtml = [];
+        $aHtmlBag = [];
         $sValue = $this->getValue();
         $sValueForHtml = $this->getValueForHtml($sValue);
 
-        $aAddPost = array(
-            'formdata' => array(
+        $aAddPost = [
+            'formdata' => [
                 $this->_getName() => '1'        // to simulate default browser behaviour
-            )
-        );
+            ]
+        ];
 
         $sFuncName = '_formidableRdtChooser' . Tx_Rnbase_Utility_T3General::shortMd5($this->oForm->formid . $this->_getName());
         $sElementId = $this->_getElementHtmlId();
@@ -72,7 +72,7 @@ JAVASCRIPT;
                 $sSelected = ($sValue == $sItemValue) ? 1 : 0;
 
                 if ($this->oForm->isRunneable($this->_navConf('/renderaslinks'))) {
-                    $sHref = $this->getForm()->getRunnable()->callRunnableWidget($this, $this->_navConf('/renderaslinks'), array('value' => $sItemValue));
+                    $sHref = $this->getForm()->getRunnable()->callRunnableWidget($this, $this->_navConf('/renderaslinks'), ['value' => $sItemValue]);
                 } else {
                     $sHref = 'javascript:void(' . $sFuncName . "(unescape('" . rawurlencode($sItemValue) . "'), unescape('" . rawurlencode($sId) . "')))";
                 }
@@ -94,19 +94,19 @@ JAVASCRIPT;
                     $sChannel = $sValue;
                 }
 
-                $aHtmlBag[$sChannel . '.'] = array(
+                $aHtmlBag[$sChannel . '.'] = [
                     'id' => $sId,
                     'input' => $sLink,
                     'action' => $sHref,
-                    'tag.' => array(
+                    'tag.' => [
                         'start' => $sLinkStart,
                         'end' => $sLinkEnd,
-                    ),
+                    ],
                     'caption' => $sCaption,
                     'inner' => $sInner,
                     'value' => $sItemValue,
                     'selected' => $sSelected,
-                );
+                ];
 
                 $aHtml[] = $sLink;
             }

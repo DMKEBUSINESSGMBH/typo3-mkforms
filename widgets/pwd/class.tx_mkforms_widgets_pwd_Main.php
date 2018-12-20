@@ -14,10 +14,10 @@ class tx_mkforms_widgets_pwd_Main extends formidable_mainrenderlet
 
         $sInput = '<input type="password" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $this->getValueForHtml() . '"' . $this->_getAddInputParams() . ' />';
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($sLabel) . $sInput,
             'input' => $sInput,
-        );
+        ];
 
         return $aHtmlBag;
     }

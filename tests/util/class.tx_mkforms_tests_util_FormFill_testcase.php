@@ -44,29 +44,29 @@ class tx_mkforms_tests_util_FormFill_testcase extends tx_rnbase_tests_BaseTestCa
     {
         $formBase = $this->getMock(
             'tx_mkforms_util_FormFill',
-            array('getRowsFromDataBase')
+            ['getRowsFromDataBase']
         );
         $form = tx_mkforms_tests_Util::getForm();
         $formBase->expects(self::once())
             ->method('getRowsFromDataBase')
-            ->with(array('someParams'), $form)
+            ->with(['someParams'], $form)
             ->will(self::returnValue(
-                array(
-                    0 => array(
+                [
+                    0 => [
                         '__value__' => 123, '__caption__' => 'first'
-                    ),
-                    1 => array(
+                    ],
+                    1 => [
                         '__value__' => 456, '__caption__' => 'second'
-                    ),
-                )
+                    ],
+                ]
             ));
 
         self::assertEquals(
-            array(
-                0 => array('value' => 123, 'caption' => 'first'),
-                1 => array('value' => 456, 'caption' => 'second'),
-            ),
-            $formBase->getItemsFromDb(array('someParams'), $form),
+            [
+                0 => ['value' => 123, 'caption' => 'first'],
+                1 => ['value' => 456, 'caption' => 'second'],
+            ],
+            $formBase->getItemsFromDb(['someParams'], $form),
             'rückgabe falsch'
         );
     }
@@ -82,7 +82,7 @@ class tx_mkforms_tests_util_FormFill_testcase extends tx_rnbase_tests_BaseTestCa
         $form = tx_mkforms_tests_Util::getForm();
         $formFill = $this->getMock(
             'tx_mkforms_util_FormFill',
-            array('getItemsFromDb')
+            ['getItemsFromDb']
         );
 
         $formFill
@@ -91,19 +91,19 @@ class tx_mkforms_tests_util_FormFill_testcase extends tx_rnbase_tests_BaseTestCa
             ->with()
             ->will(
                 $this->returnValue(
-                    array(
-                        array('value' => '13','caption' => 'Oesterreich'),
-                        array('value' => '54','caption' => 'Deutschland'),
-                        array('value' => '41','caption' => 'Schweiz'),
-                    )
+                    [
+                        ['value' => '13','caption' => 'Oesterreich'],
+                        ['value' => '54','caption' => 'Deutschland'],
+                        ['value' => '41','caption' => 'Schweiz'],
+                    ]
                 )
             );
 
         $countries = $formFill->getStaticCountries(
-            array(
+            [
                 'add_top_countries' => '54',
                 'add_top_country_delimiter' => '---',
-            ),
+            ],
             $form
         );
 

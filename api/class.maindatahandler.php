@@ -10,17 +10,17 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public $bDataHandlerOnSubmit = false;    // fills an empty field with data from the datahendler
 
-    public $__aStoredData = array();    // internal use only
+    public $__aStoredData = [];    // internal use only
 
-    public $__aFormData = array();    // internal use only
+    public $__aFormData = [];    // internal use only
 
-    public $__aFormDataManaged = array();    // internal use only
+    public $__aFormDataManaged = [];    // internal use only
 
-    public $__aCols = array();                // columns associated to an existing renderlet
+    public $__aCols = [];                // columns associated to an existing renderlet
 
-    public $__aListData = array();            // contextual data, containing the current list record
+    public $__aListData = [];            // contextual data, containing the current list record
 
-    public $__aParentListData = array();            // contextual data, containing the current list record
+    public $__aParentListData = [];            // contextual data, containing the current list record
 
     public $aT3Languages = false;
 
@@ -238,7 +238,7 @@ class formidable_maindatahandler extends formidable_mainobject
                 );
 
                 if (!is_array($aData)) {
-                    $aData = array();
+                    $aData = [];
                 }
 
                 reset($aData);
@@ -261,7 +261,7 @@ class formidable_maindatahandler extends formidable_mainobject
     {
         $this->getForm()->mayday('_getFormDataManaged() is deprecated');
         if (empty($this->__aFormDataManaged)) {
-            $this->__aFormDataManaged = array();
+            $this->__aFormDataManaged = [];
             $aKeys = array_keys($this->getForm()->aORenderlets);
 
             reset($aKeys);
@@ -283,7 +283,7 @@ class formidable_maindatahandler extends formidable_mainobject
     {
         $this->getForm()->mayday('_getFlatFormData() is deprecated');
         $aFormData = $this->_getFormData();
-        $aRes = array();
+        $aRes = [];
         reset($aFormData);
         while (list($sName, $mData) = each($aFormData)) {
             if (array_key_exists($sName, $this->getForm()->aORenderlets)) {
@@ -301,7 +301,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $this->getForm()->mayday('_getFlatFormDataManaged() is deprecated');
         $aFormData = $this->_getFormDataManaged();
 
-        $aFlatFormDataManaged = array();
+        $aFlatFormDataManaged = [];
         reset($aFormData);
         while (list($sAbsName, $mData) = each($aFormData)) {
             if (array_key_exists($sAbsName, $this->getForm()->aORenderlets)) {
@@ -397,7 +397,7 @@ class formidable_maindatahandler extends formidable_mainobject
             return '';
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -412,7 +412,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function refreshStoredData()
     {
-        $this->__aStoredData = array(); // Ist notwendig, da direkt auf das Array zugegriffen wird!
+        $this->__aStoredData = []; // Ist notwendig, da direkt auf das Array zugegriffen wird!
         $this->__aStoredData = $this->getStoredData();
         // Jetzt initRecord abfahren
         if (($val = $this->getForm()->getConfig()->get('/control/datahandler/initrecord')) !== false) {
@@ -422,7 +422,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function refreshFormData()
     {
-        $this->__aFormData = array();
+        $this->__aFormData = [];
         $aKeys = array_keys($this->getForm()->aORenderlets);
         reset($aKeys);
         while (list(, $sAbsName) = each($aKeys)) {
@@ -437,9 +437,9 @@ class formidable_maindatahandler extends formidable_mainobject
         }
 
         $this->getForm()->checkPoint(
-            array(
+            [
                 'after-fetching-formdata',
-            )
+            ]
         );
 
         $this->aProcessBeforeRenderData = false;
@@ -505,8 +505,8 @@ class formidable_maindatahandler extends formidable_mainobject
 
             $aPost = Tx_Rnbase_Utility_T3General::_POST();
 
-            $aPost = is_array($aPost[$form_id]) ? $aPost[$form_id] : array();
-            $aFiles = is_array($GLOBALS['_FILES'][$form_id]) ? $GLOBALS['_FILES'][$form_id] : array();
+            $aPost = is_array($aPost[$form_id]) ? $aPost[$form_id] : [];
+            $aFiles = is_array($GLOBALS['_FILES'][$form_id]) ? $GLOBALS['_FILES'][$form_id] : [];
             $aP = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
 
             Tx_Rnbase_Utility_T3General::stripSlashesOnArray($aP);
@@ -528,8 +528,8 @@ class formidable_maindatahandler extends formidable_mainobject
     {
         $aFormData = $this->_getFormData();
 
-        $aValues = array();
-        $aLabels = array();
+        $aValues = [];
+        $aLabels = [];
 
         reset($aFormData);
         while (list($elementname, $value) = each($aFormData)) {
@@ -544,15 +544,15 @@ class formidable_maindatahandler extends formidable_mainobject
         reset($aValues);
         reset($aLabels);
 
-        return array(
+        return [
             'labels' => $aLabels,
             'values' => $aValues
-        );
+        ];
     }
 
     public function _initCols()
     {
-        $this->__aCols = array();
+        $this->__aCols = [];
     }
 
     public function getListData($sKey = false)
@@ -588,7 +588,7 @@ class formidable_maindatahandler extends formidable_mainobject
             }
         }
 
-        return array();
+        return [];
     }
 
     public function _getParentListData($sKey = false)
@@ -627,7 +627,7 @@ class formidable_maindatahandler extends formidable_mainobject
     public function i18n_getChildRecords($iParentUid)
     {
         if (($sTableName = $this->tableName()) !== false) {
-            $aRecords = array();
+            $aRecords = [];
 
             $rSql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',
@@ -646,7 +646,7 @@ class formidable_maindatahandler extends formidable_mainobject
             }
         }
 
-        return array();
+        return [];
     }
 
     public function i18n_getDefLangUid()
@@ -657,7 +657,7 @@ class formidable_maindatahandler extends formidable_mainobject
     public function getT3Languages()
     {
         if ($this->aT3Languages === false) {
-            $this->aT3Languages = array();
+            $this->aT3Languages = [];
 
             $rSql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 '*',

@@ -128,20 +128,20 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTe
     {
         $this->oForm->getWidget('fieldset__texte__area__textarea')->setValue('sometext');
 
-        $this->oMainValidator->aElement = array(
+        $this->oMainValidator->aElement = [
             'type' => 'STANDARD',
-            'required' => array(
+            'required' => [
                 'message' => 'Fehlermeldung',
                 'dependson'  =>    'fieldset__texte__area__textarea'
-            )
-        );
+            ]
+        ];
 
         $widget = $this->oForm->getWidget('fieldset__widget-radiobutton');
 
         self::assertTrue(
             $this->callInaccessibleMethod(
-                array($this->oMainValidator, 'checkDependsOn'),
-                array(&$widget, 'required')
+                [$this->oMainValidator, 'checkDependsOn'],
+                [&$widget, 'required']
             ),
             'Es wurde nicht true zurück gegeben!'
         );
@@ -151,20 +151,20 @@ class tx_mkforms_tests_api_mainvalidator_testcase extends tx_rnbase_tests_BaseTe
     {
         $this->oForm->getWidget('fieldset__texte__area__textarea')->setValue('');
 
-        $this->oMainValidator->aElement = array(
+        $this->oMainValidator->aElement = [
             'type' => 'STANDARD',
-            'required' => array(
+            'required' => [
                 'message' => 'Fehlermeldung',
                 'dependson'  =>    'fieldset__texte__area__textarea'
-            )
-        );
+            ]
+        ];
 
         $widget = $this->oForm->getWidget('fieldset__widget-radiobutton');
 
         self::assertFalse(
             $this->callInaccessibleMethod(
-                array($this->oMainValidator, 'checkDependsOn'),
-                array(&$widget, 'required')
+                [$this->oMainValidator, 'checkDependsOn'],
+                [&$widget, 'required']
             ),
             'Es wurde nicht false zurück gegeben!'
         );

@@ -31,7 +31,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
         $this->aStatics['targetfile'] = $this->aEmptyStatics['targetfile'];
     }
 
-    public function checkPoint(&$aPoints, array &$options = array())
+    public function checkPoint(&$aPoints, array &$options = [])
     {
         parent::checkPoint($aPoints, $options);
 
@@ -98,24 +98,24 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
             }
         }
 
-        $aRes = array(
+        $aRes = [
             '__compiled' => $this->_displayLabel($this->getLabel()) . $sValuePreview . $sInput,
             'input' => $sInput,
-            'filelist.' => array(
+            'filelist.' => [
                 'csv' => $sValueCvs,
                 'ol' => '<ol>' . $sLis . '</ol>',
                 'ul' => '<ul>' . $sLis . '</ul>',
-            ),
-            'linklist.' => array(
+            ],
+            'linklist.' => [
                 'csv' => $sLinkCvs,
                 'ol' => '<ol>' . $sLinkLis . '</ol>',
                 'ul' => '<ul>' . $sLinkLis . '</ul>',
-            ),
+            ],
             'value' => $sValue,
-            'value.' => array(
+            'value.' => [
                 'preview' => $sValuePreview,
-            ),
-        );
+            ],
+        ];
 
         if (!$this->isMultiple()) {
             if (trim($sValue) != '') {
@@ -220,12 +220,12 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 
             if (move_uploaded_file($aData['tmp_name'], $sTarget)) {
                 // success
-                $this->aUploaded = array(
+                $this->aUploaded = [
                     'dir' => $sTargetDir,
                     'name' => $sName,
                     'path' => $sTarget,
                     'infos' => $aData,
-                );
+                ];
 
                 $sCurFile = $sName;
 
@@ -291,7 +291,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                     tx_rnbase_util_Logger::fatal(
                         'Der value des Uploadfelds ist kein string, was nie passieren darf!',
                         'mkforms',
-                        array(
+                        [
                             'widget'                => $this->_getName(),
                             '$aStoredData'            => $aStoredData,
                             '$sStoredData'            => $sStoredData,
@@ -300,7 +300,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                             'Validierungsfehler'    => $this->getForm()->_aValidationErrors,
                             '$GET'                    => Tx_Rnbase_Utility_T3General::_GET(),
                             '$POST'                    => Tx_Rnbase_Utility_T3General::_POST(),
-                        )
+                        ]
                     );
                 }
 
@@ -401,7 +401,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
             if ($this->isMultiple()) {
                 $aFiles = Tx_Rnbase_Utility_Strings::trimExplode(',', $this->getValue());
             } else {
-                $aFiles = array($this->getValue());
+                $aFiles = [$this->getValue()];
             }
 
             foreach ($aFiles as $sFileName) {
@@ -422,7 +422,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                     );
 
                     if (!is_array($aCurCats)) {
-                        $aCurCats = array();
+                        $aCurCats = [];
                     }
 
                     foreach ($aCurCats as &$category)
@@ -433,17 +433,17 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                         $mCategories = $this->getForm()->getRunnable()->callRunnableWidget(
                             $this,
                             $mCategories,
-                            array(
+                            [
                                 'filename' => $sFileName,
                                 'filepath' => $sFilePath,
                                 'media' => $oMedia,
                                 'currentcats' => $aCurCats,
                                 'files' => $aFiles,
-                            )
+                            ]
                         );
                     }
 
-                    $aCategories = array();
+                    $aCategories = [];
 
                     if (!is_array($mCategories)) {
                         if (trim($mCategories) !== '') {

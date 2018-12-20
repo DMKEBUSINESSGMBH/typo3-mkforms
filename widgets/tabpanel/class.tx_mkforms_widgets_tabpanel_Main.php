@@ -9,10 +9,10 @@
 class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'TabPanel';
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_tabpanel_lib' => 'res/js/libs/control.tabs.2.1.1.js',
         'rdt_tabpanel_class' => 'res/js/tabpanel.js',
-    );
+    ];
     public $bCustomIncludeScript = true;
 
     public function _render()
@@ -20,27 +20,27 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
         $sBegin = '<ul id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' onmouseup="this.blur()">';
         $sEnd = '</ul>';
 
-        $aTabs = array();
+        $aTabs = [];
         foreach ($this->aChilds as $sName => $oRdt) {
             if ($oRdt->_getType() == 'TAB') {
                 $sId = $oRdt->_getElementHtmlId();
-                $aTabs[$sId] = array(
+                $aTabs[$sId] = [
                     'name' => $sName,
                     'label' => $this->getLabel(),
                     'htmlid' => $sId,
-                );
+                ];
             }
         }
 
         $visible = true;
-        $aConfig = array(
+        $aConfig = [
             'setClassOnContainer' => 'false',
             'activeClassName' => 'active',
             'defaultTab' => 'first',
             'linkSelector' => 'li a.rdttab',
             'visible' => &$visible,
             'tabs' => $aTabs,
-        );
+        ];
 
         if (($aUserConfig = $this->_navConf('config')) !== false) {
             if (array_key_exists('activeclassname', $aUserConfig)) {
@@ -63,7 +63,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
 
         $aChilds = $this->renderChildsBag();
 
-        $hideIfChildsBagCount = array();
+        $hideIfChildsBagCount = [];
         if ($this->_navConf('hideifchildsbagcount') !== false) {
             $hideIfChildsBagCount = $this->_navConf('hideifchildsbagcount');
             $hideIfChildsBagCount = Tx_Rnbase_Utility_Strings::trimExplode(',', $hideIfChildsBagCount);
@@ -80,21 +80,21 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
         }
 
         $this->includeScripts(
-            array(
+            [
                 'libconfig' => $aConfig,
                 'tabs' => $aTabs
-            )
+            ]
         );
 
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $aConfig['visible'] ? $compiled : '',
-            'ul.' => array(
+            'ul.' => [
                 'begin' => $sBegin,
                 'end' => $sEnd,
-            ),
+            ],
             'childs' => $aChilds
-        );
+        ];
 
         return $aHtmlBag;
     }

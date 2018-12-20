@@ -4,7 +4,7 @@ class user_ameosformidable_userfuncs
 {
     public function getAdditionalHeaderData()
     {
-        $aRes = array();
+        $aRes = [];
         if (isset($GLOBALS['tx_ameosformidable']) && isset($GLOBALS['tx_ameosformidable']['headerinjection'])) {
             reset($GLOBALS['tx_ameosformidable']['headerinjection']);
             while (list(, $aHeaderSet) = each($GLOBALS['tx_ameosformidable']['headerinjection'])) {

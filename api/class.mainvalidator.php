@@ -296,7 +296,7 @@ class formidable_mainvalidator extends formidable_mainobject
                 if ($this->oForm->isRunneable($mCustom)) {
                     if (($mResult = $this->getForm()->getRunnable()->callRunnable(
                         $mCustom,
-                        array('value' => $mValue, 'widget' => $oRdt)
+                        ['value' => $mValue, 'widget' => $oRdt]
                     )) !== true
                     ) {
                         if (is_string($mResult)) {
@@ -388,7 +388,7 @@ class formidable_mainvalidator extends formidable_mainobject
                     $negate = true;
                 } else {
                     // default false values
-                    $aDependsOnIf = array('', 0, '0', null, false, array());
+                    $aDependsOnIf = ['', 0, '0', null, false, []];
                 }
 
                 // IteratingId bei einem Renderlet im Lister setzen.

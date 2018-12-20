@@ -107,9 +107,9 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         ) {
             tx_rnbase::load('tx_rnbase_util_Debug');
             tx_rnbase_util_Debug::debug(
-                array(
+                [
                     'es gab Validierungsfehler' => $this->getForm()->_aValidationErrors
-                ),
+                ],
                 __METHOD__ . __LINE__
             );
 
@@ -130,7 +130,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
     public function _getStoredData($sName = false)
     {
         if (empty($this->__aStoredData)) {
-            $this->__aStoredData = array();
+            $this->__aStoredData = [];
 
             if (($record = $this->getForm()->getConfig()->get('/control/datahandler/record')) !== false) {
                 $this->__aStoredData = $this->getForm()->getRunnable()->callRunnable($record);
@@ -162,7 +162,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
             return $this->__aStoredData;
         }
 
-        return ($sName !== false) ? '' : array();
+        return ($sName !== false) ? '' : [];
     }
 
     /**

@@ -57,14 +57,14 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $this->initialize();
 
         if (!array_key_exists('ameos_formidable', (array) $GLOBALS['_SESSION'])) {
-            $GLOBALS['_SESSION']['ameos_formidable'] = array();
-            $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'] = array();
-            $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable'] = array();
-            $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxevent'] = array();
+            $GLOBALS['_SESSION']['ameos_formidable'] = [];
+            $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'] = [];
+            $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable'] = [];
+            $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxevent'] = [];
 
-            $GLOBALS['_SESSION']['ameos_formidable']['hibernate'] = array();
+            $GLOBALS['_SESSION']['ameos_formidable']['hibernate'] = [];
 
-            $GLOBALS['_SESSION']['ameos_formidable']['applicationdata'] = array();
+            $GLOBALS['_SESSION']['ameos_formidable']['applicationdata'] = [];
         }
     }
 
@@ -92,7 +92,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             // aber nur die im ts angegebenen pfade
             $this->persistFeSetup(
                 $formId,
-                $form->getConfTS('cache.tsPaths') ? $form->getConfTS('cache.tsPaths.') : array()
+                $form->getConfTS('cache.tsPaths') ? $form->getConfTS('cache.tsPaths.') : []
             );
         }
         //aufräumen vor dem cachen der form
@@ -106,7 +106,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $cache = tx_rnbase_cache_Manager::getCache('mkforms');
         $cache->set($this->getUserFormKey($formId), $serForm, 60 * 60 * 3); // 3h Lifetime
 
-        $sessData = array();
+        $sessData = [];
         $sessData['xmlpath'] = $this->getForm()->_xmlPath;
         $sessData['runningobjects'] = $this->getForm()->getObjectLoader()->getRunningObjects($formId);
         $sessData['loadedClasses'] = $this->getForm()->getObjectLoader()->getLoadedClasses($formId);
@@ -135,11 +135,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             $sClass = get_class($this->getForm()->getParent());
             $aParentConf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$sClass . '.'];
 
-            $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['parent'] = array(
+            $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['parent'] = [
                 'classpath' => tx_mkforms_util_Div::removeEndingSlash(
                     Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT')
                 ) . '/' . tx_mkforms_util_Div::removeStartingSlash($aParentConf['includeLibs']),
-            );
+            ];
         }
 
         // Warning for large sessions
@@ -147,7 +147,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         if (tx_rnbase_util_Logger::isNoticeEnabled()) {
             $sessionLen = strlen(serialize($GLOBALS['_SESSION']));
             if ($sessionLen > 300000) {
-                tx_rnbase_util_Logger::notice('Alert: Large session size!', 'mkforms', array('Size' => $sessionLen, 'PHP-SessionID' => session_id(), 'FormId' => $formId));
+                tx_rnbase_util_Logger::notice('Alert: Large session size!', 'mkforms', ['Size' => $sessionLen, 'PHP-SessionID' => session_id(), 'FormId' => $formId]);
             }
         }
     }
@@ -213,7 +213,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      * specific data inside.
      * @param string $formId
      */
-    private function persistFeSetup($formId, $tsSetupCache = array())
+    private function persistFeSetup($formId, $tsSetupCache = [])
     {
         // es ist nichts zu cachen!
         if (empty($tsSetupCache)) {

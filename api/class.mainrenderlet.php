@@ -8,17 +8,17 @@ tx_rnbase::load('tx_rnbase_util_Templates');
 
 class formidable_mainrenderlet extends formidable_mainobject
 {
-    public $__aCacheItems = array();
+    public $__aCacheItems = [];
 
-    public $aChilds = array();
+    public $aChilds = [];
 
-    public $aDependants = array();
+    public $aDependants = [];
 
-    public $aDependsOn = array();
+    public $aDependsOn = [];
 
     public $bChild = false;
 
-    public $aLibs = array();
+    public $aLibs = [];
 
     public $sMajixClass = '';
 
@@ -35,9 +35,9 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public $sCustomElementId = false;        // if != FALSE, will be used instead of generated HTML id ( useful for checkbox-group renderlet )
 
-    public $aPossibleCustomEvents = array();
+    public $aPossibleCustomEvents = [];
 
-    public $aCustomEvents = array();
+    public $aCustomEvents = [];
 
     public $oRdtParent = false;
 
@@ -67,9 +67,9 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public $sDataBridge = false;        // hibernation state
 
-    public $aDataBridged = array();
+    public $aDataBridged = [];
 
-    public $aDataSetSignatures = array();    // dataset signature, hash on this rdt-htmlid for sliding accross iterations in lister (as it contains the current row uid when iterating)
+    public $aDataSetSignatures = [];    // dataset signature, hash on this rdt-htmlid for sliding accross iterations in lister (as it contains the current row uid when iterating)
 
     public $sDefaultLabelClass = 'label';
 
@@ -78,19 +78,19 @@ class formidable_mainrenderlet extends formidable_mainobject
     public $bArrayValue = false; // the value can be an array or not
 
     public $aStatics
-        = array(
+        = [
             'type' => AMEOSFORMIDABLE_VALUE_NOT_SET,
             'namewithoutprefix' => AMEOSFORMIDABLE_VALUE_NOT_SET,
-            'elementHtmlName' => array(),
-            'elementHtmlNameWithoutFormId' => array(),
-            'elementHtmlId' => array(),
-            'elementHtmlIdWithoutFormId' => array(),
+            'elementHtmlName' => [],
+            'elementHtmlNameWithoutFormId' => [],
+            'elementHtmlId' => [],
+            'elementHtmlIdWithoutFormId' => [],
             'hasParent' => AMEOSFORMIDABLE_VALUE_NOT_SET,
-            'hasSubmitted' => array(),
+            'hasSubmitted' => [],
             'dbridge_getSubmitterAbsName' => AMEOSFORMIDABLE_VALUE_NOT_SET,
-            'rawpostvalue' => array(),
+            'rawpostvalue' => [],
             'dsetMapping' => AMEOSFORMIDABLE_VALUE_NOT_SET,
-        );
+        ];
 
     protected static $token = ''; // enthält einen eindeutigen String, um beispielsweise link tags zu trennen
 
@@ -99,7 +99,7 @@ class formidable_mainrenderlet extends formidable_mainobject
      */
     protected $wasValidated = false;
 
-    public $aEmptyStatics = array();
+    public $aEmptyStatics = [];
 
     /**
      * @var bool
@@ -237,10 +237,10 @@ class formidable_mainrenderlet extends formidable_mainobject
      */
     public function doAfterListRender(&$oListObject)
     {
-        $init = array(
+        $init = [
             'iterating' => true,
             'iterator' => $oListObject->_getElementHtmlId()
-        );
+        ];
         $this->includeScripts($init);
     }
 
@@ -428,7 +428,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         return $this->bAnonymous !== false;
     }
 
-    public function checkPoint(&$aPoints, array &$options = array())
+    public function checkPoint(&$aPoints, array &$options = [])
     {
         if (in_array('after-render', $aPoints)) {
             $this->signalValidatorsAfterRenderCheckPointReached($options);
@@ -442,7 +442,7 @@ class formidable_mainrenderlet extends formidable_mainobject
      */
     protected function signalValidatorsAfterRenderCheckPointReached()
     {
-        $validatorPaths = array('/', '/validators');
+        $validatorPaths = ['/', '/validators'];
 
         foreach ($validatorPaths as $validatorPath) {
             $configuration = $this->getConfigValue($validatorPath);
@@ -474,21 +474,21 @@ class formidable_mainrenderlet extends formidable_mainobject
                         $aEvent
                     );    // before any modif to get the *real* eventid
 
-                    $aNeededParams = array();
+                    $aNeededParams = [];
 
                     if (array_key_exists('params', $aEvent) && is_string($aEvent['params'])) {
                         $aNeededParams = Tx_Rnbase_Utility_Strings::trimExplode(',', $aEvent['params']);
                         $aEvent['params'] = $aNeededParams;
                     }
 
-                    $this->oForm->aServerEvents[$sEventId] = array(
+                    $this->oForm->aServerEvents[$sEventId] = [
                         'eventid' => $sEventId,
                         'trigger' => $sEvent,
                         'when' => (array_key_exists('when', $aEvent) ? $aEvent['when'] : 'after-init'),    // default when : end
                         'event' => $aEvent,
                         'params' => $aNeededParams,
                         'raw' => $aDefinedEvent,
-                    );
+                    ];
                 }
             }
         }
@@ -595,15 +595,15 @@ class formidable_mainrenderlet extends formidable_mainobject
             . $value . '" />';
         $sCompiled = $this->wrapForReadOnly($mHuman) . $sPostFlag;
 
-        $mHtml = array(
+        $mHtml = [
             '__compiled' => $sCompiled,
             'additionalinputparams' => $this->_getAddInputParams($sId),
             'value' => $mValue,
-            'value.' => array(
+            'value.' => [
                 'nl2br' => nl2br((string)$mValue),
                 'humanreadable' => $mHuman,
-            )
-        );
+            ]
+        ];
 
         if (($sListHeader = $this->_navConf('/listheader')) !== false) {
             $mHtml['listheader'] = $this->oForm->getConfig()->getLLLabel($sListHeader);
@@ -620,11 +620,11 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function wrapForReadOnly($sHtml)
     {
-        $aAdditionalParams = array(
+        $aAdditionalParams = [
             'class' => 'readonly',
             'style' => 'display: none;',
             'autocomplete' => ''
-        );
+        ];
         if ($this->isVisible() === false || $this->_shouldHideBecauseDependancyEmpty()) {
             $aAdditionalParams['style'] = 'display: none;';
         }
@@ -693,7 +693,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         $sHtmlId = ($aConfig !== false && $aConfig['sId']) ? $aConfig['sId'] : $this->_getElementHtmlId();
         $sLabelId = $sHtmlId . '_label';
-        $aClasses = array();
+        $aClasses = [];
         $aClasses[] = $this->sDefaultLabelClass;
 
         if (($sLabelClass = $this->defaultTrue('/labelidclass', $aConfig)) !== false) {
@@ -1022,8 +1022,8 @@ class formidable_mainrenderlet extends formidable_mainobject
     public function _getElementCssId($sId = false)
     {
         return str_replace(
-            array('.'),
-            array('\.'),
+            ['.'],
+            ['\.'],
             $this->_getElementHtmlId($sId)
         );
     }
@@ -1186,12 +1186,12 @@ class formidable_mainrenderlet extends formidable_mainobject
         return $sValue;
     }
 
-    public function _getAddInputParamsArray($aAdditional = array())
+    public function _getAddInputParamsArray($aAdditional = [])
     {
-        $aAddParams = array();
+        $aAddParams = [];
 
         if (!is_array($aAdditional)) {
-            $aAdditional = array();
+            $aAdditional = [];
         }
 
         if (!array_key_exists('style', $aAdditional)) {
@@ -1245,10 +1245,10 @@ class formidable_mainrenderlet extends formidable_mainobject
                     $sId = $this->_getElementHtmlId();
 
                     $sJsOptions = $this->oForm->array2json(
-                        array(
+                        [
                             'mouseFollow' => false,
                             'content' => $sTitle,
-                        )
+                        ]
                     );
 
                     $sJs
@@ -1273,7 +1273,7 @@ TOOLTIP;
         return $aAddParams;
     }
 
-    public function _getAddInputParams($aAdditional = array())
+    public function _getAddInputParams($aAdditional = [])
     {
         $aAddParams = $this->_getAddInputParamsArray($aAdditional);
 
@@ -1335,7 +1335,7 @@ TOOLTIP;
             return true;
         }
         if (!is_array($mValue)) {
-            $mValue = array($mValue);
+            $mValue = [$mValue];
         }
         foreach ($mValue as $sValue) {
             if (in_array($sValue, $aHideIf)) {
@@ -1442,7 +1442,7 @@ TOOLTIP;
 
     public function explodeStyle($sStyle)
     {
-        $aStyles = array();
+        $aStyles = [];
 
         if (trim($sStyle) !== '') {
             $aTemp = Tx_Rnbase_Utility_Strings::trimExplode(';', $sStyle);
@@ -1462,7 +1462,7 @@ TOOLTIP;
 
     public function buildStyleProp($aStyles)
     {
-        $aRes = array();
+        $aRes = [];
 
         reset($aStyles);
         while (list($sProp, $sVal) = each($aStyles)) {
@@ -1543,7 +1543,7 @@ TOOLTIP;
 
     public function _getClassesArray($aConf = false, $bIsRdt = true)
     {
-        $aClasses = array();
+        $aClasses = [];
 
         if (($mClass = $this->_navConf('/class/', $aConf)) !== false) {
             if ($this->oForm->isRunneable($mClass)) {
@@ -1615,7 +1615,7 @@ TOOLTIP;
                             (array_key_exists('runat', $mEvent)
                                 && in_array(
                                     $mEvent['runat'],
-                                    array('inline', 'client', 'ajax', 'server')
+                                    ['inline', 'client', 'ajax', 'server']
                                 )) ? $mEvent['runat'] : 'client'
                         )
                     );
@@ -1629,20 +1629,20 @@ TOOLTIP;
                     if ($sRunAt === 'server') {
                         $sEventId = $this->oForm->_getServerEventId(
                             $this->getAbsName(),
-                            array($sEventName => $mEvent)
+                            [$sEventName => $mEvent]
                         );    // before any modif to get the *real* eventid
 
-                        $aNeededParams = array();
+                        $aNeededParams = [];
 
                         if (array_key_exists('params', $mEvent)) {
                             if (is_string($mEvent['params'])) {
                                 $aTemp = Tx_Rnbase_Utility_Strings::trimExplode(',', $mEvent['params']);
                                 reset($aTemp);
                                 while (list($sKey, ) = each($aTemp)) {
-                                    $aNeededParams[] = array(
+                                    $aNeededParams[] = [
                                         'get' => $aTemp[$sKey],
                                         'as' => false,
-                                    );
+                                    ];
                                 }
                             } else {
                                 // the new syntax
@@ -1688,16 +1688,16 @@ TOOLTIP;
                             }
                         }
 
-                        $this->oForm->aServerEvents[$sEventId] = array(
+                        $this->oForm->aServerEvents[$sEventId] = [
                             'name' => $this->getAbsName(),
                             'eventid' => $sEventId,
                             'trigger' => $sEventName,
                             'when' => $sWhen,    // default when : end
                             'event' => $mEvent,
                             'params' => $aNeededParams,
-                            'raw' => array($sEventName => $mEvent),
+                            'raw' => [$sEventName => $mEvent],
                             'earlybird' => $bEarlyBird,
-                        );
+                        ];
                     }
                 }
             }
@@ -1706,7 +1706,7 @@ TOOLTIP;
 
     public function _getEventsArray()
     {
-        $aEvents = array();
+        $aEvents = [];
 
         $aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
 
@@ -1717,7 +1717,7 @@ TOOLTIP;
                     $sRunAt = (array_key_exists('runat', $mEvent)
                         && in_array(
                             $mEvent['runat'],
-                            array('js', 'inline', 'client', 'ajax', 'server')
+                            ['js', 'inline', 'client', 'ajax', 'server']
                         )) ? $mEvent['runat'] : 'client';
 
                     if (($iPos = strpos($sEvent, '-')) !== false) {
@@ -1730,7 +1730,7 @@ TOOLTIP;
                         case 'server': {
                             $sEventId = $this->oForm->_getServerEventId(
                                 $this->getAbsName(),
-                                array($sEventName => $mEvent)
+                                [$sEventName => $mEvent]
                             );
 
                             $aTempListData = $this->oForm->oDataHandler->_getListData();
@@ -1739,7 +1739,7 @@ TOOLTIP;
                                 $this->getAbsName(),
                                 $mEvent,
                                 $sEventId,
-                                ($aTempListData === false ? array() : $aTempListData)
+                                ($aTempListData === false ? [] : $aTempListData)
                             );
 
                             break;
@@ -1748,16 +1748,16 @@ TOOLTIP;
 
                             $sEventId = $this->oForm->_getAjaxEventId(
                                 $this->getAbsName(),
-                                array($sEventName => $mEvent)
+                                [$sEventName => $mEvent]
                             );
 
-                            $aTemp = array(
+                            $aTemp = [
                                 'name' => $this->getAbsName(),
                                 'eventid' => $sEventId,
                                 'trigger' => $sEventName,
                                 'cache' => $this->oForm->_defaultTrue('/cache', $mEvent),
                                 'event' => $mEvent,
-                            );
+                            ];
 
                             if (!array_key_exists($sEventId, $this->oForm->aAjaxEvents)) {
                                 $this->oForm->aAjaxEvents[$sEventId] = $aTemp;
@@ -1786,12 +1786,12 @@ TOOLTIP;
 
                             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxevent'][$this->_getSessionDataHashKey(
                             )]
-                                = array(
-                                'requester' => array(
+                                = [
+                                'requester' => [
                                     'name' => 'tx_ameosformidable',
                                     'xpath' => '/',
-                                ),
-                            );
+                                ],
+                            ];
 
                             break;
                         }
@@ -1815,11 +1815,11 @@ TOOLTIP;
                                     }
 
                                     $this->oForm->aOnloadEvents['client']['onload:' . $this->_getElementHtmlIdWithoutFormId()]
-                                        = array(
+                                        = [
                                         'name' => $this->_getElementHtmlId(),
                                         'event' => $mEvent,
                                         'eventdata' => $aEvent
-                                    );
+                                    ];
                                 }
                             }
                             break;
@@ -1830,7 +1830,7 @@ TOOLTIP;
 
                             if ($sEventName !== 'onload') {
                                 // Bei Client-Calls erlauben wir auch Parameter. Diese werden aus dem Event geholt
-                                $params = array();
+                                $params = [];
                                 if (is_array($mEvent) && array_key_exists('params', $mEvent)) {
                                     $params = tx_mkforms_util_Div::extractParams($mEvent['params']);
                                 }
@@ -1863,11 +1863,11 @@ TOOLTIP;
                                 }
 
                                 $this->getForm()->aOnloadEvents['client']['onload:' . $this->_getElementHtmlIdWithoutFormId()]
-                                    = array(
+                                    = [
                                     'name' => $this->_getElementHtmlId(),
                                     'event' => $mEvent,
                                     'eventdata' => $aEvent
-                                );
+                                ];
                             }
                             break;
                         }
@@ -1892,7 +1892,7 @@ TOOLTIP;
                     }
 
                     if (!array_key_exists($sEventName, $aEvents)) {
-                        $aEvents[$sEventName] = array();
+                        $aEvents[$sEventName] = [];
                     }
 
                     $aEvents[$sEventName][] = $aEvent;
@@ -1906,10 +1906,10 @@ TOOLTIP;
             $aEvents = $this->getForm()->getRunnable()->callRunnableWidget(
                 $this,
                 $this->aSkin['submanifest']['hooks']['geteventsarray'],
-                array(
+                [
                     'object' => &$this,
                     'events' => $aEvents
-                )
+                ]
             );
         }
 
@@ -1941,7 +1941,7 @@ TOOLTIP;
 
     public function _getEvents()
     {
-        $aHtml = array();
+        $aHtml = [];
         $aEvents = $this->_getEventsArray();
 
         if (!empty($aEvents)) {
@@ -2063,7 +2063,7 @@ JAVASCRIPT;
             $aXmlItems = $this->_navConf('/data/items/');
 
             if (!is_array($aXmlItems)) {
-                $aXmlItems = array();
+                $aXmlItems = [];
             }
 
             reset($aXmlItems);
@@ -2105,7 +2105,7 @@ JAVASCRIPT;
             }
 
             reset($aXmlItems);
-            $aUserItems = array();
+            $aUserItems = [];
             $aData = $this->_navConf('/data/');
             if ($this->oForm->isRunneable($aData)) {
                 // @TODO: iterating id mit übergeben $params['config']['iteratingid']
@@ -2165,7 +2165,7 @@ JAVASCRIPT;
         }
 
         if (!is_array($aItems)) {
-            $aItems = array();
+            $aItems = [];
         }
 
         if (($mAddBlank = $this->_defaultFalseMixed('/addblank')) !== false) {
@@ -2187,10 +2187,10 @@ JAVASCRIPT;
 
             array_unshift(
                 $aItems,
-                array(
+                [
                     'caption' => $sCaption,
                     'value' => $mBlankValue,
-                )
+                ]
             );
         }
 
@@ -2202,10 +2202,10 @@ JAVASCRIPT;
     public function _mergeItems($aXmlItems, $aUserItems)
     {
         if (!is_array($aXmlItems)) {
-            $aXmlItems = array();
+            $aXmlItems = [];
         }
         if (!is_array($aUserItems)) {
-            $aUserItems = array();
+            $aUserItems = [];
         }
 
         $aItems = array_merge($aXmlItems, $aUserItems);
@@ -2216,7 +2216,7 @@ JAVASCRIPT;
             return $aItems;
         }
 
-        return array();
+        return [];
     }
 
     public function _flatten($mData)
@@ -2288,18 +2288,18 @@ JAVASCRIPT;
                 $aFields = Tx_Rnbase_Utility_Strings::trimExplode(',', $sOnFields);
                 reset($aFields);
             } else {
-                $aFields = array($sName);
+                $aFields = [$sName];
             }
 
             if (array_key_exists('overridesql', $aConf)) {
                 if ($this->oForm->isRunneable($aConf['overridesql'])) {
-                    $aSql = array();
+                    $aSql = [];
                     reset($aFields);
                     while (list(, $sField) = each($aFields)) {
                         $aSql[] = $this->getForm()->getRunnable()->callRunnableWidget(
                             $this,
                             $aConf['overridesql'],
-                            array(
+                            [
                                 'name' => $sField,
                                 'table' => $sTable,
                                 'value' => $sValue,
@@ -2310,7 +2310,7 @@ JAVASCRIPT;
                                     $sField,
                                     $bRec = false
                                 ),
-                            )
+                            ]
                         );
                     }
 
@@ -2330,7 +2330,7 @@ JAVASCRIPT;
                         // on effectue la recherche sur le dbut des champs avec LIKE A%
 
                         $sValue = trim($sValue);
-                        $aSql = array();
+                        $aSql = [];
 
                         reset($aFields);
                         while (list(, $sField) = each($aFields)) {
@@ -2365,7 +2365,7 @@ JAVASCRIPT;
                         //				: recherche full text si "jj kjk jk"
 
                         $sValue = str_replace(
-                            array(
+                            [
                                 ' ',
                                 ',',
                                 ' and ',
@@ -2380,7 +2380,7 @@ JAVASCRIPT;
                                 ' Et ',
                                 ' eT ',
                                 ' ET '
-                            ),
+                            ],
                             '+',
                             trim($sValue)
                         );
@@ -2395,11 +2395,11 @@ JAVASCRIPT;
                             }
                         }
 
-                        $aSql = array();
+                        $aSql = [];
 
                         reset($aFields);
                         while (list(, $sField) = each($aFields)) {
-                            $aTemp = array();
+                            $aTemp = [];
 
                             reset($aWords);
                             while (list($iKey, $sWord) = each($aWords)) {
@@ -2425,7 +2425,7 @@ JAVASCRIPT;
                         || strtoupper($aConf['mode']) == 'AND'
                     ) {
                         $sValue = trim($sValue);
-                        $aSql = array();
+                        $aSql = [];
 
                         reset($aFields);
                         while (list(, $sField) = each($aFields)) {
@@ -2449,7 +2449,7 @@ JAVASCRIPT;
                 } else {    /* default mode */
 
                     $sValue = trim($sValue);
-                    $aSql = array();
+                    $aSql = [];
 
                     reset($aFields);
                     while (list(, $sField) = each($aFields)) {
@@ -2633,10 +2633,10 @@ JAVASCRIPT;
      *
      * @return void
      */
-    public function includeScripts($aConfig = array())
+    public function includeScripts($aConfig = [])
     {
         $sClass = $this->getMajixClass() ? $this->getMajixClass() : 'RdtBaseClass';
-        $aChildsIds = array();
+        $aChildsIds = [];
 
         if ($this->mayHaveChilds() && $this->hasChilds()) {
             $aKeys = array_keys($this->aChilds);
@@ -2655,7 +2655,7 @@ JAVASCRIPT;
         $sHtmlId = $this->_getElementHtmlId();
         $sJson = tx_mkforms_util_Json::getInstance()->encode(
             array_merge(
-                array(
+                [
                     'id' => $sHtmlId,
                     'localname' => $this->getName(),
                     'name' => $this->_getElementHtmlName(),
@@ -2667,7 +2667,7 @@ JAVASCRIPT;
                     'parent' => $sParentId,
                     'error' => $this->getError(),
                     'abswebpath' => $this->sExtWebPath,
-                ),
+                ],
                 $aConfig
             )
         );
@@ -2726,7 +2726,7 @@ JAVASCRIPT;
 
     public function renderChildsBag()
     {
-        $aRendered = array();
+        $aRendered = [];
 
         if ($this->mayHaveChilds() && $this->hasChilds()) {
             reset($this->aChilds);
@@ -2861,7 +2861,7 @@ JAVASCRIPT;
             return $this->getForm()->getTemplateTool()->parseTemplateCode(
                 $mHtml,
                 $aChildsBag,
-                array(),
+                [],
                 false
             );
         } else {
@@ -2878,8 +2878,8 @@ JAVASCRIPT;
                     '###' . $sSubpartName . '###'
                 );
 
-                $aTemplateErrors = array();
-                $aCompiledErrors = array();
+                $aTemplateErrors = [];
+                $aCompiledErrors = [];
                 $aDeepErrors = $this->getDeepErrorRelative();
                 reset($aDeepErrors);
                 while (list($sKey, ) = each($aDeepErrors)) {
@@ -2888,10 +2888,10 @@ JAVASCRIPT;
                     $aCompiledErrors[] = $sTag;
 
                     $aTemplateErrors[$sKey] = $aDeepErrors[$sKey]['message'];
-                    $aTemplateErrors[$sKey . '.'] = array(
+                    $aTemplateErrors[$sKey . '.'] = [
                         'tag' => $sTag,
                         'info' => $aDeepErrors[$sKey]['info'],
-                    );
+                    ];
                 }
 
                 $aChildsBag['errors'] = $aTemplateErrors;
@@ -2901,7 +2901,7 @@ JAVASCRIPT;
                     $sRes = $this->oForm->getTemplateTool()->parseTemplateCode(
                         $sSubpart,
                         $aChildsBag,
-                        array(),
+                        [],
                         false
                     );
 
@@ -2940,7 +2940,7 @@ JAVASCRIPT;
      *
      * @return array
      */
-    public function buildMajixExecuter($sMethod, $aData = array())
+    public function buildMajixExecuter($sMethod, $aData = [])
     {
         return $this->getForm()->buildMajixExecuter(
             $sMethod,
@@ -3056,14 +3056,14 @@ JAVASCRIPT;
         );
     }
 
-    public function majixFx($sEffect, $aParams = array())
+    public function majixFx($sEffect, $aParams = [])
     {
         return $this->buildMajixExecuter(
             'Fx',
-            array(
+            [
                 'effect' => $sEffect,
                 'params' => $aParams,
-            )
+            ]
         );
     }
 
@@ -3081,7 +3081,7 @@ JAVASCRIPT;
         );
     }
 
-    public function majixSetErrorStatus($aError = array())
+    public function majixSetErrorStatus($aError = [])
     {
         return $this->buildMajixExecuter(
             'setErrorStatus',
@@ -3147,17 +3147,17 @@ JAVASCRIPT;
                         if ($aSubManifest['type'] == $this->aObjectType['TYPE']) {
                             $aModes = Tx_Rnbase_Utility_Strings::trimExplode(',', $aSubManifest['modes']);
                             if (in_array($sMode, $aModes)) {
-                                $this->aSkin = array(
+                                $this->aSkin = [
                                     'declaredskin' => $aSkin,
                                     'manifest' => $aManifest,
                                     'submanifest' => $aSubManifest,
                                     'mode' => $sMode,
-                                    'template' => array(
+                                    'template' => [
                                         'full' => '',
                                         'compiled' => '',
-                                        'channels' => array(),
-                                    )
-                                );
+                                        'channels' => [],
+                                    ]
+                                ];
 
                                 // getting template and channels
                                 if (array_key_exists('template', $this->aSkin['submanifest']['resources'])) {
@@ -3185,7 +3185,7 @@ JAVASCRIPT;
                                                             '###CHANNEL:' . $aChannel['name'] . '###'
                                                         ),    // HTML code
                                                         $this->aSkin['template']['channels'],    // substitute tags
-                                                        array(),    // exclude tags
+                                                        [],    // exclude tags
                                                         false        // don't clean non replaced {tags}
                                                     );
                                             }
@@ -3197,7 +3197,7 @@ JAVASCRIPT;
                                                         '###COMPILED###'
                                                     ),
                                                     $this->aSkin['template']['channels'],
-                                                    array(),
+                                                    [],
                                                     false
                                                 );
                                         }
@@ -3232,7 +3232,7 @@ JAVASCRIPT;
                     $aHtmlBag[$sName] = $this->oForm->getTemplateTool()->parseTemplateCode(
                         $this->aSkin['template']['channels'][$sName],
                         $aHtmlBag,
-                        array(),
+                        [],
                         false
                     );
                 }
@@ -3240,7 +3240,7 @@ JAVASCRIPT;
                 $aHtmlBag['__compiled'] = $this->oForm->getTemplateTool()->parseTemplateCode(
                     $this->aSkin['template']['compiled'],
                     $aHtmlBag,
-                    array(),
+                    [],
                     false
                 );
             }
@@ -3254,7 +3254,7 @@ JAVASCRIPT;
                 $aDefaultHtmlBag[$sName] = $this->oForm->getTemplateTool()->parseTemplateCode(
                     $aDefaultHtmlBag[$sName],
                     array_merge($aHtmlBag, $aDefaultHtmlBag),
-                    array(),
+                    [],
                     false
                 );
             }
@@ -3276,11 +3276,11 @@ JAVASCRIPT;
                     tx_rnbase::load('tx_mkforms_util_XMLParser');
                     $this->oForm->aSkinManifests[$sHash] = tx_mkforms_util_XMLParser::getXml($sPath, $isSubXml, $bPlain);
                     if (array_key_exists('skin', $this->oForm->aSkinManifests[$sHash])) {
-                        $this->oForm->aSkinManifests[$sHash]['control'] = array(
+                        $this->oForm->aSkinManifests[$sHash]['control'] = [
                             'serverpath' => $sDir,
                             'webpath' => $this->oForm->toWebPath($sDir),
                             'manifest.xml' => $sPath,
-                        );
+                        ];
 
                         return $this->oForm->aSkinManifests[$sHash];
                     }
@@ -3365,7 +3365,7 @@ JAVASCRIPT;
 
         unset($this->aStatics);
         $this->aStatics = $this->aEmptyStatics;
-        $this->aCustomEvents = array();
+        $this->aCustomEvents = [];
     }
 
     public function awakeInSession(&$oForm)
@@ -3540,7 +3540,7 @@ JAVASCRIPT;
             $sClass = trim($sClass);
             $aClasses = Tx_Rnbase_Utility_Strings::trimExplode(' ', $sClass);
         } else {
-            $aClasses = array();
+            $aClasses = [];
         }
 
         $aClasses[] = $sNewClass;
@@ -3634,7 +3634,7 @@ JAVASCRIPT;
         $this->oForm->setDeepData(
             $sDeepPath,
             $this->oForm->aPreRendered,
-            array(),
+            [],
             true    // $bMergeIfArray
         );
     }
@@ -3699,7 +3699,7 @@ JAVASCRIPT;
         }
 
         if (!is_array($aTasks)) {
-            $aTasks = array();
+            $aTasks = [];
         }
         if ($this->hasDependants()) {
             reset($this->aDependants);
@@ -3712,14 +3712,14 @@ JAVASCRIPT;
 
                     if ($widget->hasDependants()) {
                         // Rekursion, falls das Widget ebenfalls abhängige Widgets hat
-                        $widget->majixRepaintDependancies(array(&$aTasks));
+                        $widget->majixRepaintDependancies([&$aTasks]);
                     }
 
                     if ($widget->hasChilds()) {
                         $aChildKeys = array_keys($widget->aChilds);
                         reset($aChildKeys);
                         while (list(, $sChild) = each($aChildKeys)) {
-                            $widget->aChilds[$sChild]->majixRepaintDependancies(array(&$aTasks));
+                            $widget->aChilds[$sChild]->majixRepaintDependancies([&$aTasks]);
                         }
                     }
                     $widget->setIteratingId();
@@ -4161,7 +4161,7 @@ JAVASCRIPT;
         // Get data from static table
         $aRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($sValueField . ', ' . $sFields, $sTable, $sWhere, '', $sFields);
 
-        $aItems = array();
+        $aItems = [];
 
         if (empty($aRows)) {
             return $aItems;
@@ -4176,10 +4176,10 @@ JAVASCRIPT;
                 }
             }
 
-            $aTmp = array(
+            $aTmp = [
                 'caption' => $sCaption,
                 'value' => $aRow[$sValueField]
-            );
+            ];
 
             array_push($aItems, $aTmp);
         }
@@ -4276,10 +4276,10 @@ JAVASCRIPT;
         if ($this->hasError()) {
             $sHtmlId = $this->_getElementHtmlIdWithoutFormId();
 
-            return array(
+            return [
                 'message' => $this->oForm->_aValidationErrorsByHtmlId[$sHtmlId],
                 'info' => $this->oForm->_aValidationErrorsInfos[$sHtmlId],
-            );
+            ];
         }
 
         return false;
@@ -4287,7 +4287,7 @@ JAVASCRIPT;
 
     public function getDeepError()
     {
-        $aErrors = array();
+        $aErrors = [];
         $aErrors = $this->getDeepError_rec($aErrors);
         reset($aErrors);
 
@@ -4296,8 +4296,8 @@ JAVASCRIPT;
 
     public function getDeepErrorRelative()
     {
-        $aErrors = array();
-        $aErrorsRel = array();
+        $aErrors = [];
+        $aErrorsRel = [];
 
         $aErrors = $this->getDeepError_rec($aErrors);
 

@@ -12,17 +12,17 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
         $aAdditionalParams = implode(' ', (array) $this->getAdditionalParams());
         $sInput = '<input type="' . $inputType . '" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $this->getValueForHtml($sValue) . '"' . $this->_getAddInputParams($aAdditionalParams) . ' '.$aAdditionalParams.' />';
 
-        return array(
+        return [
             '__compiled' => $this->_displayLabel($sLabel) . $sInput,
             'input' => $sInput,
             'label' => $sLabel,
             'value' => $sValue,
-        );
+        ];
     }
 
     protected function getAdditionalParams()
     {
-        $aAdditionalParams = array();
+        $aAdditionalParams = [];
         if (($sMaxLength = $this->_navConf('/maxlength')) !== false) {
             $aAdditionalParams[] = 'maxlength="'.$sMaxLength.'"';
         }

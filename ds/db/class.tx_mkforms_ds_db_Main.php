@@ -66,12 +66,12 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
         return $sSignature;
     }
 
-    public function &_fetchData($aConfig = array(), $aFilters = array())
+    public function &_fetchData($aConfig = [], $aFilters = [])
     {
         $this->initDb();
 
         $iNumRows = 0;
-        $aResults = array();
+        $aResults = [];
 
         $aFilters = $this->beforeSqlFilter($aConfig, $aFilters);
 
@@ -98,10 +98,10 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             }
         }
 
-        return array(
+        return [
             'numrows' => $iNumRows,
             'results' => &$aResults,
-        );
+        ];
     }
 
     public function initDb()
@@ -147,11 +147,11 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             if ($this->oForm->isRunneable($mUserobj)) {
                 $sSql = $this->callRunneable(
                     $mUserobj,
-                    array(
+                    [
                         'sql' => $sSql,
                         'config' => $aConfig,
                         'filters' => $aFilters
-                    )
+                    ]
                 );
             }
         }
@@ -165,10 +165,10 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             if ($this->oForm->isRunneable($mUserobj)) {
                 $aFilters = $this->callRunneable(
                     $mUserobj,
-                    array(
+                    [
                         'config' => $aConfig,
                         'filters' => $aFilters
-                    )
+                    ]
                 );
             }
         }
@@ -176,7 +176,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
         return $aFilters;
     }
 
-    public function _getSql($aConfig = array(), $aFilters = array())
+    public function _getSql($aConfig = [], $aFilters = [])
     {
         $sSqlFilters = '';
         $sSqlOrderBy = '';
@@ -403,7 +403,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
         $sTempWhere = '';
 
         if ($aWheres !== false && is_array($aWheres) && count($aWheres) > 0) {
-            $aClauses = array();
+            $aClauses = [];
             $bClauses = false;
 
             reset($aWheres);
@@ -460,7 +460,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                                         $mLogic = $this->callRunneable($mLogic);
                                     }
 
-                                    $aClauses[] = (in_array(trim(strtoupper($mLogic)), array('AND', 'OR'))) ? trim(
+                                    $aClauses[] = (in_array(trim(strtoupper($mLogic)), ['AND', 'OR'])) ? trim(
                                         strtoupper($mLogic)
                                     ) : 'AND';
                                 }
@@ -493,7 +493,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                                     $mValue = $this->callRunneable($mValue);
                                 }
 
-                                $aClauses[] = (in_array(trim(strtoupper($mValue)), array('AND', 'OR'))) ? trim(
+                                $aClauses[] = (in_array(trim(strtoupper($mValue)), ['AND', 'OR'])) ? trim(
                                     strtoupper($mValue)
                                 ) : '';
                             }

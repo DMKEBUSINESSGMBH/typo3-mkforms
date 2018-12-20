@@ -11,33 +11,33 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
     public $aPosByUid = false;
 
-    public $aConfig = array();
+    public $aConfig = [];
 
-    public $aFilters = array();
+    public $aFilters = [];
 
     public $iTotalRows = 0;
 
-    public function &_fetchData($aConfig = array(), $aFilters = array())
+    public function &_fetchData($aConfig = [], $aFilters = [])
     {
         $this->aConfig =& $aConfig;
         $this->aFilters =& $aFilters;
 
         $this->initBinding($aConfig, $aFilters);
 
-        return array(
+        return [
             'numrows' => $this->iTotalRows,
             'results' => &$this->aSource,
-        );
+        ];
     }
 
     private function initBinding($aConfig, $aFilters)
     {
         if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
-            $params = array('config' => $aConfig, 'filters' => $aFilters);
+            $params = ['config' => $aConfig, 'filters' => $aFilters];
             $this->aSource =& $this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
 
             if (!is_array($this->aSource)) {
-                $this->aSource = array();
+                $this->aSource = [];
                 $this->iTotalRows = 0;
             } else {
                 $this->iTotalRows = count($this->aSource);
@@ -51,10 +51,10 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
     public function _sortSource()
     {
         if (trim($this->aConfig['sortcolumn']) !== '') {
-            $aSorted = array();
+            $aSorted = [];
 
             reset($this->aSource);
-            $named_hash = array();
+            $named_hash = [];
 
             foreach ($this->aSource as $key => $fields) {
                 $named_hash[$key] = $fields[$this->aConfig['sortcolumn']];
@@ -67,7 +67,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
             }
 
             $k = 1;
-            $this->aPosByUid = array();
+            $this->aPosByUid = [];
 
             foreach ($named_hash as $key => $val) {
                 $aSorted[$key] = $this->aSource[$key];
@@ -80,7 +80,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
             return $this->aSource =& $aSorted;
         } else {
             $k = 1;
-            $this->aPosByUid = array();
+            $this->aPosByUid = [];
             $aKeys = array_keys($this->aSource);
 
             reset($aKeys);

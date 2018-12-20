@@ -9,9 +9,9 @@ tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_ticker_class' => 'res/js/ticker.js',
-    );
+    ];
 
     public $sMajixClass = 'Ticker';
 
@@ -98,15 +98,15 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             $sBorderColor = 'white';
         }
 
-        $this->aConfig = array(
+        $this->aConfig = [
             'width' => $sWidth,
             'height' => $sHeight,
-            'item' => array(
+            'item' => [
                 'width' => $this->_navConf('/itemwidth'),
                 'height' => $this->_navConf('/itemheight'),
                 'style' => $this->_navConf('/itemstyle'),
-            ),
-            'scroll' => array(
+            ],
+            'scroll' => [
                 'mode' => $sScrollMode,
                 'direction' => $sScrollDirection,
                 'startDelay' => $sScrollStartDelay,
@@ -114,16 +114,16 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 'amount' => $sScrollAmount,
                 'stop' => (bool)$this->oForm->_isTrueVal($this->_navConf('/scrolling/stop')),
                 'overflow' => $sScrollOverflow,
-            ),
-            'offset' => array(
+            ],
+            'offset' => [
                 'top' => $sOffsetTop,
                 'left' => $sOffsetLeft,
-            ),
+            ],
             'background' => $sBackground,
             'bgcolor' => $sBgColor,
             'border' => $sBorder,
             'bordercolor' => $sBorderColor,
-        );
+        ];
 
         $sLabel = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/label'));
 
@@ -202,7 +202,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
     public function &_getRowsSubpart($sTemplate)
     {
-        $aRowsTmpl = array();
+        $aRowsTmpl = [];
 
         if (($sAltRows = $this->_navConf('/template/alternaterows')) !== false && $this->oForm->isRunneable($sAltRows)) {
             $sAltList = $this->getForm()->getRunnable()->callRunnableWidget($this, $sAltRows);
@@ -250,7 +250,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             return $this->oForm->getTemplateTool()->parseTemplateCode(
                 $sHtml,
                 $aChildsBag,
-                array(),
+                [],
                 false
             );
         }
@@ -282,11 +282,11 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             $sSortDir = 'DESC';
         }
 
-        $this->aLimitAndSort = array(
+        $this->aLimitAndSort = [
             'perpage' => $sLimit,
             'sortcolumn' => $sSortBy,
             'sortdirection' => $sSortDir,
-        );
+        ];
     }
 
     public function mayHaveChilds()

@@ -28,7 +28,7 @@
  */
 class tx_mkforms_util_XMLParser
 {
-    public static $cache = array();
+    public static $cache = [];
     public static $useCache = true;
 
     public static function enableCacheOn()
@@ -69,7 +69,7 @@ class tx_mkforms_util_XMLParser
         }
         self::checkFile($sPath, $isSubXml);
 
-        $aConf = array();
+        $aConf = [];
 
         if (self::$useCache) {
             // TODO: Das muss noch extern gesetzt werden
@@ -101,7 +101,7 @@ class tx_mkforms_util_XMLParser
                 tx_mkforms_util_Div::smartMayday_XmlFile($sPath, "MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) exists but is empty.");
             }
 
-            $aMatches = array();
+            $aMatches = [];
             preg_match('/^<\?xml(.*)\?>/', $sXmlData, $aMatches);
 
             // Check result
@@ -224,10 +224,10 @@ class tx_mkforms_util_XMLParser
     private static function div_xml2array($data, $keepAttribs = 1, $caseFolding = 0, $skipWhite = 0, $prefix = false, $numeric = 'n', $index = 'index', $type = 'type', $base64 = 'base64', $php5defCharset = 'UTF-8', $bPlain = false)
     {
         // Storage
-        $xml = array();
-        $xmlValues = array();
-        $xmlIndex = array();
-        $stack = array(array());
+        $xml = [];
+        $xmlValues = [];
+        $xmlIndex = [];
+        $stack = [[]];
 
         // Counter
         $stackCount = 0;
@@ -275,7 +275,7 @@ class tx_mkforms_util_XMLParser
             // Free XML parser
             xml_parser_free($parser);
             // Counter for multiple same keys
-            $sameKeyCount = array();
+            $sameKeyCount = [];
             // Process each value
             while (list($key, $val) = each($xmlValues)) {
                 if ($bPlain === false) {
@@ -331,11 +331,11 @@ class tx_mkforms_util_XMLParser
                     // Open tag
                     case 'open':
                         // Storage
-                        $xml[$tagName] = array();
+                        $xml[$tagName] = [];
                         // Memorize content
                         $stack[$stackCount++] = $xml;
                         // Reset main storage
-                        $xml = array();
+                        $xml = [];
                         // Support for tag attributes
                         if ($keepAttribs && $val['attributes']) {
                             $xml = $val['attributes'];
@@ -396,7 +396,7 @@ class tx_mkforms_util_XMLParser
                                 // Array
                                 case 'array':
                                     // Create an empty array
-                                    $xml[$tagName] = array();
+                                    $xml[$tagName] = [];
                                     break;
                             }
                         }
@@ -409,9 +409,9 @@ class tx_mkforms_util_XMLParser
                             } else {
                                 $xml[$tagName] = array_merge(
                                     $val['attributes'],
-                                    array(
+                                    [
                                         '__value' => $val['value']
-                                    )
+                                    ]
                                 );
                             }
                             // Unset memorized value

@@ -121,11 +121,11 @@ class tx_mkforms_util_FormFill
         }
 
         if (is_array($params['table'])) {
-            $table = array(
+            $table = [
                 $params['table']['from'],
                 $params['table']['tablename'],
                 isset($params['table']['alias']) ? $params['table']['alias'] : null
-            );
+            ];
         } else {
             $table = $params['table'];
         }
@@ -137,7 +137,7 @@ class tx_mkforms_util_FormFill
             $rows = tx_rnbase_util_DB::doSelect(
                 $params['valueField'].' as __value__,'.$params['captionField'] . ' as __caption__',
                 $table,
-                isset($params['options']) ? $params['options'] : array(),
+                isset($params['options']) ? $params['options'] : [],
                 isset($params['debug']) ? $params['debug'] : null
             );
         }
@@ -185,17 +185,17 @@ class tx_mkforms_util_FormFill
         $captionField = (
             $config->hasCaptionField() ? $config->getCaptionField() : 'cn_short_en'
         );
-        $p = array(
+        $p = [
             'table' => 'static_countries',
             'valueField' => 'uid',
             'captionField' => $captionField,
-            'options' => array(
+            'options' => [
                 'where' => 'pid = 0 AND ' . $captionField . ' != \'\'',
                 'orderby' => (
                     $config->hasOrderBy() ? $config->getOrderBy() : $captionField.' ASC'
                 )
-            ),
-        );
+            ],
+        ];
 
         $countries = $this->getItemsFromDb($p, $form);
 
@@ -214,11 +214,11 @@ class tx_mkforms_util_FormFill
             }
             if (!empty($topCountries)) {
                 if ($config->hasAddTopCountryDelimiter()) {
-                    $topCountries[] = array(
+                    $topCountries[] = [
                         'value' => 0,
                         'caption' => $config->getAddTopCountryDelimiter(),
                         'custom' => 'disabled="disabled"',
-                    );
+                    ];
                 }
                 $countries = array_values(array_merge($topCountries, $countries));
             }

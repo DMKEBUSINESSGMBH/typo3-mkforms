@@ -10,22 +10,22 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'CheckBox';
     public $sAttachPostInitTask = 'initialize';
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_checkbox_class' => 'res/js/checkbox.js',
-    );
+    ];
 
     public $bCustomIncludeScript = true;
 
     public function _render()
     {
         $sParentId = $this->_getElementHtmlId();
-        $aHtml = array();
-        $aHtmlBag = array();
+        $aHtml = [];
+        $aHtmlBag = [];
 
         $aItems = $this->_getItems();
         $aChecked = $this->getValue();
 
-        $aSubRdts = array();
+        $aSubRdts = [];
 
         foreach ($aItems as $index => $aItem) {
             // item configuration
@@ -40,10 +40,10 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             $aSubRdts[] = $sId;
             $this->sCustomElementId = $sId;
             $this->includeScripts(
-                array(
+                [
                     'bParentObj' => false,
                     'parentid' => $sParentId,
-                )
+                ]
             );
 
             $checked = '';
@@ -70,20 +70,20 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             $labelTag = explode($token, $labelTag);
             $sLabelStart = $labelTag[0];
 
-            $aHtmlBag[$value . '.'] = array(
+            $aHtmlBag[$value . '.'] = [
                 'input' => $sInput,
                 'caption' => $caption,
-                'value.' => array(
+                'value.' => [
                     'htmlspecialchars' => htmlspecialchars($value),
-                ),
+                ],
                 'label' => $sLabelStart . $caption . $sLabelEnd,
-                'label.' => array(
-                    'for.' => array(
+                'label.' => [
+                    'for.' => [
                         'start' => $sLabelStart,
                         'end' => $sLabelEnd,
-                    )
-                )
-            );
+                    ]
+                ]
+            ];
 
             // TODO: ist renderlabelfirst hier sinnvoll?
             // $renderLabelFirst = $this->isTrue('renderlabelfirst');
@@ -100,11 +100,11 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
-            array(
+            [
                 'checkboxes' => $aSubRdts,
                 'bParentObj' => true,
                 'radioMode' => $this->defaultFalse('/radiomode'),
-            )
+            ]
         );
 
 
@@ -141,7 +141,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             return Tx_Rnbase_Utility_Strings::trimExplode(',', $sData);
         }
 
-        return array();
+        return [];
     }
 
     public function _getHumanReadableValue($data)
@@ -150,7 +150,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             $data = Tx_Rnbase_Utility_Strings::trimExplode(',', $data);
         }
 
-        $aLabels = array();
+        $aLabels = [];
         $aItems = $this->_getItems();
 
         foreach ($data as $selectedItemValue) {
@@ -167,7 +167,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
     public function _sqlSearchClause($sValues, $sFieldPrefix = '', $sFieldName = '', $bRec = true)
     {
-        $aParts = array();
+        $aParts = [];
         $aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $sValues);
 
         if (sizeof($aValues) > 0) {
@@ -177,7 +177,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             $aConf = $this->_navConf('/search');
 
             if (!is_array($aConf)) {
-                $aConf = array();
+                $aConf = [];
             }
 
             foreach ($aValues as $sValue) {
@@ -191,7 +191,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
                     $aFields = Tx_Rnbase_Utility_Strings::trimExplode(',', $sOnFields);
                     reset($aFields);
                 } else {
-                    $aFields = array($this->_getName());
+                    $aFields = [$this->_getName()];
                 }
 
                 foreach ($aFields as $sField) {
@@ -321,7 +321,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
      */
     public function setValue($mValue)
     {
-        return parent::setValue(is_array($mValue) || empty($mValue) ? $mValue : array($mValue));
+        return parent::setValue(is_array($mValue) || empty($mValue) ? $mValue : [$mValue]);
     }
 }
 

@@ -57,7 +57,7 @@ class tx_mkforms_util_DamUpload
             $damPics = $damWidget->getReferencedMedia();
         }
 
-        return isset($damPics['rows']) ? $damPics['rows'] : array();
+        return isset($damPics['rows']) ? $damPics['rows'] : [];
     }
 }
 

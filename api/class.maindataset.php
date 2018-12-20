@@ -8,13 +8,13 @@ class formidable_maindataset extends formidable_mainobject
 
     public $oDataSource = false;
 
-    public $aChangedCells = array();        // stores the new value for cells of data that have changed
+    public $aChangedCells = [];        // stores the new value for cells of data that have changed
 
-    public $aChangedCellsBefore = array(); // stores the previous value for cells of data that have changed
+    public $aChangedCellsBefore = []; // stores the previous value for cells of data that have changed
 
     public $bFloating = false;
 
-    public function initFloating(&$oDataSource, $aData = array())
+    public function initFloating(&$oDataSource, $aData = [])
     {
         $this->setFloating();
         $this->_initInternals($oDataSource, $aData);
@@ -32,7 +32,7 @@ class formidable_maindataset extends formidable_mainobject
         $this->oForm =& $oDataSource->oForm;
         $this->aData = $aData;
         $this->oDataSource =& $oDataSource;
-        $this->aChangedCells = array();
+        $this->aChangedCells = [];
     }
 
     public function getKey()
@@ -119,10 +119,10 @@ class formidable_maindataset extends formidable_mainobject
 
     public function getDataSet()
     {
-        return array(
+        return [
             'mode' => $this->isFloating() ? 'create' : 'update',
             'key' => $this->getKey(),
             'data' => $this->aData,
-        );
+        ];
     }
 }

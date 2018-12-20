@@ -32,9 +32,9 @@ class tx_mkforms_util_Runnable
 {
     private $config;
     private $form;
-    private $aUserObjParamsStack = array();
-    private $aForcedUserObjParamsStack = array();
-    private $aCodeBehinds = array();
+    private $aUserObjParamsStack = [];
+    private $aForcedUserObjParamsStack = [];
+    private $aCodeBehinds = [];
 
     private function __construct($config, $form)
     {
@@ -79,7 +79,7 @@ class tx_mkforms_util_Runnable
         $aArgs = func_get_args();
 
         if (self::isUserObj($mMixed)) {
-            $params = array_key_exists(1, $aArgs) && is_array($aArgs[1]) ? $aArgs[1] : array();
+            $params = array_key_exists(1, $aArgs) && is_array($aArgs[1]) ? $aArgs[1] : [];
             $contextObj = count($aArgs) > 1 ? $aArgs[count($aArgs) - 1] : false; // Ggf. das Context-Objekt
 
             return $this->callUserObj($mMixed, $params, $contextObj);
@@ -88,7 +88,7 @@ class tx_mkforms_util_Runnable
         if (self::hasCodeBehind($mMixed)) {
             // it's a codebehind
             $aArgs[0] = $mMixed; // Wir ersetzen den ersten Parameter
-            $mRes = call_user_func_array(array($this, 'callCodeBehind'), $aArgs);
+            $mRes = call_user_func_array([$this, 'callCodeBehind'], $aArgs);
 
             return $mRes;
         }
@@ -108,7 +108,7 @@ class tx_mkforms_util_Runnable
         array_shift($aArgs);
         $this->getForm()->pushCurrentRdt($widget);
         // Dieser Aufruf geht ans main_object. Die Methode muss aber da noch raus!
-        $mRes = call_user_func_array(array($widget, 'callRunneable'), $aArgs);
+        $mRes = call_user_func_array([$widget, 'callRunneable'], $aArgs);
         $this->getForm()->pullCurrentRdt();
 
         return $mRes;
@@ -121,7 +121,7 @@ class tx_mkforms_util_Runnable
      * @param   array   $aParams
      * @return  array
      */
-    public function parseParams($aUserObjParams, $aParams = array())
+    public function parseParams($aUserObjParams, $aParams = [])
     {
         while (list($index, $aParam) = each($aUserObjParams)) {
             if (is_array($aParam)) {
@@ -159,7 +159,7 @@ class tx_mkforms_util_Runnable
      * @param object $contextObj Bei context=="relative" wird diese Object als 2. Parameter übergeben (anstatt des Forms).
      * @return [type]       ...
      */
-    private function callUserObj($aUserobj, $aParams = array(), $contextObj = false)
+    private function callUserObj($aUserobj, $aParams = [], $contextObj = false)
     {
         if (!is_array($this->getConfig()->get('/userobj/', $aUserobj))) {
             return;
@@ -179,7 +179,7 @@ class tx_mkforms_util_Runnable
             $sClassName = uniqid('tempcl'). rand(1, 1000);
             $sMethodName = uniqid('tempmet');
 
-            $this->__sEvalTemp = array('code' => $sPhp, 'xml' => $aUserobj);
+            $this->__sEvalTemp = ['code' => $sPhp, 'xml' => $aUserobj];
 
             // TODO: hier wird im PHP-Code das $this durch das Formular ersetzt. In dem Fall ist das natürlich falsch
             // weil hier Runnable gesetzt wird
@@ -193,13 +193,13 @@ class tx_mkforms_util_Runnable
                 .    '	}'
                 .    '}';
 
-            set_error_handler(array(&$form, '__catchEvalException'));
+            set_error_handler([&$form, '__catchEvalException']);
             eval($sClass);
             $oObj = new $sClassName();
 
             try {
                 $this->pushUserObjParam($aParams);
-                $sRes = call_user_func(array(&$oObj, $sMethodName), $this->getForm(), $aParams);
+                $sRes = call_user_func([&$oObj, $sMethodName], $this->getForm(), $aParams);
                 $this->pullUserObjParam();
             } catch (Exception  $e) {
                 $verbose = (int)tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday');
@@ -236,7 +236,7 @@ class tx_mkforms_util_Runnable
                     $aParams = $this->getForm()->callRunneable($aParams);
                 }
             }
-            $aParams = !is_array($aParams) ? array() : $aParams;
+            $aParams = !is_array($aParams) ? [] : $aParams;
 
             return $this->getForm()->majixExecJs(trim($sJs), $aParams);
         }
@@ -256,7 +256,7 @@ class tx_mkforms_util_Runnable
         }
 
         $form = &$this->getForm();
-        set_error_handler(array(&$form, '__catchEvalException'));
+        set_error_handler([&$form, '__catchEvalException']);
 
         if (!method_exists($oExtension, $method)) {
             $sObject = ($extension == 'this') ? '$this (<b>' . get_class($this->getForm()->getParent()) . '</b>)' : $extension;
@@ -276,7 +276,7 @@ class tx_mkforms_util_Runnable
 
             tx_rnbase::load('tx_rnbase_util_Logger');
             if (tx_rnbase_util_Logger::isWarningEnabled()) {
-                tx_rnbase_util_Logger::warn('Method callUserObj() failed.', 'mkforms', array('Exception' => $e->getMessage(), 'XML' => $aUserobj, 'Params' => $aParams, 'Form-ID' => $this->getForm()->getFormId()));
+                tx_rnbase_util_Logger::warn('Method callUserObj() failed.', 'mkforms', ['Exception' => $e->getMessage(), 'XML' => $aUserobj, 'Params' => $aParams, 'Form-ID' => $this->getForm()->getFormId()]);
             }
             $ret .= "\r\n" . $e->getMessage();
 
@@ -327,7 +327,7 @@ class tx_mkforms_util_Runnable
                 if ($this->getForm()->isRunneable($aUserObjParams)) {
                     $aUserObjParams = $this->getForm()->getRunnable()->callRunnable($aUserObjParams);
                     if (!is_array($aUserObjParams)) {
-                        $aUserObjParams = array();
+                        $aUserObjParams = [];
                     }
                 }
                 $oParser->setup['params.'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -381,7 +381,7 @@ class tx_mkforms_util_Runnable
 
     public function getForcedUserObjParams()
     {
-        $aParams = array();
+        $aParams = [];
         if (!empty($this->aForcedUserObjParamsStack)) {
             $aParams = $this->aForcedUserObjParamsStack[count($this->aForcedUserObjParamsStack) - 1];
         }
@@ -396,7 +396,7 @@ class tx_mkforms_util_Runnable
      */
     public function getUserObjParams()
     {
-        $aParams = array();
+        $aParams = [];
 
         if (!empty($this->aUserObjParamsStack)) {
             $aParams = $this->aUserObjParamsStack[count($this->aUserObjParamsStack) - 1];
@@ -428,14 +428,14 @@ class tx_mkforms_util_Runnable
         $aMetas = $this->getConfig()->get('/meta');
 
         if (tx_mkforms_util_Div::getEnvExecMode() === 'EID') {
-            $this->aCodeBehinds['js'] = array();
+            $this->aCodeBehinds['js'] = [];
         } else {
             unset($this->aCodeBehinds);
             unset($this->aCB);
-            $this->aCodeBehinds = array(
-                'js' => array(),
-                'php' => array(),
-            );
+            $this->aCodeBehinds = [
+                'js' => [],
+                'php' => [],
+            ];
         }
 
         if ($this->_xmlPath !== false) {
@@ -451,17 +451,17 @@ class tx_mkforms_util_Runnable
             $sDefaultCBPath = $sDefaultCBDir . $sDefaultCBFile;
 
             if (file_exists($sDefaultCBPath) and is_readable($sDefaultCBPath)) {
-                $aDefaultCB = array(
+                $aDefaultCB = [
                     'type' => 'php',
                     'name' => 'cb',
                     'path' => $sDefaultCBPath,
                     'class' => $sDefaultCBClass,
-                );
+                ];
 
                 $aMetas = array_merge(
-                    array(
+                    [
                         'codebehind-default-php' => $aDefaultCB
-                    ),
+                    ],
                     $aMetas
                 );
             }
@@ -471,17 +471,17 @@ class tx_mkforms_util_Runnable
             $sDefaultCBPath = $sDefaultCBDir . $sDefaultCBFile;
 
             if (file_exists($sDefaultCBPath) and is_readable($sDefaultCBPath)) {
-                $aDefaultCB = array(
+                $aDefaultCB = [
                     'type' => 'js',
                     'name' => 'js',
                     'path' => $sDefaultCBPath . ':' . $sDefaultCBClass,
                     'class' => $sDefaultCBClass,
-                );
+                ];
 
                 $aMetas = array_merge(
-                    array(
+                    [
                         'codebehind-default-js' => $aDefaultCB
-                    ),
+                    ],
                     $aMetas
                 );
             }
@@ -531,12 +531,12 @@ class tx_mkforms_util_Runnable
         if (strtolower($sCBRef) === 'this') {
             $oCB = &$this->getForm()->getParent();
 
-            return array(
+            return [
                 'type' => 'php',
                 'name' => $sName,
                 'class' => get_class($oCB),
                 'object' => &$oCB,
-            );
+            ];
         }
 
         if ($sCBRef{0} === 'E' && $sCBRef{1} === 'X' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCBRef, 'EXT:')) {
@@ -589,7 +589,7 @@ class tx_mkforms_util_Runnable
                             $oCB->init($this->getForm());    // changed: avoid call-time pass-by-reference
                         }
 
-                        return array('type' => 'php','name' => $sName,'class' => $sClass,'object' => &$oCB);
+                        return ['type' => 'php','name' => $sName,'class' => $sClass,'object' => &$oCB];
                     } else {
                         tx_mkforms_util_Div::mayday('CodeBehind [' . $sCBRef . ']: class <b>' . $sClass . '</b> does not exist.');
                     }
@@ -615,7 +615,7 @@ class tx_mkforms_util_Runnable
                     $sScript = 'Formidable.CodeBehind.' . $sClass . ' = new Formidable.Classes.' . $sClass . "({formid: '" . $this->getForm()->getFormId() . "'});";
                     $this->getForm()->aCodeBehindJsInits[] = $sScript;
 
-                    return array('type' => 'js','name' => $sName,'class' => $sClass,);
+                    return ['type' => 'js','name' => $sName,'class' => $sClass,];
                 } else {
                     tx_mkforms_util_Div::smartMayday_CBJavascript($sFilePath, $sClass, false);
                 }
@@ -713,7 +713,7 @@ class tx_mkforms_util_Runnable
         }
 
         // forms object has to be the second parameter in php callbacks!!!
-        $aArgs = tx_mkforms_util_Div::array_insert($aArgs, 1, array('form' => $this->getForm()));
+        $aArgs = tx_mkforms_util_Div::array_insert($aArgs, 1, ['form' => $this->getForm()]);
 
         // parameter aus dem xml übernehmen
         $aUserObjParams = $this->getConfig()->get('/params/', $aArgs[0]);
@@ -727,7 +727,7 @@ class tx_mkforms_util_Runnable
                 array_shift($aArgs);
                 if (is_object($oCbObj) && method_exists($oCbObj, $sMethod)) {
                     // sollen die Widget validiert werden?
-                    $errors = array();
+                    $errors = [];
                     $validate = array_key_exists('validate', $cbConfig) && $cbConfig['validate'] ? $cbConfig['validate'] : '';
                     if ($validate) {
                         // Im ersten Parameter werden die Widgets erwartet
@@ -744,7 +744,7 @@ class tx_mkforms_util_Runnable
 
                     if (!count($errors)) {
                         try {
-                            $mRes = call_user_func_array(array($oCbObj, $sMethod), $aArgs);
+                            $mRes = call_user_func_array([$oCbObj, $sMethod], $aArgs);
                         } catch (Exception  $e) {
                             $verbose = (int)tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'verboseMayday');
                             $dieOnMayday = (int)tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'dieOnMayday');
@@ -779,7 +779,7 @@ class tx_mkforms_util_Runnable
                     $aArgs[] = $aArgs[0]['params'];
                 }
                 $aArgs[0] = $sMethod;
-                $mRes = call_user_func_array(array($oCbObj, 'majixExec'), $aArgs);
+                $mRes = call_user_func_array([$oCbObj, 'majixExec'], $aArgs);
             }
         }
 

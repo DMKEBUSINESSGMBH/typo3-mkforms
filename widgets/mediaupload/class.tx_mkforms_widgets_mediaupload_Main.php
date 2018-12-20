@@ -18,22 +18,22 @@ tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'widget_mediaupload_class' => 'res/js/mediaupload.js',
-    );
+    ];
 
     public $bArrayValue = true;
     public $sMajixClass = 'MediaUpload';
-    public $aPossibleCustomEvents = array(
+    public $aPossibleCustomEvents = [
         'onajaxstart',
         'onajaxcomplete',
-    );
+    ];
 
     public $aUploaded = false;    // array if file has just been uploaded
 
-    private $uploadsWithoutReferences = array();
+    private $uploadsWithoutReferences = [];
 
-    private $uploadedMediaFiles = array();
+    private $uploadedMediaFiles = [];
 
     /**
      * folgendes brauch man um eine Liste der DAM/FAL Uploads auszugeben:
@@ -180,11 +180,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $sLabel = $this->getLabel();
         $sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
 
-        $aRes = array(
+        $aRes = [
             '__compiled' =>  $this->_displayLabel($sLabel) . $sInput,
             'input' => $sInput,
             'value' => $sValue,
-        );
+        ];
 
         if (!$this->isMultiple()) {
             if (trim($sValue) != '') {
@@ -240,7 +240,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     /**
      * @see api/formidable_mainrenderlet#checkPoint($aPoints)
      */
-    public function checkPoint(&$aPoints, array &$options = array())
+    public function checkPoint(&$aPoints, array &$options = [])
     {
 
         parent::checkPoint($aPoints, $options);
@@ -276,7 +276,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     {
         $aData = $this->getValue();
 
-        $uploadedFileIds = array();
+        $uploadedFileIds = [];
         // die bisher hochgeladenen media IDs sammeln, damit wir diese auch in
         // einem lister ausgeben können
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
@@ -333,7 +333,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
 
         // jetzt kümmern wir uns um die Dateien, die gelöscht werden sollen
-        $currentFileIds = array();// die DAM Ids, welche übrig sind nachdem gelöscht wurde
+        $currentFileIds = [];// die DAM Ids, welche übrig sind nachdem gelöscht wurde
         // sollte eine checkbox sein
         $deleteWidgetName = $this->getForm()->_navConf('/deletewidget', $this->aElement);
         if (!empty($mediaFiles)) {
@@ -373,7 +373,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getTargetFileData($aData)
     {
-        $ret = array();
+        $ret = [];
         if (($sTargetFile = $this->getTargetFile()) !== false) {
             $ret['sTargetDir'] = Tx_Rnbase_Utility_T3General::dirname($sTargetFile);
             $ret['sName'] = basename($sTargetFile);
@@ -435,12 +435,12 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
 
         // success
-        $this->aUploaded = array(
+        $this->aUploaded = [
             'dir' => $sTargetDir,
             'name' => $sName,
             'path' => $sTarget,
             'infos' => $aData,
-        );
+        ];
 
         // In Set Value kommt die Anzahl der Zuordnungen rein!
         // Bei nur einer erlaubten Zuordnung muss die ggf. vorhandene Datei dereferenziert werden
@@ -515,7 +515,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return;
         }
         if ($this->openUid && !$this->uploadsWithoutReferences) {
-            $mediaUids = array($this->openUid);
+            $mediaUids = [$this->openUid];
         } else {
             $mediaUids = $this->uploadsWithoutReferences;
         }
@@ -734,7 +734,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     {
         if (!$this->getEntryId()) {
             // Ohne ID gibt es auch keine Bilder
-            return array();
+            return [];
         }
         $tableName = trim($this->getRefTable());
         $fieldName = $this->getRefField();
@@ -749,11 +749,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         global $PAGES_TYPES, $BE_USER;
         if (!is_array($PAGES_TYPES) || !array_key_exists(254, $PAGES_TYPES)) {
             // SysFolder als definieren
-            $PAGES_TYPES[254] = array(
+            $PAGES_TYPES[254] = [
                 'type' => 'sys',
                 'icon' => 'sysf.gif',
                 'allowedTables' => '*',
-            );
+            ];
         }
         // Check BE User
         if (!is_object($BE_USER) || !is_array($BE_USER->user)) {
@@ -823,20 +823,20 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return $this->aLibs;
         }
 
-        return array();
+        return [];
     }
     /**
      * Im Ajax-Upload muss das Widget in einen postInit-Task initialisiert werden.
      * @see api/formidable_mainrenderlet#includeScripts($aConfig)
      */
-    public function includeScripts($aConf = array())
+    public function includeScripts($aConf = [])
     {
         if ($this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
             // Die Config um weitere Werte erweitern
             $url = $this->createUploadUrl();
-            $aConf = array(
+            $aConf = [
                 'uploadUrl' => $url,
-            );
+            ];
         }
         parent::includeScripts($aConf);
         if (!$this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
@@ -873,12 +873,12 @@ INITSCRIPT;
             '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
 
         tx_mkforms_session_Factory::getSessionManager()->initialize();
-        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
-            'requester' => array(
+        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
+            'requester' => [
                 'name' => $this->_getName(),
                 'xpath' => $this->sXPath,
-            ),
-        );
+            ],
+        ];
 
         return $sUploadUrl;
     }
@@ -888,7 +888,7 @@ INITSCRIPT;
         $aData = $this->getForm()->getRawFile(false, true);
 
         //Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen
-        $path = array();
+        $path = [];
         $widget = $this;
         do {
             $path[] = $widget->getName();
@@ -902,14 +902,14 @@ INITSCRIPT;
         //Validieren
         if ($validate = $this->_navConf('/validate')) {
             $errors = $this->getForm()->getValidationTool()->validateWidgets4Ajax(
-                array($this->getName() => $myData)
+                [$this->getName() => $myData]
             );
             if (count($errors)) {
                 $this->getForm()->attachErrorsByJS($errors, $validate);
                 // Replace value which contains the submitted data as ARRAY, while value must be a string!
                 $this->setValue('');
 
-                return array();
+                return [];
             } else {
                 // wenn keine validationsfehler aufgetreten sind,
                 // eventuell vorherige validierungs fehler entfernen
@@ -922,14 +922,14 @@ INITSCRIPT;
             $newSize = $this->handleUpload($myData);
         }
 
-        return array(
-            array(
+        return [
+            [
                 'data' => $newSize,
                 'databag' => '{}',
                 'method' => 'doNothing',
                 'object' => $this->getAbsName(),
-            )
-        );
+            ]
+        ];
     }
     /**
      * (non-PHPdoc)

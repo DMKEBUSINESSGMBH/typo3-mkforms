@@ -47,7 +47,7 @@ class tx_mkforms_util_FormBase
     protected static function getParent(tx_ameosformidable $form, $method = false)
     {
         $oParent = $form->getParent();
-        if ($method && (!method_exists($oParent, $method) || !is_callable(array($oParent, $method)))) {
+        if ($method && (!method_exists($oParent, $method) || !is_callable([$oParent, $method]))) {
             return null;
         }
 
@@ -71,7 +71,7 @@ class tx_mkforms_util_FormBase
      */
     public function fillForm(array $params, tx_ameosformidable $form)
     {
-        return is_object($oParent = self::getParent($form, 'fillForm')) ? $oParent->fillForm($params, $form) : array();
+        return is_object($oParent = self::getParent($form, 'fillForm')) ? $oParent->fillForm($params, $form) : [];
     }
 
     /**
@@ -140,7 +140,7 @@ class tx_mkforms_util_FormBase
      */
     public static function flattenArray($data, $aWidgetNames = false)
     {
-        $flattenData = array();
+        $flattenData = [];
         foreach ($data as $key => $value) {
             if (is_array($value) && ($aWidgetNames === false || !in_array($key, $aWidgetNames))) {
                 $value = self::flattenArray($value, $aWidgetNames);
@@ -220,7 +220,7 @@ class tx_mkforms_util_FormBase
         $configurations = self::getConfigurations($form, $configurations);
         $confId = self::getConfId($form, $confId);
 
-        $aWidgets = $flattenData = array();
+        $aWidgets = $flattenData = [];
 
         /*
          * Wir müssen die widgets durchgehen,
@@ -339,7 +339,7 @@ class tx_mkforms_util_FormBase
             $mTargetRenderlet = $form->getWidget($mTargetRenderlet);
         }
         if (!is_object($mTargetRenderlet)) {
-            return array();
+            return [];
         }
         $data = self::multipleTableStructure2FlatArray($data, $form);
         $data = self::convertFlatDataToRenderletStructure(
@@ -360,7 +360,7 @@ class tx_mkforms_util_FormBase
      */
     public static function removePathFromWidgetData(array $widgetData, tx_mkforms_forms_Base $form)
     {
-        $res = array();
+        $res = [];
         foreach ($widgetData as $key => $value) {
             if (is_object($widget = $form->getWidget($key))) {
                 $res[$widget->getName()] = $value;
@@ -397,7 +397,7 @@ class tx_mkforms_util_FormBase
         tx_ameosformidable $form,
         formidable_mainrenderlet $targetRenderlet
     ) {
-        $res = array();
+        $res = [];
         $trName = $targetRenderlet->getName();
         // Is data available for that special renderlet field?
         // Just return this scalar value!
@@ -432,7 +432,7 @@ class tx_mkforms_util_FormBase
      */
     public static function explodeArrayWithArrayKeys(array $data, $separator = '-')
     {
-        $splitData = array();
+        $splitData = [];
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $value = self::explodeArrayWithArrayKeys($value, $separator);
@@ -453,7 +453,7 @@ class tx_mkforms_util_FormBase
                     for ($i = 0; $i < count($keys) - 1; $i++) {
                         $k = $keys[$i];
                         if (!isset($splitData[$k])) {
-                            $splitData[$k] = array();
+                            $splitData[$k] = [];
                         }
                         $splitData[$k][$fieldKey] = $value;
                     }
@@ -493,13 +493,13 @@ class tx_mkforms_util_FormBase
      */
     public static function flattenMultipleArrays(array $data, $separator = '-')
     {
-        $tmp = array();
-        $res = array();
+        $tmp = [];
+        $res = [];
         foreach ($data as $table => $fields) {
             if (is_array($fields)) {
                 foreach ($fields as $key => $value) {
                     if (!array_key_exists($key, $tmp)) {
-                        $tmp[$key] = array('tables' => array(), 'value' => '');
+                        $tmp[$key] = ['tables' => [], 'value' => ''];
                     }
                     $tmp[$key]['tables'][] = $table;
                     if (empty($tmp[$key]['value'])) {
@@ -581,7 +581,7 @@ class tx_mkforms_util_FormBase
     {
         $aStoredData = $oForm->getDataHandler()->_getStoredData($aParams['rdt']);
 
-        return (!empty($aStoredData)) ? array($aStoredData) : null;
+        return (!empty($aStoredData)) ? [$aStoredData] : null;
     }
 
     /**
