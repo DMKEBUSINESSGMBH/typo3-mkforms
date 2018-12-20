@@ -180,7 +180,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
                 $aConf = array();
             }
 
-            forach ($aValues as $sValue) {
+            foreach ($aValues as $sValue) {
                 if (array_key_exists('onfields', $aConf)) {
                     if ($this->oForm->isRunneable($aConf['onfields'])) {
                         $sOnFields = $this->getForm()->getRunnable()->callRunnableWidget($this, $aConf['onfields']);
