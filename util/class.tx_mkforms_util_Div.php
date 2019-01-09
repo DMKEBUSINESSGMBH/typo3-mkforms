@@ -260,7 +260,7 @@ class tx_mkforms_util_Div
         $addr = tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'sendEmailOnException');
         if ($addr) {
             $exception = tx_rnbase::makeInstance('tx_mkforms_exception_Mayday', $msg, -1, $sDebug);
-            tx_rnbase_util_Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : get_class($this), $exception);
+            tx_rnbase_util_Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : __CLASS__, $exception);
         }
 
         // beim ajaxcall nur die meldung ausgeben und fertig!
