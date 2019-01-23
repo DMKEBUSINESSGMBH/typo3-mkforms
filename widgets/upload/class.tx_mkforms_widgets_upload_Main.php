@@ -425,7 +425,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                         $aCurCats = array();
                     }
 
-                    foreach ($aCurCats as &$category)
+                    foreach ($aCurCats as &$category) {
                         $category = $category['uid_foreign'];
                     }
 
