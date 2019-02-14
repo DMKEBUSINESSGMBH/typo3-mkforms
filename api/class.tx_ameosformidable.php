@@ -5206,10 +5206,10 @@ JAVASCRIPT;
      */
     public function attachErrorsByJS($errors, $msgDiv, $remove = false)
     {
-        if ($remove && !count($errors)) {
+        if ($remove && empty($errors)) {
             $errors = array('noErrors' => true);
         }
-        if (!count($errors)) {
+        if (empty($errors)) {
             return;
         }
 
