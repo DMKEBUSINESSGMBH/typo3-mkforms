@@ -98,7 +98,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
     public function loadAggregates()
     {
         reset($this->aElement);
-        while (list($sElementName, ) = each($this->aElement)) {
+        foreach ($this->aElement as $sElementName => $notNeeded) {
             if ($sElementName{0} === 'a' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'aggregate')) {
                 if (($sClassFile = $this->_navConf('/' . $sElementName . '/classfile')) === false) {
                     $this->oForm->mayday(
@@ -188,7 +188,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
     {
         $oObject = $this->getObject($sKey);
         reset($aData);
-        while (list($sKey, ) = each($aData)) {
+        foreach ($aData as $sKey => $notNeeded) {
             $oObject->$sKey = $aData[$sKey];
         }
 

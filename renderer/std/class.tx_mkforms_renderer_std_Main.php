@@ -35,7 +35,7 @@ class tx_mkforms_renderer_std_Main extends formidable_mainrenderer
         if (is_array($aHtml) && count($aHtml) > 0) {
             reset($aHtml);
 
-            while (list($sName, $aChannels) = each($aHtml)) {
+            foreach ($aHtml as $sName => $aChannels) {
                 if (array_key_exists($sName, $this->oForm->aORenderlets)) {
                     if ($this->getForm()->getWidget($sName)->defaultWrap()) {
                         $sHtml .= "\n<div class='".$this->getForm()->sDefaultWrapClass."-rdtwrap'>" . str_replace('{PARENTPATH}', $this->oForm->_getParentExtSitePath(), $aChannels['__compiled']) . "</div>\n";

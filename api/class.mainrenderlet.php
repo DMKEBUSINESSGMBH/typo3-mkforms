@@ -150,7 +150,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         $aDeps = Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sDeps));
 
         reset($aDeps);
-        while (list(, $sDep) = each($aDeps)) {
+        foreach ($aDeps as $sDep) {
             if (array_key_exists($sDep, $this->oForm->aORenderlets)) {
                 $this->aDependsOn[] = $sDep;
                 $this->oForm->aORenderlets[$sDep]->aDependants[] = $this->getAbsName();
@@ -170,7 +170,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         if ($this->mayHaveChilds() && $this->hasChilds()) {
             $aChildsKeys = array_keys($this->aChilds);
             reset($aChildsKeys);
-            while (list(, $sKey) = each($aChildsKeys)) {
+            foreach ($aChildsKeys as $sKey) {
                 $this->aChilds[$sKey]->cleanStatics();
             }
         }
@@ -406,7 +406,10 @@ class formidable_mainrenderlet extends formidable_mainobject
         if (!$bHasBeenPosted && $this->mayHaveChilds() && $this->hasChilds()) {
             $aChildKeys = array_keys($this->aChilds);
             reset($aChildKeys);
-            while (!$bHasBeenPosted && (list(, $sKey) = each($aChildKeys))) {
+            foreach ($aChildKeys as $sKey) {
+                if ($bHasBeenPosted) {
+                    break;
+                }
                 $bHasBeenPosted = $bHasBeenPosted && $this->aChilds[$sKey]->hasBeenDeeplyPosted();
             }
         }
@@ -465,7 +468,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     {
         if (($aEvents = $this->_getProgServerEvents()) !== false) {
             reset($aEvents);
-            while (list($sEvent, $aEvent) = each($aEvents)) {
+            foreach ($aEvents as $sEvent => $aEvent) {
                 if ($aEvent['runat'] == 'server') {
                     $aDefinedEvent = $aEvent;
 
@@ -1371,7 +1374,7 @@ TOOLTIP;
             $sIsNot = $sIsNot ? Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sIsNot)) : false;
             $sIsHiddenD = $this->_defaultFalse('/hideifdependancyishiddenbecausedependancy');
             reset($this->aDependsOn);
-            while (list(, $sKey) = each($this->aDependsOn)) {
+            foreach ($this->aDependsOn as $sKey) {
                 if (// ausblenden wenn,
                     // Element nicht existiert
                     !array_key_exists($sKey, $this->oForm->aORenderlets)
@@ -1447,7 +1450,7 @@ TOOLTIP;
         if (trim($sStyle) !== '') {
             $aTemp = Tx_Rnbase_Utility_Strings::trimExplode(';', $sStyle);
             reset($aTemp);
-            while (list($sKey, ) = each($aTemp)) {
+            foreach ($aTemp as $sKey => $notNeeded) {
                 if (trim($aTemp[$sKey]) !== '') {
                     $aStyleItem = Tx_Rnbase_Utility_Strings::trimExplode(':', $aTemp[$sKey]);
                     $aStyles[$aStyleItem[0]] = $aStyleItem[1];
@@ -1465,7 +1468,7 @@ TOOLTIP;
         $aRes = array();
 
         reset($aStyles);
-        while (list($sProp, $sVal) = each($aStyles)) {
+        foreach ($aStyles as $sProp => $sVal) {
             $aRes[] = $sProp . ': ' . $sVal;
         }
 
@@ -1607,7 +1610,7 @@ TOOLTIP;
     {
         $aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
         reset($aGrabbedEvents);
-        while (list(, $sEvent) = each($aGrabbedEvents)) {
+        foreach ($aGrabbedEvents as $sEvent) {
             if (($mEvent = $this->_navConf('/' . $sEvent . '/')) !== false) {
                 if (is_array($mEvent)) {
                     $sRunAt = trim(
@@ -1638,7 +1641,7 @@ TOOLTIP;
                             if (is_string($mEvent['params'])) {
                                 $aTemp = Tx_Rnbase_Utility_Strings::trimExplode(',', $mEvent['params']);
                                 reset($aTemp);
-                                while (list($sKey, ) = each($aTemp)) {
+                                foreach ($aTemp as $sKey => $notNeeded) {
                                     $aNeededParams[] = array(
                                         'get' => $aTemp[$sKey],
                                         'as' => false,
@@ -1711,7 +1714,7 @@ TOOLTIP;
         $aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
 
         reset($aGrabbedEvents);
-        while (list(, $sEvent) = each($aGrabbedEvents)) {
+        foreach ($aGrabbedEvents as $sEvent) {
             if (($mEvent = $this->_navConf('/' . $sEvent . '/')) !== false) {
                 if (is_array($mEvent)) {
                     $sRunAt = (array_key_exists('runat', $mEvent)
@@ -1946,7 +1949,7 @@ TOOLTIP;
 
         if (!empty($aEvents)) {
             reset($aEvents);
-            while (list($sEvent, $aEvent) = each($aEvents)) {
+            foreach ($aEvents as $sEvent => $aEvent) {
                 if ($sEvent == 'custom') {
                     $aHtml[] = implode(' ', $aEvent);
                 } else {
@@ -1989,7 +1992,7 @@ JAVASCRIPT;
         $sHtmlId = $this->_getElementHtmlId();
 
         reset($this->aPossibleCustomEvents);
-        while (list(, $sEvent) = each($this->aPossibleCustomEvents)) {
+        foreach ($this->aPossibleCustomEvents as $sEvent) {
             if (array_key_exists($sEvent, $this->aCustomEvents)) {
                 $sJs = implode("\n", $this->aCustomEvents[$sEvent]);
                 $sScript
@@ -2067,7 +2070,7 @@ JAVASCRIPT;
             }
 
             reset($aXmlItems);
-            while (list($sKey, ) = each($aXmlItems)) {
+            foreach ($aXmlItems as $sKey => $notNeeded) {
                 if ($this->oForm->isRunneable($aXmlItems[$sKey]['caption'])) {
                     $aXmlItems[$sKey]['caption'] = $this->getForm()->getRunnable()->callRunnableWidget(
                         $this,
@@ -2295,7 +2298,7 @@ JAVASCRIPT;
                 if ($this->oForm->isRunneable($aConf['overridesql'])) {
                     $aSql = array();
                     reset($aFields);
-                    while (list(, $sField) = each($aFields)) {
+                    foreach ($aFields as $sField) {
                         $aSql[] = $this->getForm()->getRunnable()->callRunnableWidget(
                             $this,
                             $aConf['overridesql'],
@@ -2333,7 +2336,7 @@ JAVASCRIPT;
                         $aSql = array();
 
                         reset($aFields);
-                        while (list(, $sField) = each($aFields)) {
+                        foreach ($aFields as $sField) {
                             if ($sValue != 'number') {
                                 $aSql[]
                                     = '(' . $sFieldPrefix . $sField . " LIKE '" . $GLOBALS['TYPO3_DB']->quoteStr($sValue, $sTable)
@@ -2388,7 +2391,7 @@ JAVASCRIPT;
 
                         if (is_array($aConf['mode']) && array_key_exists('handlepluriels', $aConf['mode'])) {
                             reset($aWords);
-                            while (list($sKey, $sWord) = each($aWords)) {
+                            foreach ($aWords as $sKey => $sWord) {
                                 if (strtolower(substr($sWord, -1, 1)) === 's') {
                                     $aWords[$sKey] = substr($sWord, 0, (strlen($sWord) - 1));
                                 }
@@ -2398,11 +2401,11 @@ JAVASCRIPT;
                         $aSql = array();
 
                         reset($aFields);
-                        while (list(, $sField) = each($aFields)) {
+                        foreach ($aFields as $sField) {
                             $aTemp = array();
 
                             reset($aWords);
-                            while (list($iKey, $sWord) = each($aWords)) {
+                            foreach ($aWords as $iKey => $sWord) {
                                 $aTemp[] = $sFieldPrefix . $sField . " LIKE '%" . $GLOBALS['TYPO3_DB']->quoteStr($sWord, $sTable)
                                     . "%' ";
                             }
@@ -2428,7 +2431,7 @@ JAVASCRIPT;
                         $aSql = array();
 
                         reset($aFields);
-                        while (list(, $sField) = each($aFields)) {
+                        foreach ($aFields as $sField) {
                             $aSql[] = $this->_sqlSearchClause(
                                 $sValue,
                                 $sFieldPrefix,
@@ -2452,7 +2455,7 @@ JAVASCRIPT;
                     $aSql = array();
 
                     reset($aFields);
-                    while (list(, $sField) = each($aFields)) {
+                    foreach ($aFields as $sField) {
                         $aSql[] = $this->_sqlSearchClause(
                             $sValue,
                             $sFieldPrefix,
@@ -2641,7 +2644,7 @@ JAVASCRIPT;
         if ($this->mayHaveChilds() && $this->hasChilds()) {
             $aKeys = array_keys($this->aChilds);
             reset($aKeys);
-            while (list(, $sKey) = each($aKeys)) {
+            foreach ($aKeys as $sKey) {
                 $aChildsIds[$sKey] = $this->aChilds[$sKey]->_getElementHtmlId();
             }
         }
@@ -2730,7 +2733,7 @@ JAVASCRIPT;
 
         if ($this->mayHaveChilds() && $this->hasChilds()) {
             reset($this->aChilds);
-            while (list($sName, ) = each($this->aChilds)) {
+            foreach ($this->aChilds as $sName => $notNeeded) {
                 $oRdt =& $this->aChilds[$sName];
                 if ($this->bForcedValue === true && is_array($this->mForcedValue)
                     && array_key_exists(
@@ -2882,7 +2885,7 @@ JAVASCRIPT;
                 $aCompiledErrors = array();
                 $aDeepErrors = $this->getDeepErrorRelative();
                 reset($aDeepErrors);
-                while (list($sKey, ) = each($aDeepErrors)) {
+                foreach ($aDeepErrors as $sKey => $notNeeded) {
                     $sTag = $this->oForm->oRenderer->wrapErrorMessage($aDeepErrors[$sKey]['message']);
 
                     $aCompiledErrors[] = $sTag;
@@ -2913,7 +2916,7 @@ JAVASCRIPT;
             $bRenderErrors = $this->defaultTrue('/rendererrors');
 
             reset($aChildsBag);
-            while (list($sName, $aBag) = each($aChildsBag)) {
+            foreach ($aChildsBag as $sName => $aBag) {
                 if ($sName{0} == 'e' && $sName == 'errors' && !$bRenderErrors) {
                     continue;
                 }
@@ -3143,7 +3146,7 @@ JAVASCRIPT;
                 reset($aManifest);
                 if (array_key_exists($this->aObjectType['OBJECT'], $aManifest['skin'])) {
                     reset($aManifest['skin'][$this->aObjectType['OBJECT']]);
-                    while (list(, $aSubManifest) = each($aManifest['skin'][$this->aObjectType['OBJECT']])) {
+                    foreach ($aManifest['skin'][$this->aObjectType['OBJECT']] as $aSubManifest) {
                         if ($aSubManifest['type'] == $this->aObjectType['TYPE']) {
                             $aModes = Tx_Rnbase_Utility_Strings::trimExplode(',', $aSubManifest['modes']);
                             if (in_array($sMode, $aModes)) {
@@ -3177,7 +3180,7 @@ JAVASCRIPT;
                                         )) !== false
                                         ) {
                                             reset($aChannels);
-                                            while (list(, $aChannel) = each($aChannels)) {
+                                            foreach ($aChannels as $aChannel) {
                                                 $this->aSkin['template']['channels'][$aChannel['name']]
                                                     = $this->oForm->getTemplateTool()->parseTemplateCode(
                                                         tx_rnbase_util_Templates::getSubpart(
@@ -3228,7 +3231,7 @@ JAVASCRIPT;
 
             if (!empty($this->aSkin['template']['channels'])) {
                 reset($this->aSkin['template']['channels']);
-                while (list($sName, ) = each($this->aSkin['template']['channels'])) {
+                foreach ($this->aSkin['template']['channels'] as $sName => $notNeeded) {
                     $aHtmlBag[$sName] = $this->oForm->getTemplateTool()->parseTemplateCode(
                         $this->aSkin['template']['channels'][$sName],
                         $aHtmlBag,
@@ -3250,7 +3253,7 @@ JAVASCRIPT;
             return $aHtmlBag;
         } else {
             reset($aDefaultHtmlBag);
-            while (list($sName, ) = each($aDefaultHtmlBag)) {
+            foreach ($aDefaultHtmlBag as $sName => $notNeeded) {
                 $aDefaultHtmlBag[$sName] = $this->oForm->getTemplateTool()->parseTemplateCode(
                     $aDefaultHtmlBag[$sName],
                     array_merge($aHtmlBag, $aDefaultHtmlBag),
@@ -3297,7 +3300,7 @@ JAVASCRIPT;
     {
         if (($aCssFiles = $this->oForm->_navConf('/resources/css/', $aObjectManifest)) !== false) {
             reset($aCssFiles);
-            while (list(, $aCssFile) = each($aCssFiles)) {
+            foreach ($aCssFiles as $aCssFile) {
                 $sCssPath = $aManifest['control']['webpath'] . tx_mkforms_util_Div::removeStartingSlash($aCssFile['src']);
                 $sCssTag = '<link rel="stylesheet" type="text/css" media="all" href="' . $sCssPath . '" />';
 
@@ -3335,7 +3338,7 @@ JAVASCRIPT;
         if ($this->hasChilds() && isset($this->aChilds) && is_array($this->aChilds)) {
             $aChildKeys = array_keys($this->aChilds);
             reset($aChildKeys);
-            while (list(, $sKey) = each($aChildKeys)) {
+            foreach ($aChildKeys as $sKey) {
                 $this->aChilds[$sKey]->cleanBeforeSession();
             }
         }
@@ -3349,7 +3352,7 @@ JAVASCRIPT;
         if ($this->isDataBridge()) {
             $aKeys = array_keys($this->aDataBridged);
             reset($aKeys);
-            while (list(, $sKey) = each($aKeys)) {
+            foreach ($aKeys as $sKey) {
                 $sAbsName = $this->aDataBridged[$sKey];
                 if (array_key_exists($sAbsName, $this->oForm->aORenderlets)) {
                     $this->oForm->aORenderlets[$sAbsName]->sDataBridge = $sThisAbsName;
@@ -3553,7 +3556,7 @@ JAVASCRIPT;
             if (isset($this->aChilds)) {
                 $aChildKeys = array_keys($this->aChilds);
                 reset($aChildKeys);
-                while (list(, $sChildName) = each($aChildKeys)) {
+                foreach ($aChildKeys as $sChildName) {
                     $this->aChilds[$sChildName]->filterUnProcessed();
                 }
             }
@@ -3561,7 +3564,7 @@ JAVASCRIPT;
             if (isset($this->aOColumns)) {
                 $aChildKeys = array_keys($this->aOColumns);
                 reset($aChildKeys);
-                while (list(, $sChildName) = each($aChildKeys)) {
+                foreach ($aChildKeys as $sChildName) {
                     $this->aOColumns[$sChildName]->filterUnProcessed();
                 }
             }
@@ -3586,7 +3589,7 @@ JAVASCRIPT;
             if (isset($this->aChilds)) {
                 $aChildKeys = array_keys($this->aChilds);
                 reset($aChildKeys);
-                while (list(, $sChildName) = each($aChildKeys)) {
+                foreach ($aChildKeys as $sChildName) {
                     $this->aChilds[$sChildName]->unsetRdt();
                     unset($this->aChilds[$sChildName]);
                 }
@@ -3595,7 +3598,7 @@ JAVASCRIPT;
             if (isset($this->aOColumns)) {
                 $aChildKeys = array_keys($this->aOColumns);
                 reset($aChildKeys);
-                while (list(, $sChildName) = each($aChildKeys)) {
+                foreach ($aChildKeys as $sChildName) {
                     $this->aOColumns[$sChildName]->unsetRdt();
                     unset($this->aOColumns[$sChildName]);
                 }
@@ -3613,7 +3616,7 @@ JAVASCRIPT;
         $sName = $this->getAbsName();
 
         $aAjaxOnloadEventsKeys = array_keys($this->oForm->aOnloadEvents['ajax']);
-        while (list(, $sKey) = each($aAjaxOnloadEventsKeys)) {
+        foreach ($aAjaxOnloadEventsKeys as $sKey) {
             if ($this->oForm->aOnloadEvents['ajax'][$sKey]['name'] === $sName) {
                 unset($this->oForm->aOnloadEvents['ajax'][$sKey]);
             }
@@ -3703,7 +3706,7 @@ JAVASCRIPT;
         }
         if ($this->hasDependants()) {
             reset($this->aDependants);
-            while (list(, $sAbsName) = each($this->aDependants)) {
+            foreach ($this->aDependants as $sAbsName) {
                 $widget = $this->getForm()->getWidget($sAbsName);
                 if (is_object($widget)) {
                     $widget->refreshValue();
@@ -3718,7 +3721,7 @@ JAVASCRIPT;
                     if ($widget->hasChilds()) {
                         $aChildKeys = array_keys($widget->aChilds);
                         reset($aChildKeys);
-                        while (list(, $sChild) = each($aChildKeys)) {
+                        foreach ($aChildKeys as $sChild) {
                             $widget->aChilds[$sChild]->majixRepaintDependancies(array(&$aTasks));
                         }
                     }
@@ -3737,7 +3740,7 @@ JAVASCRIPT;
             if (isset($this->aChilds)) {
                 $aChildKeys = array_keys($this->aChilds);
                 reset($aChildKeys);
-                while (list(, $sChildName) = each($aChildKeys)) {
+                foreach ($aChildKeys as $sChildName) {
                     if ($this->aChilds[$sChildName]->_isSubmittedForValidation()) {
                         $this->aChilds[$sChildName]->validate();
                     }
@@ -3749,7 +3752,7 @@ JAVASCRIPT;
             if (isset($this->aOColumns)) {
                 $aChildKeys = array_keys($this->aOColumns);
                 reset($aChildKeys);
-                while (list(, $sChildName) = each($aChildKeys)) {
+                foreach ($aChildKeys as $sChildName) {
                     if ($this->aOColumns[$sChildName]->_isSubmittedForValidation()) {
                         $this->aOColumns[$sChildName]->validate();
                     }
@@ -3765,7 +3768,7 @@ JAVASCRIPT;
 
                 $aKeys = array_keys($this->aDataBridged);
                 reset($aKeys);
-                while (list(, $iKey) = each($aKeys)) {
+                foreach ($aKeys as $iKey) {
                     $sAbsName = $this->aDataBridged[$iKey];
                     if ($sAbsName === false
                         || (!$this->oForm->aORenderlets[$sAbsName]->_renderOnly()
@@ -3797,7 +3800,10 @@ JAVASCRIPT;
             $sThisAbsName = $this->getAbsName();
             $aErrorKeys = array_keys($this->oForm->_aValidationErrors);
             reset($aErrorKeys);
-            while ($bValid && list(, $sAbsName) = each($aErrorKeys)) {
+            foreach ($aErrorKeys as $sAbsName) {
+                if (!$bValid) {
+                    break;
+                }
                 if (array_key_exists($sAbsName, $this->oForm->aORenderlets)
                     && $this->oForm->aORenderlets[$sAbsName]->isDescendantOf($sThisAbsName)
                 ) {
@@ -3830,7 +3836,7 @@ JAVASCRIPT;
 
         $aKeys = array_keys($this->aDataBridged);
         reset($aKeys);
-        while (list(, $iKey) = each($aKeys)) {
+        foreach ($aKeys as $iKey) {
             $sAbsName = $this->aDataBridged[$iKey];
 
             if ($this->oForm->aORenderlets[$sAbsName]->hasSubmitted()) {
@@ -3896,7 +3902,7 @@ JAVASCRIPT;
 
             $aKeys = array_keys($aMapping);
             reset($aKeys);
-            while (list(, $iKey) = each($aKeys)) {
+            foreach ($aKeys as $iKey) {
                 if ($aMapping[$iKey]['rdt'] === $sRelName) {
                     $sPath = $aMapping[$iKey]['data'];
 
@@ -4246,7 +4252,10 @@ JAVASCRIPT;
 
             $aChildKeys = array_keys($this->aChilds);
             reset($aChildKeys);
-            while (!$bHasErrors && (list(, $sKey) = each($aChildKeys))) {
+            foreach ($aChildKeys as $sKey) {
+                if ($bHasErrors) {
+                    break;
+                }
                 $bHasErrors = $bHasErrors || $this->aChilds[$sKey]->hasDeepError();
             }
 
@@ -4302,7 +4311,7 @@ JAVASCRIPT;
         $aErrors = $this->getDeepError_rec($aErrors);
 
         reset($aErrors);
-        while (list($sAbsName, ) = each($aErrors)) {
+        foreach ($aErrors as $sAbsName => $notNeeded) {
             $aErrorsRel[$this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this)] = $aErrors[$sAbsName];
         }
 
@@ -4316,7 +4325,7 @@ JAVASCRIPT;
         if ($this->mayHaveChilds() && $this->hasChilds()) {
             $aChildKeys = array_keys($this->aChilds);
             reset($aChildKeys);
-            while ((list(, $sKey) = each($aChildKeys))) {
+            foreach ($aChildKeys as $sKey) {
                 if ($this->aChilds[$sKey]->hasError()) {
                     $aErrors[$this->aChilds[$sKey]->getAbsName()] = $this->aChilds[$sKey]->getError();
                 }
@@ -4362,7 +4371,10 @@ JAVASCRIPT;
             if (is_array($aConf) && !empty($aConf)) {
                 $sAbsName = $this->getAbsName();
 
-                while (!$this->hasError() && list($sKey, $aValidator) = each($aConf)) {
+                foreach ($aConf as $sKey => $aValidator) {
+                    if ($this->hasError()) {
+                        break;
+                    }
                     if ($sKey{0} === 'v' && $sKey{1} === 'a' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validator')
                         && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validators')
                     ) {

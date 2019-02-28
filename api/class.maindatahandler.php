@@ -265,7 +265,7 @@ class formidable_maindatahandler extends formidable_mainobject
             $aKeys = array_keys($this->getForm()->aORenderlets);
 
             reset($aKeys);
-            while (list(, $sAbsName) = each($aKeys)) {
+            foreach ($aKeys as $sAbsName) {
                 if (!$this->getForm()->getWidget($sAbsName)->_renderOnly() && !$this->getForm()->getWidget($sAbsName)->_readOnly()
                     && $this->getForm()->getWidget($sAbsName)->hasBeenDeeplySubmitted()
                 ) {
@@ -285,7 +285,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $aFormData = $this->_getFormData();
         $aRes = array();
         reset($aFormData);
-        while (list($sName, $mData) = each($aFormData)) {
+        foreach ($aFormData as $sName => $mData) {
             if (array_key_exists($sName, $this->getForm()->aORenderlets)) {
                 $aRes[$sName] = $this->getForm()->aORenderlets[$sName]->_flatten($mData);
             }
@@ -303,7 +303,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
         $aFlatFormDataManaged = array();
         reset($aFormData);
-        while (list($sAbsName, $mData) = each($aFormData)) {
+        foreach ($aFormData as $sAbsName => $mData) {
             if (array_key_exists($sAbsName, $this->getForm()->aORenderlets)) {
                 if ($this->getForm()->useNewDataStructure()) {
                     $this->getForm()->mayday('not implemented yet:' . __FILE__ . ':' . __LINE__);
@@ -425,7 +425,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $this->__aFormData = array();
         $aKeys = array_keys($this->getForm()->aORenderlets);
         reset($aKeys);
-        while (list(, $sAbsName) = each($aKeys)) {
+        foreach ($aKeys as $sAbsName) {
             if (!$this->getForm()->getWidget($sAbsName)->hasParent()) {
                 $sAbsPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sAbsName);
                 $this->getForm()->setDeepData(
@@ -532,7 +532,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $aLabels = array();
 
         reset($aFormData);
-        while (list($elementname, $value) = each($aFormData)) {
+        foreach ($aFormData as $elementname => $value) {
             if (array_key_exists($elementname, $this->getForm()->aORenderlets)) {
                 $aValues[$elementname] = $this->getForm()->aORenderlets[$elementname]->_getHumanReadableValue($value);
                 $aLabels[$elementname] = $this->getForm()->getConfigXML()->getLLLabel(

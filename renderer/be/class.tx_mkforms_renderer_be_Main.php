@@ -27,7 +27,7 @@ class tx_mkforms_renderer_be_Main extends formidable_mainrenderer
         if (is_array($aHtml) && count($aHtml) > 0) {
             reset($aHtml);
 
-            while (list($sName, $aChannels) = each($aHtml)) {
+            foreach ($aHtml as $sName => $aChannels) {
                 $sHtml .= "\n<p>" . str_replace('{PARENTPATH}', $this->oForm->_getParentExtSitePath(), $aChannels['__compiled']) . "</p>\n";
             }
         }

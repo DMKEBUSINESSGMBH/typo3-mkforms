@@ -85,14 +85,14 @@ class tx_mkforms_util_Div
         reset($aData);
 
         if ($sCaptionMap !== false && $sValueMap !== false) {
-            while (list($sKey, ) = each($aData)) {
+            foreach ($aData as $sKey => $notNeeded) {
                 $aItems[] = array(
                     'value' => $aData[$sKey][$sValueMap],
                     'caption' => $aData[$sKey][$sCaptionMap],
                 );
             }
         } else {
-            while (list($sValue, $sCaption) = each($aData)) {
+            foreach ($aData as $sValue => $sCaption) {
                 $aItems[] = array(
                     'value' => $sValue,
                     'caption' => $sCaption
@@ -296,7 +296,7 @@ class tx_mkforms_util_Div
             if (!count($mMixed)) {
                 $result .= "<tr><td><span style='" . $sStyleBlack . "'><b>".htmlspecialchars('EMPTY!').'</b></span></td></tr>';
             } else {
-                while (list($key, $val) = each($mMixed)) {
+                foreach ($mMixed as $key => $val) {
                     $result .= "<tr><td valign='top'><span style='" . $sStyleBlack . "'>".htmlspecialchars((string)$key).'</span></td><td>';
 
                     if (is_array($val)) {
@@ -751,7 +751,7 @@ ERRORMESSAGE;
             $aTemp = array();
         }
 
-        while (list($key, $val) = each($aData)) {
+        foreach ($aData as $key => $val) {
             if (is_array($val)) {
                 if ($sParentKey === 'userobj.' && $key === 'cobj.') {
                     $aTemp['cobj'] = $aData['cobj'];
@@ -777,7 +777,7 @@ ERRORMESSAGE;
     public static function addDots($aData, $aTemp = false)
     {
         $aTemp = ($aTemp === false) ? array() : $aTemp;
-        while (list($key, $val) = each($aData)) {
+        foreach ($aData as $key => $val) {
             if (is_array($val)) {
                 $aTemp[$key.'.'] = self::addDots($val);
             } else {

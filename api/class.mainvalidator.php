@@ -44,7 +44,10 @@ class formidable_mainvalidator extends formidable_mainobject
         $sAbsName = $oRdt->getAbsName();
         $aKeys = array_keys($this->_navConf('/'));
         reset($aKeys);
-        while (!$oRdt->hasError() && list(, $sKey) = each($aKeys)) {
+        foreach ($aKeys as $sKey) {
+            if ($oRdt->hasError()) {
+                break;
+            }
             if (!$this->canValidate($oRdt, $sKey, $mValue)) {
                 continue;
             }

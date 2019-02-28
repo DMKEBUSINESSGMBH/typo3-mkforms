@@ -182,7 +182,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
             }
 
             reset($mData);
-            while (list($sKey, ) = each($mData)) {
+            foreach ($mData as $sKey => $notNeeded) {
                 if (is_array($mData[$sKey]) && array_key_exists('__compiled', $mData[$sKey])) {
                     ksort($mData[$sKey]);
                 }
@@ -264,7 +264,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
         $aRes = array();
         if (is_array($mData)) {
             reset($aParams);
-            while (list(, $sKeyName) = each($aParams)) {
+            foreach ($aParams as $sKeyName) {
                 if (array_key_exists($sKeyName, $mData)) {
                     $aRes[$sKeyName] = $mData[$sKeyName];
                 }

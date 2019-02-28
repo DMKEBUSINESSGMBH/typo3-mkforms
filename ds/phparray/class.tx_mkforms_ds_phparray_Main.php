@@ -84,7 +84,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
             $aKeys = array_keys($this->aSource);
 
             reset($aKeys);
-            while (list(, $sKey) = each($aKeys)) {
+            foreach ($aKeys as $sKey) {
                 $this->aPosByUid[$this->aSource[$sKey]['uid']] = $k;
                 $k++;
             }

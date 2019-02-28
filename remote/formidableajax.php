@@ -127,7 +127,7 @@ class formidableajax
         $start = microtime(true);
         $aRdtKeys = array_keys($this->oForm->aORenderlets);
         reset($aRdtKeys);
-        while (list(, $sKey) = each($aRdtKeys)) {
+        foreach ($aRdtKeys as $sKey) {
             if (is_object($this->oForm->aORenderlets[$sKey])) {
                 $this->oForm->aORenderlets[$sKey]->awakeInSession($this->oForm);
             }
@@ -136,7 +136,7 @@ class formidableajax
 
         $start = microtime(true);
         reset($this->oForm->aODataSources);
-        while (list($sKey, ) = each($this->oForm->aODataSources)) {
+        foreach ($this->oForm->aODataSources as $sKey => $notNeeded) {
             $this->oForm->aODataSources[$sKey]->awakeInSession($this->oForm);
         }
         $this->ttTimes['dsrest'] = microtime(true) - $start;

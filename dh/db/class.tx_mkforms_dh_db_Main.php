@@ -103,7 +103,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                             );
 
                             reset($aFormData);
-                            while (list($sName, ) = each($aFormData)) {
+                            foreach ($aFormData as $sName => $notNeeded) {
                                 if (!array_key_exists($sName, $this->oForm->aORenderlets)
                                     || !$this->oForm->aORenderlets[$sName]->_translatable()
                                 ) {
@@ -295,7 +295,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
         $aKeys = array_keys($this->oForm->aORenderlets);
         reset($aKeys);
 
-        while (list(, $sAbsName) = each($aKeys)) {
+        foreach ($aKeys as $sAbsName) {
             if (!$this->oForm->aORenderlets[$sAbsName]->_renderOnly()
                 && $this->oForm->aORenderlets[$sAbsName]->isSaveable()
                 && (!$this->oForm->aORenderlets[$sAbsName]->maySubmit()
@@ -469,7 +469,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                     // on va rechercher la configuration du champ en question
                     reset($this->oForm->aORenderlets);
                     $aRdts = array_keys($this->oForm->aORenderlets);
-                    while (list(, $fieldName) = each($aRdts)) {
+                    foreach ($aRdts as $fieldName) {
                         // Das ist nur für Confirm-Felder interessant
                         if (($sConfirm = $this->oForm->aORenderlets[$fieldName]->_navConf('/confirm')) !== false) {
                             $this->__aStoredData[$fieldName] = $this->__aStoredData[$sConfirm];
@@ -502,7 +502,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     {
         if ($this->oForm->aAddPostVars !== false) {
             reset($this->oForm->aAddPostVars);
-            while (list($sKey, ) = each($this->oForm->aAddPostVars)) {
+            foreach ($this->oForm->aAddPostVars as $sKey => $notNeeded) {
                 if (array_key_exists('action', $this->oForm->aAddPostVars[$sKey])
                     && $this->oForm->aAddPostVars[$sKey]['action'] === 'requestNewI18n'
                 ) {

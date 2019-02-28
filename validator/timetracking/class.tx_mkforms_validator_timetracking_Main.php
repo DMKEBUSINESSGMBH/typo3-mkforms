@@ -43,8 +43,8 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
         $validationKeys = array_keys($this->_navConf('/'));
         reset($validationKeys);
 
-        while (!$renderlet->hasError() && list(, $validationKey) = each($validationKeys)) {
-            if (!$this->canValidate($renderlet, $validationKey, $renderlet->getValue())) {
+        foreach ($validationKeys as $validationKey) {
+            if ($renderlet->hasError() || !$this->canValidate($renderlet, $validationKey, $renderlet->getValue())) {
                 break;
             }
 

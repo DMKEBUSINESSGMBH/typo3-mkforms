@@ -144,7 +144,7 @@ class tx_mkforms_js_Loader
 
         $aLibs = Tx_Rnbase_Utility_Strings::trimExplode(',', $sLibs);
         reset($aLibs);
-        while (list(, $sLib) = each($aLibs)) {
+        foreach ($aLibs as $sLib) {
             if ($sLib === 'scriptaculous') {
                 $this->loadScriptaculous();
             } elseif ($sLib === 'dragdrop') {

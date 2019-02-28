@@ -810,7 +810,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     {
         $r = array();
         reset($a1);
-        while (list($k, $v) = each($a1)) {
+        foreach ($a1 as $k => $v) {
             if (is_array($v)) {
                 $r[$k] = $this->array_diff_key_recursive($a1[$k], $a2[$k]);
             } else {
@@ -967,7 +967,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     {
         if ($this->aAddPostVars !== false) {
             reset($this->aAddPostVars);
-            while (list($sKey, ) = each($this->aAddPostVars)) {
+            foreach ($this->aAddPostVars as $sKey => $notNeeded) {
                 if (array_key_exists('action', $this->aAddPostVars[$sKey])
                     && $this->aAddPostVars[$sKey]['action'] === 'requestEdition'
                 ) {
@@ -1015,7 +1015,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     {
         if (count($this->aORenderlets) > 0) {
             $aKeys = array_keys($this->aORenderlets);
-            while (list(, $sKey) = each($aKeys)) {
+            foreach ($aKeys as $sKey) {
                 $this->aORenderlets[$sKey]->checkPoint($aPoints, $options);
             }
         }
@@ -1037,7 +1037,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
         $aKeys = array_keys($aMeta);
         reset($aKeys);
-        while (list(, $sKey) = each($aKeys)) {
+        foreach ($aKeys as $sKey) {
             if ($sKey{0} == 'o' && $sKey{1} == 'n' && (substr($sKey, 0, 12) === 'oncheckpoint')) {
                 $sWhen = $this->getConfig()->get('/meta/' . $sKey . '/when');
                 if (in_array($sWhen, $aPoints)) {
@@ -1333,7 +1333,7 @@ SANDBOXCLASS;
             // triggered when onclick runart='server' is defined on a SUBMIT renderlet
 
             reset($this->aServerEvents);
-            while (list($sKey, ) = each($this->aServerEvents)) {
+            foreach ($this->aServerEvents as $sKey => $notNeeded) {
                 $sAbsName = $this->aServerEvents[$sKey]['name'];
                 $sAbsPath = str_replace('.', '/', $sAbsName);
 
@@ -1494,10 +1494,10 @@ SANDBOXCLASS;
 
             if ($aAddPostVars !== false) {
                 reset($aAddPostVars);
-                while (list($sKey, ) = each($aAddPostVars)) {
+                foreach ($aAddPostVars as $sKey => $notNeeded) {
                     if (array_key_exists('action', $aAddPostVars[$sKey]) && $aAddPostVars[$sKey]['action'] === 'formData') {
                         reset($aAddPostVars[$sKey]['params']);
-                        while (list($sParam, $sValue) = each($aAddPostVars[$sKey]['params'])) {
+                        foreach ($aAddPostVars[$sKey]['params'] as $sParam => $sValue) {
                             $aAddParams = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                                 $aAddParams,
                                 Tx_Rnbase_Utility_T3General::explodeUrl2Array(
@@ -1628,7 +1628,7 @@ SANDBOXCLASS;
         $aRdts = array_keys($this->aORenderlets);
 
         reset($aRdts);
-        while (list(, $sName) = each($aRdts)) {
+        foreach ($aRdts as $sName) {
             if (array_key_exists($sName, $this->aORenderlets) && !$this->aORenderlets[$sName]->hasParent()) {
                 $this->aORenderlets[$sName]->filterUnprocessed();
             }
@@ -1658,7 +1658,7 @@ SANDBOXCLASS;
         $aRelPath = explode('/', $sRelXPath);
 
         reset($aRelPath);
-        while (list(, $sSegment) = each($aRelPath)) {
+        foreach ($aRelPath as $sSegment) {
             if ($sSegment == '..') {
                 array_pop($aCurPath);
             } else {
@@ -1682,7 +1682,7 @@ SANDBOXCLASS;
         $sXml = Tx_Rnbase_Utility_T3General::array2xml($aXml);
 
         reset($aDynaXml);
-        while (list(, $aDynaSubst) = each($aDynaXml)) {
+        foreach ($aDynaXml as $aDynaSubst) {
             $sXml = str_replace('[' . $aDynaSubst['name'] . ']', $aDynaSubst['value'], $sXml);
         }
 
@@ -1822,7 +1822,7 @@ SANDBOXCLASS;
     {
         if (is_array($aConf)) {
             reset($aConf);
-            while (list($sElementName, ) = each($aConf)) {
+            foreach ($aConf as $sElementName => $notNeeded) {
                 if ($sElementName{0} === 'd' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasource')
                     && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasources')
                 ) {
@@ -1853,7 +1853,7 @@ SANDBOXCLASS;
 
         $aRdts = array_keys($this->aORenderlets);
         reset($aRdts);
-        while (list(, $sAbsName) = each($aRdts)) {
+        foreach ($aRdts as $sAbsName) {
             $this->getWidget($sAbsName)->initDependancies();
         }
     }
@@ -1877,7 +1877,7 @@ SANDBOXCLASS;
             $aConf = $this->getRunnable()->callRunnable($aConf);
 
             reset($aConf);
-            while (list($sElementName, ) = each($aConf)) {
+            foreach ($aConf as $sElementName => $notNeeded) {
                 if ($sElementName{0} === 'r' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'renderlet')) {
                     if (array_key_exists('name', $aConf[$sElementName]) && (trim($aConf[$sElementName]['name']) != '')) {
                         $sName = trim($aConf[$sElementName]['name']);
@@ -2139,7 +2139,7 @@ SANDBOXCLASS;
     {
         $aKeys = array_keys($aData);
         reset($aKeys);
-        while (list(, $sKey) = each($aKeys)) {
+        foreach ($aKeys as $sKey) {
             $aTemp = $aSegment;
             $aTemp[] = $sKey;
             if (is_array($aData[$sKey])) {
@@ -2177,7 +2177,7 @@ SANDBOXCLASS;
     {
         $aKeys = array_keys($this->aORenderlets);
         reset($aKeys);
-        while (list(, $sKey) = each($aKeys)) {
+        foreach ($aKeys as $sKey) {
             $this->aORenderlets[$sKey]->fetchServerEvents();
         }
     }
@@ -2460,11 +2460,11 @@ SANDBOXCLASS;
                 );
 
                 reset($aStyles);
-                while (list(, $sStyle) = each($aStyles)) {
+                foreach ($aStyles as $sStyle) {
                     $sStyle = $this->oHtml->removeFirstAndLastTag($sStyle);
 
                     reset($this->aORenderlets);
-                    while (list($sName, ) = each($this->aORenderlets)) {
+                    foreach ($this->aORenderlets as $sName => $notNeeded) {
                         $sStyle = str_replace('#' . $sName, '#' . $this->aORenderlets[$sName]->_getElementCssId(), $sStyle);
                     }
 
@@ -2496,7 +2496,7 @@ SANDBOXCLASS;
 
             if ($this->aAddPostVars !== false) {
                 reset($this->aAddPostVars);
-                while (list($sKey, ) = each($this->aAddPostVars)) {
+                foreach ($this->aAddPostVars as $sKey => $notNeeded) {
                     if (array_key_exists('action', $this->aAddPostVars[$sKey])
                         && $this->aAddPostVars[$sKey]['action'] == 'execOnNextPage'
                     ) {
@@ -2514,7 +2514,7 @@ SANDBOXCLASS;
             $this->attachAjaxServices();
 
             reset($this->aOnloadEvents['ajax']);
-            while (list($sEventId, $aEvent) = each($this->aOnloadEvents['ajax'])) {
+            foreach ($this->aOnloadEvents['ajax'] as $sEventId => $aEvent) {
                 $this->attachInitTask(
                     $this->oRenderer->_getAjaxEvent($this->aORenderlets[$aEvent['name']], $aEvent['event'], 'onload'),
                     'AJAX Event onload for ' . $this->formid . '.' . $aEvent['name'],
@@ -2523,7 +2523,7 @@ SANDBOXCLASS;
             }
 
             reset($this->aOnloadEvents['client']);
-            while (list(, $aEvent) = each($this->aOnloadEvents['client'])) {
+            foreach ($this->aOnloadEvents['client'] as $aEvent) {
                 $this->attachInitTask(
                     $this->oRenderer->_getClientEvent($aEvent['name'], $aEvent['event'], $aEvent['eventdata'], 'onload'),
                     'CLIENT Event onload for ' . $this->formid . '.' . $aEvent['name']
@@ -2635,7 +2635,7 @@ SANDBOXCLASS;
         );
 
         reset($aServices);
-        while (list(, $sServiceKey) = each($aServices)) {
+        foreach ($aServices as $sServiceKey) {
             if (($mService = $this->getConfig()->get('/meta/' . $sServiceKey)) !== false) {
                 $sName = array_key_exists('name', $mService) ? trim(strtolower($mService['name'])) : '';
                 $sServiceId = $this->getAjaxServiceId($mService['name']);
@@ -2674,7 +2674,7 @@ SANDBOXCLASS;
         $sSafeLock = $this->_getSessionDataHashKey();
 
         reset($this->aAjaxServices);
-        while (list($sServiceId, ) = each($this->aAjaxServices)) {
+        foreach ($this->aAjaxServices as $sServiceId => $notNeeded) {
             $sMixedCaseName = trim($this->aAjaxServices[$sServiceId]['definition']['name']);
 
             $sJs
@@ -2712,7 +2712,7 @@ JAVASCRIPT;
         $aRdts = array_keys($this->aORenderlets);
 
         reset($aRdts);
-        while (list(, $sName) = each($aRdts)) {
+        foreach ($aRdts as $sName) {
             if (array_key_exists($sName, $this->aORenderlets) && !$this->aORenderlets[$sName]->hasParent()) {
                 $this->aORenderlets[$sName]->processDataBridge();
             }
@@ -2738,7 +2738,7 @@ JAVASCRIPT;
     public function attachAccessibilityInit()
     {
         reset($this->aORenderlets);
-        while (list($sKey, ) = each($this->aORenderlets)) {
+        foreach ($this->aORenderlets as $sKey => $notNeeded) {
             if ($this->aORenderlets[$sKey]->hideIfJs() === true) {
                 $this->attachInitTask(
                     "Formidable.f('" . $this->formid . "').o('" . $this->aORenderlets[$sKey]->_getElementHtmlId()
@@ -2920,7 +2920,7 @@ JAVASCRIPT;
     public function _getInfosForType($type, $aCollectionInfos)
     {
         reset($aCollectionInfos);
-        while (list(, $aInfos) = each($aCollectionInfos)) {
+        foreach ($aCollectionInfos as $aInfos) {
             if ($aInfos['TYPE'] == $type) {
                 reset($aInfos);
 
@@ -3125,7 +3125,7 @@ JAVASCRIPT;
             $aRdtKeys = array_keys($this->aORenderlets);
 
             reset($aRdtKeys);
-            while (list(, $sAbsName) = each($aRdtKeys)) {
+            foreach ($aRdtKeys as $sAbsName) {
                 // nur validieren wenn für die validierung submitted wurde (_isSubmitted validiert bei allen submits)
                 if ($this->aORenderlets[$sAbsName]->_isSubmittedForValidation()
                     && ($this->aORenderlets[$sAbsName]->getIterableAncestor() === false)
@@ -3147,7 +3147,7 @@ JAVASCRIPT;
             $aRdtKeys = array_keys($this->aORenderlets);
 
             reset($aRdtKeys);
-            while (list(, $sName) = each($aRdtKeys)) {
+            foreach ($aRdtKeys as $sName) {
                 if ($this->aORenderlets[$sName]->_hasToValidateForDraft()) {
                     $this->aORenderlets[$sName]->validate();
                 }
@@ -3237,7 +3237,7 @@ JAVASCRIPT;
         $aActionlets = $this->getConfig()->get($sPath);
 
         if (is_array($aActionlets)) {
-            while (list($sKey, $aActionlet) = each($aActionlets)) {
+            foreach ($aActionlets as $sKey => $aActionlet) {
                 if ($sKey{0} === 'a' && $sKey{1} === 'c' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlet')
                     && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlets')
                 ) {
@@ -3748,7 +3748,7 @@ JAVASCRIPT;
 
         if (is_array($aTags)) {
             reset($aTags);
-            while (list(, $aTag) = each($aTags)) {
+            foreach ($aTags as $aTag) {
                 $label = array_key_exists('label', $aTag) ? $aTag['label'] : '';
                 $name = $aTag['name'];
                 $value = $aTag['value'];
@@ -3926,7 +3926,7 @@ JAVASCRIPT;
 
         if (is_array($aAttachPaths) && !empty($aAttachPaths)) {
             reset($aAttachPaths);
-            while (list(, $sPath) = each($aAttachPaths)) {
+            foreach ($aAttachPaths as $sPath) {
                 $sFilePath = Tx_Rnbase_Utility_T3General::fixWindowsFilePath($sPath);
 
                 if (file_exists($sFilePath) && is_file($sFilePath) && is_readable($sFilePath)) {
@@ -3947,7 +3947,7 @@ JAVASCRIPT;
         $aJs[] = 'var ' . $sVarName . ' = new Array();';
 
         reset($aData);
-        while (list($sKey, $mVal) = each($aData)) {
+        foreach ($aData as $sKey => $mVal) {
             $aJs[] = $sVarName . '["' . $sKey . '"]=unescape(\"' . str_replace(
                 array('%96', '%92'),
                 array('', '\''),
@@ -3984,7 +3984,7 @@ JAVASCRIPT;
         $aArray = array();
 
         reset($aData);
-        while (list($iKey, ) = each($aData)) {
+        foreach ($aData as $iKey => $notNeeded) {
             $aArray[$aData[$iKey]['value']] = $aData[$iKey]['caption'];
         }
 
@@ -3998,7 +3998,7 @@ JAVASCRIPT;
         $aItems = array();
 
         reset($aData);
-        while (list(, $aRow) = each($aData)) {
+        foreach ($aData as $aRow) {
             $aItems[] = array(
                 'value' => $aRow[$sValueKey],
                 'caption' => $aRow[$sCaptionKey]
@@ -4062,7 +4062,7 @@ JAVASCRIPT;
     public function array2tree($aArray, $bFirst = true)
     {
         $aNodes = array();
-        while (list($sKey, $mVal) = each($aArray)) {
+        foreach ($aArray as $sKey => $mVal) {
             if (is_array($mVal)) {
                 $aNodes[] = array(
                     'label' => $sKey,
@@ -4144,14 +4144,14 @@ JAVASCRIPT;
         reset($this->aORenderlets);
         $aKeys = array_keys($this->aORenderlets);
         reset($aKeys);
-        while (list(, $sKey) = each($aKeys)) {
+        foreach ($aKeys as $sKey) {
             if (isset($this->aORenderlets[$sKey]) && !$this->aORenderlets[$sKey]->hasParent()) {
                 $this->aORenderlets[$sKey]->cleanBeforeSession();
             }
         }
 
         reset($this->aODataSources);
-        while (list($sKey, ) = each($this->aODataSources)) {
+        foreach ($this->aODataSources as $sKey => $notNeeded) {
             $this->aODataSources[$sKey]->cleanBeforeSession();
         }
 
@@ -4744,8 +4744,8 @@ JAVASCRIPT;
     public function removeNonAlnum($sStr)
     {
         // removes everything but a-z, A-Z, 0-9
-        return ereg_replace(
-            '[^<>[:alnum:]]',
+        return preg_replace(
+            '/[^<>[:alnum:]]/',
             '',
             $sStr
         );
@@ -4832,7 +4832,7 @@ JAVASCRIPT;
     {
         $aRes = array();
         reset($aData);
-        while (list($iKey, ) = each($aData)) {
+        foreach ($aData as $iKey => $notNeeded) {
             if (is_string($aData[$iKey])) {
                 $aRes[] = str_replace('|', $aData[$iKey], $sWrap);
             }
@@ -4904,7 +4904,7 @@ JAVASCRIPT;
     {
         $aRes = array();
         reset($aData);
-        while (list($sKey, ) = each($aData)) {
+        foreach ($aData as $sKey => $notNeeded) {
             $aRes[$this->div_camelize($sKey)] = $aData[$sKey];
         }
 
@@ -4958,7 +4958,7 @@ JAVASCRIPT;
             $aHeaders = Tx_Rnbase_Utility_Strings::trimExplode("\n", $sHeaders);
 
             reset($aHeaders);
-            while (list($sKey, $sLine) = each($aHeaders)) {
+            foreach ($aHeaders as $sKey => $sLine) {
                 if ($sKey === 0) {
                     $aRes['Status'] = $sLine;
                 } else {
@@ -5176,7 +5176,7 @@ JAVASCRIPT;
 
         $aKeys = array_keys($this->aORenderlets);
         reset($aKeys);
-        while (list(, $sKey) = each($aKeys)) {
+        foreach ($aKeys as $sKey) {
             if ($this->aORenderlets[$sKey]->getName() === $name) {
                 return $this->aORenderlets[$sKey];
             }

@@ -149,7 +149,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
     {
         $aKeys = array_keys($this->aODataSets);
         reset($aKeys);
-        while (list(, $sSignature) = each($aKeys)) {
+        foreach ($aKeys as $sSignature) {
             $this->aODataSets[$sSignature]->cleanBeforeSession();
             $this->aODataSets[$sSignature] = serialize($this->aODataSets[$sSignature]);
         }
@@ -160,7 +160,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
         $this->oForm =& $oForm;
         $aKeys = array_keys($this->aODataSets);
         reset($aKeys);
-        while (list(, $sSignature) = each($aKeys)) {
+        foreach ($aKeys as $sSignature) {
             $this->aODataSets[$sSignature] = unserialize($this->aODataSets[$sSignature]);
             $this->aODataSets[$sSignature]->oDataSource =& $this;
             $this->aODataSets[$sSignature]->awakeInSession($this->oForm);

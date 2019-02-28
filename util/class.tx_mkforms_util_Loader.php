@@ -160,7 +160,7 @@ class tx_mkforms_util_Loader
     public static function loadRunningObjects(array &$aRObjects)
     {
         reset($aRObjects);
-        while (list(, $aObject) = each($aRObjects)) {
+        foreach ($aRObjects as $aObject) {
             self::loadObject($aObject['internalkey'], $aObject['objecttype']);
         }
     }
@@ -234,7 +234,7 @@ class tx_mkforms_util_Loader
     public static function loadLoadedClasses(array &$aRObjects)
     {
         reset($aRObjects);
-        while (list($sClass, $sPath) = each($aRObjects)) {
+        foreach ($aRObjects as $sClass => $sPath) {
             if (is_string($sPath)) {
                 require_once($sPath);
             }

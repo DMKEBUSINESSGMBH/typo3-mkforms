@@ -31,7 +31,7 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
 
             $aPath = explode('.', $sConfPath);
             reset($aPath);
-            while (list(, $sSegment) = each($aPath)) {
+            foreach ($aPath as $sSegment) {
                 if (array_key_exists($sSegment . '.', $aCurZone)) {
                     $aCurZone =& $aCurZone[$sSegment . '.'];
                 } else {

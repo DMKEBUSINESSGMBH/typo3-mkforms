@@ -108,7 +108,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
         $aErrors = array();
         $aCompiledErrors = array();
         $aErrorKeys = array_keys($this->getForm()->_aValidationErrors);
-        while (list(, $sRdtName) = each($aErrorKeys)) {
+        foreach ($aErrorKeys as $sRdtName) {
             $sShortRdtName = $this->getForm()->aORenderlets[$sRdtName]->_getNameWithoutPrefix();
             if (trim($this->getForm()->_aValidationErrors[$sRdtName]) !== '') {
                 $sWrapped = $this->wrapErrorMessage($this->getForm()->_aValidationErrors[$sRdtName]);

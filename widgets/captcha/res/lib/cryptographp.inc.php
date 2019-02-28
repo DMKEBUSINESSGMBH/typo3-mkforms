@@ -130,7 +130,7 @@ $img = imagecreatetruecolor($cryptwidth, $cryptheight);
 if ($bgimg and is_dir($bgimg)) {
     $dh  = opendir($bgimg);
     while (false !== ($filename = readdir($dh))) {
-        if (eregi('.[gif|jpg|png]$', $filename)) {
+        if (preg_match('/.[gif|jpg|png]$/i', $filename)) {
             $files[] = $filename;
         }
     }

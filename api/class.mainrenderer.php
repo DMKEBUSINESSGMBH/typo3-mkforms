@@ -248,7 +248,7 @@ TEMPLATE;
         }
 
         reset($aFullEvent['params']);
-        while (list($sKey, ) = each($aFullEvent['params'])) {
+        foreach ($aFullEvent['params'] as $sKey => $notNeeded) {
             $sParam = $aFullEvent['params'][$sKey]['get'];
 
             if (array_key_exists($sParam, $aData)) {
@@ -516,7 +516,7 @@ TEMPLATE;
     {
         $aJson = array();
         reset($aEvents);
-        while (list(, $sJs) = each($aEvents)) {
+        foreach ($aEvents as $sJs) {
             $aJson[] = rawurlencode($sJs);
         }
 
@@ -663,7 +663,7 @@ TEMPLATE;
 
             if ($sStyle !== false) {
                 reset($this->getForm()->aORenderlets);
-                while (list($sName, ) = each($this->getForm()->aORenderlets)) {
+                foreach ($this->getForm()->aORenderlets as $sName => $notNeeded) {
                     $oRdt =& $this->getForm()->aORenderlets[$sName];
                     $sStyle = str_replace(
                         array(
@@ -786,7 +786,7 @@ TEMPLATE;
     {
         $aRdts = array_keys($this->getForm()->aORenderlets);
         reset($aRdts);
-        while (list(, $sRdt) = each($aRdts)) {
+        foreach ($aRdts as $sRdt) {
             if ($this->getForm()->aORenderlets[$sRdt]->displayOnlyIfJs() === true) {
                 $sJson = tx_mkforms_util_Json::getInstance()->encode($aRendered[$sRdt]['__compiled']);
                 $sId = $this->getForm()->aORenderlets[$sRdt]->_getElementHtmlId() . '_unobtrusive';

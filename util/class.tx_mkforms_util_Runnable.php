@@ -123,7 +123,7 @@ class tx_mkforms_util_Runnable
      */
     public function parseParams($aUserObjParams, $aParams = array())
     {
-        while (list($index, $aParam) = each($aUserObjParams)) {
+        foreach ($aUserObjParams as $index => $aParam) {
             if (is_array($aParam)) {
                 $name = $aParam['name'];
                 // Scalar values are set in attribute "value"
@@ -413,7 +413,7 @@ class tx_mkforms_util_Runnable
     public function cleanBeforeSession()
     {
         reset($this->aCodeBehinds['php']);
-        while (list($sKey, ) = each($this->aCodeBehinds['php'])) {
+        foreach ($this->aCodeBehinds['php'] as $sKey => $notNeeded) {
             unset($this->aCodeBehinds['php'][$sKey]['object']->oForm);
             $this->aCodeBehinds['php'][$sKey]['object'] = serialize($this->aCodeBehinds['php'][$sKey]['object']);
             unset($this->aCB[$sKey]);
@@ -491,7 +491,7 @@ class tx_mkforms_util_Runnable
             $aMetas[0] = $aMetas;
         }
         reset($aMetas);
-        while (list($sKey, ) = each($aMetas)) {
+        foreach ($aMetas as $sKey => $notNeeded) {
             if ($sKey{0} === 'c' && $sKey{1} === 'o' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtolower($sKey), 'codebehind')) {
                 $aCB = $this->initCodeBehind($aMetas[$sKey]);
                 if ($aCB['type'] === 'php') {
@@ -662,7 +662,7 @@ class tx_mkforms_util_Runnable
         // Das sind vermutlich nochmal zusätzliche Parameter für den Aufruf...
         if (count($aInlineArgs) > 0) {
             reset($aInlineArgs);
-            while (list($sKey, ) = each($aInlineArgs)) {
+            foreach ($aInlineArgs as $sKey => $notNeeded) {
                 if (is_object($aInlineArgs[$sKey])) {
                     $aArgs[] =& $aInlineArgs[$sKey];
                 } else {

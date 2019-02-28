@@ -407,7 +407,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             $bClauses = false;
 
             reset($aWheres);
-            while (list($sType, $aWhere) = each($aWheres)) {
+            foreach ($aWheres as $sType => $aWhere) {
                 $aTemp = explode('-', $sType);
                 $sType = trim(strtoupper($aTemp[0]));
                 $bProcess = true;

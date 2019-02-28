@@ -101,7 +101,7 @@ class tx_mkforms_util_Templates
         $aStr = self::str_split($sPath, 1);
         reset($aStr);
         $sLastCar = '';
-        while (list(, $sCar) = each($aStr)) {
+        foreach ($aStr as $sCar) {
             if (!$bInString && $sCar === '.') {
                 if ($iOpened === 0) {
                     $iCurrent++;
@@ -160,7 +160,7 @@ class tx_mkforms_util_Templates
             $bDelete = true;
         } elseif (is_array($mValue)) {
             reset($mValue);
-            while (list($sKey, ) = each($mValue)) {
+            foreach ($mValue as $sKey => $notNeeded) {
                 $aMarkers = array(
                     'context' => $aTags,
                     'key' => $sKey,
@@ -278,7 +278,7 @@ class tx_mkforms_util_Templates
         if ($sArgs !== '') {
             $aArgs = Tx_Rnbase_Utility_Strings::trimExplode(',', $sArgs);
             reset($aArgs);
-            while (list(, $sArg) = each($aArgs)) {
+            foreach ($aArgs as $sArg) {
                 $sTrimArg = trim($sArg);
 
                 if ((($sTrimArg{0} === '"' && $sTrimArg{(strlen($sTrimArg) - 1)} === '"')) || (($sTrimArg{0} === "'" && $sTrimArg{(strlen($sTrimArg) - 1)} === "'"))) {
@@ -424,13 +424,13 @@ class tx_mkforms_util_Templates
             $sExcludePfx2 = md5(microtime(true) + 1);
 
             reset($aExclude);
-            while (list(, $tag) = each($aExclude)) {
+            foreach ($aExclude as $tag) {
                 $sHtml = str_replace('{' . $tag . '}', $sExcludePfx . $tag . $sExcludePfx, $sHtml);
                 $sHtml = str_replace('{' . $tag . '.label}', $sExcludePfx2 . $tag . $sExcludePfx2, $sHtml);
             }
         }
         reset($aTags);
-        while (list($sName, $mVal) = each($aTags)) {
+        foreach ($aTags as $sName => $mVal) {
             if (($sRdtSubPart = tx_rnbase_util_Templates::getSubpart($sHtml, '###' . $sName . '###')) !== '') {
                 $sHtml = tx_rnbase_util_Templates::substituteSubpart(
                     $sHtml,
@@ -457,7 +457,7 @@ class tx_mkforms_util_Templates
 
         if (count($aExclude) > 0) {
             reset($aExclude);
-            while (list(, $tag) = each($aExclude)) {
+            foreach ($aExclude as $tag) {
                 $sHtml = str_replace($sExcludePfx . $tag . $sExcludePfx, '{' . $tag . '}', $sHtml);
                 $sHtml = str_replace($sExcludePfx2 . $tag . $sExcludePfx2, '{' . $tag . '.label}', $sHtml);
             }
@@ -575,7 +575,7 @@ class tx_mkforms_util_Templates
         $aRes = self::parseForTemplate($sPath);
         $aValue = $aConf;
         reset($aRes);
-        while (list($i, $aExp) = each($aRes)) {
+        foreach ($aRes as $i => $aExp) {
             if ($aValue === AMEOSFORMIDABLE_LEXER_FAILED || $aValue === AMEOSFORMIDABLE_LEXER_BREAKED) {
                 // throwing exception to notify that lexer has failed or has breaked
                 return $aValue;

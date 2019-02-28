@@ -53,9 +53,9 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 
         $aKeys = array_keys($this->_navConf('/'));
         reset($aKeys);
-        while (!$oRdt->hasError() && list(, $sKey) = each($aKeys)) {
+        foreach ($aKeys as $sKey) {
             // Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
-            if (!$this->canValidate($oRdt, $sKey, $sFileName)) {
+            if ($oRdt->hasError() || !$this->canValidate($oRdt, $sKey, $sFileName)) {
                 break;
             }
 

@@ -277,7 +277,7 @@ class tx_mkforms_util_XMLParser
             // Counter for multiple same keys
             $sameKeyCount = array();
             // Process each value
-            while (list($key, $val) = each($xmlValues)) {
+            foreach ($xmlValues as $key => $val) {
                 if ($bPlain === false) {
                     // lower-case on tagName
                     $val['tag'] = strtolower($val['tag']);

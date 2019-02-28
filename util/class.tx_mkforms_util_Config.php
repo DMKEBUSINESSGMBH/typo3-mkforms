@@ -248,7 +248,7 @@ class tx_mkforms_util_Config
         $aTemp['meta'] = array();
         if (isset($aConf['meta.']) && is_array($aConf['meta.'])) {
             reset($aConf['meta.']);
-            while (list($sKey, ) = each($aConf['meta.'])) {
+            foreach ($aConf['meta.'] as $sKey => $notNeeded) {
                 if (is_string($aConf['meta.'][$sKey]) && $aConf['meta.'][$sKey] === 'codebehind') {
                     if (array_key_exists($sKey . '.', $aConf['meta.'])) {
                         $aTemp['meta']['codebehind-' . $sKey] = $aConf['meta.'][$sKey . '.'];
@@ -270,7 +270,7 @@ class tx_mkforms_util_Config
         $aTemp['control'] = array();
         if (isset($aConf['control.']) && is_array($aConf['control.'])) {
             reset($aConf['control.']);
-            while (list($sKey, ) = each($aConf['control.'])) {
+            foreach ($aConf['control.'] as $sKey => $notNeeded) {
                 if (is_string($aConf['control.'][$sKey])) {
                     if ($sKey === 'datahandler') {
                         $aTemp['control']['datahandler'] = array(
@@ -300,7 +300,7 @@ class tx_mkforms_util_Config
                         $aTemp['control']['actionlets'] = array();
 
                         reset($aConf['control.'][$sKey]);
-                        while (list($sActKey, ) = each($aConf['control.'][$sKey])) {
+                        foreach ($aConf['control.'][$sKey] as $sActKey => $notNeeded) {
                             if (is_string($aConf['control.'][$sKey][$sActKey])) {
                                 $aTemp['control']['actionlets']['actionlet-' . $sActKey] = array(
                                     'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('actionlet:'))
@@ -318,7 +318,7 @@ class tx_mkforms_util_Config
                         $aTemp['control']['datasources'] = array();
 
                         reset($aConf['control.'][$sKey]);
-                        while (list($sActKey, ) = each($aConf['control.'][$sKey])) {
+                        foreach ($aConf['control.'][$sKey] as $sActKey => $notNeeded) {
                             if (is_string($aConf['control.'][$sKey][$sActKey])) {
                                 $aTemp['control']['datasources']['datasource-' . $sActKey] = array(
                                     'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('datasource:'))
@@ -343,7 +343,7 @@ class tx_mkforms_util_Config
         $aTemp['elements'] = array();
         if (isset($aConf['elements.']) && is_array($aConf['elements.'])) {
             reset($aConf['elements.']);
-            while (list($sKey, ) = each($aConf['elements.'])) {
+            foreach ($aConf['elements.'] as $sKey => $notNeeded) {
                 if (is_string($aConf['elements.'][$sKey])) {
                     $aType = explode(':', $aConf['elements.'][$sKey]);
 
@@ -381,7 +381,7 @@ class tx_mkforms_util_Config
             $aRdt['childs'] = array();
 
             reset($aTenDot['childs.']);
-            while (list($sKey, $sChild) = each($aTenDot['childs.'])) {
+            foreach ($aTenDot['childs.'] as $sKey => $sChild) {
                 $aChild = array();
                 if (is_string($sChild)) {
                     $aChildType = explode(':', $sChild);
@@ -409,7 +409,7 @@ class tx_mkforms_util_Config
         if (array_key_exists('validators.', $aTenDot)) {
             $aRdt['validators'] = array();
             reset($aTenDot['validators.']);
-            while (list($sKey, $sValidator) = each($aTenDot['validators.'])) {
+            foreach ($aTenDot['validators.'] as $sKey => $sValidator) {
                 $aValidator = array();
                 if (is_string($sValidator)) {
                     $aValType = explode(':', $sValidator);
@@ -635,7 +635,7 @@ class tx_mkforms_util_Config
     private function insertXmlBuilder($aConf, $aTemp = array())
     {
         reset($aConf);
-        while (list($key, $val) = each($aConf)) {
+        foreach ($aConf as $key => $val) {
             if (is_array($val)) {
                 if ($key{0} === 'x' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'xmlbuilder')) {
                     $aTemp = $this->array_add($this->getForm()->getRunnable()->callRunnable($val), $aTemp);
@@ -671,7 +671,7 @@ class tx_mkforms_util_Config
             $sParent = '/formidable';
         }
 
-        while (list($key, $val) = each($aConf)) {
+        foreach ($aConf as $key => $val) {
             if (is_array($val)) {
                 if ($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
                     if (array_key_exists('path', $val)) {
@@ -809,7 +809,7 @@ class tx_mkforms_util_Config
 
         $aParts = explode('/', $sPath);
         reset($aParts);
-        while (list(, $sPart) = each($aParts)) {
+        foreach ($aParts as $sPart) {
             $aTemp = explode('[', str_replace(']', '', $sPart));
             if (count($aTemp) > 1) {
                 // we have to search on a criteria sequence
@@ -817,7 +817,7 @@ class tx_mkforms_util_Config
                 $aTempCrits = Tx_Rnbase_Utility_Strings::trimExplode(',', $aTemp[1]);
                 reset($aTempCrits);
                 $aCrits = array();
-                while (list(, $sTempCrit) = each($aTempCrits)) {
+                foreach ($aTempCrits as $sTempCrit) {
                     $aCrit = Tx_Rnbase_Utility_Strings::trimExplode('=', $sTempCrit);
                     $aCrits[$aCrit[0]] = $aCrit[1];
                 }
@@ -829,20 +829,20 @@ class tx_mkforms_util_Config
         $aPossibles = array(0 => $aConf);
 
         reset($aConf);
-        while (list($iLevel, $aSegment) = each($aSegments)) {
+        foreach ($aSegments as $iLevel => $aSegment) {
             $bSegMatch = false;
             $this->sLastXPathError .= '/' . $aSegment['segment'];
             $aNewPossibles = array();
             $aPossKeys = array_keys($aPossibles);
-            while (list(, $sPosKey) = each($aPossKeys)) {
+            foreach ($aPossKeys as $sPosKey) {
                 $aKeys = array_keys($aPossibles[$sPosKey]);
                 reset($aKeys);
-                while (list(, $sKey) = each($aKeys)) {
+                foreach ($aKeys as $sKey) {
                     if (substr($sKey, 0, strlen($aSegment['what'])) == $aSegment['what']) {
                         $bMatch = true;
                         if ($aSegment['crits'] !== false) {
                             reset($aSegment['crits']);
-                            while (list($sProp, $sValue) = each($aSegment['crits'])) {
+                            foreach ($aSegment['crits'] as $sProp => $sValue) {
                                 $bMatch = $bMatch && (array_key_exists(strtolower($sProp), $aPossibles[$sPosKey][$sKey]) && strtolower($aPossibles[$sPosKey][$sKey][$sProp]) == strtolower($sValue));
                             }
                         }
@@ -893,7 +893,7 @@ class tx_mkforms_util_Config
     private function insertSubTS($aConf, $aTemp = array())
     {
         reset($aConf);
-        while (list($key, $val) = each($aConf)) {
+        foreach ($aConf as $key => $val) {
             $isIncludeTS = ($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includets'));
             if (is_array($val)) {
                 if ($isIncludeTS) {
@@ -938,7 +938,7 @@ class tx_mkforms_util_Config
             reset($a1);
             reset($a2);
 
-            while (list($key, $val) = each($a1)) {
+            foreach ($a1 as $key => $val) {
                 if ($key != 'type' && array_key_exists($key, $a2)) {
                     $counter = 0;
                     while (array_key_exists($key . '-' . $counter, $a2)) {
@@ -966,7 +966,7 @@ class tx_mkforms_util_Config
         reset($aSubConf);
         if (($aModifiers = $this->get('/modifiers', $aSubConf)) !== false) {
             reset($aModifiers);
-            while (list($sModKey, $aModifier) = each($aModifiers)) {
+            foreach ($aModifiers as $sModKey => $aModifier) {
                 if ($this->_matchConditions($aModifier)) {
                     $aSubConf =
                         tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -999,7 +999,7 @@ class tx_mkforms_util_Config
                 $sLogic = strtoupper($sLogic);
             }
 
-            while (list($sCondKey, ) = each($aConditions)) {
+            foreach ($aConditions as $sCondKey => $notNeeded) {
                 if ($sCondKey{0} === 'c' && $sCondKey{1} === 'o' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCondKey, 'condition')) {
                     $aCondition = $this->get($sCondKey, $aConditions);
                     switch ($sLogic) {
@@ -1029,7 +1029,7 @@ class tx_mkforms_util_Config
     private function deleteEmpties($aConf)
     {
         reset($aConf);
-        while (list($sKey, $mValue) = each($aConf)) {
+        foreach ($aConf as $sKey => $mValue) {
             if (is_array($aConf[$sKey])) {
                 if (array_key_exists('empty', $aConf[$sKey])) {
                     unset($aConf[$sKey]);
@@ -1053,7 +1053,7 @@ class tx_mkforms_util_Config
     private function applyModifiers($aConf)
     {
         reset($aConf);
-        while (list($sKey, $mValue) = each($aConf)) {
+        foreach ($aConf as $sKey => $mValue) {
             if (is_array($aConf[$sKey])) {
                 if ($sKey == 'modifiers') {
                     $aConf[$sKey] = $this->applyModifiers($aConf[$sKey]);
