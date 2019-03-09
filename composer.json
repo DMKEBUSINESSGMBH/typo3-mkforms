@@ -39,6 +39,7 @@
         "classmap": [
             "action/",
             "api/",
+            "Classes/",
             "dh/",
             "exception/",
             "forms/",
@@ -52,6 +53,7 @@
             "validator/",
             "view/",
             "widgets/"
-        ]
+        ],
+        "psr-4": { "DMK\\MkForms\\": "Classes" }
     }
 }
