@@ -24,7 +24,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         '%u', '%w', '%y', '%Y', '%%',
     );
 
-    public function _render()
+    protected function _render()
     {
         $this->_includeLibraries();
 
@@ -109,7 +109,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return '...';
     }
 
-    public function _renderReadOnly()
+    protected function _renderReadOnly()
     {
         $aHtmlBag = parent::_renderReadOnly();
         $aHtmlBag['value.']['readable'] = $this->_getHumanReadableValue($aHtmlBag['value']);
@@ -122,7 +122,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return $this->_getElementHtmlId().'_trigger';
     }
 
-    public function _getFormat()
+    protected function _getFormat()
     {
         $mFormat = $this->_navConf('/data/datetime/format/');
 
@@ -137,7 +137,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return $mFormat;
     }
 
-    public function _initJs()
+    protected function _initJs()
     {
         $sFormat = $this->_getFormat();
         $bTime        = $this->oForm->_defaultFalse('/data/datetime/displaytime/', $this->aElement);
@@ -174,7 +174,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         ));
     }
 
-    public function _flatten($mData)
+    protected function _flatten($mData)
     {
         if ($this->_emptyFormValue($mData)) {
             return '';
@@ -190,7 +190,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return $result;
     }
 
-    public function _unFlatten($mData)
+    protected function _unFlatten($mData)
     {
         if ($this->__isTimestamp($mData)) {
             return $this->__tstamp2date($mData);
@@ -199,12 +199,12 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return $mData;
     }
 
-    public function __isTimestamp($mData)
+    private function __isTimestamp($mData)
     {
         return (('' . (int)$mData) === ('' . $mData));
     }
 
-    public function _allowManualEdition()
+    protected function _allowManualEdition()
     {
         return
             $this->_defaultFalse('/data/datetime/allowmanualedition')
@@ -289,12 +289,12 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return mktime($hour, $minute, $second, $month, $day, $year);
     }
 
-    public function _getHumanReadableValue($data)
+    protected function _getHumanReadableValue($data)
     {
         return $this->_unFlatten($data);
     }
 
-    public function __tstamp2date($data)
+    protected function __tstamp2date($data)
     {
         if ($this->shouldConvertToTimestamp()) {
             if ((int)$data != 0) {
@@ -341,12 +341,12 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
      *
      * @return bool
      */
-    public function _emptyFormValue($value)
+    protected function _emptyFormValue($value)
     {
         return (trim($value) === '');
     }
 
-    public function _sqlSearchClause($sValue, $sFieldPrefix = '', $sName = '', $bRec = true)
+    protected function _sqlSearchClause($sValue, $sFieldPrefix = '', $sName = '', $bRec = true)
     {
         if ($sName === '') {
             $sName = $this->_getName();
@@ -370,7 +370,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return $sSql;
     }
 
-    public function _includeLibraries()
+    protected function _includeLibraries()
     {
         if ($this->oForm->issetAdditionalHeaderData('mkforms_date_includeonce')) {
             return;
@@ -383,12 +383,16 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         }
         $sLangFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
 
-        $css = tx_rnbase_util_Files::getFileAbsFileName(
-            $this->getForm()->getConfTS('renderlets.date.css')
-        );
-        $css = empty($css) ? '' : '<link rel="stylesheet" type="text/css" media="all" href="' . $css . '" />';
 
         $oJsLoader = $this->getForm()->getJSLoader();
+        $css = '';
+        if($cssFile = $this->getForm()->getConfTS('renderlets.date.css')) {
+            $cssFile = TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Files::getFileAbsFileName($cssFile));
+            $cssFile = $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL'). $cssFile, 'css');
+            $css = empty($cssFile) ? '' : '<link rel="stylesheet" type="text/css" media="all" href="' . $cssFile . '" />';
+        }
+
+
         $oJsLoader->additionalHeaderData(
             (
                 '<script type="text/javascript" src="' . $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath. 'res/lib/js_calendar/calendar.js') . '"></script>' .
