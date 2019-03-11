@@ -3,6 +3,7 @@ namespace DMK\MkForms\Frontend;
 
 use Sys25\RnBase\Frontend\Controller\AbstractAction;
 use Sys25\RnBase\Frontend\Request\RequestInterface;
+use Sys25\RnBase\Configuration\ConfigurationInterface;
 
 /**
  * @package    tx_mkforms
@@ -87,7 +88,7 @@ class FormBase extends AbstractAction
      *
      * @return    string
      */
-    public function handleRequest(RequestInterface $request)
+    protected function handleRequest(RequestInterface $request)
     {
         $configurations = $request->getConfigurations();
         $this->form = \tx_mkforms_forms_Factory::createForm('generic');
@@ -108,7 +109,7 @@ class FormBase extends AbstractAction
         $this->form->init(
             $this,
             $this->getXmlPath($configurations, $confId),
-            $this->getPrefillUid(),
+            $this->getPrefillUid($request),
             $configurations,
             $confId . 'formconfig.'
         );
@@ -127,6 +128,47 @@ class FormBase extends AbstractAction
 
         // Set Errors
         $request->getViewContext()->offsetSet('errors', !empty($this->errors) ? $this->configCheck($configurations, $confId) : false);
+
+        $this->handleRedirect($request->getViewContext()->offsetGet('redirect_parameters'), $this->form, $configurations, $confId);
+    }
+
+    /**
+     * Gibt es einen Redirect? Bei Bedarf kann diese Methode
+     * in einem eigenen View überschrieben werden
+     *
+     * @param array $params
+     * @param \tx_mkforms_forms_IForm $form
+     * @param ConfigurationInterface $configurations
+     * @param string $confId
+     *
+     * @return  void
+     */
+    // @codingStandardsIgnoreStart (interface/abstract mistake)
+    protected function handleRedirect($params, \tx_mkforms_forms_IForm $form, ConfigurationInterface $configurations, $confId)
+    {
+        // @codingStandardsIgnoreEnd
+
+        if ((
+            // redirect if fully submitted
+            $this->form->isFullySubmitted()
+            // if there are no validation errors
+            && !$this->form->hasValidationErrors()
+            // and redirect configured
+            && (
+                $configurations->getBool($confId . 'redirect') ||
+                $configurations->get($confId . 'redirect.pid')
+                )
+        )) {
+            // Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
+            $GLOBALS['TSFE']->fe_user->storeSessionData();
+
+            $link = $this->createRedirectLink($viewData, $configurations, $confId);
+            $link = $configurations->createLink();
+            $link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : array());
+            $link->redirect();
+            // Und tschüss, ab hier passiert nix mehr.
+            exit('REDIRECTED!');
+        }
     }
 
     /**
@@ -380,13 +422,13 @@ class FormBase extends AbstractAction
      *
      * @return    int|false
      */
-    protected function getPrefillUid()
+    protected function getPrefillUid(RequestInterface $request)
     {
         // Allow all data types, DON'T restrict to integers!
         // Of course, the respective data handler has to handle
         // complex data types in the right way.
         $sParamName = ($this->useTemplateNameAsPrefillParamName()) ? $this->getTemplateName() : 'uid';
-        $uid = $this->getParameters()->get($sParamName);
+        $uid = $request->getParameters()->get($sParamName);
 
         // Use parameter "uid", if available
         return $uid ? $uid : false;        // FALSE as default - DON'T use NULL!!!
@@ -422,16 +464,6 @@ class FormBase extends AbstractAction
         $class = $this->getConfigurations()->get($this->getConfId() . 'viewClassName');
 
         return $class ? $class : 'tx_mkforms_view_Form';
-    }
-
-    /**
-     * Liefert die ConfId für die Action.
-     *
-     * @return    string
-     */
-    public function getConfId()
-    {
-        return 'generic.';
     }
 
     /**
