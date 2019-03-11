@@ -547,7 +547,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     /**
      * @return string
      */
-    public function _render()
+    protected function _render()
     {
         return $this->getLabel();
     }
@@ -582,7 +582,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         return $mRendered;
     }
 
-    public function _renderReadOnly()
+    protected function _renderReadOnly()
     {
         $mValue = $this->getValue();
         $mHuman = $this->_getHumanReadableValue($mValue);
@@ -2222,22 +2222,22 @@ JAVASCRIPT;
         return array();
     }
 
-    public function _flatten($mData)
+    protected function _flatten($mData)
     {
         return $mData;
     }
 
-    public function _unFlatten($sData)
+    protected function _unFlatten($sData)
     {
         return $sData;
     }
 
-    public function _getHumanReadableValue($data)
+    protected function _getHumanReadableValue($data)
     {
         return $data;
     }
 
-    public function _emptyFormValue($value)
+    protected function _emptyFormValue($value)
     {
         if (is_array($value)) {
             return empty($value);
@@ -2246,7 +2246,7 @@ JAVASCRIPT;
         }
     }
 
-    public function _sqlSearchClause($sValue, $sFieldPrefix = '', $sFieldName = '', $bRec = true)
+    protected function _sqlSearchClause($sValue, $sFieldPrefix = '', $sFieldName = '', $bRec = true)
     {
         $sTable = $this->oForm->oDataHandler->tableName();
 
@@ -2531,6 +2531,10 @@ JAVASCRIPT;
         return $this->_defaultTrue('/debugable/');
     }
 
+    /**
+     * used by main renderer
+     * @return boolean
+     */
     public function _readOnly()
     {
         return ($this->_isTrue('/readonly/')) || $this->i18n_shouldNotTranslate();

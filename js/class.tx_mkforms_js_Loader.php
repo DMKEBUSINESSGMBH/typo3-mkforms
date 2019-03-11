@@ -703,7 +703,7 @@ JAVASCRIPT;
      *
      * @param string $sPath
      *
-     * @return srtring
+     * @return string
      */
     public function getScriptPath($sPath, $sScriptErw = 'js')
     {
