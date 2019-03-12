@@ -18,14 +18,14 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public $bChild = false;
 
-    public $aLibs = array();
+    protected $aLibs = array();
 
-    public $sMajixClass = '';
+    protected $sMajixClass = '';
 
     // define methodname, if a specific init method in the js should be called, after dom is ready.
-    public $sAttachPostInitTask = '';
+    protected $sAttachPostInitTask = '';
 
-    public $bCustomIncludeScript = false;    // TRUE if the renderlet needs to handle script inclusion itself
+    protected $bCustomIncludeScript = false;    // TRUE if the renderlet needs to handle script inclusion itself
 
     public $aSkin = false;
 
