@@ -6,23 +6,23 @@
  */
 class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    protected $aLibs = [
         'rdt_date_class' => 'res/js/date.js',
-    );
+    ];
 
-    public $sMajixClass = 'Date';
-    public $sAttachPostInitTask = 'initCal';
-    public $bCustomIncludeScript = true;
+    protected $sMajixClass = 'Date';
+    protected $sAttachPostInitTask = 'initCal';
+    protected $bCustomIncludeScript = true;
 
     /**
      * @var string[]
      */
-    private $allowedDateFormatParts = array(
+    private $allowedDateFormatParts = [
         '%a', '%A', '%b', '%B', '%C', '%d', '%e',
         '%H', '%I', '%j', '%k', '%l', '%m', '%M',
         '%n', '%p', '%P', '%S', '%s', '%t', '%W',
         '%u', '%w', '%y', '%Y', '%%',
-    );
+    ];
 
     protected function _render()
     {
@@ -221,14 +221,10 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
      */
     private function __date2tstamp($dateAsString, $dateFormat)
     {
-        /**
- * @var string[] $dateFormatSeparators
-*/
+        /* @var string[] $dateFormatSeparators */
         $dateFormatSeparators = array();
 
-        /**
- * @var string $concatenatedDateFormatSeparators
-*/
+        /* @var string $concatenatedDateFormatSeparators */
         $concatenatedDateFormatSeparators = str_replace($this->allowedDateFormatParts, '', $dateFormat);
         if ($concatenatedDateFormatSeparators !== '') {
             $nonUniqueSeparators = str_split($concatenatedDateFormatSeparators);
@@ -237,9 +233,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         $dateFormatParts = explode('#', str_replace($dateFormatSeparators, '#', $dateFormat));
         $dateParts = explode('#', str_replace($dateFormatSeparators, '#', $dateAsString));
 
-        /**
- * @var int[] $datePartsByFormatCode
-*/
+        /* @var int[] $datePartsByFormatCode */
         $datePartsByFormatCode = array();
         foreach ($dateFormatParts as $index => $dateFormat) {
             $datePartsByFormatCode[$dateFormat] = (int)$dateParts[$index];

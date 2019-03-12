@@ -45,6 +45,10 @@ MKWrapper.setStyle = function(container, style) {
 	return jQuery(container).css(style);
 };
 
+MKWrapper.trigger = function(container, eventname) {
+	return jQuery(container).trigger(eventname);
+};
+
 /**
  * Method from Lowpro 0.2 (http://www.danwebb.net/2006/9/3/low-pro-unobtrusive-scripting-for-prototype)
  */

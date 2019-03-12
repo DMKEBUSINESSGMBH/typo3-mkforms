@@ -1,11 +1,13 @@
 Formidable.Classes.Date = Formidable.Classes.RdtBaseClass.extend({
 	constructor: function(oConfig) {
 		this.base(oConfig);
-//		this.initCal();
 	},
 	initCal: function() {
 		var node = this.domNode();
 		if(node) {
+			this.config.calendarconf.onUpdate = function(cal) {
+				MKWrapper.trigger(node, 'change');
+			};
 			Calendar.setup(this.config.calendarconf);
 			if(node.value != "") {
 				this.replaceData(node.value);
@@ -38,7 +40,7 @@ Formidable.Classes.Date = Formidable.Classes.RdtBaseClass.extend({
 		}
 	},
 	getDisplayArea: function() {
-		oDisplay = $("showspan_" + this.config.id);
+		oDisplay = MKWrapper.$("showspan_" + this.config.id);
 		if(oDisplay) {
 			return oDisplay;
 		}
