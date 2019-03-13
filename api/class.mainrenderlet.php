@@ -2222,12 +2222,15 @@ JAVASCRIPT;
         return array();
     }
 
-    protected function _flatten($mData)
+    public function _flatten($mData)
     {
         return $mData;
     }
 
-    protected function _unFlatten($sData)
+    /**
+     * Used by main datahandler
+     */
+    public function _unFlatten($sData)
     {
         return $sData;
     }
@@ -2237,7 +2240,10 @@ JAVASCRIPT;
         return $data;
     }
 
-    protected function _emptyFormValue($value)
+    /**
+     * Used by main datahandler
+     */
+    public function _emptyFormValue($value)
     {
         if (is_array($value)) {
             return empty($value);

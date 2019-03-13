@@ -174,7 +174,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         ));
     }
 
-    protected function _flatten($mData)
+    public function _flatten($mData)
     {
         if ($this->_emptyFormValue($mData)) {
             return '';
@@ -190,7 +190,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return $result;
     }
 
-    protected function _unFlatten($mData)
+    public function _unFlatten($mData)
     {
         if ($this->__isTimestamp($mData)) {
             return $this->__tstamp2date($mData);
@@ -335,7 +335,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
      *
      * @return bool
      */
-    protected function _emptyFormValue($value)
+    public function _emptyFormValue($value)
     {
         return (trim($value) === '');
     }
