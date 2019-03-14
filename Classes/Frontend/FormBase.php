@@ -81,6 +81,8 @@ class FormBase extends AbstractAction
      */
     protected $errors = array();
 
+    private $configurations;
+
     /**
      * Start the dance...
      *
@@ -91,6 +93,7 @@ class FormBase extends AbstractAction
     protected function handleRequest(RequestInterface $request)
     {
         $configurations = $request->getConfigurations();
+        $this->configurations = $configurations;
         $this->form = \tx_mkforms_forms_Factory::createForm('generic');
         $confId = $this->getConfId();
 
@@ -461,9 +464,10 @@ class FormBase extends AbstractAction
      */
     protected function getViewClassName()
     {
-        $class = $this->getConfigurations()->get($this->getConfId() . 'viewClassName');
+        // I don't really like this access to configurations here...
+        $class = $this->configurations->get($this->getConfId() . 'viewClassName');
 
-        return $class ? $class : 'tx_mkforms_view_Form';
+        return $class ? $class : FormView::class;
     }
 
     /**

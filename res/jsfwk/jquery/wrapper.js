@@ -142,7 +142,7 @@ MKWrapper.getDimensions = function(container, mode) {
 
 MKWrapper.scrollTo = function(container) {
 	return jQuery('html, body').animate({
-        scrollTop: parseInt($(container).offset().top)
+        scrollTop: parseInt(jQuery(container).offset().top)
     }, 1000);
 }
 
