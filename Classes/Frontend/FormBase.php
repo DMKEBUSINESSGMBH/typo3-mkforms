@@ -251,7 +251,7 @@ class FormBase extends AbstractAction
         // Flatten array
         if ($flattenData) {
             \tx_rnbase::load('tx_mkforms_util_FormBase');
-            $data = \tx_mkforms_util_FormBase::flatArray2MultipleTableStructure($data, $form, $this->getConfigurations(), $confId);
+            $data = \tx_mkforms_util_FormBase::flatArray2MultipleTableStructure($data, $form, $this->configurations, $confId);
         }
 
         // Hook to handle data

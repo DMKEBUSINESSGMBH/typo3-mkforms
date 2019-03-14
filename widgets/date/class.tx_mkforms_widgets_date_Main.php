@@ -6,13 +6,13 @@
  */
 class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 {
-    protected $aLibs = [
+    public $aLibs = [
         'rdt_date_class' => 'res/js/date.js',
     ];
 
-    protected $sMajixClass = 'Date';
-    protected $sAttachPostInitTask = 'initCal';
-    protected $bCustomIncludeScript = true;
+    public $sMajixClass = 'Date';
+    public $sAttachPostInitTask = 'initCal';
+    public $bCustomIncludeScript = true;
 
     /**
      * @var string[]
