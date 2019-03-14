@@ -14,6 +14,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
         'rdt_checkbox_class' => 'res/js/checkbox.js',
     );
 
+    public $bArrayValue = true;
     public $bCustomIncludeScript = true;
 
     public function _render()

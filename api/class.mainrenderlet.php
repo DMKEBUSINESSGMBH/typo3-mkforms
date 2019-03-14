@@ -4390,6 +4390,7 @@ JAVASCRIPT;
                     ) {
                         // the conf section exists
                         // call validator
+                        /* @var $oValidator tx_mkforms_validator_std_Main */
                         $oValidator = $this->oForm->_makeValidator($aValidator);
 
                         if ($oValidator->_matchConditions()) {
