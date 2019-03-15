@@ -166,8 +166,9 @@ Control.Tabs =Base.extend({
 	},
 	notify: function(event_name){
 		try{
-			if(this.options[event_name])
-				return [this.options[event_name].apply(this.options[event_name], arguments.slice(1))];
+			if(this.options[event_name]) {
+				return [this.options[event_name].apply(this.options[event_name], Array.from(arguments).slice(1))];
+			}
 		}catch(e){
 			return false;
 		}

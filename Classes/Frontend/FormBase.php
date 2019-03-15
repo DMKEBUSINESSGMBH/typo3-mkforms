@@ -383,7 +383,7 @@ class FormBase extends AbstractAction
         if (!is_array($data) || empty($data)) {
             $data = array();
             // @see self::flatArray2MultipleTableStructure -> addfields
-            $addFields = $this->getConfigurations()->get($confId . 'addfields.', true);
+            $addFields = $this->configurations->get($confId . 'addfields.', true);
             // Felder setzen, überschreiben oder löschen
             if (is_array($addFields) && count($addFields)) {
                 $data = \tx_mkforms_util_FormBase::addFields($data, $addFields);
@@ -395,7 +395,7 @@ class FormBase extends AbstractAction
         $this->preFilledForm = \tx_mkforms_util_FormBase::multipleTableStructure2FlatArray(
             $data,
             $form,
-            $this->getConfigurations(),
+            $this->configurations,
             $confId
         );
 
