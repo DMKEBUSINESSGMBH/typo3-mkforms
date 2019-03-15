@@ -1711,10 +1711,9 @@ ERRORMESSAGE;
         unset($this->aChilds);
         $this->aChilds = false;
 
-        foreach ($this->aOColumns as $sKey => &$sName) {
-            if (is_object($sName)) {
-                $sName = $sName->getAbsName();
-                $this->oForm->aORenderlets[$sName]->cleanBeforeSession();
+        foreach ($this->aOColumns as $sKey => &$columnValue) {
+            if (is_object($columnValue)) {
+                $this->oForm->aORenderlets[$columnValue->getAbsName()]->cleanBeforeSession();
             }
         }
 
