@@ -29,14 +29,20 @@ Formidable.Classes.ListBox = Formidable.Classes.RdtBaseClass.extend({
 	},
 	setSelected: function(sData) {
 		if(this.domNode()) {
-			this.domNode().value = sData;
+			var domNode = this.domNode();
+			MKWrapper.each(this.domNode().options, function(oOption, key) {
+				if(MKWrapper.inArray(oOption.value, sData) > -1) {
+					domNode.options[key].selected = true;
+				}
+			},this);
 		}
 	},
 	setAllSelected: function() {
 		if(this.domNode()) {
-			$A(this.domNode().options).each(function(oOption, key) {
-				this.domNode().options[key].selected = true;
-			}.bind(this));
+			var domNode = this.domNode();
+			MKWrapper.each(this.domNode().options, function(oOption, key) {
+				domNode.options[key].selected = true;
+			},this);
 		}
 	},
 	setNoneSelected: function() {
