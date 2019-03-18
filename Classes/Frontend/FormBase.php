@@ -438,6 +438,15 @@ class FormBase extends AbstractAction
     }
 
     /**
+     * Returns configurations instance for current request
+     * @return \Sys25\RnBase\Configuration\ConfigurationInterface
+     */
+    protected function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
+    /**
      * Soll der Template name als perfill parameter name herangezogen werden?
      *
      * @return bool
