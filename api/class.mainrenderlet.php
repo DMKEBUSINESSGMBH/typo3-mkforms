@@ -1234,6 +1234,10 @@ class formidable_mainrenderlet extends formidable_mainobject
             $aAddParams[] = $sDisabled;
         }
 
+        if (($sRequired = trim($this->getRequired())) !== '') {
+            $aAddParams[] = $sRequired;
+        }
+
         if (($sTitle = $this->_navConf('/title')) !== false) {
             if ($this->oForm->isRunneable($sTitle)) {
                 $sTitle = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTitle);
@@ -1601,6 +1605,15 @@ TOOLTIP;
     {
         if ($this->_defaultFalse('/disabled/')) {
             return ' disabled="disabled" ';
+        }
+
+        return '';
+    }
+
+    protected function getRequired()
+    {
+        if ($this->_defaultFalse('/required')) {
+            return ' required ';
         }
 
         return '';
