@@ -39,7 +39,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
                 $this->_getAddInputParams()
             );
             $sInput .= sprintf(
-                '<input type="checkbox" id="%2$s_checkbox" %3$s %4$s value="1" />',
+                '<input type="checkbox" name="%1$s[checkbox]" id="%2$s_checkbox" %3$s %4$s value="1" />',
                 $this->_getElementHtmlName(),
                 $this->_getElementHtmlId(),
                 $sChecked,
