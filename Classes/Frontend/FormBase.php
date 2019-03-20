@@ -150,7 +150,6 @@ class FormBase extends AbstractAction
     protected function handleRedirect($params, \tx_mkforms_forms_IForm $form, ConfigurationInterface $configurations, $confId)
     {
         // @codingStandardsIgnoreEnd
-
         if ((
             // redirect if fully submitted
             $this->form->isFullySubmitted()
@@ -165,14 +164,15 @@ class FormBase extends AbstractAction
             // Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
             $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-            $link = $this->createRedirectLink($viewData, $configurations, $confId);
             $link = $configurations->createLink();
-            $link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : array());
+            $link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : []);
+
             $link->redirect();
             // Und tschüss, ab hier passiert nix mehr.
             exit('REDIRECTED!');
         }
     }
+
 
     /**
      * Gibt den Pfad zum XML zurück
