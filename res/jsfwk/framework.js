@@ -607,9 +607,14 @@ Formidable.Classes.FormBaseClass = Base.extend({
 				console.log("executeClientEvent: single task: No object named " + oTask.object);
 		}
 	},
+	onBeforeAjaxEvent: false,
+
 	executeAjaxEvent: function(sEventName, sObjectId, sEventId, sSafeLock, bCache, bPersist, sTrigerTinyMCE, aParams, aRowParams, aLocalArguments, sJsConfirm) {
 		var t = this;
 		//console.log('executeAjaxEvent ', 'sEventName: ', sEventName, 'sObjectId: ', sObjectId, 'sEventId: ', sEventId, 'sSafeLock: ', sSafeLock, 'bCache: ', bCache, 'bPersist: ', bPersist, 'aParams: ', aParams, 'aRowParams: ', aRowParams, 'aLocalArguments: ', aLocalArguments, 'sJsConfirm: ', sJsConfirm, 'framework.js'); //@TODO: remove me
+		if (typeof(this.onBeforeAjaxEvent) == 'function' && !this.onBeforeAjaxEvent(this)) {
+			return;
+		}
 
 		bThrow = (sJsConfirm != false) ? confirm(unescape(sJsConfirm)) : true;
 		if(!bThrow) return;
