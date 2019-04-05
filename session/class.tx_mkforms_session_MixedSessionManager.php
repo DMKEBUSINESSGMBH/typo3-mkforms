@@ -296,7 +296,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return false;
         }
 
-        if (TYPO3_UseCachingFramework) {
+        if (defined('TYPO3_UseCachingFramework') && TYPO3_UseCachingFramework) {
             // Zur Sicherheit den Cache initialisieren. Sonst kann es zu Exceptions kommen.
             tx_rnbase_cache_Manager::getCache('cache_hash');
         }
