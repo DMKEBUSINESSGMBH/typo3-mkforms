@@ -441,7 +441,15 @@ try {
     if (tx_rnbase_util_Logger::isWarningEnabled()) {
         $request = $oAjax instanceof formidableajax ? $oAjax->getRequestData() : 'unkown';
         $widgets = $oAjax instanceof formidableajax && is_object($oAjax->getForm()) ? $oAjax->getForm()->getWidgetNames() : array();
-        tx_rnbase_util_Logger::warn('Exception in ajax call', 'mkforms', array('Exception' => $e, 'Request' => $request, 'Widgets' => $widgets));
+        tx_rnbase_util_Logger::warn(
+            'Exception in ajax call',
+            'mkforms',
+            array(
+                'Exception Message' => $e->getMessage(),
+                'Exception Trace' => $e->getTraceAsString(),
+                'Request' => $request,
+                'Widgets' => $widgets
+            ));
     }
 }
 
