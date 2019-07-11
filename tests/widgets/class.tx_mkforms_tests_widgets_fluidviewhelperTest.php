@@ -33,7 +33,7 @@ tx_rnbase::load('tx_mkforms_widgets_fluidviewhelper_Main');
  * @subpackage tx_mkforms_tests
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mkforms_tests_widgets_fluidviewhelper_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseTestCase
 {
     /**
      * @group unit

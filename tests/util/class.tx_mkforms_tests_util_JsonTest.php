@@ -32,7 +32,7 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_Json_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_util_JsonTest extends tx_rnbase_tests_BaseTestCase
 {
     protected function getNewInstance()
     {

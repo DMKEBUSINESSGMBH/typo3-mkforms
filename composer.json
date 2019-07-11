@@ -33,7 +33,11 @@
     "require": {
         "typo3/cms": "~6.2 || ~7.6 || ~8.7",
         "digedag/rn-base": ">=1.4",
+        "dmk/mklib": ">=9.5.0",
         "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "nimut/testing-framework": "^4.0"
     },
     "autoload": {
         "classmap": [
@@ -54,6 +58,30 @@
             "view/",
             "widgets/"
         ],
-        "psr-4": { "DMK\\MkForms\\": "Classes" }
+        "psr-4": {
+            "DMK\\MkForms\\": "Classes"
+        },
+        "files": [
+            "Classes/Constants.php"
+        ]
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin",
+        "preferred-install": {
+            "typo3/cms": "source"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .Build/Web/typo3conf/ext/",
+            "[ -L .Build/Web/typo3conf/ext/mkforms ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkforms"
+        ]
+    },
+    "extra": {
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web"
+        }
     }
 }

@@ -33,7 +33,7 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_Div_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_util_DivTest extends tx_rnbase_tests_BaseTestCase
 {
     public function testToCamelCase()
     {

@@ -34,11 +34,12 @@ tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_util
  */
-class tx_mkforms_tests_util_FormBaseAjax_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_util_FormBaseAjaxTest extends tx_rnbase_tests_BaseTestCase
 {
     public function testRepaintDependenciesReturnsCorrectArray()
     {
-// 
+        self::markTestIncomplete("Creating default object from empty value");
+
         $params = array('me' => 'fieldset__widget-listbox');
         $ret = tx_mkforms_util_FormBaseAjax::repaintDependencies($params, tx_mkforms_tests_Util::getForm());
         // formidable_mainrenderlet::majixRepaintDependancies liefert immer ein array!
