@@ -1,7 +1,5 @@
 <?php
 
-define('AMEOSFORMIDABLE_VALUE_NOT_SET', 'AMEOSFORMIDABLE_VALUE_NOT_SET');
-
 tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 tx_rnbase::load('tx_rnbase_util_Templates');
 
