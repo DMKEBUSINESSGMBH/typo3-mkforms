@@ -158,3 +158,5 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['rdt_autocomp
 //für diese extension verwendet wird. in diesem fall 200.
 //also könnte ein valider exception code dieser extension 2001 sein
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['baseExceptionCode'] = 200;
+
+require_once tx_rnbase_util_Extensions::extPath($_EXTKEY, 'Classes/Constants.php');
