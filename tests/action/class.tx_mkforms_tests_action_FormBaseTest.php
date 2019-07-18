@@ -27,12 +27,11 @@
  ***************************************************************/
 
 tx_rnbase::load('tx_mkforms_forms_Factory');
-require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkforms_tests_Util');
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
-class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 {
     protected $sCachefile;
 
@@ -43,6 +42,7 @@ class tx_mkforms_tests_action_FormBase_testcase extends tx_rnbase_tests_BaseTest
     {
         set_error_handler(array('tx_mkforms_tests_Util', 'errorHandler'), E_WARNING);
 
+        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
         tx_rnbase_util_Misc::prepareTSFE()->sys_page = tx_rnbase_util_TYPO3::getSysPage();
 
         $oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework', 'mkforms');

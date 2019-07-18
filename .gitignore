@@ -1,5 +1,7 @@
 /.buildpath
 /.project
+/.Build
 /.settings
 /nbproject
 /.idea
+/composer.lock

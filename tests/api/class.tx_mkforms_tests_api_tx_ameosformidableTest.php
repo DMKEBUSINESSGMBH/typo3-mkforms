@@ -30,7 +30,6 @@
  * benötigte Klassen einbinden
  */
 tx_rnbase::load('tx_mkforms_tests_Util');
-require_once(tx_rnbase_util_Extensions::extPath('phpunit').'Classes/Framework.php');
 tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 tx_rnbase::load('tx_mkforms_tests_Util');
 
@@ -42,7 +41,7 @@ tx_rnbase::load('tx_mkforms_tests_Util');
  * @package tx_mkforms
  * @subpackage tx_mkforms_tests_filter
  */
-class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTestCase
 {
 
     /**
@@ -51,8 +50,8 @@ class tx_mkforms_tests_api_tx_ameosformidable_testcase extends tx_rnbase_tests_B
      */
     protected function setUp()
     {
-        tx_rnbase::load('tx_mklib_tests_Util');
-        tx_mklib_tests_Util::prepareTSFE(array('force' => true, 'initFEuser' => true));
+        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true, 'initFEuser' => true));
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
         $GLOBALS['TSFE']->fe_user->storeSessionData();

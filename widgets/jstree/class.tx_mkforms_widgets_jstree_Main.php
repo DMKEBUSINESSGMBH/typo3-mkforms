@@ -80,7 +80,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
         if (array_key_exists('childs', $aData)) {
             $aBuffer[] = '<ul>';
 
-            foreach ($aData['childs'] as $child)
+            foreach ($aData['childs'] as $child) {
                 $this->_renderTree($child, $aBuffer);
             }
 
