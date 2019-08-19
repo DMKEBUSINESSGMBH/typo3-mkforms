@@ -11,17 +11,16 @@
 // => Voir fichier Licence_CeCILL_V2-fr.txt)
 // -----------------------------------------------
 
-
 // -------------------------------------
 // Configuration du fond du cryptogramme
 // -------------------------------------
 
-$cryptwidth  = 130;  // Largeur du cryptogramme (en pixels)
+$cryptwidth = 130;  // Largeur du cryptogramme (en pixels)
 $cryptheight = 40;   // Hauteur du cryptogramme (en pixels)
 
-$bgR  = 255;         // Couleur du fond au format RGB: Red (0->255)
-$bgG  = 255;         // Couleur du fond au format RGB: Green (0->255)
-$bgB  = 255;         // Couleur du fond au format RGB: Blue (0->255)
+$bgR = 255;         // Couleur du fond au format RGB: Red (0->255)
+$bgG = 255;         // Couleur du fond au format RGB: Green (0->255)
+$bgB = 255;         // Couleur du fond au format RGB: Blue (0->255)
 
 $bgclear = true;     // Fond transparent (true/false)
                      // Uniquement valable pour le format PNG
@@ -36,7 +35,6 @@ $bgimg = '';                 // Le fond du cryptogramme peut-�tre une image
                              // celles disponibles dans le r�pertoire
 
 $bgframe = true;    // Ajoute un cadre de l'image (true/false)
-
 
 // ----------------------------
 // Configuration des caract�res
@@ -65,7 +63,6 @@ $charclear = 10;   // Intensit� de la transparence des caract�res (0->127)
 
 $tfont[] = 'luggerbu.ttf';         // Ajoutez autant de lignes que vous voulez
 
-
 // Caracteres autoris�s
 // Attention, certaines polices ne distinguent pas (ou difficilement) les majuscules
 // et les minuscules. Certains caract�res sont faciles � confondre, il est donc
@@ -88,8 +85,8 @@ $charspace = 20;        // Espace entre les caracteres (en pixels)
 $charsizemin = 14;      // Taille minimum des caract�res
 $charsizemax = 16;      // Taille maximum des caract�res
 
-$charanglemax  = 25;     // Angle maximum de rotation des caracteres (0-360)
-$charup   = true;        // D�placement vertical al�atoire des caract�res (true/false)
+$charanglemax = 25;     // Angle maximum de rotation des caracteres (0-360)
+$charup = true;        // D�placement vertical al�atoire des caract�res (true/false)
 
 // Effets suppl�mentaires
 
@@ -111,7 +108,7 @@ $noiselinemax = 1;     // Bruit: Nb maximum de lignes al�atoires
 $nbcirclemin = 1;      // Bruit: Nb minimum de cercles al�atoires
 $nbcirclemax = 1;      // Bruit: Nb maximim de cercles al�atoires
 
-$noisecolorchar  = 3;  // Bruit: Couleur d'ecriture des pixels, lignes, cercles:
+$noisecolorchar = 3;  // Bruit: Couleur d'ecriture des pixels, lignes, cercles:
                        // 1: Couleur d'�criture des caract�res
                        // 2: Couleur du fond
                        // 3: Couleur al�atoire

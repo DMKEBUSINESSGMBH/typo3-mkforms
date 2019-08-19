@@ -12,14 +12,14 @@ abstract class formidable_maindatasource extends formidable_mainobject
         $iOffset = ($iPage) * $iRowsPerPage;    // counting the offset
         $iNbDisplayed = $iRowsPerPage;
 
-        if ($bMax !== false) {
-            if ($bMax !== false && (($iOffset + $iRowsPerPage) > $bMax)) {
+        if (false !== $bMax) {
+            if (false !== $bMax && (($iOffset + $iRowsPerPage) > $bMax)) {
                 $iNbDisplayed = $bMax - $iOffset;
             }
         }
 
         return array(
-            'sql' => ($iNbDisplayed != '') ? ' LIMIT ' . $iOffset . ', ' . $iNbDisplayed . ' ' : '',
+            'sql' => ('' != $iNbDisplayed) ? ' LIMIT '.$iOffset.', '.$iNbDisplayed.' ' : '',
             'page' => $iPage,
             'offset' => $iOffset,
             'rowsperpage' => $iRowsPerPage,
@@ -29,7 +29,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
 
     public function _getTotalNumberOfPages($iRowsPerPage, $iNbRows, $iMaximum = false)
     {
-        if ($iMaximum !== false && $iNbRows > $iMaximum) {
+        if (false !== $iMaximum && $iNbRows > $iMaximum) {
             $iNbRows = $iMaximum;
         }
 
@@ -53,7 +53,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
 
     public function dset_decodeSignature($sSignature)
     {
-        if ($sSignature !== false) {
+        if (false !== $sSignature) {
             $sSignature = base64_decode($sSignature);
             $aParts = explode(':', $sSignature);
             if (count($aParts) >= 2) {
@@ -99,7 +99,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
                 // like a flexform for instance, because if so, a path that doesn't exists within given dataset may still
                 // be set written in the dataset
                 return $sPath;
-            } elseif ($this->oForm->_navConf($sPath, $aData) === false) {
+            } elseif (false === $this->oForm->_navConf($sPath, $aData)) {
                 // path relative to databridge not found withing given dataset,
                 // let's try with the simple name of the renderlet (typically the name of a field in a DB-table)
 
@@ -122,7 +122,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
                     // to check if the data is correctly mapped or not
 
                     $aData = $this->aODataSets[$sSignature]->getData();
-                    if ($this->oForm->_navConf($sPath, $aData) !== false) {
+                    if (false !== $this->oForm->_navConf($sPath, $aData)) {
                         return $sPath;
                     }
                 }
@@ -157,12 +157,12 @@ abstract class formidable_maindatasource extends formidable_mainobject
 
     public function awakeInSession(&$oForm)
     {
-        $this->oForm =& $oForm;
+        $this->oForm = &$oForm;
         $aKeys = array_keys($this->aODataSets);
         reset($aKeys);
         foreach ($aKeys as $sSignature) {
             $this->aODataSets[$sSignature] = unserialize($this->aODataSets[$sSignature]);
-            $this->aODataSets[$sSignature]->oDataSource =& $this;
+            $this->aODataSets[$sSignature]->oDataSource = &$this;
             $this->aODataSets[$sSignature]->awakeInSession($this->oForm);
         }
     }
@@ -211,7 +211,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
     }
 
     /**
-     * Kindklassen sollten hier die Daten liefern
+     * Kindklassen sollten hier die Daten liefern.
      *
      * @param array $aConfig
      * @param array $aFilters
@@ -227,5 +227,5 @@ abstract class formidable_maindatasource extends formidable_mainobject
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.maindatasource.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.maindatasource.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.maindatasource.php'];
 }

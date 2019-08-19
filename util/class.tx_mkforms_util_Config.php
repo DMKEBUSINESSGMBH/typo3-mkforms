@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
-
 /**
  * Die Klasse ist für die Verarbeitung der XML-Formulardatei verantwortlich.
  * Der Zugriff auf das Form sollte nur reduziert geschehen. Derzeit wird über das Form das Runnable ermittelt.
@@ -32,6 +30,7 @@ class tx_mkforms_util_Config
 {
     private $debug = -99;
     private $config;
+
     private function __construct($form)
     {
         $this->form = $form;
@@ -44,27 +43,29 @@ class tx_mkforms_util_Config
 
     private function explodePath($path, $sSep)
     {
-        if ($path{0} === $sSep) {
+        if ($path[0] === $sSep) {
             $path = substr($path, 1);
         }
         $iLen = strlen($path);
-        if ($path{$iLen - 1} === $sSep) {
+        if ($path[$iLen - 1] === $sSep) {
             $path = substr($path, 0, $iLen - 1);
         }
 
         return explode($sSep, $path);
     }
+
     /**
-     * Liefert einen Wert aus der Config
+     * Liefert einen Wert aus der Config.
      *
      * @param string $path
-     * @param array $aConf
+     * @param array  $aConf
      * @param string $sSep
+     *
      * @return mixed
      */
     public function get($path, $aConf = -1, $sSep = '/')
     {
-        $curZone = ($aConf === -1 || !is_array($aConf)) ? $this->config : $aConf;
+        $curZone = (-1 === $aConf || !is_array($aConf)) ? $this->config : $aConf;
         reset($curZone);
 
         if ($path === $sSep) {
@@ -73,23 +74,23 @@ class tx_mkforms_util_Config
         $aPath = $this->explodePath($path, $sSep);
 
         $iSize = sizeof($aPath);
-        for ($i = 0; $i < $iSize; $i++) {
+        for ($i = 0; $i < $iSize; ++$i) {
             if (is_array($curZone) && array_key_exists($aPath[$i], $curZone)) {
                 $curZone = $curZone[$aPath[$i]];
                 if (is_string($curZone)) {
-                    if ($curZone{0} === 'X' && substr($curZone, 0, 6) === 'XPATH:') {
+                    if ('X' === $curZone[0] && 'XPATH:' === substr($curZone, 0, 6)) {
                         $curZone = $this->xPath($curZone);
-                    } elseif ($curZone{0} === 'T' && substr($curZone, 0, 3) === 'TS:') {
+                    } elseif ('T' === $curZone[0] && 'TS:' === substr($curZone, 0, 3)) {
                         $sTsPointer = $curZone;
                         $curZone = substr($curZone, 3);
-                        if (($curZone = $this->getTS($curZone, true)) === AMEOSFORMIDABLE_TS_FAILED) {
-                            tx_mkforms_util_Div::mayday('The typoscript pointer <b>' . $sTsPointer . '</b> evaluation has failed, as the pointed property does not exists within the current Typoscript template');
+                        if (AMEOSFORMIDABLE_TS_FAILED === ($curZone = $this->getTS($curZone, true))) {
+                            tx_mkforms_util_Div::mayday('The typoscript pointer <b>'.$sTsPointer.'</b> evaluation has failed, as the pointed property does not exists within the current Typoscript template');
                         }
-                    } elseif ($curZone{0} === 'T' && substr($curZone, 0, 4) === 'TCA:') {
+                    } elseif ('T' === $curZone[0] && 'TCA:' === substr($curZone, 0, 4)) {
                         $curZone = $this->getTcaVal($curZone);
-                    } elseif ($curZone{0} === 'L' && substr($curZone, 0, 4) === 'LLL:') {
+                    } elseif ('L' === $curZone[0] && 'LLL:' === substr($curZone, 0, 4)) {
                         $curZone = $this->getLLLabel($curZone);
-                    } elseif ($curZone{0} === 'E' && $curZone{1} === 'X' && substr($curZone, 0, 8) === 'EXTCONF:') {
+                    } elseif ('E' === $curZone[0] && 'X' === $curZone[1] && 'EXTCONF:' === substr($curZone, 0, 8)) {
                         $curZone = $this->getExtConfVal($curZone);
                     }
                 }
@@ -103,7 +104,7 @@ class tx_mkforms_util_Config
 
     public function getExtConfVal($sExtConf)
     {
-        if ($sExtConf{0} === 'E' && $sExtConf{1} === 'X' && substr($sExtConf, 0, 8) === 'EXTCONF:') {
+        if ('E' === $sExtConf[0] && 'X' === $sExtConf[1] && 'EXTCONF:' === substr($sExtConf, 0, 8)) {
             $sExtConf = substr($sExtConf, 8);
         }
 
@@ -114,10 +115,11 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Returns the translated string for the given LLL path
+     * Returns the translated string for the given LLL path.
      *
-     * @param   mixed      $label: LLL path
-     * @return  string      The translated string
+     * @param mixed $label: LLL path
+     *
+     * @return string The translated string
      */
     public function getLLLabel($mLabel)
     {
@@ -128,11 +130,13 @@ class tx_mkforms_util_Config
 
         return $mLabel;
     }
+
     /**
-     * Returns the translated string for the given LLL path
+     * Returns the translated string for the given LLL path.
      *
-     * @param   string      $label: LLL path
-     * @return  string      The translated string
+     * @param string $label: LLL path
+     *
+     * @return string The translated string
      */
     private function findLLLabel($mLabel)
     {
@@ -149,24 +153,24 @@ class tx_mkforms_util_Config
 
         // Wenn im meta der XML Form ein defaultLLL gesetzt ist,
         // wird versucht anand des absoluten namens vom renderlet ein label zu finden.
-        if ($this->getForm()->sDefaultLLLPrefix !== false) {
+        if (false !== $this->getForm()->sDefaultLLLPrefix) {
             if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:') && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:EXT:')) {
-                $mLabel = str_replace('LLL:', 'LLL:' . $this->getForm()->sDefaultLLLPrefix . ':', $mLabel);
+                $mLabel = str_replace('LLL:', 'LLL:'.$this->getForm()->sDefaultLLLPrefix.':', $mLabel);
             }
         }
 
-        if ($mLabel{0} === 'L' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:')) {
+        if ('L' === $mLabel[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:')) {
             if (TYPO3_MODE == 'FE') {
                 // front end
                 if (!$GLOBALS['TSFE']) {
-                    $message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann ' .
-                        'aus folgenden Grund passieren. Man hat ein autocomplete mit childs, ' .
-                        'ein default LL aber keine label für die childs. Entweder wird kein ' .
-                        'default LL verwendet oder den childs wird ein label gegeben, die es' .
+                    $message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann '.
+                        'aus folgenden Grund passieren. Man hat ein autocomplete mit childs, '.
+                        'ein default LL aber keine label für die childs. Entweder wird kein '.
+                        'default LL verwendet oder den childs wird ein label gegeben, die es'.
                         'gar nicht geben muss da diese nicht gerendered werden.';
                     throw new Exception(
                         $message,
-                        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] . 2
+                        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode']. 2
                     );
                 }
 
@@ -182,9 +186,7 @@ class tx_mkforms_util_Config
 
     /**
      * Loads the internal _aConf configuration array from the XML file
-     * IMPORTANT NOTE : the root /formidable is deleted, so all pathes shouldn't start with /formidable
-     *
-     * @return  void
+     * IMPORTANT NOTE : the root /formidable is deleted, so all pathes shouldn't start with /formidable.
      */
     private function loadXmlConf($xmlPath)
     {
@@ -199,41 +201,40 @@ class tx_mkforms_util_Config
                 tx_mkforms_util_Div::mayday('Root "mkforms" not found in XML. ('.$xmlPath.')');
             }
             Tx_Rnbase_Utility_T3General::deprecationLog(
-                'Root node "mkforms" in "' . $xmlPath . '" missed, but deprecated "formidable" found.'
+                'Root node "mkforms" in "'.$xmlPath.'" missed, but deprecated "formidable" found.'
             );
         }
 
         // the root is deleted
         $this->config = $this->config[$sRoot];
 
-        if (($sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== false) {
+        if (false !== ($sXmlMinVersion = $this->get('/minversion', $this->_aConf))) {
             if (tx_mkforms_util_Div::getVersionInt() < tx_rnbase_util_TYPO3::convertVersionNumberToInteger($sXmlMinVersion)) {
                 tx_mkforms_util_Div::mayday(
-                    'The given XML requires a version of MKFORMS' .
-                    ' (<b>' . $sXmlMinVersion . '</b> or above)' .
-                    ' more recent than the one installed' .
-                    ' (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).'
+                    'The given XML requires a version of MKFORMS'.
+                    ' (<b>'.$sXmlMinVersion.'</b> or above)'.
+                    ' more recent than the one installed'.
+                    ' (<b>'.tx_mkforms_util_Div::getVersion().'</b>).'
                 );
             }
         }
 
-        if (($sXmlMaxVersion = $this->get('/maxversion', $this->_aConf)) !== false) {
+        if (false !== ($sXmlMaxVersion = $this->get('/maxversion', $this->_aConf))) {
             if (tx_mkforms_util_Div::getVersionInt() > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($sXmlMaxVersion)) {
                 tx_mkforms_util_Div::mayday(
-                    'The given XML requires a version of MKFORMS' .
-                    ' (<b>' . $sXmlMaxVersion . '</b> maximum)' .
-                    ' older than the one installed' .
-                    ' (<b>' . tx_mkforms_util_Div::getVersion() . '</b>).'
+                    'The given XML requires a version of MKFORMS'.
+                    ' (<b>'.$sXmlMaxVersion.'</b> maximum)'.
+                    ' older than the one installed'.
+                    ' (<b>'.tx_mkforms_util_Div::getVersion().'</b>).'
                 );
             }
         }
     }
 
-
     /**
-     * Takes an array of typoscript configuration, and adapt it to formidable syntax
+     * Takes an array of typoscript configuration, and adapt it to formidable syntax.
      *
-     * @param   array       $aConf: TS array for application
+     * @param array $aConf: TS array for application
      */
     private function refineTS($aConf)
     {
@@ -244,11 +245,11 @@ class tx_mkforms_util_Config
         if (isset($aConf['meta.']) && is_array($aConf['meta.'])) {
             reset($aConf['meta.']);
             foreach ($aConf['meta.'] as $sKey => $notNeeded) {
-                if (is_string($aConf['meta.'][$sKey]) && $aConf['meta.'][$sKey] === 'codebehind') {
-                    if (array_key_exists($sKey . '.', $aConf['meta.'])) {
-                        $aTemp['meta']['codebehind-' . $sKey] = $aConf['meta.'][$sKey . '.'];
+                if (is_string($aConf['meta.'][$sKey]) && 'codebehind' === $aConf['meta.'][$sKey]) {
+                    if (array_key_exists($sKey.'.', $aConf['meta.'])) {
+                        $aTemp['meta']['codebehind-'.$sKey] = $aConf['meta.'][$sKey.'.'];
                     }
-                    unset($aConf['meta.'][$sKey . '.']);
+                    unset($aConf['meta.'][$sKey.'.']);
                 } else {
                     if (is_array($aConf['meta.'][$sKey])) {
                         $sPlainKey = substr($sKey, 0, -1);
@@ -260,74 +261,73 @@ class tx_mkforms_util_Config
             }
         }
 
-
         // processing control
         $aTemp['control'] = array();
         if (isset($aConf['control.']) && is_array($aConf['control.'])) {
             reset($aConf['control.']);
             foreach ($aConf['control.'] as $sKey => $notNeeded) {
                 if (is_string($aConf['control.'][$sKey])) {
-                    if ($sKey === 'datahandler') {
+                    if ('datahandler' === $sKey) {
                         $aTemp['control']['datahandler'] = array(
-                            'type' => substr($aConf['control.'][$sKey], strlen('datahandler:'))
+                            'type' => substr($aConf['control.'][$sKey], strlen('datahandler:')),
                         );
 
-                        if (array_key_exists($sKey . '.', $aConf['control.'])) {
+                        if (array_key_exists($sKey.'.', $aConf['control.'])) {
                             $aTemp['control']['datahandler'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                                 $aTemp['control']['datahandler'],
-                                tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
+                                tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey.'.'])
                             );
                         }
-                    } elseif ($sKey === 'renderer') {
+                    } elseif ('renderer' === $sKey) {
                         $aTemp['control']['renderer'] = array(
-                            'type' => substr($aConf['control.'][$sKey], strlen('renderer:'))
+                            'type' => substr($aConf['control.'][$sKey], strlen('renderer:')),
                         );
 
-                        if (array_key_exists($sKey . '.', $aConf['control.'])) {
+                        if (array_key_exists($sKey.'.', $aConf['control.'])) {
                             $aTemp['control']['renderer'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                                 $aTemp['control']['renderer'],
-                                tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey . '.'])
+                                tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey.'.'])
                             );
                         }
                     }
                 } else {
-                    if ($sKey === 'actionlets.') {
+                    if ('actionlets.' === $sKey) {
                         $aTemp['control']['actionlets'] = array();
 
                         reset($aConf['control.'][$sKey]);
                         foreach ($aConf['control.'][$sKey] as $sActKey => $notNeeded) {
                             if (is_string($aConf['control.'][$sKey][$sActKey])) {
-                                $aTemp['control']['actionlets']['actionlet-' . $sActKey] = array(
-                                    'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('actionlet:'))
+                                $aTemp['control']['actionlets']['actionlet-'.$sActKey] = array(
+                                    'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('actionlet:')),
                                 );
 
-                                if (array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-                                    $aTemp['control']['actionlets']['actionlet-' . $sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-                                        $aTemp['control']['actionlets']['actionlet-' . $sActKey],
-                                        tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+                                if (array_key_exists($sActKey.'.', $aConf['control.'][$sKey])) {
+                                    $aTemp['control']['actionlets']['actionlet-'.$sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                                        $aTemp['control']['actionlets']['actionlet-'.$sActKey],
+                                        tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey.'.'])
                                     );
                                 }
                             }
                         }
-                    } elseif ($sKey === 'datasources.') {
+                    } elseif ('datasources.' === $sKey) {
                         $aTemp['control']['datasources'] = array();
 
                         reset($aConf['control.'][$sKey]);
                         foreach ($aConf['control.'][$sKey] as $sActKey => $notNeeded) {
                             if (is_string($aConf['control.'][$sKey][$sActKey])) {
-                                $aTemp['control']['datasources']['datasource-' . $sActKey] = array(
-                                    'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('datasource:'))
+                                $aTemp['control']['datasources']['datasource-'.$sActKey] = array(
+                                    'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('datasource:')),
                                 );
 
-                                if (array_key_exists($sActKey . '.', $aConf['control.'][$sKey])) {
-                                    $aTemp['control']['datasources']['datasource-' . $sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
-                                        $aTemp['control']['datasources']['datasource-' . $sActKey],
-                                        tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey . '.'])
+                                if (array_key_exists($sActKey.'.', $aConf['control.'][$sKey])) {
+                                    $aTemp['control']['datasources']['datasource-'.$sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                                        $aTemp['control']['datasources']['datasource-'.$sActKey],
+                                        tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey.'.'])
                                     );
                                 }
                             }
                         }
-                    } elseif ($sKey === 'sandbox.') {
+                    } elseif ('sandbox.' === $sKey) {
                         $aTemp['control']['sandbox'] = tx_mkforms_util_Div::removeDots($aConf['control.']['sandbox.']);
                     }
                 }
@@ -342,14 +342,14 @@ class tx_mkforms_util_Config
                 if (is_string($aConf['elements.'][$sKey])) {
                     $aType = explode(':', $aConf['elements.'][$sKey]);
 
-                    if ($aType[0] === 'renderlet') {
-                        if (array_key_exists($sKey . '.', $aConf['elements.'])) {
-                            $aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = $this->refineTS_renderlet(
+                    if ('renderlet' === $aType[0]) {
+                        if (array_key_exists($sKey.'.', $aConf['elements.'])) {
+                            $aTemp['elements'][$aType[0].'-'.$sKey.'-'.rand()] = $this->refineTS_renderlet(
                                 $aConf['elements.'][$sKey],
-                                $aConf['elements.'][$sKey . '.']
+                                $aConf['elements.'][$sKey.'.']
                             );
                         } else {
-                            $aTemp['elements'][$aType[0] . '-' . $sKey . '-' . rand()] = array('type' => $aType[1]);
+                            $aTemp['elements'][$aType[0].'-'.$sKey.'-'.rand()] = array('type' => $aType[1]);
                         }
                     }
                 }
@@ -359,11 +359,12 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Takes a typoscript conf for a renderlet and refines it to formidable-syntax
+     * Takes a typoscript conf for a renderlet and refines it to formidable-syntax.
      *
-     * @param   string      $sTen: TS name like: 10 = renderlet:TEXT
-     * @param   array       $aTenDot: TS value of 10. like: 10.value = Hello World !
-     * @return  array       refined conf
+     * @param string $sTen:    TS name like: 10 = renderlet:TEXT
+     * @param array  $aTenDot: TS value of 10. like: 10.value = Hello World !
+     *
+     * @return array refined conf
      */
     private function refineTS_renderlet($sTen, $aTenDot)
     {
@@ -380,11 +381,11 @@ class tx_mkforms_util_Config
                 $aChild = array();
                 if (is_string($sChild)) {
                     $aChildType = explode(':', $sChild);
-                    if ($aChildType[0] === 'renderlet') {
-                        if (array_key_exists($sKey . '.', $aTenDot['childs.'])) {
+                    if ('renderlet' === $aChildType[0]) {
+                        if (array_key_exists($sKey.'.', $aTenDot['childs.'])) {
                             $aChild = $this->refineTS_renderlet(
                                 $sChild,
-                                $aTenDot['childs.'][$sKey . '.']
+                                $aTenDot['childs.'][$sKey.'.']
                             );
                         } else {
                             $aChild = $this->refineTS_renderlet(
@@ -394,7 +395,7 @@ class tx_mkforms_util_Config
                         }
                     }
 
-                    $aRdt['childs'][$aChildType[0] . '-' . $sKey . '-' . rand()] = $aChild;
+                    $aRdt['childs'][$aChildType[0].'-'.$sKey.'-'.rand()] = $aChild;
                 }
             }
 
@@ -408,17 +409,17 @@ class tx_mkforms_util_Config
                 $aValidator = array();
                 if (is_string($sValidator)) {
                     $aValType = explode(':', $sValidator);
-                    if ($aValType[0] === 'validator') {
+                    if ('validator' === $aValType[0]) {
                         $aValidator['type'] = $aValType[1];
 
-                        if (array_key_exists($sKey . '.', $aTenDot['validators.'])) {
+                        if (array_key_exists($sKey.'.', $aTenDot['validators.'])) {
                             $aValidator = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                                 $aValidator,
-                                tx_mkforms_util_Div::removeDots($aTenDot['validators.'][$sKey . '.'])
+                                tx_mkforms_util_Div::removeDots($aTenDot['validators.'][$sKey.'.'])
                             );
                         }
 
-                        $aRdt['validators']['validator-' . $sKey] = $aValidator;
+                        $aRdt['validators']['validator-'.$sKey] = $aValidator;
                     }
                 }
             }
@@ -443,6 +444,7 @@ class tx_mkforms_util_Config
      *
      * @param array $aXmlConf
      * @param array $aDefaultXml
+     *
      * @return array
      */
     private function loadDefaultXmlConf(&$aXmlConf = false, $aDefaultXml = false)
@@ -457,7 +459,7 @@ class tx_mkforms_util_Config
         }
         // die default config durchlaufen und der aktuellen hinzufügen.
         foreach ($aDefaultXml as $key => $value) {
-            if (substr($key, strlen($key) - 1, 1) == '.') {
+            if ('.' == substr($key, strlen($key) - 1, 1)) {
                 $key_1 = substr($key, 0, strlen($key) - 1);
                 if (!is_array($aXmlConf[$key_1])) {
                     $aXmlConf[$key_1] = array();
@@ -472,15 +474,16 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * [Describe function...]
+     * [Describe function...].
      *
      * @param string $sPath: ...
-     * @param array $aConf: ...
+     * @param array  $aConf: ...
+     *
      * @return bool
      */
     public function defaultTrue($sPath, $aConf = -1)
     {
-        if (($val = $this->get($sPath, $aConf)) !== false) {
+        if (false !== ($val = $this->get($sPath, $aConf))) {
             return $this->isTrueVal($val);
         }
 
@@ -488,14 +491,14 @@ class tx_mkforms_util_Config
     }
 
     /**
-     *
      * @param string $sPath: ...
-     * @param array $aConf: ...
+     * @param array  $aConf: ...
+     *
      * @return bool
      */
     public function defaultFalse($sPath, $aConf = -1)
     {
-        if (($val = $this->get($sPath, $aConf)) !== false) {
+        if (false !== ($val = $this->get($sPath, $aConf))) {
             return $this->isTrueVal($val);
         }
 
@@ -503,11 +506,12 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * [Describe function...]
+     * [Describe function...].
      *
-     * @param   [type]      $sPath: ...
-     * @param   [type]      $aConf: ...
-     * @return  [type]      ...
+     * @param [type] $sPath: ...
+     * @param [type] $aConf: ...
+     *
+     * @return [type] ...
      */
     public function isTrue($sPath, $aConf = -1)
     {
@@ -515,43 +519,46 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * [Describe function...]
+     * [Describe function...].
      *
-     * @param   [type]      $sPath: ...
-     * @param   [type]      $aConf: ...
-     * @return  [type]      ...
+     * @param [type] $sPath: ...
+     * @param [type] $aConf: ...
+     *
+     * @return [type] ...
      */
     public function isFalse($sPath, $aConf = -1)
     {
         $mValue = $this->get($sPath, $aConf);
 
-        return ($mValue !== false) ? $this->isFalseVal($mValue) : false;
+        return (false !== $mValue) ? $this->isFalseVal($mValue) : false;
     }
 
     /**
-     * [Describe function...]
+     * [Describe function...].
      *
-     * @param   [type]      $mVal: ...
-     * @return  [type]      ...
+     * @param [type] $mVal: ...
+     *
+     * @return [type] ...
      */
     private function isTrueVal($mVal)
     {
         $mVal = $this->form->getRunnable()->callRunnable($mVal);
 
-        return (($mVal === true) || ($mVal == '1') || (strtoupper($mVal) == 'TRUE'));
+        return (true === $mVal) || ('1' == $mVal) || ('TRUE' == strtoupper($mVal));
     }
 
     /**
-     * [Describe function...]
+     * [Describe function...].
      *
-     * @param   [type]      $mVal: ...
-     * @return  [type]      ...
+     * @param [type] $mVal: ...
+     *
+     * @return [type] ...
      */
     private function isFalseVal($mVal)
     {
         $mVal = $this->form->getRunnable()->callRunnable($mVal);
 
-        return (($mVal == false) || (strtoupper($mVal) == 'FALSE'));
+        return (false == $mVal) || ('FALSE' == strtoupper($mVal));
     }
 
     public function isDebug()
@@ -560,21 +567,23 @@ class tx_mkforms_util_Config
 
         return $this->debug > 0;
     }
+
     public function isDebugLight()
     {
         $this->initDebug();
 
-        return $this->debug == 2;
+        return 2 == $this->debug;
     }
+
     /**
      * In /meta/debug kann man einen Debug-Wert serzen. Dieser ist entweder eine Zahl oder ein Boolean. Wird Boolean=true gesetzt, dann wird das
-     * in die Zahl zwei umgewandelt
+     * in die Zahl zwei umgewandelt.
      */
     private function initDebug()
     {
-        if ($this->debug == -99) {
-            $this->debug = (int)$this->get('/meta/debug');
-            if ($this->debug == 0 && $this->isTrue('/meta/debug/')) {
+        if (-99 == $this->debug) {
+            $this->debug = (int) $this->get('/meta/debug');
+            if (0 == $this->debug && $this->isTrue('/meta/debug/')) {
                 $this->debug = 2;    // LIGHT
             }
         }
@@ -586,11 +595,12 @@ class tx_mkforms_util_Config
      *  -> inserts recursively all includets declared
      *  -> apply modifiers declared, if any
      *  -> remove sections emptied by modifiers, if any
-     *  -> execute xmlbuilders declared, if any
+     *  -> execute xmlbuilders declared, if any.
      *
-     * @param   array       $aConf: array of raw config to refine
-     * @param   [type]      $aTempDebug: internal use
-     * @return  array       refined array of conf
+     * @param array  $aConf:      array of raw config to refine
+     * @param [type] $aTempDebug: internal use
+     *
+     * @return array refined array of conf
      */
     public function compileConfig(&$aTempDebug)
     {
@@ -621,18 +631,19 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Executes and inserts conf generated by xmlbuilders, if any declared
+     * Executes and inserts conf generated by xmlbuilders, if any declared.
      *
-     * @param   array       $aConf: array of conf to process
-     * @param   array       $aTemp: optional; internal use
-     * @return  array       processed array of conf
+     * @param array $aConf: array of conf to process
+     * @param array $aTemp: optional; internal use
+     *
+     * @return array processed array of conf
      */
     private function insertXmlBuilder($aConf, $aTemp = array())
     {
         reset($aConf);
         foreach ($aConf as $key => $val) {
             if (is_array($val)) {
-                if ($key{0} === 'x' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'xmlbuilder')) {
+                if ('x' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'xmlbuilder')) {
                     $aTemp = $this->array_add($this->getForm()->getRunnable()->callRunnable($val), $aTemp);
                 } else {
                     $aTemp[$key] = $this->insertXmlBuilder($val);
@@ -649,10 +660,11 @@ class tx_mkforms_util_Config
      * Insert conf referenced by includexml tags
      * Aufruf nur aus _compileConf(). Achtung Recursiv!!
      *
-     * @param   array       $aConf: array of conf to process
-     * @param   array       $aDebug: internal use
-     * @param   string      $sParent: optional; parent xpath
-     * @return  array       processed conf array
+     * @param array  $aConf:   array of conf to process
+     * @param array  $aDebug:  internal use
+     * @param string $sParent: optional; parent xpath
+     *
+     * @return array processed conf array
      */
     private function insertSubXml($aConf, &$aDebug, $sParent = false)
     {
@@ -662,16 +674,16 @@ class tx_mkforms_util_Config
         reset($aConf);
 
         $aTemp = array();
-        if ($sParent === false) {
+        if (false === $sParent) {
             $sParent = '/formidable';
         }
 
         foreach ($aConf as $key => $val) {
             if (is_array($val)) {
-                if ($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
+                if ('i' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
                     if (array_key_exists('path', $val)) {
                         $sPath = $val['path'];
-                    } elseif (trim($val['__value']) !== '') {
+                    } elseif ('' !== trim($val['__value'])) {
                         $sPath = $val['__value'];
                     } else {
                         $sPath = $this->_xmlPath;
@@ -684,12 +696,12 @@ class tx_mkforms_util_Config
                         $bInclude = $this->defaultTrue('/condition', $val);
                     }
 
-                    $bInclude = trim($sPath) === '' ? false : $bInclude;
+                    $bInclude = '' === trim($sPath) ? false : $bInclude;
 
                     if ($bInclude) {
                         $aDebug[] = array(
-                            $sParent . ' 1- ' . $sPath,
-                            'subxml' => array()
+                            $sParent.' 1- '.$sPath,
+                            'subxml' => array(),
                         );
                         $iNewKey = count($aDebug) - 1;
 
@@ -702,16 +714,16 @@ class tx_mkforms_util_Config
                         }
 
                         if (array_key_exists('xpath', $val)) {
-                            if ($val['xpath']{0} === '.') {
+                            if ('.' === $val['xpath'][0]) {
                                 $sXPath = $this->absolutizeXPath($val['xpath'], $sParent);
                             } else {
                                 $sXPath = $val['xpath'];
                             }
 
-                            $aXml = $this->xPath('XPATH:' . $sXPath, $aXml, true); // BREAKABLE
+                            $aXml = $this->xPath('XPATH:'.$sXPath, $aXml, true); // BREAKABLE
 
-                            if ($aXml === AMEOSFORMIDABLE_XPATH_FAILED) {
-                                tx_mkforms_util_Div::mayday('<b>XPATH:' . $sXPath . '</b> is not valid, or matched nothing.<br />XPATH breaked on: <b>' . $this->sLastXPathError . '</b>');
+                            if (AMEOSFORMIDABLE_XPATH_FAILED === $aXml) {
+                                tx_mkforms_util_Div::mayday('<b>XPATH:'.$sXPath.'</b> is not valid, or matched nothing.<br />XPATH breaked on: <b>'.$this->sLastXPathError.'</b>');
                             }
                         }
 
@@ -720,7 +732,7 @@ class tx_mkforms_util_Config
                         }
 
                         $aTemp = $this->array_add(
-                            $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml'], $sParent . '/' . $key),
+                            $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml'], $sParent.'/'.$key),
                             $aTemp
                         );
 
@@ -732,26 +744,26 @@ class tx_mkforms_util_Config
                     $aInsert = $this->insertSubXml(
                         $val,
                         $aDebug,
-                        $sParent . '/' . $key
+                        $sParent.'/'.$key
                     );
 
                     if (array_key_exists($key, $aTemp)) {
                         // reindexing the xml array for correct merging
                         $counter = 0;
-                        while (array_key_exists($key . '-' . $counter, $aTemp)) {
-                            $counter++;
+                        while (array_key_exists($key.'-'.$counter, $aTemp)) {
+                            ++$counter;
                         }
 
-                        $aTemp[$key . '-' . $counter] = $aInsert;
+                        $aTemp[$key.'-'.$counter] = $aInsert;
                     } else {
                         $aTemp[$key] = $aInsert;
                     }
                 }
             } else {
-                if ($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
+                if ('i' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
                     $aDebug[] = array(
                         $sParent => $val,
-                        'subxml' => array()
+                        'subxml' => array(),
                     );
 
                     $iNewKey = count($aDebug) - 1;
@@ -759,7 +771,7 @@ class tx_mkforms_util_Config
                     $aXml = tx_mkforms_util_XMLParser::getXml(Tx_Rnbase_Utility_T3General::getFileAbsFileName($val), true);
 
                     $aTemp = $this->array_add(
-                        $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml'], $sParent . '/' . $key),
+                        $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml'], $sParent.'/'.$key),
                         $aTemp
                     );
 
@@ -776,27 +788,28 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Resolves an xpath and returns value pointed by this xpath
+     * Resolves an xpath and returns value pointed by this xpath.
      *
-     * @param   string      $sPath: xpath
-     * @return  mixed
+     * @param string $sPath: xpath
+     *
+     * @return mixed
      */
     private function xPath($sPath, $aConf = -1, $bBreakable = false)
     {
         $this->sLastXPathError = '';
 
-        if (!(is_string($sPath) && $sPath{0} === 'X' && substr($sPath, 0, 6) === 'XPATH:')) {
+        if (!(is_string($sPath) && 'X' === $sPath[0] && 'XPATH:' === substr($sPath, 0, 6))) {
             return false;
         }
 
         $sPath = tx_mkforms_util_Div::trimSlashes(strtolower(substr($sPath, 6)));
 
-        if (strpos($sPath, '[') === false) {
+        if (false === strpos($sPath, '[')) {
             return $this->get($sPath, $aConf);
         }
 
         $aSegments = array();
-        if ($aConf === -1) {
+        if (-1 === $aConf) {
             $aConf = $this->_aConf;
         }
 
@@ -814,9 +827,9 @@ class tx_mkforms_util_Config
                     $aCrit = Tx_Rnbase_Utility_Strings::trimExplode('=', $sTempCrit);
                     $aCrits[$aCrit[0]] = $aCrit[1];
                 }
-                $aSegments[] = array('what' => $sWhat,'crits' => $aCrits,'segment' => $sPart);
+                $aSegments[] = array('what' => $sWhat, 'crits' => $aCrits, 'segment' => $sPart);
             } else {
-                $aSegments[] = array('what' => $sPart,'crits' => false,'segment' => $sPart);
+                $aSegments[] = array('what' => $sPart, 'crits' => false, 'segment' => $sPart);
             }
         }
         $aPossibles = array(0 => $aConf);
@@ -824,7 +837,7 @@ class tx_mkforms_util_Config
         reset($aConf);
         foreach ($aSegments as $iLevel => $aSegment) {
             $bSegMatch = false;
-            $this->sLastXPathError .= '/' . $aSegment['segment'];
+            $this->sLastXPathError .= '/'.$aSegment['segment'];
             $aNewPossibles = array();
             $aPossKeys = array_keys($aPossibles);
             foreach ($aPossKeys as $sPosKey) {
@@ -833,7 +846,7 @@ class tx_mkforms_util_Config
                 foreach ($aKeys as $sKey) {
                     if (substr($sKey, 0, strlen($aSegment['what'])) == $aSegment['what']) {
                         $bMatch = true;
-                        if ($aSegment['crits'] !== false) {
+                        if (false !== $aSegment['crits']) {
                             reset($aSegment['crits']);
                             foreach ($aSegment['crits'] as $sProp => $sValue) {
                                 $bMatch = $bMatch && (array_key_exists(strtolower($sProp), $aPossibles[$sPosKey][$sKey]) && strtolower($aPossibles[$sPosKey][$sKey][$sProp]) == strtolower($sValue));
@@ -848,7 +861,7 @@ class tx_mkforms_util_Config
                 }
             }
 
-            if ($bSegMatch === false && $bBreakable === true) {
+            if (false === $bSegMatch && true === $bBreakable) {
                 return AMEOSFORMIDABLE_XPATH_FAILED;
             }
 
@@ -861,33 +874,33 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Debug some data to screen
+     * Debug some data to screen.
      */
     private function debug()
     {
         $aVars = func_get_args();
-        if (func_num_args() === 1) {
+        if (1 === func_num_args()) {
             $aVars = func_get_arg(0);
         }
-        echo '<div>' . tx_mkforms_util_Div::viewMixed($aVars, true, 0) . '</div>';
+        echo '<div>'.tx_mkforms_util_Div::viewMixed($aVars, true, 0).'</div>';
         flush();
     }
 
     /**
-     * Inserts conf declared by includets
+     * Inserts conf declared by includets.
      *
-     * @param   array       $aConf: array of conf to process
-     * @param   array       $aTemp: optional; internal use
+     * @param array $aConf: array of conf to process
+     * @param array $aTemp: optional; internal use
      *
      * @TODO: reimplement. does not work since the new config was added by the mkforms fork
      *
-     * @return  array       processed conf array
+     * @return array processed conf array
      */
     private function insertSubTS($aConf, $aTemp = array())
     {
         reset($aConf);
         foreach ($aConf as $key => $val) {
-            $isIncludeTS = ($key{0} === 'i' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includets'));
+            $isIncludeTS = ('i' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includets'));
             if (is_array($val)) {
                 if ($isIncludeTS) {
                     if (array_key_exists('path', $val)) {
@@ -909,21 +922,24 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Utility function for _insertSubTS
+     * Utility function for _insertSubTS.
      *
-     * @param   string      $sTSPath: ts path to get
-     * @return  mixed       ts conf
+     * @param string $sTSPath: ts path to get
+     *
+     * @return mixed ts conf
      */
     private function getTS($sTSPath)
     {
         return $this->getForm()->getConfTS($sTSPath);
     }
+
     /**
-     * [Describe function...]
+     * [Describe function...].
      *
-     * @param   [type]      $a1: ...
-     * @param   [type]      $a2: ...
-     * @return  [type]      ...
+     * @param [type] $a1: ...
+     * @param [type] $a2: ...
+     *
+     * @return [type] ...
      */
     private function array_add($a1, $a2)
     {
@@ -932,12 +948,12 @@ class tx_mkforms_util_Config
             reset($a2);
 
             foreach ($a1 as $key => $val) {
-                if ($key != 'type' && array_key_exists($key, $a2)) {
+                if ('type' != $key && array_key_exists($key, $a2)) {
                     $counter = 0;
-                    while (array_key_exists($key . '-' . $counter, $a2)) {
-                        $counter++;
+                    while (array_key_exists($key.'-'.$counter, $a2)) {
+                        ++$counter;
                     }
-                    $a2[$key . '-' . $counter] = $val;
+                    $a2[$key.'-'.$counter] = $val;
                 } else {
                     $a2[$key] = $val;
                 }
@@ -949,15 +965,16 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Utility method for _applyModifiers()
+     * Utility method for _applyModifiers().
      *
-     * @param   array       $aSubConf
-     * @return  array
+     * @param array $aSubConf
+     *
+     * @return array
      */
     private function applyLocalModifiers($aSubConf)
     {
         reset($aSubConf);
-        if (($aModifiers = $this->get('/modifiers', $aSubConf)) !== false) {
+        if (false !== ($aModifiers = $this->get('/modifiers', $aSubConf))) {
             reset($aModifiers);
             foreach ($aModifiers as $sModKey => $aModifier) {
                 if ($this->_matchConditions($aModifier)) {
@@ -975,36 +992,38 @@ class tx_mkforms_util_Config
 
         return $aSubConf;
     }
+
     /**
      * Return
-     * Das wird auch vom Validator aufgerufen formidable_mainvalidator
-     * @param   [type]      $aConditioner: ...
-     * @return  [type]      ...
+     * Das wird auch vom Validator aufgerufen formidable_mainvalidator.
+     *
+     * @param [type] $aConditioner: ...
+     *
+     * @return [type] ...
      */
     public function matchConditions($aConditioner)
     {
         $bRet = true;
 
-        if (($aConditions = $this->get('/conditions/', $aConditioner)) !== false) {
-            if (($sLogic = $this->get('/logic', $aConditions)) === false) {
+        if (false !== ($aConditions = $this->get('/conditions/', $aConditioner))) {
+            if (false === ($sLogic = $this->get('/logic', $aConditions))) {
                 $sLogic = 'AND';
             } else {
                 $sLogic = strtoupper($sLogic);
             }
 
             foreach ($aConditions as $sCondKey => $notNeeded) {
-                if ($sCondKey{0} === 'c' && $sCondKey{1} === 'o' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCondKey, 'condition')) {
+                if ('c' === $sCondKey[0] && 'o' === $sCondKey[1] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCondKey, 'condition')) {
                     $aCondition = $this->get($sCondKey, $aConditions);
                     switch ($sLogic) {
-                        case 'OR': {
+                        case 'OR':
                             $bRet = $bRet || $this->_matchCondition($aCondition);
                             break;
-                        }
+
                         case 'AND':
-                        default: {
+                        default:
                             $bRet = $bRet && $this->_matchCondition($aCondition);
                             break;
-                        }
                     }
                 }
             }
@@ -1014,10 +1033,11 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Removes conf-sections emptied by modifiers, if any
+     * Removes conf-sections emptied by modifiers, if any.
      *
-     * @param   array       $aConf: array of conf to refine
-     * @return  array       processed conf array
+     * @param array $aConf: array of conf to refine
+     *
+     * @return array processed conf array
      */
     private function deleteEmpties($aConf)
     {
@@ -1038,17 +1058,18 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Applies declared modifiers, if any
+     * Applies declared modifiers, if any.
      *
-     * @param   array       $aConf: conf to process
-     * @return  array       processed conf
+     * @param array $aConf: conf to process
+     *
+     * @return array processed conf
      */
     private function applyModifiers($aConf)
     {
         reset($aConf);
         foreach ($aConf as $sKey => $mValue) {
             if (is_array($aConf[$sKey])) {
-                if ($sKey == 'modifiers') {
+                if ('modifiers' == $sKey) {
                     $aConf[$sKey] = $this->applyModifiers($aConf[$sKey]);
                     $aConf = $this->applyLocalModifiers($aConf);
                     unset($aConf[$sKey]);
@@ -1062,8 +1083,10 @@ class tx_mkforms_util_Config
 
         return $aConf;
     }
+
     /**
-     * Liefert das Formular
+     * Liefert das Formular.
+     *
      * @return tx_mkforms_forms_IForm
      */
     private function getForm()
@@ -1072,9 +1095,10 @@ class tx_mkforms_util_Config
     }
 
     /**
-     * Erstellt eine Instanz auf Basis einer XML-Datei
+     * Erstellt eine Instanz auf Basis einer XML-Datei.
      *
      * @param string $path Pfad zur XML-Datei
+     *
      * @return tx_mkforms_util_Config
      */
     public static function createInstanceByPath($path, $form)
@@ -1086,10 +1110,12 @@ class tx_mkforms_util_Config
 
         return $cfg;
     }
+
     /**
-     * Erstellt eine Instanz auf Basis eines Typoscript-Arrays
+     * Erstellt eine Instanz auf Basis eines Typoscript-Arrays.
      *
      * @param array $confArr Typoscript-Array
+     *
      * @return tx_mkforms_util_Config
      */
     public static function createInstanceByTS($confArr, $form)
@@ -1104,5 +1130,5 @@ class tx_mkforms_util_Config
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Config.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Config.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Config.php'];
 }

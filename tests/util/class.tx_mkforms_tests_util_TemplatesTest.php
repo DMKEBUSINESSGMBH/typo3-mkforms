@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 Hannes Bochmann <dev@dmk-business.de>
  *  All rights reserved
@@ -23,16 +23,10 @@
  */
 
 /**
- * benötigte Klassen einbinden
- */
-
-/**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_util
+ * benötigte Klassen einbinden.
  */
 class tx_mkforms_tests_util_TemplatesTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @group unit
      */
@@ -50,7 +44,7 @@ class tx_mkforms_tests_util_TemplatesTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testParseTemplateCodeIncludesSubtemplates()
     {
-        self::markTestIncomplete("Creating default object from empty value");
+        self::markTestIncomplete('Creating default object from empty value');
 
         $templatesUtility = tx_mkforms_util_Templates::createInstance(tx_mkforms_tests_Util::getForm());
         $template = '<!-- ### INCLUDE_TEMPLATE EXT:mkforms/tests/fixtures/subtemplate.html@SUBPART ### -->';

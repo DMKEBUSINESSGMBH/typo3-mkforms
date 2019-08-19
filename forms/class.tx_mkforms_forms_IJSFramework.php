@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameosformidable.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.tx_ameosformidable.php';
 
 /**
  * Factory for forms.
@@ -57,7 +57,7 @@ interface tx_mkforms_forms_IPageInclude
     public function getKey();
 
     /**
-     * Bei einem JS-Incluce true, bei CSS false
+     * Bei einem JS-Incluce true, bei CSS false.
      *
      * @return string
      */
@@ -89,7 +89,6 @@ class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude
         $sBefore = '',
         $sAfter = ''
     ) {
-
         return new tx_mkforms_forms_PageInclude($pagePath, $serverPath, $sKey, $isJS, $bFirstPos, $sBefore, $sAfter);
     }
 
@@ -102,7 +101,6 @@ class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude
         $sBefore = '',
         $sAfter = ''
     ) {
-
         $this->pagePath = $pagePath;
         $this->serverPath = $serverPath;
         $this->key = $sKey;
@@ -151,5 +149,5 @@ class tx_mkforms_forms_PageInclude implements tx_mkforms_forms_IPageInclude
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IJSFramework.php'];
 }

@@ -22,7 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * Wenn Klassen noch nicht geladen wurden, gibt es PHP-Warnungen!
  * Also laden wir die jeweiligen Klassen nach.
@@ -39,11 +38,11 @@
 class tx_mkforms_util_AutoLoad
 {
     /**
-     * @var     string  der alte php.ini wert für unserialize_callback_func.
+     * @var string der alte php.ini wert für unserialize_callback_func.
      */
     private static $sUnserializeCallbackFuncOld = false;
     /**
-     * @var     string  wird als Message im log ausgegeben
+     * @var string wird als Message im log ausgegeben
      */
     private static $sMessage = false;
 
@@ -53,7 +52,7 @@ class tx_mkforms_util_AutoLoad
     }
 
     /**
-     * registriert eine unserialize_callback_func
+     * registriert eine unserialize_callback_func.
      */
     public static function registerUnserializeCallbackFunc()
     {
@@ -64,13 +63,12 @@ class tx_mkforms_util_AutoLoad
     }
 
     /**
-     * stellt die alte unserialize_callback_func wieder her
+     * stellt die alte unserialize_callback_func wieder her.
      */
     public static function restoreUnserializeCallbackFunc()
     {
         ini_set('unserialize_callback_func', self::$sUnserializeCallbackFuncOld);
     }
-
 
     /**
      * Wird von serialize aufgerufen, wenn eine Klasse nicht geladen ist.
@@ -86,7 +84,6 @@ class tx_mkforms_util_AutoLoad
     {
         $msg = false;
         try { // klasse laden
-
             // Hook um andere klassen zu laden, xclasses beispielsweise.
             tx_rnbase_util_Misc::callHook(
                 'mkforms',
@@ -102,9 +99,9 @@ class tx_mkforms_util_AutoLoad
         }
 
         // nachricht bauen
-        $msg = (self::$sMessage ? self::$sMessage.LF : '') .
+        $msg = (self::$sMessage ? self::$sMessage.LF : '').
                 ($msg ? $msg : (
-                    $sClassName . (class_exists($sClassName) ? ' musste mit der unserializeCallbackFunc geladen werden.'
+                    $sClassName.(class_exists($sClassName) ? ' musste mit der unserializeCallbackFunc geladen werden.'
                         // fallback, msg wird sicher durch die exception bereits gesetzt sein
         : ' konnte mit der unserializeCallbackFunc nicht geladen werden!'
                     )
@@ -123,8 +120,10 @@ class tx_mkforms_util_AutoLoad
 }
 
 /**
- * Wird von serialize aufgerufen, wenn eine Klasse nicht geladen ist
+ * Wird von serialize aufgerufen, wenn eine Klasse nicht geladen ist.
+ *
  * @param string $sClassName
+ *
  * @see tx_mkforms_util_AutoLoad::unserializeCallbackFunc()
  */
 function mkformsUnserializeCallbackFunc($sClassName)
@@ -133,5 +132,5 @@ function mkformsUnserializeCallbackFunc($sClassName)
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_AutoLoad.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_AutoLoad.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_AutoLoad.php'];
 }

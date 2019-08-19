@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_api
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -27,33 +25,31 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainvalidator.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainobject.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainvalidator.php';
 
 /**
- * Testfälle für tx_mkforms_util_Solr
+ * Testfälle für tx_mkforms_util_Solr.
  *
  * @author hbochmann
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_filter
  */
 class tx_mkforms_tests_api_mainvalidatorTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * Unser Mainvalidator
+     * Unser Mainvalidator.
+     *
      * @var formidable_mainvalidator
      */
     protected $oMainValidator;
 
     /**
-     * Form
+     * Form.
+     *
      * @var tx_ameosformidable
      */
     protected $oForm;
-
 
     /**
      * setUp() = init DB etc.
@@ -61,9 +57,9 @@ class tx_mkforms_tests_api_mainvalidatorTest extends tx_rnbase_tests_BaseTestCas
     public function setUp()
     {
         $this->oMainValidator = tx_rnbase::makeInstance('formidable_mainvalidator');
-        self::markTestIncomplete("Line below throws multiple errors:".
-            "call_user_func_array() expects parameter 1 to be a valid callback, first array member is not a valid class name or object".
-            "Creating default object from empty value");
+        self::markTestIncomplete('Line below throws multiple errors:'.
+            'call_user_func_array() expects parameter 1 to be a valid callback, first array member is not a valid class name or object'.
+            'Creating default object from empty value');
         $this->oForm = tx_mkforms_tests_Util::getForm();
         $this->oMainValidator->_init($this->oForm, null, null, null);
 
@@ -72,7 +68,7 @@ class tx_mkforms_tests_api_mainvalidatorTest extends tx_rnbase_tests_BaseTestCas
     }
 
     /**
-     * Prüft _isTooLongByChars mit Multi-byte zeichen und ohne
+     * Prüft _isTooLongByChars mit Multi-byte zeichen und ohne.
      */
     public function testIsTooLongByChars()
     {
@@ -90,34 +86,22 @@ class tx_mkforms_tests_api_mainvalidatorTest extends tx_rnbase_tests_BaseTestCas
         self::assertTrue($this->oMainValidator->_isTooLongByChars($iso8Str, 14, 'latin1'), 'Es wurde nicht die korrekte Länge für den ISO String erkannt. Maximale Anzahl: 14; Zeichenlänge:15');
     }
 
-    /**
-     *
-     */
     public function testOneRdtHasAValueReturnsTrueIfNothingHasAValue()
     {
         self::assertTrue($this->oMainValidator->_oneRdtHasAValue(0, 'fieldset__texte__input__widget-text'), 'Es wurde nicht false zurück gegeben!');
     }
 
-    /**
-     *
-     */
     public function testOneRdtHasAValueReturnsFalseIfGivenRdtHasAValueAndSelfNot()
     {
         $this->oForm->getWidget('fieldset__texte__input__widget-text')->setValue(1);
         self::assertFalse($this->oMainValidator->_oneRdtHasAValue(0, 'fieldset__texte__input__widget-text'), 'Es wurde nicht true zurück gegeben!');
     }
 
-    /**
-     *
-     */
     public function testOneRdtHasAValueReturnsFalseIfSelfHasAValueAndGivenRdtNot()
     {
         self::assertFalse($this->oMainValidator->_oneRdtHasAValue(2, 'fieldset__texte__input__widget-text'), 'Es wurde nicht true zurück gegeben!');
     }
 
-    /**
-     *
-     */
     public function testHasThisOrDependentAValueReturnsFalseIfBothHaveAValue()
     {
         $this->oForm->getWidget('fieldset__texte__input__widget-text')->setValue(1);
@@ -132,8 +116,8 @@ class tx_mkforms_tests_api_mainvalidatorTest extends tx_rnbase_tests_BaseTestCas
             'type' => 'STANDARD',
             'required' => array(
                 'message' => 'Fehlermeldung',
-                'dependson'  =>    'fieldset__texte__area__textarea'
-            )
+                'dependson' => 'fieldset__texte__area__textarea',
+            ),
         );
 
         $widget = $this->oForm->getWidget('fieldset__widget-radiobutton');
@@ -155,8 +139,8 @@ class tx_mkforms_tests_api_mainvalidatorTest extends tx_rnbase_tests_BaseTestCas
             'type' => 'STANDARD',
             'required' => array(
                 'message' => 'Fehlermeldung',
-                'dependson'  =>    'fieldset__texte__area__textarea'
-            )
+                'dependson' => 'fieldset__texte__area__textarea',
+            ),
         );
 
         $widget = $this->oForm->getWidget('fieldset__widget-radiobutton');
@@ -172,5 +156,5 @@ class tx_mkforms_tests_api_mainvalidatorTest extends tx_rnbase_tests_BaseTestCas
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php'];
 }

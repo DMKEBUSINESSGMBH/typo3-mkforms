@@ -30,25 +30,23 @@ interface tx_mkforms_forms_IForm
     /**
      * @param                          object          Parent extension using FORMidable
      * @param                          mixed           Absolute path to the XML configuration file
-     * @param    int                   $iForcedEntryId :
+     * @param int                      $iForcedEntryId :
      * @param tx_rnbase_configurations $configurations TS-Configuration
      * @param string                   $confid         ;
-     *
-     * @return    void
      */
     public function init(&$oParent, $mXml, $iForcedEntryId = false, $configurations = false, $confid = '');
 
     public function getFormId();
 
     /**
-     * Return the typoscript configurations object
+     * Return the typoscript configurations object.
      *
      * @return tx_rnbase_configurations
      */
     public function getConfigurations();
 
     /**
-     * Basic typoscript confid-path
+     * Basic typoscript confid-path.
      *
      * @return string
      */
@@ -64,7 +62,7 @@ interface tx_mkforms_forms_IForm
     public function getConfTS($confid);
 
     /**
-     * Liefert den aktuellen DataHandler
+     * Liefert den aktuellen DataHandler.
      *
      * @return formidable_maindatahandler
      */
@@ -74,5 +72,5 @@ interface tx_mkforms_forms_IForm
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IForm.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IForm.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/forms/class.tx_mkforms_forms_IForm.php'];
 }

@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet
 {
     public function _render()
@@ -16,21 +14,20 @@ class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet
 
         $sAddInputParams = $this->_getAddInputParams();
 
-
         /* adaptation for XHTML1.1 strict validation */
 
-        if (strpos($sAddInputParams, 'rows') === false) {
-            $sAddInputParams = ' rows="2" ' . $sAddInputParams;
+        if (false === strpos($sAddInputParams, 'rows')) {
+            $sAddInputParams = ' rows="2" '.$sAddInputParams;
         }
 
-        if (strpos($sAddInputParams, 'cols') === false) {
-            $sAddInputParams = ' cols="20" ' . $sAddInputParams;
+        if (false === strpos($sAddInputParams, 'cols')) {
+            $sAddInputParams = ' cols="20" '.$sAddInputParams;
         }
 
         // sollen in der textarea durch das jQuery autoresize Plugin
         // die evtl. anfallenden scroll balken entfernt werden
         // es gibt nur eine Unterstützung für jQuery!!!
-        if ($this->getForm()->getJSLoader()->getJSFrameworkId() == 'jquery' && $this->defaultFalse('/autoresize')) {
+        if ('jquery' == $this->getForm()->getJSLoader()->getJSFrameworkId() && $this->defaultFalse('/autoresize')) {
             $this->sMajixClass = 'TxtArea';
             $this->bCustomIncludeScript = true;
             $this->aLibs['rdt_autoresize_class'] = 'res/js/autoresize.min.js';
@@ -39,15 +36,11 @@ class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet
             $this->includeScripts(array('autoresize' => $this->defaultFalse('/autoresize')));
         }
 
-        /* */
-
         $sValueForHtml = $this->getValueForHtml($sValue);
-        $sInput = '<textarea name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '"' . $sAddInputParams . '>' . $sValueForHtml . '</textarea>';
-
-
+        $sInput = '<textarea name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'"'.$sAddInputParams.'>'.$sValueForHtml.'</textarea>';
 
         return array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sInput,
+            '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
             'label' => $sLabel,
             'value' => $sValue,
@@ -60,7 +53,6 @@ class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/txtarea/class.tx_mkforms_widgets_txtarea_Main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/txtarea/class.tx_mkforms_widgets_txtarea_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/txtarea/class.tx_mkforms_widgets_txtarea_Main.php'];
 }

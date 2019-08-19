@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Box';
@@ -27,13 +25,13 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
         $sHtml = $this->oForm->_substLLLInHtml($sHtml);
 
         $sMode = $this->_navConf('/mode');
-        if ($sMode === false) {
+        if (false === $sMode) {
             $sMode = 'div';
         } else {
             $sMode = strtolower(trim($sMode));
-            if ($sMode === '') {
+            if ('' === $sMode) {
                 $sMode = 'div';
-            } elseif ($sMode === 'none' || $sMode === 'inline') {
+            } elseif ('none' === $sMode || 'inline' === $sMode) {
                 $sMode = 'inline';
             }
         }
@@ -46,21 +44,21 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
             }
 
             $sName = $this->_getElementHtmlName();
-            $sId = $this->_getElementHtmlId() . '_value';
-            $sHidden = '<input type="hidden" name="' . $sName . '" id="' . $sId . '" value="' . $this->getValueForHtml($sValue) . '" />';
+            $sId = $this->_getElementHtmlId().'_value';
+            $sHidden = '<input type="hidden" name="'.$sName.'" id="'.$sId.'" value="'.$this->getValueForHtml($sValue).'" />';
         } elseif ($this->isDataBridge()) {
-            $sDBridgeName = $this->_getElementHtmlName() . '[databridge]';
-            $sDBridgeId = $this->_getElementHtmlId() . '_databridge';
+            $sDBridgeName = $this->_getElementHtmlName().'[databridge]';
+            $sDBridgeId = $this->_getElementHtmlId().'_databridge';
             $sSignature = $this->dbridge_getCurrentDsetSignature();
-            $sHidden = '<input type="hidden" name="' . $sDBridgeName . '" id="' . $sDBridgeId . '" value="' . htmlspecialchars($sSignature) . '" />';
+            $sHidden = '<input type="hidden" name="'.$sDBridgeName.'" id="'.$sDBridgeId.'" value="'.htmlspecialchars($sSignature).'" />';
         }
 
-        if ($sMode !== 'inline') {
-            $sBegin = '<' . $sMode . " id='" . $this->_getElementHtmlId() . "' " . $this->_getAddInputParams() . '>';
-            $sEnd = '</' . $sMode . '>' . $sHidden;
+        if ('inline' !== $sMode) {
+            $sBegin = '<'.$sMode." id='".$this->_getElementHtmlId()."' ".$this->_getAddInputParams().'>';
+            $sEnd = '</'.$sMode.'>'.$sHidden;
         } else {
-            $sBegin = '<!--BEGIN:BOX:inline:' . $this->_getElementHtmlId() . '-->';
-            $sEnd = '<!--END:BOX:inline:' . $this->_getElementHtmlId() . '-->';
+            $sBegin = '<!--BEGIN:BOX:inline:'.$this->_getElementHtmlId().'-->';
+            $sEnd = '<!--END:BOX:inline:'.$this->_getElementHtmlId().'-->';
         }
 
         $aChilds = $this->renderChildsBag();
@@ -74,19 +72,19 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
             )
         );
 
-        if (($mDraggable = $this->_navConf('/draggable')) !== false) {
+        if (false !== ($mDraggable = $this->_navConf('/draggable'))) {
             $aConf = array();
 
             if (is_array($mDraggable)) {
-                if ($this->_defaultTrue('/draggable/use') === true) {
+                if (true === $this->_defaultTrue('/draggable/use')) {
                     $bDraggable = true;
                     $aConf['revert'] = $this->_defaultFalse('/draggable/revert');
 
-                    if (($sHandle = $this->_navConf('/draggable/handle')) !== false) {
+                    if (false !== ($sHandle = $this->_navConf('/draggable/handle'))) {
                         $aConf['handle'] = $this->oForm->aORenderlets[$sHandle]->_getElementHtmlId();
                     }
 
-                    if (($sConstraint = $this->_navConf('/draggable/constraint')) !== false) {
+                    if (false !== ($sConstraint = $this->_navConf('/draggable/constraint'))) {
                         $aConf['constraint'] = strtolower($sConstraint);
                     }
                 }
@@ -94,46 +92,46 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
                 $bDraggable = true;
             }
 
-            if ($bDraggable === true) {
+            if (true === $bDraggable) {
                 $sHtmlId = $this->_getElementHtmlId();
 
                 $sJson = $this->oForm->array2json($aConf);
 
                 $sScript = '
-new Draggable("' . $sHtmlId . '", ' . $sJson . ');
+new Draggable("'.$sHtmlId.'", '.$sJson.');
 ';
 
                 $this->oForm->attachInitTask($sScript);
             }
         }
 
-        if (($mDroppable = $this->_navConf('/droppable')) !== false) {
+        if (false !== ($mDroppable = $this->_navConf('/droppable'))) {
             $aConf = array();
 
             if (is_array($mDroppable)) {
-                if ($this->_defaultTrue('/droppable/use') === true) {
+                if (true === $this->_defaultTrue('/droppable/use')) {
                     $bDroppable = true;
 
-                    if (($sAccept = $this->_navConf('/droppable/accept')) !== false) {
+                    if (false !== ($sAccept = $this->_navConf('/droppable/accept'))) {
                         $aConf['accept'] = $sAccept;
                     }
 
-                    if (($sContainment = $this->_navConf('/droppable/containment')) !== false) {
+                    if (false !== ($sContainment = $this->_navConf('/droppable/containment'))) {
                         $aConf['containment'] = Tx_Rnbase_Utility_Strings::trimExplode($sContainment);
                         foreach ($aConf['containment'] as $iKey => &$value) {
                             $value = $this->oForm->aORenderlets[$value]->_getElementHtmlId();
                         }
                     }
 
-                    if (($sHoverClass = $this->_navConf('/droppable/hoverclass')) !== false) {
+                    if (false !== ($sHoverClass = $this->_navConf('/droppable/hoverclass'))) {
                         $aConf['hoverclass'] = $sHoverClass;
                     }
 
-                    if (($sOverlap = $this->_navConf('/droppable/overlap')) !== false) {
+                    if (false !== ($sOverlap = $this->_navConf('/droppable/overlap'))) {
                         $aConf['overlap'] = $sOverlap;
                     }
 
-                    if (($bGreedy = $this->_defaultFalse('/droppable/greedy')) !== false) {
+                    if (false !== ($bGreedy = $this->_defaultFalse('/droppable/greedy'))) {
                         $aConf['greedy'] = $bGreedy;
                     }
                 }
@@ -141,23 +139,23 @@ new Draggable("' . $sHtmlId . '", ' . $sJson . ');
                 $bDroppable = true;
             }
 
-            if ($bDroppable === true) {
+            if (true === $bDroppable) {
                 $sHtmlId = $this->_getElementHtmlId();
 
                 if (array_key_exists('ondragdrop', $this->aCustomEvents)) {
                     $sJs = implode("\n", $this->aCustomEvents['ondragdrop']);
-                    $aConf['onDrop'] = 'function() {' . $sJs . '}';
+                    $aConf['onDrop'] = 'function() {'.$sJs.'}';
                 }
 
                 if (array_key_exists('ondraghover', $this->aCustomEvents)) {
                     $sJs = implode("\n", $this->aCustomEvents['ondraghover']);
-                    $aConf['onHover'] = 'function() {' . $sJs . '}';
+                    $aConf['onHover'] = 'function() {'.$sJs.'}';
                 }
 
                 $sJson = $this->oForm->array2json($aConf);
 
                 $sScript = '
-Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
+Droppables.add("'.$sHtmlId.'", '.$sJson.');
 ';
 
                 $this->oForm->attachInitTask($sScript);
@@ -165,14 +163,14 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
         }
 
         $aHtmlBag = array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sBegin . $sHtml . $sCompiledChilds . $sEnd,
+            '__compiled' => $this->_displayLabel($sLabel).$sBegin.$sHtml.$sCompiledChilds.$sEnd,
             'html' => $sHtml,
             'box.' => array(
                 'begin' => $sBegin,
                 'end' => $sEnd,
                 'mode' => $sMode,
             ),
-            'childs' => $aChilds
+            'childs' => $aChilds,
         );
 
         return $aHtmlBag;
@@ -252,7 +250,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
     public function _emptyFormValue($sValue)
     {
         if ($this->hasData()) {
-            return (trim($sValue) === '');
+            return '' === trim($sValue);
         }
 
         return true;
@@ -260,7 +258,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 
     public function hasValue()
     {
-        return ($this->_navConf('/data/value') !== false || $this->_navConf('/data/defaultvalue') !== false);
+        return false !== $this->_navConf('/data/value') || false !== $this->_navConf('/data/defaultvalue');
     }
 
     public function _searchable()
@@ -285,7 +283,7 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
 
     public function processBeforeDisplay($aChilds)
     {
-        if (($aBeforeDisplay = $this->_navConf('/beforedisplay')) !== false && $this->oForm->isRunneable($aBeforeDisplay)) {
+        if (false !== ($aBeforeDisplay = $this->_navConf('/beforedisplay')) && $this->oForm->isRunneable($aBeforeDisplay)) {
             $aChilds = $this->getForm()->getRunnable()->callRunnableWidget($this, $aBeforeDisplay, $aChilds);
         }
 
@@ -293,7 +291,6 @@ Droppables.add("' . $sHtmlId . '", ' . $sJson . ');
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_box/api/class.tx_rdtbox.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_box/api/class.tx_rdtbox.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_box/api/class.tx_rdtbox.php'];
 }

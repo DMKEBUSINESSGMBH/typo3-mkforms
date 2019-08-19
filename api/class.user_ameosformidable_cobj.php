@@ -11,10 +11,10 @@ class user_ameosformidable_cobj
         $content = '';
 
         switch ($name) {
-            case 'FORMIDABLE_INT': {
+            case 'FORMIDABLE_INT':
 
-                $substKey = 'INT_SCRIPT.' . $GLOBALS['TSFE']->uniqueHash();
-                $content .= '<!--' . $substKey . '-->';
+                $substKey = 'INT_SCRIPT.'.$GLOBALS['TSFE']->uniqueHash();
+                $content .= '<!--'.$substKey.'-->';
 
                 $GLOBALS['TSFE']->config['INTincScript'][$substKey] = array(
                     'file' => $incFile,
@@ -25,8 +25,8 @@ class user_ameosformidable_cobj
                 );
 
                 break;
-            }
-            case 'FORMIDABLE': {
+
+            case 'FORMIDABLE':
 
                 $content .= $this->_render($conf);
 
@@ -41,7 +41,6 @@ class user_ameosformidable_cobj
                 }
 
                 break;
-            }
         }
 
         return $content;
@@ -66,7 +65,7 @@ class user_ameosformidable_cobj
 
     public function _render($conf)
     {
-        require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameosformidable.php');
+        require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.tx_ameosformidable.php';
         $this->oForm = tx_rnbase::makeInstance('tx_ameosformidable');
         $this->oForm->initFromTs(
             $this,
@@ -80,5 +79,5 @@ class user_ameosformidable_cobj
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.user_ameosformidable_cobj.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.user_ameosformidable_cobj.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.user_ameosformidable_cobj.php'];
 }

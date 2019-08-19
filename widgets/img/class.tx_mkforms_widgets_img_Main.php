@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 {
     public function _render()
@@ -16,7 +14,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
     public function _renderReadOnly()
     {
         $sPath = $this->_getPath();
-        if ($sPath !== false || (
+        if (false !== $sPath || (
                 is_array($this->_navConf('/imageconf/')) &&
                 $this->defaultFalse('/imageconf/forcegeneration')
             )
@@ -38,7 +36,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             } else {
                 if (!tx_mkforms_util_Div::isAbsWebPath($sPath)) {
                     // relative web path given
-                        // turn it into absolute web path
+                    // turn it into absolute web path
                     $sPath = tx_mkforms_util_Div::toWebPath($sPath);
                     $aSize = @getimagesize(tx_mkforms_util_Div::toServerPath($sPath));
                 }
@@ -50,7 +48,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
                 $aInfosFile = Tx_Rnbase_Utility_T3General::split_fileref($sAbsWebPath);
                 if (strtolower($aInfosPath['host']) !== strtolower(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_HOST_ONLY'))) {
-                    if ($bReprocess === true) {
+                    if (true === $bReprocess) {
                         // we have to make a local copy of the image to enable TS processing
                         $aHeaders = $this->oForm->div_getHeadersForUrl($sAbsWebPath);
                         if (array_key_exists('ETag', $aHeaders)) {
@@ -70,8 +68,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                         }
                     }
 
-                    $sTempFileName = $aInfosFile['filebody'] . $aInfosFile['fileext'] . '-' . $sSignature . '.' . $aInfosFile['fileext'];
-                    $sTempFilePath = PATH_site . 'typo3temp/' . $sTempFileName;
+                    $sTempFileName = $aInfosFile['filebody'].$aInfosFile['fileext'].'-'.$sSignature.'.'.$aInfosFile['fileext'];
+                    $sTempFilePath = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sTempFileName;
 
                     if (!file_exists($sTempFilePath)) {
                         Tx_Rnbase_Utility_T3General::writeFileToTypo3tempDir(
@@ -85,14 +83,14 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                     $sRelWebPath = tx_mkforms_util_Div::toRelPath($sAbsServerPath);
                 } else {
                     // it's an local image given as an absolute web url
-                        // trying to convert pathes to handle the image as a local one
-                    if (Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR') ==  substr($sAbsWebPath, 0, strlen(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR')))) {
+                    // trying to convert pathes to handle the image as a local one
+                    if (Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR') == substr($sAbsWebPath, 0, strlen(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR')))) {
                         $sTrimmedWebPath = substr($sAbsWebPath, strlen(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR')));
                     } else {
                         $sTrimmedWebPath = $aInfosPath['path'];
                     }
 
-                    $sAbsServerPath = PATH_site . tx_mkforms_util_Div::removeStartingSlash($sTrimmedWebPath);
+                    $sAbsServerPath = \Sys25\RnBase\Utility\Environment::getPublicPath().tx_mkforms_util_Div::removeStartingSlash($sTrimmedWebPath);
                     $sRelWebPath = tx_mkforms_util_Div::removeStartingSlash($sTrimmedWebPath);
                 }
 
@@ -111,22 +109,22 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                         'rel' => $sRelWebPath,
                         'web' => tx_mkforms_util_Div::toWebPath($sAbsServerPath),
                         'server' => $sAbsServerPath,
-                    )
+                    ),
                 ),
                 'filename' => $sFileName,
                 'filename.' => array(
                     'original' => $sFileName,
-                )
+                ),
             );
 
-            if ($aSize !== false) {
+            if (false !== $aSize) {
                 $aHtmlBag['filesize.']['width'] = $aSize[0];
-                $aHtmlBag['filesize.']['width.']['px'] = $aSize[0] . 'px';
+                $aHtmlBag['filesize.']['width.']['px'] = $aSize[0].'px';
                 $aHtmlBag['filesize.']['height'] = $aSize[1];
-                $aHtmlBag['filesize.']['height.']['px'] = $aSize[1] . 'px';
+                $aHtmlBag['filesize.']['height.']['px'] = $aSize[1].'px';
             }
 
-            if ($bReprocess === true) {
+            if (true === $bReprocess) {
                 // expecting typoscript
 
                 $aParams = array(
@@ -135,9 +133,9 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                     'relwebpath' => $sRelWebPath,
                 );
 
-                if ($this->oForm->oDataHandler->aObjectType['TYPE'] == 'LISTER') {
+                if ('LISTER' == $this->oForm->oDataHandler->aObjectType['TYPE']) {
                     $aParams['row'] = $this->oForm->oDataHandler->__aListData;
-                } elseif ($this->oForm->oDataHandler->aObjectType['TYPE'] == 'DB') {
+                } elseif ('DB' == $this->oForm->oDataHandler->aObjectType['TYPE']) {
                     $aParams['row'] = $this->oForm->oDataHandler->_getStoredData();
                 }
 
@@ -145,7 +143,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
                 $aImage = array_pop($this->getForm()->getRunnable()->aLastTs);
 
-                $sTag = ($this->_defaultFalse('/imageconf/generatetag') === true) ? $GLOBALS['TSFE']->cObj->IMAGE($aImage) : false;
+                $sTag = (true === $this->_defaultFalse('/imageconf/generatetag')) ? $GLOBALS['TSFE']->cObj->IMAGE($aImage) : false;
 
                 // IMG_RESOURCE always returns relative path
                 $sNewPath = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMG_RESOURCE', $aImage);
@@ -158,28 +156,28 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                 $aNewSize = @getimagesize(tx_mkforms_util_Div::toServerPath($sNewPath));
 
                 $aHtmlBag['filesize.']['width'] = $aNewSize[0];
-                $aHtmlBag['filesize.']['width.']['px'] = $aNewSize[0] . 'px';
+                $aHtmlBag['filesize.']['width.']['px'] = $aNewSize[0].'px';
                 $aHtmlBag['filesize.']['height'] = $aNewSize[1];
-                $aHtmlBag['filesize.']['height.']['px'] = $aNewSize[1] . 'px';
+                $aHtmlBag['filesize.']['height.']['px'] = $aNewSize[1].'px';
             }
 
             $sLabel = $this->getLabel();
 
-            if ($sTag === false) {
+            if (false === $sTag) {
                 if (isset($aHtmlBag['filesize.']['width'])) {
-                    $sWidth = ' width="' . $aHtmlBag['filesize.']['width'] . '" ';
+                    $sWidth = ' width="'.$aHtmlBag['filesize.']['width'].'" ';
                 }
 
                 if (isset($aHtmlBag['filesize.']['height'])) {
-                    $sHeight = ' height="' . $aHtmlBag['filesize.']['height'] . '" ';
+                    $sHeight = ' height="'.$aHtmlBag['filesize.']['height'].'" ';
                 }
 
-                $aHtmlBag['imagetag'] = '<img src="' . $aHtmlBag['filepath'] . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' ' . $sWidth . $sHeight . '/>';
+                $aHtmlBag['imagetag'] = '<img src="'.$aHtmlBag['filepath'].'" id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().' '.$sWidth.$sHeight.'/>';
             } else {
                 $aHtmlBag['imagetag'] = $sTag;
             }
 
-            $aHtmlBag['__compiled'] = $this->_displayLabel($sLabel) . $aHtmlBag['imagetag'];
+            $aHtmlBag['__compiled'] = $this->_displayLabel($sLabel).$aHtmlBag['imagetag'];
 
             return $aHtmlBag;
         }
@@ -189,7 +187,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
     public function _getPath()
     {
-        if (($sPath = $this->_navConf('/path')) !== false) {
+        if (false !== ($sPath = $this->_navConf('/path'))) {
             $sPath = $this->_processPath($sPath);
         }
         if (tx_mkforms_util_Div::isAbsWebPath($sPath)) {
@@ -199,12 +197,12 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             if (tx_rnbase_util_Math::isInteger($sPath) && $this->defaultFalse('/treatidasreference')) {
                 $reference = tx_rnbase_util_TSFAL::getFileReferenceById($sPath);
                 $sPath = $reference->getForLocalProcessing(false);
-            } elseif (($mFolder = $this->_navConf('/folder')) !== false) {
+            } elseif (false !== ($mFolder = $this->_navConf('/folder'))) {
                 if ($this->oForm->isRunneable($mFolder)) {
                     $mFolder = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFolder);
                 }
 
-                $sPath = tx_mkforms_util_Div::trimSlashes($mFolder) . '/' . $this->getValue();
+                $sPath = tx_mkforms_util_Div::trimSlashes($mFolder).'/'.$this->getValue();
             } else {
                 $sPath = $this->getValue();
             }
@@ -216,7 +214,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             $sFullPath = tx_mkforms_util_Div::toServerPath($sPath);
 
             if (!file_exists($sFullPath) || !is_file($sFullPath) || !is_readable($sFullPath)) {
-                if (($sDefaultPath = $this->_navConf('/defaultpath')) !== false) {
+                if (false !== ($sDefaultPath = $this->_navConf('/defaultpath'))) {
                     $sDefaultPath = $this->_processPath($sDefaultPath);
                     $sFullDefaultPath = tx_mkforms_util_Div::toServerPath($sDefaultPath);
 
@@ -281,23 +279,23 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
     {
         $aAddParams = parent::_getAddInputParamsArray();
 
-        if (($mUseMap = $this->_navConf('/usemap')) !== false) {
+        if (false !== ($mUseMap = $this->_navConf('/usemap'))) {
             if ($this->oForm->isRunneable($mUseMap)) {
                 $mUseMap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mUseMap);
             }
 
-            if ($mUseMap !== false) {
-                $aAddParams[] = ' usemap="' . $mUseMap . '" ';
+            if (false !== $mUseMap) {
+                $aAddParams[] = ' usemap="'.$mUseMap.'" ';
             }
         }
 
-        if (($mAlt = $this->_navConf('/alt')) !== false) {
+        if (false !== ($mAlt = $this->_navConf('/alt'))) {
             if ($this->oForm->isRunneable($mAlt)) {
                 $mAlt = $this->getForm()->getRunnable()->callRunnableWidget($this, $mAlt);
             }
 
-            if ($mAlt !== false) {
-                $aAddParams[] = ' alt="' . $mAlt . '" ';
+            if (false !== $mAlt) {
+                $aAddParams[] = ' alt="'.$mAlt.'" ';
             }
         }
 
@@ -307,7 +305,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php'];
 }

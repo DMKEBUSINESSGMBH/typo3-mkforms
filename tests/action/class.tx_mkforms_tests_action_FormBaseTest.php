@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_action
  * @author Michael Wagner
  *
  *  Copyright notice
@@ -26,20 +24,16 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
 class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 {
     protected $sCachefile;
 
-    /**
-     *
-     */
     public function setUp()
     {
         set_error_handler(array('tx_mkforms_tests_Util', 'errorHandler'), E_WARNING);
 
-        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
         tx_rnbase_util_Misc::prepareTSFE()->sys_page = tx_rnbase_util_TYPO3::getSysPage();
 
         $oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework', 'mkforms');
@@ -69,6 +63,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         // error handler zurücksetzen
         restore_error_handler();
     }
+
     /**
      * wir verwenden nicht mehr den constructor, da dieser zu oft aufgerufen wird.
      */
@@ -90,13 +85,12 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
     private static function getStaticTS()
     {
-
         return tx_mkforms_tests_Util::getStaticTS();
     }
 
     /**
+     * @param bool $execute
      *
-     * @param   boolean         $execute
      * @return tx_mkforms_action_FormBase
      */
     private static function &getAction($execute = true)
@@ -146,7 +140,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
                             'widget1-widget2-text' => 'Zwei',
                         ),
                         'area' => array(
-                            'textarea' => 'Sehr Lang!'
+                            'textarea' => 'Sehr Lang!',
                         ),
                     ),
                     'widget-remove' => 'sollte entfernt werden',
@@ -192,7 +186,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
                 'AMEOSFORMIDABLE_VIEWSTATE' => '',
                 'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
                 'AMEOSFORMIDABLE_SUBMITTER' => '',
-                'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->generateRequestToken()
+                'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->generateRequestToken(),
             );
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken())));
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -207,22 +201,22 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         self::assertTrue(isset($formData['submitmode']), 'LINE:'.__LINE__);
         self::assertEquals($formData['submitmode'], 'full', 'LINE:'.__LINE__);
 
-        self::assertInternalType('array', $formData['widget'], 'LINE:' . __LINE__);
+        self::assertInternalType('array', $formData['widget'], 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['text']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['text'], 'Eins', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['radiobutton']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['radiobutton'], '3', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['listbox']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['listbox'], '7', 'LINE:'.__LINE__);
-        self::assertInternalType('array', $formData['widget']['checkbox'], 'LINE:' . __LINE__);
+        self::assertInternalType('array', $formData['widget']['checkbox'], 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['checkbox']['5']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['checkbox']['5'], '6', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['checkbox']['8']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['checkbox']['8'], '9', 'LINE:'.__LINE__);
-        self::assertInternalType('array', $formData['widget1'], 'LINE:' . __LINE__);
+        self::assertInternalType('array', $formData['widget1'], 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget1']['text']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget1']['text'], 'Zwei', 'LINE:'.__LINE__);
-        self::assertInternalType('array', $formData['widget2'], 'LINE:' . __LINE__);
+        self::assertInternalType('array', $formData['widget2'], 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget2']['text']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget2']['text'], 'Zwei', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['textarea']), 'LINE:'.__LINE__);
@@ -230,8 +224,8 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         self::assertTrue(isset($formData['widgetlister']['selected']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widgetlister']['selected'], '5', 'LINE:'.__LINE__);
         self::assertFalse(isset($formData['widgetlister']['notInXml']), 'LINE:'.__LINE__);
-        for ($i = 1; $i <= 5; $i++) {
-            self::assertInternalType('array', $formData['widgetlister'][$i]['listerdata'], $i . ' LINE:' . __LINE__);
+        for ($i = 1; $i <= 5; ++$i) {
+            self::assertInternalType('array', $formData['widgetlister'][$i]['listerdata'], $i.' LINE:'.__LINE__);
             self::assertTrue(isset($formData['widgetlister'][$i]['listerdata']['uid']), $i.' LINE:'.__LINE__);
             self::assertEquals($formData['widgetlister'][$i]['listerdata']['uid'], $i, $i.' LINE:'.__LINE__);
             self::assertTrue(isset($formData['widgetlister'][$i]['listerdata']['title']), $i.' LINE:'.__LINE__);
@@ -248,7 +242,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         self::assertTrue(isset($formData['widget']['date_mysql']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['date_mysql'], '1983-07-05', 'LINE:'.__LINE__);
         //addpostvars
-        self::assertInternalType('array', $formData['addpostvars'], 'LINE:' . __LINE__);
+        self::assertInternalType('array', $formData['addpostvars'], 'LINE:'.__LINE__);
         self::assertEquals($formData['addpostvars'][0]['action'], 'formData', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['addpostvars'][0]['params']['widget']['submit']), 'LINE:'.__LINE__);
         //addfields
@@ -268,7 +262,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionCode 2001
      * @expectedExceptionMessage Das Formular ist nicht valide
      */
@@ -276,7 +270,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
     {
         $sData = array(
                 'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
-                'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid'
+                'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid',
             );
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken())));
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -302,7 +296,6 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
         $action = self::getAction();
         $fillData = $action->fillForm($sData, $action->getForm());
-
 
         self::assertTrue(isset($fillData['widget-text']), 'LINE:'.__LINE__);
         self::assertEquals($fillData['widget-text'], 'Default Text', 'LINE:'.__LINE__);
@@ -331,5 +324,5 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php'];
 }

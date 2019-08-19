@@ -4,11 +4,11 @@ class formidable_mainscriptingmethods
 {
     public function _init(&$oForm)
     {
-        $this->oForm =& $oForm;
+        $this->oForm = &$oForm;
     }
 
     /**
-     * Returns the form
+     * Returns the form.
      *
      * @return tx_ameosformidable
      */
@@ -20,7 +20,7 @@ class formidable_mainscriptingmethods
     public function process($sMethod, $mData, $sArgs)
     {
         $aParams = $this->oForm->getTemplateTool()->parseTemplateMethodArgs($sArgs);
-        $sMethodName = strtolower('method_' . $sMethod);
+        $sMethodName = strtolower('method_'.$sMethod);
 
         if (method_exists($this, $sMethodName)) {
             return $this->$sMethodName($mData, $aParams);

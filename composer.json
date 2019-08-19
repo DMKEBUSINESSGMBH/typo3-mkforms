@@ -32,12 +32,13 @@
     },
     "require": {
         "typo3/cms-core": "^7.6 || ^8.7 || ^9.5",
-        "digedag/rn-base": ">=1.4",
+        "digedag/rn-base": ">=1.10.5",
         "php": ">=5.4.0"
     },
     "require-dev": {
         "nimut/testing-framework": "^4.0",
-        "dmk/mklib": ">=3.0.8"
+        "dmk/mklib": ">=3.0.8",
+        "friendsofphp/php-cs-fixer": "~2@stable"
     },
     "autoload": {
         "classmap": [

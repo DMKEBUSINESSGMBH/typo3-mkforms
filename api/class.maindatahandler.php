@@ -43,12 +43,12 @@ class formidable_maindatahandler extends formidable_mainobject
         if (!is_null($dhos = $oForm->getConfTS('datahandleronsubmit'))) {
             $this->bDataHandlerOnSubmit = $this->isTrueVal($dhos);
         }
-        if (($dhos = $this->_navConf('/datahandleronsubmit')) !== false) {
+        if (false !== ($dhos = $this->_navConf('/datahandleronsubmit'))) {
             $this->bDataHandlerOnSubmit = $this->isTrueVal($dhos);
         }
 
         if ($this->i18n()) {
-            if (($this->i18n_getDefLangUid() === false)) {
+            if ((false === $this->i18n_getDefLangUid())) {
                 tx_mkforms_util_Div::mayday('DATAHANDLER: <b>/i18n/use</b> is active but no <b>/i18n/defLangUid</b> given');
             }
         }
@@ -57,18 +57,17 @@ class formidable_maindatahandler extends formidable_mainobject
     /**
      * Processes data returned by the HTML Form after validation, and only if validated
      * Note that this is only the 'abstract' definition of this function
-     *  as it must be overloaded in the specialized DataHandlers
-     *
-     * @return    void
+     *  as it must be overloaded in the specialized DataHandlers.
      */
     public function _doTheMagic($bShouldProcess = true)
     {
     }
 
     /**
-     * Returns the slashstripped GET vars array
+     * Returns the slashstripped GET vars array.
      *
-     * @return    array        GET vars array
+     * @return array GET vars array
+     *
      * @see    formidable_maindatahandler::_GP()
      */
     public function _G()
@@ -78,15 +77,16 @@ class formidable_maindatahandler extends formidable_mainobject
 
     /**
      * Returns the slashstripped POST vars array
-     *  merged with the _FILES vars array
+     *  merged with the _FILES vars array.
      *
-     * @return    array        POST vars array
+     * @return array POST vars array
+     *
      * @see    formidable_maindatahandler::_GP()
      */
     public function _P($sName = false)
     {
         $aRawPost = $this->getForm()->_getRawPost();
-        if ($sName !== false) {
+        if (false !== $sName) {
             if (array_key_exists($sName, $aRawPost)) {
                 return $aRawPost[$sName];
             } else {
@@ -98,9 +98,10 @@ class formidable_maindatahandler extends formidable_mainobject
     }
 
     /**
-     * Returns the slashstripped _FILES vars array
+     * Returns the slashstripped _FILES vars array.
      *
-     * @return    array        _FILES vars array
+     * @return array _FILES vars array
+     *
      * @see    formidable_maindatahandler::_P()
      */
     public function _F()
@@ -116,11 +117,11 @@ class formidable_maindatahandler extends formidable_mainobject
     /**
      * Returns the merged GET and POST arrays
      *  using the formidable_maindatahandler::_G() and formidable_maindatahandler::_P() functions
-     *  and therefore not slashstripped
+     *  and therefore not slashstripped.
      *
      *    POST overrides GET
      *
-     * @return    array        GET and POST vars array
+     * @return array GET and POST vars array
      */
     public function _GP()
     {
@@ -133,11 +134,11 @@ class formidable_maindatahandler extends formidable_mainobject
     /**
      * Returns the merged GET and POST arrays
      *  using the formidable_maindatahandler::_G() and formidable_maindatahandler::_P() functions
-     *  and therefore not slashstripped
+     *  and therefore not slashstripped.
      *
      *    GET overrides POST
      *
-     * @return    array        GET and POST vars array
+     * @return array GET and POST vars array
      */
     public function _PG()
     {
@@ -149,11 +150,10 @@ class formidable_maindatahandler extends formidable_mainobject
 
     /**
      * Determines if the FORM is submitted
-     *  using the AMEOSFORMIDABLE_SUBMITTED constant for naming the POSTED variable
+     *  using the AMEOSFORMIDABLE_SUBMITTED constant for naming the POSTED variable.
      *
-     * @return    bool
+     * @return bool
      */
-
     public function _getSubmittedValue($sFormId = false)
     {
         return $this->getForm()->getSubmittedValue($sFormId);
@@ -161,40 +161,40 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function _isSubmitted($sFormId = false)
     {
-        return ($this->_isFullySubmitted($sFormId) || $this->_isRefreshSubmitted($sFormId) || $this->_isTestSubmitted($sFormId)
+        return $this->_isFullySubmitted($sFormId) || $this->_isRefreshSubmitted($sFormId) || $this->_isTestSubmitted($sFormId)
             || $this->_isDraftSubmitted($sFormId)
             || $this->_isClearSubmitted($sFormId)
-            || $this->_isSearchSubmitted($sFormId));
+            || $this->_isSearchSubmitted($sFormId);
     }
 
     public function _isFullySubmitted($sFormId = false)
     {
-        return ($this->_getSubmittedValue($sFormId) == AMEOSFORMIDABLE_EVENT_SUBMIT_FULL);
+        return AMEOSFORMIDABLE_EVENT_SUBMIT_FULL == $this->_getSubmittedValue($sFormId);
     }
 
     public function _isRefreshSubmitted($sFormId = false)
     {
-        return ($this->_getSubmittedValue($sFormId) == AMEOSFORMIDABLE_EVENT_SUBMIT_REFRESH);
+        return AMEOSFORMIDABLE_EVENT_SUBMIT_REFRESH == $this->_getSubmittedValue($sFormId);
     }
 
     public function _isTestSubmitted($sFormId = false)
     {
-        return ($this->_getSubmittedValue($sFormId) == AMEOSFORMIDABLE_EVENT_SUBMIT_TEST);
+        return AMEOSFORMIDABLE_EVENT_SUBMIT_TEST == $this->_getSubmittedValue($sFormId);
     }
 
     public function _isDraftSubmitted($sFormId = false)
     {
-        return ($this->_getSubmittedValue($sFormId) == AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT);
+        return AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT == $this->_getSubmittedValue($sFormId);
     }
 
     public function _isClearSubmitted($sFormId = false)
     {
-        return ($this->_getSubmittedValue($sFormId) == AMEOSFORMIDABLE_EVENT_SUBMIT_CLEAR);
+        return AMEOSFORMIDABLE_EVENT_SUBMIT_CLEAR == $this->_getSubmittedValue($sFormId);
     }
 
     public function _isSearchSubmitted($sFormId = false)
     {
-        return ($this->_getSubmittedValue($sFormId) == AMEOSFORMIDABLE_EVENT_SUBMIT_SEARCH);
+        return AMEOSFORMIDABLE_EVENT_SUBMIT_SEARCH == $this->_getSubmittedValue($sFormId);
     }
 
     public function getSubmitter($sFormId = false)
@@ -230,7 +230,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function _processBeforeRender($aData)
     {
-        if (($mRunneable = $this->_navConf('/process/beforerender/')) !== false) {
+        if (false !== ($mRunneable = $this->_navConf('/process/beforerender/'))) {
             if ($this->getForm()->isRunneable($mRunneable)) {
                 $aData = $this->callRunneable(
                     $mRunneable,
@@ -306,8 +306,8 @@ class formidable_maindatahandler extends formidable_mainobject
         foreach ($aFormData as $sAbsName => $mData) {
             if (array_key_exists($sAbsName, $this->getForm()->aORenderlets)) {
                 if ($this->getForm()->useNewDataStructure()) {
-                    $this->getForm()->mayday('not implemented yet:' . __FILE__ . ':' . __LINE__);
-                    // data will be stored under abs name
+                    $this->getForm()->mayday('not implemented yet:'.__FILE__.':'.__LINE__);
+                // data will be stored under abs name
                 } else {
                     if (!$this->getForm()->getWidget($sAbsName)->_renderOnly()
                         && !$this->getForm()
@@ -330,10 +330,11 @@ class formidable_maindatahandler extends formidable_mainobject
     }
 
     /**
-     * Determines if something was not validated during the validation process
+     * Determines if something was not validated during the validation process.
      *
      * @deprecated use getForm()->getValidationTool()->isAllValid() from form!
-     * @return    bool    TRUE if everything is valid, FALSE if not
+     *
+     * @return bool TRUE if everything is valid, FALSE if not
      */
     public function _allIsValid()
     {
@@ -365,9 +366,9 @@ class formidable_maindatahandler extends formidable_mainobject
     /**
      * Determines if the DataHandler should work in 'edition' mode
      * Note that this is only the 'abstract' definition of this function
-     *  in the simple case where your DataHandler should never have to edit data
+     *  in the simple case where your DataHandler should never have to edit data.
      *
-     * @return    bool    TRUE if edition mode, FALSE if not
+     * @return bool TRUE if edition mode, FALSE if not
      */
     public function _edition()
     {
@@ -383,7 +384,7 @@ class formidable_maindatahandler extends formidable_mainobject
      * Gets the data previously stored by the DataHandler
      * for edition
      * Note that this is only the 'abstract' definition of this function
-     *  in the simple case where your DataHandler should never have to edit data
+     *  in the simple case where your DataHandler should never have to edit data.
      *
      * @param string|bool $sName
      *
@@ -393,7 +394,7 @@ class formidable_maindatahandler extends formidable_mainobject
      */
     public function _getStoredData($sName = false)
     {
-        if ($sName !== false) {
+        if (false !== $sName) {
             return '';
         }
 
@@ -415,7 +416,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $this->__aStoredData = array(); // Ist notwendig, da direkt auf das Array zugegriffen wird!
         $this->__aStoredData = $this->getStoredData();
         // Jetzt initRecord abfahren
-        if (($val = $this->getForm()->getConfig()->get('/control/datahandler/initrecord')) !== false) {
+        if (false !== ($val = $this->getForm()->getConfig()->get('/control/datahandler/initrecord'))) {
             $this->__aStoredData = $this->getForm()->getRunnable()->callRunnable($val, $this->__aStoredData);
         }
     }
@@ -444,7 +445,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
         $this->aProcessBeforeRenderData = false;
 
-        if (($aNewData = $this->_processBeforeRender($this->__aFormData)) !== false) {
+        if (false !== ($aNewData = $this->_processBeforeRender($this->__aFormData))) {
             $aDiff = $this->getForm()->array_diff_recursive($aNewData, $this->__aFormData);
             if (count($aDiff) > 0) {
                 $this->aProcessBeforeRenderData = $aDiff;
@@ -454,7 +455,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function alterVirginData($aData)
     {
-        if (($mRun = $this->_navConf('/altervirgindata')) !== false) {
+        if (false !== ($mRun = $this->_navConf('/altervirgindata'))) {
             if ($this->getForm()->isRunneable($mRun)) {
                 return $this->callRunneable($mRun, $aData);
             }
@@ -465,7 +466,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function alterSubmittedData($aData)
     {
-        if (($mRun = $this->_navConf('/altersubmitteddata')) !== false) {
+        if (false !== ($mRun = $this->_navConf('/altersubmitteddata'))) {
             if ($this->getForm()->isRunneable($mRun)) {
                 return $this->callRunneable($mRun, $aData);
             }
@@ -511,8 +512,8 @@ class formidable_maindatahandler extends formidable_mainobject
 
             Tx_Rnbase_Utility_T3General::stripSlashesOnArray($aP);
 
-            if (array_key_exists('AMEOSFORMIDABLE_ENTRYID', $aP) && trim($aP['AMEOSFORMIDABLE_ENTRYID']) !== '') {
-                return (int)$aP['AMEOSFORMIDABLE_ENTRYID'];
+            if (array_key_exists('AMEOSFORMIDABLE_ENTRYID', $aP) && '' !== trim($aP['AMEOSFORMIDABLE_ENTRYID'])) {
+                return (int) $aP['AMEOSFORMIDABLE_ENTRYID'];
             }
         }
 
@@ -546,7 +547,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
         return array(
             'labels' => $aLabels,
-            'values' => $aValues
+            'values' => $aValues,
         );
     }
 
@@ -562,12 +563,12 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function isIterating()
     {
-        return $this->__aListData !== false;
+        return false !== $this->__aListData;
     }
 
     public function _getListData($sKey = false)
     {
-        if ($this->__aListData === false) {
+        if (false === $this->__aListData) {
             return false;
         }
 
@@ -576,7 +577,7 @@ class formidable_maindatahandler extends formidable_mainobject
             return false;
         }
 
-        if ($sKey !== false) {
+        if (false !== $sKey) {
             if (array_key_exists($sKey, $this->__aListData[$iLastListData])) {
                 return $this->__aListData[$iLastListData][$sKey];
             } else {
@@ -593,7 +594,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function _getParentListData($sKey = false)
     {
-        if ($sKey !== false) {
+        if (false !== $sKey) {
             if (array_key_exists($sKey, $this->__aParentListData)) {
                 reset($this->__aParentListData);
 
@@ -617,7 +618,7 @@ class formidable_maindatahandler extends formidable_mainobject
     {
         // http://lists.netfielders.de/pipermail/typo3-at/2005-November/007373.html
 
-        if ($this->getForm()->rdt('sys_language_uid') !== false) {
+        if (false !== $this->getForm()->rdt('sys_language_uid')) {
             return $this->getForm()->rdt('sys_language_uid')->getValue();
         } else {
             return $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'];
@@ -626,16 +627,16 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function i18n_getChildRecords($iParentUid)
     {
-        if (($sTableName = $this->tableName()) !== false) {
+        if (false !== ($sTableName = $this->tableName())) {
             $aRecords = array();
 
-            $rSql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            $rows = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
                 '*',
                 $sTableName,
-                "l18n_parent='" . $iParentUid . "'"
+                ['where' => "l18n_parent='".$iParentUid."'"]
             );
 
-            while (($aRs = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($rSql)) !== false) {
+            foreach ($rows as $aRs) {
                 $aRecords[$aRs['sys_language_uid']] = $aRs;
             }
 
@@ -656,16 +657,17 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function getT3Languages()
     {
-        if ($this->aT3Languages === false) {
+        if (false === $this->aT3Languages) {
             $this->aT3Languages = array();
 
-            $rSql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            $databaseConnection = Tx_Rnbase_Database_Connection::getInstance();
+            $rows = $databaseConnection->doSelect(
                 '*',
                 'sys_language',
-                '1=1' . $this->getForm()->getCObj()->enableFields('sys_language')//"hidden=0"
+                ['where' => '1=1'.$databaseConnection->enableFields('sys_language')]
             );
 
-            while (($aRs = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($rSql)) !== false) {
+            foreach ($rows as $aRs) {
                 $this->aT3Languages[$aRs['uid']] = $aRs;
             }
         }
@@ -687,7 +689,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function keyName()
     {
-        if (($sKey = $this->getForm()->_navConf('/control/datahandler/keyname')) === false) {
+        if (false === ($sKey = $this->getForm()->_navConf('/control/datahandler/keyname'))) {
             return 'uid';
         }
 
@@ -712,7 +714,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function i18n_getThisStoredParent($sField, $bStrict = true)
     {
-        if (($aStoredParent = $this->i18n_getStoredParent($bStrict)) !== false) {
+        if (false !== ($aStoredParent = $this->i18n_getStoredParent($bStrict))) {
             if (array_key_exists($sField, $aStoredParent)) {
                 return $aStoredParent[$sField];
             }
@@ -727,12 +729,12 @@ class formidable_maindatahandler extends formidable_mainobject
             return '';
         }
 
-        if ($this->getForm()->getWidget($sAbsName)->bForcedValue === true) {
+        if (true === $this->getForm()->getWidget($sAbsName)->bForcedValue) {
             return $this->getForm()->getWidget($sAbsName)->mForcedValue;
         }
 
         if ($this->getForm()->getWidget($sAbsName)->i18n_shouldNotTranslate()) {
-            if (($aStoredI18NParent = $this->i18n_getStoredParent(true)) !== false) {
+            if (false !== ($aStoredI18NParent = $this->i18n_getStoredParent(true))) {
                 // TODO: do a better mapping between rdt name and the data structure
                 // like databridges, see $this->getRdtValue_noSubmit_edit()
 
@@ -750,7 +752,7 @@ class formidable_maindatahandler extends formidable_mainobject
                 return $this->getRdtValue_noSubmit_noEdit($sAbsName);
             }
         } elseif ($this->getForm()->getWidget($sAbsName)->_isSubmitted()) {
-            if ($this->getForm()->iForcedEntryId !== false) {
+            if (false !== $this->getForm()->iForcedEntryId) {
                 // we have to use a fresh new record from database
                 // so let noSubmit_edit do the job (meaning: don't consider values from submitted POST, but only those from DB)
 
@@ -758,7 +760,7 @@ class formidable_maindatahandler extends formidable_mainobject
             } else {
                 $widget = $this->getForm()->getWidget($sAbsName);
                 $mValue = $widget->__getValue();
-                if ($mValue === false) {
+                if (false === $mValue) {
                     if ($widget->_readOnly()) {
                         if ($widget->_edition()) {
                             return $this->getRdtValue_submit_readonly_edition($sAbsName);
@@ -787,12 +789,11 @@ class formidable_maindatahandler extends formidable_mainobject
 
     /**
      * prüft ob alle daten in dem array auch durch tatsächliche widgets
-     * repräsentiert werden
+     * repräsentiert werden.
      *
      * @param array  $aGP      das array mit den widgets und deren wert. für geöhnlich $_GET und $_POST
      * @param string $sAbsName der absolute name des aktuellen widgets
      *
-     * @return void
      * @todo auch bei listern prüfen ob übergebene daten auch als column im xml sind. tests bereits erstellt und schlagen aktuell
      *       fehl!
      */
@@ -817,9 +818,9 @@ class formidable_maindatahandler extends formidable_mainobject
         $sRelPath = is_object($widget) ? $widget->getName() : '';
 
         // Hier gibt es anscheinend einen Einstiegspunkt, um den aktuellen Wert zu manipulieren
-        if ($this->aProcessBeforeRenderData !== false
-            && (($mValue = $this->getForm()->navDeepData($sPath, $this->aProcessBeforeRenderData)) !== false
-                || ($mValue = $this->getForm()->navDeepData($sRelPath, $this->aProcessBeforeRenderData)) !== false)
+        if (false !== $this->aProcessBeforeRenderData
+            && (false !== ($mValue = $this->getForm()->navDeepData($sPath, $this->aProcessBeforeRenderData))
+                || false !== ($mValue = $this->getForm()->navDeepData($sRelPath, $this->aProcessBeforeRenderData)))
         ) {
             return $widget->_unFlatten($mValue);
         }
@@ -840,11 +841,11 @@ class formidable_maindatahandler extends formidable_mainobject
             $sHtmlId = $widget->getElementId();
 
             // removing the formid. prefix
-            $sHtmlId = substr($sHtmlId, strlen($this->getForm()->getFormId() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN));
+            $sHtmlId = substr($sHtmlId, strlen($this->getForm()->getFormId().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN));
 
             // converting id to data path
             $sAbsPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sHtmlId);
-            if (($aRes = $this->getForm()->navDeepData($sAbsPath, $aGP)) !== false) {
+            if (false !== ($aRes = $this->getForm()->navDeepData($sAbsPath, $aGP))) {
                 //es werden nur Renderlets akzeptiert, die auch im XML vorhanden sind!!!
                 if ($this->getForm()->getConfTS('checkWidgetsExist')) {
                     $this->checkWidgetsExist($aRes, $sAbsName);
@@ -868,7 +869,7 @@ class formidable_maindatahandler extends formidable_mainobject
         }
 
         //get defaultValue if no value is set
-        if (is_object($widget) && ($mValue = $widget->__getDefaultValue()) !== false) {
+        if (is_object($widget) && false !== ($mValue = $widget->__getDefaultValue())) {
             return $this->getForm()->getWidget($sAbsName)->_unFlatten($mValue);
         }
 
@@ -898,12 +899,12 @@ class formidable_maindatahandler extends formidable_mainobject
 
         $sPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sName);
 
-        if (($mValue = $this->getForm()->aORenderlets[$sName]->__getValue()) !== false
+        if (false !== ($mValue = $this->getForm()->aORenderlets[$sName]->__getValue())
         ) {            // value is prioritary if submitted
             return $this->getForm()->aORenderlets[$sName]->_unFlatten($mValue);
-        } elseif (($mValue = $this->getForm()->aORenderlets[$sName]->__getDefaultValue()) !== false) {
+        } elseif (false !== ($mValue = $this->getForm()->aORenderlets[$sName]->__getDefaultValue())) {
             return $this->getForm()->aORenderlets[$sName]->_unFlatten($mValue);
-        } elseif (($mValue = $this->getForm()->navDeepData($sPath, $aGP)) !== false) {
+        } elseif (false !== ($mValue = $this->getForm()->navDeepData($sPath, $aGP))) {
             // if rdt has no childs, do not use the posted data, as it will contain the post-flag "1"
             if ($this->getForm()->aORenderlets[$sName]->hasChilds()) {
                 // this is needed as refreshFormData() only works on root-renderlets (no parents)
@@ -935,16 +936,16 @@ class formidable_maindatahandler extends formidable_mainobject
         $sPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sName);
         $sRelPath = $widget->getName();
 
-        if (($mValue = $widget->__getValue()) !== false) {
+        if (false !== ($mValue = $widget->__getValue())) {
             return $widget->_unFlatten($mValue);
-        } elseif ($this->aProcessBeforeRenderData !== false
-            && (($mValue = $this->getForm()->navDeepData($sPath, $this->aProcessBeforeRenderData)) !== false
-                || ($mValue = $this->getForm()->navDeepData($sRelPath, $this->aProcessBeforeRenderData)) !== false)
+        } elseif (false !== $this->aProcessBeforeRenderData
+            && (false !== ($mValue = $this->getForm()->navDeepData($sPath, $this->aProcessBeforeRenderData))
+                || false !== ($mValue = $this->getForm()->navDeepData($sRelPath, $this->aProcessBeforeRenderData)))
         ) {
             return $widget->_unFlatten($mValue);
-        } elseif (($mValue = $this->getForm()->navDeepData($sPath, $aGP)) !== false) {
+        } elseif (false !== ($mValue = $this->getForm()->navDeepData($sPath, $aGP))) {
             return $widget->_unFlatten($mValue);
-        } elseif (($mValue = $widget->__getDefaultValue()) !== false) {
+        } elseif (false !== ($mValue = $widget->__getDefaultValue())) {
             return $widget->_unFlatten($mValue);
         }
     }
@@ -952,13 +953,13 @@ class formidable_maindatahandler extends formidable_mainobject
     public function getRdtValue_noSubmit_edit($sAbsName)
     {
         if (array_key_exists($sAbsName, $this->getForm()->aORenderlets)) {
-            if (($mValue = $this->getForm()->getWidget($sAbsName)->__getValue()) !== false) {    // value a toujours le dessus
+            if (false !== ($mValue = $this->getForm()->getWidget($sAbsName)->__getValue())) {    // value a toujours le dessus
                 return $this->getForm()->getWidget($sAbsName)->_unFlatten($mValue);
             } else {
                 $mRes = null;
 
                 if ($this->getForm()->getWidget($sAbsName)->hasDataBridge()) {
-                    $oDataSet =& $this->getForm()->getWidget($sAbsName)->dbridged_getCurrentDsetObject();
+                    $oDataSet = &$this->getForm()->getWidget($sAbsName)->dbridged_getCurrentDsetObject();
 
                     // sure that dataset is anchored, as we already tested it to be in noSubmit_edit
                     $aData = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(// allowing GET to set values
@@ -966,8 +967,8 @@ class formidable_maindatahandler extends formidable_mainobject
                         $this->_G()
                     );
 
-                    if (($sMappedPath = $this->getForm()->getWidget($sAbsName)->dbridged_mapPath()) !== false) {
-                        if (($mData = $this->getForm()->navDeepData($sMappedPath, $aData)) !== false) {
+                    if (false !== ($sMappedPath = $this->getForm()->getWidget($sAbsName)->dbridged_mapPath())) {
+                        if (false !== ($mData = $this->getForm()->navDeepData($sMappedPath, $aData))) {
                             $mRes = $mData;
                         }
                     }
@@ -975,9 +976,9 @@ class formidable_maindatahandler extends formidable_mainobject
                     $sPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sAbsName);
                     $sRelPath = $this->getForm()->getWidget($sAbsName)->getName();
 
-                    if ($this->aProcessBeforeRenderData !== false
-                        && (($mValue = $this->getForm()->navDeepData($sPath, $this->aProcessBeforeRenderData)) !== false
-                            || ($mValue = $this->getForm()->navDeepData($sRelPath, $this->aProcessBeforeRenderData)) !== false)
+                    if (false !== $this->aProcessBeforeRenderData
+                        && (false !== ($mValue = $this->getForm()->navDeepData($sPath, $this->aProcessBeforeRenderData))
+                            || false !== ($mValue = $this->getForm()->navDeepData($sRelPath, $this->aProcessBeforeRenderData)))
                     ) {
                         return $this->getForm()->getWidget($sAbsName)->_unFlatten($mValue);
                     }
@@ -999,7 +1000,7 @@ class formidable_maindatahandler extends formidable_mainobject
                 }
                 //@TODO War auskommentiert, warum!?
                 if (is_null($mRes) || $this->getForm()->getWidget($sAbsName)->_emptyFormValue($mRes)) {
-                    if (($mValue = $this->getForm()->getWidget($sAbsName)->__getDefaultValue()) !== false) {
+                    if (false !== ($mValue = $this->getForm()->getWidget($sAbsName)->__getDefaultValue())) {
                         return $this->getForm()->getWidget($sAbsName)->_unFlatten($mValue);
                     }
                 }
@@ -1015,5 +1016,5 @@ class formidable_maindatahandler extends formidable_mainobject
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.maindatahandler.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.maindatahandler.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.maindatahandler.php'];
 }

@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_renderer_be_Main extends formidable_mainrenderer
 {
     public function _render($aRendered)
@@ -14,10 +12,10 @@ class tx_mkforms_renderer_be_Main extends formidable_mainrenderer
         $sForm = $this->_collate($aRendered);
 
         if (!$this->oForm->oDataHandler->_allIsValid()) {
-            $sValidationErrors = implode('<br />', $this->oForm->_aValidationErrors) . '<hr />';
+            $sValidationErrors = implode('<br />', $this->oForm->_aValidationErrors).'<hr />';
         }
 
-        return $this->_wrapIntoForm($sValidationErrors . $sForm);
+        return $this->_wrapIntoForm($sValidationErrors.$sForm);
     }
 
     public function _collate($aHtml)
@@ -28,7 +26,7 @@ class tx_mkforms_renderer_be_Main extends formidable_mainrenderer
             reset($aHtml);
 
             foreach ($aHtml as $sName => $aChannels) {
-                $sHtml .= "\n<p>" . str_replace('{PARENTPATH}', $this->oForm->_getParentExtSitePath(), $aChannels['__compiled']) . "</p>\n";
+                $sHtml .= "\n<p>".str_replace('{PARENTPATH}', $this->oForm->_getParentExtSitePath(), $aChannels['__compiled'])."</p>\n";
             }
         }
 
@@ -36,7 +34,6 @@ class tx_mkforms_renderer_be_Main extends formidable_mainrenderer
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_be/api/class.tx_rdrbe.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_be/api/class.tx_rdrbe.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_be/api/class.tx_rdrbe.php'];
 }

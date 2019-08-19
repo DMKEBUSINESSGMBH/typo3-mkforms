@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
 {
     public $aLibs = array(
@@ -17,7 +15,6 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
             array(
@@ -33,14 +30,17 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
     {
         return $this->_render();
     }
+
     public function _readOnly()
     {
         return true;
     }
+
     public function _renderOnly($bForAjax = false)
     {
         return true;
     }
+
     public function mayHaveChilds()
     {
         return true;
@@ -65,14 +65,14 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
      */
     public function majixShowBox($aConfig = array(), $aTags = array())
     {
-        if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
+        if ('EID' !== tx_mkforms_util_Div::getEnvExecMode()) {
             $aEventsBefore = array_keys($this->oForm->aRdtEvents);
         }
 
         $aChildsBag = $this->renderChildsBag();
         $aChildsBag = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aChildsBag, $aTags);
 
-        if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
+        if ('EID' !== tx_mkforms_util_Div::getEnvExecMode()) {
             $aEventsAfter = array_keys($this->oForm->aRdtEvents);
             $aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
             $aAddedEvents = array();
@@ -113,10 +113,10 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
         $oJsLoader = $this->getForm()->getJSLoader();
         $oJsLoader->loadScriptaculous();
 
-        $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('ameos_formidable') . 'api/base/rdt_modalbox/res/js/modalbox.js';
+        $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('ameos_formidable').'api/base/rdt_modalbox/res/js/modalbox.js';
 
         $oForm->additionalHeaderData(
-            '<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sPath) . '"></script>',
+            '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($sPath).'"></script>',
             'rdt_modalbox_class'
         );
     }
@@ -138,7 +138,6 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox/api/class.tx_rdtmodalbox.php'];
 }

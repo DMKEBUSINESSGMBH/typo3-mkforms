@@ -36,29 +36,29 @@
  * SOFTWARE.
  * --
  *
- * @package JSMin
  * @author Ryan Grove <ryan@wonko.com>
  * @copyright 2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
  * @copyright 2007 Ryan Grove <ryan@wonko.com> (PHP port)
  * @license http://opensource.org/licenses/mit-license.php MIT License
+ *
  * @version 1.0.0 (2007-05-04)
- * @link http://code.google.com/p/jsmin-php/
+ *
+ * @see http://code.google.com/p/jsmin-php/
  */
-
 define('ORD_LF', 10);
 define('ORD_SPACE', 32);
 
 class JSMin
 {
-    public $a           = '';
-    public $b           = '';
-    public $input       = '';
-    public $inputIndex  = 0;
+    public $a = '';
+    public $b = '';
+    public $input = '';
+    public $inputIndex = 0;
     public $inputLength = 0;
-    public $lookAhead   = null;
-    public $output      = array();
+    public $lookAhead = null;
+    public $output = array();
 
-  // -- Public Static Methods --------------------------------------------------
+    // -- Public Static Methods --------------------------------------------------
 
     public function minify($js)
     {
@@ -67,15 +67,15 @@ class JSMin
         return $jsmin->jsminify();
     }
 
-  // -- Public Instance Methods ------------------------------------------------
+    // -- Public Instance Methods ------------------------------------------------
 
     public function __construct($input)
     {
-        $this->input       = $input;
+        $this->input = $input;
         $this->inputLength = strlen($input);
     }
 
-  // -- Protected Instance Methods ---------------------------------------------
+    // -- Protected Instance Methods ---------------------------------------------
 
     public function action($d)
     {
@@ -83,13 +83,14 @@ class JSMin
             case 1:
                   $this->output[] = $this->a;
 
+                  // no break
             case 2:
                   $this->a = $this->b;
 
-                if ($this->a === "'" || $this->a === '"') {
+                if ("'" === $this->a || '"' === $this->a) {
                     for (;;) {
                         $this->output[] = $this->a;
-                        $this->a        = $this->get();
+                        $this->a = $this->get();
 
                         if ($this->a === $this->b) {
                             break;
@@ -99,39 +100,40 @@ class JSMin
                             die('Unterminated string literal.');
                         }
 
-                        if ($this->a === '\\') {
+                        if ('\\' === $this->a) {
                             $this->output[] = $this->a;
-                            $this->a        = $this->get();
+                            $this->a = $this->get();
                         }
                     }
                 }
 
+                // no break
             case 3:
                   $this->b = $this->next();
 
-                if ($this->b === '/' && (
-                      $this->a === '(' || $this->a === ',' || $this->a === '=' ||
-                      $this->a === ':' || $this->a === '[' || $this->a === '!' ||
-                      $this->a === '&' || $this->a === '|' || $this->a === '?')) {
-                      $this->output[] = $this->a;
-                      $this->output[] = $this->b;
+                if ('/' === $this->b && (
+                      '(' === $this->a || ',' === $this->a || '=' === $this->a ||
+                      ':' === $this->a || '[' === $this->a || '!' === $this->a ||
+                      '&' === $this->a || '|' === $this->a || '?' === $this->a)) {
+                    $this->output[] = $this->a;
+                    $this->output[] = $this->b;
 
                     for (;;) {
-                              $this->a = $this->get();
+                        $this->a = $this->get();
 
-                        if ($this->a === '/') {
+                        if ('/' === $this->a) {
                             break;
-                        } elseif ($this->a === '\\') {
-                              $this->output[] = $this->a;
-                              $this->a        = $this->get();
+                        } elseif ('\\' === $this->a) {
+                            $this->output[] = $this->a;
+                            $this->a = $this->get();
                         } elseif (ord($this->a) <= ORD_LF) {
-                              die('Unterminated regular expression literal.');
+                            die('Unterminated regular expression literal.');
                         }
 
-                                $this->output[] = $this->a;
+                        $this->output[] = $this->a;
                     }
 
-                        $this->b = $this->next();
+                    $this->b = $this->next();
                 }
         }
     }
@@ -141,20 +143,20 @@ class JSMin
         $c = $this->lookAhead;
         $this->lookAhead = null;
 
-        if ($c === null) {
+        if (null === $c) {
             if ($this->inputIndex < $this->inputLength) {
                 $c = $this->input[$this->inputIndex];
-                $this->inputIndex += 1;
+                ++$this->inputIndex;
             } else {
                 $c = null;
             }
         }
 
-        if ($c === "\r") {
+        if ("\r" === $c) {
             return "\n";
         }
 
-        if ($c === null || $c === "\n" || ord($c) >= ORD_SPACE) {
+        if (null === $c || "\n" === $c || ord($c) >= ORD_SPACE) {
             return $c;
         }
 
@@ -163,7 +165,7 @@ class JSMin
 
     public function isAlphaNum($c)
     {
-        return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;
+        return ord($c) > 126 || '\\' === $c || 1 === preg_match('/^[\w\$]$/', $c);
     }
 
     public function jsminify()
@@ -171,13 +173,13 @@ class JSMin
         $this->a = "\n";
         $this->action(3);
 
-        while ($this->a !== null) {
+        while (null !== $this->a) {
             switch ($this->a) {
                 case ' ':
                     if ($this->isAlphaNum($this->b)) {
                         $this->action(1);
                     } else {
-                          $this->action(2);
+                        $this->action(2);
                     }
                     break;
 
@@ -197,9 +199,9 @@ class JSMin
 
                         default:
                             if ($this->isAlphaNum($this->b)) {
-                                  $this->action(1);
+                                $this->action(1);
                             } else {
-                                  $this->action(2);
+                                $this->action(2);
                             }
                     }
                     break;
@@ -229,9 +231,9 @@ class JSMin
 
                                 default:
                                     if ($this->isAlphaNum($this->a)) {
-                                          $this->action(1);
+                                        $this->action(1);
                                     } else {
-                                          $this->action(3);
+                                        $this->action(3);
                                     }
                             }
                             break;
@@ -250,7 +252,7 @@ class JSMin
     {
         $c = $this->get();
 
-        if ($c === '/') {
+        if ('/' === $c) {
             switch ($this->peek()) {
                 case '/':
                     for (;;) {
@@ -261,16 +263,17 @@ class JSMin
                         }
                     }
 
+                    // no break
                 case '*':
                           $this->get();
 
                     for (;;) {
                         switch ($this->get()) {
                             case '*':
-                                if ($this->peek() === '/') {
-                                      $this->get();
+                                if ('/' === $this->peek()) {
+                                    $this->get();
 
-                                      return ' ';
+                                    return ' ';
                                 }
                                 break;
 
@@ -279,6 +282,7 @@ class JSMin
                         }
                     }
 
+                    // no break
                 default:
                     return $c;
             }
@@ -296,5 +300,5 @@ class JSMin
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/res/minify/minify.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/res/minify/minify.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/res/minify/minify.php'];
 }

@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 {
     public $aLibs = array(
@@ -29,8 +27,8 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 'parameter' => $sValue,
                 'additionalParams' => '',
             ));
-        } elseif ((($iPageId = $this->_navConf('pageid')) !== false) ||
-            (($iPageId = $this->_navConf('pid')) !== false)
+        } elseif ((false !== ($iPageId = $this->_navConf('pageid'))) ||
+            (false !== ($iPageId = $this->_navConf('pid')))
         ) {
             if ($this->oForm->isRunneable($iPageId)) {
                 $iPageId = $this->getForm()->getRunnable()->callRunnableWidget($this, $iPageId);
@@ -39,12 +37,12 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
             $sUrl = $this->getForm()->getCObj()->typoLink_URL(array(
                 'parameter' => $iPageId ? $iPageId : $GLOBALS['TSFE']->id,
                 'additionalParams' => '',
-                'forceAbsoluteUrl' => $absoluteUrl
+                'forceAbsoluteUrl' => $absoluteUrl,
             ));
         } else {
             $sUrl = $this->_navConf('/href');
 
-            if ($sUrl === false) {
+            if (false === $sUrl) {
                 $sUrl = $this->_navConf('/url');
             }
 
@@ -64,19 +62,19 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
             }
         }
 
-        if (($sAnchor = $this->_navConf('/anchor')) !== false) {
+        if (false !== ($sAnchor = $this->_navConf('/anchor'))) {
             if ($this->oForm->isRunneable($sAnchor)) {
                 $sAnchor = $this->getForm()->getRunnable()->callRunnableWidget($this, $sAnchor);
             }
 
-            if (is_string($sAnchor) && $sAnchor !== '') {
+            if (is_string($sAnchor) && '' !== $sAnchor) {
                 $sAnchor = str_replace('#', '', $sAnchor);
             } else {
                 $sAnchor = '';
             }
 
-            if ($sAnchor !== '') {
-                if ($sUrl === false) {
+            if ('' !== $sAnchor) {
+                if (false === $sUrl) {
                     $sUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI');
                 }
 
@@ -84,21 +82,19 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                     $sAnchor = $this->oForm->aORenderlets[$sAnchor]->_getElementHtmlId();
                 }
 
-                $sAnchor = '#' . $sAnchor;
+                $sAnchor = '#'.$sAnchor;
             }
         }
 
-        if ($sUrl !== false) {
-            if ($sAnchor !== false) {
-                $sHref = $sUrl . $sAnchor;
+        if (false !== $sUrl) {
+            if (false !== $sAnchor) {
+                $sHref = $sUrl.$sAnchor;
             } else {
                 $sHref = $sUrl;
             }
         } else {
             $sHref = false;
         }
-
-
 
         $aHtmlBag = array(
             'url' => $sUrl,
@@ -108,7 +104,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 'begin' => '',
                 'innerhtml' => '',
                 'end' => '',
-            )
+            ),
         );
 
         if (!$this->oForm->_isTrue('/urlonly', $this->aElement)) {
@@ -124,7 +120,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                     $sCaption = $sHref;
                 }
 
-                if (($sLabel = $this->getLabel()) !== '') {
+                if ('' !== ($sLabel = $this->getLabel())) {
                     $sCaption = $sLabel;
                 } else {
                     $aItems = $this->_getItems();
@@ -136,24 +132,24 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 }
             }
 
-            if ($sCaption === false) {
+            if (false === $sCaption) {
                 $sCaption = '';
             }
 
             $aHtmlBag['caption'] = $sCaption;
 
-            if ($sHref !== false) {
-                $aHtmlBag['tag.']['begin'] = '<a ' . ($sHref != '' ? 'href="' . $sHref . '"' : '') . ' id="' . $this->_getElementHtmlId() . '"' . $this->_getAddInputParams() . '>';
+            if (false !== $sHref) {
+                $aHtmlBag['tag.']['begin'] = '<a '.('' != $sHref ? 'href="'.$sHref.'"' : '').' id="'.$this->_getElementHtmlId().'"'.$this->_getAddInputParams().'>';
                 $aHtmlBag['tag.']['innerhtml'] = $sCaption;
                 $aHtmlBag['tag.']['end'] = '</a>';
             } else {
-                $aHtmlBag['tag.']['begin'] = '<span id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . '>';
+                $aHtmlBag['tag.']['begin'] = '<span id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().'>';
                 $aHtmlBag['tag.']['innerhtml'] = $sCaption;
                 $aHtmlBag['tag.']['end'] = '</span>';
             }
 
-            $sCompiled = $aHtmlBag['tag.']['begin'] . $aHtmlBag['tag.']['innerhtml'] . $aHtmlBag['tag.']['end'];
-            $aHtmlBag['wrap'] = $aHtmlBag['tag.']['begin'] . '|' . $aHtmlBag['tag.']['end'];
+            $sCompiled = $aHtmlBag['tag.']['begin'].$aHtmlBag['tag.']['innerhtml'].$aHtmlBag['tag.']['end'];
+            $aHtmlBag['wrap'] = $aHtmlBag['tag.']['begin'].'|'.$aHtmlBag['tag.']['end'];
         } else {
             $sCompiled = $sHref;
         }
@@ -162,7 +158,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 
         $this->includeScripts(array(
             // Timeout in ms
-            'followTimeout' => ($timeout = $this->_navConf('/followtimeout')) === false ? 0 : (int)$timeout,
+            'followTimeout' => false === ($timeout = $this->_navConf('/followtimeout')) ? 0 : (int) $timeout,
         ));
 
         return $aHtmlBag;
@@ -197,8 +193,8 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
     public function _getAddInputParamsArray($aAdditional = array())
     {
         $aAddParams = parent::_getAddInputParamsArray();
-        if (($sTarget = $this->_navConf('/target')) !== false) {
-            $aAddParams[] = ' target="' . $sTarget . '" ';
+        if (false !== ($sTarget = $this->_navConf('/target'))) {
+            $aAddParams[] = ' target="'.$sTarget.'" ';
         }
 
         reset($aAddParams);
@@ -212,7 +208,6 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_link/api/class.tx_rdtlink.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_link/api/class.tx_rdtlink.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_link/api/class.tx_rdtlink.php'];
 }

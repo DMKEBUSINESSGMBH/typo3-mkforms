@@ -11,7 +11,6 @@
 // => Voir fichier Licence_CeCILL_V2-fr.txt)
 // -----------------------------------------------
 
-
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 setcookie('cryptcookietest', '1');

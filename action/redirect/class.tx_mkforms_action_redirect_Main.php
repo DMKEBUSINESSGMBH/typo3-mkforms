@@ -16,11 +16,11 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
             return;
         }
 
-        if (($mPage = $this->_navConf('/pageid')) !== false) {
+        if (false !== ($mPage = $this->_navConf('/pageid'))) {
             $mPage = $this->callRunneable($mPage);
             $sUrl = $this->getForm()->getCObj()->typoLink_URL(array('parameter' => $mPage));
-            if (!Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sUrl, 'http://') && trim($GLOBALS['TSFE']->baseUrl) !== '') {
-                $sUrl = tx_mkforms_util_Div::removeEndingSlash($GLOBALS['TSFE']->baseUrl) . '/' . $sUrl;
+            if (!Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sUrl, 'http://') && '' !== trim($GLOBALS['TSFE']->baseUrl)) {
+                $sUrl = tx_mkforms_util_Div::removeEndingSlash($GLOBALS['TSFE']->baseUrl).'/'.$sUrl;
             }
         } else {
             $sUrl = $this->_navConf('/url');
@@ -30,10 +30,10 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
         if ($this->getForm()->isTestMode()) {
             return $sUrl;
         } else {
-            if (is_string($sUrl) && trim($sUrl) !== '') {
+            if (is_string($sUrl) && '' !== trim($sUrl)) {
                 header('HTTP/1.1 303 See Other');
                 header('Status: 303 See Other');
-                header('Location: ' . $sUrl);
+                header('Location: '.$sUrl);
                 exit();
             }
         }
@@ -43,5 +43,5 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/redirect/class.tx_mkforms_action_redirect_Main.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/redirect/class.tx_mkforms_action_redirect_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/action/redirect/class.tx_mkforms_action_redirect_Main.php'];
 }

@@ -26,13 +26,10 @@
  *
  * @author  J�r�my Lecour <jeremy.lecour@nurungrandsud.com>
  */
-
-
 class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
 {
-
     /**
-     * Beispiel Regex:
+     * Beispiel Regex:.
      *
      * keine Zahlen erlaubt: !/[0-9]/
      * nur Zahlen erlaubt: /[0-9]/
@@ -46,7 +43,7 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
         $sAbsName = $oRdt->getAbsName();
         $sValue = $oRdt->getValue();
 
-        if ($sValue === '') {
+        if ('' === $sValue) {
             // never evaluate if value is empty
             // as this is left to STANDARD:required
             return;
@@ -61,18 +58,18 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
             }
 
             //pattern
-            if ($sKey{0} === 'p' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'pattern')) {
-                $sPattern = $this->_navConf('/' . $sKey . '/value');
+            if ('p' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'pattern')) {
+                $sPattern = $this->_navConf('/'.$sKey.'/value');
 
                 if (!$this->_isValid($sPattern)) {
-                    $this->oForm->mayday('<b>validator:PREG</b> on renderlet ' . $sAbsName . ': the given regular expression pattern seems to be not valid');
+                    $this->oForm->mayday('<b>validator:PREG</b> on renderlet '.$sAbsName.': the given regular expression pattern seems to be not valid');
                 }
 
                 if (!$this->_isMatch($sPattern, $sValue)) {
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'PREG:pattern',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
                     );
 
                     break;
@@ -88,10 +85,10 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
 
     public function _isMatch($sPattern, $value)
     {
-        if ($value == '') {
+        if ('' == $value) {
             return true;
         }
-        if ($sPattern{0} == '!') {
+        if ('!' == $sPattern[0]) {
             return !preg_match(substr($sPattern, 1), $value);
         }
 
@@ -100,5 +97,5 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/preg/class.tx_mkforms_validator_preg_Main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/preg/class.tx_mkforms_validator_preg_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/preg/class.tx_mkforms_validator_preg_Main.php'];
 }

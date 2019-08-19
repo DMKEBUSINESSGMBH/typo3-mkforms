@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_validator_db_Main extends formidable_mainvalidator
 {
     public function validate(&$oRdt)
@@ -27,7 +25,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ($sKey{0} === 'u' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'unique')) {
+            if ('u' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'unique')) {
                 // field value has to be unique in the database
                 // checking this
 
@@ -35,7 +33,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'DB:unique',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message/'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'))
                     );
 
                     break;
@@ -46,7 +44,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            elseif ($sKey{0} === 'd' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'differsfromdb')) {
+            elseif ('d' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'differsfromdb')) {
                 // field value has to differ from the one in the database
                 // checking this
 
@@ -54,7 +52,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'DB:differsfromdb',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message/'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'))
                     );
 
                     break;
@@ -64,19 +62,20 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see formidable_mainvalidator::_isUnique()
      */
     public function _isUnique(&$oRdt, $value)
     {
-        if (($sTable = $this->_navConf('/unique/tablename')) !== false) {
-            if (($sField = $this->_navConf('/unique/field')) === false) {
+        if (false !== ($sTable = $this->_navConf('/unique/tablename'))) {
+            if (false === ($sField = $this->_navConf('/unique/field'))) {
                 $sField = $oRdt->getName();
             }
             $aDhConf = $this->oForm->_navConf('/control/datahandler/');
             $sKey = $aDhConf['keyname'];
         } else {
-            if ($oRdt->hasDataBridge() && ($oRdt->oDataBridge->oDataSource->_getType() === 'DB')) {
+            if ($oRdt->hasDataBridge() && ('DB' === $oRdt->oDataBridge->oDataSource->_getType())) {
                 $sKey = $oRdt->oDataBridge->oDataSource->sKey;
                 $sTable = $oRdt->oDataBridge->oDataSource->sTable;
                 $sField = $oRdt->dbridged_mapPath();
@@ -91,22 +90,22 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
         $value = addslashes($value);
 
         $where = array();
-        $where[] = $sField . ' = ' . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($value, '');
+        $where[] = $sField.' = '.Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($value, '');
 
-        if ($this->_defaultFalse('/unique/deleted/') === true) {
+        if (true === $this->_defaultFalse('/unique/deleted/')) {
             $field = tx_rnbase_util_TCA::getDeletedFieldForTable($sTable);
             $field = empty($field) ? 'deleted' : $field;
-            $where[] = $field . ' != 1';
+            $where[] = $field.' != 1';
         }
-        if ($this->_defaultFalse('/unique/disabled/') === true) {
+        if (true === $this->_defaultFalse('/unique/disabled/')) {
             $field = tx_rnbase_util_TCA::getDisabledFieldForTable($sTable);
             $field = empty($field) ? 'hidden' : $field;
-            $where[] = $field . ' != 1';
+            $where[] = $field.' != 1';
         }
 
         $datahandler = $this->getForm()->getDataHandler();
         if ($datahandler->_edition() && !$this->_defaultFalse('/unique/skipedition/')) {
-            $where[] = $sKey . ' != \'' . $datahandler->currentId() . '\'';
+            $where[] = $sKey.' != \''.$datahandler->currentId().'\'';
         }
 
         $rs = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
@@ -122,7 +121,8 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
     }
 
     /**
-     * Checks if the submitted value differs from the one in the DB
+     * Checks if the submitted value differs from the one in the DB.
+     *
      * @param $oRdt
      * @param $value
      */
@@ -130,15 +130,15 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
     {
         $sDeleted = '';
 
-        if (($sTable = $this->_navConf('/differsfromdb/tablename')) !== false) {
-            if (($sField = $this->_navConf('/differsfromdb/field')) === false) {
+        if (false !== ($sTable = $this->_navConf('/differsfromdb/tablename'))) {
+            if (false === ($sField = $this->_navConf('/differsfromdb/field'))) {
                 $sField = $oRdt->getName();
             }
 
             $aDhConf = $this->oForm->_navConf('/control/datahandler/');
             $sKey = $aDhConf['keyname'];
         } else {
-            if ($oRdt->hasDataBridge() && ($oRdt->oDataBridge->oDataSource->_getType() === 'DB')) {
+            if ($oRdt->hasDataBridge() && ('DB' === $oRdt->oDataBridge->oDataSource->_getType())) {
                 $sKey = $oRdt->oDataBridge->oDataSource->sKey;
                 $sTable = $oRdt->oDataBridge->oDataSource->sTable;
                 $sField = $oRdt->dbridged_mapPath();
@@ -150,29 +150,23 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
             }
         }
 
-        if ($this->_defaultFalse('/differsfromdb/deleted/') === true) {
+        if (true === $this->_defaultFalse('/differsfromdb/deleted/')) {
             $sDeleted = ' AND deleted != 1';
         }
 
         $value = addslashes($value);
 
-        $sWhere = $sField . ' = \'' . $value . '\' AND ' . $sKey . " = '" . $this->oForm->oDataHandler->_currentEntryId() . "'" . $sDeleted;
-
-        $sSql = $GLOBALS['TYPO3_DB']->SELECTquery(
+        $sWhere = $sField.' = \''.$value.'\' AND '.$sKey." = '".$this->oForm->oDataHandler->_currentEntryId()."'".$sDeleted;
+        $rows = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
             'count(*) as nbentries',
             $sTable,
-            $sWhere
+            ['where' => $sWhere]
         );
 
-        $rs = $GLOBALS['TYPO3_DB']->sql_fetch_assoc(
-            $this->oForm->_watchOutDB($GLOBALS['TYPO3_DB']->sql_query($sSql), $sSql)
-        );
-
-        return !($rs['nbentries'] > 0);
+        return !($rows[0]['nbentries'] > 0);
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/db/class.tx_mkforms_validator_db_Main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/db/class.tx_mkforms_validator_db_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/db/class.tx_mkforms_validator_db_Main.php'];
 }

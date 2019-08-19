@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_label_Main extends formidable_mainrenderlet
 {
     public function _renderReadOnly()
@@ -37,7 +35,6 @@ class tx_mkforms_widgets_label_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_lbl/api/class.tx_rdtlbl.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_lbl/api/class.tx_rdtlbl.php']);
+    include_once $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_lbl/api/class.tx_rdtlbl.php'];
 }

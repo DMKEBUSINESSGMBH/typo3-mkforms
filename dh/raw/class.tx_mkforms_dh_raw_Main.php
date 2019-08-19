@@ -10,12 +10,12 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
     private $editionMode = false;
 
     /**
-     * Eleminate leaf renderlets marked as "renderonly" recursively
+     * Eleminate leaf renderlets marked as "renderonly" recursively.
      *
-     * @param array $aData
-     * @param string $path Absolute renderlet path
+     * @param array  $aData
+     * @param string $path  Absolute renderlet path
      *
-     * @return array            Cleaned-up array
+     * @return array Cleaned-up array
      */
     private function eleminateRequireOnlies($aData, $path = '')
     {
@@ -25,14 +25,14 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
 
         foreach (array_keys($aData) as $key) {
             if (!is_array($aData[$key])) {
-                if (is_object($this->oForm->aORenderlets[$path . $key])
-                    && $this->oForm->aORenderlets[$path . $key]->_renderOnly()
+                if (is_object($this->oForm->aORenderlets[$path.$key])
+                    && $this->oForm->aORenderlets[$path.$key]->_renderOnly()
                 ) {
                     unset($aData[$key]);
                 }
             } else {
                 // Restart the dance recursively:
-                $aData[$key] = $this->eleminateRequireOnlies($aData[$key], $path . $key);
+                $aData[$key] = $this->eleminateRequireOnlies($aData[$key], $path.$key);
             }
         }
 
@@ -57,7 +57,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
 
         // calling back
         $callback = $this->getForm()->getConfig()->get('/control/datahandler/parentcallback/');
-        if ($callback === false) {
+        if (false === $callback) {
             $callback = $this->getForm()->getConfig()->get('/control/datahandler/callback/');
         }
 
@@ -65,15 +65,15 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         // ja, wenn die nix verarbeiten, darf der callback nicht definiert werden.
         // mw: super conversation leute, wer korrigiert das jetzt?
         // hab vorerst skipcallback implementiert.
-        if ($callback === false) {
+        if (false === $callback) {
             if ($this->_defaultFalse('/skipcallback')) {
                 return;
             }
             tx_mkforms_util_Div::mayday(
-                'DATAHANDLER RAW : you MUST declare a callback method on the Parent Object <b>' . get_class(
+                'DATAHANDLER RAW : you MUST declare a callback method on the Parent Object <b>'.get_class(
                     $this->oForm->_oParent
                 )
-                . '</b> in the section <b>/control/datahandler/parentcallback/</b> of the XML conf for this DATAHANDLER ( RAW )',
+                .'</b> in the section <b>/control/datahandler/parentcallback/</b> of the XML conf for this DATAHANDLER ( RAW )',
                 $this->getForm()
             );
         }
@@ -86,8 +86,8 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
                 $this->getForm()->_oParent->{$callback}($aData);
             } else {
                 tx_mkforms_util_Div::mayday(
-                    'DATAHANDLER RAW : the callback method ' . $callback
-                    . ' doesn\'t exists in the definition of the Parent object',
+                    'DATAHANDLER RAW : the callback method '.$callback
+                    .' doesn\'t exists in the definition of the Parent object',
                     $this->getForm()
                 );
             }
@@ -98,8 +98,6 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
      * @TODO: mw, das gehört hier nicht her!
      * Wenn dan sollte es in den dh main,
      * damit es sich auf alle datahandler auswirkt!
-     *
-     * @return void
      */
     private function showValidationErrorsInTestMode()
     {
@@ -107,9 +105,9 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         ) {
             tx_rnbase_util_Debug::debug(
                 array(
-                    'es gab Validierungsfehler' => $this->getForm()->_aValidationErrors
+                    'es gab Validierungsfehler' => $this->getForm()->_aValidationErrors,
                 ),
-                __METHOD__ . __LINE__
+                __METHOD__.__LINE__
             );
 
             //ohne exit kommt seit phpunit 3.6 kein output im browser an
@@ -131,7 +129,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         if (empty($this->__aStoredData)) {
             $this->__aStoredData = array();
 
-            if (($record = $this->getForm()->getConfig()->get('/control/datahandler/record')) !== false) {
+            if (false !== ($record = $this->getForm()->getConfig()->get('/control/datahandler/record'))) {
                 $this->__aStoredData = $this->getForm()->getRunnable()->callRunnable($record);
                 if (!is_array($this->__aStoredData)) {
                     tx_mkforms_util_Div::mayday('DataHandler RAW needs a record!');
@@ -141,7 +139,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
                 $widgetNames = $this->getForm()->getWidgetNames();
                 foreach ($widgetNames as $name) {
                     // Das ist nur für Confirm-Felder interessant
-                    if (($sConfirm = $this->getForm()->getWidget($name)->_navConf('/confirm')) !== false) {
+                    if (false !== ($sConfirm = $this->getForm()->getWidget($name)->_navConf('/confirm'))) {
                         $this->__aStoredData[$name] = $this->__aStoredData[$sConfirm];
                     }
                 }
@@ -149,7 +147,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         }
 
         if (is_array($this->__aStoredData)) {
-            if ($sName !== false) {
+            if (false !== $sName) {
                 if (array_key_exists($sName, $this->__aStoredData)) {
                     return $this->__aStoredData[$sName];
                 }
@@ -161,7 +159,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
             return $this->__aStoredData;
         }
 
-        return ($sName !== false) ? '' : array();
+        return (false !== $sName) ? '' : array();
     }
 
     /**
@@ -175,7 +173,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         if ($this->_isClearSubmitted()) {
             // clearsubmitted should display a blank-data page
             // except if edition or new i18n requested
-            return ($this->getForm()->editionRequested() || $this->newI18nRequested());
+            return $this->getForm()->editionRequested() || $this->newI18nRequested();
         }
 
         return $this->editionMode;
@@ -185,5 +183,5 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/dh/raw/class.tx_mkforms_dh_raw_Main.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/dh/raw/class.tx_mkforms_dh_raw_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/dh/raw/class.tx_mkforms_dh_raw_Main.php'];
 }

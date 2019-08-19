@@ -43,14 +43,14 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         $sLabel = $this->getLabel();
 
         $sTriggerId = $this->getTriggerId();
-        $sTrigger = " <img src='" . Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . "res/lib/js_calendar/img.gif' id='" . $sTriggerId . "' style='cursor: pointer;' alt='Pick date' /> ";
+        $sTrigger = " <img src='".Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath."res/lib/js_calendar/img.gif' id='".$sTriggerId."' style='cursor: pointer;' alt='Pick date' /> ";
 
         $this->_initJs();
 
         if ($this->_allowManualEdition()) {
-            $sInput = '<input type="text" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $sUnflattenHscValueForHtml . '"' . $this->_getAddInputParams() . ' />';
+            $sInput = '<input type="text" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.$sUnflattenHscValueForHtml.'"'.$this->_getAddInputParams().' />';
         } else {
-            $sSpanId = 'showspan_' . $this->_getElementHtmlId();
+            $sSpanId = 'showspan_'.$this->_getElementHtmlId();
 
             if ($this->_emptyFormValue($sUnflattenHscValue)) {
                 $sDisplayed = $this->getEmptyString();
@@ -58,22 +58,20 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
                 $sDisplayed = $sUnflattenHscValueForHtml;
             }
 
-
-
-            $sInput =    "<span id='" . $sSpanId . "' " . $this->_getAddInputParams() . '>'
-                    .    $sDisplayed
-                    .    '</span>'
-                    .    '<input type="hidden" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $iTstamp . '" />';
+            $sInput = "<span id='".$sSpanId."' ".$this->_getAddInputParams().'>'
+                    .$sDisplayed
+                    .'</span>'
+                    .'<input type="hidden" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.$iTstamp.'" />';
         }
 
         $sCompiled =
                 $this->_displayLabel($sLabel)
-            .    $sInput
-            .    $sTrigger;
+            .$sInput
+            .$sTrigger;
 
         return array(
             '__compiled' => $sCompiled,
-            'input' => $sInput . ' ' . $sTrigger,
+            'input' => $sInput.' '.$sTrigger,
             'input.' => array(
                 'textbox' => $sInput,
                 'textbox.' => array(
@@ -90,18 +88,18 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
             'value.' => array(
                 'timestamp' => $iTstamp,
                 'readable' => $sUnflattenHscValue,
-            )
+            ),
         );
     }
 
     public function getEmptyString()
     {
-        if (($sEmptyString = $this->_navConf('/data/datetime/emptystring')) !== false) {
+        if (false !== ($sEmptyString = $this->_navConf('/data/datetime/emptystring'))) {
             if ($this->oForm->isRunneable($sEmptyString)) {
                 $sEmptyString = $this->getForm()->getRunnable()->callRunnableWidget($this, $sEmptyString);
             }
 
-            if ($sEmptyString !== false) {
+            if (false !== $sEmptyString) {
                 return $sEmptyString;
             }
         }
@@ -140,29 +138,29 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
     protected function _initJs()
     {
         $sFormat = $this->_getFormat();
-        $bTime        = $this->oForm->_defaultFalse('/data/datetime/displaytime/', $this->aElement);
-        $sHtmlId    = $this->_getElementHtmlId();
+        $bTime = $this->oForm->_defaultFalse('/data/datetime/displaytime/', $this->aElement);
+        $sHtmlId = $this->_getElementHtmlId();
 
         $aConfig = array(
-            'inputField'    => $sHtmlId,    // id of the input field
-            'ifFormat'        => $sFormat,                    // format of the input field
-            'showsTime'        => $bTime,                        // will display a time selector
-            'button'        => $this->getTriggerId(),        // trigger for the calendar (button ID)
-            'singleClick'    => true,                        // single-click mode
-            'step'            => 1,                            // show all years in drop-down boxes (instead of every other year as default)
+            'inputField' => $sHtmlId,    // id of the input field
+            'ifFormat' => $sFormat,                    // format of the input field
+            'showsTime' => $bTime,                        // will display a time selector
+            'button' => $this->getTriggerId(),        // trigger for the calendar (button ID)
+            'singleClick' => true,                        // single-click mode
+            'step' => 1,                            // show all years in drop-down boxes (instead of every other year as default)
         );
 
         if (!$this->_allowManualEdition()) {
             if ($bTime) {
                 $aConfig['ifFormat'] = '%s';
             } else {
-                if ($this->shouldConvertToTimestamp() === true) {
+                if (true === $this->shouldConvertToTimestamp()) {
                     $aConfig['ifFormat'] = '%@';
                 } else {
                     $aConfig['ifFormat'] = $this->_getFormat();
                 }
             }
-            $aConfig['displayArea'] = 'showspan_' . $sHtmlId;
+            $aConfig['displayArea'] = 'showspan_'.$sHtmlId;
             $aConfig['daFormat'] = $sFormat;
         }
 
@@ -201,7 +199,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
     private function __isTimestamp($mData)
     {
-        return (('' . (int)$mData) === ('' . $mData));
+        return (''.(int) $mData) === (''.$mData);
     }
 
     protected function _allowManualEdition()
@@ -226,7 +224,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
         /* @var string $concatenatedDateFormatSeparators */
         $concatenatedDateFormatSeparators = str_replace($this->allowedDateFormatParts, '', $dateFormat);
-        if ($concatenatedDateFormatSeparators !== '') {
+        if ('' !== $concatenatedDateFormatSeparators) {
             $nonUniqueSeparators = str_split($concatenatedDateFormatSeparators);
             $dateFormatSeparators = array_unique($nonUniqueSeparators);
         }
@@ -236,7 +234,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         /* @var int[] $datePartsByFormatCode */
         $datePartsByFormatCode = array();
         foreach ($dateFormatParts as $index => $dateFormat) {
-            $datePartsByFormatCode[$dateFormat] = (int)$dateParts[$index];
+            $datePartsByFormatCode[$dateFormat] = (int) $dateParts[$index];
         }
 
         if (array_key_exists('%d', $datePartsByFormatCode)) {
@@ -244,18 +242,18 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         } elseif (array_key_exists('%e', $datePartsByFormatCode)) {
             $day = $datePartsByFormatCode['%e'];
         } else {
-            $currentDay = (int)strftime('%d');
+            $currentDay = (int) strftime('%d');
             $day = $currentDay;
         }
 
-        $currentMonth = (int)strftime('%m');
+        $currentMonth = (int) strftime('%m');
         if (array_key_exists('%m', $datePartsByFormatCode)) {
             $month = $datePartsByFormatCode['%m'];
         } else {
             $month = $currentMonth;
         }
 
-        $currentYear = (int)strftime('%Y');
+        $currentYear = (int) strftime('%Y');
         if (array_key_exists('%Y', $datePartsByFormatCode)) {
             $year = $datePartsByFormatCode['%Y'];
         } else {
@@ -291,14 +289,14 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
     protected function __tstamp2date($data)
     {
         if ($this->shouldConvertToTimestamp()) {
-            if ((int)$data != 0) {
+            if (0 != (int) $data) {
                 // il s'agit d'un champ timestamp
                 // on convertit le timestamp en date lisible
 
                 $elementname = $this->_navConf('/name/');
                 $format = $this->_getFormat();
 
-                if (($locale = $this->_navConf('/data/datetime/locale/')) !== false) {
+                if (false !== ($locale = $this->_navConf('/data/datetime/locale/'))) {
                     $sCurrentLocale = setlocale(LC_TIME, 0);
 
                     // From the documentation of setlocale: "If locale is zero or "0", the locale setting
@@ -307,15 +305,15 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
                     setlocale(LC_TIME, $locale);
                 }
 
-                if ($this->_defaultFalse('/data/datetime/gmt') === false) {
+                if (false === $this->_defaultFalse('/data/datetime/gmt')) {
                     $sDate = strftime($format, $data);
                 } else {
                     $sDate = gmstrftime($format, $data);
                 }
 
-                $this->oForm->_debug($data . ' in ' . $format . ' => ' . $sDate, 'AMEOS_FORMIDABLE_RDT_DATE ' . $elementname . ' - TIMESTAMP TO DATE CONV.');
+                $this->oForm->_debug($data.' in '.$format.' => '.$sDate, 'AMEOS_FORMIDABLE_RDT_DATE '.$elementname.' - TIMESTAMP TO DATE CONV.');
 
-                if ($locale !== false) {
+                if (false !== $locale) {
                     setlocale(LC_TIME, $sCurrentLocale);
                 }
 
@@ -337,22 +335,22 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
      */
     public function _emptyFormValue($value)
     {
-        return (trim($value) === '');
+        return '' === trim($value);
     }
 
     protected function _sqlSearchClause($sValue, $sFieldPrefix = '', $sName = '', $bRec = true)
     {
-        if ($sName === '') {
+        if ('' === $sName) {
             $sName = $this->_getName();
         }
 
-        $sFieldName = $sFieldPrefix . $sName;
-        $sComparison = (($sTemp = $this->_navConf('/sql/comparison')) !== false) ? $sTemp : '=';
-        $sComparison = (($sTemp = $this->_navConf('/search/comparison')) !== false) ? $sTemp : $sComparison;
+        $sFieldName = $sFieldPrefix.$sName;
+        $sComparison = (false !== ($sTemp = $this->_navConf('/sql/comparison'))) ? $sTemp : '=';
+        $sComparison = (false !== ($sTemp = $this->_navConf('/search/comparison'))) ? $sTemp : $sComparison;
 
-        $sSql = '((' . $sFieldName . " - '" . $sValue . "') " . $sComparison . ' 0)';
+        $sSql = '(('.$sFieldName." - '".$sValue."') ".$sComparison.' 0)';
 
-        if ($bRec === true) {
+        if (true === $bRec) {
             $sSql = $this->overrideSql(
                 $sValue,
                 $sFieldPrefix,
@@ -370,28 +368,26 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
             return;
         }
 
-        $sLang = ($GLOBALS['TSFE']->lang == 'default') ? 'en' : $GLOBALS['TSFE']->lang;
-        $sAbsLangFile = $this->sExtPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
+        $sLang = ('default' != \Sys25\RnBase\Utility\Environment::getCurrentLanguageKey()) ?? 'en';
+        $sAbsLangFile = $this->sExtPath.'res/lib/js_calendar/lang/calendar-'.$sLang.'.js';
         if (!file_exists($sAbsLangFile)) {
             $sLang = 'en';
         }
-        $sLangFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/lang/calendar-' . $sLang . '.js';
-
+        $sLangFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/lang/calendar-'.$sLang.'.js';
 
         $oJsLoader = $this->getForm()->getJSLoader();
         $css = '';
-        if($cssFile = $this->getForm()->getConfTS('renderlets.date.css')) {
+        if ($cssFile = $this->getForm()->getConfTS('renderlets.date.css')) {
             $cssFile = TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Files::getFileAbsFileName($cssFile));
-            $cssFile = $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL'). $cssFile, 'css');
-            $css = empty($cssFile) ? '' : '<link rel="stylesheet" type="text/css" media="all" href="' . $cssFile . '" />';
+            $cssFile = $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$cssFile, 'css');
+            $css = empty($cssFile) ? '' : '<link rel="stylesheet" type="text/css" media="all" href="'.$cssFile.'" />';
         }
-
 
         $oJsLoader->additionalHeaderData(
             (
-                '<script type="text/javascript" src="' . $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath. 'res/lib/js_calendar/calendar.js') . '"></script>' .
-                '<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sLangFile) . '"></script>' .
-                '<script type="text/javascript" src="' . $oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/lib/js_calendar/calendar-setup.js') . '"></script>' .
+                '<script type="text/javascript" src="'.$oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar.js').'"></script>'.
+                '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($sLangFile).'"></script>'.
+                '<script type="text/javascript" src="'.$oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar-setup.js').'"></script>'.
                 $css
             ),
             'mkforms_date_includeonce'
@@ -424,7 +420,6 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_date/api/class.tx_rdtdate.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_date/api/class.tx_rdtdate.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_date/api/class.tx_rdtdate.php'];
 }

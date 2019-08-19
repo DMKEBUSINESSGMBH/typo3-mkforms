@@ -22,7 +22,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * This is a FORMidable data handler that can also handle m:n relations.
  *
@@ -30,7 +29,6 @@
  */
 class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
 {
-
     /**
      * @var array list of fields that are m:n relations as key/mm-table pairs
      */
@@ -38,7 +36,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
 
     /**
      * @var array containing the data to insert into m:n tables using the
-     * following format for each element:
+     *            following format for each element:
      *
      * 'table' => name of the m:n table,
      * 'data' => array(
@@ -62,8 +60,6 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      * - _storeMmRelations (2 times)
      *
      * @param    bool        whether the data should be processed at all
-     *
-     * @access    public
      */
     public function _doTheMagic($bShouldProcess = true)
     {
@@ -77,7 +73,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
         $tablename = $this->tableName();
         $keyname = $this->keyName();
 
-        if (($tablename == '') || ($keyname == '')) {
+        if (('' == $tablename) || ('' == $keyname)) {
             $oForm->mayday(
                 "DATAHANDLER configuration isn't correct : check tablename ' .
 					'AND keyname in your datahandler conf"
@@ -95,46 +91,39 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                 // We update the record in the database.
                 $this->oForm->_debug(
                     $aFormData,
-                    'EXECUTION OF DATAHANDLER DB - EDITION MODE in ' . $tablename . '[' . $keyname . '=' . $editEntry . ']'
+                    'EXECUTION OF DATAHANDLER DB - EDITION MODE in '.$tablename.'['.$keyname.'='.$editEntry.']'
                 );
-
-                $sSql = $GLOBALS['TYPO3_DB']->UPDATEquery(
+                Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
                     $tablename,
-                    $keyname . " = '" . $editEntry . "'",
+                    $keyname." = '".$editEntry."'",
                     $aFormData
-                );
-
-                $this->oForm->_watchOutDB(
-                    $GLOBALS['TYPO3_DB']->sql_query($sSql),
-                    $sSql
                 );
 
                 $this->_storeMmRelations($editEntry);
 
-                $this->oForm->_debug($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery, 'DATAHANDLER DB - SQL EXECUTED');
+                $this->oForm->_debug(
+                    Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                    'DATAHANDLER DB - SQL EXECUTED'
+                );
             } else {
                 // We insert a new record into the database.
-                $this->oForm->_debug($aFormData, 'EXECUTION OF DATAHANDLER DB - INSERTION MODE in ' . $tablename);
+                $this->oForm->_debug($aFormData, 'EXECUTION OF DATAHANDLER DB - INSERTION MODE in '.$tablename);
 
-                $sSql = $GLOBALS['TYPO3_DB']->INSERTquery(
+                $this->newEntryId = Tx_Rnbase_Database_Connection::getInstance()->doInsert(
                     $tablename,
                     $aFormData
                 );
 
-                $this->oForm->_watchOutDB(
-                    $GLOBALS['TYPO3_DB']->sql_query($sSql),
-                    $sSql
+                $this->oForm->_debug(
+                    Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                    'DATAHANDLER DB - SQL EXECUTED'
                 );
-
-                $this->oForm->_debug($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery, 'DATAHANDLER DB - SQL EXECUTED');
-
-                $this->newEntryId = $GLOBALS['TYPO3_DB']->sql_insert_id();
-                $this->oForm->_debug('', 'NEW ENTRY ID [' . $keyname . '=' . $this->newEntryId . ']');
+                $this->oForm->_debug('', 'NEW ENTRY ID ['.$keyname.'='.$this->newEntryId.']');
 
                 $this->_storeMmRelations($this->newEntryId);
             }
         } else {
-            $this->oForm->_debug('', 'EXECUTION OF DATAHANDLER DB - NOTHING TO DO - SKIPPING PROCESS ' . $tablename);
+            $this->oForm->_debug('', 'EXECUTION OF DATAHANDLER DB - NOTHING TO DO - SKIPPING PROCESS '.$tablename);
         }
     }
 
@@ -147,9 +136,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      *
      * @param    bool (not sure what this is, but FORMidable 0.7.0 has it)
      *
-     * @return    array        data from the DB as an associative array
-     *
-     * @access    protected
+     * @return array data from the DB as an associative array
      */
     public function _getStoredData($sName = false)
     {
@@ -168,13 +155,13 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                 // of related records)?
                 if ($this->__aStoredData[$key] > 0) {
                     $foreignUids = array();
-                    $dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                    $rows = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
                         'uid_foreign',
                         $mmTable,
-                        'uid_local = ' . $this->_currentEntryId()
+                        ['where' => 'uid_local = '.$this->_currentEntryId()]
                     );
-                    if ($dbResult) {
-                        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+                    if ($rows) {
+                        foreach ($rows as $row) {
                             $foreignUids[] = $row['uid_foreign'];
                         }
                         // Creates a comma-separated list of UIDs.
@@ -192,7 +179,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
 
     /**
      * Retrieves the keys and MM table names for m:n relations as key/value
-     * pairs and stores them in $this->mmFields in the following form:
+     * pairs and stores them in $this->mmFields in the following form:.
      *
      * field key => name of the m:n table
      *
@@ -205,8 +192,6 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      * </mmrelations>
      *
      * If $this->mmFields has already been set, this function will be a no-op.
-     *
-     * @access    private
      */
     public function _retrieveMmFields()
     {
@@ -249,15 +234,13 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      *
      * @param    array        the current form data (must not be empty or null),
      *                        will be modified
-     *
-     * @access    private
      */
     public function _extractMmRelationsFromFormData(&$formData)
     {
         $this->_retrieveMmFields();
         foreach ($formData as $key => $value) {
             if (isset($this->mmFields[$key])) {
-                if ($value != '') {
+                if ('' != $value) {
                     $sorting = 1;
                     $allDataItems = explode(',', $value);
                     $value = count($allDataItems);
@@ -268,10 +251,10 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                             'data' => array(
                                 // uses the default sorting
                                 'sorting' => $sorting,
-                                'uid_foreign' => (int)$currentDataItem
-                            )
+                                'uid_foreign' => (int) $currentDataItem,
+                            ),
                         );
-                        $sorting++;
+                        ++$sorting;
                     }
                 } else {
                     $value = 0;
@@ -290,26 +273,18 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      * must have been called.
      *
      * @param    int        the uid of the current record, must be > 0
-     *
-     * @access    private
      */
     public function _storeMmRelations($uid)
     {
         // removes all old m:n records
         foreach ($this->mmFields as $currentTable) {
-            $GLOBALS['TYPO3_DB']->exec_DELETEquery(
-                $currentTable,
-                'uid_local = ' . $uid
-            );
+            Tx_Rnbase_Database_Connection::getInstance()->doDelete($currentTable, 'uid_local = '.$uid);
         }
 
         // creates all new m:n records
         foreach ($this->mmInserts as $currentInsert) {
             $currentInsert['data']['uid_local'] = $uid;
-            $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-                $currentInsert['table'],
-                $currentInsert['data']
-            );
+            Tx_Rnbase_Database_Connection::getInstance()->doInsert($currentInsert['table'], $currentInsert['data']);
         }
     }
 }
@@ -317,5 +292,5 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
 if (defined('TYPO3_MODE')
     && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']
 ) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php']);
+    include_once $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_dbmm/api/class.tx_dhdbmm.php'];
 }

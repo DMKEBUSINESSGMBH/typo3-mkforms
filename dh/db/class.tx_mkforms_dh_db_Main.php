@@ -4,8 +4,6 @@
  *
  * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 {
     public $__aStoredI18NParent = false;
@@ -23,54 +21,38 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             $bShouldProcess = false;
         }
 
-        if ($tablename != '' && $keyname != '') {
-            if ($this->i18n() && ($aNewI18n = $this->newI18nRequested()) !== false) {
+        if ('' != $tablename && '' != $keyname) {
+            if ($this->i18n() && false !== ($aNewI18n = $this->newI18nRequested())) {
                 // first check that parent exists
-                if (($aParent = $this->__getDbData($tablename, $keyname, $aNewI18n['i18n_parent'])) === false) {
+                if (false === ($aParent = $this->__getDbData($tablename, $keyname, $aNewI18n['i18n_parent']))) {
                     $this->oForm->mayday(
-                        'DATAHANDLER DB cannot create requested i18n for non existing parent:' . $aNewI18n['i18n_parent']
+                        'DATAHANDLER DB cannot create requested i18n for non existing parent:'.$aNewI18n['i18n_parent']
                     );
                 }
 
                 //then check that no i18n record exists for requested sys_language_uid on this parent record
-
-                $sSql = $GLOBALS['TYPO3_DB']->SELECTquery(
+                $rows = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
                     $keyname,
                     $tablename,
-                    "l18n_parent='" . $aNewI18n['i18n_parent'] . "' AND sys_language_uid='" . $aNewI18n['sys_language_uid'] . "'"
+                    ['where' => "l18n_parent='".$aNewI18n['i18n_parent']."' AND sys_language_uid='".$aNewI18n['sys_language_uid']."'"]
                 );
 
-                $rSql = $this->oForm->_watchOutDB(
-                    $GLOBALS['TYPO3_DB']->sql_query($sSql),
-                    $sSql
-                );
-
-                if ($GLOBALS['TYPO3_DB']->sql_fetch_assoc($rSql) !== false) {
+                if ($rows) {
                     $this->oForm->mayday(
-                        'DATAHANDLER DB cannot create requested i18n for parent:' . $aNewI18n['i18n_parent']
-                        . ' with sys_language_uid:' . $aNewI18n['sys_language_uid'] . ' ; this version already exists'
+                        'DATAHANDLER DB cannot create requested i18n for parent:'.$aNewI18n['i18n_parent']
+                        .' with sys_language_uid:'.$aNewI18n['sys_language_uid'].' ; this version already exists'
                     );
                 }
 
                 $aChild = array();
                 $aChild['sys_language_uid'] = $aNewI18n['sys_language_uid'];
                 $aChild['l18n_parent'] = $aNewI18n['i18n_parent'];    // notice difference between i and l
-                $aChild['crdate'] = $GLOBALS['EXEC_TIME'] ;
-                $aChild['tstamp'] = $GLOBALS['EXEC_TIME'] ;
+                $aChild['crdate'] = $GLOBALS['EXEC_TIME'];
+                $aChild['tstamp'] = $GLOBALS['EXEC_TIME'];
                 $aChild['cruser_id'] = $GLOBALS['TSFE']->fe_user->user['uid'];
                 $aChild['pid'] = $aParent['pid'];
 
-                $sSql = $GLOBALS['TYPO3_DB']->INSERTquery(
-                    $tablename,
-                    $aChild
-                );
-
-                $this->oForm->_watchOutDB(
-                    $GLOBALS['TYPO3_DB']->sql_query($sSql),
-                    $sSql
-                );
-
-                $this->newEntryId = $GLOBALS['TYPO3_DB']->sql_insert_id();
+                $this->newEntryId = Tx_Rnbase_Database_Connection::getInstance()->doInsert($tablename, $aChild);
                 $this->bHasCreated = true;
                 $this->refreshAllData();
             }
@@ -98,7 +80,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
                             $this->oForm->_debug(
                                 '',
-                                'DB update, taking care of sys_language_uid ' . $this->i18n_getSysLanguageUid()
+                                'DB update, taking care of sys_language_uid '.$this->i18n_getSysLanguageUid()
                             );
 
                             reset($aFormData);
@@ -113,47 +95,40 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                             if (!empty($aUpdateData)) {
                                 $this->oForm->_debug(
                                     $aUpdateData,
-                                    'EXECUTION OF DATAHANDLER DB - EDITION MODE in ' . $tablename . '[' . $keyname . '='
-                                    . $editEntry . '] - UPDATING NON TRANSLATED I18N CHILDS'
+                                    'EXECUTION OF DATAHANDLER DB - EDITION MODE in '.$tablename.'['.$keyname.'='
+                                    .$editEntry.'] - UPDATING NON TRANSLATED I18N CHILDS'
                                 );
 
-                                $sSql = $GLOBALS['TYPO3_DB']->UPDATEquery(
+                                Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
                                     $tablename,
-                                    "l18n_parent = '" . $editEntry . "'",
+                                    "l18n_parent = '".$editEntry."'",
                                     $aUpdateData
-                                );
-
-                                $this->oForm->_watchOutDB(
-                                    $GLOBALS['TYPO3_DB']->sql_query($sSql),
-                                    $sSql
                                 );
                             }
                         }
 
                         if ($this->fillStandardTYPO3fields()) {
                             if (!array_key_exists('tstamp', $aFormData)) {
-                                $aFormData['tstamp'] = $GLOBALS['EXEC_TIME'] ;
+                                $aFormData['tstamp'] = $GLOBALS['EXEC_TIME'];
                             }
                         }
 
                         $this->oForm->_debug(
                             $aFormData,
-                            'EXECUTION OF DATAHANDLER DB - EDITION MODE in ' . $tablename . '[' . $keyname . '=' . $editEntry
-                            . ']'
+                            'EXECUTION OF DATAHANDLER DB - EDITION MODE in '.$tablename.'['.$keyname.'='.$editEntry
+                            .']'
                         );
 
-                        $sSql = $GLOBALS['TYPO3_DB']->UPDATEquery(
+                        Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
                             $tablename,
-                            $keyname . " = '" . $editEntry . "'",
+                            $keyname." = '".$editEntry."'",
                             $aFormData
                         );
 
-                        $this->oForm->_watchOutDB(
-                            $GLOBALS['TYPO3_DB']->sql_query($sSql),
-                            $sSql
+                        $this->oForm->_debug(
+                            Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                            'DATAHANDLER DB - SQL EXECUTED'
                         );
-
-                        $this->oForm->_debug($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery, 'DATAHANDLER DB - SQL EXECUTED');
 
                         // updating stored data
                         if (!is_array($this->__aStoredData)) {
@@ -168,11 +143,11 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                         // creating data
 
                         $aFormData = $this->_processBeforeCreation($aFormData);
-                        if (is_array($aFormData) && count($aFormData) !== 0) {
+                        if (is_array($aFormData) && 0 !== count($aFormData)) {
                             if ($this->i18n()) {
                                 $this->oForm->_debug(
                                     '',
-                                    'DB insert, taking care of sys_language_uid ' . $this->i18n_getSysLanguageUid()
+                                    'DB insert, taking care of sys_language_uid '.$this->i18n_getSysLanguageUid()
                                 );
                                 $aFormData['sys_language_uid'] = $this->i18n_getSysLanguageUid();
                             }
@@ -187,30 +162,23 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                                 }
 
                                 if (!array_key_exists('crdate', $aFormData)) {
-                                    $aFormData['crdate'] = $GLOBALS['EXEC_TIME'] ;
+                                    $aFormData['crdate'] = $GLOBALS['EXEC_TIME'];
                                 }
 
                                 if (!array_key_exists('tstamp', $aFormData)) {
-                                    $aFormData['tstamp'] = $GLOBALS['EXEC_TIME'] ;
+                                    $aFormData['tstamp'] = $GLOBALS['EXEC_TIME'];
                                 }
                             }
 
-                            $this->oForm->_debug($aFormData, 'EXECUTION OF DATAHANDLER DB - INSERTION MODE in ' . $tablename);
+                            $this->oForm->_debug($aFormData, 'EXECUTION OF DATAHANDLER DB - INSERTION MODE in '.$tablename);
 
-                            $sSql = $GLOBALS['TYPO3_DB']->INSERTquery(
-                                $tablename,
-                                $aFormData
+                            $this->newEntryId = Tx_Rnbase_Database_Connection::getInstance()->doInsert($tablename, $aFormData);
+
+                            $this->oForm->_debug(
+                                Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                                'DATAHANDLER DB - SQL EXECUTED'
                             );
-
-                            $this->oForm->_watchOutDB(
-                                $GLOBALS['TYPO3_DB']->sql_query($sSql),
-                                $sSql
-                            );
-
-                            $this->oForm->_debug($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery, 'DATAHANDLER DB - SQL EXECUTED');
-
-                            $this->newEntryId = $GLOBALS['TYPO3_DB']->sql_insert_id();
-                            $this->oForm->_debug('', 'NEW ENTRY ID [' . $keyname . '=' . $this->newEntryId . ']');
+                            $this->oForm->_debug('', 'NEW ENTRY ID ['.$keyname.'='.$this->newEntryId.']');
 
                             $this->bHasCreated = true;
 
@@ -228,7 +196,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                         $this->_processAfterCreation($this->_getStoredData());
                     }
                 } else {
-                    $this->oForm->_debug('', 'EXECUTION OF DATAHANDLER DB - NOTHING TO DO - SKIPPING PROCESS ' . $tablename);
+                    $this->oForm->_debug('', 'EXECUTION OF DATAHANDLER DB - NOTHING TO DO - SKIPPING PROCESS '.$tablename);
                 }
 
                 /*   /process/afterinsertion */
@@ -242,13 +210,14 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     }
 
     /**
-     * Remove all non TCA field from fromData. Can be disabled by cleanNonTcaFields="false"
+     * Remove all non TCA field from fromData. Can be disabled by cleanNonTcaFields="false".
+     *
      * @param array $aFormData
+     *
      * @return array cleaned data array
      */
     protected function cleanNonTcaFields($aFormData)
     {
-
         if ($this->_defaultTrue('/cleannontcafields')) {
             $tablename = $this->tableName();
             $cols = tx_rnbase_util_TCA::getTcaColumns($tablename);
@@ -283,7 +252,8 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     }
 
     /**
-     * Look up all data for database from widgets
+     * Look up all data for database from widgets.
+     *
      * @return multitype:NULL
      */
     protected function getDataPreparedForDB()
@@ -311,12 +281,13 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     }
 
     /**
-     * called before any database insert or update
+     * called before any database insert or update.
+     *
      * @param array $aData
      */
     protected function _processBeforeInsertion($aData)
     {
-        if (($aUserObj = $this->_navConf('/process/beforeinsertion/')) !== false) {
+        if (false !== ($aUserObj = $this->_navConf('/process/beforeinsertion/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $aData = $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -335,12 +306,13 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     }
 
     /**
-     * called after any database insert or update
+     * called after any database insert or update.
+     *
      * @param array $aData
      */
     protected function _processAfterInsertion($aData)
     {
-        if (($aUserObj = $this->_navConf('/process/afterinsertion/')) !== false) {
+        if (false !== ($aUserObj = $this->_navConf('/process/afterinsertion/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -351,13 +323,15 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     }
 
     /**
-     * called before insert data into database
+     * called before insert data into database.
+     *
      * @param array $aData
+     *
      * @return array
      */
     protected function _processBeforeCreation($aData)
     {
-        if (($aUserObj = $this->_navConf('/process/beforecreation/')) !== false) {
+        if (false !== ($aUserObj = $this->_navConf('/process/beforecreation/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $aData = $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -376,13 +350,15 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     }
 
     /**
-     * called before insert data into database
+     * called before insert data into database.
+     *
      * @param array $aData
+     *
      * @return array
      */
     protected function _processAfterCreation($aData)
     {
-        if (($aUserObj = $this->_navConf('/process/aftercreation/')) !== false) {
+        if (false !== ($aUserObj = $this->_navConf('/process/aftercreation/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -394,7 +370,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
     protected function _processBeforeEdition($aData)
     {
-        if (($aUserObj = $this->_navConf('/process/beforeedition/')) !== false) {
+        if (false !== ($aUserObj = $this->_navConf('/process/beforeedition/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $aData = $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -414,7 +390,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
     protected function _processAfterEdition($aData)
     {
-        if (($aUserObj = $this->_navConf('/process/afteredition/')) !== false) {
+        if (false !== ($aUserObj = $this->_navConf('/process/afteredition/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -437,15 +413,15 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             return false;
         }
 
-        return ($this->_currentEntryId() !== false);
+        return false !== $this->_currentEntryId();
     }
 
     protected function __getDbData($sTablename, $sKeyname, $iUid, $sFields = '*')
     {
         $options = array();
         $options['enablefieldsoff'] = 1;
-        $options['where'] = $sKeyname . ' = ' . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($iUid, $sTablename);
-        $ret = tx_rnbase_util_DB::doSelect($sFields, $sTablename, $options, 0);
+        $options['where'] = $sKeyname.' = '.Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($iUid, $sTablename);
+        $ret = Tx_Rnbase_Database_Connection::getInstance()->doSelect($sFields, $sTablename, $options, 0);
 
         return count($ret) ? $ret[0] : false;
     }
@@ -461,25 +437,25 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
             $editid = $this->_currentEntryId();
 
-            if ($editid !== false) {
-                if (($this->__aStoredData = $this->__getDbData($tablename, $keyname, $editid)) !== false) {
+            if (false !== $editid) {
+                if (false !== ($this->__aStoredData = $this->__getDbData($tablename, $keyname, $editid))) {
                     // on va rechercher la configuration du champ en question
                     reset($this->oForm->aORenderlets);
                     $aRdts = array_keys($this->oForm->aORenderlets);
                     foreach ($aRdts as $fieldName) {
                         // Das ist nur für Confirm-Felder interessant
-                        if (($sConfirm = $this->oForm->aORenderlets[$fieldName]->_navConf('/confirm')) !== false) {
+                        if (false !== ($sConfirm = $this->oForm->aORenderlets[$fieldName]->_navConf('/confirm'))) {
                             $this->__aStoredData[$fieldName] = $this->__aStoredData[$sConfirm];
                         }
                     }
                 } else {
-                    $this->oForm->mayday('DATAHANDLER DB : EDITION OF ENTRY ' . $editid . ' FAILED');
+                    $this->oForm->mayday('DATAHANDLER DB : EDITION OF ENTRY '.$editid.' FAILED');
                 }
             }
         }
 
         if (is_array($this->__aStoredData)) {
-            if ($sName !== false) {
+            if (false !== $sName) {
                 if (array_key_exists($sName, $this->__aStoredData)) {
                     return $this->__aStoredData[$sName];
                 } else {
@@ -492,28 +468,28 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             return $this->__aStoredData;
         }
 
-        return ($sName !== false) ? '' : array();
+        return (false !== $sName) ? '' : array();
     }
 
     public function newI18nRequested()
     {
-        if ($this->oForm->aAddPostVars !== false) {
+        if (false !== $this->oForm->aAddPostVars) {
             reset($this->oForm->aAddPostVars);
             foreach ($this->oForm->aAddPostVars as $sKey => $notNeeded) {
                 if (array_key_exists('action', $this->oForm->aAddPostVars[$sKey])
-                    && $this->oForm->aAddPostVars[$sKey]['action'] === 'requestNewI18n'
+                    && 'requestNewI18n' === $this->oForm->aAddPostVars[$sKey]['action']
                 ) {
                     if ($this->tableName() === $this->oForm->aAddPostVars[$sKey]['params']['tablename'] && $this->tableName()) {
                         $sOurSafeLock = $this->oForm->_getSafeLock(
-                            'requestNewI18n' . ':' . $this->oForm->aAddPostVars[$sKey]['params']['tablename'] . ':'
-                            . $this->oForm->aAddPostVars[$sKey]['params']['recorduid'] . ':'
-                            . $this->oForm->aAddPostVars[$sKey]['params']['languid']
+                            'requestNewI18n'.':'.$this->oForm->aAddPostVars[$sKey]['params']['tablename'].':'
+                            .$this->oForm->aAddPostVars[$sKey]['params']['recorduid'].':'
+                            .$this->oForm->aAddPostVars[$sKey]['params']['languid']
                         );
                         $sTheirSafeLock = $this->oForm->aAddPostVars[$sKey]['params']['hash'];
                         if ($sOurSafeLock === $sTheirSafeLock) {
                             return array(
                                 'i18n_parent' => $this->oForm->aAddPostVars[$sKey]['params']['recorduid'],
-                                'sys_language_uid' => $this->oForm->aAddPostVars[$sKey]['params']['languid']
+                                'sys_language_uid' => $this->oForm->aAddPostVars[$sKey]['params']['languid'],
                             );
                         }
                     }
@@ -531,7 +507,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
     public function i18n_currentRecordUsesDefaultLang()
     {
-        return ((int)$this->_getStoredData('sys_language_uid') === 0);
+        return 0 === (int) $this->_getStoredData('sys_language_uid');
     }
 
     public function i18n_currentRecordUsesLang()
@@ -541,7 +517,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
         $aParams = func_get_args();
 
         return in_array(
-            (int)$this->_getStoredData('sys_language_uid'),
+            (int) $this->_getStoredData('sys_language_uid'),
             $aParams
         );
     }
@@ -549,18 +525,18 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     public function i18n_getStoredParent($bStrict = false)
     {
         if ($this->i18n() && $this->_edition()) {
-            if ($this->__aStoredI18NParent === false) {
+            if (false === $this->__aStoredI18NParent) {
                 $aData = $this->_getStoredData();
 
                 if ($this->i18n_currentRecordUsesDefaultLang()) {
-                    if ($bStrict === true) {
+                    if (true === $bStrict) {
                         return false;
                     }
 
                     $this->__aStoredI18NParent = $aData;
                 } else {
-                    $iParent = (int)$aData['l18n_parent'];
-                    if (($aParent = $this->__getDbData($this->tableName(), $this->keyName(), $iParent)) !== false) {
+                    $iParent = (int) $aData['l18n_parent'];
+                    if (false !== ($aParent = $this->__getDbData($this->tableName(), $this->keyName(), $iParent))) {
                         $this->__aStoredI18NParent = $aParent;
                     }
                 }
@@ -589,5 +565,5 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_db/api/class.tx_dhdb.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_db/api/class.tx_dhdb.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_db/api/class.tx_dhdb.php'];
 }

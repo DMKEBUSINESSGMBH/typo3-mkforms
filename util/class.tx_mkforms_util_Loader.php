@@ -33,7 +33,7 @@ class tx_mkforms_util_Loader
     private static $instances = array();
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $formid
      */
@@ -43,27 +43,29 @@ class tx_mkforms_util_Loader
     }
 
     /**
-     * Liefert eine Instanz der Klasse für ein bestimmtes Form
+     * Liefert eine Instanz der Klasse für ein bestimmtes Form.
      *
      * @param string $formid
+     *
      * @return tx_mkforms_util_Loader
      */
     public static function getInstance($formid)
     {
-        if (!array_key_exists((string)$formid, self::$instances)) {
-            self::$instances[$formid] = new tx_mkforms_util_Loader((string)$formid);
+        if (!array_key_exists((string) $formid, self::$instances)) {
+            self::$instances[$formid] = new tx_mkforms_util_Loader((string) $formid);
         }
 
         return self::$instances[$formid];
     }
 
     /**
-     * Makes and initializes an object
+     * Makes and initializes an object.
      *
-     * @param   array       $aElement: conf for this object instance
-     * @param   array       $sNature: renderers, datahandlers, ...
-     * @param   string      $sXPath: xpath where this conf is declared
-     * @return  object
+     * @param array  $aElement: conf for this object instance
+     * @param array  $sNature:  renderers, datahandlers, ...
+     * @param string $sXPath:   xpath where this conf is declared
+     *
+     * @return object
      */
     public function &makeObject($aElement, $objectType, $sXPath, $form, $sNamePrefix = false, $aOParent = array())
     {
@@ -71,15 +73,15 @@ class tx_mkforms_util_Loader
         $aObj = self::loadObject($objectKey, $objectType, $form);
 
         // Das Objekt speichern, damit es bei einer Serialisierung nicht vergessen wird
-        $this->runningObjects[$objectType . '::' . $objectKey] = array('internalkey' => $objectKey,'objecttype' => $objectType);
+        $this->runningObjects[$objectType.'::'.$objectKey] = array('internalkey' => $objectKey, 'objecttype' => $objectType);
         // calls tx_myrdtclass::loaded();
-            // params are not passed by ref with call_user_func, so have to pass an array with &
-        $aLoadedObjects =& $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType];
+        // params are not passed by ref with call_user_func, so have to pass an array with &
+        $aLoadedObjects = &$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType];
         $params = array('form' => &$form);
         call_user_func_array(array($aLoadedObjects[$objectKey]['CLASS'], 'loaded'), array(&$params));
 
         if (!is_array($aObj)) {
-            tx_mkforms_util_Div::mayday('TYPE ' . $aElement['type'] . ' is not associated to any ' . $objectType);
+            tx_mkforms_util_Div::mayday('TYPE '.$aElement['type'].' is not associated to any '.$objectType);
         }
 
         $oObj = tx_rnbase::makeInstance($aObj['CLASS']);
@@ -99,17 +101,17 @@ class tx_mkforms_util_Loader
      *
      * @param string $objectKey
      * @param string $objectType
+     *
      * @return unknown
      */
     public static function loadObject($objectKey, $objectType)
     {
-        $declaredObjects =& $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects'][$objectType];
+        $declaredObjects = &$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects'][$objectType];
         if (!is_array($declaredObjects) || !array_key_exists($objectKey, $declaredObjects)) {
             return false;
         }
 
-
-        $aLoadedObjects =& $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType];
+        $aLoadedObjects = &$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType];
         if (!is_array($aLoadedObjects) || !array_key_exists($objectKey, $aLoadedObjects)) {
             $aTemp = array(
                 'EXTKEY' => $declaredObjects[$objectKey]['key'],
@@ -119,17 +121,16 @@ class tx_mkforms_util_Loader
                 'OBJECT' => $objectType,
             );
 
-            $aTemp['PATH']            = tx_mkforms_util_Div::getExtPath($aTemp['EXTKEY']);
-            $aTemp['RELPATH']        = tx_mkforms_util_Div::getExtRelPath($aTemp['EXTKEY']);
+            $aTemp['PATH'] = tx_mkforms_util_Div::getExtPath($aTemp['EXTKEY']);
+            $aTemp['RELPATH'] = tx_mkforms_util_Div::getExtRelPath($aTemp['EXTKEY']);
 
-            if ($aTemp['BASE'] === true && file_exists($aTemp['PATH']  . 'ext_localconf.php')) {
-                $aTemp['LOCALCONFPATH']    = $aTemp['PATH']  . 'ext_localconf.php';
+            if (true === $aTemp['BASE'] && file_exists($aTemp['PATH'].'ext_localconf.php')) {
+                $aTemp['LOCALCONFPATH'] = $aTemp['PATH'].'ext_localconf.php';
             }
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType][$aTemp['TYPE']] = $aTemp;
 
-
             if (file_exists($aTemp['LOCALCONFPATH'])) {
-                require_once($aTemp['LOCALCONFPATH']);
+                require_once $aTemp['LOCALCONFPATH'];
             }
 
             $aLoadedObjects[$objectKey] = $aTemp;
@@ -140,16 +141,17 @@ class tx_mkforms_util_Loader
 
     /**
      * Liefert ein Array mit den geladenen Objekten des Formulars. Dieses wird bei Ajax-Calls benötigt, um das Formular
-     * wieder zu erstellen
+     * wieder zu erstellen.
      *
      * @return array
      */
     public function getRunningObjects($formid = false)
     {
         $formid = $formid ? $formid : $this->formId;
-        if (tx_mkforms_util_Div::getEnvExecMode() == 'EID') {
+        if ('EID' == tx_mkforms_util_Div::getEnvExecMode()) {
             // Bei Ajax-Call kommen die Daten aus der Session
             tx_mkforms_session_Factory::getSessionManager()->initialize();
+
             return $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid]['runningobjects'];
         }
 
@@ -164,13 +166,14 @@ class tx_mkforms_util_Loader
         }
     }
 
-
     /**
      * Load a t3 class and make an instance.
      *
      * @param   string      classname
      * @param   mixed       optional more parameters for constructor
-     * @return  object      instance of the class or false if it fails
+     *
+     * @return object instance of the class or false if it fails
+     *
      * @see         tx_rnbase::makeInstance
      * @see         load()
      */
@@ -180,43 +183,47 @@ class tx_mkforms_util_Loader
         if ($this->load($sClass, $sPath)) {
             $args = func_get_args();
             unset($args[1]); // path entfernen
-            $ret = call_user_func_array(array('tx_rnbase','makeInstance'), $args);
+            $ret = call_user_func_array(array('tx_rnbase', 'makeInstance'), $args);
         }
 
         return $ret;
     }
 
     /**
-     * Load the class file
+     * Load the class file.
      *
      * @param   string      classname or path matching for the type of loader
-     * @param   string      $sPath path to the file
-     * @return  bool     true if successfull, false otherwise
+     * @param string $sPath path to the file
+     *
+     * @return bool true if successfull, false otherwise
+     *
      * @see     tx_rnbase::load
      */
     public function load($sClass, $sPath = false)
     {
         if (!array_key_exists($sClass, $this->loadedClasses)) {
             if ($sPath) {
-                require_once($sPath);
+                require_once $sPath;
             }
         }
         $this->loadedClasses[$sClass] = $sPath ? $sPath : true;
 
         return $this->loadedClasses[$sClass];
     }
+
     /**
      * Liefert ein Array mit den geladenen Objekten des Formulars. Dieses wird bei Ajax-Calls benötigt, um das Formular
-     * wieder zu erstellen
+     * wieder zu erstellen.
      *
      * @return array
      */
     public function getLoadedClasses($formid = false)
     {
         $formid = $formid ? $formid : $this->formId;
-        if (tx_mkforms_util_Div::getEnvExecMode() == 'EID') {
+        if ('EID' == tx_mkforms_util_Div::getEnvExecMode()) {
             // Bei Ajax-Call kommen die Daten aus der Session
             tx_mkforms_session_Factory::getSessionManager()->initialize();
+
             return $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid]['loadedClasses'];
         }
         $loadedClasses = $this->loadedClasses;
@@ -234,12 +241,12 @@ class tx_mkforms_util_Loader
         reset($aRObjects);
         foreach ($aRObjects as $sClass => $sPath) {
             if (is_string($sPath)) {
-                require_once($sPath);
+                require_once $sPath;
             }
         }
     }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Loader.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Loader.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_Loader.php'];
 }

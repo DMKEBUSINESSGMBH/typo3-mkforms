@@ -33,17 +33,17 @@ $EM_CONF[$_EXTKEY] = array(
     'CGLcompliance_note' => '',
     'constraints' => array(
         'depends' => array(
-            'rn_base' => '1.4.0-',
+            'rn_base' => '1.10.5-',
             'typo3' => '7.6.0-9.5.99',
-            'php' => '5.4.0-8.9.99'
+            'php' => '5.4.0-8.9.99',
         ),
         'conflicts' => array(
-            'ameos_formidable' => ''
+            'ameos_formidable' => '',
         ),
         'suggests' => array(
             'mkmailer' => '3.0.0-',
-            'mklib' => '3.0.0-'
-        )
+            'mklib' => '3.0.0-',
+        ),
     ),
     'autoload' => array(
         'classmap' => array(
@@ -61,7 +61,7 @@ $EM_CONF[$_EXTKEY] = array(
             'util/',
             'validator/',
             'view/',
-            'widgets/'
+            'widgets/',
         ),
     ),
     '_md5_values_when_last_written' => '',

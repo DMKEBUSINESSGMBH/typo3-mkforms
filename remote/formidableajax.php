@@ -5,20 +5,19 @@ if (!defined('PATH_typo3conf')) {
     die('Could not access this script directly!');
 }
 
-
 class formidableajax
 {
     /**
      * @var array
      */
-    public $aRequest    = array();
-    public $aConf        = false;
-    public $aSession    = array();
+    public $aRequest = array();
+    public $aConf = false;
+    public $aSession = array();
     public $aHibernation = array();
     /**
      * @var tx_ameosformidable
      */
-    public $oForm        = null;
+    public $oForm = null;
 
     public function getRequestData()
     {
@@ -27,6 +26,7 @@ class formidableajax
 
     /**
      * Validate access. PHP will die if access is not allowed.
+     *
      * @param array $request
      */
     private function validateAccess($request)
@@ -38,7 +38,7 @@ class formidableajax
             return false;
         }
         if (!array_key_exists($this->aRequest['object'], $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services'])) {
-            $this->denyService('no object found: ' . $this->aRequest['object']);
+            $this->denyService('no object found: '.$this->aRequest['object']);
         }
 
         if (!array_key_exists($this->aRequest['servicekey'], $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services'][$this->aRequest['object']])) {
@@ -59,16 +59,16 @@ class formidableajax
         $this->ttTimes = array();
 
         $this->aRequest = array(
-            'safelock'        => Tx_Rnbase_Utility_T3General::_GP('safelock'),
-            'object'        => Tx_Rnbase_Utility_T3General::_GP('object'),
-            'servicekey'    => Tx_Rnbase_Utility_T3General::_GP('servicekey'),
-            'eventid'        => Tx_Rnbase_Utility_T3General::_GP('eventid'),
-            'serviceid'        => Tx_Rnbase_Utility_T3General::_GP('serviceid'),
-            'value'            => stripslashes(Tx_Rnbase_Utility_T3General::_GP('value')),
-            'formid'        => Tx_Rnbase_Utility_T3General::_GP('formid'),
-            'thrower'        => Tx_Rnbase_Utility_T3General::_GP('thrower'),
-            'arguments'        => Tx_Rnbase_Utility_T3General::_GP('arguments'),
-            'trueargs'        => Tx_Rnbase_Utility_T3General::_GP('trueargs'),
+            'safelock' => Tx_Rnbase_Utility_T3General::_GP('safelock'),
+            'object' => Tx_Rnbase_Utility_T3General::_GP('object'),
+            'servicekey' => Tx_Rnbase_Utility_T3General::_GP('servicekey'),
+            'eventid' => Tx_Rnbase_Utility_T3General::_GP('eventid'),
+            'serviceid' => Tx_Rnbase_Utility_T3General::_GP('serviceid'),
+            'value' => stripslashes(Tx_Rnbase_Utility_T3General::_GP('value')),
+            'formid' => Tx_Rnbase_Utility_T3General::_GP('formid'),
+            'thrower' => Tx_Rnbase_Utility_T3General::_GP('thrower'),
+            'arguments' => Tx_Rnbase_Utility_T3General::_GP('arguments'),
+            'trueargs' => Tx_Rnbase_Utility_T3General::_GP('trueargs'),
         );
 
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -80,18 +80,15 @@ class formidableajax
         $this->validateAccess($this->aRequest);
 
         // proceed then
-        $this->aConf =& $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']
-                                            [$this->aRequest['object']][$this->aRequest['servicekey']]['conf'];
+        $this->aConf = &$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']]['conf'];
         // Ein Array mit dem Key "requester"
         // Wird NIE verwenden...
-        $this->aSession =&    $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']
-                                            [$this->aRequest['object']][$this->aRequest['servicekey']][$this->aRequest['safelock']];
-
+        $this->aSession = &$GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']][$this->aRequest['safelock']];
 
         $formid = $this->aRequest['formid'];
 
         // Hier wird ein Array mit verschiedenen Objekten und Daten aus der Session geladen.
-        $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
+        $aHibernation = &$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
 
         // Die TSFE muss vor dem Form wieder hergestellt werden, damit die LANG stimmt
         $this->initTSFE($formid, $sesMgr, $aHibernation);
@@ -102,15 +99,14 @@ class formidableajax
         $this->ttTimes['frest'] = microtime(true) - $start;
         if (!$this->oForm) {
             $this->denyService(
-                'no hibernate; Check those things: Have you Cookies enabled? Does the caching configuration for mkforms exist?' .
-                'Default caching through the database can be activated in the extension manager. Please refer to ' .
+                'no hibernate; Check those things: Have you Cookies enabled? Does the caching configuration for mkforms exist?'.
+                'Default caching through the database can be activated in the extension manager. Please refer to '.
                 'EXT:mkforms/ext_localconf.php on how to configure caching with another backend.'
             );
         }
 
         $sesMgr->setForm($this->oForm);
         $formid = $this->oForm->getFormId();
-
 
         if ($this->aConf['initBEuser']) {
             $this->_initBeUser();
@@ -142,10 +138,12 @@ class formidableajax
     }
 
     /**
-     *
-     * @param string $formid
+     * @param string                      $formid
      * @param tx_mkforms_session_IManager $sesMgr
-     * @param array $aHibernation
+     * @param array                       $aHibernation
+     *
+     * @todo no support for virtualizeFE option and typo3 9.5 right now. If no support is needed/added this method can be
+     * removed when making mkforms campoatible to TYPO3 10.
      */
     private function initTSFE($formid, $sesMgr, $aHibernation)
     {
@@ -172,30 +170,24 @@ class formidableajax
         }
     }
 
-    public function _initFeUser()
-    {
-        $eidUtility = tx_rnbase_util_Typo3Classes::getEidUtilityClass();
-        $eidUtility::initFeUser();
-    }
-
     public function handleRequest()
     {
         $this->oForm->aInitTasksAjax = array();
         $this->oForm->aPostInitTasksAjax = array();
         $this->oForm->aRdtEventsAjax = array();
 
-        if ($this->aRequest['servicekey'] == 'ajaxservice') {
+        if ('ajaxservice' == $this->aRequest['servicekey']) {
             // Hier kommt direkt ein String
             $sJson = $this->getForm()->handleAjaxRequest($this);
         } else {
             // Hier kommt ein Array...
-            if ($this->aRequest['object'] == 'tx_ameosformidable') {
+            if ('tx_ameosformidable' == $this->aRequest['object']) {
                 $aData = $this->getForm()->handleAjaxRequest($this);
             } else {
                 $thrower = $this->getWhoThrown();
                 $widget = $this->getForm()->getWidget($thrower);
                 if (!$widget) {
-                    throw new Exception('Widget '.htmlspecialchars($thrower) . ' not found!');
+                    throw new Exception('Widget '.htmlspecialchars($thrower).' not found!');
                 }
                 $aData = $widget->handleAjaxRequest($this);
             }
@@ -210,7 +202,7 @@ class formidableajax
             // Deswegen wandeln wie die erstmal in Strings um.
             $ttTimes = array();
             foreach ($this->ttTimes as $key => $time) {
-                $ttTimes[$key] = (string)$time;
+                $ttTimes[$key] = (string) $time;
             }
 
             $sJson = tx_mkforms_util_Json::getInstance()->encode(
@@ -234,8 +226,8 @@ class formidableajax
 
         $this->archiveRequest($this->aRequest);
 
-        if (($sCharset = $this->oForm->_navConf('charset', $this->oForm->aAjaxEvents[$this->aRequest['eventid']]['event'])) === false) {
-            if (($sCharset = $this->oForm->_navConf('/meta/ajaxcharset')) === false) {
+        if (false === ($sCharset = $this->oForm->_navConf('charset', $this->oForm->aAjaxEvents[$this->aRequest['eventid']]['event']))) {
+            if (false === ($sCharset = $this->oForm->_navConf('/meta/ajaxcharset'))) {
                 $sCharset = 'UTF-8';
             }
         }
@@ -244,18 +236,18 @@ class formidableajax
         $sesMgr->persistForm(true);
 
         // text/plain Will der IE nicht, deswegen text/html, damit sollten alle Browser klar kommen.
-        header('Content-Type: text/html; charset=' . $sCharset);
+        header('Content-Type: text/html; charset='.$sCharset);
         die($sJson);
     }
 
     /**
-     *
      * @return tx_ameosformidable
      */
     public function getForm()
     {
         return $this->oForm;
     }
+
     /**
      * Die Methode wird noch in ameos_formidable::handleAjaxRequest aufgerufen.
      *
@@ -264,9 +256,15 @@ class formidableajax
     public function denyService($sMessage)
     {
         header('Content-Type: text/plain; charset=UTF-8');
-        die('{/* SERVICE DENIED: ' . $sMessage . ' */}');
+        die('{/* SERVICE DENIED: '.$sMessage.' */}');
     }
 
+    /**
+     * @return Exception|object|string
+     *
+     * @todo no support for typo3 9.5 right now. If no support is needed/added this method can be
+     * removed when making mkforms campoatible to TYPO3 10.
+     */
     public function _initBeUser()
     {
         global $BE_USER, $_COOKIE;
@@ -284,15 +282,11 @@ class formidableajax
         // *********
         $BE_USER = '';
         if ($_COOKIE['be_typo_user']) {        // If the backend cookie is set, we proceed and checks if a backend user is logged in.
-
-                    // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-                $BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
-            if (property_exists($BE_USER, 'OS')) {
-                $BE_USER->OS = TYPO3_OS;
-            }
+            // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
+            $BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
             $BE_USER->lockIP = $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'];
             $BE_USER->start();            // Object is initialized
-                $BE_USER->unpack_uc('');
+            $BE_USER->unpack_uc('');
             if ($BE_USER->user['uid']) {
                 $BE_USER->fetchGroupData();
                 $TSFE->beUserLogin = 1;
@@ -300,13 +294,13 @@ class formidableajax
             if ($BE_USER->checkLockToIP() && $BE_USER->checkBackendAccessSettingsFromInitPhp()) {
                 $BE_USER->extInitFeAdmin();
                 if ($BE_USER->extAdmEnabled) {
-                    require_once(tx_rnbase_util_Extensions::extPath('lang').'lang.php');
+                    require_once tx_rnbase_util_Extensions::extPath('lang').'lang.php';
                     $LANG = tx_rnbase::makeInstance('language');
                     $LANG->init($BE_USER->uc['lang']);
 
                     $BE_USER->extSaveFeAdminConfig();
-                            // Setting some values based on the admin panel
-                        $TSFE->forceTemplateParsing = $BE_USER->extGetFeAdminValue('tsdebug', 'forceTemplateParsing');
+                    // Setting some values based on the admin panel
+                    $TSFE->forceTemplateParsing = $BE_USER->extGetFeAdminValue('tsdebug', 'forceTemplateParsing');
                     $TSFE->displayEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayIcons');
                     $TSFE->displayFieldEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayFieldIcons');
 
@@ -315,16 +309,16 @@ class formidableajax
                         $BE_USER->uc['TSFE_adminConfig']['edit_editNoPopup'] = 1;
                     }
                     if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int)Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser');
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int) Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser');
                         $BE_USER->ext_forcePreview = 1;
                     }
                     if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int)Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime');
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int) Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime');
                         $BE_USER->ext_forcePreview = 1;
                     }
 
-                            // Include classes for editing IF editing module in Admin Panel is open
-                    if (($BE_USER->extAdmModuleEnabled('edit') && $BE_USER->extIsAdmMenuOpen('edit')) || $TSFE->displayEditIcons == 1) {
+                    // Include classes for editing IF editing module in Admin Panel is open
+                    if (($BE_USER->extAdmModuleEnabled('edit') && $BE_USER->extIsAdmMenuOpen('edit')) || 1 == $TSFE->displayEditIcons) {
                         $TSFE->includeTCA();
                         if ($BE_USER->extIsEditAction()) {
                             $BE_USER->extEditAction();
@@ -338,16 +332,13 @@ class formidableajax
                     }
                 }
             } else {    // Unset the user initialization.
-                    $BE_USER = '';
+                $BE_USER = '';
                 $TSFE->beUserLogin = 0;
             }
         } elseif ($TSFE->ADMCMD_preview_BEUSER_uid) {
-                // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
+            // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
             $BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
             $BE_USER->userTS_dontGetCached = 1;
-            if (property_exists($BE_USER, 'OS')) {
-                $BE_USER->OS = TYPO3_OS;
-            }
             $BE_USER->setBeUserByUid($TSFE->ADMCMD_preview_BEUSER_uid);
             $BE_USER->unpack_uc('');
             if ($BE_USER->user['uid']) {
@@ -378,7 +369,7 @@ class formidableajax
 
     public function &getThrower()
     {
-        if (($sWho = $this->getWhoThrown()) !== false) {
+        if (false !== ($sWho = $this->getWhoThrown())) {
             if (array_key_exists($sWho, $this->oForm->aORenderlets)) {
                 return $this->oForm->aORenderlets[$sWho];
             }
@@ -422,7 +413,7 @@ class formidableajax
 
 try {
     $oAjax = new formidableajax();
-    if ($oAjax->init() === false) {
+    if (false === $oAjax->init()) {
         $oAjax->denyService(); // Damit wird der Prozess beendet.
         die();
     }
@@ -438,11 +429,11 @@ try {
                 'Exception Message' => $e->getMessage(),
                 'Exception Trace' => $e->getTraceAsString(),
                 'Request' => $request,
-                'Widgets' => $widgets
+                'Widgets' => $widgets,
             ));
     }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php'];
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 Michael Wagner <dev@dmk-business.de>
  *  All rights reserved
@@ -23,24 +23,18 @@
  */
 
 /**
- * benötigte Klassen einbinden
- */
-
-/**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_util
+ * benötigte Klassen einbinden.
  */
 class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @group unit
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Please provide the parameter for 'configurationId'
      */
     public function testGetConfigurationValueThrowsExceptionIfNoCondifurationIdConfigured()
     {
-        self::markTestIncomplete("Creating default object from empty value");
+        self::markTestIncomplete('Creating default object from empty value');
 
         $form = tx_mkforms_tests_Util::getForm();
 
@@ -52,7 +46,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetConfigurationValue()
     {
-        self::markTestIncomplete("Creating default object from empty value");
+        self::markTestIncomplete('Creating default object from empty value');
 
         $form = tx_mkforms_tests_Util::getForm(
             true,
@@ -76,7 +70,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetConfigurationValueDeep()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
 
         tx_rnbase_util_Misc::prepareTSFE();
         $form = tx_mkforms_tests_Util::getForm(
@@ -86,7 +80,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
                 array('myConf.' => array(
                         'path' => 'TEXT',
                         'path.' => array('value' => 'textvalue'),
-                    )
+                    ),
                 )
             )
         );
@@ -105,7 +99,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetConfigurationValueIfCastToBoolean()
     {
-        self::markTestIncomplete("Creating default object from empty value");
+        self::markTestIncomplete('Creating default object from empty value');
 
         $form = tx_mkforms_tests_Util::getForm(
             true,
@@ -128,7 +122,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testGetConfigurationValueIfPrefixWithConfigurationIdOfForm()
     {
-        self::markTestIncomplete("Creating default object from empty value");
+        self::markTestIncomplete('Creating default object from empty value');
 
         $form = tx_mkforms_tests_Util::getForm(
             true,
@@ -148,5 +142,5 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']);
+    include_once $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php'];
 }

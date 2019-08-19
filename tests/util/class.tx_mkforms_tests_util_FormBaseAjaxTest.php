@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 Michael Wagner <dev@dmk-business.de>
  *  All rights reserved
@@ -23,19 +23,17 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
 
 /**
- * Array util tests
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_util
+ * Array util tests.
  */
 class tx_mkforms_tests_util_FormBaseAjaxTest extends tx_rnbase_tests_BaseTestCase
 {
     public function testRepaintDependenciesReturnsCorrectArray()
     {
-        self::markTestIncomplete("Creating default object from empty value");
+        self::markTestIncomplete('Creating default object from empty value');
 
         $params = array('me' => 'fieldset__widget-listbox');
         $ret = tx_mkforms_util_FormBaseAjax::repaintDependencies($params, tx_mkforms_tests_Util::getForm());
@@ -49,5 +47,5 @@ class tx_mkforms_tests_util_FormBaseAjaxTest extends tx_rnbase_tests_BaseTestCas
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php'];
 }

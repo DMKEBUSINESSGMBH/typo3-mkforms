@@ -11,31 +11,28 @@
 // => Voir fichier Licence_CeCILL_V2-fr.txt)
 // -----------------------------------------------
 
-
 error_reporting(E_ALL ^ E_NOTICE);
-srand((double)microtime() * 1000000);
+srand((float) microtime() * 1000000);
 
-if ((!isset($_COOKIE['cryptcookietest'])) and ($_GET[$_GET['sn']] == '')) {
+if ((!isset($_COOKIE['cryptcookietest'])) and ('' == $_GET[$_GET['sn']])) {
     header('Content-type: image/png');
     readfile('images/erreur3.png');
     exit;
 }
 
-if ($_GET[$_GET['sn']] == '') {
+if ('' == $_GET[$_GET['sn']]) {
     unset($_GET['sn']);
 }
 session_start();
 
-
 // N'accepte que les fichiers de config du meme r�pertoire
-if (is_file($_GET['cfg']) and dirname($_GET['cfg']) == '.') {
+if (is_file($_GET['cfg']) and '.' == dirname($_GET['cfg'])) {
     $_SESSION['configfile'] = $_GET['cfg'];
 } else {
-       $_SESSION['configfile'] = 'cryptographp.cfg.php';
+    $_SESSION['configfile'] = 'cryptographp.cfg.php';
 }
 
-include($_SESSION['configfile']);
-
+include $_SESSION['configfile'];
 
 // V�rifie si l'utilisateur a le droit de (re)g�n�rer un cryptogramme
 if ($_SESSION['cryptcptuse'] >= $cryptusemax) {
@@ -62,23 +59,22 @@ if ($delai < $cryptusetimer) {
 
 // Cr�ation du cryptogramme temporaire
 $imgtmp = imagecreatetruecolor($cryptwidth, $cryptheight);
-$blank  = imagecolorallocate($imgtmp, 255, 255, 255);
-$black   = imagecolorallocate($imgtmp, 0, 0, 0);
+$blank = imagecolorallocate($imgtmp, 255, 255, 255);
+$black = imagecolorallocate($imgtmp, 0, 0, 0);
 imagefill($imgtmp, 0, 0, $blank);
-
 
 $word = '';
 $x = 10;
 $pair = rand(0, 1);
 $charnb = rand($charnbmin, $charnbmax);
-for ($i = 1; $i <= $charnb; $i++) {
-    $tword[$i]['font'] =  $tfont[array_rand($tfont, 1)];
-    $tword[$i]['angle'] = (rand(1, 2) == 1) ? rand(0, $charanglemax) : rand(360 - $charanglemax, 360);
+for ($i = 1; $i <= $charnb; ++$i) {
+    $tword[$i]['font'] = $tfont[array_rand($tfont, 1)];
+    $tword[$i]['angle'] = (1 == rand(1, 2)) ? rand(0, $charanglemax) : rand(360 - $charanglemax, 360);
 
     if ($crypteasy) {
-        $tword[$i]['element'] = (!$pair) ? $charelc{rand(0, strlen($charelc) - 1)} : $charelv{rand(0, strlen($charelv) - 1)};
+        $tword[$i]['element'] = (!$pair) ? $charelc[rand(0, strlen($charelc) - 1)] : $charelv[rand(0, strlen($charelv) - 1)];
     } else {
-        $tword[$i]['element'] = $charel{rand(0, strlen($charel) - 1)};
+        $tword[$i]['element'] = $charel[rand(0, strlen($charel) - 1)];
     }
 
     $pair = !$pair;
@@ -101,9 +97,9 @@ while (($x < $cryptwidth) and (!$xbegin)) {
         if (imagecolorat($imgtmp, $x, $y) != $blank) {
             $xbegin = $x;
         }
-        $y++;
+        ++$y;
     }
-    $x++;
+    ++$x;
 }
 
 $xend = 0;
@@ -114,21 +110,20 @@ while (($x > 0) and (!$xend)) {
         if (imagecolorat($imgtmp, $x, $y) != $blank) {
             $xend = $x;
         }
-        $y++;
+        ++$y;
     }
-    $x--;
+    --$x;
 }
 
 $xvariation = round(($cryptwidth / 2) - (($xend - $xbegin) / 2));
 imagedestroy($imgtmp);
-
 
 // Cr�ation du cryptogramme d�finitif
 // Cr�ation du fond
 $img = imagecreatetruecolor($cryptwidth, $cryptheight);
 
 if ($bgimg and is_dir($bgimg)) {
-    $dh  = opendir($bgimg);
+    $dh = opendir($bgimg);
     while (false !== ($filename = readdir($dh))) {
         if (preg_match('/.[gif|jpg|png]$/i', $filename)) {
             $files[] = $filename;
@@ -153,13 +148,12 @@ if ($bgimg) {
     imagecopyresized($img, $imgread, 0, 0, 0, 0, $cryptwidth, $cryptheight, $getwidth, $getheight);
     imagedestroy($imgread);
 } else {
-                $bg = imagecolorallocate($img, $bgR, $bgG, $bgB);
-                imagefill($img, 0, 0, $bg);
+    $bg = imagecolorallocate($img, $bgR, $bgG, $bgB);
+    imagefill($img, 0, 0, $bg);
     if ($bgclear) {
         imagecolortransparent($img, $bg);
     }
 }
-
 
 function ecriture()
 {
@@ -172,7 +166,7 @@ function ecriture()
     }
 
     $x = $xvariation;
-    for ($i = 1; $i <= $charnb; $i++) {
+    for ($i = 1; $i <= $charnb; ++$i) {
         if ($charcolorrnd) {   // Choisit des couleurs au hasard
             $ok = false;
             do {
@@ -220,7 +214,6 @@ function ecriture()
     }
 }
 
-
 function noisecolor()
 {
     global $img, $noisecolorchar, $ink, $bg, $brushsize;
@@ -246,24 +239,22 @@ function noisecolor()
     return $noisecol;
 }
 
-
 function bruit()
 {
     global $noisepxmin, $noisepxmax, $noiselinemin, $noiselinemax, $nbcirclemin, $nbcirclemax,$img, $cryptwidth, $cryptheight;
     $nbpx = rand($noisepxmin, $noisepxmax);
     $nbline = rand($noiselinemin, $noiselinemax);
     $nbcircle = rand($nbcirclemin, $nbcirclemax);
-    for ($i = 1; $i < $nbpx; $i++) {
+    for ($i = 1; $i < $nbpx; ++$i) {
         imagesetpixel($img, rand(0, $cryptwidth - 1), rand(0, $cryptheight - 1), noisecolor());
     }
-    for ($i = 1; $i <= $nbline; $i++) {
+    for ($i = 1; $i <= $nbline; ++$i) {
         imageline($img, rand(0, $cryptwidth - 1), rand(0, $cryptheight - 1), rand(0, $cryptwidth - 1), rand(0, $cryptheight - 1), noisecolor());
     }
-    for ($i = 1; $i <= $nbcircle; $i++) {
+    for ($i = 1; $i <= $nbcircle; ++$i) {
         imagearc($img, rand(0, $cryptwidth - 1), rand(0, $cryptheight - 1), $rayon = rand(5, $cryptwidth / 3), $rayon, 0, 360, noisecolor());
     }
 }
-
 
 if ($noiseup) {
     ecriture();
@@ -273,13 +264,11 @@ if ($noiseup) {
     ecriture();
 }
 
-
 // Cr�ation du cadre
 if ($bgframe) {
     $framecol = imagecolorallocate($img, ($bgR * 3 + $charR) / 4, ($bgG * 3 + $charG) / 4, ($bgB * 3 + $charB) / 4);
     imagerectangle($img, 0, 0, $cryptwidth - 1, $cryptheight - 1, $framecol);
 }
-
 
 // Transformations suppl�mentaires: Grayscale et Brouillage
 // V�rifie si la fonction existe dans la version PHP install�e
@@ -292,10 +281,8 @@ if (function_exists('imagefilter')) {
     }
 }
 
-
 // Conversion du cryptogramme en Majuscule si insensibilit� � la casse
 $word = ($difuplow ? $word : strtoupper($word));
-
 
 // Retourne 2 informations dans la session:
 // - Le code du cryptogramme (crypt� ou pas)
@@ -312,8 +299,7 @@ switch (strtoupper($cryptsecure)) {
         break;
 }
 $_SESSION['crypttime'] = time();
-$_SESSION['cryptcptuse']++;
-
+++$_SESSION['cryptcptuse'];
 
 // Envoi de l'image finale au navigateur
 switch (strtoupper($cryptformat)) {

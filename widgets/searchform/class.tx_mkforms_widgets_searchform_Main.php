@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 {
     public $oDataSource = false;
@@ -41,8 +39,8 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         }
 
         return array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sCompiledChilds,
-            'childs' => $aChildBags
+            '__compiled' => $this->_displayLabel($sLabel).$sCompiledChilds,
+            'childs' => $aChildBags,
         );
     }
 
@@ -62,7 +60,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function _initDescendants($bForce = false)
     {
-        if ($bForce === true || $this->aDescendants === false) {
+        if (true === $bForce || false === $this->aDescendants) {
             $this->aDescendants = $this->getDescendants();
         }
     }
@@ -83,12 +81,12 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function isRemoteSender()
     {
-        return ($this->_navConf('/remote/mode') === 'sender');
+        return 'sender' === $this->_navConf('/remote/mode');
     }
 
     public function isRemoteReceiver()
     {
-        return ($this->_navConf('/remote/mode') === 'receiver');
+        return 'receiver' === $this->_navConf('/remote/mode');
     }
 
     public function _initDataSource()
@@ -97,14 +95,14 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
             return;
         }
 
-        if ($this->oDataSource === false) {
-            if (($sDsToUse = $this->_navConf('/datasource/use')) === false) {
+        if (false === $this->oDataSource) {
+            if (false === ($sDsToUse = $this->_navConf('/datasource/use'))) {
                 $this->oForm->mayday('RENDERLET SEARCHFORM - requires /datasource/use to be properly set. Check your XML conf.');
             } elseif (!array_key_exists($sDsToUse, $this->oForm->aODataSources)) {
-                $this->oForm->mayday("RENDERLET SEARCHFORM - refers to undefined datasource '" . $sDsToUse . "'. Check your XML conf.");
+                $this->oForm->mayday("RENDERLET SEARCHFORM - refers to undefined datasource '".$sDsToUse."'. Check your XML conf.");
             }
 
-            $this->oDataSource =& $this->oForm->aODataSources[$sDsToUse];
+            $this->oDataSource = &$this->oForm->aODataSources[$sDsToUse];
         }
     }
 
@@ -116,7 +114,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
         $this->aCriterias = false;
         tx_mkforms_session_Factory::getSessionManager()->initialize();
-        $aAppData =& $GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
+        $aAppData = &$GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
         $aAppData['rdt_lister'][$this->oForm->formid][$this->getAbsName()]['criterias'] = array();
 
         if ($this->isRemoteReceiver()) {
@@ -129,11 +127,10 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         return $this->aCriterias;
     }
 
-
     public function getRemoteSenderFormId()
     {
         if ($this->isRemoteReceiver()) {
-            if (($sSenderFormId = $this->_navConf('/remote/senderformid')) !== false) {
+            if (false !== ($sSenderFormId = $this->_navConf('/remote/senderformid'))) {
                 return $sSenderFormId;
             }
         }
@@ -144,7 +141,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     public function getRemoteSenderAbsName()
     {
         if ($this->isRemoteReceiver()) {
-            if (($sSenderAbsName = $this->_navConf('/remote/senderabsname')) !== false) {
+            if (false !== ($sSenderAbsName = $this->_navConf('/remote/senderabsname'))) {
                 return $sSenderAbsName;
             }
         }
@@ -154,15 +151,15 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function _initCriterias()
     {
-        if ($this->aCriterias === false) {
+        if (false === $this->aCriterias) {
             $bUpdate = false;
 
             if ($this->isRemoteReceiver()) {
-                if (($sFormId = $this->getRemoteSenderFormId()) === false) {
+                if (false === ($sFormId = $this->getRemoteSenderFormId())) {
                     $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderFormId to be properly set. Check your XML conf.');
                 }
 
-                if (($sSearchAbsName = $this->getRemoteSenderAbsName()) === false) {
+                if (false === ($sSearchAbsName = $this->getRemoteSenderAbsName())) {
                     $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderAbsName to be properly set. Check your XML conf.');
                 }
             } else {
@@ -173,7 +170,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
             $this->aCriterias = array();
 
             tx_mkforms_session_Factory::getSessionManager()->initialize();
-            $aAppData =& $GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
+            $aAppData = &$GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
 
             if (!array_key_exists('rdt_lister', $aAppData)) {
                 $aAppData['rdt_lister'] = array();
@@ -198,7 +195,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                     // set in session
                     foreach ($this->aDescendants as $sAbsName) {
                         $sRelName = $this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this);
-                        $sRemoteAbsName = $sSearchAbsName . '.' . $sRelName;
+                        $sRemoteAbsName = $sSearchAbsName.'.'.$sRelName;
                         $this->aCriterias[$sRemoteAbsName] = $this->oForm->aORenderlets[$sAbsName]->getValue();
                     }
                 } else {
@@ -218,7 +215,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
                     foreach ($this->aDescendants as $sAbsName) {
                         $sRelName = $this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this);
-                        $sRemoteAbsName = $sSearchAbsName . '.' . $sRelName;
+                        $sRemoteAbsName = $sSearchAbsName.'.'.$sRelName;
                         $sRemoteAbsPath = str_replace('.', '/', $sRemoteAbsName);
 
                         $mValue = $this->oForm->navDeepData($sRemoteAbsPath, $aRawPost);
@@ -228,7 +225,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                 }
             }
 
-            if ($bUpdate === true) {
+            if (true === $bUpdate) {
                 if ($this->_getParamsFromGET()) {
                     $aGet = (Tx_Rnbase_Utility_T3General::_GET($sFormId)) ? Tx_Rnbase_Utility_T3General::_GET($sFormId) : array();
 
@@ -257,11 +254,11 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                 $this->aCriterias = $aAppData['rdt_lister'][$sFormId][$sSearchAbsName]['criterias'];
 
                 if ($this->isRemoteReceiver()) {
-                    if (($sFormId = $this->getRemoteSenderFormId()) === false) {
+                    if (false === ($sFormId = $this->getRemoteSenderFormId())) {
                         $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderFormId to be properly set. Check your XML conf.');
                     }
 
-                    if (($sSearchAbsName = $this->getRemoteSenderAbsName()) === false) {
+                    if (false === ($sSearchAbsName = $this->getRemoteSenderAbsName())) {
                         $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderAbsName to be properly set. Check your XML conf.');
                     }
 
@@ -271,7 +268,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                             $sSearchAbsName
                         );
 
-                        $sLocalAbsName = $this->getAbsName() . '.' . $sRelName;
+                        $sLocalAbsName = $this->getAbsName().'.'.$sRelName;
                         if (array_key_exists($sLocalAbsName, $this->oForm->aORenderlets)) {
                             $this->oForm->aORenderlets[$sLocalAbsName]->setValue(
                                 $this->aCriterias[$sAbsName]
@@ -294,18 +291,18 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     public function shouldUpdateCriteriasRemoteReceiver()
     {
         if ($this->isRemoteReceiver()) {
-            if (($sFormId = $this->getRemoteSenderFormId()) === false) {
+            if (false === ($sFormId = $this->getRemoteSenderFormId())) {
                 $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderFormId to be properly set. Check your XML conf.');
             }
 
-            if (($sSearchAbsName = $this->getRemoteSenderAbsName()) === false) {
+            if (false === ($sSearchAbsName = $this->getRemoteSenderAbsName())) {
                 $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderAbsName to be properly set. Check your XML conf.');
             }
 
             if ($this->oForm->oDataHandler->_isSearchSubmitted($sFormId) || $this->oForm->oDataHandler->_isFullySubmitted($sFormId)) {    // full submit to allow no-js browser to search
                 foreach ($this->aDescendants as $sAbsName) {
                     $sRelName = $this->oForm->aORenderlets[$sAbsName]->getNameRelativeTo($this);
-                    $sRemoteAbsName = $sSearchAbsName . '.' . $sRelName;
+                    $sRemoteAbsName = $sSearchAbsName.'.'.$sRelName;
 
                     if ($this->oForm->aORenderlets[$sAbsName]->hasSubmitted($sFormId, $sRemoteAbsName)) {
                         return true;
@@ -319,12 +316,11 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function shouldUpdateCriteriasClassical()
     {
-        if ($this->oForm->oDataHandler->_isSubmitted() === true) {
+        if (true === $this->oForm->oDataHandler->_isSubmitted()) {
             foreach ($this->aDescendants as $sAbsName) {
                 if (array_key_exists($sAbsName, $this->oForm->aORenderlets) &&
                     $this->oForm->aORenderlets[$sAbsName]->hasSubmitted() &&
                     $this->oForm->oDataHandler->_isSearchSubmitted()) {    // the mode is not determined by the renderlet anymore, but rather by the datahandler (one common submit per page, anyway)
-
                     return true;
                 }
             }
@@ -356,7 +352,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function processBeforeSearch($aCriterias)
     {
-        if (($aBeforeSearch = $this->_navConf('/beforesearch')) !== false && $this->oForm->isRunneable($aBeforeSearch)) {
+        if (false !== ($aBeforeSearch = $this->_navConf('/beforesearch')) && $this->oForm->isRunneable($aBeforeSearch)) {
             $aCriterias = $this->getForm()->getRunnable()->callRunnableWidget($this, $aBeforeSearch, $aCriterias);
         }
 
@@ -369,7 +365,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function processAfterSearch($aResults)
     {
-        if (($aAfterSearch = $this->_navConf('/aftersearch')) !== false && $this->oForm->isRunneable($aAfterSearch)) {
+        if (false !== ($aAfterSearch = $this->_navConf('/aftersearch')) && $this->oForm->isRunneable($aAfterSearch)) {
             $aResults = $this->getForm()->getRunnable()->callRunnableWidget($this, $aAfterSearch, $aResults);
         }
 
@@ -382,18 +378,18 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function _initFilters()
     {
-        if ($this->aFilters === false) {
+        if (false === $this->aFilters) {
             $this->aFilters = array();
 
             $aCriterias = $this->processBeforeSearch($this->aCriterias);
             reset($aCriterias);
 
             if ($this->isRemoteReceiver()) {
-                if (($sFormId = $this->getRemoteSenderFormId()) === false) {
+                if (false === ($sFormId = $this->getRemoteSenderFormId())) {
                     $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderFormId to be properly set. Check your XML conf.');
                 }
 
-                if (($sSearchAbsName = $this->getRemoteSenderAbsName()) === false) {
+                if (false === ($sSearchAbsName = $this->getRemoteSenderAbsName())) {
                     $this->oForm->mayday('RENDERLET SEARCHFORM - requires /remote/senderAbsName to be properly set. Check your XML conf.');
                 }
 
@@ -403,11 +399,10 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                         $sSearchAbsName
                     );
 
-
-                    $sLocalAbsName = $this->getAbsName() . '.' . $sRelName;
+                    $sLocalAbsName = $this->getAbsName().'.'.$sRelName;
 
                     if (array_key_exists($sLocalAbsName, $this->oForm->aORenderlets)) {
-                        $oRdt =& $this->oForm->aORenderlets[$sLocalAbsName];
+                        $oRdt = &$this->oForm->aORenderlets[$sLocalAbsName];
 
                         if ($oRdt->_searchable()) {
                             $sValue = $oRdt->_flatten($aCriterias[$sRdtName]);
@@ -421,7 +416,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
             } else {
                 foreach ($aCriterias as $sRdtName => $_) {
                     if (array_key_exists($sRdtName, $this->oForm->aORenderlets)) {
-                        $oRdt =& $this->oForm->aORenderlets[$sRdtName];
+                        $oRdt = &$this->oForm->aORenderlets[$sRdtName];
 
                         if ($oRdt->_searchable()) {
                             $sValue = $oRdt->_flatten($aCriterias[$sRdtName]);
@@ -477,7 +472,6 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_searchform/api/class.tx_rdtsearchform.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_searchform/api/class.tx_rdtsearchform.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_searchform/api/class.tx_rdtsearchform.php'];
 }

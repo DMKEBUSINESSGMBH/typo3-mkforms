@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_api
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -27,27 +25,25 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet
- * wir testen am beispiel des TEXT widgets
+ * wir testen am beispiel des TEXT widgets.
  *
  * @author hbochmann
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_filter
  */
 class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
         \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true, 'initFEuser' => true));
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
@@ -57,7 +53,8 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -67,8 +64,7 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
     }
 
     /**
-     *
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionCode 2001
      * @expectedExceptionMessage Das Formular ist nicht valide
      */
@@ -79,8 +75,7 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
     }
 
     /**
-     *
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionCode 2001
      * @expectedExceptionMessage Das Formular ist nicht valide
      */
@@ -91,8 +86,6 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
         tx_mkforms_tests_Util::getForm()->render();
     }
 
-    /**
-     */
     public function testRenderThrowsNoExceptionIfCsrfProtectionDeactivated()
     {
         $_POST['radioTestForm']['AMEOSFORMIDABLE_SUBMITTED'] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
@@ -106,8 +99,6 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
         );
     }
 
-    /**
-     */
     public function testRenderThrowsNoExceptionIfRequestTokenIsValid()
     {
         $_POST['radioTestForm']['AMEOSFORMIDABLE_SUBMITTED'] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
@@ -127,8 +118,6 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
         );
     }
 
-    /**
-     */
     public function testGetCreationTimestamp()
     {
         $form = tx_mkforms_tests_Util::getForm();
@@ -185,47 +174,47 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
     {
         return array(
             array(
-                array('generic.' => array('formconfig.' => array('csrfProtection' => true))), true
+                array('generic.' => array('formconfig.' => array('csrfProtection' => true))), true,
             ),
             array(
-                array('generic.' => array('formconfig.' => array('csrfProtection' => false))), false
-            ),
-            array(
-                array(
-                    'generic.' => array(
-                        'formconfig.' => array('csrfProtection' => true),
-                        'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml'
-                    )
-                ),
-                false
-            ),
-            array(
-                array(
-                    'generic.' => array(
-                        'formconfig.' => array('csrfProtection' => false),
-                        'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml'
-                    )
-                ),
-                false
+                array('generic.' => array('formconfig.' => array('csrfProtection' => false))), false,
             ),
             array(
                 array(
                     'generic.' => array(
                         'formconfig.' => array('csrfProtection' => true),
-                        'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml'
-                    )
+                        'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml',
+                    ),
                 ),
-                true
+                false,
             ),
             array(
                 array(
                     'generic.' => array(
                         'formconfig.' => array('csrfProtection' => false),
-                        'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml'
-                    )
+                        'xml' => 'EXT:mkforms/tests/xml/withoutCsrfProtection.xml',
+                    ),
                 ),
-                true
-            )
+                false,
+            ),
+            array(
+                array(
+                    'generic.' => array(
+                        'formconfig.' => array('csrfProtection' => true),
+                        'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml',
+                    ),
+                ),
+                true,
+            ),
+            array(
+                array(
+                    'generic.' => array(
+                        'formconfig.' => array('csrfProtection' => false),
+                        'xml' => 'EXT:mkforms/tests/xml/withCsrfProtection.xml',
+                    ),
+                ),
+                true,
+            ),
         );
     }
 
@@ -257,5 +246,5 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php'];
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
 {
     public function _render()
@@ -10,10 +9,10 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
         $inputType = $this->getInputType();
 
         $aAdditionalParams = implode(' ', (array) $this->getAdditionalParams());
-        $sInput = '<input type="' . $inputType . '" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . $this->getValueForHtml($sValue) . '"' . $this->_getAddInputParams($aAdditionalParams) . ' '.$aAdditionalParams.' />';
+        $sInput = '<input type="'.$inputType.'" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.$this->getValueForHtml($sValue).'"'.$this->_getAddInputParams($aAdditionalParams).' '.$aAdditionalParams.' />';
 
         return array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sInput,
+            '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
             'label' => $sLabel,
             'value' => $sValue,
@@ -23,7 +22,7 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
     protected function getAdditionalParams()
     {
         $aAdditionalParams = array();
-        if (($sMaxLength = $this->_navConf('/maxlength')) !== false) {
+        if (false !== ($sMaxLength = $this->_navConf('/maxlength'))) {
             $aAdditionalParams[] = 'maxlength="'.$sMaxLength.'"';
         }
 
@@ -59,7 +58,6 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_text/api/class.tx_mkforms_widgets_text_Text.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_text/api/class.tx_mkforms_widgets_text_Text.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_text/api/class.tx_mkforms_widgets_text_Text.php'];
 }

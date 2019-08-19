@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'CheckSingle';
@@ -22,7 +20,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
         $iValue = $this->getValue();
 
-        if ($iValue === 1) {
+        if (1 === $iValue) {
             $sChecked = ' checked="checked" ';
         }
 
@@ -46,7 +44,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
                 $this->_getAddInputParams()
             );
             // damit das Label auf die checkbox zeigt
-            $aConfig['sId'] = $this->_getElementHtmlId() . '_checkbox';
+            $aConfig['sId'] = $this->_getElementHtmlId().'_checkbox';
         } else {
             $sInput .= sprintf(
                 '<input type="checkbox" name="%1$s" id="%2$s" %3$s %4$s value="1" />',
@@ -65,12 +63,12 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
         $renderLabelFirst = $this->isTrue('renderlabelfirst');
 
         $aHtmlBag = array(
-            '__compiled'        => ($renderLabelFirst ? $sLabelFor . $sInput :  $sInput . $sLabelFor),
-            'input'                => $sInput,
-            'checked'            => $sChecked,
+            '__compiled' => ($renderLabelFirst ? $sLabelFor.$sInput : $sInput.$sLabelFor),
+            'input' => $sInput,
+            'checked' => $sChecked,
             'value' => $iValue,
             'value.' => array(
-                'humanreadable' => $this->_getHumanReadableValue($iValue)
+                'humanreadable' => $this->_getHumanReadableValue($iValue),
             ),
         );
 
@@ -98,7 +96,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
     public function _getHumanReadableValue($data)
     {
-        if ((int)$data === 1) {
+        if (1 === (int) $data) {
             return $this->_getCheckedLabel();
         }
 
@@ -125,12 +123,12 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
     public function getValue()
     {
-        return (int)parent::getValue();
+        return (int) parent::getValue();
     }
 
     public function isChecked()
     {
-        return $this->getValue() === 1;
+        return 1 === $this->getValue();
     }
 
     public function check()
@@ -156,7 +154,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
     public function _emptyFormValue($iValue)
     {
-        return((int)$iValue === 0);
+        return 0 === (int) $iValue;
     }
 }
 

@@ -19,8 +19,8 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
     public function &_fetchData($aConfig = array(), $aFilters = array())
     {
-        $this->aConfig =& $aConfig;
-        $this->aFilters =& $aFilters;
+        $this->aConfig = &$aConfig;
+        $this->aFilters = &$aFilters;
 
         $this->initBinding($aConfig, $aFilters);
 
@@ -34,7 +34,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
     {
         if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
             $params = array('config' => $aConfig, 'filters' => $aFilters);
-            $this->aSource =& $this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
+            $this->aSource = &$this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
 
             if (!is_array($this->aSource)) {
                 $this->aSource = array();
@@ -50,7 +50,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
     public function _sortSource()
     {
-        if (trim($this->aConfig['sortcolumn']) !== '') {
+        if ('' !== trim($this->aConfig['sortcolumn'])) {
             $aSorted = array();
 
             reset($this->aSource);
@@ -60,7 +60,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
                 $named_hash[$key] = $fields[$this->aConfig['sortcolumn']];
             }
 
-            if ($this->aConfig['sortdirection'] === 'desc') {
+            if ('desc' === $this->aConfig['sortdirection']) {
                 arsort($named_hash, $flags = 0);
             } else {
                 asort($named_hash, $flags = 0);
@@ -72,12 +72,12 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
             foreach ($named_hash as $key => $val) {
                 $aSorted[$key] = $this->aSource[$key];
                 $this->aPosByUid[$aSorted[$key]['uid']] = $k;
-                $k++;
+                ++$k;
             }
 
             reset($this->aPosByUid);
 
-            return $this->aSource =& $aSorted;
+            return $this->aSource = &$aSorted;
         } else {
             $k = 1;
             $this->aPosByUid = array();
@@ -86,7 +86,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
             reset($aKeys);
             foreach ($aKeys as $sKey) {
                 $this->aPosByUid[$this->aSource[$sKey]['uid']] = $k;
-                $k++;
+                ++$k;
             }
 
             reset($this->aPosByUid);
@@ -120,5 +120,5 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/phparray/class.tx_mkforms_ds_phparray_Main.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/phparray/class.tx_mkforms_ds_phparray_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/phparray/class.tx_mkforms_ds_phparray_Main.php'];
 }

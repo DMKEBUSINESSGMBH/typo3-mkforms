@@ -1,6 +1,6 @@
 <?php
 
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainscriptingmethods.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainscriptingmethods.php';
 
 class formidable_templatemethods extends formidable_mainscriptingmethods
 {
@@ -25,15 +25,15 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_rdt($mData, $aParams)
     {
-        if (!is_string($aParams[0]) || $aParams[0] === AMEOSFORMIDABLE_LEXER_FAILED) {
+        if (!is_string($aParams[0]) || AMEOSFORMIDABLE_LEXER_FAILED === $aParams[0]) {
             return AMEOSFORMIDABLE_LEXER_BREAKED;
         }
 
-        if (($oRdt = $this->oForm->getRdtForTemplateMethod($mData)) !== false
+        if (false !== ($oRdt = $this->oForm->getRdtForTemplateMethod($mData))
             && array_key_exists($aParams[0], $oRdt->aChilds)
         ) {
             return $oRdt->aChilds[$aParams[0]];
-        } elseif (($oRdt = $this->oForm->getWidget($aParams[0])) !== false) {
+        } elseif (false !== ($oRdt = $this->oForm->getWidget($aParams[0]))) {
             return $this->getHtmlBag($oRdt);
         }
 
@@ -42,10 +42,10 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_rdtValue($mData, $aParams)
     {
-        if (!is_string($aParams[0]) || $aParams[0] === AMEOSFORMIDABLE_LEXER_FAILED) {
+        if (!is_string($aParams[0]) || AMEOSFORMIDABLE_LEXER_FAILED === $aParams[0]) {
             return AMEOSFORMIDABLE_LEXER_BREAKED;
         }
-        if (($oRdt = $this->oForm->getWidget($aParams[0])) !== false) {
+        if (false !== ($oRdt = $this->oForm->getWidget($aParams[0]))) {
             return $oRdt->getValue();
         }
 
@@ -53,7 +53,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     }
 
     /**
-     * gets the html bag of a Widget, include caching for template methods
+     * gets the html bag of a Widget, include caching for template methods.
      *
      * @param formidable_mainrenderlet $oRdt
      *
@@ -62,7 +62,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     private function getHtmlBag($oRdt)
     {
         $cache = $this->getCache();
-        $cacheId = $oRdt->getAbsName() . 'htmlbag';
+        $cacheId = $oRdt->getAbsName().'htmlbag';
 
         if ($cache->has($cacheId)) {
             return $cache->get($cacheId);
@@ -75,7 +75,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_switch($mData, $aParams)
     {
-        if ($mData === true) {
+        if (true === $mData) {
             return $aParams[0];
         } else {
             return $aParams[1];
@@ -93,7 +93,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
             $aParams[0]
         );
 
-        return $sTag . $sInnerHtml . '</' . $sTagName . '>';
+        return $sTag.$sInnerHtml.'</'.$sTagName.'>';
     }
 
     public function method_echo($mData, $aParams)
@@ -193,7 +193,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_displayCond($mData, $aParams)
     {
-        if ($this->templateDataAsString($mData) === '') {
+        if ('' === $this->templateDataAsString($mData)) {
             return 'display: none;';
         }
 
@@ -202,7 +202,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_concat($mData, $aParams)
     {
-        return trim($this->templateDataAsString($mData) . implode(' ', $aParams));
+        return trim($this->templateDataAsString($mData).implode(' ', $aParams));
     }
 
     public function method_wrap($mData, $aParams)
@@ -290,7 +290,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_isTrue($mData, $aParams)
     {
-        if ($mData === true) {
+        if (true === $mData) {
             return true;
         }
 
@@ -299,7 +299,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_isFalse($mData, $aParams)
     {
-        if ($mData === false) {
+        if (false === $mData) {
             return true;
         }
 
@@ -308,7 +308,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_isNotTrue($mData, $aParams)
     {
-        if ($mData !== true) {
+        if (true !== $mData) {
             return true;
         }
 
@@ -317,7 +317,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_isNotFalse($mData, $aParams)
     {
-        if ($mData !== false) {
+        if (false !== $mData) {
             return true;
         }
 
@@ -326,7 +326,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_ifIsTrue($mData, $aParams)
     {
-        if ($mData === true) {
+        if (true === $mData) {
             return true;
         }
 
@@ -335,7 +335,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_ifIsFalse($mData, $aParams)
     {
-        if ($mData === false) {
+        if (false === $mData) {
             return true;
         }
 
@@ -384,7 +384,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
         $sStr = substr($sStr, 0, $aParams[0] - strlen($aParams[1]) + 1);
 
-        return substr($sStr, 0, strrpos($sStr, ' ')) . $aParams[1];
+        return substr($sStr, 0, strrpos($sStr, ' ')).$aParams[1];
     }
 
     public function method_striptags($mData, $aParams)
@@ -440,7 +440,6 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_debug_trail($mData, $aParams)
     {
-
         return tx_rnbase_util_Debug::getDebugTrail();
     }
 
@@ -465,11 +464,11 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_strftime($mData, $aParams)
     {
-        if (($sFormat = trim($aParams[0])) === '') {
+        if ('' === ($sFormat = trim($aParams[0]))) {
             $sFormat = '%Y/%m/%d';
         }
 
-        return strftime($sFormat, (int)trim($this->templateDataAsString($mData)));
+        return strftime($sFormat, (int) trim($this->templateDataAsString($mData)));
     }
 
     public function method_isSubmitted($mData, $aParams)
@@ -526,7 +525,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_persistHidden($mData, $aParams)
     {
-        if (($oRdt =& $this->oForm->getRdtForTemplateMethod($mData)) !== false) {
+        if (false !== ($oRdt = &$this->oForm->getRdtForTemplateMethod($mData))) {
             return $oRdt->persistHidden();
         }
 
@@ -545,7 +544,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_hasErrors($mData, $aParams)
     {
-        if (($oRdt =& $this->oForm->getRdtForTemplateMethod($mData)) !== false) {
+        if (false !== ($oRdt = &$this->oForm->getRdtForTemplateMethod($mData))) {
             return $oRdt->hasDeepError();
         } else {
             return !$this->oForm->oDataHandler->_allIsValid();
@@ -556,7 +555,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     {
         $sFile = $this->oForm->toWebPath($aParams[0]);
         $this->oForm->additionalHeaderData(
-            '<link rel="stylesheet" type="text/css" href="' . $sFile . '" />'
+            '<link rel="stylesheet" type="text/css" href="'.$sFile.'" />'
         );
     }
 
@@ -619,7 +618,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     }
 
     /**
-     * cheacks if a property exists in htmlbag
+     * cheacks if a property exists in htmlbag.
      *
      * @param mixed $mData
      * @param array $aParams
@@ -652,7 +651,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_isDate($mData, $aParams)
     {
-        return ($mData !== '0000-00-00' && checkdate(@date('m', $mData), @date('d', $mData), @date('Y', $mData)));
+        return '0000-00-00' !== $mData && checkdate(@date('m', $mData), @date('d', $mData), @date('Y', $mData));
     }
 
     public function method_isNoDate($mData, $aParams)
@@ -673,7 +672,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     {
         return $this->oForm->getCObj()->typoLink_URL(
             array(
-                'parameter' => $aParams[0]
+                'parameter' => $aParams[0],
             )
         );
     }

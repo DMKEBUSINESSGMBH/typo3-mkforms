@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_api
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -27,35 +25,32 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrenderlet.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainobject.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainrenderlet.php';
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet
- * wir testen am beispiel des TEXT widgets
+ * wir testen am beispiel des TEXT widgets.
  *
  * @author hbochmann
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_filter
  */
 class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * @var boolean
+     * @var bool
      */
     public static $validatorWasCalled = false;
 
     /**
-     * Unser Mainvalidator
+     * Unser Mainvalidator.
+     *
      * @var tx_ameosformidable
      */
     protected $oForm;
 
     /**
-     *
      * @var unknown
      */
     protected $languageBackup;
@@ -66,16 +61,17 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
     protected function setUp()
     {
         self::markTestIncomplete(
-            "Line below throws multiple errors:".
-            "call_user_func_array() expects parameter 1 to be a valid callback, first array member is not a valid class name or object".
-            "Creating default object from empty value"
+            'Line below throws multiple errors:'.
+            'call_user_func_array() expects parameter 1 to be a valid callback, first array member is not a valid class name or object'.
+            'Creating default object from empty value'
         );
         $this->oForm = tx_mkforms_tests_Util::getForm();
         $this->languageBackup = $GLOBALS['LANG']->lang;
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -85,7 +81,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
     }
 
     /**
-     * Prüft _isTooLongByChars mit Multi-byte zeichen und ohne
+     * Prüft _isTooLongByChars mit Multi-byte zeichen und ohne.
      */
     public function testGetValueSanitizesStringIfConfigured()
     {
@@ -124,7 +120,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
     /**
      * Performance bei hundertfachen aufruf von getvalue testen
      * mit bereinigung
-     * sollte 3 mal so langsam wie ohne bereinigung sein
+     * sollte 3 mal so langsam wie ohne bereinigung sein.
      */
     public function testPerformanceOfSetValueWithSanitizingString()
     {
@@ -135,7 +131,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
 
         $dTime = microtime(true);
         // sind 100 aufrufe real? es sind sicher um einiges mehr.
-        for ($i = 0; $i < 99; $i++) {
+        for ($i = 0; $i < 99; ++$i) {
             $this->oForm->getWidget('widget-text')->getValue();
         }
         $dUsedtime = microtime(true) - $dTime;
@@ -147,7 +143,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
     /**
      * Performance bei hundertfachen aufruf von getvalue testen
      * ohne bereinigung
-     * sollte 3 mal so schnell wie mit bereinigung sein
+     * sollte 3 mal so schnell wie mit bereinigung sein.
      */
     public function testPerformanceOfSetValueWithoutSanitizingString()
     {
@@ -158,7 +154,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
 
         $dTime = microtime(true);
         // sind 100 aufrufe real? es sind sicher um einiges mehr.
-        for ($i = 0; $i < 99; $i++) {
+        for ($i = 0; $i < 99; ++$i) {
             $this->oForm->getWidget('widget-text2')->getValue();
         }
         $dUsedtime = microtime(true) - $dTime;
@@ -234,7 +230,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
 
         $placeholderFound = false;
         foreach ($addInputParams as $addInputParam) {
-            if (strpos($addInputParam, 'placeholder') !== false) {
+            if (false !== strpos($addInputParam, 'placeholder')) {
                 self::assertEquals(
                     'placeholder="Jump to last page"',
                     $addInputParam,
@@ -257,7 +253,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
 
         $placeholderFound = false;
         foreach ($addInputParams as $addInputParam) {
-            if (strpos($addInputParam, 'placeholder') !== false) {
+            if (false !== strpos($addInputParam, 'placeholder')) {
                 $placeholderFound = true;
             }
         }
@@ -270,12 +266,12 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
     public function testAfterRenderCheckPointHandledCorrect()
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINT'] = array(
-            'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpoint'
+            'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpoint',
         );
         // if the method handleAfterRenderCheckPoint would be called on all validators
         // without checkingif the method exists we would get a fatal error
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINTNOT'] = array(
-            'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpointNot'
+            'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpointNot',
         );
         self::assertFalse(self::$validatorWasCalled);
         $form = tx_mkforms_tests_Util::getForm(

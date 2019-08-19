@@ -22,17 +22,13 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * Manager for session handling.
  */
 interface tx_mkforms_session_IManager
 {
-
     /**
      * Initialize the session or whatever.
-     *
-     * @return    void
      */
     public function initialize();
 }

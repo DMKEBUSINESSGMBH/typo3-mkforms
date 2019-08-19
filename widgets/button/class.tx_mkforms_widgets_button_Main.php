@@ -4,15 +4,12 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Button';
     public $aLibs = array(
         'rdt_button_class' => 'res/js/button.js',
     );
-
 
     public function _render()
     {
@@ -23,7 +20,7 @@ class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet
     {
         $sValue = $this->getValue();
         $sLabel = $this->getLabel();
-        $sInput = '<input type="button" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . htmlspecialchars($sLabel) . '" ' . $this->_getAddInputParams() . ' />';
+        $sInput = '<input type="button" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.htmlspecialchars($sLabel).'" '.$this->_getAddInputParams().' />';
 
         return array(
             '__compiled' => $sInput,
@@ -50,7 +47,6 @@ class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_button/api/class.tx_rdtbutton.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_button/api/class.tx_rdtbutton.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_button/api/class.tx_rdtbutton.php'];
 }

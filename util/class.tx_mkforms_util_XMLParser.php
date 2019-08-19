@@ -22,7 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * Loading classes.
  */
@@ -35,31 +34,35 @@ class tx_mkforms_util_XMLParser
     {
         self::$useCache = true;
     }
+
     public static function enableCacheOff()
     {
         self::$useCache = false;
     }
+
     private static function checkFile($sPath, $isSubXml)
     {
         if (!file_exists($sPath)) {
-            if ($isSubXml === false) {
+            if (false === $isSubXml) {
                 tx_mkforms_util_Div::smartMayday_XmlFile($sPath);
             } else {
-                tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) doesn't exists.");
+                tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'".$sPath."'</b>) doesn't exists.");
             }
         } elseif (is_dir($sPath)) {
-            tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) is a directory, and should be a file.");
+            tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'".$sPath."'</b>) is a directory, and should be a file.");
         } elseif (!is_readable($sPath)) {
-            tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) exists but is not readable.");
+            tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file path (<b>'".$sPath."'</b>) exists but is not readable.");
         }
     }
+
     /**
      * Reads and parse an xml file, and returns an array of XML
-     * Fresh or cached data, depending on $this->conf["cache."]["enabled"]
+     * Fresh or cached data, depending on $this->conf["cache."]["enabled"].
      *
-     * @param   string      $sPath: abs server path to xml file
-     * @param   bool     $isSubXml
-     * @return  array       xml data
+     * @param string $sPath:   abs server path to xml file
+     * @param bool   $isSubXml
+     *
+     * @return array xml data
      */
     public static function getXml($sPath, $isSubXml = false, $bPlain = false)
     {
@@ -75,10 +78,10 @@ class tx_mkforms_util_XMLParser
             // TODO: Das muss noch extern gesetzt werden
             $sProtection = '<?php die(\'MKFORMS - Cache protected\'); ?><!--MKFORMS_CACHE-->';
 
-            $sHash = md5($sPath . '-' . @filemtime($sPath) . '-' . tx_mkforms_util_Div::getVersion());
-            $sFile = 'xmlcache_' . $sHash . '.php';
+            $sHash = md5($sPath.'-'.@filemtime($sPath).'-'.tx_mkforms_util_Div::getVersion());
+            $sFile = 'xmlcache_'.$sHash.'.php';
             $sCacheDir = 'mkforms/cache/';
-            $sCachePath = PATH_site . 'typo3temp/' . $sCacheDir . $sFile;
+            $sCachePath = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sCacheDir.$sFile;
 
             if (file_exists($sCachePath)) {
                 $aConf = unserialize(
@@ -97,8 +100,8 @@ class tx_mkforms_util_XMLParser
 
         if (empty($aConf)) {
             $sXmlData = tx_mkforms_util_Div::fileReadBin($sPath);
-            if (trim($sXmlData) === '') {
-                tx_mkforms_util_Div::smartMayday_XmlFile($sPath, "MKFORMS CORE - The given XML file path (<b>'" . $sPath . "'</b>) exists but is empty.");
+            if ('' === trim($sXmlData)) {
+                tx_mkforms_util_Div::smartMayday_XmlFile($sPath, "MKFORMS CORE - The given XML file path (<b>'".$sPath."'</b>) exists but is empty.");
             }
 
             $aMatches = array();
@@ -113,17 +116,16 @@ class tx_mkforms_util_XMLParser
             }
 
             if ($isSubXml) {
-                $sXmlData = $sXmlProlog . "\n" . '<phparray>' . $sXmlData . '</phparray>';
+                $sXmlData = $sXmlProlog."\n".'<phparray>'.$sXmlData.'</phparray>';
             } else {
-                $sXmlData = $sXmlProlog . "\n" . $sXmlData;
+                $sXmlData = $sXmlProlog."\n".$sXmlData;
             }
 
-            if ($bPlain === false) {
+            if (false === $bPlain) {
                 $aConf = self::div_xml2array($sXmlData);
             } else {
                 $aConf = self::div_xml2array_plain($sXmlData);
             }
-
 
             if (is_array($aConf)) {
                 if ($isSubXml && array_key_exists('phparray', $aConf) && is_array($aConf['phparray'])) {
@@ -131,20 +133,20 @@ class tx_mkforms_util_XMLParser
                 }
                 reset($aConf);
             } else {
-                tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file (<b>'" . $sPath . "'</b>) isn't well-formed XML<br>Parser says : <b>" . $aConf . '</b>');
+                tx_mkforms_util_Div::mayday("MKFORMS CORE - The given XML file (<b>'".$sPath."'</b>) isn't well-formed XML<br>Parser says : <b>".$aConf.'</b>');
             }
 
             if (self::$useCache) {
-                if (!@is_dir(PATH_site . 'typo3temp/' . $sCacheDir)) {
+                if (!@is_dir(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sCacheDir)) {
                     if (function_exists('Tx_Rnbase_Utility_T3General::mkdir_deep')) {
-                        Tx_Rnbase_Utility_T3General::mkdir_deep(PATH_site . 'typo3temp/', $sCacheDir);
+                        Tx_Rnbase_Utility_T3General::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
                     } else {
-                        tx_mkforms_util_Div::mkdirDeep(PATH_site . 'typo3temp/', $sCacheDir);
+                        tx_mkforms_util_Div::mkdirDeep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
                     }
                 }
                 tx_mkforms_util_Div::fileWriteBin(
                     $sCachePath,
-                    $sProtection . base64_encode(serialize($aConf)),
+                    $sProtection.base64_encode(serialize($aConf)),
                     true    // add UTF-8 header
                 );
             }
@@ -192,6 +194,7 @@ class tx_mkforms_util_XMLParser
      * Please take a look at the manual for a complete description of this API.
      *
      * @author      Jean-David Gadina (macmade@gadlab.net)
+     *
      * @version         2.3
      */
 
@@ -209,17 +212,18 @@ class tx_mkforms_util_XMLParser
      *
      * SPECIAL NOTE: This function can be called without the API class instantiated.
      *
-     * @param   $data       The XML data to process
-     * @param   $keepAttribs        If set, also includes the tag attributes in the array (with key 'xml-attribs')
-     * @param   $caseFolding        XML parser option: case management
-     * @param   $skipWhite      XML parser option: white space management
-     * @param   $prefix     A tag prefix to remove
-     * @param   $numeric        Keep only the numeric value for a tag prefixed with this argument (default is 'n')
-     * @param   $index      Set the tag name to an alternate value found in the tag arguments (default is 'index')
-     * @param   $type       Force the tag value to a special type, found in the tag arguments (default is 'type')
-     * @param   $base64     Decode the tag value from base64 if the specified tag argument is present (default is 'base64')
-     * @param   $php5defCharset     The default charset to use with PHP5
-     * @return  An      array with the XML structure, or an XML error message if the data is not valid
+     * @param $data           The XML data to process
+     * @param $keepAttribs    If set, also includes the tag attributes in the array (with key 'xml-attribs')
+     * @param $caseFolding    XML parser option: case management
+     * @param $skipWhite      XML parser option: white space management
+     * @param $prefix         A tag prefix to remove
+     * @param $numeric        Keep only the numeric value for a tag prefixed with this argument (default is 'n')
+     * @param $index          Set the tag name to an alternate value found in the tag arguments (default is 'index')
+     * @param $type           Force the tag value to a special type, found in the tag arguments (default is 'type')
+     * @param $base64         Decode the tag value from base64 if the specified tag argument is present (default is 'base64')
+     * @param $php5defCharset The default charset to use with PHP5
+     *
+     * @return An array with the XML structure, or an XML error message if the data is not valid
      */
     private static function div_xml2array($data, $keepAttribs = 1, $caseFolding = 0, $skipWhite = 0, $prefix = false, $numeric = 'n', $index = 'index', $type = 'type', $base64 = 'base64', $php5defCharset = 'UTF-8', $bPlain = false)
     {
@@ -242,7 +246,7 @@ class tx_mkforms_util_XMLParser
         xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, $skipWhite);
 
         // Support for PHP5 charset detection
-        if ((double) phpversion() >= 5) {
+        if ((float) phpversion() >= 5) {
             // Find the encoding parameter in the XML declaration
             //ereg('^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"',substr($data,0,200),$result);
             preg_match('/^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"/', substr($data, 0, 200), $result);
@@ -266,7 +270,7 @@ class tx_mkforms_util_XMLParser
         // Error in XML
         if (xml_get_error_code($parser)) {
             // Error
-            $error = 'XML error: ' . xml_error_string(xml_get_error_code($parser)) . ' at line ' . xml_get_current_line_number($parser);
+            $error = 'XML error: '.xml_error_string(xml_get_error_code($parser)).' at line '.xml_get_current_line_number($parser);
             // Free XML parser
             xml_parser_free($parser);
             // Return error
@@ -278,7 +282,7 @@ class tx_mkforms_util_XMLParser
             $sameKeyCount = array();
             // Process each value
             foreach ($xmlValues as $key => $val) {
-                if ($bPlain === false) {
+                if (false === $bPlain) {
                     // lower-case on tagName
                     $val['tag'] = strtolower($val['tag']);
                     // lower-case on attribute name
@@ -289,7 +293,7 @@ class tx_mkforms_util_XMLParser
 
                 // Get the tag name (without prefix if specified)
                 $tagName = ($prefix && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($val['tag'], $prefix)) ? substr($val['tag'], strlen($prefix)) : $val['tag'];
-                if ($bPlain === false) {
+                if (false === $bPlain) {
                     $aTagName = explode(
                         ':',
                         $tagName
@@ -304,9 +308,9 @@ class tx_mkforms_util_XMLParser
                 // Support for numeric tags (<nXXX>)
                 $numTag = (substr($tagName, 0, 1) == $numeric) ? substr($tagName, 1) : false;
                 // Check if tag is a real numeric value
-                if ($numTag && !strcmp((int)$numTag, $numTag)) {
+                if ($numTag && !strcmp((int) $numTag, $numTag)) {
                     // Store only numeric value
-                    $tagName = (int)$numTag;
+                    $tagName = (int) $numTag;
                 }
                 // Support for alternative value
                 if (strlen($val['attributes'][$index])) {
@@ -321,9 +325,9 @@ class tx_mkforms_util_XMLParser
                         $sameKeyCount[$val['level']] = 0;
                     }
                     // Increase key counter
-                    $sameKeyCount[$val['level']]++;
+                    ++$sameKeyCount[$val['level']];
                     // Change tag name to avoid overwriting existing values
-                    $tagName = $tagName . '-' . $sameKeyCount[$val['level']];
+                    $tagName = $tagName.'-'.$sameKeyCount[$val['level']];
                 }
 
                 // Check tag type
@@ -369,24 +373,24 @@ class tx_mkforms_util_XMLParser
                             $xml[$tagName] = base64_decode($val['value']);
                         } else {
                             // Add value (force string)
-                            if (array_key_exists('value', $val) != ''
+                            if ('' != array_key_exists('value', $val)
                                 &&
-                                $tagName != '0'
+                                '0' != $tagName
                             ) {
                                 $xml[$tagName] = (string) $val['value'];
                             } else {
                                 $xml[$tagName] = '';
                             }
                             // Support for value types
-                            switch ((string)$val['attributes'][$type]) {
+                            switch ((string) $val['attributes'][$type]) {
                                 // Integer
                                 case 'integer':
                                     // Force variable type
-                                    $xml[$tagName] = (integer) $xml[$tagName];
+                                    $xml[$tagName] = (int) $xml[$tagName];
                                     break;
                                 // Double
                                 case 'double':
-                                    $xml[$tagName] = (double) $xml[$tagName];
+                                    $xml[$tagName] = (float) $xml[$tagName];
                                     break;
                                 // Boolean
                                 case 'boolean':
@@ -410,7 +414,7 @@ class tx_mkforms_util_XMLParser
                                 $xml[$tagName] = array_merge(
                                     $val['attributes'],
                                     array(
-                                        '__value' => $val['value']
+                                        '__value' => $val['value'],
                                     )
                                 );
                             }
@@ -427,5 +431,5 @@ class tx_mkforms_util_XMLParser
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_XMLParser.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_XMLParser.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_XMLParser.php'];
 }

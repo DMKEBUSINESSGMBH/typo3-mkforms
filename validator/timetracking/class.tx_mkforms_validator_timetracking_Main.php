@@ -23,20 +23,18 @@
 ***************************************************************/
 
 /**
- * tx_mkforms_validator_timetracking_Main
+ * tx_mkforms_validator_timetracking_Main.
  *
- * @package         TYPO3
- * @subpackage      mkforms
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
 {
-
     /**
-     * @param   formidable_mainrenderlet $renderlet
-     * @return  bool
+     * @param formidable_mainrenderlet $renderlet
+     *
+     * @return bool
      */
     public function validate(&$renderlet)
     {
@@ -59,14 +57,15 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     }
 
     /**
-     * @param string $validationKey
+     * @param string                   $validationKey
      * @param formidable_mainrenderlet $renderlet
+     *
      * @return bool
      */
     protected function formSendTooFast($validationKey, formidable_mainrenderlet $renderlet)
     {
         $formSendTooFast = false;
-        if ($validationKey{0} === 't' &&
+        if ('t' === $validationKey[0] &&
             Tx_Rnbase_Utility_Strings::isFirstPartOfStr($validationKey, 'toofast')
         ) {
             $timeNeededToSendForm = $GLOBALS['EXEC_TIME'] - $this->getForm()->getCreationTimestamp();
@@ -80,14 +79,15 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     }
 
     /**
-     * @param string $validationKey
+     * @param string                   $validationKey
      * @param formidable_mainrenderlet $renderlet
+     *
      * @return bool
      */
     protected function formSendTooSlow($validationKey, formidable_mainrenderlet $renderlet)
     {
         $formSendTooSlow = false;
-        if ($validationKey{0} === 't' &&
+        if ('t' === $validationKey[0] &&
             Tx_Rnbase_Utility_Strings::isFirstPartOfStr($validationKey, 'tooslow')
         ) {
             if ($this->getForm()->getCreationTimestamp() <
@@ -102,7 +102,7 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     }
 
     /**
-     * @param string $validationKey
+     * @param string                   $validationKey
      * @param formidable_mainrenderlet $renderlet
      */
     protected function declareValidationErrorByValidationKey(
@@ -111,23 +111,23 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     ) {
         $this->getForm()->_declareValidationError(
             $renderlet->getAbsName(),
-            'TIMERACKING:' . $validationKey,
+            'TIMERACKING:'.$validationKey,
             $this->getForm()->getConfigXML()->getLLLabel(
-                $this->_navConf('/' . $validationKey . '/message')
+                $this->_navConf('/'.$validationKey.'/message')
             )
         );
     }
 
     /**
-     *
      * @param string $validationKey
+     *
      * @throws InvalidArgumentException
      *
      * @return int
      */
     protected function getThresholdByValidationKey($validationKey)
     {
-        $threshold = $this->_navConf('/' . $validationKey . '/threshold');
+        $threshold = $this->_navConf('/'.$validationKey.'/threshold');
         if ($this->getForm()->isRunneable($threshold)) {
             $threshold = $this->getForm()->getRunnable()->callRunnableWidget($this, $threshold);
         }
@@ -141,9 +141,6 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
         return $threshold;
     }
 
-    /**
-     * @return void
-     */
     public function handleAfterRenderCheckPoint()
     {
         // When the plugin is cached it makes no save the creation timestamp.

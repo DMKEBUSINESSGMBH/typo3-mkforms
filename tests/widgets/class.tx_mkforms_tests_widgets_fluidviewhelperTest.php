@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2014 DMK E-Business GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -22,13 +22,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-
-
 /**
- * FLUIDVIEWHELPER Testcase
+ * FLUIDVIEWHELPER Testcase.
  *
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
 class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseTestCase
@@ -128,9 +124,10 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
     }
 
     /**
-     * build mock for the widget
+     * build mock for the widget.
      *
      * @param array $allowedMethods
+     *
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function getWidgetMock(array $allowedMethods = array())
@@ -172,9 +169,10 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
 
     /**
      * liefert alle möglichen methoden einer klasse.
-     * unabhängig von der deklaration
+     * unabhängig von der deklaration.
      *
      * @param unknown $class
+     *
      * @return multitype:unknown
      */
     protected function getAllClassMethods($class)
@@ -190,5 +188,5 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelper_testcase.php'];
 }

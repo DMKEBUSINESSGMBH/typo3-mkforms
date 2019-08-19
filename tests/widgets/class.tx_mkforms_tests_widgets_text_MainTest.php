@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2014 DMK E-Business GmbH <dev@dmk-ebusiness.de>
  *  All rights reserved
@@ -22,12 +22,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-
 /**
- * tx_mkforms_tests_widgets_text_Main_testcase
+ * tx_mkforms_tests_widgets_text_Main_testcase.
  *
- * @package         TYPO3
- * @subpackage      mkforms
  * @author          Hannes Bochmann <dev@dmk-ebusiness.de>
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
@@ -75,9 +72,10 @@ class tx_mkforms_tests_widgets_text_MainTest extends tx_rnbase_tests_BaseTestCas
     }
 
     /**
-     * build mock for the widget
+     * build mock for the widget.
      *
      * @param array $allowedMethods
+     *
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function getWidgetMock(array $allowedMethods = array())
@@ -106,9 +104,10 @@ class tx_mkforms_tests_widgets_text_MainTest extends tx_rnbase_tests_BaseTestCas
 
     /**
      * liefert alle möglichen methoden einer klasse.
-     * unabhängig von der deklaration
+     * unabhängig von der deklaration.
      *
      * @param unknown $class
+     *
      * @return multitype:unknown
      */
     protected function getAllClassMethods($class)

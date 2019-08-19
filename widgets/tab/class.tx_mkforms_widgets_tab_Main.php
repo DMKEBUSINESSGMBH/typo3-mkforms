@@ -4,22 +4,20 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
 {
     public function _render()
     {
-        if (($sContentAbsName = $this->_navConf('/content')) === false) {
-            $this->oForm->mayday('renderlet:TAB <b>' . $this->getAbsName() . '</b> - requires <b>/content</b> to be set to the absolute name of a renderlet.');
+        if (false === ($sContentAbsName = $this->_navConf('/content'))) {
+            $this->oForm->mayday('renderlet:TAB <b>'.$this->getAbsName().'</b> - requires <b>/content</b> to be set to the absolute name of a renderlet.');
         }
 
         if (!array_key_exists($sContentAbsName, $this->oForm->aORenderlets)) {
-            $this->oForm->mayday('renderlet:TAB <b>' . $this->getAbsName() . '</b> - <b>/content</b> points to the renderlet absolutely named <b>' . $sContentAbsName . '</b>, that does not exist within the application.');
+            $this->oForm->mayday('renderlet:TAB <b>'.$this->getAbsName().'</b> - <b>/content</b> points to the renderlet absolutely named <b>'.$sContentAbsName.'</b>, that does not exist within the application.');
         }
 
-        $sBegin = '<li id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . '>';
-        $sBegin .= '<a class="rdttab" href="' . $GLOBALS['TSFE']->anchorPrefix . '#' . $this->oForm->aORenderlets[$sContentAbsName]->_getElementHtmlId() . '">';
+        $sBegin = '<li id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().'>';
+        $sBegin .= '<a class="rdttab" href="'.$GLOBALS['TSFE']->anchorPrefix.'#'.$this->oForm->aORenderlets[$sContentAbsName]->_getElementHtmlId().'">';
 
         $sEnd = '</a>';
         $sEnd .= '</li>';
@@ -34,8 +32,8 @@ class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
         }
 
         $aHtmlBag = array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sBegin . $sCompiledChilds . $sEnd,
-            'childs' => $aChilds
+            '__compiled' => $this->_displayLabel($sLabel).$sBegin.$sCompiledChilds.$sEnd,
+            'childs' => $aChilds,
         );
 
         return $aHtmlBag;
@@ -82,7 +80,6 @@ class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tab/api/class.tx_rdttab.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tab/api/class.tx_rdttab.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tab/api/class.tx_rdttab.php'];
 }

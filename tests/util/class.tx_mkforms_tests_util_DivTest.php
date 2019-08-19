@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 Michael Wagner <dev@dmk-business.de>
  *  All rights reserved
@@ -23,13 +23,11 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
 
 /**
- * Array util tests
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_util
+ * Array util tests.
  */
 class tx_mkforms_tests_util_DivTest extends tx_rnbase_tests_BaseTestCase
 {
@@ -40,6 +38,7 @@ class tx_mkforms_tests_util_DivTest extends tx_rnbase_tests_BaseTestCase
         self::assertEquals('TxMklibWordlist', tx_mkforms_util_Div::toCamelCase('tx_mklib_wordlist'));
         self::assertEquals('TxMklibTestsUtilStringTestcase', tx_mkforms_util_Div::toCamelCase('tx_mklib_tests_util_String_testcase'));
     }
+
     public function testGetSetupByKeys()
     {
         $aConfig = array(
@@ -98,27 +97,18 @@ class tx_mkforms_tests_util_DivTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     *
      * @param string $actual
      * @param string $expected
-     * @param string $iconv
      *
      * @group unit
      * @dataProvider providerCleanupFileName
      */
-    public function testCleanupFileName($rawFile, $expectedFile, $usesIconv = false)
+    public function testCleanupFileName($rawFile, $expectedFile)
     {
-        if ($usesIconv && strpos(Tx_Rnbase_Utility_T3General::getHostname(), 'project.dmknet.de') === false) {
-            // die Tests wurden direct für die locales konfig auf dmknet abgestimmt!
-            $this->markTestSkipped(
-                'Dieser Test kann wegen den locale' .
-                ' Einstellungen nur auf project.dmknet.de ausgeführt werden.'
-            );
-        }
-
         $cleanedFile = tx_mkforms_util_Div::cleanupFileName($rawFile);
         self::assertEquals($expectedFile, $cleanedFile);
     }
+
     /**
      * DataProvider for cleanupFileName Test.
      *
@@ -127,65 +117,54 @@ class tx_mkforms_tests_util_DivTest extends tx_rnbase_tests_BaseTestCase
     public function providerCleanupFileName()
     {
         return array(
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 'Süß_&_Snack.pdf',
                 'suess___snack.pdf',
-                true,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 'Lebenslauf.pdf',
                 'lebenslauf.pdf',
-                false,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.0987654321.jpg',
                 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
-                false,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
                 'abcdefghijklmnopqrstuvwxyz.0987654321.jpg',
-                false,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 'ÄÖÜ&äöü.gif',
                 'aeoeue_aeoeue.gif',
-                true,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 '-_!"§$%&/()=?²³{[]}\^@€.jpg',
-                '-_____________________eur.jpg',
-                true,
+                '-____________23_______eur.jpg',
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 '.png',
                 'png',
-                false,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 '..png',
                 'png',
-                false,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 'file.',
                 'file',
-                false,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 '.',
                 '',
-                false,
             ),
-            'line ' . __LINE__ => array(
+            'line '.__LINE__ => array(
                 '..',
                 '',
-                false,
             ),
         );
     }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php'];
 }

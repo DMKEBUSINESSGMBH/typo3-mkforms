@@ -12,7 +12,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Selector';
     public $aLibs = array(
-        'rdt_selector_class' => 'res/js/selector.js'
+        'rdt_selector_class' => 'res/js/selector.js',
     );
 
     public $bCustomIncludeScript = true;
@@ -71,7 +71,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
         $aButtonMoveDown = $this->oForm->_renderElement($this->oButtonMoveDown);
         $aButtonMoveBottom = $this->oForm->_renderElement($this->oButtonMoveBottom);
 
-        if ($this->oCustomRenderlet !== false) {
+        if (false !== $this->oCustomRenderlet) {
             $aCustom = $this->oCustomRenderlet->render();
             $sCustomId = $this->oCustomRenderlet->_getElementHtmlId();
         } else {
@@ -95,7 +95,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
             )
         );
 
-        $sHidden = '<input type="hidden" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" value="' . htmlspecialchars($this->getValue()) . '" />';
+        $sHidden = '<input type="hidden" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.htmlspecialchars($this->getValue()).'" />';
 
         $sLabelTag = $this->_displayLabel($this->getLabel());
 
@@ -104,16 +104,16 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
 			{$sLabelTag}
 			<table style='width: 100%'>
 				<tr>
-					<td valign="top" style='width: 47%;'>{$aSelectedHtml["__compiled"]}</td>
+					<td valign="top" style='width: 47%;'>{$aSelectedHtml['__compiled']}</td>
 					<td valign="top" align="center">
-						{$aButtonMoveTop["__compiled"]}<br />
-						{$aButtonMoveUp["__compiled"]}<br />
-						{$aButtonMoveDown["__compiled"]}<br />
-						{$aButtonMoveBottom["__compiled"]}<br />
-						{$aButtonRemove["__compiled"]}<br />
-						{$aCustom["__compiled"]}
+						{$aButtonMoveTop['__compiled']}<br />
+						{$aButtonMoveUp['__compiled']}<br />
+						{$aButtonMoveDown['__compiled']}<br />
+						{$aButtonMoveBottom['__compiled']}<br />
+						{$aButtonRemove['__compiled']}<br />
+						{$aCustom['__compiled']}
 					</td>
-					<td valign="top" style='width: 47%;'>{$aAvailableHtml["__compiled"]}</td>
+					<td valign="top" style='width: 47%;'>{$aAvailableHtml['__compiled']}</td>
 				</tr>
 			</table>
 			{$sHidden}
@@ -138,7 +138,7 @@ HTML;
 
     public function initAvailable()
     {
-        if ($this->oAvailable === false) {
+        if (false === $this->oAvailable) {
             $sSelectorName = $this->getAbsName();
             $sEvent = <<<PHP
 
@@ -153,13 +153,13 @@ PHP;
             $aConf = array(
                 'onmouseup-999' => array(
                     'userobj' => array(
-                        'php' => $sEvent
-                    )
+                        'php' => $sEvent,
+                    ),
                 ),
-                'style' => 'width: 100%;'    // 100% of TD
+                'style' => 'width: 100%;',    // 100% of TD
             );
 
-            if (($aCustomConf = $this->_navConf('/available')) !== false) {
+            if (false !== ($aCustomConf = $this->_navConf('/available'))) {
                 if (!is_array($aCustomConf)) {
                     $aCustomConf = array();
                 }
@@ -170,30 +170,30 @@ PHP;
                 );
             }
             $aConf['type'] = 'LISTBOX';
-            $aConf['name'] = $this->_getName() . '_available';
+            $aConf['name'] = $this->_getName().'_available';
             $aConf['multiple'] = true;
             $aConf['renderonly'] = true;
 
             $this->oAvailable = $this->oForm->_makeRenderlet(
                 $aConf,
-                $this->sXPath . 'available/',
+                $this->sXPath.'available/',
                 false,
                 $this,
                 false,
                 false
             );
 
-            $this->oForm->aORenderlets[$this->oAvailable->getAbsName()] =& $this->oAvailable;
+            $this->oForm->aORenderlets[$this->oAvailable->getAbsName()] = &$this->oAvailable;
         }
     }
 
     public function initSelected()
     {
-        if ($this->oSelected === false) {
+        if (false === $this->oSelected) {
             $aConf = array(
-                'style' => 'width: 100%;'    //	100% of TD
+                'style' => 'width: 100%;',    //	100% of TD
             );
-            if (($aCustomConf = $this->_navConf('/selected')) !== false) {
+            if (false !== ($aCustomConf = $this->_navConf('/selected'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -201,45 +201,45 @@ PHP;
             }
 
             $aConf['type'] = 'LISTBOX';
-            $aConf['name'] = $this->_getName() . '_selected';
+            $aConf['name'] = $this->_getName().'_selected';
             $aConf['multiple'] = true;
             $aConf['renderonly'] = true;
 
             $this->oSelected = $this->oForm->_makeRenderlet(
                 $aConf,
-                $this->sXPath . 'selected/',
+                $this->sXPath.'selected/',
                 false,
                 $this,
                 false,
                 false
             );
 
-            $this->oForm->aORenderlets[$this->oSelected->getAbsName()] =& $this->oSelected;
+            $this->oForm->aORenderlets[$this->oSelected->getAbsName()] = &$this->oSelected;
         }
     }
 
     public function initCustomRenderlet()
     {
-        if ($this->oCustomRenderlet === false) {
-            if (($aConf = $this->_navConf('/customrenderlet')) !== false) {
-                $aConf['name'] = $this->_getName() . '_customrenderlet';
+        if (false === $this->oCustomRenderlet) {
+            if (false !== ($aConf = $this->_navConf('/customrenderlet'))) {
+                $aConf['name'] = $this->_getName().'_customrenderlet';
                 $this->oCustomRenderlet = $this->oForm->_makeRenderlet(
                     $aConf,
-                    $this->sXPath . 'customrenderlet/',
+                    $this->sXPath.'customrenderlet/',
                     false,
                     $this,
                     false,
                     false
                 );
 
-                $this->oForm->aORenderlets[$this->oCustomRenderlet->getAbsName()] =& $this->oCustomRenderlet;
+                $this->oForm->aORenderlets[$this->oCustomRenderlet->getAbsName()] = &$this->oCustomRenderlet;
             }
         }
     }
 
     public function initButtonRemove()
     {
-        if ($this->oButtonRemove === false) {
+        if (false === $this->oButtonRemove) {
             $sSelectorName = $this->getAbsName();
             $sSourceName = $this->oSelected->getAbsName();
             $sTargetName = $this->oAvailable->getAbsName();
@@ -254,7 +254,7 @@ PHP;
 
             $aConf = array(
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath . 'res/img/remove.gif',
+                'path' => $this->sExtPath.'res/img/remove.gif',
                 'onclick-999' => array(            // 999 to avoid overruling by potential customly defined event
                     'runat' => 'client',
                     'userobj' => array(
@@ -263,31 +263,31 @@ PHP;
                 ),
             );
 
-            if (($aCustomConf = $this->_navConf('/buttonremove')) !== false) {
+            if (false !== ($aCustomConf = $this->_navConf('/buttonremove'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
             }
 
-            $aConf['name'] = $sSelectorName . '_btnremove';
+            $aConf['name'] = $sSelectorName.'_btnremove';
 
             $this->oButtonRemove = $this->oForm->_makeRenderlet(
                 $aConf,
-                $this->sXPath . 'buttonremove/',
+                $this->sXPath.'buttonremove/',
                 false,
                 $this,
                 false,
                 false
             );
 
-            $this->oForm->aORenderlets[$this->oButtonRemove->getAbsName()] =& $this->oButtonRemove;
+            $this->oForm->aORenderlets[$this->oButtonRemove->getAbsName()] = &$this->oButtonRemove;
         }
     }
 
     public function initButtonMoveTop()
     {
-        if ($this->oButtonMoveTop === false) {
+        if (false === $this->oButtonMoveTop) {
             $sSelectorName = $this->getAbsName();
             $sEvent = <<<PHP
 
@@ -299,7 +299,7 @@ PHP;
 PHP;
             $aConf = array(
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath . 'res/img/top.gif',
+                'path' => $this->sExtPath.'res/img/top.gif',
                 'onclick-999' => array(
                     'runat' => 'client',
                     'userobj' => array(
@@ -308,31 +308,31 @@ PHP;
                 ),
             );
 
-            if (($aCustomConf = $this->_navConf('/buttontop')) !== false) {
+            if (false !== ($aCustomConf = $this->_navConf('/buttontop'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
             }
 
-            $aConf['name'] = $sSelectorName . '_btntop';
+            $aConf['name'] = $sSelectorName.'_btntop';
 
             $this->oButtonMoveTop = $this->oForm->_makeRenderlet(
                 $aConf,
-                $this->sXPath . 'buttonmovetop/',
+                $this->sXPath.'buttonmovetop/',
                 false,
                 $this,
                 false,
                 false
             );
 
-            $this->oForm->aORenderlets[$this->oButtonMoveTop->getAbsName()] =& $this->oButtonMoveTop;
+            $this->oForm->aORenderlets[$this->oButtonMoveTop->getAbsName()] = &$this->oButtonMoveTop;
         }
     }
 
     public function initButtonMoveUp()
     {
-        if ($this->oButtonMoveUp === false) {
+        if (false === $this->oButtonMoveUp) {
             $sSelectorName = $this->getAbsName();
             $sEvent = <<<PHP
 
@@ -344,7 +344,7 @@ PHP;
 PHP;
             $aConf = array(
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath . 'res/img/up.gif',
+                'path' => $this->sExtPath.'res/img/up.gif',
                 'onclick-999' => array(
                     'runat' => 'client',
                     'userobj' => array(
@@ -353,29 +353,29 @@ PHP;
                 ),
             );
 
-            if (($aCustomConf = $this->_navConf('/buttonup')) !== false) {
+            if (false !== ($aCustomConf = $this->_navConf('/buttonup'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
             }
 
-            $aConf['name'] = $sSelectorName . '_btnup';
+            $aConf['name'] = $sSelectorName.'_btnup';
             $this->oButtonMoveUp = $this->oForm->_makeRenderlet(
                 $aConf,
-                $this->sXPath . 'buttonmoveup/',
+                $this->sXPath.'buttonmoveup/',
                 false,
                 $this,
                 false,
                 false
             );
-            $this->oForm->aORenderlets[$this->oButtonMoveUp->getAbsName()] =& $this->oButtonMoveUp;
+            $this->oForm->aORenderlets[$this->oButtonMoveUp->getAbsName()] = &$this->oButtonMoveUp;
         }
     }
 
     public function initButtonMoveDown()
     {
-        if ($this->oButtonMoveDown === false) {
+        if (false === $this->oButtonMoveDown) {
             $sSelectorName = $this->getAbsName();
             $sEvent = <<<PHP
 
@@ -387,7 +387,7 @@ PHP;
 PHP;
             $aConf = array(
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath . 'res/img/down.gif',
+                'path' => $this->sExtPath.'res/img/down.gif',
                 'onclick-999' => array(
                     'runat' => 'client',
                     'userobj' => array(
@@ -396,30 +396,30 @@ PHP;
                 ),
             );
 
-            if (($aCustomConf = $this->_navConf('/buttondown')) !== false) {
+            if (false !== ($aCustomConf = $this->_navConf('/buttondown'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
             }
 
-            $aConf['name'] = $sSelectorName . '_btndown';
+            $aConf['name'] = $sSelectorName.'_btndown';
 
             $this->oButtonMoveDown = $this->oForm->_makeRenderlet(
                 $aConf,
-                $this->sXPath . 'buttonmovedown/',
+                $this->sXPath.'buttonmovedown/',
                 false,
                 $this,
                 false,
                 false
             );
-            $this->oForm->aORenderlets[$this->oButtonMoveDown->getAbsName()] =& $this->oButtonMoveDown;
+            $this->oForm->aORenderlets[$this->oButtonMoveDown->getAbsName()] = &$this->oButtonMoveDown;
         }
     }
 
     public function initButtonMoveBottom()
     {
-        if ($this->oButtonMoveBottom === false) {
+        if (false === $this->oButtonMoveBottom) {
             $sSelectorName = $this->getAbsName();
             $sEvent = <<<PHP
 
@@ -431,7 +431,7 @@ PHP;
 PHP;
             $aConf = array(
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath . 'res/img/bottom.gif',
+                'path' => $this->sExtPath.'res/img/bottom.gif',
                 'onclick-999' => array(
                     'runat' => 'client',
                     'userobj' => array(
@@ -440,25 +440,25 @@ PHP;
                 ),
             );
 
-            if (($aCustomConf = $this->_navConf('/buttonbottom')) !== false) {
+            if (false !== ($aCustomConf = $this->_navConf('/buttonbottom'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
             }
 
-            $aConf['name'] = $sSelectorName . '_btnbottom';
+            $aConf['name'] = $sSelectorName.'_btnbottom';
 
             $this->oButtonMoveBottom = $this->oForm->_makeRenderlet(
                 $aConf,
-                $this->sXPath . 'buttonmovebottom/',
+                $this->sXPath.'buttonmovebottom/',
                 false,
                 $this,
                 false,
                 false
             );
 
-            $this->oForm->aORenderlets[$this->oButtonMoveBottom->getAbsName()] =& $this->oButtonMoveBottom;
+            $this->oForm->aORenderlets[$this->oButtonMoveBottom->getAbsName()] = &$this->oButtonMoveBottom;
         }
     }
 
@@ -491,5 +491,5 @@ PHP;
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_selector/api/class.tx_rdtselector.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_selector/api/class.tx_rdtselector.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_selector/api/class.tx_rdtselector.php'];
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2010 Hannes Bochmann <dev@dmk-business.de>
  *  All rights reserved
@@ -23,5 +23,4 @@
  */
 class tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpointNot extends formidable_mainvalidator
 {
-
 }

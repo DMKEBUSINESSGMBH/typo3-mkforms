@@ -4,7 +4,6 @@
  *
  * @author  Loredana Zeca <typo3dev@ameos.com>
  */
-
 class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 {
     public $aLibs = array(
@@ -23,76 +22,74 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     public $aConfig = false;
     public $aLimitAndSort = false;
 
-
     public function _render()
     {
         $this->_initLimitAndSort();
         $this->_initDatasource();
 
-        if (($sWidth = $this->_navConf('/width')) === false) {
+        if (false === ($sWidth = $this->_navConf('/width'))) {
             $sWidth = '450';
         }
 
-        if (($sHeight = $this->_navConf('/height')) === false) {
+        if (false === ($sHeight = $this->_navConf('/height'))) {
             $sHeight = '18';
         }
 
-        if (($sScrollMode = $this->_navConf('/scrolling/mode')) === false || ($sScrollMode !== 'horizontal' && $sScrollMode !== 'vertical')) {
+        if (false === ($sScrollMode = $this->_navConf('/scrolling/mode')) || ('horizontal' !== $sScrollMode && 'vertical' !== $sScrollMode)) {
             $sScrollMode = 'horizontal';
         }
 
         switch ($sScrollMode) {
             case 'horizontal':
-                if (($sScrollDirection = $this->_navConf('/scrolling/direction')) === false || ($sScrollDirection !== 'left' && $sScrollDirection !== 'right')) {
+                if (false === ($sScrollDirection = $this->_navConf('/scrolling/direction')) || ('left' !== $sScrollDirection && 'right' !== $sScrollDirection)) {
                     $sScrollDirection = 'left';
                 }
                 $this->sSeparatorHtml = "<div id='".$this->_getElementHtmlId().".clear' style='border:medium none; clear:both; font-size:1px; height:1px; line-height:1px;'><hr style='position:absolute; top:-50000px;' /></div>";
                 break;
             case 'vertical':
-                if (($sScrollDirection = $this->_navConf('/scrolling/direction')) === false || ($sScrollDirection !== 'top' && $sScrollDirection !== 'bottom')) {
+                if (false === ($sScrollDirection = $this->_navConf('/scrolling/direction')) || ('top' !== $sScrollDirection && 'bottom' !== $sScrollDirection)) {
                     $sScrollDirection = 'top';
                 }
                 break;
         }
 
-        if (($sScrollStartDelay = $this->_navConf('/scrolling/startdelay')) === false) {
+        if (false === ($sScrollStartDelay = $this->_navConf('/scrolling/startdelay'))) {
             $sScrollStartDelay = '2500';
         }
 
-        if (($sScrollNextDelay = $this->_navConf('/scrolling/nextdelay')) === false) {
+        if (false === ($sScrollNextDelay = $this->_navConf('/scrolling/nextdelay'))) {
             $sScrollNextDelay = '100';
         }
 
-        if (($sScrollAmount = $this->_navConf('/scrolling/amount')) === false) {
-            $sScrollAmount = ($sScrollDirection === 'top' || $sScrollDirection === 'left') ? -1 : 1;
+        if (false === ($sScrollAmount = $this->_navConf('/scrolling/amount'))) {
+            $sScrollAmount = ('top' === $sScrollDirection || 'left' === $sScrollDirection) ? -1 : 1;
         } else {
-            $sScrollAmount = ($sScrollDirection === 'top' || $sScrollDirection === 'left') ? -($sScrollAmount) : $sScrollAmount;
+            $sScrollAmount = ('top' === $sScrollDirection || 'left' === $sScrollDirection) ? -($sScrollAmount) : $sScrollAmount;
         }
 
-        if (($sScrollOverflow = $this->_navConf('/scrolling/overflow')) === false) {
+        if (false === ($sScrollOverflow = $this->_navConf('/scrolling/overflow'))) {
             $sScrollOverflow = 'hidden';
         }
 
-
-        if (($sOffsetTop = $this->_navConf('/offsettop')) === false) {
+        if (false === ($sOffsetTop = $this->_navConf('/offsettop'))) {
             $sOffsetTop = '0';
         }
 
-        if (($sOffsetLeft = $this->_navConf('/offsetleft')) === false) {
+        if (false === ($sOffsetLeft = $this->_navConf('/offsetleft'))) {
             $sOffsetLeft = '0';
         }
 
-        if (($sBackground = $this->_navConf('/background')) === false) {
+        if (false === ($sBackground = $this->_navConf('/background'))) {
             $sBackground = 'none';
         }
-        if (($sBgColor = $this->_navConf('/bgcolor')) === false) {
+        if (false === ($sBgColor = $this->_navConf('/bgcolor'))) {
             $sBgColor = 'transparent';
         }
 
-        if (($sBorder = $this->_navConf('/border')) === false) {
+        if (false === ($sBorder = $this->_navConf('/border'))) {
             $sBorder = 'none';
         }
-        if (($sBorderColor = $this->_navConf('/bordercolor')) === false) {
+        if (false === ($sBorderColor = $this->_navConf('/bordercolor'))) {
             $sBorderColor = 'white';
         }
 
@@ -110,7 +107,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 'startDelay' => $sScrollStartDelay,
                 'nextDelay' => $sScrollNextDelay,
                 'amount' => $sScrollAmount,
-                'stop' => (bool)$this->oForm->_isTrueVal($this->_navConf('/scrolling/stop')),
+                'stop' => (bool) $this->oForm->_isTrueVal($this->_navConf('/scrolling/stop')),
                 'overflow' => $sScrollOverflow,
             ),
             'offset' => array(
@@ -126,13 +123,12 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         $sLabel = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/label'));
 
         $sHtml = $this->_renderList();
-        $sBox1 = "<div id='" . $this->_getElementHtmlId() . ".1'>" . $sHtml . '</div>';
-        $sBox2 = "<div id='" . $this->_getElementHtmlId() . ".2'>" . $sHtml . '</div>';
-        $sHtml = "<div id='" . $this->_getElementHtmlId() . "'>" . $this->_displayLabel($sLabel) . $sBox1 . $sBox2 . '</div>';
-        $sHtml = '<div ' . $this->_getAddInputParams() . '>' . $sHtml . '</div>';
+        $sBox1 = "<div id='".$this->_getElementHtmlId().".1'>".$sHtml.'</div>';
+        $sBox2 = "<div id='".$this->_getElementHtmlId().".2'>".$sHtml.'</div>';
+        $sHtml = "<div id='".$this->_getElementHtmlId()."'>".$this->_displayLabel($sLabel).$sBox1.$sBox2.'</div>';
+        $sHtml = '<div '.$this->_getAddInputParams().'>'.$sHtml.'</div>';
 
-
-        $aHtmlBag =& $this->aConfig;
+        $aHtmlBag = &$this->aConfig;
         $aHtmlBag['__compiled'] = $sHtml;
         $aHtmlBag['html'] = $sHtml;
 
@@ -142,12 +138,10 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         return $aHtmlBag;
     }
 
-
     public function &_renderList()
     {
         if ($this->aDatasource) {        // if this ticker has a datasource that must be used to generate his content
-
-            if ($this->aDatasource['numrows'] == 0) {
+            if (0 == $this->aDatasource['numrows']) {
                 $sRowsHtml = '';
             } else {
                 $sTemplate = $this->_getTemplate();
@@ -161,7 +155,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                         $aAltRows[$i % $iNbAlt],        // alternate rows
                         $aCurRow
                     );
-                    $sRowHtml = '<div class="ameosformidable-rdtticker-item">' . $sRowHtml . '</div>';
+                    $sRowHtml = '<div class="ameosformidable-rdtticker-item">'.$sRowHtml.'</div>';
                     $aRowsHtml[] = $sRowHtml;
                 }
                 $sRowsHtml = implode('', $aRowsHtml);
@@ -175,12 +169,11 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 false
             );
             $sHtml .= $this->sSeparatorHtml;
-        } elseif (($this->_navConf('/html')) !== false) {        // if this ticker has a html as content
-
+        } elseif (false !== ($this->_navConf('/html'))) {        // if this ticker has a html as content
             $sHtml = ($this->oForm->isRunneable($this->aElement['html'])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->_navConf('/html');
-            $sHtml = $this->oForm->_substLLLInHtml($sHtml) . $this->sSeparatorHtml;
+            $sHtml = $this->oForm->_substLLLInHtml($sHtml).$this->sSeparatorHtml;
         } else {
-            $this->oForm->mayday('RENDERLET TICKER <b>' . $this->_getName() . '</b> requires /datasource or /html to be properly set. Please check your XML configuration');
+            $this->oForm->mayday('RENDERLET TICKER <b>'.$this->_getName().'</b> requires /datasource or /html to be properly set. Please check your XML configuration');
         }
 
         return $sHtml;
@@ -202,10 +195,10 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     {
         $aRowsTmpl = array();
 
-        if (($sAltRows = $this->_navConf('/template/alternaterows')) !== false && $this->oForm->isRunneable($sAltRows)) {
+        if (false !== ($sAltRows = $this->_navConf('/template/alternaterows')) && $this->oForm->isRunneable($sAltRows)) {
             $sAltList = $this->getForm()->getRunnable()->callRunnableWidget($this, $sAltRows);
-        } elseif (($sAltList = $this->_navConf('/template/alternaterows')) === false) {
-            $this->oForm->mayday('RENDERLET TICKER <b>' . $this->_getName() . '</b> requires /template/alternaterows to be properly set. Please check your XML configuration');
+        } elseif (false === ($sAltList = $this->_navConf('/template/alternaterows'))) {
+            $this->oForm->mayday('RENDERLET TICKER <b>'.$this->_getName().'</b> requires /template/alternaterows to be properly set. Please check your XML configuration');
         }
 
         $aAltList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sAltList);
@@ -222,17 +215,17 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
     public function &_getTemplate()
     {
-        if (($aTemplate = $this->_navConf('/template')) !== false) {
+        if (false !== ($aTemplate = $this->_navConf('/template'))) {
             $sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
-                $this->oForm->mayday('renderlet:' . $this->_getType() . '[name=' . $this->getName() . "] - The given template file path (<b>'" . $sPath . "'</b>) doesn't exists.");
+                $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
             } elseif (is_dir($sPath)) {
-                $this->oForm->mayday('renderlet:' . $this->_getType() . '[name=' . $this->getName() . "] - The given template file path (<b>'" . $sPath . "'</b>) is a directory, and should be a file.");
+                $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) is a directory, and should be a file.");
             } elseif (!is_readable($sPath)) {
-                $this->oForm->mayday('renderlet:' . $this->_getType() . '[name=' . $this->getName() . '] - The given template file path exists but is not readable.');
+                $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName().'] - The given template file path exists but is not readable.');
             }
 
-            if (($sSubpart = $this->oForm->_navConf('/subpart', $aTemplate)) === false) {
+            if (false === ($sSubpart = $this->oForm->_navConf('/subpart', $aTemplate))) {
                 $sSubpart = $this->getName();
             }
 
@@ -241,8 +234,8 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 $sSubpart
             );
 
-            if (trim($sHtml) == '') {
-                $this->oForm->mayday('renderlet:' . $this->_getType() . '[name=' . $this->getName() . "] - The given template (<b>'" . $sPath . "'</b> with subpart marquer <b>'" . $sSubpart . "'</b>) <b>returned an empty string</b> - Check your template");
+            if ('' == trim($sHtml)) {
+                $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template (<b>'".$sPath."'</b> with subpart marquer <b>'".$sSubpart."'</b>) <b>returned an empty string</b> - Check your template");
             }
 
             return $this->oForm->getTemplateTool()->parseTemplateCode(
@@ -256,11 +249,11 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
     public function _initDatasource()
     {
-        if (($sDsToUse = $this->_navConf('/datasource/use')) !== false) {
+        if (false !== ($sDsToUse = $this->_navConf('/datasource/use'))) {
             if (!array_key_exists($sDsToUse, $this->oForm->aODataSources)) {
-                $this->oForm->mayday('RENDERLET TICKER <b>' . $this->_getName() . "</b> - refers to undefined datasource '" . $sDsToUse . "'. Check your XML conf.");
+                $this->oForm->mayday('RENDERLET TICKER <b>'.$this->_getName()."</b> - refers to undefined datasource '".$sDsToUse."'. Check your XML conf.");
             } else {
-                $this->oDataStream =& $this->oForm->aODataSources[$sDsToUse];
+                $this->oDataStream = &$this->oForm->aODataSources[$sDsToUse];
                 $this->aDatasource = $this->oDataStream->_fetchData($this->aLimitAndSort);
             }
         }
@@ -268,15 +261,15 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
     public function _initLimitAndSort()
     {
-        if (($sLimit = $this->_navConf('/datasource/limit')) === false) {
+        if (false === ($sLimit = $this->_navConf('/datasource/limit'))) {
             $sLimit = '5';
         }
 
-        if (($sSortBy = $this->_navConf('/datasource/orderby')) === false) {
+        if (false === ($sSortBy = $this->_navConf('/datasource/orderby'))) {
             $sSortBy = 'tstamp';
         }
 
-        if (($sSortDir = $this->_navConf('/datasource/orderdir')) === false) {
+        if (false === ($sSortDir = $this->_navConf('/datasource/orderdir'))) {
             $sSortDir = 'DESC';
         }
 
@@ -295,10 +288,10 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     public function _getElementHtmlName($sName = false)
     {
         $sRes = parent::_getElementHtmlName($sName);
-        $aData =& $this->oForm->oDataHandler->_getListData();
+        $aData = &$this->oForm->oDataHandler->_getListData();
 
         if (!empty($aData)) {
-            $sRes .= '[' . $aData['uid'] . ']';
+            $sRes .= '['.$aData['uid'].']';
         }
 
         return $sRes;
@@ -307,10 +300,10 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     public function _getElementHtmlNameWithoutFormId($sName = false)
     {
         $sRes = parent::_getElementHtmlNameWithoutFormId($sName);
-        $aData =& $this->oForm->oDataHandler->_getListData();
+        $aData = &$this->oForm->oDataHandler->_getListData();
 
         if (!empty($aData)) {
-            $sRes .= '[' . $aData['uid'] . ']';
+            $sRes .= '['.$aData['uid'].']';
         }
 
         return $sRes;
@@ -320,16 +313,15 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     {
         $sRes = parent::_getElementHtmlId($sId);
 
-        $aData =& $this->oForm->oDataHandler->_getListData();
+        $aData = &$this->oForm->oDataHandler->_getListData();
         if (!empty($aData)) {
-            $sRes .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $aData['uid'] . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
+            $sRes .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$aData['uid'].AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
         }
 
         return $sRes;
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_ticker/api/class.tx_rdtticker.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_ticker/api/class.tx_rdtticker.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_ticker/api/class.tx_rdtticker.php'];
 }

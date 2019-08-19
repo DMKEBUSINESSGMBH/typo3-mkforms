@@ -22,18 +22,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- *
  * @author Hannes Bochmann
  */
 class tx_mkforms_util_DamUpload
 {
-
     /**
-     * es wird $formParameters[damWidget] benötigt
+     * es wird $formParameters[damWidget] benötigt.
      *
-     * @param array $formParameters
+     * @param array                 $formParameters
      * @param tx_mkforms_forms_Base $form
      *
      * @throws RuntimeException
@@ -45,7 +42,7 @@ class tx_mkforms_util_DamUpload
         if (!$formParameters['damWidget']) {
             throw new RuntimeException(
                 '$formParameters[\'damWidget\'] konfigurieren',
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] . 31
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode']. 31
             );
         }
 
@@ -61,7 +58,6 @@ class tx_mkforms_util_DamUpload
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_DamUpload.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_DamUpload.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_DamUpload.php'];
 }

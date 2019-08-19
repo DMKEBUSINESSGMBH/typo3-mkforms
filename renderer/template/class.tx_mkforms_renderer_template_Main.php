@@ -4,12 +4,11 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
 class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 {
-    public $aCustomTags    = array();
-    public $aExcludeTags    = array();
-    public $sTemplateHtml    = false;
+    public $aCustomTags = array();
+    public $aExcludeTags = array();
+    public $sTemplateHtml = false;
 
     public function getTemplatePath()
     {
@@ -41,30 +40,30 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
     public function getTemplateHtml()
     {
-        if ($this->sTemplateHtml === false) {
+        if (false === $this->sTemplateHtml) {
             $sPath = $this->getTemplatePath();
 
             if (!empty($sPath)) {
                 if (!file_exists($sPath)) {
-                    $this->getForm()->mayday('RENDERER TEMPLATE - Template file does not exist <b>' . $sPath . '</b>');
+                    $this->getForm()->mayday('RENDERER TEMPLATE - Template file does not exist <b>'.$sPath.'</b>');
                 }
 
-                if (($sSubpart = $this->getTemplateSubpart()) !== false) {
+                if (false !== ($sSubpart = $this->getTemplateSubpart())) {
                     $mHtml = tx_rnbase_util_Templates::getSubpart(
                         Tx_Rnbase_Utility_T3General::getUrl($sPath),
                         $sSubpart
                     );
 
-                    if (trim($mHtml) == '') {
-                        $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with subpart marker " . $sSubpart . ' <b>returned an empty string</b> - Check your template');
+                    if ('' == trim($mHtml)) {
+                        $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'".$sPath."'</b> with subpart marker ".$sSubpart.' <b>returned an empty string</b> - Check your template');
                     }
                 } else {
                     $mHtml = Tx_Rnbase_Utility_T3General::getUrl($sPath);
-                    if (trim($mHtml) == '') {
-                        $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'" . $sPath . "'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
+                    if ('' == trim($mHtml)) {
+                        $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'".$sPath."'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
                     }
                 }
-            } elseif (($mHtml = $this->_navConf('/html')) !== false) {
+            } elseif (false !== ($mHtml = $this->_navConf('/html'))) {
                 if (is_array($mHtml)) {
                     if ($this->getForm()->isRunneable($mHtml)) {
                         $mHtml = $this->callRunneable($mHtml);
@@ -73,7 +72,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
                     }
                 }
 
-                if (trim($mHtml) == '') {
+                if ('' == trim($mHtml)) {
                     $this->getForm()->mayday('RENDERER TEMPLATE - The given <b>/html</b> provides an empty string</b> - Check your template');
                 }
             } else {
@@ -92,8 +91,8 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
         $this->getForm()->_debug($aRendered, 'RENDERER TEMPLATE - rendered elements array');
 
-        if (($sErrorTag = $this->_navConf('/template/errortag/')) === false) {
-            if (($sErrorTag = $this->_navConf('/html/errortag')) === false) {
+        if (false === ($sErrorTag = $this->_navConf('/template/errortag/'))) {
+            if (false === ($sErrorTag = $this->_navConf('/html/errortag'))) {
                 $sErrorTag = 'errors';
             }
         }
@@ -109,15 +108,15 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
         $aErrorKeys = array_keys($this->getForm()->_aValidationErrors);
         foreach ($aErrorKeys as $sRdtName) {
             $sShortRdtName = $this->getForm()->aORenderlets[$sRdtName]->_getNameWithoutPrefix();
-            if (trim($this->getForm()->_aValidationErrors[$sRdtName]) !== '') {
+            if ('' !== trim($this->getForm()->_aValidationErrors[$sRdtName])) {
                 $sWrapped = $this->wrapErrorMessage($this->getForm()->_aValidationErrors[$sRdtName]);
                 $aErrors[$sShortRdtName] = $this->getForm()->_aValidationErrors[$sRdtName];
-                $aErrors[$sShortRdtName . '.']['tag'] = $sWrapped;
+                $aErrors[$sShortRdtName.'.']['tag'] = $sWrapped;
                 $aCompiledErrors[] = $sWrapped;
             }
         }
 
-        if (strtolower(trim($this->_navConf('/template/errortagcompilednobr'))) == 'true') {
+        if ('true' == strtolower(trim($this->_navConf('/template/errortagcompilednobr')))) {
             $aErrors['__compiled'] = implode('', $aCompiledErrors);
         } else {
             $aErrors['__compiled'] = implode('<br />', $aCompiledErrors);
@@ -143,7 +142,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
     public function beforeDisplay($aRendered)
     {
-        if (($aUserObj = $this->_navConf('/beforedisplay/')) !== false) {
+        if (false !== ($aUserObj = $this->_navConf('/beforedisplay/'))) {
             if ($this->getForm()->isRunneable($aUserObj)) {
                 $aRendered = $this->callRunneable(
                     $aUserObj,
@@ -168,7 +167,6 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_template/api/class.tx_rdrtemplate.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_template/api/class.tx_rdrtemplate.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_template/api/class.tx_rdrtemplate.php'];
 }

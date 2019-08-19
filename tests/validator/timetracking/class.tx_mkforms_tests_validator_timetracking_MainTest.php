@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2015 DMK E-BUSINESS GmbH <dev@dmk-business.de>
  *  All rights reserved
@@ -23,24 +23,22 @@
  */
 
 /**
- * tx_mkforms_tests_validator_timetracking_Main_testcase
+ * tx_mkforms_tests_validator_timetracking_Main_testcase.
  *
- * @package         TYPO3
- * @subpackage      mkforms
  * @author          Hannes Bochmann
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
 class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
         \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true, 'initFEuser' => true));
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
@@ -49,7 +47,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
 
     /**
      * @group unit
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Please provide the threshold parameter for the tooFast validation
      */
     public function testValidateThrowsExceptionIfValidationForTooFastButNoThresholdConfigured()
@@ -116,7 +114,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
 
     /**
      * @group unit
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Please provide the threshold parameter for the tooFast validation
      */
     public function testValidateThrowsExceptionIfValidationForTooSlowButNoThresholdConfigured()
@@ -259,7 +257,6 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
 
     /**
      * @param int $timestamp
-     * @return void
      */
     protected function setCreationTimestamp($timestamp)
     {
@@ -269,7 +266,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
             array(
                 'creationTimestamp' => array(
                     'timetrackingTestForm' => $timestamp,
-                )
+                ),
             )
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -283,8 +280,6 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         return 123;
     }
 
-    /**
-     */
     public function testHandleAfterRenderCheckPointInsertsCorrectCreationTimeIntoSession()
     {
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
@@ -309,8 +304,6 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         );
     }
 
-    /**
-     */
     public function testHandleAfterRenderCheckPointInsertsCorrectCreationTimeIntoSessionIfAlreadyTimestampsInSession()
     {
         $GLOBALS['TSFE']->fe_user->setKey(
@@ -320,7 +313,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
                 'creationTimestamp' => array(
                     'firstForm' => 123,
                     'secondForm' => 456,
-                )
+                ),
             )
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -357,11 +350,8 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         );
     }
 
-    /**
-     */
     public function testHandleAfterRenderCheckPointInsertsNoCreationTimeIntoSessionWhenPluginIsNotUserInt()
     {
-
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();

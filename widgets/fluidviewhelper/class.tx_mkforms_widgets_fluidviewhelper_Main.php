@@ -23,17 +23,14 @@
  ***************************************************************/
 
 /**
- * widget für view helper
+ * widget für view helper.
  *
- * @package tx_mkforms
- * @subpackage tx_mkforms_widgets
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
 class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
 {
-
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
@@ -47,13 +44,13 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     protected $_viewHelperClass = null;
 
     /**
-     * erzeugt den object manager, um die helper zu instanzieren
+     * erzeugt den object manager, um die helper zu instanzieren.
      *
      * @return \TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected function getObjectManager()
     {
-        if ($this->_objectManager === null) {
+        if (null === $this->_objectManager) {
             $this->_objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
                 'TYPO3\\CMS\\Extbase\\Object\\ObjectManager'
             );
@@ -63,13 +60,13 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     }
 
     /**
-     * creates the view helper class name
+     * creates the view helper class name.
      *
      * @return string
      */
     protected function getViewHelperClass()
     {
-        if ($this->_viewHelperClass === null) {
+        if (null === $this->_viewHelperClass) {
             $helperClass = $this->_navConf('/viewhelper');
             try {
                 $viewHelper = $this->getObjectManager()->get($helperClass);
@@ -77,13 +74,13 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
                 // try to add the fluid base namespace
                 try {
                     $viewHelper = $this->getObjectManager()->get(
-                        '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\' . ucfirst($helperClass) . 'ViewHelper'
+                        '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\'.ucfirst($helperClass).'ViewHelper'
                     );
                 } catch (\TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
                 }
             }
-            if (!$viewHelper instanceof \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper) {
-                throw new Exception('Could not find ViewHelperClass: ' . $helperClass);
+            if (!$viewHelper instanceof \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper) {
+                throw new Exception('Could not find ViewHelperClass: '.$helperClass);
             }
             $this->_viewHelperClass = get_class($viewHelper);
         }
@@ -92,7 +89,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     }
 
     /**
-     * creates the view helper
+     * creates the view helper.
      *
      * @return \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
@@ -106,7 +103,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     }
 
     /**
-     * liefert die parameter aus dem xml
+     * liefert die parameter aus dem xml.
      *
      * @return array
      */
@@ -120,6 +117,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
 
     /**
      * erzeugt die parameter, welche dem helper übergeben werden.
+     *
      * @return array
      */
     protected function getArguments()
@@ -146,7 +144,8 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see formidable_mainrenderlet::_render()
      */
     public function _render()
@@ -156,7 +155,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
         try {
             $rendered = $this->getViewHelper()->initializeArgumentsAndRender();
         } catch (Exception $e) {
-            $rendered = '<span class="error">' . $e->getMessage() . '</span>';
+            $rendered = '<span class="error">'.$e->getMessage().'</span>';
             $error = array(
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
@@ -164,7 +163,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
         }
 
         $htmlBag = array(
-            '__compiled' => $this->_displayLabel($label) . $rendered,
+            '__compiled' => $this->_displayLabel($label).$rendered,
             'rendered' => $rendered,
             'label' => $label,
             'value' => $this->getValue(),
@@ -179,7 +178,6 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/fluidviewhelper/class.tx_mkforms_widgets_fluidviewhelper_Main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/fluidviewhelper/class.tx_mkforms_widgets_fluidviewhelper_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/fluidviewhelper/class.tx_mkforms_widgets_fluidviewhelper_Main.php'];
 }

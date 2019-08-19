@@ -1,7 +1,5 @@
 <?php
 
-
-
 class formidable_mainrenderlet extends formidable_mainobject
 {
     public $__aCacheItems = array();
@@ -91,7 +89,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     protected static $token = ''; // enthält einen eindeutigen String, um beispielsweise link tags zu trennen
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $wasValidated = false;
 
@@ -107,10 +105,10 @@ class formidable_mainrenderlet extends formidable_mainobject
         parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
         $this->aEmptyStatics = $this->aStatics;
 
-        $this->sDefaultLabelClass = $oForm->sDefaultWrapClass . '-' . $this->sDefaultLabelClass;
+        $this->sDefaultLabelClass = $oForm->sDefaultWrapClass.'-'.$this->sDefaultLabelClass;
 
         $this->initDataSource();
-        if (($this->oDataBridge =& $this->getDataBridgeAncestor()) !== false) {
+        if (false !== ($this->oDataBridge = &$this->getDataBridgeAncestor())) {
             $this->bHasDataBridge = true;
             $this->oDataBridge->aDataBridged[] = $this->getAbsName();
         }
@@ -122,8 +120,8 @@ class formidable_mainrenderlet extends formidable_mainobject
     public function initChilds($bReInit = false)
     {
         if ($this->mayHaveChilds() && $this->hasChilds()) {
-            $sXPath = $this->sXPath . 'childs/';
-            $this->aChilds =& $this->oForm->_makeRenderlets(
+            $sXPath = $this->sXPath.'childs/';
+            $this->aChilds = &$this->oForm->_makeRenderlets(
                 $this->oForm->_navConf($sXPath),
                 $sXPath,
                 true,    // $bChilds ?
@@ -134,13 +132,13 @@ class formidable_mainrenderlet extends formidable_mainobject
     }
 
     /**
-     * Initialisiert das Attribut "dependson" eines Widgets
+     * Initialisiert das Attribut "dependson" eines Widgets.
      *
      * @return unknown_type
      */
     public function initDependancies()
     {
-        if (($sDeps = $this->_navConf('/dependson')) === false) {
+        if (false === ($sDeps = $this->_navConf('/dependson'))) {
             return;
         }
         $aDeps = Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sDeps));
@@ -227,7 +225,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     }
 
     /**
-     * Das wird vom Lister aufgerufen. Er initialisiert damit die einzelnen Spalten
+     * Das wird vom Lister aufgerufen. Er initialisiert damit die einzelnen Spalten.
      *
      * @param tx_mkforms_widgets_lister_Main $oListObject
      */
@@ -235,7 +233,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     {
         $init = array(
             'iterating' => true,
-            'iterator' => $oListObject->_getElementHtmlId()
+            'iterator' => $oListObject->_getElementHtmlId(),
         );
         $this->includeScripts($init);
     }
@@ -250,26 +248,26 @@ class formidable_mainrenderlet extends formidable_mainobject
             return false;
         }
 
-        if (($sDs = $this->_navConf('/datasource/use')) !== false) {
+        if (false !== ($sDs = $this->_navConf('/datasource/use'))) {
             if (!array_key_exists($sDs, $this->oForm->aODataSources)) {
                 $this->oForm->mayday(
-                    'renderlet:' . $this->_getType() . "[name='" . $this->getName() . "'] bound to unknown datasource '<b>" . $sDs
-                    . "</b>'."
+                    'renderlet:'.$this->_getType()."[name='".$this->getName()."'] bound to unknown datasource '<b>".$sDs
+                    ."</b>'."
                 );
             }
 
-            $this->oDataSource =& $this->oForm->aODataSources[$sDs];
+            $this->oDataSource = &$this->oForm->aODataSources[$sDs];
             $this->bIsDataBridge = true;
 
-            if ((($oIterableAncestor = $this->getIterableAncestor()) !== false) && !$oIterableAncestor->isIterating()) {
+            if ((false !== ($oIterableAncestor = $this->getIterableAncestor())) && !$oIterableAncestor->isIterating()) {
                 // is iterable but not iterating, so no datasource initialization
                 return false;
             }
 
-            if (($sKey = $this->dbridge_getPostedSignature(true)) !== false) {
+            if (false !== ($sKey = $this->dbridge_getPostedSignature(true))) {
                 // found a posted signature for this databridge
                 // using given signature
-            } elseif (($sKey = $this->_navConf('/datasource/key')) !== false) {
+            } elseif (false !== ($sKey = $this->_navConf('/datasource/key'))) {
                 if ($this->oForm->isRunneable($sKey)) {
                     $sKey = $this->getForm()->getRunnable()->callRunnableWidget($this, $sKey);
                 }
@@ -277,10 +275,10 @@ class formidable_mainrenderlet extends formidable_mainobject
                 $sKey = 'new';
             }
 
-            if ($sKey === false) {
+            if (false === $sKey) {
                 $this->oForm->mayday(
-                    'renderlet:' . $this->_getType() . "[name='" . $this->getName() . "'] bound to datasource '<b>" . $sDs
-                    . "</b>' is missing a valid key to connect to data."
+                    'renderlet:'.$this->_getType()."[name='".$this->getName()."'] bound to datasource '<b>".$sDs
+                    ."</b>' is missing a valid key to connect to data."
                 );
             }
 
@@ -304,7 +302,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     }
 
     /**
-     * Liefert das Parent-Widget
+     * Liefert das Parent-Widget.
      *
      * @return formidable_mainrenderlet
      */
@@ -315,7 +313,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function hasParent()
     {
-        return ($this->oRdtParent !== false && is_object($this->oRdtParent));
+        return false !== $this->oRdtParent && is_object($this->oRdtParent);
     }
 
     /**
@@ -329,7 +327,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     }
 
     /**
-     * Returns all childs
+     * Returns all childs.
      *
      * @return array[formidable_mainrenderlet] or empty array
      */
@@ -340,7 +338,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function isChildOf($sRdtName)
     {
-        return ($this->hasParent() && ($this->oRdtParent->getAbsName() === $sRdtName));
+        return $this->hasParent() && ($this->oRdtParent->getAbsName() === $sRdtName);
     }
 
     public function isDescendantOf($sRdtName)
@@ -348,7 +346,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         if ($this->hasParent() && $sRdtName !== $this->getAbsName()) {
             $sCurrent = $this->getAbsName();
 
-            if ($this->oForm->aORenderlets[$sCurrent]->isChildOf($sRdtName) === true) {
+            if (true === $this->oForm->aORenderlets[$sCurrent]->isChildOf($sRdtName)) {
                 return true;
             }
 
@@ -424,7 +422,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function isAnonymous()
     {
-        return $this->bAnonymous !== false;
+        return false !== $this->bAnonymous;
     }
 
     public function checkPoint(&$aPoints, array &$options = array())
@@ -436,8 +434,6 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * Some validators might do things after rendering like the time tracking validator.
-     *
-     * @return void
      */
     protected function signalValidatorsAfterRenderCheckPointReached()
     {
@@ -462,10 +458,10 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function initProgEvents()
     {
-        if (($aEvents = $this->_getProgServerEvents()) !== false) {
+        if (false !== ($aEvents = $this->_getProgServerEvents())) {
             reset($aEvents);
             foreach ($aEvents as $sEvent => $aEvent) {
-                if ($aEvent['runat'] == 'server') {
+                if ('server' == $aEvent['runat']) {
                     $aDefinedEvent = $aEvent;
 
                     $sEventId = $this->oForm->_getServerEventId(
@@ -511,13 +507,13 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function render($bForceReadonly = false)
     {
-        if ((($oIterating = $this->getIteratingAncestor()) !== false)) {
+        if ((false !== ($oIterating = $this->getIteratingAncestor()))) {
             $this->doBeforeIteratingRender($oIterating);
         } else {
             $this->doBeforeNonIteratingRender($oIterating);
         }
 
-        if ($bForceReadonly === true || $this->_readOnly()) {
+        if (true === $bForceReadonly || $this->_readOnly()) {
             $mRendered = $this->_renderReadOnly();
         } else {
             $mRendered = $this->_render();
@@ -531,7 +527,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         $this->attachCustomEvents();
 
-        if ($oIterating !== false) {
+        if (false !== $oIterating) {
             $this->doAfterIteratingRender($oIterating);
         } else {
             $this->doAfterNonIteratingRender($oIterating);
@@ -590,26 +586,26 @@ class formidable_mainrenderlet extends formidable_mainobject
             $value = $mValue;
         }
         $sPostFlag
-            = '<input type="hidden" id="' . $this->_getElementHtmlId() . '" name="' . $this->_getElementHtmlName() . '" value="'
-            . $value . '" />';
-        $sCompiled = $this->wrapForReadOnly($mHuman) . $sPostFlag;
+            = '<input type="hidden" id="'.$this->_getElementHtmlId().'" name="'.$this->_getElementHtmlName().'" value="'
+            .$value.'" />';
+        $sCompiled = $this->wrapForReadOnly($mHuman).$sPostFlag;
 
         $mHtml = array(
             '__compiled' => $sCompiled,
             'additionalinputparams' => $this->_getAddInputParams($sId),
             'value' => $mValue,
             'value.' => array(
-                'nl2br' => nl2br((string)$mValue),
+                'nl2br' => nl2br((string) $mValue),
                 'humanreadable' => $mHuman,
-            )
+            ),
         );
 
-        if (($sListHeader = $this->_navConf('/listheader')) !== false) {
+        if (false !== ($sListHeader = $this->_navConf('/listheader'))) {
             $mHtml['listheader'] = $this->oForm->getConfig()->getLLLabel($sListHeader);
         }
 
         if (!is_array($mHtml['__compiled'])) {
-            $mHtml['__compiled'] = $this->_displayLabel($this->getLabel()) . $mHtml['__compiled'];
+            $mHtml['__compiled'] = $this->_displayLabel($this->getLabel()).$mHtml['__compiled'];
         }
 
         $this->includeLibs();
@@ -622,16 +618,16 @@ class formidable_mainrenderlet extends formidable_mainobject
         $aAdditionalParams = array(
             'class' => 'readonly',
             'style' => 'display: none;',
-            'autocomplete' => ''
+            'autocomplete' => '',
         );
-        if ($this->isVisible() === false || $this->_shouldHideBecauseDependancyEmpty()) {
+        if (false === $this->isVisible() || $this->_shouldHideBecauseDependancyEmpty()) {
             $aAdditionalParams['style'] = 'display: none;';
         }
         // an die htmlid ein _readonly hängen,
         // um später gezieht drauf zugreifen zu können
         // und den code valide zu halten, da das hiddenfield die gleiche id trägt.
-        return '<span id="' . $this->_getElementHtmlId() . '_readonly" ' . $this->_getAddInputParams($aAdditionalParams) . '>'
-        . $sHtml . '</span>';
+        return '<span id="'.$this->_getElementHtmlId().'_readonly" '.$this->_getAddInputParams($aAdditionalParams).'>'
+        .$sHtml.'</span>';
     }
 
     public function _displayLabel($sLabel, $aConfig = false)
@@ -647,14 +643,14 @@ class formidable_mainrenderlet extends formidable_mainobject
     {
         $sRes = '';
 
-        if ($sLabel === false) {
-            if (($sLabel = $this->_navConf('/label')) !== false) {
+        if (false === $sLabel) {
+            if (false !== ($sLabel = $this->_navConf('/label'))) {
                 $sLabel = $this->getForm()->getRunnable()->callRunnable($sLabel);
                 $sRes = $this->getForm()->getConfig()->getLLLabel($sLabel);
             } else {
-                if ($this->getForm()->sDefaultLLLPrefix !== false) {
+                if (false !== $this->getForm()->sDefaultLLLPrefix) {
                     // trying to automap label
-                    $sKey = 'LLL:' . $this->getAbsName() . '.label';
+                    $sKey = 'LLL:'.$this->getAbsName().'.label';
                     $sRes = $this->getForm()->getConfig()->getLLLabel($sKey);
                 }
             }
@@ -662,11 +658,11 @@ class formidable_mainrenderlet extends formidable_mainobject
             $sRes = $this->oForm->getConfig()->getLLLabel($sLabel);
         }
 
-        if (trim($sRes) === '' && $sDefault !== false) {
+        if ('' === trim($sRes) && false !== $sDefault) {
             $sRes = $this->getLabel($sDefault);
         }
 
-        if (($sLabelWrap = $this->_navConf('/labelwrap')) !== false) {
+        if (false !== ($sLabelWrap = $this->_navConf('/labelwrap'))) {
             if ($this->oForm->isRunneable($sLabelWrap)) {
                 $sLabelWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $sLabelWrap);
             }
@@ -676,40 +672,40 @@ class formidable_mainrenderlet extends formidable_mainobject
             }
         }
 
-        return '' . $sRes;
+        return ''.$sRes;
     }
 
     public function getLabelTag($sLabel, $aConfig = false)
     {
-        if (trim($sLabel) === '') {
+        if ('' === trim($sLabel)) {
             return '';
         }
 
         // nur Label ohne Tag ausgeben
-        if ($this->_navConf('/addnolabeltag') === true || $this->_navConf('/addnolabeltag') == 'true') {
+        if (true === $this->_navConf('/addnolabeltag') || 'true' == $this->_navConf('/addnolabeltag')) {
             return $sLabel;
         }
 
-        $sHtmlId = ($aConfig !== false && $aConfig['sId']) ? $aConfig['sId'] : $this->_getElementHtmlId();
-        $sLabelId = $sHtmlId . '_label';
+        $sHtmlId = (false !== $aConfig && $aConfig['sId']) ? $aConfig['sId'] : $this->_getElementHtmlId();
+        $sLabelId = $sHtmlId.'_label';
         $aClasses = array();
         $aClasses[] = $this->sDefaultLabelClass;
 
-        if (($sLabelClass = $this->defaultTrue('/labelidclass', $aConfig)) !== false) {
+        if (false !== ($sLabelClass = $this->defaultTrue('/labelidclass', $aConfig))) {
             $aClasses[] = $sLabelId;
         }
 
-        if ($this->defaultTrue('/labelfor', $aConfig) !== false) {
-            $forAttribute = !$this->_readOnly() ? ' for="' . $sHtmlId . '"' : '';
+        if (false !== $this->defaultTrue('/labelfor', $aConfig)) {
+            $forAttribute = !$this->_readOnly() ? ' for="'.$sHtmlId.'"' : '';
         }
 
-        if (($sLabelCustom = $this->_navConf('/labelcustom', $aConfig)) !== false) {
-            $sLabelCustom .= ' ' . trim($sLabelCustom);
+        if (false !== ($sLabelCustom = $this->_navConf('/labelcustom', $aConfig))) {
+            $sLabelCustom .= ' '.trim($sLabelCustom);
         } else {
             $sLabelCustom = '';
         }
 
-        if (($sLabelClass = $this->_navConf('/labelclass', $aConfig)) !== false) {
+        if (false !== ($sLabelClass = $this->_navConf('/labelclass', $aConfig))) {
             if ($this->oForm->isRunneable($sLabelClass)) {
                 $aClasses[] = $this->getForm()->getRunnable()->callRunnable($sLabelClass);
             } else {
@@ -717,8 +713,8 @@ class formidable_mainrenderlet extends formidable_mainobject
             }
         }
 
-        if ($this->getForm()->getRenderer()->defaultFalse('autordtclass') === true) {
-            $aClasses[] = $this->getName() . '_label';
+        if (true === $this->getForm()->getRenderer()->defaultFalse('autordtclass')) {
+            $aClasses[] = $this->getName().'_label';
         }
 
         $aClasses = array_unique($aClasses);
@@ -726,28 +722,28 @@ class formidable_mainrenderlet extends formidable_mainobject
         if ($this->hasError()) {
             $aError = $this->getError();
             $aClasses[] = 'hasError';
-            $aClasses[] = 'hasError' . ucfirst($aError['info']['type']);
+            $aClasses[] = 'hasError'.ucfirst($aError['info']['type']);
         }
 
-        $sClassAttribute = (count($aClasses) === 0) ? '' : ' ' . implode(' ', $aClasses);
+        $sClassAttribute = (0 === count($aClasses)) ? '' : ' '.implode(' ', $aClasses);
 
-        if (($sLabelStyle = $this->_navConf('/labelstyle', $aConfig)) !== false) {
+        if (false !== ($sLabelStyle = $this->_navConf('/labelstyle', $aConfig))) {
             $sLabelStyle = $this->getForm()->getRunnable()->callRunnable($sLabelStyle);
         }
 
-        if ($this->isVisible() === false || $this->_shouldHideBecauseDependancyEmpty()) {
+        if (false === $this->isVisible() || $this->_shouldHideBecauseDependancyEmpty()) {
             $sLabelStyle .= 'display: none;';
         }
-        $sLabelStyle = empty($sLabelStyle) ? '' : ' style="' . $sLabelStyle . '"';
+        $sLabelStyle = empty($sLabelStyle) ? '' : ' style="'.$sLabelStyle.'"';
 
         return
-            '<label id="' . $sLabelId . '"' . $sLabelStyle . ' class="' . $sClassAttribute . '"' . $forAttribute . $sLabelCustom
-            . '>' . $sLabel . "</label>\n";
+            '<label id="'.$sLabelId.'"'.$sLabelStyle.' class="'.$sClassAttribute.'"'.$forAttribute.$sLabelCustom
+            .'>'.$sLabel."</label>\n";
     }
 
     public function _getType()
     {
-        if ($this->aStatics['type'] === AMEOSFORMIDABLE_VALUE_NOT_SET) {
+        if (AMEOSFORMIDABLE_VALUE_NOT_SET === $this->aStatics['type']) {
             $this->aStatics['type'] = $this->_navConf('/type');
         }
 
@@ -770,7 +766,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function _getNameWithoutPrefix()
     {
-        if ($this->aStatics['namewithoutprefix'] === AMEOSFORMIDABLE_VALUE_NOT_SET) {
+        if (AMEOSFORMIDABLE_VALUE_NOT_SET === $this->aStatics['namewithoutprefix']) {
             $this->aStatics['namewithoutprefix'] = $this->_navConf('/name');
         }
 
@@ -779,13 +775,13 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function getId()
     {
-    // obsolete as of revision 1.0.193SVN
+        // obsolete as of revision 1.0.193SVN
         return $this->getAbsName();
     }
 
     public function getAbsName($sName = false)
     {
-        if ($sName === false) {
+        if (false === $sName) {
             $sName = $this->_getNameWithoutPrefix();
         }
 
@@ -795,11 +791,11 @@ class formidable_mainrenderlet extends formidable_mainobject
             $sPrefix = $this->getParent()->getAbsName();
         }
 
-        if ($sPrefix === '') {
+        if ('' === $sPrefix) {
             return $sName;
         }
 
-        return $sPrefix . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $sName . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
+        return $sPrefix.AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$sName.AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
     }
 
     public function getNameRelativeTo(&$oRdt)
@@ -817,7 +813,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * Liefert bei verschachtelten Elementen den HTML-Name eines Kind-Objektes. Der Aufruf muss
-     * an die jeweilige Box erfolgen
+     * an die jeweilige Box erfolgen.
      *
      * @param formidable_mainrenderlet $child
      *
@@ -827,14 +823,14 @@ class formidable_mainrenderlet extends formidable_mainobject
     {
         $childId = $child->_getNameWithoutPrefix();
         $htmlId = $this->_getElementHtmlName(); // ID Box/Lister
-        $htmlId .= '[' . $childId . ']';
+        $htmlId .= '['.$childId.']';
 
         return $htmlId;
     }
 
     /**
      * Liefert den HTML-Namen des Elements
-     * <input type="xyz" name="..." />
+     * <input type="xyz" name="..." />.
      *
      * @param $sName
      *
@@ -842,7 +838,7 @@ class formidable_mainrenderlet extends formidable_mainobject
      */
     public function _getElementHtmlName($sName = false)
     {
-        if ($sName === false) {
+        if (false === $sName) {
             $sName = $this->_getNameWithoutPrefix();
         }
 
@@ -852,7 +848,7 @@ class formidable_mainrenderlet extends formidable_mainobject
                 $this->aStatics['elementHtmlName'][$sName] = $parent->getElementHtmlName4Child($this);
             } else {
                 $sPrefix = $this->oForm->formid;
-                $this->aStatics['elementHtmlName'][$sName] = $sPrefix . '[' . $sName . ']';
+                $this->aStatics['elementHtmlName'][$sName] = $sPrefix.'['.$sName.']';
             }
         }
 
@@ -861,13 +857,13 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function _getElementHtmlNameWithoutFormId($sName = false)
     {
-        if ($sName === false) {
+        if (false === $sName) {
             $sName = $this->_getNameWithoutPrefix();
         }
 
         if (!array_key_exists($sName, $this->aStatics['elementHtmlNameWithoutFormId'])) {
             if ($this->hasParent()) {
-                $sRes = $this->oRdtParent->_getElementHtmlNameWithoutFormId() . '[' . $sName . ']';
+                $sRes = $this->oRdtParent->_getElementHtmlNameWithoutFormId().'['.$sName.']';
             } else {
                 $sRes = $sName;
             }
@@ -880,7 +876,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * Liefert bei verschachtelten Elementen die HTML-ID eines Kind-Objektes. Der Aufruf muss
-     * an die jeweilige Box erfolgen
+     * an die jeweilige Box erfolgen.
      *
      * @param formidable_mainrenderlet $child
      *
@@ -890,7 +886,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     {
         $childId = $child->_getNameWithoutPrefix();
         $htmlId = $this->buildHtmlId($withForm, $withIteratingId); // ID Box/Lister
-        $htmlId .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $childId . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
+        $htmlId .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$childId.AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
 
         return $htmlId;
     }
@@ -899,7 +895,7 @@ class formidable_mainrenderlet extends formidable_mainobject
      * Liefert die ID des Widgets. Diese ist normalerweise gleich der HTML-ID. Es gibt aber den Sonderfall im
      * ListerSelect. Da haben die einzelnen RadioButtons eine andere HTML-ID als die ButtonGroup. Für die
      * Übernahme der Daten im DataHandler wird die ID der Group benötigt.
-     * Bisher ein Aufruf im main_datahandler::getRdtValue_submit_edition
+     * Bisher ein Aufruf im main_datahandler::getRdtValue_submit_edition.
      *
      * @param $sId
      *
@@ -912,9 +908,9 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * Liefert die HTML-ID des Elements
-     * <input type="xyz" id="..." />
+     * <input type="xyz" id="..." />.
      *
-     * @param         $sId
+     * @param      $sId
      * @param bool $withForm
      * @param bool $withIteratingId
      *
@@ -922,15 +918,15 @@ class formidable_mainrenderlet extends formidable_mainobject
      */
     public function _getElementHtmlId($sId = false, $withForm = true, $withIteratingId = true, $t = false)
     {
-        if ($sId === false) {
+        if (false === $sId) {
             $sId = $this->_getNameWithoutPrefix();
         }
         if (strlen($this->getIteratingId()) && $withIteratingId) {
-            $sId = AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $this->getIteratingId() . AMEOSFORMIDABLE_NESTED_SEPARATOR_END
-                . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $sId . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
+            $sId = AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$this->getIteratingId().AMEOSFORMIDABLE_NESTED_SEPARATOR_END
+                .AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$sId.AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
         }
 
-        $cacheKey = $sId . '-' . (int)$withForm . '-' . (int)$withIteratingId;
+        $cacheKey = $sId.'-'.(int) $withForm.'-'.(int) $withIteratingId;
         if (!array_key_exists($cacheKey, $this->aStatics['elementHtmlId'])) {
             $this->aStatics['elementHtmlId'][$cacheKey] = $this->buildHtmlId($withForm, $withIteratingId);
         }
@@ -956,8 +952,8 @@ class formidable_mainrenderlet extends formidable_mainobject
             $parent = $this->getParent();
             $ret = $parent->getElementHtmlId4Child($this, $withForm, $withIteratingId);
         } else {
-            $sPrefix = $withForm ? $this->oForm->formid . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN : '';
-            $ret = $sPrefix . $sId . AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
+            $sPrefix = $withForm ? $this->oForm->formid.AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN : '';
+            $ret = $sPrefix.$sId.AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
         }
 
         return $ret;
@@ -968,7 +964,7 @@ class formidable_mainrenderlet extends formidable_mainobject
      */
     public function _getElementHtmlIdWithoutFormId($sId = false)
     {
-        if ($sId === false) {
+        if (false === $sId) {
             $sId = $this->_getNameWithoutPrefix();
         }
 
@@ -1045,13 +1041,13 @@ class formidable_mainrenderlet extends formidable_mainobject
     }
 
     /**
-     * Die Methode liefert den Wert der Fest für ein Feld im XML definiert ist
+     * Die Methode liefert den Wert der Fest für ein Feld im XML definiert ist.
      *
      * @return den Wert oder FALSE
      */
     public function __getValue()
     {
-        if (($mValue = $this->_navConf('/data/value/')) !== false) {
+        if (false !== ($mValue = $this->_navConf('/data/value/'))) {
             $mValue = $this->getForm()->getRunnable()->callRunnable($mValue);
         }
 
@@ -1060,8 +1056,6 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * @param mixed $mValue
-     *
-     * @return void
      */
     public function setValue($mValue)
     {
@@ -1076,7 +1070,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         $this->mForcedValue = $mValue;
         $this->bForcedValue = true;
-        $this->wasValidated = false;//falls Abhängigkeiten bestehen
+        $this->wasValidated = false; //falls Abhängigkeiten bestehen
     }
 
     public function _getListValue()
@@ -1099,7 +1093,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     public function _getValue()
     {
         $this->oForm->mayday('_getValue() is deprecated');
-        if ($this->bForcedValue === true) {
+        if (true === $this->bForcedValue) {
             return $this->mForcedValue;
         } else {
             return $this->getForm()->getDataHandler()->getRdtValue(
@@ -1123,7 +1117,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * Soll bei getValue XSS entfernt werden?
-     * default ja
+     * default ja.
      *
      * @return bool
      */
@@ -1134,7 +1128,6 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * @param bool $forceSanitization
-     * @return void
      */
     public function forceSanitization($forceSanitization = true)
     {
@@ -1143,7 +1136,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function getValueForHtml($mValue = false)
     {
-        if ($mValue === false) {
+        if (false === $mValue) {
             $mValue = $this->getValue();
         }
 
@@ -1171,12 +1164,12 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function _substituteConstants($sValue)
     {
-        if ($sValue === 'CURRENT_TIMESTAMP') {
+        if ('CURRENT_TIMESTAMP' === $sValue) {
             $sValue = time();
-        } elseif ($sValue === 'CURRENT_PAGEID') {
+        } elseif ('CURRENT_PAGEID' === $sValue) {
             // front end only
             $sValue = $GLOBALS['TSFE']->id;
-        } elseif ($sValue === 'CURRENT_USERID') {
+        } elseif ('CURRENT_USERID' === $sValue) {
             // front end only
             $sValue = $GLOBALS['TSFE']->fe_user->user['uid'];
         }
@@ -1200,23 +1193,23 @@ class formidable_mainrenderlet extends formidable_mainobject
             $aAdditional['class'] = '';
         }
 
-        if (($sClass = trim($this->_getClasses(false, true, $aAdditional['class']))) !== '') {
+        if ('' !== ($sClass = trim($this->_getClasses(false, true, $aAdditional['class'])))) {
             $aAddParams[] = $sClass;
         }
 
-        if (($sStyle = trim($this->_getStyle(false, $aAdditional['style']))) !== '') {
+        if ('' !== ($sStyle = trim($this->_getStyle(false, $aAdditional['style'])))) {
             $aAddParams[] = $sStyle;
         }
 
-        if (($sCustom = trim($this->_getCustom())) !== '') {
+        if ('' !== ($sCustom = trim($this->_getCustom()))) {
             $aAddParams[] = $sCustom;
         }
 
-        if (($sEvents = trim($this->_getEvents())) !== '') {
+        if ('' !== ($sEvents = trim($this->_getEvents()))) {
             $aAddParams[] = $sEvents;
         }
 
-        if (($placeHolder = trim($this->_getPlaceholder())) !== '') {
+        if ('' !== ($placeHolder = trim($this->_getPlaceholder()))) {
             $aAddParams[] = $placeHolder;
         }
 
@@ -1225,24 +1218,24 @@ class formidable_mainrenderlet extends formidable_mainobject
                 @see http://lists.netfielders.de/pipermail/typo3-project-formidable/2007-December/000803.html
             */
 
-        if (($sDisabled = trim($this->_getDisabled())) !== '') {
+        if ('' !== ($sDisabled = trim($this->_getDisabled()))) {
             $aAddParams[] = $sDisabled;
         }
 
-        if (($sRequired = trim($this->getRequired())) !== '') {
+        if ('' !== ($sRequired = trim($this->getRequired()))) {
             $aAddParams[] = $sRequired;
         }
 
-        if (($sTitle = $this->_navConf('/title')) !== false) {
+        if (false !== ($sTitle = $this->_navConf('/title'))) {
             if ($this->oForm->isRunneable($sTitle)) {
                 $sTitle = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTitle);
             }
 
             $sTitle = $this->oForm->_substLLLInHtml($sTitle);
 
-            if (trim($sTitle) !== '') {
-                $aAddParams[] = 'title="' . strip_tags(str_replace('"', '\\"', $sTitle)) . '"';
-                if (($bTooltip = $this->defaultFalse('/tooltip')) !== false) {
+            if ('' !== trim($sTitle)) {
+                $aAddParams[] = 'title="'.strip_tags(str_replace('"', '\\"', $sTitle)).'"';
+                if (false !== ($bTooltip = $this->defaultFalse('/tooltip'))) {
                     $this->oForm->getJSLoader()->loadTooltip();
                     $sId = $this->_getElementHtmlId();
 
@@ -1261,13 +1254,13 @@ class formidable_mainrenderlet extends formidable_mainobject
 TOOLTIP;
                     $this->oForm->attachPostInitTask(
                         $sJs,
-                        $sId . ' tooltip initialization'
+                        $sId.' tooltip initialization'
                     );
                 }
             }
         }
 
-        if (($sHtmlAutoComplete = $this->htmlAutocomplete()) !== '' && !array_key_exists('autocomplete', $aAdditional)) {
+        if ('' !== ($sHtmlAutoComplete = $this->htmlAutocomplete()) && !array_key_exists('autocomplete', $aAdditional)) {
             $aAddParams[] = $sHtmlAutoComplete;
         }
 
@@ -1280,7 +1273,7 @@ TOOLTIP;
         $aAddParams = $this->_getAddInputParamsArray($aAdditional);
 
         if (count($aAddParams) > 0) {
-            $sRes = ' ' . implode(' ', $aAddParams) . ' ';
+            $sRes = ' '.implode(' ', $aAddParams).' ';
         } else {
             $sRes = '';
         }
@@ -1290,24 +1283,23 @@ TOOLTIP;
 
     public function _getCustom($aConf = false)
     {
-        if (($mCustom = $this->_navConf('/custom/', $aConf)) !== false) {
+        if (false !== ($mCustom = $this->_navConf('/custom/', $aConf))) {
             if ($this->oForm->isRunneable($mCustom)) {
                 $mCustom = $this->getForm()->getRunnable()->callRunnableWidget($this, $mCustom);
             }
 
-            return ' ' . $mCustom . ' ';
+            return ' '.$mCustom.' ';
         }
 
         return '';
     }
 
     /**
-     *
      * @return string
      */
     protected function _getPlaceholder()
     {
-        if (($placeholder = $this->_navConf('/placeholder/')) !== false) {
+        if (false !== ($placeholder = $this->_navConf('/placeholder/'))) {
             if ($this->oForm->isRunneable($placeholder)) {
                 $placeholder = $this->getForm()->getRunnable()->callRunnableWidget(
                     $this,
@@ -1317,7 +1309,7 @@ TOOLTIP;
 
             $placeholder = $this->getForm()->getConfig()->getLLLabel($placeholder);
 
-            $placeholder = ' placeholder="' . $placeholder . '" ';
+            $placeholder = ' placeholder="'.$placeholder.'" ';
         }
 
         return $placeholder;
@@ -1333,7 +1325,7 @@ TOOLTIP;
      */
     public function _isDependancyValue($mValue, $aHideIf)
     {
-        if ($aHideIf === false) {
+        if (false === $aHideIf) {
             return true;
         }
         if (!is_array($mValue)) {
@@ -1359,16 +1351,16 @@ TOOLTIP;
     {
         $bOrZero = $sIs = $sIsNot = false;
         if ($this->hasDependancies()
-            && ((($bEmpty = $this->_defaultFalse('/hideifdependancyempty')) === true)
-                || (($bOrZero = $this->_defaultFalse('/hideifdependancyemptyorzero')) === true)
-                || (($sIs = $this->_navConf('/hideifdependancyis')) !== false)
-                || (($sIsNot = $this->_navConf('/hideifdependancyisnot')) !== false)//
+            && ((true === ($bEmpty = $this->_defaultFalse('/hideifdependancyempty')))
+                || (true === ($bOrZero = $this->_defaultFalse('/hideifdependancyemptyorzero')))
+                || (false !== ($sIs = $this->_navConf('/hideifdependancyis')))
+                || (false !== ($sIsNot = $this->_navConf('/hideifdependancyisnot')))
             )
         ) {
             // bei hideIfDependancyIs & hideIfDependancyIsNot sind mehrere Werte Kommasepariert möglich.
             $sIs = $sIs ? Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sIs)) : false;
             $sOperator = $this->_navConf('/hideifoperator');
-            $sOperator = ($sOperator === false || strtoupper($sOperator) != 'OR') ? 'AND' : 'OR';
+            $sOperator = (false === $sOperator || 'OR' != strtoupper($sOperator)) ? 'AND' : 'OR';
             $bHide = false;
             $sIsNot = $sIsNot ? Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sIsNot)) : false;
             $sIsHiddenD = $this->_defaultFalse('/hideifdependancyishiddenbecausedependancy');
@@ -1383,17 +1375,17 @@ TOOLTIP;
                     // der Wert leer ist
                     || ($bEmpty && $oRdt->isValueEmpty())
                     // der Wert 0 ist
-                    || ($bOrZero === true && ((int)$oRdt->getValue() === 0))
+                    || (true === $bOrZero && (0 === (int) $oRdt->getValue()))
                     // der Wert eines der angegebenen Werte hat
-                    || ($sIs !== false && $this->_isDependancyValue($oRdt->getValue(), $sIs))
+                    || (false !== $sIs && $this->_isDependancyValue($oRdt->getValue(), $sIs))
                     // der Wert eines der angegebenen Werte nicht hat
-                    || ($sIsNot !== false && !$this->_isDependancyValue($oRdt->getValue(), $sIsNot))
+                    || (false !== $sIsNot && !$this->_isDependancyValue($oRdt->getValue(), $sIsNot))
                 ) {
                     $bHide = true;
-                    if ($sOperator == 'AND') {
+                    if ('AND' == $sOperator) {
                         break;
                     }
-                } elseif ($sOperator == 'OR'
+                } elseif ('OR' == $sOperator
                     && array_key_exists($sKey, $this->oForm->aORenderlets)
                     && is_object($oRdt = $this->oForm->aORenderlets[$sKey])
                 ) {
@@ -1416,7 +1408,7 @@ TOOLTIP;
     {
         $sStyle = '';
 
-        if (($mStyle = $this->_navConf('/style/', $aConf)) !== false) {
+        if (false !== ($mStyle = $this->_navConf('/style/', $aConf))) {
             if ($this->oForm->isRunneable($mStyle)) {
                 $mStyle = $this->getForm()->getRunnable()->callRunnableWidget($this, $mStyle);
             }
@@ -1424,13 +1416,13 @@ TOOLTIP;
             $sStyle = str_replace('"', "'", $mStyle);
         }
 
-        if ($this->isVisible() === false || $this->_shouldHideBecauseDependancyEmpty()) {
+        if (false === $this->isVisible() || $this->_shouldHideBecauseDependancyEmpty()) {
             $sAddStyle .= 'display: none;';
         }
 
         $aStyles = $this->explodeStyle($sStyle);
 
-        if (trim($sAddStyle) !== '') {
+        if ('' !== trim($sAddStyle)) {
             $aStyles = array_merge(
                 $aStyles,
                 $this->explodeStyle($sAddStyle)
@@ -1446,11 +1438,11 @@ TOOLTIP;
     {
         $aStyles = array();
 
-        if (trim($sStyle) !== '') {
+        if ('' !== trim($sStyle)) {
             $aTemp = Tx_Rnbase_Utility_Strings::trimExplode(';', $sStyle);
             reset($aTemp);
             foreach ($aTemp as $sKey => $notNeeded) {
-                if (trim($aTemp[$sKey]) !== '') {
+                if ('' !== trim($aTemp[$sKey])) {
                     $aStyleItem = Tx_Rnbase_Utility_Strings::trimExplode(':', $aTemp[$sKey]);
                     $aStyles[$aStyleItem[0]] = $aStyleItem[1];
                 }
@@ -1468,12 +1460,12 @@ TOOLTIP;
 
         reset($aStyles);
         foreach ($aStyles as $sProp => $sVal) {
-            $aRes[] = $sProp . ': ' . $sVal;
+            $aRes[] = $sProp.': '.$sVal;
         }
 
         reset($aRes);
         if (count($aRes) > 0) {
-            return ' style="' . implode('; ', $aRes) . ';" ';
+            return ' style="'.implode('; ', $aRes).';" ';
         }
 
         return '';
@@ -1487,7 +1479,7 @@ TOOLTIP;
     }
 
     /**
-     * Prüft die Option hideIf. Damit kann man Widgets ausblenden, wenn sie einen bestimmten Wert haben
+     * Prüft die Option hideIf. Damit kann man Widgets ausblenden, wenn sie einen bestimmten Wert haben.
      *
      * @param formidable_mainrenderlet $widget
      *
@@ -1496,7 +1488,7 @@ TOOLTIP;
     protected function isHideIf($widget)
     {
         $val = $this->getForm()->getConfig()->get('/hideif', $this->aElement);
-        if ($val !== false) {
+        if (false !== $val) {
             $cmpValue = $this->getForm()->getRunnable()->callRunnableWidget($this, $val);
 
             return $cmpValue == $widget->getValue();
@@ -1515,12 +1507,12 @@ TOOLTIP;
             return $this->getForm()->getRunnable()->callRunnableWidget($this, $visible);
         }
 
-        return $visible === false ? true : $this->_isTrueVal($visible);
+        return false === $visible ? true : $this->_isTrueVal($visible);
     }
 
     public function isVisibleBecauseDependancyEmpty()
     {
-        return !($this->isVisible() === false || $this->_shouldHideBecauseDependancyEmpty(true));
+        return !(false === $this->isVisible() || $this->_shouldHideBecauseDependancyEmpty(true));
     }
 
     public function setVisible()
@@ -1535,7 +1527,7 @@ TOOLTIP;
 
     public function isValueEmpty()
     {
-        return is_array($mValue = $this->getValue()) ? empty($mValue) : trim($mValue) === '';
+        return is_array($mValue = $this->getValue()) ? empty($mValue) : '' === trim($mValue);
     }
 
     public function isDataEmpty()
@@ -1547,25 +1539,25 @@ TOOLTIP;
     {
         $aClasses = array();
 
-        if (($mClass = $this->_navConf('/class/', $aConf)) !== false) {
+        if (false !== ($mClass = $this->_navConf('/class/', $aConf))) {
             if ($this->oForm->isRunneable($mClass)) {
                 $mClass = $this->getForm()->getRunnable()->callRunnableWidget($this, $mClass);
             }
 
-            if (is_string($mClass) && (trim($mClass) !== '')) {
+            if (is_string($mClass) && ('' !== trim($mClass))) {
                 $aClasses = Tx_Rnbase_Utility_Strings::trimExplode(' ', $mClass);
             }
         }
 
-        if ($bIsRdt === true) {
-            if ($this->oForm->oRenderer->defaultFalse('autordtclass') === true) {
+        if (true === $bIsRdt) {
+            if (true === $this->oForm->oRenderer->defaultFalse('autordtclass')) {
                 $aClasses[] = $this->getName();
             }
 
             if ($this->hasError()) {
                 $aError = $this->getError();
                 $aClasses[] = 'hasError';
-                $aClasses[] = 'hasError' . ucfirst($aError['info']['type']);
+                $aClasses[] = 'hasError'.ucfirst($aError['info']['type']);
             }
         }
 
@@ -1582,10 +1574,10 @@ TOOLTIP;
             $aClasses[] = $sAdditional;
         }
 
-        if (count($aClasses) === 0) {
+        if (0 === count($aClasses)) {
             $sClassAttribute = '';
         } else {
-            $sClassAttribute = ' class="' . implode(' ', $aClasses) . '" ';
+            $sClassAttribute = ' class="'.implode(' ', $aClasses).'" ';
         }
 
         return $sClassAttribute;
@@ -1619,7 +1611,7 @@ TOOLTIP;
         $aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
         reset($aGrabbedEvents);
         foreach ($aGrabbedEvents as $sEvent) {
-            if (($mEvent = $this->_navConf('/' . $sEvent . '/')) !== false) {
+            if (false !== ($mEvent = $this->_navConf('/'.$sEvent.'/'))) {
                 if (is_array($mEvent)) {
                     $sRunAt = trim(
                         strtolower(
@@ -1631,13 +1623,13 @@ TOOLTIP;
                         )
                     );
 
-                    if (($iPos = strpos($sEvent, '-')) !== false) {
+                    if (false !== ($iPos = strpos($sEvent, '-'))) {
                         $sEventName = substr($sEvent, 0, $iPos);
                     } else {
                         $sEventName = $sEvent;
                     }
 
-                    if ($sRunAt === 'server') {
+                    if ('server' === $sRunAt) {
                         $sEventId = $this->oForm->_getServerEventId(
                             $this->getAbsName(),
                             array($sEventName => $mEvent)
@@ -1665,15 +1657,15 @@ TOOLTIP;
                         reset($aNeededParams);
 
                         $sWhen = $this->oForm->_navConf('/when', $mEvent);
-                        if ($sWhen === false) {
+                        if (false === $sWhen) {
                             $sWhen = 'end';
                         }
 
                         if (!in_array($sWhen, $this->oForm->aAvailableCheckPoints)) {
                             $this->oForm->mayday(
-                                'SERVER EVENT on <b>' . $sEventName . ' ' . $this->getAbsName()
-                                . "</b>: defined checkpoint (when='" . $sWhen
-                                . "') does not exists; Available checkpoints are: <br /><br />" . tx_rnbase_util_Debug::viewArray(
+                                'SERVER EVENT on <b>'.$sEventName.' '.$this->getAbsName()
+                                ."</b>: defined checkpoint (when='".$sWhen
+                                ."') does not exists; Available checkpoints are: <br /><br />".tx_rnbase_util_Debug::viewArray(
                                     $this->oForm->aAvailableCheckPoints
                                 )
                             );
@@ -1686,14 +1678,14 @@ TOOLTIP;
                             $this->oForm->aAvailableCheckPoints
                         )
                         ) {
-                            if ($sWhen === 'start') {
+                            if ('start' === $sWhen) {
                                 $bEarlyBird = true;
                             } else {
                                 $this->oForm->mayday(
-                                    'SERVER EVENT on <b>' . $sEventName . ' ' . $this->getAbsName()
-                                    . "</b>: defined checkpoint (when='" . $sWhen
-                                    . "') triggers too early in the execution to be catchable by a server event.<br />The first checkpoint available for server event is <b>after-init-renderlets</b>. <br /><br />The full list of checkpoints is: <br /><br />"
-                                    . tx_rnbase_util_Debug::viewArray($this->oForm->aAvailableCheckPoints)
+                                    'SERVER EVENT on <b>'.$sEventName.' '.$this->getAbsName()
+                                    ."</b>: defined checkpoint (when='".$sWhen
+                                    ."') triggers too early in the execution to be catchable by a server event.<br />The first checkpoint available for server event is <b>after-init-renderlets</b>. <br /><br />The full list of checkpoints is: <br /><br />"
+                                    .tx_rnbase_util_Debug::viewArray($this->oForm->aAvailableCheckPoints)
                                 );
                             }
                         }
@@ -1722,7 +1714,7 @@ TOOLTIP;
 
         reset($aGrabbedEvents);
         foreach ($aGrabbedEvents as $sEvent) {
-            if (($mEvent = $this->_navConf('/' . $sEvent . '/')) !== false) {
+            if (false !== ($mEvent = $this->_navConf('/'.$sEvent.'/'))) {
                 if (is_array($mEvent)) {
                     $sRunAt = (array_key_exists('runat', $mEvent)
                         && in_array(
@@ -1730,14 +1722,14 @@ TOOLTIP;
                             array('js', 'inline', 'client', 'ajax', 'server')
                         )) ? $mEvent['runat'] : 'client';
 
-                    if (($iPos = strpos($sEvent, '-')) !== false) {
+                    if (false !== ($iPos = strpos($sEvent, '-'))) {
                         $sEventName = substr($sEvent, 0, $iPos);
                     } else {
                         $sEventName = $sEvent;
                     }
 
                     switch ($sRunAt) {
-                        case 'server': {
+                        case 'server':
                             $sEventId = $this->oForm->_getServerEventId(
                                 $this->getAbsName(),
                                 array($sEventName => $mEvent)
@@ -1749,12 +1741,12 @@ TOOLTIP;
                                 $this->getAbsName(),
                                 $mEvent,
                                 $sEventId,
-                                ($aTempListData === false ? array() : $aTempListData)
+                                (false === $aTempListData ? array() : $aTempListData)
                             );
 
                             break;
-                        }
-                        case 'ajax': {
+
+                        case 'ajax':
 
                             $sEventId = $this->oForm->_getAjaxEventId(
                                 $this->getAbsName(),
@@ -1773,13 +1765,13 @@ TOOLTIP;
                                 $this->oForm->aAjaxEvents[$sEventId] = $aTemp;
                             }
 
-                            if ($sEvent === 'onload') {
+                            if ('onload' === $sEvent) {
                                 if (!array_key_exists($sEventId, $this->oForm->aOnloadEvents['ajax'])) {
                                     $this->oForm->aOnloadEvents['ajax'][$sEventId] = $aTemp;
                                 }
                             }
 
-                            if ($this->oForm->_defaultFalse('/needparent', $mEvent) === true) {
+                            if (true === $this->oForm->_defaultFalse('/needparent', $mEvent)) {
                                 $this->oForm->bStoreParentInSession = true;
                             }
 
@@ -1804,11 +1796,11 @@ TOOLTIP;
                             );
 
                             break;
-                        }
-                        case 'js': {
+
+                        case 'js':
 
                             if ($this->oForm->isRunneable($mEvent)) {
-                                if ($sEventName !== 'onload') {
+                                if ('onload' !== $sEventName) {
                                     $aEvent = $this->getForm()->getRunnable()->callRunnableWidget($this, $mEvent);
 
                                     $aEvent = $this->oForm->oRenderer->_getClientEvent(
@@ -1824,21 +1816,21 @@ TOOLTIP;
                                         $aEvent = $mEvent;
                                     }
 
-                                    $this->oForm->aOnloadEvents['client']['onload:' . $this->_getElementHtmlIdWithoutFormId()]
+                                    $this->oForm->aOnloadEvents['client']['onload:'.$this->_getElementHtmlIdWithoutFormId()]
                                         = array(
                                         'name' => $this->_getElementHtmlId(),
                                         'event' => $mEvent,
-                                        'eventdata' => $aEvent
+                                        'eventdata' => $aEvent,
                                     );
                                 }
                             }
                             break;
-                        }
-                        case 'client': {
+
+                        case 'client':
 
                             // array client mode event
 
-                            if ($sEventName !== 'onload') {
+                            if ('onload' !== $sEventName) {
                                 // Bei Client-Calls erlauben wir auch Parameter. Diese werden aus dem Event geholt
                                 $params = array();
                                 if (is_array($mEvent) && array_key_exists('params', $mEvent)) {
@@ -1872,16 +1864,16 @@ TOOLTIP;
                                     $aEvent = $mEvent;
                                 }
 
-                                $this->getForm()->aOnloadEvents['client']['onload:' . $this->_getElementHtmlIdWithoutFormId()]
+                                $this->getForm()->aOnloadEvents['client']['onload:'.$this->_getElementHtmlIdWithoutFormId()]
                                     = array(
                                     'name' => $this->_getElementHtmlId(),
                                     'event' => $mEvent,
-                                    'eventdata' => $aEvent
+                                    'eventdata' => $aEvent,
                                 );
                             }
                             break;
-                        }
-                        case 'inline': {
+
+                        case 'inline':
 
                             if ($this->oForm->isRunneable($mEvent)) {
                                 $aEvent = $this->getForm()->getRunnable()->callRunnableWidget($this, $mEvent);
@@ -1890,15 +1882,14 @@ TOOLTIP;
                             }
 
                             break;
-                        }
                     }
                 } else {
                     $aEvent = $mEvent;
                 }
 
-                if ($sEventName !== 'onload' && !$this->isCustomEventHandler($sEventName)) {
+                if ('onload' !== $sEventName && !$this->isCustomEventHandler($sEventName)) {
                     if (!$this->oForm->isDomEventHandler($sEventName)) {
-                        $sEventName = 'formidable:' . $sEventName;
+                        $sEventName = 'formidable:'.$sEventName;
                     }
 
                     if (!array_key_exists($sEventName, $aEvents)) {
@@ -1918,7 +1909,7 @@ TOOLTIP;
                 $this->aSkin['submanifest']['hooks']['geteventsarray'],
                 array(
                     'object' => &$this,
-                    'events' => $aEvents
+                    'events' => $aEvents,
                 )
             );
         }
@@ -1957,11 +1948,11 @@ TOOLTIP;
         if (!empty($aEvents)) {
             reset($aEvents);
             foreach ($aEvents as $sEvent => $aEvent) {
-                if ($sEvent == 'custom') {
+                if ('custom' == $sEvent) {
                     $aHtml[] = implode(' ', $aEvent);
                 } else {
-                    if ($this->oForm->bInlineEvents === true) {
-                        $aHtml[] = $sEvent . "='" . $this->oForm->oRenderer->wrapEventsForInlineJs($aEvent) . "'";
+                    if (true === $this->oForm->bInlineEvents) {
+                        $aHtml[] = $sEvent."='".$this->oForm->oRenderer->wrapEventsForInlineJs($aEvent)."'";
                     } else {
                         $this->attachEvents($sEvent, $aEvent);
                     }
@@ -1969,7 +1960,7 @@ TOOLTIP;
             }
         }
 
-        return ' ' . implode(' ', $aHtml) . ' ';
+        return ' '.implode(' ', $aHtml).' ';
     }
 
     public function attachEvents($sEvent, $aEvents)
@@ -1978,7 +1969,7 @@ TOOLTIP;
         $sFunction = implode(";\n", $aEvents);
         $sElementId = $this->_getElementHtmlId();
 
-        if ($sEventHandler === 'click' && $this->_getType() === 'LINK') {
+        if ('click' === $sEventHandler && 'LINK' === $this->_getType()) {
             $sAppend = 'MKWrapper.stopEvent(event);';
         }
 
@@ -1987,10 +1978,10 @@ TOOLTIP;
 Formidable.f("{$this->oForm->formid}").attachEvent("{$sElementId}", "{$sEventHandler}", function(event) {{$sFunction};{$sAppend}});
 JAVASCRIPT;
 
-        if (tx_mkforms_util_Div::getEnvExecMode() === 'EID') {
-            $this->oForm->aRdtEventsAjax[$sEvent . '-' . $sElementId] = $sEvents;
+        if ('EID' === tx_mkforms_util_Div::getEnvExecMode()) {
+            $this->oForm->aRdtEventsAjax[$sEvent.'-'.$sElementId] = $sEvents;
         } else {
-            $this->oForm->aRdtEvents[$sEvent . '-' . $sElementId] = $sEvents;
+            $this->oForm->aRdtEvents[$sEvent.'-'.$sElementId] = $sEvents;
         }
     }
 
@@ -2014,7 +2005,7 @@ JAVASCRIPT;
     public function _getEventRefresh($mRefresh)
     {
         if (is_array($mRefresh)) {
-            if (($mAction = $this->oForm->_navConf('/action', $mRefresh)) !== false) {
+            if (false !== ($mAction = $this->oForm->_navConf('/action', $mRefresh))) {
                 if ($this->oForm->isRunneable($mAction)) {
                     $mAction = $this->getForm()->getRunnable()->callRunnableWidget($this, $mAction);
                 }
@@ -2042,7 +2033,7 @@ JAVASCRIPT;
     public function _getSessionDataHashKey()
     {
         return $this->getForm()->_getSafeLock(
-            $GLOBALS['TSFE']->id . '||' . $this->oForm->formid
+            $GLOBALS['TSFE']->id.'||'.$this->oForm->formid
         );
     }
 
@@ -2053,18 +2044,18 @@ JAVASCRIPT;
 
     public function _getItems()
     {
-        if ($this->aForcedItems !== false) {
+        if (false !== $this->aForcedItems) {
             reset($this->aForcedItems);
 
             return $this->aForcedItems;
         }
 
-        if (($bFromTCA = $this->_defaultFalse('/data/items/fromtca')) === true) {
+        if (true === ($bFromTCA = $this->_defaultFalse('/data/items/fromtca'))) {
             tx_rnbase_util_TCA::loadTCA($this->oForm->oDataHandler->tableName());
-            if (($aItems = $this->oForm->_navConf(
-                'columns/' . $this->_getName() . '/config/items',
+            if (false !== ($aItems = $this->oForm->_navConf(
+                'columns/'.$this->_getName().'/config/items',
                 $GLOBALS['TCA'][$this->oForm->oDataHandler->tableName()]
-            )) !== false
+            ))
             ) {
                 $aItems = $this->oForm->_tcaToRdtItems($aItems);
             }
@@ -2124,14 +2115,14 @@ JAVASCRIPT;
             $aDb = $this->_navConf('/db/');
             if (is_array($aDb)) {
                 // Get database table
-                if (($mTable = $this->_navConf('/db/table/')) !== false) {
+                if (false !== ($mTable = $this->_navConf('/db/table/'))) {
                     if ($this->oForm->isRunneable($mTable)) {
                         $mTable = $this->getForm()->getRunnable()->callRunnableWidget($this, $mTable);
                     }
                 }
 
                 // Get value field, otherwise uid will be used as value
-                if (($mValueField = $this->_navConf('/db/value/')) !== false) {
+                if (false !== ($mValueField = $this->_navConf('/db/value/'))) {
                     if ($this->oForm->isRunneable($mValueField)) {
                         $mValueField = $this->getForm()->getRunnable()->callRunnableWidget($this, $mValueField);
                     }
@@ -2140,32 +2131,36 @@ JAVASCRIPT;
                 }
 
                 // Get where part
-                if (($mWhere = $this->_navConf('/db/where/')) !== false) {
+                if (false !== ($mWhere = $this->_navConf('/db/where/'))) {
                     if ($this->oForm->isRunneable($mWhere)) {
                         $mWhere = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWhere);
                     }
                 }
 
-                if (($this->_defaultFalse('/db/static/') === true) && (tx_rnbase_util_Extensions::isLoaded('static_info_tables'))) {
+                if ((true === $this->_defaultFalse('/db/static/')) && (tx_rnbase_util_Extensions::isLoaded('static_info_tables'))) {
                     // If it is a static table
                     $aDbItems = $this->__getItemsStaticTable($mTable, $mValueField, $mWhere);
                 } else {
                     // Get caption field
-                    if (($mCaptionField = $this->_navConf('/db/caption/')) !== false) {
+                    if (false !== ($mCaptionField = $this->_navConf('/db/caption/'))) {
                         if ($this->oForm->isRunneable($mCaptionField)) {
                             $mCaptionField = $this->getForm()->getRunnable()->callRunnableWidget($this, $mCaptionField);
                         }
                     } else {
-                        if (($mCaptionField = $this->oForm->_navConf($mTable . '/ctrl/label', $GLOBALS['TCA'])) === false) {
+                        if (false === ($mCaptionField = $this->oForm->_navConf($mTable.'/ctrl/label', $GLOBALS['TCA']))) {
                             $mCaptionField = 'uid';
                         }
                     }
 
                     // Build the query with value and caption fields
-                    $sFields = $mValueField . ' as value, ' . $mCaptionField . ' as caption';
+                    $sFields = $mValueField.' as value, '.$mCaptionField.' as caption';
 
                     // Get the items
-                    $aDbItems = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($sFields, $mTable, $mWhere, '', 'caption');
+                    $aDbItems = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
+                        $sFields,
+                        $mTable,
+                        ['where' => $mWhere, 'orderby' => 'caption']
+                    );
                 }
             }
 
@@ -2177,20 +2172,20 @@ JAVASCRIPT;
             $aItems = array();
         }
 
-        if (($mAddBlank = $this->_defaultFalseMixed('/addblank')) !== false) {
+        if (false !== ($mAddBlank = $this->_defaultFalseMixed('/addblank'))) {
             if ($this->oForm->isRunneable($mAddBlank)) {
                 $mAddBlank = $this->oForm->callRunnable($mAddBlank);
             }
 
-            if ($mAddBlank === true) {
+            if (true === $mAddBlank) {
                 $sCaption = '';
             } else {
                 $sCaption = $this->getForm()->getConfig()->getLLLabel($mAddBlank);
             }
 
-            if (($mBlankValue = $this->_defaultFalseMixed('/blankvalue')) === false) {
+            if (false === ($mBlankValue = $this->_defaultFalseMixed('/blankvalue'))) {
                 $mBlankValue = '';
-            } elseif (strtoupper($mBlankValue) === 'NULL') {
+            } elseif ('NULL' === strtoupper($mBlankValue)) {
                 $mBlankValue = null;
             }
 
@@ -2234,7 +2229,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Used by main datahandler
+     * Used by main datahandler.
      */
     public function _unFlatten($sData)
     {
@@ -2247,14 +2242,14 @@ JAVASCRIPT;
     }
 
     /**
-     * Used by main datahandler
+     * Used by main datahandler.
      */
     public function _emptyFormValue($value)
     {
         if (is_array($value)) {
             return empty($value);
         } else {
-            return (strlen(trim($value)) == 0);
+            return 0 == strlen(trim($value));
         }
     }
 
@@ -2262,15 +2257,15 @@ JAVASCRIPT;
     {
         $sTable = $this->oForm->oDataHandler->tableName();
 
-        if ($sFieldName === '') {
+        if ('' === $sFieldName) {
             $sName = $this->_getName();
         } else {
             $sName = $sFieldName;
         }
+        $sSql = $sFieldPrefix.$sName." LIKE '%".
+            Tx_Rnbase_Database_Connection::getInstance()->quoteStr($sValue, $sTable)."%'";
 
-        $sSql = $sFieldPrefix . $sName . " LIKE '%" . $GLOBALS['TYPO3_DB']->quoteStr($sValue, $sTable) . "%'";
-
-        if ($bRec === true) {
+        if (true === $bRec) {
             $sSql = $this->overrideSql(
                 $sValue,
                 $sFieldPrefix,
@@ -2286,13 +2281,13 @@ JAVASCRIPT;
     {
         $sTable = $this->oForm->oDataHandler->tableName();
 
-        if ($sFieldName === '') {
+        if ('' === $sFieldName) {
             $sName = $this->_getName();
         } else {
             $sName = $sFieldName;
         }
 
-        if (($aConf = $this->_navConf('/search/')) !== false) {
+        if (false !== ($aConf = $this->_navConf('/search/'))) {
             if (array_key_exists('onfields', $aConf)) {
                 if ($this->oForm->isRunneable($aConf['onfields'])) {
                     $sOnFields = $this->getForm()->getRunnable()->callRunnableWidget($this, $aConf['onfields']);
@@ -2330,7 +2325,7 @@ JAVASCRIPT;
                     }
 
                     if (!empty($aSql)) {
-                        $sSql = ' (' . implode(' OR ', $aSql) . ') ';
+                        $sSql = ' ('.implode(' OR ', $aSql).') ';
                     }
                 } else {
                     $sSql = $aConf['overridesql'];
@@ -2340,7 +2335,7 @@ JAVASCRIPT;
             } else {
                 if (array_key_exists('mode', $aConf)) {
                     if ((is_array($aConf['mode']) && array_key_exists('startswith', $aConf['mode']))
-                        || $aConf['mode'] == 'startswith'
+                        || 'startswith' == $aConf['mode']
                     ) {
                         // on effectue la recherche sur le dbut des champs avec LIKE A%
 
@@ -2349,21 +2344,23 @@ JAVASCRIPT;
 
                         reset($aFields);
                         foreach ($aFields as $sField) {
-                            if ($sValue != 'number') {
+                            if ('number' != $sValue) {
                                 $aSql[]
-                                    = '(' . $sFieldPrefix . $sField . " LIKE '" . $GLOBALS['TYPO3_DB']->quoteStr($sValue, $sTable)
-                                    . "%')";
+                                    = '('.$sFieldPrefix.$sField." LIKE '"
+                                    .Tx_Rnbase_Database_Connection::getInstance()->quoteStr($sValue, $sTable)
+                                    ."%')";
                             } else {
-                                for ($k = 0; $k < 10; $k++) {
+                                for ($k = 0; $k < 10; ++$k) {
                                     $aSql[]
-                                        = '(' . $sFieldPrefix . $sField . " LIKE '" . $GLOBALS['TYPO3_DB']->quoteStr($k, $sTable)
-                                        . "%')";
+                                        = '('.$sFieldPrefix.$sField." LIKE '"
+                                        .Tx_Rnbase_Database_Connection::getInstance()->quoteStr($k, $sTable)
+                                        ."%')";
                                 }
                             }
                         }
 
                         if (!empty($aSql)) {
-                            $sSql = ' (' . implode(' OR ', $aSql) . ') ';
+                            $sSql = ' ('.implode(' OR ', $aSql).') ';
                         }
                     } elseif ((is_array($aConf['mode'])
                             && (array_key_exists('googlelike', $aConf['mode'])
@@ -2371,8 +2368,8 @@ JAVASCRIPT;
                                     'orlike',
                                     $aConf['mode']
                                 )))
-                        || $aConf['mode'] == 'googlelike'
-                        || $aConf['mode'] == 'orlike'
+                        || 'googlelike' == $aConf['mode']
+                        || 'orlike' == $aConf['mode']
                     ) {
                         // on doit effectuer la recherche comme le ferait google :)
                         // comportement : recherche AND sur "espaces", "+", ","
@@ -2394,7 +2391,7 @@ JAVASCRIPT;
                                 ' et ',
                                 ' Et ',
                                 ' eT ',
-                                ' ET '
+                                ' ET ',
                             ),
                             '+',
                             trim($sValue)
@@ -2404,7 +2401,7 @@ JAVASCRIPT;
                         if (is_array($aConf['mode']) && array_key_exists('handlepluriels', $aConf['mode'])) {
                             reset($aWords);
                             foreach ($aWords as $sKey => $sWord) {
-                                if (strtolower(substr($sWord, -1, 1)) === 's') {
+                                if ('s' === strtolower(substr($sWord, -1, 1))) {
                                     $aWords[$sKey] = substr($sWord, 0, (strlen($sWord) - 1));
                                 }
                             }
@@ -2418,26 +2415,27 @@ JAVASCRIPT;
 
                             reset($aWords);
                             foreach ($aWords as $iKey => $sWord) {
-                                $aTemp[] = $sFieldPrefix . $sField . " LIKE '%" . $GLOBALS['TYPO3_DB']->quoteStr($sWord, $sTable)
-                                    . "%' ";
+                                $aTemp[] = $sFieldPrefix.$sField." LIKE '%"
+                                    .Tx_Rnbase_Database_Connection::getInstance()->quoteStr($sWord, $sTable)
+                                    ."%' ";
                             }
 
                             if (!empty($aTemp)) {
                                 if ((is_array($aConf['mode']) && array_key_exists('orlike', $aConf['mode']))
-                                    || $aConf['mode'] == 'orlike'
+                                    || 'orlike' == $aConf['mode']
                                 ) {
-                                    $aSql[] = '(' . implode(' OR ', $aTemp) . ')';
+                                    $aSql[] = '('.implode(' OR ', $aTemp).')';
                                 } else {
-                                    $aSql[] = '(' . implode(' AND ', $aTemp) . ')';
+                                    $aSql[] = '('.implode(' AND ', $aTemp).')';
                                 }
                             }
                         }
 
                         if (!empty($aSql)) {
-                            $sSql = ' (' . implode(' OR ', $aSql) . ') ';
+                            $sSql = ' ('.implode(' OR ', $aSql).') ';
                         }
                     } elseif ((is_array($aConf['mode']) && array_key_exists('and', $aConf['mode']))
-                        || strtoupper($aConf['mode']) == 'AND'
+                        || 'AND' == strtoupper($aConf['mode'])
                     ) {
                         $sValue = trim($sValue);
                         $aSql = array();
@@ -2453,16 +2451,15 @@ JAVASCRIPT;
                         }
 
                         if (!empty($aSql)) {
-                            $sSql = ' (' . implode(' AND ', $aSql) . ') ';
+                            $sSql = ' ('.implode(' AND ', $aSql).') ';
                         }
                     } else {
                         $this->oForm->mayday(
-                            'renderlet:' . $this->_getType() . '[name=' . $this->getName()
-                            . "] - given /search/mode does not exist; should be one of 'startswith', 'googlelike', 'orlike'"
+                            'renderlet:'.$this->_getType().'[name='.$this->getName()
+                            ."] - given /search/mode does not exist; should be one of 'startswith', 'googlelike', 'orlike'"
                         );
                     }
                 } else {    /* default mode */
-
                     $sValue = trim($sValue);
                     $aSql = array();
 
@@ -2477,7 +2474,7 @@ JAVASCRIPT;
                     }
 
                     if (!empty($aSql)) {
-                        $sSql = ' (' . implode(' OR ', $aSql) . ') ';
+                        $sSql = ' ('.implode(' OR ', $aSql).') ';
                     }
                 }
             }
@@ -2493,7 +2490,7 @@ JAVASCRIPT;
 
     public function hasData($bForAjax = false)
     {
-        return $this->_defaultFalse('/hasdata') || ($this->_renderOnly($bForAjax) === false);
+        return $this->_defaultFalse('/hasdata') || (false === $this->_renderOnly($bForAjax));
     }
 
     public function _activeListable()
@@ -2544,8 +2541,9 @@ JAVASCRIPT;
     }
 
     /**
-     * used by main renderer
-     * @return boolean
+     * used by main renderer.
+     *
+     * @return bool
      */
     public function _readOnly()
     {
@@ -2574,22 +2572,22 @@ JAVASCRIPT;
     public function _hasThrown($sEvent, $sWhen = false)
     {
         $sEvent = strtolower($sEvent);
-        if ($sEvent{0} !== 'o' || $sEvent{1} !== 'n') {
+        if ('o' !== $sEvent[0] || 'n' !== $sEvent[1]) {
             // events should always start with on
-            $sEvent = 'on' . $sEvent;
+            $sEvent = 'on'.$sEvent;
         }
 
         if (array_key_exists($sEvent, $this->aElement) && array_key_exists('runat', $this->aElement[$sEvent])
-            && $this->aElement[$sEvent]['runat'] == 'server'
+            && 'server' == $this->aElement[$sEvent]['runat']
         ) {
             $aEvent = $this->aElement[$sEvent];
-        } elseif (($aProgEvents = $this->_getProgServerEvents()) !== false && array_key_exists($sEvent, $aProgEvents)) {
+        } elseif (false !== ($aProgEvents = $this->_getProgServerEvents()) && array_key_exists($sEvent, $aProgEvents)) {
             $aEvent = $aProgEvents[$sEvent];
         } else {
             return false;
         }
 
-        if ($sWhen === false || $aEvent[$sEvent]['when'] == $sWhen) {
+        if (false === $sWhen || $aEvent[$sEvent]['when'] == $sWhen) {
             $aP = $this->oForm->_getRawPost();
 
             if (array_key_exists('AMEOSFORMIDABLE_SERVEREVENT', $aP)) {
@@ -2599,7 +2597,7 @@ JAVASCRIPT;
                         $this->oForm->aServerEvents[$aP['AMEOSFORMIDABLE_SERVEREVENT']]['raw']
                     );
 
-                    return ($sEventId === $aP['AMEOSFORMIDABLE_SERVEREVENT']);
+                    return $sEventId === $aP['AMEOSFORMIDABLE_SERVEREVENT'];
                 }
             }
         }
@@ -2608,7 +2606,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Liefert den Namen der JS-Klasse des Widgets
+     * Liefert den Namen der JS-Klasse des Widgets.
      *
      * @return string
      */
@@ -2641,7 +2639,7 @@ JAVASCRIPT;
         reset($aLibs);
         foreach ($aLibs as $sKey => $sLib) {
             $this->getForm()->additionalHeaderData(
-                '<script type="text/javascript" src="' . $oJsLoader->getScriptPath($this->sExtWebPath . $sLib) . '"></script>',
+                '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($this->sExtWebPath.$sLib).'"></script>',
                 $sKey
             );
         }
@@ -2649,8 +2647,6 @@ JAVASCRIPT;
 
     /**
      * @param array $aConfig
-     *
-     * @return void
      */
     public function includeScripts($aConfig = array())
     {
@@ -2693,21 +2689,21 @@ JAVASCRIPT;
 
         $sScript
             =
-            'Formidable.Context.Forms["' . $this->oForm->formid . '"]' . '.Objects["' . $sHtmlId . '"] = new Formidable.Classes.'
-            . $sClass . '(' . PHP_EOL . $sJson . PHP_EOL . ')';
+            'Formidable.Context.Forms["'.$this->oForm->formid.'"]'.'.Objects["'.$sHtmlId.'"] = new Formidable.Classes.'
+            .$sClass.'('.PHP_EOL.$sJson.PHP_EOL.')';
 
         $this->getForm()->attachInitTask(
             $sScript,
-            $sClass . ' ' . $sHtmlId . ' initialization',
+            $sClass.' '.$sHtmlId.' initialization',
             $sHtmlId
         );
 
         // attach post init script?
         if (!empty($this->sAttachPostInitTask)) {
             $this->getForm()->attachPostInitTask(
-                'Formidable.f("' . $this->oForm->formid . '")' . '.o("' . $this->_getElementHtmlIdWithoutFormId() . '")' . '.'
-                . $this->sAttachPostInitTask . '();' . PHP_EOL,
-                'postinit ' . $sClass . ' ' . $sHtmlId . ' initialization',
+                'Formidable.f("'.$this->oForm->formid.'")'.'.o("'.$this->_getElementHtmlIdWithoutFormId().'")'.'.'
+                .$this->sAttachPostInitTask.'();'.PHP_EOL,
+                'postinit '.$sClass.' '.$sHtmlId.' initialization',
                 $this->_getElementHtmlId()
             );
         }
@@ -2735,7 +2731,7 @@ JAVASCRIPT;
 
     public function isDataBridge()
     {
-        return $this->mayBeDataBridge() && $this->bIsDataBridge === true;
+        return $this->mayBeDataBridge() && true === $this->bIsDataBridge;
     }
 
     public function hasDataBridge()
@@ -2750,8 +2746,8 @@ JAVASCRIPT;
         if ($this->mayHaveChilds() && $this->hasChilds()) {
             reset($this->aChilds);
             foreach ($this->aChilds as $sName => $notNeeded) {
-                $oRdt =& $this->aChilds[$sName];
-                if ($this->bForcedValue === true && is_array($this->mForcedValue)
+                $oRdt = &$this->aChilds[$sName];
+                if (true === $this->bForcedValue && is_array($this->mForcedValue)
                     && array_key_exists(
                         $sName,
                         $this->mForcedValue
@@ -2769,7 +2765,7 @@ JAVASCRIPT;
                     $oRdt->forceValue($this->mForcedValue[$sName]);
                     $aRendered[$sName] = $this->oForm->_renderElement($oRdt);
 
-                    if ($mOldForceValue == false) {    // Das Renderlet hatte keine eigene ForcedValue
+                    if (false == $mOldForceValue) {    // Das Renderlet hatte keine eigene ForcedValue
                         $oRdt->unForceValue();
                     } else {                        // Die eigene ForcedValue zurücksetzen
                         $oRdt->forceValue($mOldForceValue);
@@ -2785,7 +2781,7 @@ JAVASCRIPT;
         $sAbsPath = str_replace('.', '.childs.', $sAbsName);
         $sAbsPath = str_replace('.', '/', $sAbsPath);
 
-        if (($mValue = $this->oForm->navDeepData($sAbsPath, $this->oForm->aPreRendered)) !== false) {
+        if (false !== ($mValue = $this->oForm->navDeepData($sAbsPath, $this->oForm->aPreRendered))) {
             if (is_array($mValue) && array_key_exists('childs', $mValue)) {
                 $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                     $aRendered,
@@ -2800,12 +2796,11 @@ JAVASCRIPT;
     }
 
     /**
-     *
      * @param string $pathToTemplate something like "/childs/template"
      */
     protected function findTemplate($pathToTemplate)
     {
-        if (($sPath = $this->getConfigValue($pathToTemplate.'/path')) === false) {
+        if (false === ($sPath = $this->getConfigValue($pathToTemplate.'/path'))) {
             return false;
         }
         $aTemplate = $this->getConfigValue('/childs/template');
@@ -2849,34 +2844,37 @@ JAVASCRIPT;
                     $aTemplate['subpart']
                 );
 
-                if (trim($sHtml) === '') {
-                    $this->mayday("The given template (<b>'" . $aTemplate['path']
-                        . "'</b> with subpart marquer <b>'" . $aTemplate['subpart']
-                        . "'</b>) <b>returned an empty string</b> - Check your template");
+                if ('' === trim($sHtml)) {
+                    $this->mayday("The given template (<b>'".$aTemplate['path']
+                        ."'</b> with subpart marquer <b>'".$aTemplate['subpart']
+                        ."'</b>) <b>returned an empty string</b> - Check your template");
                 }
             } else {
-                $this->mayday('the given template file \'<b>' . $aTemplate['path'] . "</b>' isn't readable. Please check permissions for this file.");
+                $this->mayday('the given template file \'<b>'.$aTemplate['path']."</b>' isn't readable. Please check permissions for this file.");
             }
         } else {
             // TODO: hier Vorschlag für valide Datei einblenden. Siehe widget LISTER::_autoTemplateMayday
-            $this->mayday('the given template file \'<b>' . $aTemplate['path'] . "</b>' is empty.");
+            $this->mayday('the given template file \'<b>'.$aTemplate['path']."</b>' is empty.");
         }
 
         return $sHtml;
     }
+
     /**
-     * Render mayday box for this widget
+     * Render mayday box for this widget.
+     *
      * @param string $msg
      */
     protected function mayday($msg)
     {
         $this->getForm()->mayday(
-            'RENDERLET:' . $this->_getType() . '[name=' . $this->getName() . '] - '.$msg
+            'RENDERLET:'.$this->_getType().'[name='.$this->getName().'] - '.$msg
         );
     }
+
     public function renderChildsCompiled($aChildsBag)
     {
-        if (($mHtml = $this->findTemplate('/childs/template')) !== false) {
+        if (false !== ($mHtml = $this->findTemplate('/childs/template'))) {
             return $this->getForm()->getTemplateTool()->parseTemplateCode(
                 $mHtml,
                 $aChildsBag,
@@ -2884,9 +2882,9 @@ JAVASCRIPT;
                 false
             );
         } else {
-            if ($this->getForm()->getRenderer()->_getType() === 'TEMPLATE') {
+            if ('TEMPLATE' === $this->getForm()->getRenderer()->_getType()) {
                 // child-template is not defined, but maybe is it implicitely the same as current template renderer ?
-                if (($sSubpartName = $this->getConfigValue('/childs/template/subpart')) === false) {
+                if (false === ($sSubpartName = $this->getConfigValue('/childs/template/subpart'))) {
                     $sSubpartName = $this->getName();
                 }
 
@@ -2894,7 +2892,7 @@ JAVASCRIPT;
 
                 $sSubpart = tx_rnbase_util_Templates::getSubpart(
                     $this->oForm->oRenderer->getTemplateHtml(),
-                    '###' . $sSubpartName . '###'
+                    '###'.$sSubpartName.'###'
                 );
 
                 $aTemplateErrors = array();
@@ -2907,7 +2905,7 @@ JAVASCRIPT;
                     $aCompiledErrors[] = $sTag;
 
                     $aTemplateErrors[$sKey] = $aDeepErrors[$sKey]['message'];
-                    $aTemplateErrors[$sKey . '.'] = array(
+                    $aTemplateErrors[$sKey.'.'] = array(
                         'tag' => $sTag,
                         'info' => $aDeepErrors[$sKey]['info'],
                     );
@@ -2933,14 +2931,14 @@ JAVASCRIPT;
 
             reset($aChildsBag);
             foreach ($aChildsBag as $sName => $aBag) {
-                if ($sName{0} == 'e' && $sName == 'errors' && !$bRenderErrors) {
+                if ('e' == $sName[0] && 'errors' == $sName && !$bRenderErrors) {
                     continue;
                 }
                 if (!$this->shouldAutowrap()) {
-                    $sCompiled .= "\n" . $aBag['__compiled'];
+                    $sCompiled .= "\n".$aBag['__compiled'];
                 } else {
-                    $sCompiled .= "\n<div class='" . $this->getForm()->sDefaultWrapClass . "-rdtwrap'>" . $aBag['__compiled']
-                        . '</div>';
+                    $sCompiled .= "\n<div class='".$this->getForm()->sDefaultWrapClass."-rdtwrap'>".$aBag['__compiled']
+                        .'</div>';
                 }
             }
 
@@ -2955,7 +2953,7 @@ JAVASCRIPT;
 
     /**
      * @param string $sMethod
-     * @param array $aData
+     * @param array  $aData
      *
      * @return array
      */
@@ -3032,7 +3030,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Remove current value of widget
+     * Remove current value of widget.
      */
     public function majixClearValue()
     {
@@ -3056,7 +3054,9 @@ JAVASCRIPT;
 
     /**
      * Replaces the inner HTML content of current widget.
+     *
      * @param string $sHtml
+     *
      * @return array
      */
     public function majixSetHtml($sHtml)
@@ -3157,8 +3157,8 @@ JAVASCRIPT;
 
     public function skin_init($sMode)
     {
-        if (($aSkin = $this->_navConf('/skin')) !== false) {
-            if (($aManifest = $this->skin_getManifest($aSkin)) !== false) {
+        if (false !== ($aSkin = $this->_navConf('/skin'))) {
+            if (false !== ($aManifest = $this->skin_getManifest($aSkin))) {
                 reset($aManifest);
                 if (array_key_exists($this->aObjectType['OBJECT'], $aManifest['skin'])) {
                     reset($aManifest['skin'][$this->aObjectType['OBJECT']]);
@@ -3175,13 +3175,13 @@ JAVASCRIPT;
                                         'full' => '',
                                         'compiled' => '',
                                         'channels' => array(),
-                                    )
+                                    ),
                                 );
 
                                 // getting template and channels
                                 if (array_key_exists('template', $this->aSkin['submanifest']['resources'])) {
                                     $sSrc = $this->aSkin['manifest']['control']['serverpath']
-                                        . tx_mkforms_util_Div::removeStartingSlash(
+                                        .tx_mkforms_util_Div::removeStartingSlash(
                                             $this->aSkin['submanifest']['resources']['template']['file']['src']
                                         );
                                     if (file_exists($sSrc) && is_readable($sSrc)) {
@@ -3190,10 +3190,10 @@ JAVASCRIPT;
                                             $this->aSkin['submanifest']['resources']['template']['subpart']
                                         );
 
-                                        if (($aChannels = $this->oForm->_navConf(
+                                        if (false !== ($aChannels = $this->oForm->_navConf(
                                             '/channels',
                                             $this->aSkin['submanifest']['resources']['template']
-                                        )) !== false
+                                        ))
                                         ) {
                                             reset($aChannels);
                                             foreach ($aChannels as $aChannel) {
@@ -3201,7 +3201,7 @@ JAVASCRIPT;
                                                     = $this->oForm->getTemplateTool()->parseTemplateCode(
                                                         tx_rnbase_util_Templates::getSubpart(
                                                             $this->aSkin['template']['full'],
-                                                            '###CHANNEL:' . $aChannel['name'] . '###'
+                                                            '###CHANNEL:'.$aChannel['name'].'###'
                                                         ),    // HTML code
                                                         $this->aSkin['template']['channels'],    // substitute tags
                                                         array(),    // exclude tags
@@ -3234,7 +3234,7 @@ JAVASCRIPT;
 
     public function skin_apply($aHtmlBag, $aDefaultHtmlBag)
     {
-        if ($this->aSkin !== false) {
+        if (false !== $this->aSkin) {
             $this->skin_includeCss(
                 $this->aSkin['declaredskin'],
                 $this->aSkin['manifest'],
@@ -3284,12 +3284,12 @@ JAVASCRIPT;
 
     public function skin_getManifest($aSkin)
     {
-        if (($sSrc = $this->oForm->_navConf('/src', $aSkin)) !== false) {
+        if (false !== ($sSrc = $this->oForm->_navConf('/src', $aSkin))) {
             $sHash = md5($sSrc);
 
             if (!array_key_exists($sHash, $this->oForm->aSkinManifests)) {
                 $sDir = $this->oForm->toServerPath($sSrc);
-                $sPath = $sDir . 'manifest.xml';
+                $sPath = $sDir.'manifest.xml';
 
                 if (file_exists($sPath) && is_readable($sPath)) {
                     $this->oForm->aSkinManifests[$sHash] = tx_mkforms_util_XMLParser::getXml($sPath, $isSubXml, $bPlain);
@@ -3313,11 +3313,11 @@ JAVASCRIPT;
 
     public function skin_includeCss($aSkinDeclaration, $aManifest, $aObjectManifest, $aSkinFeed, $sMode)
     {
-        if (($aCssFiles = $this->oForm->_navConf('/resources/css/', $aObjectManifest)) !== false) {
+        if (false !== ($aCssFiles = $this->oForm->_navConf('/resources/css/', $aObjectManifest))) {
             reset($aCssFiles);
             foreach ($aCssFiles as $aCssFile) {
-                $sCssPath = $aManifest['control']['webpath'] . tx_mkforms_util_Div::removeStartingSlash($aCssFile['src']);
-                $sCssTag = '<link rel="stylesheet" type="text/css" media="all" href="' . $sCssPath . '" />';
+                $sCssPath = $aManifest['control']['webpath'].tx_mkforms_util_Div::removeStartingSlash($aCssFile['src']);
+                $sCssTag = '<link rel="stylesheet" type="text/css" media="all" href="'.$sCssPath.'" />';
 
                 if (array_key_exists('wrap', $aCssFile)) {
                     $sCssTag = str_replace('|', $sCssTag, $aCssFile['wrap']);
@@ -3388,27 +3388,26 @@ JAVASCRIPT;
 
     public function awakeInSession(&$oForm)
     {
-        $this->oForm =& $oForm;
+        $this->oForm = &$oForm;
 
-        if ($this->sRdtParent !== false) {
-            $this->oRdtParent =& $this->oForm->aORenderlets[$this->sRdtParent];
+        if (false !== $this->sRdtParent) {
+            $this->oRdtParent = &$this->oForm->aORenderlets[$this->sRdtParent];
             $this->sRdtParent = false;
         }
 
-        if ($this->sDataSource !== false) {
-            $this->oDataSource =& $this->oForm->aODataSources[$this->sDataSource];
+        if (false !== $this->sDataSource) {
+            $this->oDataSource = &$this->oForm->aODataSources[$this->sDataSource];
             $this->sDataSource = false;
         }
 
-        if ($this->sDataBridge !== false) {
-            $this->oDataBridge =& $this->oForm->aORenderlets[$this->sDataBridge];
+        if (false !== $this->sDataBridge) {
+            $this->oDataBridge = &$this->oForm->aORenderlets[$this->sDataBridge];
             $this->sDataBridge = false;
         }
     }
 
     public function hasSubmitted($sFormId = false, $sAbsName = false)
     {
-
         /*	algorithm:
                 if isNaturalSubmitter()
                     => TRUE
@@ -3426,7 +3425,7 @@ JAVASCRIPT;
 
         $mPostValue = $this->getRawPostValue($sFormId, $sAbsName);
 
-        if ($sFormId === false && $sAbsName === false) {
+        if (false === $sFormId && false === $sAbsName) {
             $sElementHtmlId = $this->_getElementHtmlId();
             if (array_key_exists($sElementHtmlId, $this->aStatics['hasSubmitted'])) {
                 return $this->aStatics['hasSubmitted'][$sElementHtmlId];
@@ -3435,7 +3434,7 @@ JAVASCRIPT;
 
         if ($this->maySubmit() && $this->isNaturalSubmitter()) {
             // handling the special case of natural submitter for accessibility reasons
-            if ($mPostValue !== false) {
+            if (false !== $mPostValue) {
                 $bRes = true;
             }
         } else {
@@ -3447,7 +3446,7 @@ JAVASCRIPT;
             }
         }
 
-        if ($sFormId === false && $sAbsName === false) {
+        if (false === $sFormId && false === $sAbsName) {
             $this->aStatics['hasSubmitted'][$sElementHtmlId] = $bRes;
         }
 
@@ -3456,9 +3455,9 @@ JAVASCRIPT;
 
     public function getRawPostValue($sFormId = false, $sAbsName = false)
     {
-        if ($sFormId === false) {
+        if (false === $sFormId) {
             $sFormId = $this->oForm->formid;
-            if ($sAbsName === false) {
+            if (false === $sAbsName) {
                 $sDataId = $this->_getElementHtmlIdWithoutFormId();
             } else {
                 $sDataId = $this->oForm->aORenderlets[$sAbsName]->_getElementHtmlIdWithoutFormId();
@@ -3472,7 +3471,7 @@ JAVASCRIPT;
             $aP = $this->oForm->_getRawPost($sFormId);
             $sAbsPath = str_replace('.', '/', $sDataId);
 
-            if (($mData = $this->oForm->navDeepData($sAbsPath, $aP)) !== false) {
+            if (false !== ($mData = $this->oForm->navDeepData($sAbsPath, $aP))) {
                 $this->aStatics['rawpostvalue'][$sDataId] = $mData;
             }
         }
@@ -3482,7 +3481,7 @@ JAVASCRIPT;
 
     public function wrap($sHtml)
     {
-        if (($mWrap = $this->_navConf('/wrap')) !== false) {
+        if (false !== ($mWrap = $this->_navConf('/wrap'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }
@@ -3504,7 +3503,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Legt fest, ob das Widget verarbeitet wird. Wenn false wird es komplett ignoriert
+     * Legt fest, ob das Widget verarbeitet wird. Wenn false wird es komplett ignoriert.
      *
      * @return bool
      */
@@ -3512,18 +3511,18 @@ JAVASCRIPT;
     {
         $mProcess = $this->_navConf('/process');
 
-        if ($mProcess !== false) {
+        if (false !== $mProcess) {
             if ($this->oForm->isRunneable($mProcess)) {
                 $mProcess = $this->getForm()->getRunnable()->callRunnableWidget($this, $mProcess);
 
-                if ($mProcess === false) {
+                if (false === $mProcess) {
                     return false;
                 }
             } elseif ($this->oForm->_isFalseVal($mProcess)) {
                 return false;
             }
             // Soll die dependsOn Konfiguration genutzt werden?
-            if (strtolower($mProcess) == 'dependson') {
+            if ('dependson' == strtolower($mProcess)) {
                 if ($this->_shouldHideBecauseDependancyEmpty()) {
                     return false;
                 }
@@ -3549,12 +3548,12 @@ JAVASCRIPT;
 
     public function setParent(&$oParent)
     {
-        $this->oRdtParent =& $oParent;
+        $this->oRdtParent = &$oParent;
     }
 
     public function addCssClass($sNewClass)
     {
-        if (($sClass = $this->_navConf('/class')) !== false) {
+        if (false !== ($sClass = $this->_navConf('/class'))) {
             $sClass = trim($sClass);
             $aClasses = Tx_Rnbase_Utility_Strings::trimExplode(' ', $sClass);
         } else {
@@ -3585,18 +3584,16 @@ JAVASCRIPT;
             }
         }
 
-        if ($this->shouldProcess() === false) {
+        if (false === $this->shouldProcess()) {
             $this->unsetRdt();
         }
     }
 
     /**
      * Unsets the rdt corresponding to the given name
-     * Also unsets it's childs if any, and it's validators-errors if any
+     * Also unsets it's childs if any, and it's validators-errors if any.
      *
-     * @param    string $sName : ...
-     *
-     * @return    void
+     * @param string $sName : ...
      */
     public function unsetRdt()
     {
@@ -3667,8 +3664,6 @@ JAVASCRIPT;
         );
     }
 
-    /**
-     */
     public function majixRepaintInner()
     {
         $aHtmlBag = $this->render();
@@ -3692,12 +3687,12 @@ JAVASCRIPT;
 
     public function hasDependants()
     {
-        return (count($this->aDependants) > 0);
+        return count($this->aDependants) > 0;
     }
 
     public function hasDependancies()
     {
-        return (count($this->aDependsOn) > 0);
+        return count($this->aDependsOn) > 0;
     }
 
     /**
@@ -3711,9 +3706,9 @@ JAVASCRIPT;
      */
     public function majixRepaintDependancies($aTasks = false)
     {
-        if ($aTasks !== false) {
+        if (false !== $aTasks) {
             // this is a php-hack to allow optional yet passed-by-ref arguments
-            $aTasks =& $aTasks[0];
+            $aTasks = &$aTasks[0];
         }
 
         if (!is_array($aTasks)) {
@@ -3785,13 +3780,13 @@ JAVASCRIPT;
                 reset($aKeys);
                 foreach ($aKeys as $iKey) {
                     $sAbsName = $this->aDataBridged[$iKey];
-                    if ($sAbsName === false
+                    if (false === $sAbsName
                         || (!$this->oForm->aORenderlets[$sAbsName]->_renderOnly()
                             && !$this->oForm->aORenderlets[$sAbsName]->_readOnly())
                     ) {
                         $sMappedPath = $this->dbridge_mapPath($sAbsName);
 
-                        if ($sMappedPath !== false) {
+                        if (false !== $sMappedPath) {
                             $this->oDataSource->dset_setCellValue(
                                 $sSignature,
                                 $sMappedPath,
@@ -3836,7 +3831,7 @@ JAVASCRIPT;
         $sPath = str_replace('.', '/', $sRelName);
 
         $sSignature = $this->dbridge_getCurrentDsetSignature();
-        if (($mData = $this->oForm->navDeepData($sPath, $this->oDataSource->aODataSets[$sSignature]->getData())) !== false) {
+        if (false !== ($mData = $this->oForm->navDeepData($sPath, $this->oDataSource->aODataSets[$sSignature]->getData()))) {
             return $mData;
         }
 
@@ -3845,7 +3840,7 @@ JAVASCRIPT;
 
     public function dbridge_getSubmitterAbsName()
     {
-        if ($this->aStatics['dbridge_getSubmitterAbsName'] !== AMEOSFORMIDABLE_VALUE_NOT_SET) {
+        if (AMEOSFORMIDABLE_VALUE_NOT_SET !== $this->aStatics['dbridge_getSubmitterAbsName']) {
             return $this->aStatics['dbridge_getSubmitterAbsName'];
         }
 
@@ -3873,7 +3868,7 @@ JAVASCRIPT;
 
     public function dbridge_isSubmitted()
     {
-        if (($this->dbridge_getSubmitterAbsName() !== false) || $this->dbridge_globalSubmitable()) {
+        if ((false !== $this->dbridge_getSubmitterAbsName()) || $this->dbridge_globalSubmitable()) {
             return $this->oForm->oDataHandler->_isSubmitted();
         }
 
@@ -3882,7 +3877,7 @@ JAVASCRIPT;
 
     public function dbridge_isClearSubmitted()
     {
-        if (($this->dbridge_getSubmitterAbsName() !== false) || $this->dbridge_globalSubmitable()) {
+        if ((false !== $this->dbridge_getSubmitterAbsName()) || $this->dbridge_globalSubmitable()) {
             return $this->oForm->oDataHandler->_isClearSubmitted();
         }
 
@@ -3891,7 +3886,7 @@ JAVASCRIPT;
 
     public function dbridge_isFullySubmitted()
     {
-        if (($this->dbridge_getSubmitterAbsName() !== false) || $this->dbridge_globalSubmitable()) {
+        if ((false !== $this->dbridge_getSubmitterAbsName()) || $this->dbridge_globalSubmitable()) {
             return $this->oForm->oDataHandler->_isFullySubmitted();
         }
 
@@ -3901,18 +3896,18 @@ JAVASCRIPT;
     public function dbridge_mapPath($sAbsName)
     {
         // first, see if a mapping has been explicitely set on the renderlet
-        if (($sPath = $this->oForm->aORenderlets[$sAbsName]->_navConf('/map')) !== false) {
+        if (false !== ($sPath = $this->oForm->aORenderlets[$sAbsName]->_navConf('/map'))) {
             if ($this->oForm->isRunneable($sPath)) {
                 $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
             }
 
-            if ($sPath !== false) {
+            if (false !== $sPath) {
                 return $sPath;
             }
         }
 
         // then, see if a mapping has been set in the databridge-level /mapping property
-        if (($aMapping = $this->dbridge_getMapping()) !== false) {
+        if (false !== ($aMapping = $this->dbridge_getMapping())) {
             $sRelName = $this->oForm->aORenderlets[$sAbsName]->dbridged_getNameRelativeToDbridge();
 
             $aKeys = array_keys($aMapping);
@@ -3941,8 +3936,8 @@ JAVASCRIPT;
 
     public function dbridge_getMapping()
     {
-        if ($this->aStatics['dsetMapping'] === AMEOSFORMIDABLE_VALUE_NOT_SET) {
-            if (($aMapping = $this->_navConf('/datasource/mapping')) !== false) {
+        if (AMEOSFORMIDABLE_VALUE_NOT_SET === $this->aStatics['dsetMapping']) {
+            if (false !== ($aMapping = $this->_navConf('/datasource/mapping'))) {
                 if ($this->oForm->isRunneable($aMapping)) {
                     $aMapping = $this->getForm()->getRunnable()->callRunnableWidget($this, $aMapping);
                 }
@@ -4008,7 +4003,7 @@ JAVASCRIPT;
 
     public function _isRefreshSubmitted()
     {
-        if (!$this->hasDataBridge() || ($this->oDataBridge->dbridge_getSubmitterAbsName() !== false)
+        if (!$this->hasDataBridge() || (false !== $this->oDataBridge->dbridge_getSubmitterAbsName())
             || $this->oDataBridge->dbridge_globalSubmitable()
         ) {
             return $this->oForm->oDataHandler->_isRefreshSubmitted();
@@ -4019,7 +4014,7 @@ JAVASCRIPT;
 
     public function _isTestSubmitted()
     {
-        if (!$this->hasDataBridge() || ($this->oDataBridge->dbridge_getSubmitterAbsName() !== false)
+        if (!$this->hasDataBridge() || (false !== $this->oDataBridge->dbridge_getSubmitterAbsName())
             || $this->oDataBridge->dbridge_globalSubmitable()
         ) {
             return $this->oForm->oDataHandler->_isTestSubmitted();
@@ -4030,7 +4025,7 @@ JAVASCRIPT;
 
     public function _isDraftSubmitted()
     {
-        if (!$this->hasDataBridge() || ($this->oDataBridge->dbridge_getSubmitterAbsName() !== false)
+        if (!$this->hasDataBridge() || (false !== $this->oDataBridge->dbridge_getSubmitterAbsName())
             || $this->oDataBridge->dbridge_globalSubmitable()
         ) {
             return $this->oForm->oDataHandler->_isDraftSubmitted();
@@ -4041,7 +4036,7 @@ JAVASCRIPT;
 
     public function _isSearchSubmitted()
     {
-        if (!$this->hasDataBridge() || ($this->oDataBridge->dbridge_getSubmitterAbsName() !== false)
+        if (!$this->hasDataBridge() || (false !== $this->oDataBridge->dbridge_getSubmitterAbsName())
             || $this->oDataBridge->dbridge_globalSubmitable()
         ) {
             return $this->oForm->oDataHandler->_isSearchSubmitted();
@@ -4065,7 +4060,7 @@ JAVASCRIPT;
 
     public function dbridge_edition()
     {
-        if (($sSignature = $this->dbridge_getCurrentDsetSignature()) !== false) {
+        if (false !== ($sSignature = $this->dbridge_getCurrentDsetSignature())) {
             if (array_key_exists($sSignature, $this->oDataSource->aODataSets)) {
                 return $this->oDataSource->aODataSets[$sSignature]->isAnchored();
             }
@@ -4088,6 +4083,7 @@ JAVASCRIPT;
     {
         return false;
     }
+
     /**
      * Whether or not the value of this widget should be saved to database.
      * Used by datahandler DB. This way a widget can be processed and handle
@@ -4103,17 +4099,17 @@ JAVASCRIPT;
     public function dbridge_getPostedSignature($bDecode = true)
     {
         if ($this->isDataBridge()) {
-            $sName = $this->getAbsName() . '.databridge';
+            $sName = $this->getAbsName().'.databridge';
             $sPath = str_replace('.', '/', $sName);
 
-            if (($sSignature = $this->oForm->navDeepData($sPath, $this->oForm->_getRawPost())) !== false) {
+            if (false !== ($sSignature = $this->oForm->navDeepData($sPath, $this->oForm->_getRawPost()))) {
                 $sSignature = trim($sSignature);
 
-                if ($sSignature === '') {
+                if ('' === $sSignature) {
                     return false;
                 }
 
-                if ($bDecode === true) {
+                if (true === $bDecode) {
                     return $this->oDataSource->dset_decodeSignature($sSignature);
                 } else {
                     return $sSignature;
@@ -4146,7 +4142,7 @@ JAVASCRIPT;
 
     public function dbridge_getCurrentDset()
     {
-        $oDataSet =& $this->dbridge_getCurrentDsetObject();
+        $oDataSet = &$this->dbridge_getCurrentDsetObject();
 
         return $oDataSet->getDataSet();
     }
@@ -4168,19 +4164,18 @@ JAVASCRIPT;
 
     public function __getItemsStaticTable($sTable, $sValueField = 'uid', $sWhere = '')
     {
-        // Get user language
-        if (TYPO3_MODE == 'FE') {
-            $sLang = $GLOBALS['TSFE']->lang;
-        } else {
-            $sLang = $GLOBALS['LANG']->lang;
-        }
+        $sLang = \Sys25\RnBase\Utility\Environment::getCurrentLanguageKey();
 
         // Get field names
         $aFieldNames = tx_staticinfotables_div::getTCAlabelField($sTable, true, $sLang);
         $sFields = implode(', ', $aFieldNames);
 
         // Get data from static table
-        $aRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($sValueField . ', ' . $sFields, $sTable, $sWhere, '', $sFields);
+        $aRows = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
+            $sValueField.', '.$sFields,
+            $sTable,
+            ['where' => $sWhere, 'orderby' => $sFields]
+        );
 
         $aItems = array();
 
@@ -4199,7 +4194,7 @@ JAVASCRIPT;
 
             $aTmp = array(
                 'caption' => $sCaption,
-                'value' => $aRow[$sValueField]
+                'value' => $aRow[$sValueField],
             );
 
             array_push($aItems, $aTmp);
@@ -4256,8 +4251,8 @@ JAVASCRIPT;
 
     public function persistHidden()
     {
-        return '<input type="hidden" id="' . $this->_getElementHtmlId() . '" name="' . $this->_getElementHtmlName() . '" value="'
-        . htmlspecialchars($this->getValue()) . '" />';
+        return '<input type="hidden" id="'.$this->_getElementHtmlId().'" name="'.$this->_getElementHtmlName().'" value="'
+        .htmlspecialchars($this->getValue()).'" />';
     }
 
     public function hasDeepError()
@@ -4281,7 +4276,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Prüft, ob für das Widget schon Validation-Errors vorliegen
+     * Prüft, ob für das Widget schon Validation-Errors vorliegen.
      *
      * @return bool
      */
@@ -4349,7 +4344,7 @@ JAVASCRIPT;
             }
         }
 
-        if (($aThisError = $this->getError()) !== false) {
+        if (false !== ($aThisError = $this->getError())) {
             $aErrors[$this->getAbsName()] = $aThisError;
         }
 
@@ -4360,10 +4355,10 @@ JAVASCRIPT;
 
     /**
      * Validates the given Renderlet element
-     * Writes into $this->_aValidationErrors[] using tx_ameosformidable::_declareValidationError()
+     * Writes into $this->_aValidationErrors[] using tx_ameosformidable::_declareValidationError().
      *
-     * @param    array $aElement : details about the Renderlet element to validate, extracted from XML conf / used in
-     *                           formidable_mainvalidator::validate()
+     * @param array $aElement : details about the Renderlet element to validate, extracted from XML conf / used in
+     *                        formidable_mainvalidator::validate()
      *
      * @return bool true wenn kein Fehler vorliegt
      */
@@ -4390,7 +4385,7 @@ JAVASCRIPT;
                     if ($this->hasError()) {
                         break;
                     }
-                    if ($sKey{0} === 'v' && $sKey{1} === 'a' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validator')
+                    if ('v' === $sKey[0] && 'a' === $sKey[1] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validator')
                         && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validators')
                     ) {
                         // the conf section exists
@@ -4410,7 +4405,7 @@ JAVASCRIPT;
                                 $bHasToValidate = $aValidMap[$sAbsName];
                             }
 
-                            if ($bHasToValidate === true) {
+                            if (true === $bHasToValidate) {
                                 $oValidator->validate($this);
                             }
                         }
@@ -4486,7 +4481,7 @@ JAVASCRIPT;
         //Jeden übermittelten überprüfen ob es dazu ein widget gibt. wenn der wert ein array
         if (!empty($aGP) && is_array($aGP)) {
             foreach ($aGP as $rdtName => $rdtValue) {
-                $absRdtName = $this->getAbsName() . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN . $rdtName;
+                $absRdtName = $this->getAbsName().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$rdtName;
 
                 //wenn in der übergeben array ein eintrag enthalten ist, der nicht
                 //durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
@@ -4504,5 +4499,5 @@ JAVASCRIPT;
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.mainrenderlet.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.mainrenderlet.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.mainrenderlet.php'];
 }

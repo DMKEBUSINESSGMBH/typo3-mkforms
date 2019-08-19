@@ -4,21 +4,19 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
 {
     public function _render()
     {
         $sLabel = $this->getLabel();
-        $sValue = $sLabel ? ' value="' . $sLabel . '"' : '';
-        if (($sPath = $this->_navConf('/path')) !== false) {
+        $sValue = $sLabel ? ' value="'.$sLabel.'"' : '';
+        if (false !== ($sPath = $this->_navConf('/path'))) {
             $sPath = tx_mkforms_util_Div::toWebPath(
                 $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath)
             );
-            $sHtml = '<input type="image" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '"'.$sValue.' src="' . $sPath . '"' . $this->_getAddInputParams() . ' />';
+            $sHtml = '<input type="image" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'"'.$sValue.' src="'.$sPath.'"'.$this->_getAddInputParams().' />';
         } else {
-            $sHtml = '<input type="submit" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '"'.$sValue.' ' . $this->_getAddInputParams() . ' />';
+            $sHtml = '<input type="submit" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'"'.$sValue.' '.$this->_getAddInputParams().' />';
         }
 
         return $sHtml;
@@ -51,28 +49,28 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
         $sMode = $this->getSubmitMode();
 
         $aAddPost = array(
-            $this->_getElementHtmlNameWithoutFormId() => '1'        // to simulate default browser behaviour
+            $this->_getElementHtmlNameWithoutFormId() => '1',        // to simulate default browser behaviour
         );
 
-        if ($sMode == 'refresh' || $this->_navConf('/refresh') !== false) {
+        if ('refresh' == $sMode || false !== $this->_navConf('/refresh')) {
             $sOnclick = $this->oForm->oRenderer->_getRefreshSubmitEvent();
-        } elseif ($sMode == 'draft' || $this->_navConf('/draft') !== false) {
+        } elseif ('draft' == $sMode || false !== $this->_navConf('/draft')) {
             $sOnclick = $this->oForm->oRenderer->_getDraftSubmitEvent();
-        } elseif ($sMode == 'test' || $this->_navConf('/test') !== false) {
+        } elseif ('test' == $sMode || false !== $this->_navConf('/test')) {
             $sOnclick = $this->oForm->oRenderer->_getTestSubmitEvent();
-        } elseif ($sMode == 'clear' || $this->_navConf('/clear') !== false) {
+        } elseif ('clear' == $sMode || false !== $this->_navConf('/clear')) {
             $sOnclick = $this->oForm->oRenderer->_getClearSubmitEvent();
-        } elseif ($sMode == 'search' || $this->_navConf('/search') !== false) {
+        } elseif ('search' == $sMode || false !== $this->_navConf('/search')) {
             $sOnclick = $this->oForm->oRenderer->_getSearchSubmitEvent();
         } else {
             $sOnclick = $this->oForm->oRenderer->_getFullSubmitEvent();
         }
 
-        $sAddPostVars = "Formidable.f('" . $this->oForm->formid . "').addFormData(" . $this->oForm->array2json($aAddPost) . ');';
+        $sAddPostVars = "Formidable.f('".$this->oForm->formid."').addFormData(".$this->oForm->array2json($aAddPost).');';
         $sAddPostVars .= $sOnclick;
 
         // prüfe Confirm und füge if hinzu
-        if (($sConfirm = $this->_navConf('/confirm')) !== false) {
+        if (false !== ($sConfirm = $this->_navConf('/confirm'))) {
             $sAddPostVars = 'if(confirm(\''.$sConfirm.'\')){'.$sAddPostVars.'}';
         }
 
@@ -89,7 +87,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
 
     public function _hasThrown($sEvent, $sWhen = false)
     {
-        if ($sEvent === 'click') {
+        if ('click' === $sEvent) {
             // handling special click server event on rdt_submit
             // special because has to work without javascript
             return $this->hasSubmitted();
@@ -119,7 +117,6 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/submit/class.tx_mkforms_widgets_submit_Main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/submit/class.tx_mkforms_widgets_submit_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/submit/class.tx_mkforms_widgets_submit_Main.php'];
 }

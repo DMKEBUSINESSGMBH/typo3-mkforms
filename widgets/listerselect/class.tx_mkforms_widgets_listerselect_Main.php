@@ -21,7 +21,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         $rowId = $lister->iteratingChilds ? $lister->getCurrentRowUid() : 0;
 
         // Die ID wird wie bei einer Box zusammengebaut
-        $sId = $this->getElementId() . '_' . $rowId;
+        $sId = $this->getElementId().'_'.$rowId;
 
         $this->addSelectorId($sId);
         $this->sCustomElementId = $sId;
@@ -30,20 +30,20 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         $sValue = $this->getValue();
         $selected = ($rowId == $this->getValue()) ? ' checked="checked" ' : '';
 
-        $sInput = '<input type="radio" name="' . $this->_getElementHtmlName() . '" id="' . $sId . '" value="' . $rowId . '" ' . $selected . $this->_getAddInputParams() . ' />';
+        $sInput = '<input type="radio" name="'.$this->_getElementHtmlName().'" id="'.$sId.'" value="'.$rowId.'" '.$selected.$this->_getAddInputParams().' />';
         $sCaption = $this->getForm()->getConfigXML()->getLLLabel($aItem['caption']);
-        $sLabelStart = '<label for="' . $sId . '">';
+        $sLabelStart = '<label for="'.$sId.'">';
         $sLabelEnd = '</label>';
-        $sLabel = $sLabelStart . $sCaption . $sLabelEnd;
+        $sLabel = $sLabelStart.$sCaption.$sLabelEnd;
 
         $aHtml = array();
-        $aHtml[] = (($selected !== '') ? $this->_wrapSelected($sInput . $sLabel) : $this->_wrapItem($sInput . $sLabel));
+        $aHtml[] = (('' !== $selected) ? $this->_wrapSelected($sInput.$sLabel) : $this->_wrapItem($sInput.$sLabel));
         $this->sCustomElementId = false;
         reset($aHtml);
         $sRadioGroup = $this->_implodeElements($aHtml);
 
         $aHtmlBag = array(
-            '__compiled' => $sLabel . $sRadioGroup,
+            '__compiled' => $sLabel.$sRadioGroup,
             'label' => $sCaption,
             'label.' => array(
                 'tag' => $sLabel,
@@ -60,9 +60,12 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
 
         return $aHtmlBag;
     }
+
     /**
-     * Die einzelnen Radio-Buttons müssen gespeichert werden
+     * Die einzelnen Radio-Buttons müssen gespeichert werden.
+     *
      * @param string $sId
+     *
      * @return unknown_type
      */
     private function addSelectorId($sId)
@@ -72,14 +75,16 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         }
         $this->aSubWidgets[] = $sId;
     }
+
     /**
      * Liefert hier die ID ohne das Iterating. Das wird bei der Abfrage der Daten vom DataHandler benötigt.
+     *
      * @see api/formidable_mainrenderlet#getElementId()
      */
     public function getElementId($withForm = true)
     {
         $lister = $this->getParent();
-        $sId  = $lister ? $lister->_getElementHtmlId(false, $withForm) . AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN : '';
+        $sId = $lister ? $lister->_getElementHtmlId(false, $withForm).AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN : '';
         $sId .= $this->_getNameWithoutPrefix();
 
         return $sId;
@@ -102,7 +107,8 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
     }
 
     /**
-     * Der HTML-Name wird hier etwas anders zusammengebaut, da die Elemente über die Zeilen hinweg eine Gruppe bilden
+     * Der HTML-Name wird hier etwas anders zusammengebaut, da die Elemente über die Zeilen hinweg eine Gruppe bilden.
+     *
      * @see api/formidable_mainrenderlet#_getElementHtmlName($sName)
      */
     public function _getElementHtmlName($sName = false)
@@ -112,7 +118,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
             $lister = $this->getParent();
             // Lister Renderlet?
             $sPrefix = $lister->iteratingChilds ? $lister->getElementHtmlNameBase() : '';
-            $this->aStatics['elementHtmlName'][$sName] = $sPrefix . '[' . $sName . ']';
+            $this->aStatics['elementHtmlName'][$sName] = $sPrefix.'['.$sName.']';
         }
 
         return $this->aStatics['elementHtmlName'][$sName];
@@ -131,10 +137,9 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         return $data;
     }
 
-
     public function _getSeparator()
     {
-        if (($mSep = $this->_navConf('/separator')) === false) {
+        if (false === ($mSep = $this->_navConf('/separator'))) {
             $mSep = "\n";
         } else {
             if ($this->oForm->isRunneable($mSep)) {
@@ -159,7 +164,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
 
     public function _wrapSelected($sHtml)
     {
-        if (($mWrap = $this->_navConf('/wrapselected')) !== false) {
+        if (false !== ($mWrap = $this->_navConf('/wrapselected'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }
@@ -174,7 +179,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
 
     public function _wrapItem($sHtml)
     {
-        if (($mWrap = $this->_navConf('/wrapitem')) !== false) {
+        if (false !== ($mWrap = $this->_navConf('/wrapitem'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }
@@ -187,9 +192,9 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
 
     public function _displayLabel($sLabel, $aConfig = false)
     {
-        $sId = $this->_getElementHtmlId() . '_label';
+        $sId = $this->_getElementHtmlId().'_label';
 
-        return ($this->oForm->oRenderer->bDisplayLabels && (trim($sLabel) != '')) ? "<label id='" . $sId . "' class='".$this->getForm()->sDefaultWrapClass.'-label ' . $sId . "'>" . $sLabel . "</label>\n" : '';
+        return ($this->oForm->oRenderer->bDisplayLabels && ('' != trim($sLabel))) ? "<label id='".$sId."' class='".$this->getForm()->sDefaultWrapClass.'-label '.$sId."'>".$sLabel."</label>\n" : '';
     }
 
     public function _activeListable()
@@ -199,7 +204,6 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_radio/api/class.tx_mkforms_widgets_listerselect_Main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_radio/api/class.tx_mkforms_widgets_listerselect_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_radio/api/class.tx_mkforms_widgets_listerselect_Main.php'];
 }

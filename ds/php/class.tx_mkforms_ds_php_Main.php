@@ -11,27 +11,27 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
 
     public function writable()
     {
-        return ($this->_navConf('/set') !== false);
+        return false !== $this->_navConf('/set');
     }
 
     public function initDataSet($sKey)
     {
         $oDataSet = tx_rnbase::makeInstance('formidable_maindataset');
 
-        if ($sKey === 'new') {
+        if ('new' === $sKey) {
             // new record to create
             $oDataSet->initFloating($this);
         } else {
             // existing record to grab
 
-            if ($this->_navConf('/get') === false) {
+            if (false === $this->_navConf('/get')) {
                 $oDataSet->initAnchored(
                     $this,
                     array(),
                     $sKey
                 );
             } else {
-                if (($aDataSet = $this->getSyncData($sKey)) !== false) {
+                if (false !== ($aDataSet = $this->getSyncData($sKey))) {
                     $oDataSet->initAnchored(
                         $this,
                         $aDataSet,
@@ -39,21 +39,21 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
                     );
                 } else {
                     $this->oForm->mayday(
-                        "datasource:PHP[name='" . $this->getName() . "'] No dataset matching key '" . $sKey . "' was found."
+                        "datasource:PHP[name='".$this->getName()."'] No dataset matching key '".$sKey."' was found."
                     );
                 }
             }
         }
 
         $sSignature = $oDataSet->getSignature();
-        $this->aODataSets[$sSignature] =& $oDataSet;
+        $this->aODataSets[$sSignature] = &$oDataSet;
 
         return $sSignature;
     }
 
     public function getSyncData($sKey)
     {
-        if (($aGet = $this->_navConf('/get')) !== false) {
+        if (false !== ($aGet = $this->_navConf('/get'))) {
             if ($this->oForm->isRunneable($aGet)) {
                 $aGet = $this->callRunneable(
                     $aGet,
@@ -61,13 +61,13 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
                 );
             } else {
                 $this->oForm->mayday(
-                    "datasource:PHP[name='" . $this->getName()
-                    . "'] /get has to be runnable (userobj, or reference to a code-behind)."
+                    "datasource:PHP[name='".$this->getName()
+                    ."'] /get has to be runnable (userobj, or reference to a code-behind)."
                 );
             }
         } else {
             $this->oForm->mayday(
-                "datasource:PHP[name='" . $this->getName() . "'] You have to provide a runnable on <b>/get</b>."
+                "datasource:PHP[name='".$this->getName()."'] You have to provide a runnable on <b>/get</b>."
             );
         }
 
@@ -76,7 +76,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
 
     public function setSyncData($sSignature, $sKey, $aData)
     {
-        if (($aSet = $this->_navConf('/set')) !== false) {
+        if (false !== ($aSet = $this->_navConf('/set'))) {
             if ($this->oForm->isRunneable($aSet)) {
                 $aSet = $this->callRunneable(
                     $aSet,
@@ -84,8 +84,8 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
                 );
             } else {
                 $this->oForm->mayday(
-                    "datasource:PHP[name='" . $this->getName()
-                    . "'] /set has to be runnable (userobj, or reference to a code-behind)."
+                    "datasource:PHP[name='".$this->getName()
+                    ."'] /set has to be runnable (userobj, or reference to a code-behind)."
                 );
             }
         }
@@ -113,5 +113,5 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php'];
 }

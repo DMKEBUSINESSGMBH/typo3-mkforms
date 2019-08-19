@@ -1,6 +1,6 @@
 <?php
 
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainscriptingmethods.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainscriptingmethods.php';
 
 class formidable_inlineconfmethods extends formidable_mainscriptingmethods
 {
@@ -23,7 +23,7 @@ class formidable_inlineconfmethods extends formidable_mainscriptingmethods
     public function &method_brother(&$oRdt, $aParams)
     {
         if ($this->oForm->isRenderlet($oRdt)) {
-            $oParent =& $this->method_parent($oRdt, $aParams);
+            $oParent = &$this->method_parent($oRdt, $aParams);
             if ($this->oForm->isRenderlet($oParent)) {
                 return $this->method_child(
                     $oParent,

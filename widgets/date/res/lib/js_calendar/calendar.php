@@ -9,7 +9,6 @@
  *  allows you to easily include all the calendar files and setup the
  *  calendar by instantiating and calling a PHP object.
  */
-
 define('NEWLINE', "\n");
 
 class DHTML_Calendar
@@ -28,7 +27,6 @@ class DHTML_Calendar
         $theme = 'calendar-win2k-1',
         $stripped = true
     ) {
-
         if ($stripped) {
             $this->calendar_file = 'calendar_stripped.js';
             $this->calendar_setup_file = 'calendar-setup_stripped.js';
@@ -36,11 +34,11 @@ class DHTML_Calendar
             $this->calendar_file = 'calendar.js';
             $this->calendar_setup_file = 'calendar-setup.js';
         }
-        $this->calendar_lang_file = 'lang/calendar-' . $lang . '.js';
+        $this->calendar_lang_file = 'lang/calendar-'.$lang.'.js';
         $this->calendar_theme_file = $theme.'.css';
         $this->calendar_lib_path = preg_replace('/\/+$/', '/', $calendar_lib_path);
         $this->calendar_options = array('ifFormat' => '%Y/%m/%d',
-                                        'daFormat' => '%Y/%m/%d');
+                                        'daFormat' => '%Y/%m/%d', );
     }
 
     public function set_option($name, $value)
@@ -55,17 +53,17 @@ class DHTML_Calendar
 
     public function get_load_files_code()
     {
-        $code  = ('<link rel="stylesheet" type="text/css" media="all" href="' .
-                   $this->calendar_lib_path . $this->calendar_theme_file .
-                   '" />' . NEWLINE);
-        $code .= ('<script type="text/javascript" src="' .
-                   $this->calendar_lib_path . $this->calendar_file .
-                   '"></script>' . NEWLINE);
-        $code .= ('<script type="text/javascript" src="' .
-                   $this->calendar_lib_path . $this->calendar_lang_file .
-                   '"></script>' . NEWLINE);
-        $code .= ('<script type="text/javascript" src="' .
-                   $this->calendar_lib_path . $this->calendar_setup_file .
+        $code = ('<link rel="stylesheet" type="text/css" media="all" href="'.
+                   $this->calendar_lib_path.$this->calendar_theme_file.
+                   '" />'.NEWLINE);
+        $code .= ('<script type="text/javascript" src="'.
+                   $this->calendar_lib_path.$this->calendar_file.
+                   '"></script>'.NEWLINE);
+        $code .= ('<script type="text/javascript" src="'.
+                   $this->calendar_lib_path.$this->calendar_lang_file.
+                   '"></script>'.NEWLINE);
+        $code .= ('<script type="text/javascript" src="'.
+                   $this->calendar_lib_path.$this->calendar_setup_file.
                    '"></script>');
 
         return $code;
@@ -74,8 +72,8 @@ class DHTML_Calendar
     public function _make_calendar($other_options = array())
     {
         $js_options = $this->_make_js_hash(array_merge($this->calendar_options, $other_options));
-        $code  = ('<script type="text/javascript">Calendar.setup({' .
-                   $js_options .
+        $code = ('<script type="text/javascript">Calendar.setup({'.
+                   $js_options.
                    '});</script>');
 
         return $code;
@@ -86,17 +84,17 @@ class DHTML_Calendar
         $id = $this->_gen_id();
         $attrstr = $this->_make_html_attr(array_merge(
             $field_attributes,
-            array('id'   => $this->_field_id($id),
-            'type' => 'text')
+            array('id' => $this->_field_id($id),
+            'type' => 'text', )
         ));
-        echo '<input ' . $attrstr .'/>';
-        echo '<a href="#" id="'. $this->_trigger_id($id) . '">' .
-            '<img align="middle" border="0" src="' . $this->calendar_lib_path . 'img.gif" alt="" /></a>';
+        echo '<input '.$attrstr.'/>';
+        echo '<a href="#" id="'.$this->_trigger_id($id).'">'.
+            '<img align="middle" border="0" src="'.$this->calendar_lib_path.'img.gif" alt="" /></a>';
 
         $options = array_merge(
             $cal_options,
             array('inputField' => $this->_field_id($id),
-            'button'     => $this->_trigger_id($id))
+            'button' => $this->_trigger_id($id), )
         );
         echo $this->_make_calendar($options);
     }
@@ -105,12 +103,14 @@ class DHTML_Calendar
 
     public function _field_id($id)
     {
-        return 'f-calendar-field-' . $id;
+        return 'f-calendar-field-'.$id;
     }
+
     public function _trigger_id($id)
     {
-        return 'f-calendar-trigger-' . $id;
+        return 'f-calendar-trigger-'.$id;
     }
+
     public function _gen_id()
     {
         static $id = 0;
@@ -135,7 +135,7 @@ class DHTML_Calendar
             if ($jstr) {
                 $jstr .= ',';
             }
-            $jstr .= '"' . $key . '":' . $val;
+            $jstr .= '"'.$key.'":'.$val;
         }
 
         return $jstr;
@@ -150,14 +150,13 @@ class DHTML_Calendar
     {
         $attrstr = '';
         foreach ($array as $key => $val) {
-            $attrstr .= $key . '="' . $val . '" ';
+            $attrstr .= $key.'="'.$val.'" ';
         }
 
         return $attrstr;
     }
-};
-
+}
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_date/res/lib/js_calendar/calendar.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_date/res/lib/js_calendar/calendar.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_date/res/lib/js_calendar/calendar.php'];
 }

@@ -23,7 +23,7 @@
  ***************************************************************/
 
 /**
- * Base-Exception for mkforms
+ * Base-Exception for mkforms.
  */
 class tx_mkforms_exception_Base extends Tx_Rnbase_Exception_Base
 {
@@ -32,5 +32,5 @@ class tx_mkforms_exception_Base extends Tx_Rnbase_Exception_Base
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Base.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Base.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/exception/class.tx_mkforms_exception_Base.php'];
 }

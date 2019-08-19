@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 Michael Wagner <dev@dmk-business.de>
  *  All rights reserved
@@ -23,13 +23,11 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
 
 /**
- * Array util tests
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_util
+ * Array util tests.
  */
 class tx_mkforms_tests_util_JsonTest extends tx_rnbase_tests_BaseTestCase
 {
@@ -48,5 +46,5 @@ class tx_mkforms_tests_util_JsonTest extends tx_rnbase_tests_BaseTestCase
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Json_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Json_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Json_testcase.php'];
 }

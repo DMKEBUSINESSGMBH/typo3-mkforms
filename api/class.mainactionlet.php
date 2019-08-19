@@ -7,7 +7,7 @@ class formidable_mainactionlet extends formidable_mainobject
     }
 
     /**
-     * Legt fest, ob das actionlet verarbeitet wird. Wenn false wird es komplett ignoriert
+     * Legt fest, ob das actionlet verarbeitet wird. Wenn false wird es komplett ignoriert.
      *
      * @return bool
      */
@@ -15,11 +15,11 @@ class formidable_mainactionlet extends formidable_mainobject
     {
         $mProcess = $this->_navConf('/process');
 
-        if ($mProcess !== false) {
+        if (false !== $mProcess) {
             if ($this->getForm()->isRunneable($mProcess)) {
                 $mProcess = $this->getForm()->getRunnable()->callRunnableWidget($this, $mProcess);
 
-                if ($mProcess === false) {
+                if (false === $mProcess) {
                     return false;
                 }
             } elseif ($this->getForm()->_isFalseVal($mProcess)) {
@@ -34,5 +34,5 @@ class formidable_mainactionlet extends formidable_mainobject
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.mainactionlet.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.mainactionlet.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.mainactionlet.php'];
 }

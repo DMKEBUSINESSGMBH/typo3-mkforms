@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
 {
     public $aLibs = array(
@@ -28,14 +26,17 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
     {
         return $this->_render();
     }
+
     public function _readOnly()
     {
         return true;
     }
+
     public function _renderOnly($bForAjax = false)
     {
         return true;
     }
+
     public function mayHaveChilds()
     {
         return true;
@@ -43,14 +44,14 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
 
     public function majixShowBox($aConfig = array(), $aTags = array())
     {
-        if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
+        if ('EID' !== tx_mkforms_util_Div::getEnvExecMode()) {
             $aEventsBefore = array_keys($this->oForm->aRdtEvents);
         }
 
         $aChildsBag = $this->renderChildsBag();
         $aChildsBag = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aChildsBag, $aTags);
 
-        if (tx_mkforms_util_Div::getEnvExecMode() !== 'EID') {
+        if ('EID' !== tx_mkforms_util_Div::getEnvExecMode()) {
             $aEventsAfter = array_keys($this->oForm->aRdtEvents);
             $aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
             $aAddedEvents = array();
@@ -65,9 +66,9 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
             $aConfig['postinit'] = $this->oForm->aPostInitTasks;
         } else {
             // specific to this renderlet
-                // as events have to be attached to the HTML
-                // after the execution of the majix tasks
-                    // in that case, using the modalbox's afterLoad event handler
+            // as events have to be attached to the HTML
+            // after the execution of the majix tasks
+            // in that case, using the modalbox's afterLoad event handler
             $aConfig['attachevents'] = $this->oForm->aRdtEventsAjax;
             $aConfig['postinit'] = $this->oForm->aPostInitTasksAjax;
             $this->oForm->aRdtEventsAjax = array();
@@ -125,12 +126,11 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
         $aParams['form']->getJSLoader()->loadScriptaculous();
         $sCss = $aParams['form']->toWebPath('EXT:ameos_formidable/api/base/rdt_modalbox2/res/js/modalbox1.6.0/modalbox.css');
         $aParams['form']->additionalHeaderData(
-            '<link rel="stylesheet" type="text/css" href="' . $sCss . '" />'
+            '<link rel="stylesheet" type="text/css" href="'.$sCss.'" />'
         );
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox2/api/class.tx_rdtmodalbox2.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox2/api/class.tx_rdtmodalbox2.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_modalbox2/api/class.tx_rdtmodalbox2.php'];
 }

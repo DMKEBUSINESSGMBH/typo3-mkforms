@@ -19,7 +19,7 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
     }
 
     /**
-     * Liefert einen Wert aus der TS-Config
+     * Liefert einen Wert aus der TS-Config.
      *
      * @param string $confid
      *
@@ -27,7 +27,7 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
      */
     private function getConf($confid)
     {
-        return $this->configurations->get($this->confId . $confid);
+        return $this->configurations->get($this->confId.$confid);
     }
 
     public function getId()
@@ -56,7 +56,7 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
             if (tx_mkforms_util_Div::isExtensionPath($jsPath)) {
                 $pagePath = tx_mkforms_util_Div::getRelExtensionPath($jsPath);
             }
-            $pagePath = $server . $pagePath;
+            $pagePath = $server.$pagePath;
             $serverPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($jsPath);
             $ret[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, $key);
         }
@@ -69,7 +69,8 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see tx_mkforms_forms_IJSFramework::getEffectIncludes()
      */
     public function getEffectIncludes($absRefPrefix)
@@ -89,5 +90,5 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_js_DefaultFramework.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_js_DefaultFramework.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_js_DefaultFramework.php'];
 }

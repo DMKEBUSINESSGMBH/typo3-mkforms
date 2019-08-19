@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_api
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -27,29 +25,27 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrenderer.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainobject.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainrenderer.php';
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet
- * wir testen am beispiel des TEXT widgets
+ * wir testen am beispiel des TEXT widgets.
  *
  * @author hbochmann
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_filter
  */
 class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::setUp()
      */
     protected function setUp()
     {
-        self::markTestIncomplete("RuntimeException: The requested database connection named \"Default\" has not been configured.");
+        self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
         \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true, 'initFEuser' => true));
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
@@ -59,7 +55,8 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see PHPUnit_Framework_TestCase::tearDown()
      */
     protected function tearDown()
@@ -68,8 +65,6 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
         restore_error_handler();
     }
 
-    /**
-     */
     public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSession()
     {
         $form = tx_mkforms_tests_Util::getForm();
@@ -84,15 +79,12 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
             'Es ist nicht der richtige request token enthalten!'
         );
 
-
         //requestToken auch in der session?
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         self::assertCount(1, $sessionData['requestToken'], 'mehr request tokens in der session als erwartet!');
         self::assertEquals($sessionData['requestToken']['radioTestForm'], $form->generateRequestToken(), 'falscher request token in der session!');
     }
 
-    /**
-     */
     public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSessionIfRequestTokensExist()
     {
         $GLOBALS['TSFE']->fe_user->setKey(
@@ -102,11 +94,10 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
                 'requestToken' => array(
                     'firstForm' => 'secret',
                     'secondForm' => 'anotherSecret',
-                )
+                ),
             )
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
-
 
         $form = tx_mkforms_tests_Util::getForm();
         $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
@@ -119,7 +110,6 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
             $rendered['HIDDEN'],
             'Es ist nicht der richtige request token enthalten!'
         );
-
 
         //requestToken auch in der session?
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
@@ -151,5 +141,5 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/api/class.tx_mkforms_tests_api_mainvalidator_testcase.php'];
 }

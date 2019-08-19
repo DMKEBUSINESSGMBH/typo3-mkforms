@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
 {
     public function _render()
@@ -19,12 +17,12 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
 
         $bAutoStart = $this->oForm->_defaultFalse('/autostart', $this->aElement);
         $bAutoReplay = $this->oForm->_defaultFalse('/autoreplay', $this->aElement);
-        $sBgColor = (($sTempColor = $this->_navConf('/bgcolor')) !== false) ? $sTempColor : 'FFFFFF';
+        $sBgColor = (false !== ($sTempColor = $this->_navConf('/bgcolor'))) ? $sTempColor : 'FFFFFF';
 
-        $sMoviePath = $this->sExtWebPath . 'res/dewplayer.swf';
+        $sMoviePath = $this->sExtWebPath.'res/dewplayer.swf';
 
         $sColor = str_replace('#', '', $sBgColor);
-        $sMoviePath .= '?bgcolor=' . $sColor;
+        $sMoviePath .= '?bgcolor='.$sColor;
 
         $sFlashParams = '';
 
@@ -38,9 +36,7 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
             $sFlashParams .= '<param name="autoreplay" value="1" />';
         }
 
-
-
-        $sMoviePath .= '&mp3=' . rawurlencode($sPath);
+        $sMoviePath .= '&mp3='.rawurlencode($sPath);
 
         $sInput = <<< FLASHOBJECT
 
@@ -64,14 +60,12 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
 
 FLASHOBJECT;
 
-
-
         $aHtmlBag = array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sInput,
+            '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
             'mp3.' => array(
                 'file' => $sPath,
-            )
+            ),
         );
 
         return $aHtmlBag;
@@ -84,13 +78,13 @@ FLASHOBJECT;
 
     public function _getPath()
     {
-        if (($sPath = $this->_navConf('/path')) !== false) {
+        if (false !== ($sPath = $this->_navConf('/path'))) {
             if ($this->oForm->isRunneable($sPath)) {
                 $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
             }
 
             if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sPath, 'EXT:')) {
-                $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') .
+                $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').
                     str_replace(
                         Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
                         '',
@@ -103,7 +97,6 @@ FLASHOBJECT;
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_dewplayer/api/class.tx_rdtdewplayer.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_dewplayer/api/class.tx_rdtdewplayer.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_dewplayer/api/class.tx_rdtdewplayer.php'];
 }

@@ -22,26 +22,22 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * Generic form view
+ * Generic form view.
  *
- * @package tx_mkforms
- * @subpackage tx_mkforms_view
  * @author Michael Wagner
  */
 class tx_mkforms_view_Form extends tx_rnbase_view_Base
 {
-
     /**
      * Do the output rendering.
      *
-     * @param   string                      $template
-     * @param   ArrayObject                 $viewData
-     * @param   tx_rnbase_configurations    $configurations
-     * @param   tx_rnbase_util_FormatUtil   $formatter
+     * @param string                    $template
+     * @param ArrayObject               $viewData
+     * @param tx_rnbase_configurations  $configurations
+     * @param tx_rnbase_util_FormatUtil $formatter
      *
-     * @return  mixed                       Ready rendered output or HTTP redirect
+     * @return mixed Ready rendered output or HTTP redirect
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)
     public function createOutput($template, &$viewData, &$configurations, &$formatter, $redirectToLogin = false)
@@ -52,20 +48,20 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
 
         $confId = $this->getController()->getConfId();
 
-        $markerArray = $subpartArray  = $wrappedSubpartArray = array();
+        $markerArray = $subpartArray = $wrappedSubpartArray = array();
 
         // Wir holen die Daten von der Action ab
         // @TODO: mal auslagern! (handleFormData)
-        if ($data =& $viewData->offsetGet('formData')) {
+        if ($data = &$viewData->offsetGet('formData')) {
             // Successfully filled in form?
             if (is_array($data)) {
                 // else:
 
-                $markerArrays = $subpartArrays  = $wrappedSubpartArrays = array();
+                $markerArrays = $subpartArrays = $wrappedSubpartArrays = array();
 
                 foreach ($data as $key => $values) {
-                    $currentMarkerPrefix = strtoupper($key) . '_';
-                    $currentConfId = $confId . $key . '.';
+                    $currentMarkerPrefix = strtoupper($key).'_';
+                    $currentConfId = $confId.$key.'.';
                     /*
                      * @TODO: bei den Values sollte man auch Objekte übergeben können und die
                      * Markerklasse wird konfiguriert
@@ -88,7 +84,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
                             null
                         );
                         // wir suchen für jede Tabelle eine parse Methode in der Kindklasse!
-                        $method = 'add' . tx_mkforms_util_Div::toCamelCase($key) . 'Markers';
+                        $method = 'add'.tx_mkforms_util_Div::toCamelCase($key).'Markers';
                         if (method_exists($this, $method)) {
                             $template = $this->{$method}(
                                 $values, $currentMarkerPrefix,
@@ -109,7 +105,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
                 }
                 // die marker arrays zusammenführen
                 $markerArray = empty($markerArrays) ? array() : call_user_func_array('array_merge', $markerArrays);
-                $subpartArray =    empty($subpartArrays) ? array() : call_user_func_array('array_merge', $subpartArrays);
+                $subpartArray = empty($subpartArrays) ? array() : call_user_func_array('array_merge', $subpartArrays);
                 $wrappedSubpartArray = empty($wrappedSubpartArrays) ? array() : call_user_func_array('array_merge', $wrappedSubpartArrays);
             }
         }
@@ -145,15 +141,15 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
     /**
      * Beispiel Methode um susätzliche marker zu füllen oder das Template zu parsen!
      *
-     * @param   array                       $data
-     * @param   string                      $markerPrefix
-     * @param   array                       $markerArray
-     * @param   array                       $subpartArray
-     * @param   array                       $wrappedSubpartArray
-     * @param   tx_rnbase_util_FormatUtil   $formatter
-     * @param   string                      $template
+     * @param array                     $data
+     * @param string                    $markerPrefix
+     * @param array                     $markerArray
+     * @param array                     $subpartArray
+     * @param array                     $wrappedSubpartArray
+     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param string                    $template
      *
-     * @return  string
+     * @return string
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)
     protected function addAdditionalMarkers(
@@ -171,10 +167,10 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
 
         // links parsen
         // @TODO: über rnbase simple marker parsen?
-        $linkIds = $formatter->getConfigurations()->getKeyNames($confId . 'links.');
+        $linkIds = $formatter->getConfigurations()->getKeyNames($confId.'links.');
         foreach ($linkIds as $linkId) {
             $params = $formatter->getConfigurations()->get(
-                $confId . 'links.' . $linkId . '.params.'
+                $confId.'links.'.$linkId.'.params.'
             );
             tx_rnbase_util_BaseMarker::initLink(
                 $markerArray,
@@ -194,12 +190,10 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
 
     /**
      * Gibt es einen Redirect? Bei Bedarf kann diese Methode
-     * in einem eigenen View überschrieben werden
+     * in einem eigenen View überschrieben werden.
      *
-     * @param   ArrayObject                 $viewData
-     * @param   tx_rnbase_configurations    $configurations
-     *
-     * @return  void
+     * @param ArrayObject              $viewData
+     * @param tx_rnbase_configurations $configurations
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)
     protected function handleRedirect(&$viewData, &$configurations)
@@ -214,8 +208,8 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
             && !$viewData->offsetGet('hasValidationErrors')
             // and redirect configured
             && (
-                $configurations->getBool($confId . 'redirect') ||
-                $configurations->get($confId . 'redirect.pid')
+                $configurations->getBool($confId.'redirect') ||
+                $configurations->get($confId.'redirect.pid')
             )
         )) {
             // Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
@@ -231,17 +225,18 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
     /**
      * Erzeugt den Link für den Redirect. Kind-Klassen haben die Möglchkeit diese Methode zu überschreiben.
      *
-     * @param ArrayObject $viewData
+     * @param ArrayObject              $viewData
      * @param tx_rnbase_configurations $configurations
-     * @param string $confId
+     * @param string                   $confId
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)
     protected function createRedirectLink($viewData, $configurations, $confId)
     {
         // @codingStandardsIgnoreStart (interface/abstract mistake)
-        $params    = $viewData->offsetGet('redirect_parameters');
+        $params = $viewData->offsetGet('redirect_parameters');
         $link = $configurations->createLink();
         $link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : array());
+
         return $link;
     }
 
@@ -257,10 +252,11 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
         if ($controller instanceof tx_rnbase_action_BaseIOC) {
             $subpart = $this->getController()->getConfigurations()->get($this->getController()->getConfId().'mainSubpart');
         }
+
         return $subpart ? $subpart : '###DATA###';
     }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/view/class.tx_mkforms_view_Form.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/view/class.tx_mkforms_view_Form.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/view/class.tx_mkforms_view_Form.php'];
 }

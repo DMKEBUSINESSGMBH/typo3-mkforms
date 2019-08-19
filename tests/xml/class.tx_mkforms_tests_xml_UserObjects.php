@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright notice
+ *  Copyright notice.
  *
  *  (c) 2011 Michael Wagner <dev@dmk-business.de>
  *  All rights reserved
@@ -22,18 +22,17 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * zum Testen von ajaxcalls in renderlets.xml im FE
+ * zum Testen von ajaxcalls in renderlets.xml im FE.
  */
 class tx_mkforms_tests_xml_UserObjects extends tx_mkforms_util_FormBaseAjax
 {
-
     /**
      * Gibt die Parameter aus.
      *
-     * @param array                 $params
-     * @param tx_ameosformidable    $form
+     * @param array              $params
+     * @param tx_ameosformidable $form
+     *
      * @return string
      */
     public function getParams4Ajax(array $params, tx_ameosformidable $form)

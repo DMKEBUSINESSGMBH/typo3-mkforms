@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_util
  * @author Michael Wagner
  *
  *  Copyright notice
@@ -29,26 +27,24 @@
 /**
  * Some static util functions für ajax calls.
  *
- * @package tx_mkforms
- * @subpackage tx_mkforms_util
  * @author Michael Wagner
  */
 class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
 {
-
     /**
-     * Fügt einen Task zum Parameter majixActionsAfterFinish hinzu
+     * Fügt einen Task zum Parameter majixActionsAfterFinish hinzu.
      *
-     * @param array     $params
-     * @param string    $renderletName
-     * @param string    $majixAction
-     * @return array    $params
+     * @param array  $params
+     * @param string $renderletName
+     * @param string $majixAction
+     *
+     * @return array $params
      */
     public static function addMajixAction(array $params, $renderletName, $majixAction, $prepend = false)
     {
         if (isset($params['majixActionsAfterFinish'])) {
             if ($prepend) {
-                $params['majixActionsAfterFinish'] = ' , ' . $params['majixActionsAfterFinish'];
+                $params['majixActionsAfterFinish'] = ' , '.$params['majixActionsAfterFinish'];
             } else {
                 $params['majixActionsAfterFinish'] .= ' , ';
             }
@@ -57,7 +53,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         }
 
         if ($prepend) {
-            $params['majixActionsAfterFinish'] = $renderletName.'|'.$majixAction . $params['majixActionsAfterFinish'];
+            $params['majixActionsAfterFinish'] = $renderletName.'|'.$majixAction.$params['majixActionsAfterFinish'];
         } else {
             $params['majixActionsAfterFinish'] .= $renderletName.'|'.$majixAction;
         }
@@ -66,14 +62,15 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
     }
 
     /**
-     * Explode given param into options (separated by ',') and suboptions (separated by '|')
+     * Explode given param into options (separated by ',') and suboptions (separated by '|').
      *
      * (Optional) suboptions are returned as array of the respective main option.
      *
      * @TODO: auslagern!?
      *
-     * @param string    $param
-     * @param bool      $forceSubOptionArray    Force sub options to be an array, even if only one suboption exists
+     * @param string $param
+     * @param bool   $forceSubOptionArray Force sub options to be an array, even if only one suboption exists
+     *
      * @return array
      */
     public static function explodeParam($param, $forceSubOptionArray = false)
@@ -90,7 +87,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
     }
 
     /**
-     * Build ajax return values according to params
+     * Build ajax return values according to params.
      *
      * The following option(s) in $params are evaluated:
      * * 'majixActionsAfterFinish':
@@ -110,9 +107,10 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      *                                          and repainting the given renderlet.
      *                                          NOTICE: For this option only FULLY QUALIFIED renderlet names are allowed!
      *
-     * @param array                 $params
-     * @param tx_ameosformidable    $form
-     * @param array                 &$data needed for refresh
+     * @param array              $params
+     * @param tx_ameosformidable $form
+     * @param array              &$data  needed for refresh
+     *
      * @return array
      */
     protected static function buildAjaxReturn(array $params, tx_ameosformidable $form, array &$data = array())
@@ -150,7 +148,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                     $return[] = call_user_func_array(
                         array(
                                                         $form,
-                                                        'majix' . ucfirst($action['command'])
+                                                        'majix'.ucfirst($action['command']),
                                                     ),
                         $action['params']
                     );
@@ -166,7 +164,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                          * 'refresh' gibt es nicht als majixAction.
                          * 'refresh' führt repaint aus, aktualisiert allerdings vorher die Daten des Renderlets
                          */
-                        if ($action['command'] == 'refresh') {
+                        if ('refresh' == $action['command']) {
                             $aData = self::multipleTableStructure2DeepArray(
                                 $data,
                                 $form,
@@ -187,7 +185,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                             $return[] = call_user_func_array(
                                 array(
                                                                 $widget,
-                                                                'majix' . ucfirst($action['command'])
+                                                                'majix'.ucfirst($action['command']),
                                                             ),
                                 $action['params']
                             );
@@ -200,13 +198,14 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
     }
 
     /**
-     * Perform majix operations
+     * Perform majix operations.
      *
      * Actually, this is just an alias for the protected function self::buildAjaxReturn
      * in order to give XML forms the possibility to perform majix operations as only action.
      *
-     * @param array $params
+     * @param array              $params
      * @param tx_ameosformidable $form
+     *
      * @return string
      */
     public static function renderMajixOperations(array $params, tx_ameosformidable $form)
@@ -221,9 +220,9 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      *      If a Form was submitted, a setValue on Parent renderlet was ignored by MKFORMS.
      *      So we have to set every renderlet explizit.
      *
-     * @param   mixed   $mWidget
-     * @param   mixed   $mValue
-     * @param   bool    $setChildsExplizit
+     * @param mixed $mWidget
+     * @param mixed $mValue
+     * @param bool  $setChildsExplizit
      */
     protected static function setValueToWidget($mWidget, $mValue, $setChildsExplizit = false)
     {
@@ -253,13 +252,14 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
     }
 
     /**
-     * Form instance stored for regex callback functions
+     * Form instance stored for regex callback functions.
      *
      * @var tx_ameosformidable
      */
     private static $evalFormContainer;
+
     /**
-     * Evaluate secure expression
+     * Evaluate secure expression.
      *
      * This function evaluates expressions mainly defined in xml forms.
      * Usual PHP syntax for easy expressions is supported, but no function
@@ -292,40 +292,41 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      * * "! rdt:add__blah != val:+a123" (invalid integer value)
      * * "rdt:add__blah == rdt:add_blubbandrdt:add__blah != val:123" (missing spaces)
      *
-     * @param   string              $expression
-     * @param   tx_ameosformidable  $form
-     * @return  mixed
+     * @param string             $expression
+     * @param tx_ameosformidable $form
+     *
+     * @return mixed
      */
     protected function evalSecureExpression($expression, tx_ameosformidable $form)
     {
         // Pattern parts
 
         $pat_spc = '[\s]*?';                        // Optional space
-        $pat_neg = '(\!?' . $pat_spc . ')';            // Optional logical negator
+        $pat_neg = '(\!?'.$pat_spc.')';            // Optional logical negator
 
         // Optional brackets
-        $pat_brcksO = '(\(*' . $pat_spc . ')';
-        $pat_brcksC = '(' . $pat_spc . '\)*)';
+        $pat_brcksO = '(\(*'.$pat_spc.')';
+        $pat_brcksC = '('.$pat_spc.'\)*)';
 
         // Operators
         $pat_opCmp = '==|\!=|<>|>=|<=';                // Comparison operators
         $pat_opLgc = ' and | or | xor ';            // Logical operators
         $pat_opArit = '\+|\-|\*|\/';                // Arithmetic operators
         // All operators
-        $pat_op = $pat_spc . '(' . $pat_opCmp . '|' . $pat_opArit . '|' . $pat_opLgc . ')' . $pat_spc;
+        $pat_op = $pat_spc.'('.$pat_opCmp.'|'.$pat_opArit.'|'.$pat_opLgc.')'.$pat_spc;
 
         // Expression values
         $pat_rdt = '(rdt\:([\w\-_]+))';                // Renderlet
         $pat_sclr = '(val\:([\+\-]?[\d\.]+(E[\+\-]?[\d\.]+)?|\'.*?\'))';
-                                                    // Scalar value (float or 'string')
+        // Scalar value (float or 'string')
         // All expression values
-        $pat_val = '(' . $pat_neg . '(' . $pat_sclr . '|' . $pat_rdt . '))';
+        $pat_val = '('.$pat_neg.'('.$pat_sclr.'|'.$pat_rdt.'))';
 
         // Complete expression value with negator and brackets
-        $pat_valCmpl = $pat_spc . $pat_neg . $pat_brcksO . $pat_neg . $pat_val . $pat_brcksC;
+        $pat_valCmpl = $pat_spc.$pat_neg.$pat_brcksO.$pat_neg.$pat_val.$pat_brcksC;
 
         // Arbitrary logical combinations of expression values
-        $pattern = $pat_valCmpl . '(' . $pat_op . $pat_valCmpl . ')*?';
+        $pattern = $pat_valCmpl.'('.$pat_op.$pat_valCmpl.')*?';
 
         $matches = array();
         if (preg_match('/^'.$pattern.'$/i', $expression, $matches)) {
@@ -340,10 +341,12 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         // Return evaluated expression
         return eval('return '.$expr.';');
     }
+
     private function replaceValue($val)
     {
         return $val[1];
     }
+
     private function replaceRdt($val)
     {
         if (is_object($w = self::$evalFormContainer->getWidget($val[1]))) {
@@ -352,17 +355,15 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                 return $wVal;
             }
 
-            return '\''.$wVal . '\'';
+            return '\''.$wVal.'\'';
         } // Given widget not found
         else {
             return null;
         }
     }
 
-
-
     /**
-     * Repaint dependent field
+     * Repaint dependent field.
      *
      * example
      *  <onchange runat="ajax" syncValue="true" cache="false">
@@ -385,9 +386,8 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      *      </params>
      *  </onchange>
      *
-     * @param array                 $params
-     * @param tx_ameosformidable    $form
-     * @return void
+     * @param array              $params
+     * @param tx_ameosformidable $form
      */
     public static function repaintDependencies(array $params, tx_ameosformidable $form)
     {
@@ -407,7 +407,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
     }
 
     /**
-     * Merge still FLATTENED(!) data of several tables into a deep renderlet structure
+     * Merge still FLATTENED(!) data of several tables into a deep renderlet structure.
      *
      * Resulting field name format: tablename-fieldname, with "-" being the given $sep.
      * Fields defined in more than one table are represented multiple:
@@ -423,9 +423,10 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      * ### Note that fields from several tables with identical field names
      *      overwrite each other in the multiple table field! ###
      *
-     * @param array                     $srcData            Flat array of data
-     * @param tx_ameosformidable        $form
-     * @param formidable_mainrenderlet  $targetRenderlet    The target renderlet instance
+     * @param array                    $srcData         Flat array of data
+     * @param tx_ameosformidable       $form
+     * @param formidable_mainrenderlet $targetRenderlet The target renderlet instance
+     *
      * @return array
      */
     public static function convertFlatDataToRenderletStructure(
@@ -456,7 +457,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
     }
 
     /**
-     * Prüft ob das dependsonflag gesetzt ist und gibt das widget davon zurück
+     * Prüft ob das dependsonflag gesetzt ist und gibt das widget davon zurück.
      *
      * @param $params
      * @param $form
@@ -480,5 +481,5 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBaseAjax.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBaseAjax.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBaseAjax.php'];
 }

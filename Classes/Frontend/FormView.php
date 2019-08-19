@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\MkForms\Frontend;
 
 use Sys25\RnBase\Frontend\View\Marker\BaseView;
@@ -28,20 +29,16 @@ use Sys25\RnBase\Frontend\View\ContextInterface;
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * Generic form view
+ * Generic form view.
  *
- * @package tx_mkforms
- * @subpackage tx_mkforms_view
  * @author Michael Wagner
  */
 class FormView extends BaseView
 {
-
     /**
+     * {@inheritdoc}
      *
-     * {@inheritDoc}
      * @see \Sys25\RnBase\Frontend\View\Marker\BaseView::createOutput()
      * @codingStandardsIgnoreStart (interface/abstract mistake)
      */
@@ -50,20 +47,20 @@ class FormView extends BaseView
         $confId = $request->getConfId();
         $viewData = $request->getViewContext();
 
-        $markerArray = $subpartArray  = $wrappedSubpartArray = [];
+        $markerArray = $subpartArray = $wrappedSubpartArray = [];
 
         // Wir holen die Daten von der Action ab
         // @TODO: mal auslagern! (handleFormData)
-        if ($data =& $viewData->offsetGet('formData')) {
+        if ($data = &$viewData->offsetGet('formData')) {
             // Successfully filled in form?
             if (is_array($data)) {
                 // else:
 
-                $markerArrays = $subpartArrays  = $wrappedSubpartArrays = array();
+                $markerArrays = $subpartArrays = $wrappedSubpartArrays = array();
 
                 foreach ($data as $key => $values) {
-                    $currentMarkerPrefix = strtoupper($key) . '_';
-                    $currentConfId = $confId . $key . '.';
+                    $currentMarkerPrefix = strtoupper($key).'_';
+                    $currentConfId = $confId.$key.'.';
                     /*
                      * @TODO: bei den Values sollte man auch Objekte übergeben können und die
                      * Markerklasse wird konfiguriert
@@ -86,7 +83,7 @@ class FormView extends BaseView
                             null
                         );
                         // wir suchen für jede Tabelle eine parse Methode in der Kindklasse!
-                        $method = 'add' . \tx_mkforms_util_Div::toCamelCase($key) . 'Markers';
+                        $method = 'add'.\tx_mkforms_util_Div::toCamelCase($key).'Markers';
                         if (method_exists($this, $method)) {
                             $template = $this->{$method}(
                                 $values, $currentMarkerPrefix,
@@ -107,7 +104,7 @@ class FormView extends BaseView
                 }
                 // die marker arrays zusammenführen
                 $markerArray = empty($markerArrays) ? array() : call_user_func_array('array_merge', $markerArrays);
-                $subpartArray =    empty($subpartArrays) ? array() : call_user_func_array('array_merge', $subpartArrays);
+                $subpartArray = empty($subpartArrays) ? array() : call_user_func_array('array_merge', $subpartArrays);
                 $wrappedSubpartArray = empty($wrappedSubpartArrays) ? array() : call_user_func_array('array_merge', $wrappedSubpartArrays);
             }
         }
@@ -140,29 +137,31 @@ class FormView extends BaseView
         return $this->parseItems($viewData->offsetGet('items'), $confId, $formatter, $out);
     }
 
-    protected function parseItems($items, $confId, \tx_rnbase_util_FormatUtil $formatter, $template) {
-        if(is_array($items)) {
-            foreach ($items As $key => $item) {
+    protected function parseItems($items, $confId, \tx_rnbase_util_FormatUtil $formatter, $template)
+    {
+        if (is_array($items)) {
+            foreach ($items as $key => $item) {
                 $markerClass = $formatter->getConfigurations()->get($confId.$key.'.__markerclass') ?: 'tx_rnbase_util_SimpleMarker';
                 $marker = \tx_rnbase::makeInstance($markerClass);
                 $template = $marker->parseTemplate($template, $item, $formatter, $confId.$key.'.', strtoupper($key));
             }
         }
+
         return $template;
     }
 
     /**
      * Beispiel Methode um susätzliche marker zu füllen oder das Template zu parsen!
      *
-     * @param   array                       $data
-     * @param   string                      $markerPrefix
-     * @param   array                       $markerArray
-     * @param   array                       $subpartArray
-     * @param   array                       $wrappedSubpartArray
-     * @param   \tx_rnbase_util_FormatUtil   $formatter
-     * @param   string                      $template
+     * @param array                      $data
+     * @param string                     $markerPrefix
+     * @param array                      $markerArray
+     * @param array                      $subpartArray
+     * @param array                      $wrappedSubpartArray
+     * @param \tx_rnbase_util_FormatUtil $formatter
+     * @param string                     $template
      *
-     * @return  string
+     * @return string
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)
     protected function addAdditionalMarkers(
@@ -180,10 +179,10 @@ class FormView extends BaseView
 
         // links parsen
         // @TODO: über rnbase simple marker parsen?
-        $linkIds = $formatter->getConfigurations()->getKeyNames($confId . 'links.');
+        $linkIds = $formatter->getConfigurations()->getKeyNames($confId.'links.');
         foreach ($linkIds as $linkId) {
             $params = $formatter->getConfigurations()->get(
-                $confId . 'links.' . $linkId . '.params.'
+                $confId.'links.'.$linkId.'.params.'
             );
             \tx_rnbase_util_BaseMarker::initLink(
                 $markerArray,
@@ -210,6 +209,7 @@ class FormView extends BaseView
     public function getMainSubpart(ContextInterface $viewData)
     {
         $subpart = parent::getMainSubpart($viewData);
+
         return $subpart ? $subpart : '###DATA###';
     }
 }

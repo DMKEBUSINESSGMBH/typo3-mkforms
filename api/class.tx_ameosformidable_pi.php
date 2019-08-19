@@ -23,16 +23,16 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
             )
         );
 
-        require_once(PATH_formidableapi);
+        require_once PATH_formidableapi;
 
-        if ($sConfPath !== '') {
-            $aCurZone =& $GLOBALS['TSFE']->tmpl->setup;
+        if ('' !== $sConfPath) {
+            $aCurZone = &$GLOBALS['TSFE']->tmpl->setup;
 
             $aPath = explode('.', $sConfPath);
             reset($aPath);
             foreach ($aPath as $sSegment) {
-                if (array_key_exists($sSegment . '.', $aCurZone)) {
-                    $aCurZone =& $aCurZone[$sSegment . '.'];
+                if (array_key_exists($sSegment.'.', $aCurZone)) {
+                    $aCurZone = &$aCurZone[$sSegment.'.'];
                 } else {
                     return '<strong>Formidable: TS path not found in template</strong>';
                 }
@@ -47,7 +47,7 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
                 )
             );
 
-            if ($sConfPath !== '') {
+            if ('' !== $sConfPath) {
                 $this->sXmlPath = tx_ameosformidable::toServerPath($sConfPath);
             } else {
                 if (array_key_exists('xmlpath', $this->conf)) {
@@ -65,9 +65,9 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
     {
         // init+render
 
-        require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.tx_ameosformidable.php');
+        require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.tx_ameosformidable.php';
         $this->oForm = tx_rnbase::makeInstance('tx_ameosformidable');
-        if ($this->sXmlPath === false) {
+        if (false === $this->sXmlPath) {
             $this->oForm->initFromTs(
                 $this,
                 $this->aFormConf
@@ -86,5 +86,5 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php'];
 }

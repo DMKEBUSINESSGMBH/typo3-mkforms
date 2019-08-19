@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'CheckBox';
@@ -36,8 +34,8 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             $caption = $this->oForm->getConfigXML()->getLLLabel($aItem['caption']);
 
             // on cree le nom du controle
-            $name = $this->_getElementHtmlName() . '[' . $index . ']';
-            $sId = $this->_getElementHtmlId() . '_' . $index;
+            $name = $this->_getElementHtmlName().'['.$index.']';
+            $sId = $this->_getElementHtmlId().'_'.$index;
             $aSubRdts[] = $sId;
             $this->sCustomElementId = $sId;
             $this->includeScripts(
@@ -55,7 +53,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
                 }
             }
 
-            $sInput = '<input type="checkbox" name="' . $name . '" id="' . $sId . '" value="' . $this->getValueForHtml($value) . '" ' . $checked . $this->_getAddInputParams($aItem) . ' ';
+            $sInput = '<input type="checkbox" name="'.$name.'" id="'.$sId.'" value="'.$this->getValueForHtml($value).'" '.$checked.$this->_getAddInputParams($aItem).' ';
 
             if (array_key_exists('custom', $aItem)) {
                 $sInput .= $aItem['custom'];
@@ -71,30 +69,30 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             $labelTag = explode($token, $labelTag);
             $sLabelStart = $labelTag[0];
 
-            $aHtmlBag[$value . '.'] = array(
+            $aHtmlBag[$value.'.'] = array(
                 'input' => $sInput,
                 'caption' => $caption,
                 'value.' => array(
                     'htmlspecialchars' => htmlspecialchars($value),
                 ),
-                'label' => $sLabelStart . $caption . $sLabelEnd,
+                'label' => $sLabelStart.$caption.$sLabelEnd,
                 'label.' => array(
                     'for.' => array(
                         'start' => $sLabelStart,
                         'end' => $sLabelEnd,
-                    )
-                )
+                    ),
+                ),
             );
 
             // TODO: ist renderlabelfirst hier sinnvoll?
             // $renderLabelFirst = $this->isTrue('renderlabelfirst');
 
-            $htmlCode = $sInput . $sLabelStart . $caption . $sLabelEnd;
+            $htmlCode = $sInput.$sLabelStart.$caption.$sLabelEnd;
             if (array_key_exists('wrapitem', $aItem)) {
                 $htmlCode = str_replace('|', $htmlCode, $aItem['wrapitem']);
             }
 
-            $aHtml[] = (($checked !== '') ? $this->_wrapSelected($htmlCode) : $this->_wrapItem($htmlCode));
+            $aHtml[] = (('' !== $checked) ? $this->_wrapSelected($htmlCode) : $this->_wrapItem($htmlCode));
 
             $this->sCustomElementId = false;
         }
@@ -108,7 +106,6 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             )
         );
 
-
         $sInput = $this->_implodeElements($aHtml);
 
         if (empty($aItems) && $this->defaultFalse('/hidelabelwhenempty')) {
@@ -116,7 +113,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
         } else {
             $aHtmlBag['__compiled'] = $this->_displayLabel(
                 $this->getLabel()
-            ) . $sInput;
+            ).$sInput;
         }
         $aHtmlBag['input'] = $sInput;
 
@@ -196,11 +193,13 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
                 }
 
                 foreach ($aFields as $sField) {
-                    $aParts[] = "FIND_IN_SET('" . $GLOBALS['TYPO3_DB']->quoteStr($sValue, $sTableName) . "', " . $sFieldPrefix . $sField . ')';
+                    $aParts[] = "FIND_IN_SET('"
+                        .Tx_Rnbase_Database_Connection::getInstance()->quoteStr($sValue, $sTableName)
+                        ."', ".$sFieldPrefix.$sField.')';
                 }
             }
 
-            $sSql = ' ( ' . implode(' OR ', $aParts) . ' ) ';
+            $sSql = ' ( '.implode(' OR ', $aParts).' ) ';
 
             return $sSql;
         }
@@ -246,10 +245,9 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
         );
     }
 
-
     public function _getSeparator()
     {
-        if (($mSep = $this->_navConf('/separator')) === false) {
+        if (false === ($mSep = $this->_navConf('/separator'))) {
             $mSep = "<br />\n";
         } else {
             if ($this->oForm->isRunneable($mSep)) {
@@ -270,7 +268,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
     public function _wrapSelected($sHtml)
     {
-        if (($mWrap = $this->_navConf('/wrapselected')) !== false) {
+        if (false !== ($mWrap = $this->_navConf('/wrapselected'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }
@@ -285,7 +283,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
     public function _wrapItem($sHtml)
     {
-        if (($mWrap = $this->_navConf('/wrapitem')) !== false) {
+        if (false !== ($mWrap = $this->_navConf('/wrapitem'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }
@@ -300,7 +298,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
     {
         $this->sDefaultLabelClass = $this->getForm()->sDefaultWrapClass.'-label';
 
-        $aConfig =  $this->aElement;
+        $aConfig = $this->aElement;
         // via default, kein for tag!
         if (!isset($aConfig['labelfor'])) {
             $aConfig['labelfor'] = 0;
@@ -326,7 +324,6 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_checkbox/api/class.tx_rdtcheckbox.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_checkbox/api/class.tx_rdtcheckbox.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_checkbox/api/class.tx_rdtcheckbox.php'];
 }

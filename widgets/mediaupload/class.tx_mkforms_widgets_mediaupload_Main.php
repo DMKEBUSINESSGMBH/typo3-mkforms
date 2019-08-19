@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin 'rdt_mediaupload' for the 'mkforms' extension.
- * Based on original rdt_upload from Jerome Schneider <typo3dev@ameos.com>
+ * Based on original rdt_upload from Jerome Schneider <typo3dev@ameos.com>.
+ *
  * @author  René Nitzsche <rene@system25.de>
  * @author  Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-
 if (tx_rnbase_util_Extensions::isLoaded('dam')) {
     require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam.php');
     require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_db.php');
@@ -32,7 +32,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     private $uploadedMediaFiles = array();
 
     /**
-     * folgendes brauch man um eine Liste der DAM/FAL Uploads auszugeben:
+     * folgendes brauch man um eine Liste der DAM/FAL Uploads auszugeben:.
      *
         <datasources>
             <datasource:PHPARRAY name="mediaUploadList">
@@ -83,13 +83,14 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
                                 <php><![CDATA[/*<?php
      */
     /**
-     * diese zeile entfernen
+     * diese zeile entfernen.
                                     $currentFile = $this->getWidget('lister-groundplanUploadList')->getCurrentRow();
                                     return $currentFile['file_path'] . $currentFile['file_name'];
                                 /*?>
      */
+
     /**
-     * diese zeile entfernen
+     * diese zeile entfernen.
                     ]]></php>
                             </userobj>
                         </value>
@@ -154,7 +155,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $sessionIdForCurrentWidget = $this->getSessionIdForCurrentWidget();
         // hochgeladene Dateien in Session löschen wenn nicht submitted
         if (!$this->getForm()->getDataHandler()->_isSubmitted()) {
-            $sessionData[$sessionIdForCurrentWidget . '_fileIds'] = '';
+            $sessionData[$sessionIdForCurrentWidget.'_fileIds'] = '';
             $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
         }
 
@@ -174,16 +175,16 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
 
         $sLabel = $this->getLabel();
-        $sInput = '<input type="file" name="' . $this->_getElementHtmlName() . '" id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' />';
+        $sInput = '<input type="file" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().' />';
 
         $aRes = array(
-            '__compiled' =>  $this->_displayLabel($sLabel) . $sInput,
+            '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
             'value' => $sValue,
         );
 
         if (!$this->isMultiple()) {
-            if (trim($sValue) != '') {
+            if ('' != trim($sValue)) {
                 $aRes['file.']['webpath'] = tx_mkforms_util_Div::toWebPath($this->getServerPath());
             } else {
                 $aRes['file.']['webpath'] = '';
@@ -198,16 +199,17 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     private function getSessionIdForCurrentWidget()
     {
-        return $GLOBALS['TSFE']->id . $this->_getElementHtmlId();
+        return $GLOBALS['TSFE']->id.$this->_getElementHtmlId();
     }
+
     /**
-     *
      * @return array
      */
     public function getUploadedMediaFiles()
     {
         return $this->uploadedMediaFiles;
     }
+
     /**
      * @deprecated use getUploadedMediaFiles instead
      */
@@ -218,13 +220,13 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
     public function getServerPath($sFileName = false)
     {
-        if (($sTargetFile = $this->getTargetFile()) !== false) {
+        if (false !== ($sTargetFile = $this->getTargetFile())) {
             return $sTargetFile;
-        } elseif ($sFileName !== false) {
-            return $this->getTargetDir() . $sFileName;
+        } elseif (false !== $sFileName) {
+            return $this->getTargetDir().$sFileName;
         }
 
-        return $this->getTargetDir() . $this->getValue();
+        return $this->getTargetDir().$this->getValue();
     }
 
     public function getFullServerPath($sFileName = false)
@@ -238,7 +240,6 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function checkPoint(&$aPoints, array &$options = array())
     {
-
         parent::checkPoint($aPoints, $options);
 
         // Die Verarbeitung der Datei unmittelbar nach der Initialisierung des DataHandlers starten
@@ -266,7 +267,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     }
 
     /**
-     * Hier startet bei einem normalen Submit die Verarbeitung der hochgeladenen Datei
+     * Hier startet bei einem normalen Submit die Verarbeitung der hochgeladenen Datei.
      */
     public function manageFile($valid = true)
     {
@@ -277,11 +278,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         // einem lister ausgeben können
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         $sessionIdForCurrentWidget = $this->getSessionIdForCurrentWidget();
-        if ($uploadedFileIdsFromSession = $sessionData[$sessionIdForCurrentWidget . '_fileIds']) {
+        if ($uploadedFileIdsFromSession = $sessionData[$sessionIdForCurrentWidget.'_fileIds']) {
             $uploadedFileIds = Tx_Rnbase_Utility_Strings::trimExplode(',', $uploadedFileIdsFromSession);
         }
 
-        if ($valid && (is_array($aData) && $aData['error'] == 0)) {
+        if ($valid && (is_array($aData) && 0 == $aData['error'])) {
             // a file has just been uploaded
             $this->handleUpload($aData);
 
@@ -329,7 +330,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
 
         // jetzt kümmern wir uns um die Dateien, die gelöscht werden sollen
-        $currentFileIds = array();// die DAM Ids, welche übrig sind nachdem gelöscht wurde
+        $currentFileIds = array(); // die DAM Ids, welche übrig sind nachdem gelöscht wurde
         // sollte eine checkbox sein
         $deleteWidgetName = $this->getForm()->_navConf('/deletewidget', $this->aElement);
         if (!empty($mediaFiles)) {
@@ -352,7 +353,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             }
         }
 
-        $sessionData[$sessionIdForCurrentWidget . '_fileIds'] = join(',', $currentFileIds);
+        $sessionData[$sessionIdForCurrentWidget.'_fileIds'] = join(',', $currentFileIds);
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $sessionData);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
@@ -362,15 +363,16 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     }
 
     /**
-     * Returns data about new file on server
+     * Returns data about new file on server.
      *
      * @param array $aData
+     *
      * @return array keys: sTargetDir, sName, sTarget
      */
     public function getTargetFileData($aData)
     {
         $ret = array();
-        if (($sTargetFile = $this->getTargetFile()) !== false) {
+        if (false !== ($sTargetFile = $this->getTargetFile())) {
             $ret['sTargetDir'] = Tx_Rnbase_Utility_T3General::dirname($sTargetFile);
             $ret['sName'] = basename($sTargetFile);
             $ret['sTarget'] = $sTargetFile;
@@ -382,12 +384,12 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
                 $sName = tx_mkforms_util_Div::cleanupFileName($sName);
             }
 
-            $sTarget = $sTargetDir . $sName;
+            $sTarget = $sTargetDir.$sName;
             if (!$this->oForm->_defaultFalse('/data/overwrite', $this->aElement)) {
                 // rename the file if same name already exists
-                $sExt = ((strpos($sName, '.') === false) ? '' : '.' . substr(strrchr($sName, '.'), 1));
-                for ($i = 1; file_exists($sTarget); $i++) {
-                    $sTarget = $sTargetDir . substr($sName, 0, strlen($sName) - strlen($sExt)) . '_' . $i . $sExt;
+                $sExt = ((false === strpos($sName, '.')) ? '' : '.'.substr(strrchr($sName, '.'), 1));
+                for ($i = 1; file_exists($sTarget); ++$i) {
+                    $sTarget = $sTargetDir.substr($sName, 0, strlen($sName) - strlen($sExt)).'_'.$i.$sExt;
                 }
                 $sName = basename($sTarget);
             }
@@ -398,8 +400,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         return $ret;
     }
+
     /**
-     * ALGORITHM of file management
+     * ALGORITHM of file management.
      *
             0: PAGE DISPLAY:
                 1: file has been uploaded
@@ -482,9 +485,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         return $newSize;
     }
+
     /**
      * Liefert die UID des Datensatzes, mit dem die Mediadatei verknüpft werden soll.
      * TODO: Ein Runnable setzen, damit der Wert bei Ajax-Calls gesetzt werden kann.
+     *
      * @return uid
      */
     public function getEntryId()
@@ -496,14 +501,15 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return $entryId;
         }
 
-        $entryId = (int)$this->getDataHandler()->entryId;
+        $entryId = (int) $this->getDataHandler()->entryId;
         // Im CreationMode steht die EntryID in einer anderen Variablen
-        $entryId = $entryId ? $entryId : (int)$this->getDataHandler()->newEntryId;
+        $entryId = $entryId ? $entryId : (int) $this->getDataHandler()->newEntryId;
 
         return $entryId;
     }
+
     /**
-     * Call this method after insert of main record to set references
+     * Call this method after insert of main record to set references.
      */
     public function handleCreation()
     {
@@ -521,9 +527,10 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
         $this->openUid = 0;
     }
+
     /**
             2: file has not been uploaded
-                2.1: data *are not* stored in database, as it's a creation mode not fully completed yet
+                2.1: data *are not* stored in database, as it's a creation mode not fully completed yet.
                     2.1.1: formdata is a string
                         2.1.1.1: formdata != backupdata ( value has been set by some server event with setValue )
                             2.1.1.1.1: no need to setValue as it already contains what we need
@@ -546,7 +553,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         // dann gab es aber wohl eine Sonderbehandlung
         // Für DAM ist ist aber wohl nicht relevant
 
-        if (is_string($aData) && ($this->bForcedValue === true || trim($aData) !== $sStoredData)) {
+        if (is_string($aData) && (true === $this->bForcedValue || trim($aData) !== $sStoredData)) {
             // Nothing to do here
             return;
         }
@@ -554,7 +561,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         // Hier holen wir den kompletten Record.
         $aStoredData = $this->getDataHandler()->_getStoredData();
         $cValue = $aStoredData[$this->_getName()];
-        if (($this->getDataHandler()->_edition() === false) || (!array_key_exists($this->_getName(), $aStoredData))) {
+        if ((false === $this->getDataHandler()->_edition()) || (!array_key_exists($this->_getName(), $aStoredData))) {
             // Keine Bearbeitung oder das Feld ist nicht im aktuellen Record
             $cValue = (is_array($aData) && array_key_exists('backup', $aData)) ? $aData['backup'] :
                                 (is_string($aData) ? $aData : '');
@@ -563,7 +570,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     }
 
     /**
-     * Returns the target dir
+     * Returns the target dir.
      *
      * @return string
      */
@@ -581,20 +588,21 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
     public function getTargetFile()
     {
-        if (($mTargetFile = $this->_navConf('/data/targetfile')) !== false) {
+        if (false !== ($mTargetFile = $this->_navConf('/data/targetfile'))) {
             if ($this->oForm->isRunneable($mTargetFile)) {
                 $mTargetFile = $this->getForm()->getRunnable()->callRunnableWidget($this, $mTargetFile);
             }
 
-            if (is_string($mTargetFile) && trim($mTargetFile) !== '') {
+            if (is_string($mTargetFile) && '' !== trim($mTargetFile)) {
                 return $this->oForm->toServerPath(trim($mTargetFile));
             }
         }
 
         return false;
     }
+
     /**
-     * Returns the reference table for DAM/FAL
+     * Returns the reference table for DAM/FAL.
      *
      * @return string
      */
@@ -610,7 +618,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     }
 
     /**
-     * Returns the a parameter maxobjects from the xml
+     * Returns the a parameter maxobjects from the xml.
      *
      * @return string
      */
@@ -620,8 +628,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         return (strlen($maxobjects)) ? $maxobjects : false;
     }
+
     /**
-     * Returns the reference field for DAM/FAL
+     * Returns the reference field for DAM/FAL.
      *
      * @return string
      */
@@ -631,8 +640,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         return strlen($fieldName) ? $fieldName : $this->getAbsName();
     }
+
     /**
-     * Returns the defined beuser id for DAM processing
+     * Returns the defined beuser id for DAM processing.
      *
      * @return int
      */
@@ -641,12 +651,13 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         if ($this->oForm->isRunneable(($uid = $this->_navConf('/data/beuser/')))) {
             $uid = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
         }
-        $uid = (int)$uid;
+        $uid = (int) $uid;
 
         return $uid ? $uid : 1;
     }
+
     /**
-     * allow field to contain multiple files, comma-separated value
+     * allow field to contain multiple files, comma-separated value.
      *
      * @return bool
      */
@@ -654,8 +665,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     {
         return $this->oForm->_defaultFalse('/data/multiple', $this->aElement);
     }
+
     /**
-     * Returns the form instance
+     * Returns the form instance.
      *
      * @return tx_ameosformidable
      */
@@ -665,7 +677,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     }
 
     /**
-     * Returns the current data handler
+     * Returns the current data handler.
      *
      * @return formidable_maindatahandler
      */
@@ -675,10 +687,10 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     }
 
     /**
-     * vorher die referenzen löschen da sonst die datei nicht gelöscht werden kann
+     * vorher die referenzen löschen da sonst die datei nicht gelöscht werden kann.
      *
      * @param string $sFile
-     * @param int $mediaUid
+     * @param int    $mediaUid
      */
     public function deleteFile($file, $mediaUid)
     {
@@ -686,9 +698,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $tableName = 'sys_file';
 
         // wir löschen die Datei nur wenn keine Refrenzen mehr vorhanden sind
-        if ($refCount === 0) {
+        if (0 === $refCount) {
             @unlink($this->getFullServerPath($file));
-            tx_rnbase_util_DB::doDelete($tableName, 'uid = ' . $mediaUid);
+            tx_rnbase_util_DB::doDelete($tableName, 'uid = '.$mediaUid);
         }
     }
 
@@ -709,6 +721,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         return tx_rnbase_util_TSFAL::getImageCount($tableName, $fieldName, $itemId);
     }
+
     /**
      * Removes DAM/FAL references. If no parameter is given, all references will be removed.
      *
@@ -721,8 +734,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $itemId = $this->getEntryId();
         tx_rnbase_util_TSFAL::deleteReferences($tableName, $fieldName, $itemId);
     }
+
     /**
-     * Returns all referenced media of current field
+     * Returns all referenced media of current field.
      *
      * @return array keys: files and rows
      */
@@ -737,6 +751,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         return tx_rnbase_util_TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
     }
+
     /**
      * DAM functionality requires a working BE. This method initializes all necessary stuff.
      */
@@ -758,9 +773,6 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             }
             unset($BE_USER);
             $BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());
-            if (property_exists($BE_USER, 'OS')) {
-                $BE_USER->OS = TYPO3_OS;
-            }
             $BE_USER->setBeUserByUid($beUserId);
             $BE_USER->fetchGroupData();
             $BE_USER->backendSetUC();
@@ -771,7 +783,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         if (!$GLOBALS['LANG']) {
             // Bei Ajax-Calls fehlt das Objekt
-            require_once(tx_rnbase_util_Extensions::extPath('lang').'lang.php');
+            require_once tx_rnbase_util_Extensions::extPath('lang').'lang.php';
             $GLOBALS['LANG'] = tx_rnbase::makeInstance('language');
             $GLOBALS['LANG']->init($BE_USER->uc['lang']);
         }
@@ -787,21 +799,20 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return;
         }
 
-
         $oJsLoader = $this->getForm()->getJSLoader();
         // JS-Lib ermitteln
         $dir = $oJsLoader->getJSFrameworkId();
-        $sFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . $this->sExtRelPath . 'res/js/'.$dir.'/ajaxfileupload.js';
+        $sFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/js/'.$dir.'/ajaxfileupload.js';
 
         $oJsLoader->additionalHeaderData(
-            '<script type="text/javascript" src="' . $oJsLoader->getScriptPath($sFile) . '"></script>',
+            '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($sFile).'"></script>',
             'mkforms_mediaupload_includeonce'
         );
     }
 
-
     /**
-     * Liefert den Namen der JS-Klasse des Widgets
+     * Liefert den Namen der JS-Klasse des Widgets.
+     *
      * @return string
      */
     protected function getMajixClass()
@@ -811,6 +822,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
     /**
      * Liefert die JS-Dateien, die für ein Widget eingebunden werden sollen.
+     *
      * @return array
      */
     protected function getJSLibs()
@@ -821,8 +833,10 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         return array();
     }
+
     /**
      * Im Ajax-Upload muss das Widget in einen postInit-Task initialisiert werden.
+     *
      * @see api/formidable_mainrenderlet#includeScripts($aConfig)
      */
     public function includeScripts($aConf = array())
@@ -845,7 +859,6 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
         $button = $button ? $button->_getElementHtmlId() : '';
 
-
         $sAbsName = $this->_getElementHtmlIdWithoutFormId();
 
         $sInitScript = <<<INITSCRIPT
@@ -854,7 +867,6 @@ INITSCRIPT;
 
         $this->getForm()->attachPostInitTask($sInitScript, 'postinit Ajax upload initialization', $this->_getElementHtmlId());
     }
-
 
     private function createUploadUrl()
     {
@@ -865,8 +877,8 @@ INITSCRIPT;
         $sSafeLock = $this->_getSessionDataHashKey();
         $sUploadUrl = tx_mkforms_util_Div::removeEndingSlash(
             Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')
-        ) .
-            '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object=' . $sObject . '&servicekey=' . $sServiceKey . '&formid=' . $sFormId . '&safelock=' . $sSafeLock . '&thrower=' . $sThrower;
+        ).
+            '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         tx_mkforms_session_Factory::getSessionManager()->initialize();
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
@@ -913,7 +925,7 @@ INITSCRIPT;
             }
         }
 
-        if (is_array($myData) && $myData['error'] == 0) {
+        if (is_array($myData) && 0 == $myData['error']) {
             // a file has just been uploaded
             $newSize = $this->handleUpload($myData);
         }
@@ -924,11 +936,13 @@ INITSCRIPT;
                 'databag' => '{}',
                 'method' => 'doNothing',
                 'object' => $this->getAbsName(),
-            )
+            ),
         );
     }
+
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see formidable_mainrenderlet::isSaveable()
      */
     public function isSaveable()

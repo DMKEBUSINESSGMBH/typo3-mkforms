@@ -22,34 +22,33 @@ class formidable_mainobject
     public $sNamePrefix = false;
 
     /**
-     *
      * @param tx_mkforms_forms_Base $oForm
-     * @param array $aElement
-     * @param array $aObjectType
-     * @param string $sXPath
-     * @param string $sNamePrefix
+     * @param array                 $aElement
+     * @param array                 $aObjectType
+     * @param string                $sXPath
+     * @param string                $sNamePrefix
      */
     public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
     {
-        $this->oForm =& $oForm;
+        $this->oForm = &$oForm;
         $this->aElement = $aElement;
         $this->aObjectType = $aObjectType;
 
         $this->sExtPath = $aObjectType['PATH'];
         $this->sExtRelPath = $aObjectType['RELPATH'];
         $absRefPrefix = $oForm->getJSLoader()->getAbsRefPrefix();
-        $this->sExtWebPath = $absRefPrefix . $this->sExtRelPath;
+        $this->sExtWebPath = $absRefPrefix.$this->sExtRelPath;
 
         $this->sXPath = $sXPath;
 
         $this->sNamePrefix = $sNamePrefix;
 
-        $this->conf = $this->getForm()->getConfTS($aObjectType['OBJECT'] . '.' . $aObjectType['EXTKEY'] . '.');
+        $this->conf = $this->getForm()->getConfTS($aObjectType['OBJECT'].'.'.$aObjectType['EXTKEY'].'.');
         $this->conf = $this->conf ? $this->conf : array();
     }
 
     /**
-     * Returns the form
+     * Returns the form.
      *
      * @return tx_ameosformidable
      */
@@ -64,15 +63,16 @@ class formidable_mainobject
     }
 
     /**
-     *
      * @param string $path
      * @param string $aConf
+     *
      * @return unknown
+     *
      * @deprecated use getConfigValue
      */
     public function _navConf($path, $aConf = false)
     {
-        if ($aConf !== false) {
+        if (false !== $aConf) {
             return $this->getForm()->_navConf($path, $aConf);
         }
 
@@ -80,7 +80,8 @@ class formidable_mainobject
     }
 
     /**
-     * Read value from objects form definition
+     * Read value from objects form definition.
+     *
      * @param string $path
      */
     protected function getConfigValue($path)
@@ -104,7 +105,7 @@ class formidable_mainobject
     {
         $mValue = $this->getConfigValue($sPath);
 
-        if ($mValue !== false) {
+        if (false !== $mValue) {
             return $this->_isFalseVal($mValue);
         } else {
             return false;    // if not found in conf, the searched value is not FALSE, so _isFalse() returns FALSE !!!!
@@ -112,8 +113,8 @@ class formidable_mainobject
     }
 
     /**
-     *
      * @param string $sPath
+     *
      * @return bool
      */
     public function isFalse($sPath)
@@ -125,7 +126,7 @@ class formidable_mainobject
     {
         $mVal = $this->callRunneable($mVal);
 
-        return (($mVal === true) || ($mVal == '1') || (strtoupper($mVal) == 'TRUE'));
+        return (true === $mVal) || ('1' == $mVal) || ('TRUE' == strtoupper($mVal));
     }
 
     public function isTrueVal($mVal)
@@ -139,7 +140,7 @@ class formidable_mainobject
             $mVal = $this->callRunneable($mVal);
         }
 
-        return (($mVal == false) || (strtoupper($mVal) == 'FALSE'));
+        return (false == $mVal) || ('FALSE' == strtoupper($mVal));
     }
 
     public function isFalseVal($mVal)
@@ -149,7 +150,7 @@ class formidable_mainobject
 
     public function _defaultTrue($sPath, $aConf = false)
     {
-        if ($this->_navConf($sPath, $aConf) !== false) {
+        if (false !== $this->_navConf($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return true;    // TRUE as a default
@@ -158,7 +159,7 @@ class formidable_mainobject
 
     public function _defaultFalse($sPath, $aConf = false)
     {
-        if ($this->_navConf($sPath, $aConf) !== false) {
+        if (false !== $this->_navConf($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return false;    // FALSE as a default
@@ -166,7 +167,7 @@ class formidable_mainobject
     }
 
     /**
-     * alias for _defaultTrue()
+     * alias for _defaultTrue().
      */
     public function defaultTrue($sPath, $aConf = false)
     {
@@ -174,7 +175,7 @@ class formidable_mainobject
     }
 
     /**
-     * alias for _defaultFalse()
+     * alias for _defaultFalse().
      */
     public function defaultFalse($sPath, $aConf = false)
     {
@@ -183,8 +184,8 @@ class formidable_mainobject
 
     public function _defaultTrueMixed($sPath)
     {
-        if (($mMixed = $this->_navConf($sPath)) !== false) {
-            if (strtoupper($mMixed) !== 'TRUE' && strtoupper($mMixed) !== 'FALSE') {
+        if (false !== ($mMixed = $this->_navConf($sPath))) {
+            if ('TRUE' !== strtoupper($mMixed) && 'FALSE' !== strtoupper($mMixed)) {
                 return $mMixed;
             }
 
@@ -201,8 +202,8 @@ class formidable_mainobject
 
     public function _defaultFalseMixed($sPath)
     {
-        if (($mMixed = $this->_navConf($sPath)) !== false) {
-            if (strtoupper($mMixed) !== 'TRUE' && strtoupper($mMixed) !== 'FALSE') {
+        if (false !== ($mMixed = $this->_navConf($sPath))) {
+            if ('TRUE' !== strtoupper($mMixed) && 'FALSE' !== strtoupper($mMixed)) {
                 return $mMixed;
             }
 
@@ -234,7 +235,7 @@ class formidable_mainobject
 
     public function awakeInSession(&$oForm)
     {
-        $this->oForm =& $oForm;
+        $this->oForm = &$oForm;
     }
 
     public function setParent(&$oParent)
@@ -245,13 +246,13 @@ class formidable_mainobject
     /**
      *  TODO: Diese Methode entfernen
      * Alternativer Aufruf:
-     * return $this->getForm()->getRunnable()->callRunnable($mMixed, $this);
+     * return $this->getForm()->getRunnable()->callRunnable($mMixed, $this);.
      */
     public function &callRunneable($mMixed)
     {
         $aArgs = func_get_args();
         if ($this->getForm()->getRunnable()->isUserObj($mMixed)) {
-            $aArgs[] =& $this;
+            $aArgs[] = &$this;
         }
         $ref = $this->getForm()->getRunnable();
         $mRes = call_user_func_array(array($ref, 'callRunnable'), $aArgs);
@@ -266,5 +267,5 @@ class formidable_mainobject
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.mainobject.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.mainobject.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/api/class.mainobject.php'];
 }

@@ -22,31 +22,24 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
  * Datahandler um anhand von den Formulardaten E-Mails zu versenden.
  *
- * @package TYPO3
- * @subpackage tx_mkmailer
  * @author Michael Wagner
  * @license http://www.gnu.org/licenses/lgpl.html
  *          GNU Lesser General Public License, version 3 or later
  */
 class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 {
-
     /**
      * Nimmt die Formulardaten und generiert daraus eine E-Mail.
      *
      * @param bool $bShouldProcess
      *
      * @TODO: die einzelnen engines sollten ausgelagert werden!
-     *
-     * @return void
      */
     public function _doTheMagic($bShouldProcess = true)
     {
-
         // Nur, wenn das Formular abgesendet wurde
         if (!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())) {
             return;
@@ -93,7 +86,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         foreach ($data as $field => $value) {
             if (is_array($value)) {
                 foreach ($this->getFlattenFormData($value) as $subField => $subValue) {
-                    $flatten[$field . '_' . $subField] = $subValue;
+                    $flatten[$field.'_'.$subField] = $subValue;
                 }
             } else {
                 $flatten[$field] = $value;
@@ -104,21 +97,21 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     }
 
     /**
-     * Returns the engine callback to use
+     * Returns the engine callback to use.
      *
      * @return mixed Callable
      */
     private function findEngine()
     {
         $engine = $this->_navConf('/engine');
-        $method = 'send' . ucfirst($engine);
+        $method = 'send'.ucfirst($engine);
         if (method_exists($this, $method)) {
             return array($this, $method);
         } else {
             $this->getForm()->mayday(
-                'Invalid engine "' . $engine . '" configured.' .
-                ' Valid engines are mkmailer.' .
-                ' Excample: ' . htmlentities(
+                'Invalid engine "'.$engine.'" configured.'.
+                ' Valid engines are mkmailer.'.
+                ' Excample: '.htmlentities(
                     '<datahandler:MAIL engine="mkmailer" />'
                 )
             );
@@ -154,11 +147,10 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     {
         $mail = $this->_navConf('/mailto');
 
-
         if (!$mail) {
             $this->getForm()->mayday(
-                'No mail to defined.' .
-                ' Excample: ' . htmlentities(
+                'No mail to defined.'.
+                ' Excample: '.htmlentities(
                     '<datahandler:MAIL mailTo="electronic@mail.net" />'
                 )
             );
@@ -168,7 +160,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     }
 
     /**
-     * Liefert die konfigurierte Absenderadresse
+     * Liefert die konfigurierte Absenderadresse.
      *
      * @return string
      */
@@ -186,7 +178,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     }
 
     /**
-     * Liefert die konfigurierte Absendername
+     * Liefert die konfigurierte Absendername.
      *
      * @return string
      */
@@ -224,8 +216,8 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
             $template = $this->_navConf('/mkmailer/templatekey');
             if ($template) {
                 Tx_Rnbase_Utility_T3General::deprecationLog(
-                    'MKFORMS (' . $this->getForm()->_xmlPath . '):' .
-                    ' config key "/mkmailer/templatekey" is deprecated,' .
+                    'MKFORMS ('.$this->getForm()->_xmlPath.'):'.
+                    ' config key "/mkmailer/templatekey" is deprecated,'.
                     ' use "/mkmailer/template/key" instead.'
                 );
             }
@@ -233,12 +225,12 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         if (!$template) {
             // check for direct content, instead of a template key.
             $this->getForm()->mayday(
-                'No template key defined.' .
-                ' Excample: ' . LF . htmlentities(
-                    '<datahandler:MAIL engine="mkmailer">' . LF .
-                    '    <mkmailer>' . LF .
-                    '        <template key="general-contact" />' . LF .
-                    '    </mkmailer>' . LF .
+                'No template key defined.'.
+                ' Excample: '.LF.htmlentities(
+                    '<datahandler:MAIL engine="mkmailer">'.LF.
+                    '    <mkmailer>'.LF.
+                    '        <template key="general-contact" />'.LF.
+                    '    </mkmailer>'.LF.
                     '</datahandler:MAIL>'
                 )
             );
@@ -253,7 +245,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     }
 
     /**
-     * Builds a teplate object by xml config
+     * Builds a teplate object by xml config.
      *
      * @return tx_mkmailer_models_Template
      */
@@ -266,7 +258,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 
         // set the contents
         foreach (array('subject', 'contenttext', 'contenthtml') as $key) {
-            $content = $this->_navConf('/mkmailer/template/' . $key);
+            $content = $this->_navConf('/mkmailer/template/'.$key);
             if (is_array($content)) {
                 $content = tx_rnbase_util_Templates::getSubpartFromFile(
                     $content['file'],
@@ -298,11 +290,9 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     }
 
     /**
-     * Sends a mail via mkmailer
+     * Sends a mail via mkmailer.
      *
      * @param Tx_Rnbase_Domain_Model_DataInterface $model
-     *
-     * @return void
      */
     protected function sendMkmailer(
         Tx_Rnbase_Domain_Model_DataInterface $model
@@ -349,7 +339,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
                 'templateObj' => $templateObj,
                 'model' => $model,
                 'receiver' => $receiver,
-                'form' => $this->getForm()
+                'form' => $this->getForm(),
             ),
             $this
         );
@@ -371,12 +361,10 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     }
 
     /**
-     * Parses the content of the mail
+     * Parses the content of the mail.
      *
-     * @param object $content With setter for subject contenttext, contenthtml
+     * @param object                               $content With setter for subject contenttext, contenthtml
      * @param Tx_Rnbase_Domain_Model_DataInterface $model
-     *
-     * @return void
      */
     protected function parseMail(
         $content,
@@ -399,18 +387,18 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
                 $this->parseContent(
                     $content->getProperty($key),
                     $model,
-                    $key . '.'
+                    $key.'.'
                 )
             );
         }
     }
 
     /**
-     * Parses the data into the content
+     * Parses the data into the content.
      *
-     * @param string $content
+     * @param string                               $content
      * @param Tx_Rnbase_Domain_Model_DataInterface $model
-     * @param string $fieldId
+     * @param string                               $fieldId
      *
      * @return string
      */
@@ -428,14 +416,14 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 
         $confId = $this->_navConf('/mkmailer/markerconfid');
         if (empty($confId)) {
-            $confId = $this->getForm()->getConfId() . 'sendmail.' . strtolower($itemName) . '.';
+            $confId = $this->getForm()->getConfId().'sendmail.'.strtolower($itemName).'.';
         }
 
         $content = $markerClass->parseTemplate(
             $content,
             $model,
             $formatter,
-            $confId . $fieldId,
+            $confId.$fieldId,
             strtoupper($itemName)
         );
 
@@ -446,5 +434,5 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php'];
 }

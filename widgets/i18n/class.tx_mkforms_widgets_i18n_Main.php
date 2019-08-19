@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
 {
     public $aOButtons = array();
@@ -13,7 +11,7 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
     public function _render()
     {
         if (!$this->oForm->oDataHandler->i18n()) {
-            $this->oForm->mayday("renderlet:I18N <b>'" . $this->_getName() . "'</b>: Datahandler has to declare <b>/i18n/use=true</b> for renderlet:I18N to work");
+            $this->oForm->mayday("renderlet:I18N <b>'".$this->_getName()."'</b>: Datahandler has to declare <b>/i18n/use=true</b> for renderlet:I18N to work");
         }
 
         $aHtmlBag = array();
@@ -33,7 +31,7 @@ class tx_mkforms_widgets_i18n_Main extends formidable_mainrenderlet
 
             foreach ($aLangs as $iLangUid => $aLang) {
                 if ($iLangUid != $this->oForm->oDataHandler->i18n_getDefLangUid()) {
-                    if (tx_mkforms_util_Div::getEnvExecMode() !== 'BE' || $GLOBALS['BE_USER']->checkLanguageAccess($iLangUid)) {
+                    if ('BE' !== tx_mkforms_util_Div::getEnvExecMode() || $GLOBALS['BE_USER']->checkLanguageAccess($iLangUid)) {
                         if (in_array($iLangUid, $aChildLanguages)) {
                             $bExists = true;
                             $sEvent = <<<EVENT
@@ -61,36 +59,35 @@ EVENT;
 
                         $aConf = array(
                             'type' => 'BUTTON',
-                            'label' => $aLang['title'] . ($bExists ? '' : ' [NEW]'),
+                            'label' => $aLang['title'].($bExists ? '' : ' [NEW]'),
                             'onclick-default' => array(
                                 'runat' => 'client',
                                 'userobj' => array(
                                     'php' => $sEvent,
-                                )
-                            )
+                                ),
+                            ),
                         );
 
-                        if (($aCustomConf = $this->_navConf('/stdbutton')) !== false) {
+                        if (false !== ($aCustomConf = $this->_navConf('/stdbutton'))) {
                             $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                                 $aConf,
                                 $aCustomConf
                             );
                         }
 
-                        $sName = $this->_getName() . '-record-' . $iUid . '-lang-' . $iLangUid;
+                        $sName = $this->_getName().'-record-'.$iUid.'-lang-'.$iLangUid;
                         $aConf['name'] = $sName;
 
                         $this->aOButtons[$sName] = $this->oForm->_makeRenderlet(
                             $aConf,
-                            $this->sXPath . $sName. '/',
+                            $this->sXPath.$sName.'/',
                             false,
                             $this,
                             false,
                             false
                         );
 
-                        $this->oForm->aORenderlets[$sName] =& $this->aOButtons[$sName];
-
+                        $this->oForm->aORenderlets[$sName] = &$this->aOButtons[$sName];
 
                         $iIndex = $this->oForm->getRunnable()->pushForcedUserObjParam(
                             array(
@@ -118,7 +115,7 @@ EVENT;
 
     public function _getFlag($sPath, $bExists, $aLang)
     {
-        if (($aFlags = $this->_navConf('/flags')) !== false) {
+        if (false !== ($aFlags = $this->_navConf('/flags'))) {
             $aDefinition = false;
 
             foreach ($aFlags as $aFlag) {
@@ -128,8 +125,8 @@ EVENT;
                 }
             }
 
-            if ($aDefinition !== false) {
-                if ($bExists === true) {
+            if (false !== $aDefinition) {
+                if (true === $bExists) {
                     $aDefinition = $aDefinition['exists'];
                 } else {
                     $aDefinition = $aDefinition['dontexist'];
@@ -144,7 +141,7 @@ EVENT;
 
                     return array(
                         'type' => 'image',
-                        'value' => $this->oForm->toWebPath($aDefinition['path'])
+                        'value' => $this->oForm->toWebPath($aDefinition['path']),
                     );
                 } elseif (array_key_exists('label', $aDefinition)) {
                     // on renvoie le label
@@ -155,7 +152,7 @@ EVENT;
 
                     return array(
                         'type' => 'text',
-                        'value' => $this->oForm->getConfigXML()->getLLLabel($aDefinition['label'])
+                        'value' => $this->oForm->getConfigXML()->getLLLabel($aDefinition['label']),
                     );
                 } else {
                     /* on renvoie le flag par defaut */
@@ -165,7 +162,7 @@ EVENT;
             }
         }
 
-        if ($bExists === true) {
+        if (true === $bExists) {
             $sTypoScript = <<<TYPOSCRIPT
 
     file = GIFBUILDER
@@ -198,8 +195,8 @@ TYPOSCRIPT;
             $this,
             array(
                 'userobj' => array(
-                    'ts' => $sTypoScript
-                )
+                    'ts' => $sTypoScript,
+                ),
             )
         );
 
@@ -210,7 +207,7 @@ TYPOSCRIPT;
                     'IMG_RESOURCE',
                     $this->oForm->aLastTs
                 )
-            )
+            ),
         );
     }
 
@@ -237,7 +234,6 @@ TYPOSCRIPT;
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_i18n/api/class.tx_rdti18n.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_i18n/api/class.tx_rdti18n.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_i18n/api/class.tx_rdti18n.php'];
 }

@@ -4,13 +4,13 @@
  *
  * @author  Luc Muller <typo3dev@ameos.com>
  */
-
 class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 {
     public $oFileFunc = null; //object for basics file function
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPdoc).
+     *
      * @see formidable_mainvalidator::validate()
      */
     public function validate(&$oRdt)
@@ -26,24 +26,24 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 
         $this->oFileFunc = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
 
-        if ($oRdt->_getType() === 'FILE') {    // renderlet:FILE
+        if ('FILE' === $oRdt->_getType()) {    // renderlet:FILE
             $sFileName = strtolower($this->oFileFunc->cleanFileName($sFileName));
-        } elseif ($oRdt->_getType() === 'UPLOAD') {
+        } elseif ('UPLOAD' === $oRdt->_getType()) {
             // managing multiple, if set
 
-            if ($sFileName !== '') {
+            if ('' !== $sFileName) {
                 if ($oRdt->isMultiple()) {
                     $aFileList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sFileName);
                     $sFileName = array_pop($aFileList);    // last one, and remove from list; will be added later if valid
                 }
             }
-        } elseif ($oRdt->_getType() === 'MEDIAUPLOAD' && tx_rnbase_util_Math::isInteger($sFileName)) {
+        } elseif ('MEDIAUPLOAD' === $oRdt->_getType() && tx_rnbase_util_Math::isInteger($sFileName)) {
             // Wenn das Upload-Widget einen Integer liefert, dann ist das nur die Anzahl der Referenzen
             // In dem Fall hat kein Upload stattgefunden. Es gibt also nichts zu validieren.
             $sFileName = '';
         }
 
-        if ($sFileName === '') {
+        if ('' === $sFileName) {
             // never evaluate if value is empty
             // as this is left to STANDARD:required
             return '';
@@ -63,8 +63,8 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ($sKey{0} === 'e' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'extension')) {
-                $sFileExts = $this->_navConf('/' . $sKey . '/value');
+            if ('e' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'extension')) {
+                $sFileExts = $this->_navConf('/'.$sKey.'/value');
                 if ($this->oForm->isRunneable($sFileExts)) {
                     $sFileExts = $this->callRunneable($sFileExts);
                 }
@@ -78,7 +78,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:extension',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
                     );
 
                     $bError = true;
@@ -86,20 +86,16 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                 }
             }
 
-
-
-
-
             /***********************************************************************
             *
             *	/filesize
             *
             ***********************************************************************/
 
-            if ($sKey{0} === 'f' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesize') &&
+            if ('f' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesize') &&
                     Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizekb') &&
                     Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
-                $mSize = $this->_navConf('/' . $sKey . '/value');
+                $mSize = $this->_navConf('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
                     $mSize = $this->callRunneable($mSize);
@@ -109,7 +105,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:filesize',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
                     );
 
                     $bError = true;
@@ -117,17 +113,14 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                 }
             }
 
-
-
-
             /***********************************************************************
             *
             *	/filesizekb
             *
             ***********************************************************************/
 
-            if ($sKey{0} === 'f' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizekb')) {
-                $mSize = $this->_navConf('/' . $sKey . '/value');
+            if ('f' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizekb')) {
+                $mSize = $this->_navConf('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
                     $mSize = $this->callRunneable($mSize);
@@ -137,7 +130,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:filesizekb',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
                     );
 
                     $bError = true;
@@ -145,17 +138,14 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                 }
             }
 
-
-
-
             /***********************************************************************
             *
             *	/filesizemb
             *
             ***********************************************************************/
 
-            if ($sKey{0} === 'f' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
-                $mSize = $this->_navConf('/' . $sKey . '/value');
+            if ('f' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
+                $mSize = $this->_navConf('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
                     $mSize = $this->callRunneable($mSize);
@@ -165,7 +155,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:filesizemb',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/' . $sKey . '/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
                     );
 
                     $bError = true;
@@ -174,7 +164,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             }
         }
 
-        if ($bError === true && $oRdt->_getType() === 'UPLOAD') {
+        if (true === $bError && 'UPLOAD' === $oRdt->_getType()) {
             if ($oRdt->isMultiple()) {
                 // current filenamehas been remove from aFileList by previous array_pop
                 $oRdt->setValue(implode(', ', $aFileList));
@@ -229,28 +219,27 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
     {
         if (!empty($sFileName)) {
             if (is_array($sFileName)) {
-                if ($sFileName['error'] == UPLOAD_ERR_INI_SIZE || $sFileName['error'] == UPLOAD_ERR_FORM_SIZE) {
+                if (UPLOAD_ERR_INI_SIZE == $sFileName['error'] || UPLOAD_ERR_FORM_SIZE == $sFileName['error']) {
                     return false;
                 }
                 $sFullPath = $sFileName['tmp_name'];
-                $iSize = (int)$sFileName['size'];
+                $iSize = (int) $sFileName['size'];
             } else {
                 $sFullPath = $this->_getFullServerPath($sAbsName, $sFileName);
-                $iSize = (int)@filesize($sFullPath);
+                $iSize = (int) @filesize($sFullPath);
             }
 
             switch ($sType) {
-                case 'kilobyte': {
+                case 'kilobyte':
                     $iMaxFileSize = $iMaxFileSize * 1024;
                     break;
-                }
-                case 'megabyte': {
+
+                case 'megabyte':
                     $iMaxFileSize = $iMaxFileSize * 1024 * 1024;
                     break;
-                }
             }
 
-            if ($iSize <= (int)$iMaxFileSize) {
+            if ($iSize <= (int) $iMaxFileSize) {
                 return true;
             } else {
                 $this->_unlink($sFullPath);
@@ -273,7 +262,6 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/file/class.tx_mkforms_validator_file_Main.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/file/class.tx_mkforms_validator_file_Main.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/validator/file/class.tx_mkforms_validator_file_Main.php'];
 }

@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_util
  * @author Michael Wagner
  *
  *  Copyright notice
@@ -29,16 +27,12 @@
 /**
  * Some static util functions.
  *
- * @package tx_mkforms
- * @subpackage tx_mkforms_util
  * @author Michael Wagner
  */
 class tx_mkforms_util_FormFill
 {
-
-
     /**
-     * Bestimmte Datensätze aus der DB auslesen und diese für Renderlets aufbereitet zurückgeben
+     * Bestimmte Datensätze aus der DB auslesen und diese für Renderlets aufbereitet zurückgeben.
      *
      * Expected parameters in $params:
      * * 'table':           Mandatory:  String or array of tables with keys 'from' (complete from-clause including aliases etc.), 'tablename' (name of first table) and (optionally) 'alias' (alias of first table)
@@ -63,9 +57,11 @@ class tx_mkforms_util_FormFill
      *      <param name="debug" value="1" />
      *  </params
      *
-     * @param array $params
+     * @param array                 $params
      * @param tx_mkforms_forms_Base $form
+     *
      * @todo    Eigene Exceptions nutzen (nicht von mklib)
+     *
      * @return array
      */
     public function getItemsFromDb(array $params, tx_mkforms_forms_Base $form)
@@ -78,11 +74,13 @@ class tx_mkforms_util_FormFill
     }
 
     /**
-     * Bestimmte Datensätze aus der DB auslesen
+     * Bestimmte Datensätze aus der DB auslesen.
      *
-     * @param array $params
+     * @param array                 $params
      * @param tx_mkforms_forms_Base $form
+     *
      * @todo Eigene Exceptions nutzen (nicht von mklib)
+     *
      * @return array
      */
     public function getRowsFromDataBase(array $params, tx_mkforms_forms_Base $form)
@@ -115,8 +113,8 @@ class tx_mkforms_util_FormFill
                     $params['options']['where'] = '';
                 }
 
-                $params['options']['where'] .= $params['dependsOn']['dbfield'] . '=' .
-                $GLOBALS['TYPO3_DB']->fullQuoteStr($val, $tab);
+                $params['options']['where'] .= $params['dependsOn']['dbfield'].'='.
+                Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($val, $tab);
             }
         }
 
@@ -124,7 +122,7 @@ class tx_mkforms_util_FormFill
             $table = array(
                 $params['table']['from'],
                 $params['table']['tablename'],
-                isset($params['table']['alias']) ? $params['table']['alias'] : null
+                isset($params['table']['alias']) ? $params['table']['alias'] : null,
             );
         } else {
             $table = $params['table'];
@@ -135,7 +133,7 @@ class tx_mkforms_util_FormFill
             || (!empty($params['dependsOn']) && !empty($val))
         ) {
             $rows = tx_rnbase_util_DB::doSelect(
-                $params['valueField'].' as __value__,'.$params['captionField'] . ' as __caption__',
+                $params['valueField'].' as __value__,'.$params['captionField'].' as __caption__',
                 $table,
                 isset($params['options']) ? $params['options'] : array(),
                 isset($params['debug']) ? $params['debug'] : null
@@ -145,9 +143,8 @@ class tx_mkforms_util_FormFill
         return $rows;
     }
 
-
     /**
-     * Get countries from database
+     * Get countries from database.
      *
      * config parameters:
      * * caption_field the column, used as title.
@@ -170,8 +167,9 @@ class tx_mkforms_util_FormFill
      *         </params>
      *     </userobj>
      *
-     * @param array $params
+     * @param array                 $params
      * @param tx_mkforms_forms_Base $form
+     *
      * @return array
      */
     public function getStaticCountries($params, tx_mkforms_forms_Base $form)
@@ -188,10 +186,10 @@ class tx_mkforms_util_FormFill
             'valueField' => 'uid',
             'captionField' => $captionField,
             'options' => array(
-                'where' => 'pid = 0 AND ' . $captionField . ' != \'\'',
+                'where' => 'pid = 0 AND '.$captionField.' != \'\'',
                 'orderby' => (
                     $config->hasOrderBy() ? $config->getOrderBy() : $captionField.' ASC'
-                )
+                ),
             ),
         );
 
@@ -226,5 +224,5 @@ class tx_mkforms_util_FormFill
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBase.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBase.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_util_FormBase.php'];
 }

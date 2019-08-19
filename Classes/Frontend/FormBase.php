@@ -1,4 +1,5 @@
 <?php
+
 namespace DMK\MkForms\Frontend;
 
 use Sys25\RnBase\Frontend\Controller\AbstractAction;
@@ -6,8 +7,6 @@ use Sys25\RnBase\Frontend\Request\RequestInterface;
 use Sys25\RnBase\Configuration\ConfigurationInterface;
 
 /**
- * @package    tx_mkforms
- * @subpackage tx_mkforms_action
  * @author     Michael Wagner
  *
  *  Copyright notice
@@ -33,26 +32,23 @@ use Sys25\RnBase\Configuration\ConfigurationInterface;
  */
 
 /**
- * Generic form action base class
+ * Generic form action base class.
  *
  * With the optional $parameter['uid'] the form is initialized.
  *
- * @package    tx_mkforms
- * @subpackage tx_mkforms_action
  * @author     Michael Wagner
  */
 class FormBase extends AbstractAction
 {
-
     /**
-     * Form data
+     * Form data.
      *
      * @var array
      */
     protected $filledForm = false;
 
     /**
-     * Form data
+     * Form data.
      *
      * @var array
      */
@@ -65,7 +61,7 @@ class FormBase extends AbstractAction
 
     /**
      * Soll der Name des Templates als Name des Prefill Parameters genommen werden? Wenn nicht
-     * per default 'uid'
+     * per default 'uid'.
      *
      * @var bool
      */
@@ -74,7 +70,7 @@ class FormBase extends AbstractAction
     /**
      * Enthält Fehlermeldungen (zurzeit vom configCheck).
      * Diese werden im FE immer mit ausgegeben.
-     *    (@TODO: ausgabe konfigurierbar machen!)
+     *    (@TODO: ausgabe konfigurierbar machen!).
      *
      * @var array
      */
@@ -87,7 +83,7 @@ class FormBase extends AbstractAction
      *
      * @param RequestInterface $request
      *
-     * @return    string
+     * @return string
      */
     protected function handleRequest(RequestInterface $request)
     {
@@ -104,7 +100,7 @@ class FormBase extends AbstractAction
 
         // befinden wir uns in einem Test? vor allem notwendig wenn
         // extbase installiert ist
-        if ($configurations->get($confId . 'testmode')) {
+        if ($configurations->get($confId.'testmode')) {
             $this->form->setTestMode();
         }
 
@@ -113,9 +109,8 @@ class FormBase extends AbstractAction
             $this->getXmlPath($configurations, $confId),
             $this->getPrefillUid($request),
             $configurations,
-            $confId . 'formconfig.'
+            $confId.'formconfig.'
         );
-
 
         $request->getViewContext()->offsetSet('form', $this->form->render());
         $request->getViewContext()->offsetSet('fullySubmitted', $this->form->isFullySubmitted());
@@ -136,14 +131,12 @@ class FormBase extends AbstractAction
 
     /**
      * Gibt es einen Redirect? Bei Bedarf kann diese Methode
-     * in einem eigenen View überschrieben werden
+     * in einem eigenen View überschrieben werden.
      *
-     * @param array $params
+     * @param array                   $params
      * @param \tx_mkforms_forms_IForm $form
-     * @param ConfigurationInterface $configurations
-     * @param string $confId
-     *
-     * @return  void
+     * @param ConfigurationInterface  $configurations
+     * @param string                  $confId
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)
     protected function handleRedirect($params, \tx_mkforms_forms_IForm $form, ConfigurationInterface $configurations, $confId)
@@ -156,8 +149,8 @@ class FormBase extends AbstractAction
             && !$this->form->hasValidationErrors()
             // and redirect configured
             && (
-                $configurations->getBool($confId . 'redirect') ||
-                $configurations->get($confId . 'redirect.pid')
+                $configurations->getBool($confId.'redirect') ||
+                $configurations->get($confId.'redirect.pid')
                 )
         )) {
             // Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
@@ -172,31 +165,29 @@ class FormBase extends AbstractAction
         }
     }
 
-
     /**
-     * Gibt den Pfad zum XML zurück
+     * Gibt den Pfad zum XML zurück.
      *
-     * @param    \tx_rnbase_configurations $configurations
-     * @param    string                   $confId
+     * @param \tx_rnbase_configurations $configurations
+     * @param string                    $confId
      *
      * @return string
      */
     protected function getXmlPath($configurations, $confId)
     {
-        return $configurations->get($confId . 'xml');
+        return $configurations->get($confId.'xml');
     }
 
     /**
-     * Wir prüfen die Konfiguration
+     * Wir prüfen die Konfiguration.
      *
-     * @param    \tx_rnbase_configurations $configurations
-     * @param    string                   $confId
+     * @param \tx_rnbase_configurations $configurations
+     * @param string                    $confId
      *
-     * @return    array
+     * @return array
      */
     protected function configCheck($configurations, $confId)
     {
-
         // wir prüfen die configuration wenn configCheck nicht gesetzt oder wahr ist.
         if (!(is_null($configCheck = $configurations->get('configCheck')) || $configCheck)) {
             return false;
@@ -204,31 +195,31 @@ class FormBase extends AbstractAction
 
         if (!empty($this->errors)) {
             return '<div style="border:2px solid red; padding:10px; margin: 10px 0; color:red; background: wheat;">'
-            . '<h1>MKFORMS - ACTION - FORMBASE</h1>' . '<p>incomplete typoscript configuration found for "' . $confId . '"</p>'
-            . '<ul><li>' . implode('</li><li>', $this->errors) . '</li><ul>' . '</div>';
+            .'<h1>MKFORMS - ACTION - FORMBASE</h1>'.'<p>incomplete typoscript configuration found for "'.$confId.'"</p>'
+            .'<ul><li>'.implode('</li><li>', $this->errors).'</li><ul>'.'</div>';
         }
 
         // wurde ein xml gesetzt
-        $xmlPath = $configurations->get($confId . 'xml');
+        $xmlPath = $configurations->get($confId.'xml');
         if (empty($xmlPath)) {
-            $this->errors[] = 'No XML file found (TS: ' . $confId . 'xml).';
+            $this->errors[] = 'No XML file found (TS: '.$confId.'xml).';
         }
         // existiert das xml
         $absXmlPath = \Tx_Rnbase_Utility_T3General::getFileAbsFileName($xmlPath);
         if (empty($absXmlPath) || !file_exists($absXmlPath)) {
-            $this->errors[] = 'The given XML file path (' . $xmlPath . ') doesn\'t exists.';
+            $this->errors[] = 'The given XML file path ('.$xmlPath.') doesn\'t exists.';
         }
 
         // ist die formconfig gesetzt
-        if (!is_array($configurations->get($confId . 'formconfig.'))) {
-            $this->errors[] = 'Formconfig not set (TS: ' . $confId . 'formconfig =< config.tx_mkforms).';
+        if (!is_array($configurations->get($confId.'formconfig.'))) {
+            $this->errors[] = 'Formconfig not set (TS: '.$confId.'formconfig =< config.tx_mkforms).';
         }
 
         return $this->errors;
     }
 
     /**
-     * Process form data
+     * Process form data.
      *
      * This method is called by mkforms via
      *    <datahandler:RAW>
@@ -237,10 +228,10 @@ class FormBase extends AbstractAction
      *        </callback>
      *    </datahandler:RAW>
      *
-     * @param array $data
+     * @param array                  $data
      * @param \tx_mkforms_forms_Base $form
-     * @param bool $flattenData Useful for disabling the flattening of data by overwriting this method and calling
-     *                                        parent::processForm($data, $form, false)
+     * @param bool                   $flattenData Useful for disabling the flattening of data by overwriting this method and calling
+     *                                            parent::processForm($data, $form, false)
      */
     public function processForm($data, $form, $flattenData = true)
     {
@@ -263,7 +254,7 @@ class FormBase extends AbstractAction
         // wir suchen für jede Tabelle eine Update Methode in der Kindklasse
         if ($flattenData) {
             foreach ($data as $sTable => $aFields) {
-                $method = 'process' . \tx_mkforms_util_Div::toCamelCase($sTable) . 'Data';
+                $method = 'process'.\tx_mkforms_util_Div::toCamelCase($sTable).'Data';
                 if (method_exists($this, $method)) {
                     $data[$sTable] = $this->{$method}($aFields);
                 }
@@ -288,9 +279,9 @@ class FormBase extends AbstractAction
     /**
      * Actually process the data, e.g. save it to the table...
      *
-     * @param    array $data Form data splitted by tables
+     * @param array $data Form data splitted by tables
      *
-     * @return    array
+     * @return array
      */
     protected function processData(array $data)
     {
@@ -298,7 +289,6 @@ class FormBase extends AbstractAction
     }
 
     /**
-     *
      * @param array $data
      */
     protected function handleUploads($data)
@@ -329,7 +319,7 @@ class FormBase extends AbstractAction
     /**
      * Setzt die Formulardaten für den View.
      *
-     * @param    array $data
+     * @param array $data
      */
     public function setFormData($data = false)
     {
@@ -337,7 +327,7 @@ class FormBase extends AbstractAction
     }
 
     /**
-     * Fill form data
+     * Fill form data.
      *
      * This method is called by mkforms via
      *    <datahandler:RAW>
@@ -346,7 +336,7 @@ class FormBase extends AbstractAction
      *        </record>
      *    </datahandler:RAW>
      *
-     * @param array $params
+     * @param array                  $params
      * @param \tx_mkforms_forms_Base $form
      *
      * @return array
@@ -380,7 +370,7 @@ class FormBase extends AbstractAction
         if (!is_array($data) || empty($data)) {
             $data = array();
             // @see self::flatArray2MultipleTableStructure -> addfields
-            $addFields = $this->configurations->get($confId . 'addfields.', true);
+            $addFields = $this->configurations->get($confId.'addfields.', true);
             // Felder setzen, überschreiben oder löschen
             if (is_array($addFields) && count($addFields)) {
                 $data = \tx_mkforms_util_FormBase::addFields($data, $addFields);
@@ -400,11 +390,11 @@ class FormBase extends AbstractAction
     }
 
     /**
-     * Actually fill the data to be published in form
+     * Actually fill the data to be published in form.
      *
-     * @param    array $params Parameters from the form
+     * @param array $params Parameters from the form
      *
-     * @return    array
+     * @return array
      */
     protected function fillData(array $params)
     {
@@ -412,7 +402,7 @@ class FormBase extends AbstractAction
     }
 
     /**
-     * Get record uid of data to be used for prefilled
+     * Get record uid of data to be used for prefilled.
      *
      * Overwrite this method to provide the uid of the record
      * to be used for prefilling the given form.
@@ -420,7 +410,7 @@ class FormBase extends AbstractAction
      *
      * Note: Record prefill currently applies only for datahandler:DB.
      *
-     * @return    int|false
+     * @return int|false
      */
     protected function getPrefillUid(RequestInterface $request)
     {
@@ -435,7 +425,8 @@ class FormBase extends AbstractAction
     }
 
     /**
-     * Returns configurations instance for current request
+     * Returns configurations instance for current request.
+     *
      * @return \Sys25\RnBase\Configuration\ConfigurationInterface
      */
     protected function getConfigurations()
@@ -454,7 +445,7 @@ class FormBase extends AbstractAction
     }
 
     /**
-     * Returns the form instance
+     * Returns the form instance.
      *
      * @return \tx_mkforms_forms_Base
      */
@@ -464,14 +455,14 @@ class FormBase extends AbstractAction
     }
 
     /**
-     * Gibt den Name der zugehörigen View-Klasse zurück
+     * Gibt den Name der zugehörigen View-Klasse zurück.
      *
-     * @return    string
+     * @return string
      */
     protected function getViewClassName()
     {
         // I don't really like this access to configurations here...
-        $class = $this->configurations->get($this->getConfId() . 'viewClassName');
+        $class = $this->configurations->get($this->getConfId().'viewClassName');
 
         return $class ? $class : FormView::class;
     }
@@ -488,7 +479,7 @@ class FormBase extends AbstractAction
      *        myConfId =< lib.mkforms.formbase
      * }
      *
-     * @return    string
+     * @return string
      */
     protected function getTemplateName()
     {

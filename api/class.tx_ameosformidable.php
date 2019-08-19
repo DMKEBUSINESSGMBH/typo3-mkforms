@@ -22,26 +22,23 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 /**
- * Formidable API
+ * Formidable API.
  *
  * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-
-
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindataset.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindatasource.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainvalidator.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindatahandler.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrenderer.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrenderlet.php');
-require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainactionlet.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainobject.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.maindataset.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.maindatasource.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainvalidator.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.maindatahandler.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainrenderer.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainrenderlet.php';
+require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainactionlet.php';
 
 class tx_ameosformidable implements tx_mkforms_forms_IForm
 {
-
     /**
-     * @var    int    Die PageID wird für das caching benötigt. In AjaxCalls haben wir diese ID nicht!
+     * @var int Die PageID wird für das caching benötigt. In AjaxCalls haben wir diese ID nicht!
      */
     public $iPageId = 0;
 
@@ -162,7 +159,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public $aOnloadEvents
         = array(    // stores events that have to be thrown at onload ( onDOMReady actually )
             'ajax' => array(),
-            'client' => array()
+            'client' => array(),
         );
 
     public $aSkinManifests = array();
@@ -261,7 +258,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     }
 
     /**
-     * Liefert ein cObj
+     * Liefert ein cObj.
      *
      * @return TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
@@ -281,7 +278,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     }
 
     /**
-     * Return the typoscript configurations object
+     * Return the typoscript configurations object.
      *
      * @return tx_rnbase_configurations
      */
@@ -291,7 +288,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     }
 
     /**
-     * Basic typoscript confid-path
+     * Basic typoscript confid-path.
      *
      * @return string
      */
@@ -309,11 +306,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      */
     public function getConfTS($confid)
     {
-        return $this->getConfigurations()->get($this->confid . $confid);
+        return $this->getConfigurations()->get($this->confid.$confid);
     }
 
     /**
-     * Set TS-Configuration. This is either the given instance or a new instance based on config.tx_mkforms
+     * Set TS-Configuration. This is either the given instance or a new instance based on config.tx_mkforms.
      *
      * @param tx_rnbase_configurations $config
      * @param string                   $confid
@@ -327,6 +324,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         $this->configurations = $config;
         $this->confid = $confid;
     }
+
     /*********************************
      *
      * FORMidable initialization
@@ -343,7 +341,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      * - the internal collection of Renderers
      * - the internal collection of Renderlets
      * - the Renderer as configured in the XML conf in the /formidable/control/renderer/ section
-     * - the DataHandler as configured in the XML conf in the /formidable/control/datahandler/ section
+     * - the DataHandler as configured in the XML conf in the /formidable/control/datahandler/ section.
      *
      *        //    CURRENT SERVER EVENT CHECKPOINTS ( means when to process the even; ex:  <onclick runat="server"
      *        when="after-compilation" /> )
@@ -367,11 +365,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      *
      * @param                          object          Parent extension using FORMidable
      * @param                          mixed           Absolute path to the XML configuration file
-     * @param    int                   $iForcedEntryId :
+     * @param int                      $iForcedEntryId :
      * @param tx_rnbase_configurations $configurations TS-Configuration
      * @param string                   $confid         ;
-     *
-     * @return    void
      */
     public function init(&$oParent, $mXml, $iForcedEntryId = false, $configurations = false, $confid = '')
     {
@@ -386,7 +382,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         //In tests brauchen wir das nicht da es bei installiertem
         //ameos nur zu fehler führen würde wegen dem cache
-        if (tx_mkforms_util_Div::getEnvExecMode() !== 'FE'
+        if ('FE' !== tx_mkforms_util_Div::getEnvExecMode()
             && !$this->isTestMode()
         ) {    // virtualizing FE for BE and eID (ajax) modes
             tx_mkforms_util_Div::virtualizeFE();
@@ -396,12 +392,12 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
          */
         $this->sExtPath = tx_rnbase_util_Extensions::extPath('mkforms');
         $this->sExtRelPath = tx_rnbase_util_Extensions::siteRelPath('mkforms');
-        $this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms');
+        $this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms');
 
         // TODO: Der Zugriff auf conf wird durch tx_rnbase_configurations ersetzt
         $this->setConfigurations($configurations, $confid);
-        $this->_oParent =& $oParent;
-        $this->oParent =& $oParent;
+        $this->_oParent = &$oParent;
+        $this->oParent = &$oParent;
 
         $this->aTempDebug = array();
 
@@ -416,9 +412,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $this->_xmlPath = $mXml;
         }
 
-        if ($this->bInitFromTs === false) {
-
-            /**
+        if (false === $this->bInitFromTs) {
+            /*
  * Cyrille Berliat : Patch to handle direct XML arrays when passed to init
 */
             if (is_array($mXml)) {
@@ -433,7 +428,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         // usegp gesetzt?
-        if ($this->getConfigXML()->get('/meta/form/usegp') !== false) {
+        if (false !== $this->getConfigXML()->get('/meta/form/usegp')) {
             // usegp aktiviert?
             if ($this->getConfigXML()->defaultFalse('/meta/form/usegp')) {
                 $this->useGP(
@@ -441,7 +436,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                 );
             }
         } // use gp abhängig von der form method setzen
-        elseif ($this->getFormMethod() === tx_mkforms_util_Constants::FORM_METHOD_GET) {
+        elseif (tx_mkforms_util_Constants::FORM_METHOD_GET === $this->getFormMethod()) {
             $this->useGP(
                 $this->getConfigXML()->defaultTrue('/meta/form/usegpwithurldecode')
             );
@@ -457,9 +452,10 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         // TODO: alle Vorkommen suchen!
         // $this->bDebug -> $this->getConfig()->isDebug()
 
-        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+        $database = Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection();
+        $database->store_lastBuiltQuery = true;
         if ($this->getConfig()->isDebug()) {
-            $GLOBALS['TYPO3_DB']->debugOutput = true;
+            $database->debugOutput = true;
         }
 
         /***** INIT FORM SIGNATURE *****
@@ -480,8 +476,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             || !$this->_defaultFalse('/meta/formwrap'))
         ) {
             $this->mayday(
-                'Two (or more) Formidable are using the same formid \'<b>' . $this->formid
-                . '</b>\' on this page - cannot continue'
+                'Two (or more) Formidable are using the same formid \'<b>'.$this->formid
+                .'</b>\' on this page - cannot continue'
             );
         }
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms'][$this->formid] = array();
@@ -495,17 +491,17 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
          *
          */
 
-        $this->oDataHandler =& $this->_makeDefaultDataHandler();
-        $this->oRenderer =& $this->_makeDefaultRenderer();
+        $this->oDataHandler = &$this->_makeDefaultDataHandler();
+        $this->oRenderer = &$this->_makeDefaultRenderer();
 
         /***** INIT EDIT MODE ? *****
          *
          */
 
-        if ($iForcedEntryId !== false) {
+        if (false !== $iForcedEntryId) {
             // uid "iForcedEntryId" was passed to init() method of formidable
 
-            if (($iCurrentEntryId = $this->oDataHandler->_currentEntryId()) !== false) {
+            if (false !== ($iCurrentEntryId = $this->oDataHandler->_currentEntryId())) {
                 // there is already an uid asked for edition
                 // it has been passed thru POST var myformid[AMEOSFORMIDABLE_ENTRYID]
 
@@ -523,9 +519,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             } else {
                 $this->forceEntryId($iForcedEntryId);
             }
-        } elseif (($mUid = $this->getConfig()->get('/control/datahandler/editentry')) !== false) {
+        } elseif (false !== ($mUid = $this->getConfig()->get('/control/datahandler/editentry'))) {
             $mUid = $this->getRunnable()->callRunnable($mUid);
-            if (($iCurrentEntryId = $this->getDataHandler()->_currentEntryId()) !== false) {
+            if (false !== ($iCurrentEntryId = $this->getDataHandler()->_currentEntryId())) {
                 if ($mUid != $iCurrentEntryId) {
                     $this->forceEntryId($mUid);
                 }
@@ -534,8 +530,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             }
         }
 
-        if ($this->iForcedEntryId === false) {
-            if (($iTempUid = $this->editionRequested()) !== false) {
+        if (false === $this->iForcedEntryId) {
+            if (false !== ($iTempUid = $this->editionRequested())) {
                 $this->forceEntryId($iTempUid);
             } else {
                 $this->forceEntryId($iForcedEntryId);
@@ -543,7 +539,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         $aRawPost = $this->_getRawPost();
-        if (trim($aRawPost['AMEOSFORMIDABLE_SERVEREVENT']) !== '') {
+        if ('' !== trim($aRawPost['AMEOSFORMIDABLE_SERVEREVENT'])) {
             $aServerEventParams = $this->_getServerEventParams();
             if (array_key_exists('_sys_earlybird', $aServerEventParams)) {
                 $aEarlyBird = $aServerEventParams['_sys_earlybird'];
@@ -564,7 +560,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         /***** GRABBING SERVER EVENTS *****/
 
-        $this->checkPoint(array('start',));
+        $this->checkPoint(array('start'));
 
         $this->bReliableXML = true;
 
@@ -580,10 +576,10 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             );
         }
 
-        if ($this->sDefaultLLLPrefix === false && ($this->oParent instanceof Tx_Rnbase_Frontend_Plugin)) {
+        if (false === $this->sDefaultLLLPrefix && ($this->oParent instanceof Tx_Rnbase_Frontend_Plugin)) {
             if ($this->oParent->scriptRelPath) {
-                $sLLPhp = 'EXT:' . $this->oParent->extKey . '/' . dirname($this->oParent->scriptRelPath) . '/locallang.php';
-                $sLLXml = 'EXT:' . $this->oParent->extKey . '/' . dirname($this->oParent->scriptRelPath) . '/locallang.xml';
+                $sLLPhp = 'EXT:'.$this->oParent->extKey.'/'.dirname($this->oParent->scriptRelPath).'/locallang.php';
+                $sLLXml = 'EXT:'.$this->oParent->extKey.'/'.dirname($this->oParent->scriptRelPath).'/locallang.xml';
 
                 if (file_exists(tx_mkforms_util_Div::toServerPath($sLLPhp))) {
                     $this->sDefaultLLLPrefix = $sLLPhp;
@@ -596,7 +592,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         $this->sDefaultWrapClass = $this->getConfig()->get('/meta/defaultwrapclass');
-        if ($this->sDefaultWrapClass === false) {
+        if (false === $this->sDefaultWrapClass) {
             // set classes for all new xml versions to mkforms
             $this->sDefaultWrapClass = 'mkforms-rdrstd';
             // for older forms leave as formidable!
@@ -610,20 +606,20 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         $this->checkPoint(array('after-compilation', 'before-init', 'before-init-renderer'));
 
         $this->sFormAction = false;
-        if (($sAction = $this->getConfig()->get('/meta/form/action')) !== false) {
+        if (false !== ($sAction = $this->getConfig()->get('/meta/form/action'))) {
             $sAction = $this->getRunnable()->callRunnable($sAction);
-            if ($sAction !== false) {
+            if (false !== $sAction) {
                 $this->sFormAction = trim($sAction);
             }
         }
 
         $this->analyzeFormAction();
 
-        if (($sSandClass = $this->_includeSandBox()) !== false) {
+        if (false !== ($sSandClass = $this->_includeSandBox())) {
             $this->_createSandBox($sSandClass);
         }
 
-        if (($aOnInit = $this->getConfig()->get('/meta/oninit')) !== false && $this->getRunnable()->isRunnable($aOnInit)) {
+        if (false !== ($aOnInit = $this->getConfig()->get('/meta/oninit')) && $this->getRunnable()->isRunnable($aOnInit)) {
             $this->getRunnable()->callRunnable($aOnInit);
         }
 
@@ -641,12 +637,12 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         $this->checkPoint(array('after-init-renderlets', 'before-init-datahandler'));
         $this->_initDataHandler($this->iForcedEntryId);
-        $this->checkPoint(array('after-init-datahandler', 'after-init',));
+        $this->checkPoint(array('after-init-datahandler', 'after-init'));
         $this->bInited = true;
     }
 
     /**
-     * Liefert den JS-Loader
+     * Liefert den JS-Loader.
      *
      * @return tx_mkforms_js_Loader
      */
@@ -662,7 +658,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public function initAPI(&$oParent)
     {
-        $this->_oParent =& $oParent;
+        $this->_oParent = &$oParent;
         $this->formid = Tx_Rnbase_Utility_T3General::shortMD5(rand());
     }
 
@@ -691,13 +687,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     /**
      * Makes a persistent instance of an HTML parser
-     * Mainly used for template processing
-     *
-     * @return    void
+     * Mainly used for template processing.
      */
     public function makeHtmlParser()
     {
-        if ($this->oHtml === false) {
+        if (false === $this->oHtml) {
             $this->oHtml = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getHtmlParserClass());
         }
     }
@@ -709,12 +703,12 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public function isFormActionTransparent()
     {
-        return $this->sFormAction === false;
+        return false === $this->sFormAction;
     }
 
     public function isFormActionCurrent()
     {
-        return $this->sFormAction == 'current';
+        return 'current' == $this->sFormAction;
     }
 
     public function analyzeFormAction()
@@ -736,7 +730,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                     continue;
                 }
                 foreach ($dataArr as $key => $value) {
-                    if (strpos($key, 'NK_') === 0) {
+                    if (0 === strpos($key, 'NK_')) {
                         unset($aGet[$qualifier][$key]);
                     }
                 }
@@ -788,7 +782,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                 $r = $this->array_diff_key($a1, $a2);
             }
 
-            if (is_array($r[$k]) && count($r[$k]) == 0) {
+            if (is_array($r[$k]) && 0 == count($r[$k])) {
                 unset($r[$k]);
             }
         }
@@ -809,7 +803,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                         $aReturn[$mKey] = $aRecursiveDiff;
                     }
                 } else {
-                    if ($bStrict === false) {
+                    if (false === $bStrict) {
                         if ($mValue != $aArray2[$mKey]) {
                             $aReturn[$mKey] = $mValue;
                         }
@@ -834,11 +828,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $aLocation = array_shift($aTrace);
 
             $this->_debug(
-                'User called FORMidable<br>' . '<br>&#149; In :<br>' . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $aLocation['file'] . ':'
-                . $aLocation['line'] . '<br>&#149; At :<br>' . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $aLocation['class']
-                . $aLocation['type'] . $aLocation['function'] . '<br>&#149; With args: <br>' . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                . tx_mkforms_util_Div::viewMixed($aLocation['args']) . (($iForcedEntryId !== false) ?
-                    '<br>&#149; Edition of entry ' . $iForcedEntryId . ' requested' : ''),
+                'User called FORMidable<br>'.'<br>&#149; In :<br>'.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$aLocation['file'].':'
+                .$aLocation['line'].'<br>&#149; At :<br>'.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$aLocation['class']
+                .$aLocation['type'].$aLocation['function'].'<br>&#149; With args: <br>'.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                .tx_mkforms_util_Div::viewMixed($aLocation['args']).((false !== $iForcedEntryId) ?
+                    '<br>&#149; Edition of entry '.$iForcedEntryId.' requested' : ''),
                 'INITIALIZATION OF FORMIDABLE'
             );
 
@@ -880,15 +874,15 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $sRes = $this->sFormAction;
         }
 
-        if (($sAnchor = $this->getConfig()->get('/meta/form/actionanchor')) !== false) {
+        if (false !== ($sAnchor = $this->getConfig()->get('/meta/form/actionanchor'))) {
             if ($this->getRunnable()->isRunnable($sAnchor)) {
                 $sAnchor = $this->getRunnable()->callRunnable($sAnchor);
             }
 
-            if ($sAnchor !== false && is_string($sAnchor)) {
+            if (false !== $sAnchor && is_string($sAnchor)) {
                 $sAnchor = trim(str_replace('#', '', $sAnchor));
-                if ($sAnchor !== '') {
-                    $sRes .= '#' . $sAnchor;
+                if ('' !== $sAnchor) {
+                    $sRes .= '#'.$sAnchor;
                 }
             }
         }
@@ -913,14 +907,14 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public function getAddPostVars($sFormId = false)
     {
-        if ($sFormId === false) {
+        if (false === $sFormId) {
             $sFormId = $this->formid;
         }
 
         $aRawPost = Tx_Rnbase_Utility_T3General::_POST();
         $aRawPost = is_array($aRawPost[$sFormId]) ? $aRawPost[$sFormId] : array();
 
-        if (array_key_exists('AMEOSFORMIDABLE_ADDPOSTVARS', $aRawPost) && trim($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS']) !== '') {
+        if (array_key_exists('AMEOSFORMIDABLE_ADDPOSTVARS', $aRawPost) && '' !== trim($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS'])) {
             if (!is_array(
                 ($aAddPostVars = tx_mkforms_util_Json::getInstance()->decode($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS']))
             )
@@ -936,15 +930,15 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public function editionRequested()
     {
-        if ($this->aAddPostVars !== false) {
+        if (false !== $this->aAddPostVars) {
             reset($this->aAddPostVars);
             foreach ($this->aAddPostVars as $sKey => $notNeeded) {
                 if (array_key_exists('action', $this->aAddPostVars[$sKey])
-                    && $this->aAddPostVars[$sKey]['action'] === 'requestEdition'
+                    && 'requestEdition' === $this->aAddPostVars[$sKey]['action']
                 ) {
                     $sOurSafeLock = $this->_getSafeLock(
-                        'requestEdition' . ':' . $this->aAddPostVars[$sKey]['params']['tablename'] . ':'
-                        . $this->aAddPostVars[$sKey]['params']['recorduid']
+                        'requestEdition'.':'.$this->aAddPostVars[$sKey]['params']['tablename'].':'
+                        .$this->aAddPostVars[$sKey]['params']['recorduid']
                     );
                     $sTheirSafeLock = $this->aAddPostVars[$sKey]['params']['hash'];
 
@@ -960,12 +954,10 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     /**
      * Dispatch calls to checkpoints defined in the whole code of formidable
-     * Similar to hooks
+     * Similar to hooks.
      *
-     * @param    array $aPoints : names of the checkpoints to consider
-     * @param    array $options
-     *
-     * @return    void
+     * @param array $aPoints : names of the checkpoints to consider
+     * @param array $options
      */
     public function checkPoint($aPoints, array &$options = array())
     {
@@ -975,12 +967,10 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     }
 
     /**
-     * Handles checkpoint-calls on renderlets
+     * Handles checkpoint-calls on renderlets.
      *
-     * @param    array $aPoints : names of the checkpoints to consider
-     * @param    array $options
-     *
-     * @return    void
+     * @param array $aPoints : names of the checkpoints to consider
+     * @param array $options
      */
     private function _processRdtCheckPoints(&$aPoints, array &$options = array())
     {
@@ -993,11 +983,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     }
 
     /**
-     *
-     * @param    array $aPoints : names of the checkpoints to consider
-     * @param    array $options
-     *
-     * @return    void
+     * @param array $aPoints : names of the checkpoints to consider
+     * @param array $options
      */
     private function _processMetaCheckPoints(&$aPoints, array $options = array())
     {
@@ -1009,8 +996,8 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         $aKeys = array_keys($aMeta);
         reset($aKeys);
         foreach ($aKeys as $sKey) {
-            if ($sKey{0} == 'o' && $sKey{1} == 'n' && (substr($sKey, 0, 12) === 'oncheckpoint')) {
-                $sWhen = $this->getConfig()->get('/meta/' . $sKey . '/when');
+            if ('o' == $sKey[0] && 'n' == $sKey[1] && ('oncheckpoint' === substr($sKey, 0, 12))) {
+                $sWhen = $this->getConfig()->get('/meta/'.$sKey.'/when');
                 if (in_array($sWhen, $aPoints)) {
                     if ($this->getRunnable()->isRunnable($aMeta[$sKey])) {
                         $this->getRunnable()->callRunnable($aMeta[$sKey]);
@@ -1021,28 +1008,28 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     }
 
     /**
-     * Includes the sandbox in php context
+     * Includes the sandbox in php context.
      *
-     * @return    mixed        FALSE or name of the sandbox class
+     * @return mixed FALSE or name of the sandbox class
      */
     public function _includeSandBox()
     {
         $aBox = $this->getConfigXML('/control/sandbox');
 
-        $sExtends = ($aBox !== false && is_array($aBox) && array_key_exists('extends', $aBox)) ? (string)$aBox['extends'] : 'EXT:mkforms/res/shared/php/class.defaultsandbox.php::formidable_defaultsandbox';
+        $sExtends = (false !== $aBox && is_array($aBox) && array_key_exists('extends', $aBox)) ? (string) $aBox['extends'] : 'EXT:mkforms/res/shared/php/class.defaultsandbox.php::formidable_defaultsandbox';
 
         $aExtends = explode('::', $sExtends);
-        if (sizeof($aExtends) == 2) {
+        if (2 == sizeof($aExtends)) {
             $sFile = Tx_Rnbase_Utility_T3General::getFileAbsFileName($aExtends[0]);
             $sClass = $aExtends[1];
 
             if (file_exists($sFile) && is_readable($sFile)) {
                 ob_start();
-                require_once($sFile);
+                require_once $sFile;
                 ob_end_clean(
                 );        // output buffering for easing use of php class files that execute something outside the class definition ( like BE module's index.php !!)
             } else {
-                $this->mayday('<b>The declared php-FILE for sandbox ("' . $sFile . '") doesn\'t exists</b>');
+                $this->mayday('<b>The declared php-FILE for sandbox ("'.$sFile.'") doesn\'t exists</b>');
             }
         } else {
             // trying to auto-determine class-name
@@ -1052,28 +1039,28 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                 $aClassesBefore = get_declared_classes();
 
                 ob_start();
-                require_once($sFile);
+                require_once $sFile;
                 ob_end_clean(
                 );        // output buffering for easing use of php class files that execute something outside the class definition ( like BE module's index.php !!)
                 $aClassesAfter = get_declared_classes();
 
                 $aNewClasses = array_diff($aClassesAfter, $aClassesBefore);
 
-                if (count($aNewClasses) !== 1) {
+                if (1 !== count($aNewClasses)) {
                     $this->mayday(
-                        "<b>Cannot automatically determine the classname to use for the sandbox in '" . $sFile
-                        . "'</b><br />Please add '::myClassName' after the file-path in the sandbox declaration"
+                        "<b>Cannot automatically determine the classname to use for the sandbox in '".$sFile
+                        ."'</b><br />Please add '::myClassName' after the file-path in the sandbox declaration"
                     );
                 } else {
                     $sClass = array_shift($aNewClasses);
                 }
             } else {
-                $this->mayday("<b>The declared php-FILE for sandbox ('" . $sFile . "') doesn't exists</b>");
+                $this->mayday("<b>The declared php-FILE for sandbox ('".$sFile."') doesn't exists</b>");
             }
         }
 
         if (!class_exists($sClass)) {
-            $this->mayday('<b>The declared php-CLASS for sandbox (\'' . $sClass . '\') doesn\'t exists</b>');
+            $this->mayday('<b>The declared php-CLASS for sandbox (\''.$sClass.'\') doesn\'t exists</b>');
 
             return false;
         }
@@ -1082,10 +1069,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             return $sClass;
         }
 
-        if (($sPhp = $this->getConfigXML('/userobj/php', $aBox)) !== false) {
-            $sClassName = 'formidablesandbox_' . md5($sPhp);    // these 2 lines
+        if (false !== ($sPhp = $this->getConfigXML('/userobj/php', $aBox))) {
+            $sClassName = 'formidablesandbox_'.md5($sPhp);    // these 2 lines
             if (!class_exists($sClassName)) {                    // allows same sandbox twice or more on the same page
-
                 $sSandClass
                     = <<<SANDBOXCLASS
 
@@ -1112,16 +1098,14 @@ SANDBOXCLASS;
     }
 
     /**
-     * Builds a persistent instance of the sandbox
+     * Builds a persistent instance of the sandbox.
      *
-     * @param    string $sClassName : Name of the sandbox class, as returned by _includeSandBox()
-     *
-     * @return    void
+     * @param string $sClassName : Name of the sandbox class, as returned by _includeSandBox()
      */
     public function _createSandBox($sClassName)
     {
         $this->oSandBox = new $sClassName();
-        $this->oSandBox->oForm =& $this;
+        $this->oSandBox->oForm = &$this;
         if (method_exists($this->oSandBox, 'init')) {
             $this->oSandBox->init($this);    // changed: avoid call-time pass-by-reference
         }
@@ -1138,7 +1122,7 @@ SANDBOXCLASS;
 
         $sPath = $aCurStep['path'];
 
-        if ($aExtract === false || ($iEntryId = $aExtract['AMEOSFORMIDABLE_STEP_UID']) === false) {
+        if (false === $aExtract || false === ($iEntryId = $aExtract['AMEOSFORMIDABLE_STEP_UID'])) {
             $iEntryId = (array_key_exists('uid', $aCurStep) ? $aCurStep['uid'] : false);
         }
 
@@ -1151,7 +1135,7 @@ SANDBOXCLASS;
 
     public function _getStepperId()
     {
-        if ($this->aSteps !== false) {
+        if (false !== $this->aSteps) {
             return md5(serialize($this->aSteps));
         }
 
@@ -1161,7 +1145,7 @@ SANDBOXCLASS;
     public function _getStep()
     {
         $aStep = $this->__extractStep();
-        if ($aStep === false) {
+        if (false === $aStep) {
             return 0;
         }
 
@@ -1172,7 +1156,7 @@ SANDBOXCLASS;
     {
         $sStepperId = $this->_getStepperId();
 
-        if ($this->_aStep === false) {
+        if (false === $this->_aStep) {
             tx_mkforms_session_Factory::getSessionManager()->initialize();
             if (array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])
                 && array_key_exists('stepper', $GLOBALS['_SESSION']['ameos_formidable'])
@@ -1198,23 +1182,23 @@ SANDBOXCLASS;
     }
 
     /**
-     * Util-method for use in __getEventsInConf
+     * Util-method for use in __getEventsInConf.
      *
-     * @param    string $sName : name of the current conf-key
+     * @param string $sName : name of the current conf-key
      *
-     * @return    bool        TRUE if event (onXYZ), FALSE if not
+     * @return bool TRUE if event (onXYZ), FALSE if not
      */
     public function __cbkFilterEvents($sName)
     {
-        return $sName{0} === 'o' && $sName{1} === 'n';    // should start with 'on', but speed check
+        return 'o' === $sName[0] && 'n' === $sName[1];    // should start with 'on', but speed check
     }
 
     /**
-     * Extracts all events defined in a conf array
+     * Extracts all events defined in a conf array.
      *
-     * @param    array $aConf : conf containing events to detect
+     * @param array $aConf : conf containing events to detect
      *
-     * @return    array        events extracted
+     * @return array events extracted
      */
     public function __getEventsInConf($aConf)
     {
@@ -1227,27 +1211,27 @@ SANDBOXCLASS;
     }
 
     /**
-     * Creates unique ID for a given server event
+     * Creates unique ID for a given server event.
      *
-     * @param    string $sRdtName : name of the renderlet defining the event
-     * @param    array  $aEvent   : conf array of the event
+     * @param string $sRdtName : name of the renderlet defining the event
+     * @param array  $aEvent   : conf array of the event
      *
-     * @return    string        Server Event ID
+     * @return string Server Event ID
      */
     public function _getServerEventId($sRdtName, $aEvent)
     {
         return $this->_getSafeLock(
-            $sRdtName . serialize($aEvent)
+            $sRdtName.serialize($aEvent)
         );
     }
 
     /**
-     * Creates unique ID for a given ajax event
+     * Creates unique ID for a given ajax event.
      *
-     * @param    string $sRdtName : name of the renderlet defining the event
-     * @param    array  $aEvent   : conf array of the event
+     * @param string $sRdtName : name of the renderlet defining the event
+     * @param array  $aEvent   : conf array of the event
      *
-     * @return    string        Ajax Event ID
+     * @return string Ajax Event ID
      */
     public function _getAjaxEventId($sRdtName, $aEvent)
     {
@@ -1255,12 +1239,12 @@ SANDBOXCLASS;
     }
 
     /**
-     * Creates unique ID for a given client event
+     * Creates unique ID for a given client event.
      *
-     * @param    string $sRdtName : name of the renderlet defining the event
-     * @param    array  $aEvent   : conf array of the event
+     * @param string $sRdtName : name of the renderlet defining the event
+     * @param array  $aEvent   : conf array of the event
      *
-     * @return    string        Client Event ID
+     * @return string Client Event ID
      */
     public function _getClientEventId($sRdtName, $aEvent)
     {
@@ -1269,17 +1253,15 @@ SANDBOXCLASS;
 
     /**
      * Executes triggered server events
-     * Called by checkPoint()
+     * Called by checkPoint().
      *
-     * @param    array $aTriggers : array of checkpoints names to consider
-     * @param    array $options
-     *
-     * @return    void
+     * @param array $aTriggers : array of checkpoints names to consider
+     * @param array $options
      */
     private function _processServerEvents(&$aTriggers, array &$options = array())
     {
         $aP = $this->_getRawPost();
-        if (array_key_exists('AMEOSFORMIDABLE_SERVEREVENT', $aP) && (trim($aP['AMEOSFORMIDABLE_SERVEREVENT']) !== '')) {
+        if (array_key_exists('AMEOSFORMIDABLE_SERVEREVENT', $aP) && ('' !== trim($aP['AMEOSFORMIDABLE_SERVEREVENT']))) {
             if (array_key_exists($aP['AMEOSFORMIDABLE_SERVEREVENT'], $this->aServerEvents)) {
                 $aEvent = $this->aServerEvents[$aP['AMEOSFORMIDABLE_SERVEREVENT']];
                 if (in_array($aEvent['when'], $aTriggers)) {
@@ -1308,9 +1290,9 @@ SANDBOXCLASS;
                 $sAbsName = $this->aServerEvents[$sKey]['name'];
                 $sAbsPath = str_replace('.', '/', $sAbsName);
 
-                if (($aRes = $this->navDeepData($sAbsPath, $aP)) !== false) {
+                if (false !== ($aRes = $this->navDeepData($sAbsPath, $aP))) {
                     if (array_key_exists($sAbsName, $this->aORenderlets)
-                        && $this->aORenderlets[$sAbsName]->aObjectType['TYPE'] === 'SUBMIT'
+                        && 'SUBMIT' === $this->aORenderlets[$sAbsName]->aObjectType['TYPE']
                     ) {
                         $aEvent = $this->aServerEvents[$sKey];
                         if (in_array($aEvent['when'], $aTriggers)) {
@@ -1326,9 +1308,9 @@ SANDBOXCLASS;
     }
 
     /**
-     * Get params for the triggered server event
+     * Get params for the triggered server event.
      *
-     * @return    array        Params
+     * @return array Params
      */
     public function _getServerEventParams()
     {
@@ -1355,30 +1337,29 @@ SANDBOXCLASS;
     public function setSubmitter($sSubmitter, $sValue = false)
     {
         switch ($sValue) {
-            case 'full': {
+            case 'full':
                 $sValue = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
                 break;
-            }
-            case 'refresh': {
+
+            case 'refresh':
                 $sValue = AMEOSFORMIDABLE_EVENT_SUBMIT_REFRESH;
                 break;
-            }
-            case 'draft': {
+
+            case 'draft':
                 $sValue = AMEOSFORMIDABLE_EVENT_SUBMIT_DRAFT;
                 break;
-            }
-            case 'test': {
+
+            case 'test':
                 $sValue = AMEOSFORMIDABLE_EVENT_SUBMIT_TEST;
                 break;
-            }
-            case 'clear': {
+
+            case 'clear':
                 $sValue = AMEOSFORMIDABLE_EVENT_SUBMIT_CLEAR;
                 break;
-            }
-            case 'search': {
+
+            case 'search':
                 $sValue = AMEOSFORMIDABLE_EVENT_SUBMIT_SEARCH;
                 break;
-            }
         }
 
         $this->submittedValue = $sValue;
@@ -1393,7 +1374,7 @@ SANDBOXCLASS;
 
         $aP = $this->_getRawPost($sFormId);
 
-        if (array_key_exists('AMEOSFORMIDABLE_SUBMITTER', $aP) && (trim($aP['AMEOSFORMIDABLE_SUBMITTER']) !== '')) {
+        if (array_key_exists('AMEOSFORMIDABLE_SUBMITTER', $aP) && ('' !== trim($aP['AMEOSFORMIDABLE_SUBMITTER']))) {
             $sSubmitter = $aP['AMEOSFORMIDABLE_SUBMITTER'];
 
             return $sSubmitter;
@@ -1404,11 +1385,11 @@ SANDBOXCLASS;
 
     /**
      * Determines if the FORM is submitted
-     * using the AMEOSFORMIDABLE_SUBMITTED constant for naming the POSTED variable
+     * using the AMEOSFORMIDABLE_SUBMITTED constant for naming the POSTED variable.
      *
-     * @param    string $sFormId : optional; if none given, current formid is used
+     * @param string $sFormId : optional; if none given, current formid is used
      *
-     * @return    bool
+     * @return bool
      */
     public function getSubmittedValue($sFormId = false)
     {
@@ -1418,7 +1399,7 @@ SANDBOXCLASS;
 
         $aP = $this->_getRawPost($sFormId);
 
-        if (array_key_exists('AMEOSFORMIDABLE_SUBMITTED', $aP) && (trim($aP['AMEOSFORMIDABLE_SUBMITTED']) !== '')) {
+        if (array_key_exists('AMEOSFORMIDABLE_SUBMITTED', $aP) && ('' !== trim($aP['AMEOSFORMIDABLE_SUBMITTED']))) {
             return trim($aP['AMEOSFORMIDABLE_SUBMITTED']);
         }
 
@@ -1426,19 +1407,19 @@ SANDBOXCLASS;
     }
 
     /**
-     * Returns RAW POST+FILES data
+     * Returns RAW POST+FILES data.
      *
-     * @param    string $sFormId : optional; if none given, current formid is used
+     * @param string $sFormId : optional; if none given, current formid is used
      *
-     * @return    array        POST+FILES data
+     * @return array POST+FILES data
      */
     public function _getRawPost($sFormId = false, $bCache = true)
     {
-        if ($sFormId === false) {
+        if (false === $sFormId) {
             $sFormId = $this->formid;
         }
 
-        if (!array_key_exists((string)$sFormId, $this->aRawPost) || ($bCache === false)) {
+        if (!array_key_exists((string) $sFormId, $this->aRawPost) || (false === $bCache)) {
             $aPost = Tx_Rnbase_Utility_T3General::_POST();
             if ($this->_useGP) {
                 $aGet = Tx_Rnbase_Utility_T3General::_GET();
@@ -1457,22 +1438,22 @@ SANDBOXCLASS;
 
             $aAddParams = array();
 
-            if ($sFormId === false) {
+            if (false === $sFormId) {
                 $aAddPostVars = $this->aAddPostVars;
             } else {
                 $aAddPostVars = $this->getAddPostVars($sFormId);
             }
 
-            if ($aAddPostVars !== false) {
+            if (false !== $aAddPostVars) {
                 reset($aAddPostVars);
                 foreach ($aAddPostVars as $sKey => $notNeeded) {
-                    if (array_key_exists('action', $aAddPostVars[$sKey]) && $aAddPostVars[$sKey]['action'] === 'formData') {
+                    if (array_key_exists('action', $aAddPostVars[$sKey]) && 'formData' === $aAddPostVars[$sKey]['action']) {
                         reset($aAddPostVars[$sKey]['params']);
                         foreach ($aAddPostVars[$sKey]['params'] as $sParam => $sValue) {
                             $aAddParams = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                                 $aAddParams,
                                 Tx_Rnbase_Utility_T3General::explodeUrl2Array(
-                                    $sParam . '=' . $sValue,
+                                    $sParam.'='.$sValue,
                                     true    // multidim ?
                                 )
                             );
@@ -1485,7 +1466,7 @@ SANDBOXCLASS;
             $aRes = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aRes, $aAddParams);
             reset($aRes);
 
-            if ($bCache === false) {
+            if (false === $bCache) {
                 return $aRes;
             }
 
@@ -1503,11 +1484,11 @@ SANDBOXCLASS;
 
     public function _getRawGet($sFormId = false)
     {
-        if ($sFormId === false) {
+        if (false === $sFormId) {
             $sFormId = $this->formid;
         }
 
-        if (!array_key_exists((string)$sFormId, $this->aRawGet)) {
+        if (!array_key_exists((string) $sFormId, $this->aRawGet)) {
             $aGet = Tx_Rnbase_Utility_T3General::_GET($sFormId);
             //wurden die Daten Urlencodiert?
             if ($this->_useGPWithUrlDecode) {
@@ -1530,18 +1511,18 @@ SANDBOXCLASS;
     /**
      * Mit $forced werden die Daten nicht gecached. Das wird bei Ajax-Uploads benötigt.
      *
-     * @param string  $sFormId
-     * @param bool $forced
+     * @param string $sFormId
+     * @param bool   $forced
      *
      * @return array
      */
     public function _getRawFile($sFormId = false, $forced = false)
     {
-        if ($sFormId === false) {
+        if (false === $sFormId) {
             $sFormId = $this->getFormId();
         }
 
-        if ($forced || !array_key_exists((string)$sFormId, $this->aRawFile)) {
+        if ($forced || !array_key_exists((string) $sFormId, $this->aRawFile)) {
             $aTemp = is_array($GLOBALS['_FILES'][$sFormId]) ? $GLOBALS['_FILES'][$sFormId] : array();
             $aF = array();
 
@@ -1590,9 +1571,7 @@ SANDBOXCLASS;
     }
 
     /**
-     * Unsets renderlets having /process = FALSE
-     *
-     * @return    void
+     * Unsets renderlets having /process = FALSE.
      */
     public function _filterUnProcessed()
     {
@@ -1607,15 +1586,13 @@ SANDBOXCLASS;
     }
 
     /**
-     * Initialize formidable with typoscript
+     * Initialize formidable with typoscript.
      *
-     * @param object $oParent ref to parent object (usually plugin)
-     * @param array $aConf typoscript array
-     * @param int|bool $iForcedEntryId UID to edit (if any)
+     * @param object                        $oParent        ref to parent object (usually plugin)
+     * @param array                         $aConf          typoscript array
+     * @param int|bool                      $iForcedEntryId UID to edit (if any)
      * @param tx_rnbase_configurations|bool $configurations
-     * @param string $confid
-     *
-     * @return void
+     * @param string                        $confid
      */
     public function initFromTs($oParent, array $aConf, $iForcedEntryId = false, $configurations = false, $confid = '')
     {
@@ -1630,23 +1607,23 @@ SANDBOXCLASS;
 
         reset($aRelPath);
         foreach ($aRelPath as $sSegment) {
-            if ($sSegment == '..') {
+            if ('..' == $sSegment) {
                 array_pop($aCurPath);
             } else {
                 $aCurPath[] = $sSegment;
             }
         }
 
-        return '/' . implode('/', $aCurPath);
+        return '/'.implode('/', $aCurPath);
     }
 
     /**
-     * Obsolete method
+     * Obsolete method.
      *
-     * @param    array $aXml     : ...
-     * @param    array $aDynaXml : ...
+     * @param array $aXml     : ...
+     * @param array $aDynaXml : ...
      *
-     * @return    array        ...
+     * @return array ...
      */
     public function _substituteDynaXml($aXml, $aDynaXml)
     {
@@ -1654,18 +1631,16 @@ SANDBOXCLASS;
 
         reset($aDynaXml);
         foreach ($aDynaXml as $aDynaSubst) {
-            $sXml = str_replace('[' . $aDynaSubst['name'] . ']', $aDynaSubst['value'], $sXml);
+            $sXml = str_replace('['.$aDynaSubst['name'].']', $aDynaSubst['value'], $sXml);
         }
 
         return Tx_Rnbase_Utility_T3General::xml2array($sXml);
     }
 
     /**
-     * Forces datahandler to edit the given uid
+     * Forces datahandler to edit the given uid.
      *
-     * @param    int $iForcedEntryId : uid to edit
-     *
-     * @return    void
+     * @param int $iForcedEntryId : uid to edit
      */
     public function _forceEntryId($iForcedEntryId = false)
     {
@@ -1695,21 +1670,19 @@ SANDBOXCLASS;
     }
 
     /**
-     * Initializes the declared datahandler
+     * Initializes the declared datahandler.
      *
-     * @param    int $iForcedEntryId : optional; uid to edit, if any
-     *
-     * @return    void
+     * @param int $iForcedEntryId : optional; uid to edit, if any
      */
     public function _initDataHandler($iForcedEntryId = false)
     {
-        if (($aConfDataHandler = $this->getConfig()->get('/control/datahandler/')) !== false) {
-            $this->oDataHandler =& $this->_makeDataHandler($aConfDataHandler);
+        if (false !== ($aConfDataHandler = $this->getConfig()->get('/control/datahandler/'))) {
+            $this->oDataHandler = &$this->_makeDataHandler($aConfDataHandler);
         } else {
-            $this->oDataHandler =& $this->_makeDefaultDataHandler();
+            $this->oDataHandler = &$this->_makeDefaultDataHandler();
         }
 
-        if ($iForcedEntryId === false) {
+        if (false === $iForcedEntryId) {
             $entryId = $this->oDataHandler->_currentEntryId();
             $forcedId = false;
         } else {
@@ -1717,7 +1690,7 @@ SANDBOXCLASS;
             $forcedId = true;
         }
 
-        if ($entryId !== false) {
+        if (false !== $entryId) {
             $this->oDataHandler->entryId = $entryId;
             $this->oDataHandler->forcedId = $forcedId;
         }
@@ -1735,7 +1708,7 @@ SANDBOXCLASS;
     {
         return $this->_makeDataHandler(
             array(
-                'type' => 'STANDARD'
+                'type' => 'STANDARD',
             )
         );
     }
@@ -1744,29 +1717,25 @@ SANDBOXCLASS;
     {
         return $this->_makeRenderer(
             array(
-                'type' => 'STANDARD'
+                'type' => 'STANDARD',
             )
         );
     }
 
     /**
-     * Initializes the declared renderer
-     *
-     * @return    void
+     * Initializes the declared renderer.
      */
     public function _initRenderer()
     {
-        if (($aConfRenderer = $this->getConfig()->get('/control/renderer/')) !== false) {
-            $this->oRenderer =& $this->_makeRenderer($aConfRenderer);
+        if (false !== ($aConfRenderer = $this->getConfig()->get('/control/renderer/'))) {
+            $this->oRenderer = &$this->_makeRenderer($aConfRenderer);
         } else {
             $this->_makeDefaultRenderer();
         }
     }
 
     /**
-     * Initializes the declared datasources
-     *
-     * @return    void
+     * Initializes the declared datasources.
      */
     public function _initDataSources()
     {
@@ -1782,26 +1751,24 @@ SANDBOXCLASS;
     }
 
     /**
-     * Initializes the declared datasources
+     * Initializes the declared datasources.
      *
-     * @param    array  $aConf  : conf as given in /control/datasources/*
-     * @param    string $sXPath : xpath from where the given conf comes
-     *
-     * @return    void        ...
+     * @param array  $aConf  : conf as given in /control/datasources/*
+     * @param string $sXPath : xpath from where the given conf comes
      */
     public function _makeDataSources($aConf, $sXPath)
     {
         if (is_array($aConf)) {
             reset($aConf);
             foreach ($aConf as $sElementName => $notNeeded) {
-                if ($sElementName{0} === 'd' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasource')
+                if ('d' === $sElementName[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasource')
                     && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasources')
                 ) {
-                    $aElement =& $aConf[$sElementName];
+                    $aElement = &$aConf[$sElementName];
 
                     $this->aODataSources[trim($aElement['name'])] = $this->_makeDataSource(
                         $aElement,
-                        $sXPath . $sElementName
+                        $sXPath.$sElementName
                     );
                 }
             }
@@ -1809,9 +1776,7 @@ SANDBOXCLASS;
     }
 
     /**
-     * Initializes the declared Renderlets
-     *
-     * @return    void
+     * Initializes the declared Renderlets.
      */
     public function _initRenderlets()
     {
@@ -1830,14 +1795,14 @@ SANDBOXCLASS;
     }
 
     /**
-     * Initializes the declared Renderlets
+     * Initializes the declared Renderlets.
      *
-     * @param    array   $aConf      : array of conf; usually /renderlets/*
-     * @param    string  $sXPath     : xpath from where the given conf comes
-     * @param    bool $bChilds    : TRUE if initializing childs, FALSE if not
-     * @param    bool $bOverWrite : if FALSE, two renderlets declared with the same name will trigger a mayday
+     * @param array  $aConf      : array of conf; usually /renderlets/*
+     * @param string $sXPath     : xpath from where the given conf comes
+     * @param bool   $bChilds    : TRUE if initializing childs, FALSE if not
+     * @param bool   $bOverWrite : if FALSE, two renderlets declared with the same name will trigger a mayday
      *
-     * @return    array        array of references to built renderlets
+     * @return array array of references to built renderlets
      */
     public function _makeRenderlets($aConf, $sXPath, $bChilds, &$oChildParent, $bOverWrite = false)
     {
@@ -1849,8 +1814,8 @@ SANDBOXCLASS;
 
             reset($aConf);
             foreach ($aConf as $sElementName => $notNeeded) {
-                if ($sElementName{0} === 'r' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'renderlet')) {
-                    if (array_key_exists('name', $aConf[$sElementName]) && (trim($aConf[$sElementName]['name']) != '')) {
+                if ('r' === $sElementName[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'renderlet')) {
+                    if (array_key_exists('name', $aConf[$sElementName]) && ('' != trim($aConf[$sElementName]['name']))) {
                         $sName = trim($aConf[$sElementName]['name']);
                         $bAnonymous = false;
                     } else {
@@ -1861,15 +1826,15 @@ SANDBOXCLASS;
 
                     if (!$bAnonymous && !$bOverWrite && array_key_exists($sName, $this->aORenderlets)) {
                         $this->mayday(
-                            "Two (or more) renderlets are using the same name '<b>" . $sName . "</b>' on this form ('<b>"
-                            . $this->formid . "</b>') - cannot continue<br /><h2>Inclusions:</h2>"
-                            . tx_mkforms_util_Div::viewMixed($this->aTempDebug['aIncHierarchy'])
+                            "Two (or more) renderlets are using the same name '<b>".$sName."</b>' on this form ('<b>"
+                            .$this->formid."</b>') - cannot continue<br /><h2>Inclusions:</h2>"
+                            .tx_mkforms_util_Div::viewMixed($this->aTempDebug['aIncHierarchy'])
                         );
                     }
 
-                    $oRdt =& $this->_makeRenderlet(
+                    $oRdt = &$this->_makeRenderlet(
                         $aConf[$sElementName],
-                        $sXPath . $sElementName . '/',
+                        $sXPath.$sElementName.'/',
                         $bChilds,
                         $oChildParent,
                         $bAnonymous,
@@ -1879,11 +1844,11 @@ SANDBOXCLASS;
                     $sAbsName = $oRdt->getAbsName();
                     $sName = $oRdt->getName();
 
-                    $this->aORenderlets[$sAbsName] =& $oRdt;
+                    $this->aORenderlets[$sAbsName] = &$oRdt;
                     unset($oRdt);
 
                     // brothers-childs are stored without prefixing, of course
-                    $aRdtRefs[$sName] =& $this->aORenderlets[$sAbsName];
+                    $aRdtRefs[$sName] = &$this->aORenderlets[$sAbsName];
                 }
             }
         }
@@ -1892,15 +1857,15 @@ SANDBOXCLASS;
     }
 
     /**
-     * Generates an anonymous name for a renderlet
+     * Generates an anonymous name for a renderlet.
      *
-     * @param    array $aElement : conf of the renderlet
+     * @param array $aElement : conf of the renderlet
      *
-     * @return    string        anonymous name generated
+     * @return string anonymous name generated
      */
     public function _getAnonymousName($aElement)
     {
-        return 'anonymous_' . $this->_getSafeLock(
+        return 'anonymous_'.$this->_getSafeLock(
             serialize($aElement)
         );
     }
@@ -1943,7 +1908,6 @@ SANDBOXCLASS;
     }
 
     /**
-     *
      * @param string                   $sPath
      * @param formidable_mainrenderlet $oRdt
      *
@@ -1955,9 +1919,10 @@ SANDBOXCLASS;
     }
 
     /**
-     * Liefert die XML-Config
+     * Liefert die XML-Config.
      *
      * @deprecated use getConfigXML()
+     *
      * @return tx_mkforms_util_Config
      */
     public function getConfig()
@@ -1966,7 +1931,7 @@ SANDBOXCLASS;
     }
 
     /**
-     * Liefert die XML-Config
+     * Liefert die XML-Config.
      *
      * @return tx_mkforms_util_Config
      */
@@ -1976,11 +1941,11 @@ SANDBOXCLASS;
     }
 
     /**
-     * TODO: Zugriff ändern auf Config
+     * TODO: Zugriff ändern auf Config.
      *
-     * @param string $path
+     * @param string    $path
      * @param array|int $aConf
-     * @param string $sSep
+     * @param string    $sSep
      *
      * @return mixed
      */
@@ -1991,7 +1956,7 @@ SANDBOXCLASS;
 
     public function navDef($sPath, $mDefault, $aConf = -1)
     {
-        if (($aTemp = $this->getConfig()->get($sPath, $aConf)) !== false) {
+        if (false !== ($aTemp = $this->getConfig()->get($sPath, $aConf))) {
             return $aTemp;
         }
 
@@ -2011,20 +1976,20 @@ SANDBOXCLASS;
 
         $sSep = '/';
 
-        if ($path{0} === $sSep) {
+        if ($path[0] === $sSep) {
             $path = substr($path, 1);
         }
-        if ($path{strlen($path) - 1} === $sSep) {
+        if ($path[strlen($path) - 1] === $sSep) {
             $path = substr($path, 0, strlen($path) - 1);
         }
 
         $aPath = explode($sSep, $path);
         reset($aPath);
         reset($aConf);
-        $curZone =& $aConf;
+        $curZone = &$aConf;
 
         $iSize = sizeof($aPath);
-        for ($i = 0; $i < $iSize; $i++) {
+        for ($i = 0; $i < $iSize; ++$i) {
             if (!is_array($curZone) && ($i !== ($iSize - 1))) {
                 return false;
             }
@@ -2033,12 +1998,12 @@ SANDBOXCLASS;
                 $curZone[$aPath[$i]] = array();
             }
 
-            $curZone =& $curZone[$aPath[$i]];
+            $curZone = &$curZone[$aPath[$i]];
 
             if ($i === ($iSize - 1)) {
                 $mBackup = $curZone;
 
-                if (is_array($curZone) && is_array($mValue) && $bMergeIfArray === true) {
+                if (is_array($curZone) && is_array($mValue) && true === $bMergeIfArray) {
                     // merging arrays
                     $curZone = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                         $curZone,
@@ -2063,20 +2028,20 @@ SANDBOXCLASS;
 
         $sSep = '/';
 
-        if ($path{0} === $sSep) {
+        if ($path[0] === $sSep) {
             $path = substr($path, 1);
         }
-        if ($path{strlen($path) - 1} === $sSep) {
+        if ($path[strlen($path) - 1] === $sSep) {
             $path = substr($path, 0, strlen($path) - 1);
         }
 
         $aPath = explode($sSep, $path);
         reset($aPath);
         reset($aConf);
-        $curZone =& $aConf;
+        $curZone = &$aConf;
 
         $iSize = sizeof($aPath);
-        for ($i = 0; $i < $iSize; $i++) {
+        for ($i = 0; $i < $iSize; ++$i) {
             if (!is_array($curZone) && ($i !== ($iSize - 1))) {
                 return false;
             }
@@ -2090,7 +2055,7 @@ SANDBOXCLASS;
 
                 return true;
             } else {
-                $curZone =& $curZone[$aPath[$i]];
+                $curZone = &$curZone[$aPath[$i]];
             }
         }
 
@@ -2127,7 +2092,7 @@ SANDBOXCLASS;
 
     public function getTcaVal($sAddress)
     {
-        if ($sAddress{0} === 'T' && $sAddress{1} === 'C' && substr($sAddress, 0, 4) === 'TCA:') {
+        if ('T' === $sAddress[0] && 'C' === $sAddress[1] && 'TCA:' === substr($sAddress, 0, 4)) {
             $aParts = explode(':', $sAddress);
             unset($aParts[0]);
 
@@ -2163,18 +2128,18 @@ SANDBOXCLASS;
     }
 
     /**
-     * Renders the whole application
+     * Renders the whole application.
      *
-     * @return    string        Full rendered HTML
+     * @return string Full rendered HTML
      */
     public function _render()
     {
-        if ($this->bInited === false) {
+        if (false === $this->bInited) {
             $this->start_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();    // because it has not been initialized yet
             $this->mayday('TRIED TO RENDER FORM BEFORE CALLING INIT() !');
         }
 
-        $this->checkPoint(array('before-render',));
+        $this->checkPoint(array('before-render'));
 
         //submit mode merken
         $this->setIsFullySubmitted();
@@ -2188,8 +2153,8 @@ SANDBOXCLASS;
             //der das Formular erstellt hat
             if ($this->isCsrfProtectionActive() && !$this->validateRequestToken()) {
                 throw new RuntimeException(
-                    'Das Formular ist nicht valide! erwarteter Token: ' . $this->getRequestTokenFromSession(),
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] . '1'
+                    'Das Formular ist nicht valide! erwarteter Token: '.$this->getRequestTokenFromSession(),
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'].'1'
                 );
             }
 
@@ -2394,7 +2359,7 @@ SANDBOXCLASS;
                     $aRendered
                 );
 
-                $this->checkPoint(array('after-render',));
+                $this->checkPoint(array('after-render'));
             }
         } else {
             $this->_debug('NO VALIDATION REQUIRED', 'NO SUBMIT EVENT TO HANDLE');
@@ -2415,7 +2380,7 @@ SANDBOXCLASS;
             // the renderer is executed
             $aHtmlBag = $this->oRenderer->_render($aRendered);
 
-            $this->checkPoint(array('after-render',));
+            $this->checkPoint(array('after-render'));
         }
 
         $this->checkPoint(array('before-js-inclusion'));
@@ -2435,14 +2400,14 @@ SANDBOXCLASS;
 
                     reset($this->aORenderlets);
                     foreach ($this->aORenderlets as $sName => $notNeeded) {
-                        $sStyle = str_replace('#' . $sName, '#' . $this->aORenderlets[$sName]->_getElementCssId(), $sStyle);
+                        $sStyle = str_replace('#'.$sName, '#'.$this->aORenderlets[$sName]->_getElementCssId(), $sStyle);
                     }
 
                     $this->additionalHeaderData(
                         $this->inline2TempFile(
                             $sStyle,
                             'css',
-                            'Exported style-tags of "' . $this->formid . '"'
+                            'Exported style-tags of "'.$this->formid.'"'
                         )
                     );
                 }
@@ -2464,11 +2429,11 @@ SANDBOXCLASS;
 
             $this->attachAccessibilityInit();
 
-            if ($this->aAddPostVars !== false) {
+            if (false !== $this->aAddPostVars) {
                 reset($this->aAddPostVars);
                 foreach ($this->aAddPostVars as $sKey => $notNeeded) {
                     if (array_key_exists('action', $this->aAddPostVars[$sKey])
-                        && $this->aAddPostVars[$sKey]['action'] == 'execOnNextPage'
+                        && 'execOnNextPage' == $this->aAddPostVars[$sKey]['action']
                     ) {
                         $aTask = $this->aAddPostVars[$sKey]['params'];
                         $this->attachInitTask(
@@ -2487,7 +2452,7 @@ SANDBOXCLASS;
             foreach ($this->aOnloadEvents['ajax'] as $sEventId => $aEvent) {
                 $this->attachInitTask(
                     $this->oRenderer->_getAjaxEvent($this->aORenderlets[$aEvent['name']], $aEvent['event'], 'onload'),
-                    'AJAX Event onload for ' . $this->formid . '.' . $aEvent['name'],
+                    'AJAX Event onload for '.$this->formid.'.'.$aEvent['name'],
                     $sEventId
                 );
             }
@@ -2496,7 +2461,7 @@ SANDBOXCLASS;
             foreach ($this->aOnloadEvents['client'] as $aEvent) {
                 $this->attachInitTask(
                     $this->oRenderer->_getClientEvent($aEvent['name'], $aEvent['event'], $aEvent['eventdata'], 'onload'),
-                    'CLIENT Event onload for ' . $this->formid . '.' . $aEvent['name']
+                    'CLIENT Event onload for '.$this->formid.'.'.$aEvent['name']
                 );
             }
             $this->getJSLoader()->setLoadedScripts();
@@ -2506,30 +2471,30 @@ SANDBOXCLASS;
             $sJs .= "\n});";
             $sJs .= implode("\n", $this->aInitTasksOutsideLoad);
 
-            if ($this->shouldGenerateScriptAsInline() === false) {
+            if (false === $this->shouldGenerateScriptAsInline()) {
                 $this->additionalHeaderData(
-                    $this->inline2TempFile($sJs, 'js', 'Formidable \'' . $this->formid . '\' initialization')
+                    $this->inline2TempFile($sJs, 'js', 'Formidable \''.$this->formid.'\' initialization')
                 );
             } else {
                 $this->additionalHeaderData(
-                    "<!-- BEGIN:Formidable '" . $this->formid . "' initialization-->\n" . "<script type=\"text/javascript\">\n"
-                    . $sJs . "\n</script>\n" . "<!-- END:Formidable '" . $this->formid . "' initialization-->\n"
+                    "<!-- BEGIN:Formidable '".$this->formid."' initialization-->\n"."<script type=\"text/javascript\">\n"
+                    .$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid."' initialization-->\n"
                 );
             }
 
             // Damit werden direkt zusätzliche HeaderDaten geschrieben
             $this->getJSLoader()->includeAdditionalLibraries();
 
-            $sJs = "MKWrapper.onDOMReady(function() {\n" . implode('', $this->aPostInitTasks) . "\n});";
-            if ($this->shouldGenerateScriptAsInline() === false) {
+            $sJs = "MKWrapper.onDOMReady(function() {\n".implode('', $this->aPostInitTasks)."\n});";
+            if (false === $this->shouldGenerateScriptAsInline()) {
                 $this->additionalHeaderData(
-                    $this->inline2TempFile($sJs, 'js', 'Formidable \'' . $this->formid . '\ post-initialization')
+                    $this->inline2TempFile($sJs, 'js', 'Formidable \''.$this->formid.'\ post-initialization')
                 );
             } else {
                 $this->additionalHeaderData(
-                    "<!-- BEGIN:Formidable '" . $this->formid . "' post-initialization-->\n"
-                    . "<script type=\"text/javascript\">\n" . $sJs . "\n</script>\n" . "<!-- END:Formidable '" . $this->formid
-                    . "' post-initialization-->\n"
+                    "<!-- BEGIN:Formidable '".$this->formid."' post-initialization-->\n"
+                    ."<script type=\"text/javascript\">\n".$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid
+                    ."' post-initialization-->\n"
                 );
             }
 
@@ -2546,7 +2511,7 @@ SANDBOXCLASS;
 
         $this->setStoreFormInSession(($this->storeFormInSession || $this->_defaultFalse('/meta/keepinsession')));
 
-        if ($this->storeFormInSession === true && !$this->isTestMode()) {
+        if (true === $this->storeFormInSession && !$this->isTestMode()) {
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
             $sesMgr->persistForm();
         } else {
@@ -2555,14 +2520,14 @@ SANDBOXCLASS;
 
         $this->end_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();
         if (!empty($sDH)) {
-            return $aHtmlBag['FORMBEGIN'] . $sDH . $aHtmlBag['HIDDEN'] . $aHtmlBag['FORMEND'] . $debug;
+            return $aHtmlBag['FORMBEGIN'].$sDH.$aHtmlBag['HIDDEN'].$aHtmlBag['FORMEND'].$debug;
         } else {
-            return $aHtmlBag['FORMBEGIN'] . $aHtmlBag['CONTENT'] . $aHtmlBag['HIDDEN'] . $aHtmlBag['FORMEND'] . $debug;
+            return $aHtmlBag['FORMBEGIN'].$aHtmlBag['CONTENT'].$aHtmlBag['HIDDEN'].$aHtmlBag['FORMEND'].$debug;
         }
     }
 
     /**
-     * Setzen ob die Form fullySubmitted ist oder nicht
+     * Setzen ob die Form fullySubmitted ist oder nicht.
      */
     public function setIsFullySubmitted()
     {
@@ -2570,7 +2535,7 @@ SANDBOXCLASS;
     }
 
     /**
-     * ist die form fullySubmitted
+     * ist die form fullySubmitted.
      */
     public function isFullySubmitted()
     {
@@ -2606,11 +2571,11 @@ SANDBOXCLASS;
 
         reset($aServices);
         foreach ($aServices as $sServiceKey) {
-            if (($mService = $this->getConfig()->get('/meta/' . $sServiceKey)) !== false) {
+            if (false !== ($mService = $this->getConfig()->get('/meta/'.$sServiceKey))) {
                 $sName = array_key_exists('name', $mService) ? trim(strtolower($mService['name'])) : '';
                 $sServiceId = $this->getAjaxServiceId($mService['name']);
 
-                if ($sName === '') {
+                if ('' === $sName) {
                     $this->mayday('Ajax service: ajax service requires /name to be set.');
                 }
 
@@ -2664,18 +2629,18 @@ JAVASCRIPT;
     {
         $sName = strtolower($sName);
 
-        return ($sName{0} === 'a') && ($sName{1} === 'j')
-        && (substr($sName, 0, 11) === 'ajaxservice');    // should start with 'aj'
+        return ('a' === $sName[0]) && ('j' === $sName[1])
+        && ('ajaxservice' === substr($sName, 0, 11));    // should start with 'aj'
     }
 
     public function getAjaxServiceId($sName)
     {
-        return $this->_getSafeLock('ajaxservice:' . $this->formid . ':' . $sName);
+        return $this->_getSafeLock('ajaxservice:'.$this->formid.':'.$sName);
     }
 
     public function processDataBridges($bShouldProcess = true)
     {
-        if ($bShouldProcess === false) {
+        if (false === $bShouldProcess) {
             return;
         }
 
@@ -2709,10 +2674,10 @@ JAVASCRIPT;
     {
         reset($this->aORenderlets);
         foreach ($this->aORenderlets as $sKey => $notNeeded) {
-            if ($this->aORenderlets[$sKey]->hideIfJs() === true) {
+            if (true === $this->aORenderlets[$sKey]->hideIfJs()) {
                 $this->attachInitTask(
-                    "Formidable.f('" . $this->formid . "').o('" . $this->aORenderlets[$sKey]->_getElementHtmlId()
-                    . "').displayNone();",
+                    "Formidable.f('".$this->formid."').o('".$this->aORenderlets[$sKey]->_getElementHtmlId()
+                    ."').displayNone();",
                     'Access'
                 );
             }
@@ -2736,7 +2701,7 @@ JAVASCRIPT;
      */
     public function attachPostInitTask($sScript, $sDesc = '', $sKey = false)
     {
-        if (tx_mkforms_util_Div::getEnvExecMode() === 'EID') {
+        if ('EID' === tx_mkforms_util_Div::getEnvExecMode()) {
             $this->attachPostInitTask_ajax($sScript, $sDesc, $sKey);
         } else {
             $this->attachPostInitTask_plain($sScript, $sDesc, $sKey);
@@ -2745,8 +2710,8 @@ JAVASCRIPT;
 
     private function attachPostInitTask_plain($sScript, $sDesc = '', $sKey = false)
     {
-        $sJs = "\n" . trim($sScript);
-        if ($sKey === false) {
+        $sJs = "\n".trim($sScript);
+        if (false === $sKey) {
             $this->aPostInitTasks[] = $sJs;
         } else {
             $this->aPostInitTasks[$sKey] = $sJs;
@@ -2755,13 +2720,13 @@ JAVASCRIPT;
 
     private function attachPostInitTask_ajax($sScript, $sDesc = '', $sKey = false)
     {
-        if ($sDesc != '') {
-            $sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(array('/*', '*/', '//'), '', $sDesc)) . ' */';
+        if ('' != $sDesc) {
+            $sDesc = "\n\n/* FORMIDABLE: ".trim(str_replace(array('/*', '*/', '//'), '', $sDesc)).' */';
         }
 
-        $sJs = $sDesc . "\n" . trim($sScript) . "\n";
+        $sJs = $sDesc."\n".trim($sScript)."\n";
 
-        if ($sKey === false) {
+        if (false === $sKey) {
             $this->aPostInitTasksAjax[] = $sJs;
         } else {
             $this->aPostInitTasksAjax[$sKey] = $sJs;
@@ -2769,18 +2734,16 @@ JAVASCRIPT;
     }
 
     /**
-     * Declares a JS task to execute at page init time
+     * Declares a JS task to execute at page init time.
      *
-     * @param    string  $sScript      : JS code
-     * @param    string  $sDesc        : optional; description of the code, place as a comment in the HTML
-     * @param    string  $sKey         : optional; key of the js code in the header array
-     * @param    bool $bOutsideLoad : optional; load it at onload time, or after
-     *
-     * @return    void
+     * @param string $sScript      : JS code
+     * @param string $sDesc        : optional; description of the code, place as a comment in the HTML
+     * @param string $sKey         : optional; key of the js code in the header array
+     * @param bool   $bOutsideLoad : optional; load it at onload time, or after
      */
     public function attachInitTask($sScript, $sDesc = '', $sKey = false, $bOutsideLoad = false)
     {
-        if (tx_mkforms_util_Div::getEnvExecMode() === 'EID') {
+        if ('EID' === tx_mkforms_util_Div::getEnvExecMode()) {
             $this->attachInitTask_ajax($sScript, $sDesc, $sKey, $bOutsideLoad);
         } else {
             $this->attachInitTask_plain($sScript, $sDesc, $sKey, $bOutsideLoad);
@@ -2794,16 +2757,16 @@ JAVASCRIPT;
 
     public function attachInitTask_plain($sScript, $sDesc = '', $sKey = false, $bOutsideLoad = false)
     {
-        $sJs = "\n" . trim($sScript);
+        $sJs = "\n".trim($sScript);
 
         if ($bOutsideLoad) {
-            if ($sKey === false) {
+            if (false === $sKey) {
                 $this->aInitTasksOutsideLoad[] = $sJs;
             } else {
                 $this->aInitTasksOutsideLoad[$sKey] = $sJs;
             }
         } else {
-            if ($sKey === false) {
+            if (false === $sKey) {
                 $this->aInitTasks[] = $sJs;
             } else {
                 $this->aInitTasks[$sKey] = $sJs;
@@ -2813,13 +2776,13 @@ JAVASCRIPT;
 
     public function attachInitTask_ajax($sScript, $sDesc = '', $sKey = false, $bOutsideLoad = false)
     {
-        if ($sDesc != '') {
-            $sDesc = "\n\n/* FORMIDABLE: " . trim(str_replace(array('/*', '*/', '//'), '', $sDesc)) . ' */';
+        if ('' != $sDesc) {
+            $sDesc = "\n\n/* FORMIDABLE: ".trim(str_replace(array('/*', '*/', '//'), '', $sDesc)).' */';
         }
 
-        $sJs = $sDesc . "\n" . trim($sScript) . "\n";
+        $sJs = $sDesc."\n".trim($sScript)."\n";
 
-        if ($sKey === false) {
+        if (false === $sKey) {
             $this->aInitTasksAjax[] = $sJs;
         } else {
             $this->aInitTasksAjax[$sKey] = $sJs;
@@ -2827,11 +2790,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Renders all the Renderlets elements as defined in conf
+     * Renders all the Renderlets elements as defined in conf.
      *
-     * @param    bool $bRenderChilds : render childs ? or not
+     * @param bool $bRenderChilds : render childs ? or not
      *
-     * @return    array        Array of rendered elements, structured as $elementname => $renderedHTML
+     * @return array Array of rendered elements, structured as $elementname => $renderedHTML
      */
     public function _renderElements($bRenderChilds = false)
     {
@@ -2840,12 +2803,12 @@ JAVASCRIPT;
         $aKeys = array_keys($this->aORenderlets);
         $iKeys = sizeof($aKeys);
 
-        for ($k = 0; $k < $iKeys; $k++) {
+        for ($k = 0; $k < $iKeys; ++$k) {
             $sName = $aKeys[$k];
 
             if (!$this->aORenderlets[$sName]->isChild() || $bRenderChilds) {
-                if ($this->oDataHandler->aObjectType['TYPE'] != 'LISTER' || $this->aORenderlets[$sName]->_searchable()) {
-                    if (($mHtml = $this->_renderElement($this->aORenderlets[$sName])) !== false) {
+                if ('LISTER' != $this->oDataHandler->aObjectType['TYPE'] || $this->aORenderlets[$sName]->_searchable()) {
+                    if (false !== ($mHtml = $this->_renderElement($this->aORenderlets[$sName]))) {
                         $aHtml[$sName] = $mHtml;
                     }
                 }
@@ -2858,11 +2821,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Renders the given Renderlet
+     * Renders the given Renderlet.
      *
-     * @param    array $aElement : details about the Renderlet to render, extracted from conf
+     * @param array $aElement : details about the Renderlet to render, extracted from conf
      *
-     * @return    string        The Rendered HTML
+     * @return string The Rendered HTML
      */
     public function _renderElement(&$oRdt)
     {
@@ -2882,10 +2845,10 @@ JAVASCRIPT;
      * @deprecated
      * Returns system informations about an object-type
      *
-     * @param    string $type             : something like TEXT, IMAGE, ...
-     * @param    array  $aCollectionInfos : the collection of objects where to get infos
+     * @param string $type             : something like TEXT, IMAGE, ...
+     * @param array  $aCollectionInfos : the collection of objects where to get infos
      *
-     * @return    mixed        array of info or FALSE if failed
+     * @return mixed array of info or FALSE if failed
      */
     public function _getInfosForType($type, $aCollectionInfos)
     {
@@ -2902,11 +2865,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Returns system-informations about the given datasource type
+     * Returns system-informations about the given datasource type.
      *
-     * @param    string $type : given type
+     * @param string $type : given type
      *
-     * @return    array        system-informations
+     * @return array system-informations
      */
     public function _getInfosDataSourceForType($sType)
     {
@@ -2914,11 +2877,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Returns system-informations about the given datahandler type
+     * Returns system-informations about the given datahandler type.
      *
-     * @param    string $type : given type
+     * @param string $type : given type
      *
-     * @return    array        system-informations
+     * @return array system-informations
      */
     public function _getInfosDataHandlerForType($sType)
     {
@@ -2926,11 +2889,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Returns system-informations about the given renderer type
+     * Returns system-informations about the given renderer type.
      *
-     * @param    string $type : given type
+     * @param string $type : given type
      *
-     * @return    array        system-informations
+     * @return array system-informations
      */
     public function _getInfosRendererForType($sType)
     {
@@ -2938,11 +2901,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Returns system-informations about the given validator type
+     * Returns system-informations about the given validator type.
      *
-     * @param    string $type : given type
+     * @param string $type : given type
      *
-     * @return    array        system-informations
+     * @return array system-informations
      */
     public function _getInfosValidatorForType($sType)
     {
@@ -2950,11 +2913,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Returns system-informations about the given actionlet type
+     * Returns system-informations about the given actionlet type.
      *
-     * @param    string $type : given type
+     * @param string $type : given type
      *
-     * @return    array        system-informations
+     * @return array system-informations
      */
     public function _getInfosActionletForType($sType)
     {
@@ -2962,7 +2925,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Liefert den ObjectLoader
+     * Liefert den ObjectLoader.
      *
      * @return tx_mkforms_util_Loader
      */
@@ -2972,12 +2935,12 @@ JAVASCRIPT;
     }
 
     /**
-     * Makes and initializes a datasource object
+     * Makes and initializes a datasource object.
      *
-     * @param    array  $aElement : conf for this object instance
-     * @param    string $sXPath   : xpath where this conf is declared
+     * @param array  $aElement : conf for this object instance
+     * @param string $sXPath   : xpath where this conf is declared
      *
-     * @return    object
+     * @return object
      */
     public function _makeDataSource($aElement, $sXPath)
     {
@@ -2985,11 +2948,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Makes and initializes a datahandler object
+     * Makes and initializes a datahandler object.
      *
-     * @param    array $aElement : conf for this object instance
+     * @param array $aElement : conf for this object instance
      *
-     * @return    object
+     * @return object
      */
     public function _makeDataHandler($aElement)
     {
@@ -2997,11 +2960,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Makes and initializes a renderer object
+     * Makes and initializes a renderer object.
      *
-     * @param    array $aElement : conf for this object instance
+     * @param array $aElement : conf for this object instance
      *
-     * @return    object
+     * @return object
      */
     public function _makeRenderer($aElement)
     {
@@ -3009,13 +2972,13 @@ JAVASCRIPT;
     }
 
     /**
-     * Makes and initializes a renderlet object
+     * Makes and initializes a renderlet object.
      *
-     * @param array $aElement conf for this object instance
-     * @param string $sXPath xpath where this conf is declared
-     * @param bool $bChilds
+     * @param array       $aElement     conf for this object instance
+     * @param string      $sXPath       xpath where this conf is declared
+     * @param bool        $bChilds
      * @param object|bool $oChildParent
-     * @param bool $bAnonymous
+     * @param bool        $bAnonymous
      * @param string|bool $sNamePrefix
      *
      * @return formidable_mainrenderlet
@@ -3031,18 +2994,18 @@ JAVASCRIPT;
         $aOParent = array();
         $aRawPost = $this->_getRawPost();
 
-        if ($bChilds !== false) {
+        if (false !== $bChilds) {
             // optional params cannot be passed by ref, so we're using the array-trick here
             $aOParent = array(&$oChildParent);
         }
 
-        $oRdt =& $this->getObjectLoader()->makeObject($aElement, 'renderlets', $sXPath, $this, $sNamePrefix, $aOParent);
+        $oRdt = &$this->getObjectLoader()->makeObject($aElement, 'renderlets', $sXPath, $this, $sNamePrefix, $aOParent);
         $oRdt->bAnonymous = $bAnonymous;
         $oRdt->bChild = $bChilds;
 
         $sAbsName = $oRdt->getAbsName();
         $sAbsPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sAbsName);
-        if ($this->navDeepData($sAbsPath, $aRawPost) !== false) {
+        if (false !== $this->navDeepData($sAbsPath, $aRawPost)) {
             $oRdt->bHasBeenPosted = true;
         }
 
@@ -3050,11 +3013,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Makes and initializes a validator object
+     * Makes and initializes a validator object.
      *
-     * @param    array $aElement : conf for this object instance
+     * @param array $aElement : conf for this object instance
      *
-     * @return    object
+     * @return object
      */
     public function _makeValidator($aElement)
     {
@@ -3062,12 +3025,12 @@ JAVASCRIPT;
     }
 
     /**
-     * Makes and initializes an actionlet object
+     * Makes and initializes an actionlet object.
      *
-     * @param    array  $aElement : conf for this object instance
-     * @param    string $sXPath   : xpath where this conf is declared
+     * @param array  $aElement : conf for this object instance
+     * @param string $sXPath   : xpath where this conf is declared
      *
-     * @return    object
+     * @return object
      */
     public function _makeActionlet($aElement)
     {
@@ -3085,9 +3048,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Validates data returned by all the Renderlets elements as defined in conf
-     *
-     * @return    void        Writes into $this->_aValidationErrors[] using tx_ameosformidable::_declareValidationError()
+     * Validates data returned by all the Renderlets elements as defined in conf.
      */
     public function _validateElements()
     {
@@ -3098,7 +3059,7 @@ JAVASCRIPT;
             foreach ($aRdtKeys as $sAbsName) {
                 // nur validieren wenn für die validierung submitted wurde (_isSubmitted validiert bei allen submits)
                 if ($this->aORenderlets[$sAbsName]->_isSubmittedForValidation()
-                    && ($this->aORenderlets[$sAbsName]->getIterableAncestor() === false)
+                    && (false === $this->aORenderlets[$sAbsName]->getIterableAncestor())
                 ) {
                     $this->aORenderlets[$sAbsName]->validate();
                 }
@@ -3107,9 +3068,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Validates data returned by all the Renderlets, draft-mode
-     *
-     * @return    void
+     * Validates data returned by all the Renderlets, draft-mode.
      */
     public function _validateElementsDraft()
     {
@@ -3127,13 +3086,11 @@ JAVASCRIPT;
 
     /**
      * Declares validation error
-     * Used by Validators Objects
+     * Used by Validators Objects.
      *
-     * @param    string $sElementName
-     * @param    string $sKey
-     * @param    string $sMessage : the error message to display
-     *
-     * @return    void        Writes into $this->_aValidationErrors[]
+     * @param string $sElementName
+     * @param string $sKey
+     * @param string $sMessage     : the error message to display
      */
     public function _declareValidationError($sElementName, $sKey, $sMessage)
     {
@@ -3144,10 +3101,10 @@ JAVASCRIPT;
                 $sNamespace = array_shift(explode(':', $sKey));
                 $sType = array_pop(explode(':', $sKey));
 
-                if (trim($sMessage) === '') {
-                    if ($this->sDefaultLLLPrefix !== false) {
+                if ('' === trim($sMessage)) {
+                    if (false !== $this->sDefaultLLLPrefix) {
                         // trying to automap the error message
-                        $sKey = 'LLL:' . $sElementName . '.error.' . $sType;
+                        $sKey = 'LLL:'.$sElementName.'.error.'.$sType;
                         $sMessage = $this->getConfig()->getLLLabel($sKey);
                     }
                 }
@@ -3188,12 +3145,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Execute each actionlet declared for this FORM
+     * Execute each actionlet declared for this FORM.
      *
-     * @param    array  $aRendered :    array containing the HTML of the rendered renderlets
-     * @param    string $sForm     : the whole FORM html string
+     * @param array  $aRendered :    array containing the HTML of the rendered renderlets
+     * @param string $sForm     : the whole FORM html string
      *
-     * @return    void
      * @see tx_ameosformidable::_render()
      */
     public function _executeActionlets($aRendered, $sForm)
@@ -3208,7 +3164,7 @@ JAVASCRIPT;
 
         if (is_array($aActionlets)) {
             foreach ($aActionlets as $sKey => $aActionlet) {
-                if ($sKey{0} === 'a' && $sKey{1} === 'c' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlet')
+                if ('a' === $sKey[0] && 'c' === $sKey[1] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlet')
                     && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlets')
                 ) {
                     $this->_executeActionlet($aActionlet, $aRendered, $sForm);
@@ -3218,14 +3174,13 @@ JAVASCRIPT;
     }
 
     /**
-     * Executes the specific process for this actionlet
+     * Executes the specific process for this actionlet.
      *
-     * @param    array  $aActionlet : details about the Renderlet element to validate, extracted from XML conf / used in
-     *                              formidable_mainvalidator::validate()
-     * @param    array  $aRendered  : array containing the HTML of the rendered renderlets
-     * @param    string $sForm      : the whole FORM html string
+     * @param array  $aActionlet : details about the Renderlet element to validate, extracted from XML conf / used in
+     *                           formidable_mainvalidator::validate()
+     * @param array  $aRendered  : array containing the HTML of the rendered renderlets
+     * @param string $sForm      : the whole FORM html string
      *
-     * @return    void
      * @see tx_ameosformidable::_executeActionlets()
      */
     public function _executeActionlet($aActionlet, $aRendered, $sForm)
@@ -3233,14 +3188,6 @@ JAVASCRIPT;
         $oActionlet = $this->_makeActionlet($aActionlet);
         $oActionlet->_doTheMagic($aRendered, $sForm);
     }
-
-
-
-
-
-
-
-
 
     /*********************************
      *
@@ -3254,34 +3201,32 @@ JAVASCRIPT;
      * - the collection of declared DataHandlers
      * - the collection of declared Renderers
      * - the collection of declared Renderlets
-     * - the collection of declared Validators
+     * - the collection of declared Validators.
      *
      * Can be called by the parent Extension, or by FORMidable itselves, if the XML conf sets /formidable/meta/debug/ to TRUE
      *
-     * @param    [type]        $bExpand: ...
+     * @param [type] $bExpand: ...
      *
-     * @return    void
      * @see      tx_ameosformidable::mayday(), tx_ameosformidable::_render()
      */
     public function debug($bExpand = false)
     {
-
         $aHtml = array();
 
-        $aHtml[] = '<a name= "' . $this->formid . 'formidable_debugtop" />';
+        $aHtml[] = '<a name= "'.$this->formid.'formidable_debugtop" />';
 
         // wenn kein js immer ausklappen
-        if ($bExpand === false && $this->getJSLoader()->mayLoadJsFramework()) {
-            $aHtml[] = '<a href="javascript:void(Formidable.f(\'' . $this->formid . '\').toggleDebug())"><img src="'
-                . Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
-                . '/res/images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
-            $aHtml[] = '<div id="' . $this->formid
-                . '_debugzone" style="font-family: Verdana; display: none; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;">';
+        if (false === $bExpand && $this->getJSLoader()->mayLoadJsFramework()) {
+            $aHtml[] = '<a href="javascript:void(Formidable.f(\''.$this->formid.'\').toggleDebug())"><img src="'
+                .Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms')
+                .'/res/images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
+            $aHtml[] = '<div id="'.$this->formid
+                .'_debugzone" style="font-family: Verdana; display: none; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;">';
         } else {
-            $aHtml[] = '<img src="' . Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath('mkforms')
-                . '/res/images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
-            $aHtml[] = "<div id = '" . $this->formid
-                . "_debugzone' style = 'font-family: Verdana; display: block; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;'>";
+            $aHtml[] = '<img src="'.Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms')
+                .'/res/images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
+            $aHtml[] = "<div id = '".$this->formid
+                ."_debugzone' style = 'font-family: Verdana; display: block; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;'>";
         }
 
         $aHtml[] = '<h4>FORMidable debug()</h4>';
@@ -3297,34 +3242,34 @@ JAVASCRIPT;
 
         if (!is_null($this->_xmlPath)) {
             // conf passed by php array ( // typoscript )
-            $aHtml[] = "<li><a href = '#" . $this->formid . "formidable_xmlpath' target = '_self'>XML Path</a></li>";
+            $aHtml[] = "<li><a href = '#".$this->formid."formidable_xmlpath' target = '_self'>XML Path</a></li>";
         }
 
-        $aHtml[] = "<li><a href = '#" . $this->formid . "formidable_configuration' target = '_self'>FORM configuration</a></li>";
-        $aHtml[] = "<li><a href = '#" . $this->formid . "formidable_callstack' target = '_self'>Call stack</a></li>";
+        $aHtml[] = "<li><a href = '#".$this->formid."formidable_configuration' target = '_self'>FORM configuration</a></li>";
+        $aHtml[] = "<li><a href = '#".$this->formid."formidable_callstack' target = '_self'>Call stack</a></li>";
         $aHtml[] = '</ul>';
 
         if (!is_null($this->_xmlPath)) {
-            $aHtml[] = "<a name = '" . $this->formid . "formidable_xmlpath' />";
+            $aHtml[] = "<a name = '".$this->formid."formidable_xmlpath' />";
             $aHtml[] = '<h5>XML Path</h5>';
             $aHtml[] = $this->_xmlPath;
 
-            $aHtml[] = "<p align = 'right'><a href = '#" . $this->formid . "formidable_debugtop' target = '_self'>^top^</a></p>";
+            $aHtml[] = "<p align = 'right'><a href = '#".$this->formid."formidable_debugtop' target = '_self'>^top^</a></p>";
 
-            $aHtml[] = "<a name = '" . $this->formid . "formidable_xmlfile' />";
+            $aHtml[] = "<a name = '".$this->formid."formidable_xmlfile' />";
         }
 
-        $aHtml[] = "<a name = '" . $this->formid . "formidable_configuration' />";
+        $aHtml[] = "<a name = '".$this->formid."formidable_configuration' />";
         $aHtml[] = '<h5>FORM configuration</h5>';
         $aHtml[]
-            = "<div WIDTH = '100%' style = 'HEIGHT: 400px; overflow: scroll'>" . tx_rnbase_util_Debug::viewArray($this->_aConf)
-            . '</div>';
-        $aHtml[] = "<p align = 'right'><a href = '#" . $this->formid . "formidable_debugtop' target = '_self'>^top^</a></p>";
+            = "<div WIDTH = '100%' style = 'HEIGHT: 400px; overflow: scroll'>".tx_rnbase_util_Debug::viewArray($this->_aConf)
+            .'</div>';
+        $aHtml[] = "<p align = 'right'><a href = '#".$this->formid."formidable_debugtop' target = '_self'>^top^</a></p>";
 
-        $aHtml[] = "<a name = '" . $this->formid . "formidable_callstack' />";
+        $aHtml[] = "<a name = '".$this->formid."formidable_callstack' />";
         $aHtml[] = '<h5>Call stack</h5>';
         $aHtml[] = implode('<hr>', $this->aDebug);
-        $aHtml[] = "<p align = 'right'><a href = '#" . $this->formid . "formidable_debugtop' target = '_self'>^top^</a></p>";
+        $aHtml[] = "<p align = 'right'><a href = '#".$this->formid."formidable_debugtop' target = '_self'>^top^</a></p>";
 
         $aHtml[] = '</div>';
 
@@ -3333,16 +3278,14 @@ JAVASCRIPT;
 
     /**
      * Internal debug function
-     * Calls the TYPO3 debug function if the XML conf sets /formidable/meta/debug/ to TRUE
+     * Calls the TYPO3 debug function if the XML conf sets /formidable/meta/debug/ to TRUE.
      *
-     * @param    mixed   $variable       : the variable to dump
-     * @param    string  $name           : title of this debug section
-     * @param    string  $line           : PHP code line calling this function ( __LINE__ )
-     * @param    string  $file           : PHP script calling this function ( __FILE__ )
-     * @param    int $recursiveDepth : number of levels to debug, if recursive variable
-     * @param    string  $debugLevel     : the sensibility of this warning
-     *
-     * @return    void
+     * @param mixed  $variable       : the variable to dump
+     * @param string $name           : title of this debug section
+     * @param string $line           : PHP code line calling this function ( __LINE__ )
+     * @param string $file           : PHP script calling this function ( __FILE__ )
+     * @param int    $recursiveDepth : number of levels to debug, if recursive variable
+     * @param string $debugLevel     : the sensibility of this warning
      */
     public function _debug($variable, $name, $bAnalyze = true)
     {
@@ -3350,19 +3293,14 @@ JAVASCRIPT;
     }
 
     /**
-     * Stops Formidable and PHP execution : die() if some critical error appeared
+     * Stops Formidable and PHP execution : die() if some critical error appeared.
      *
-     * @param    string $msg : the error message
-     *
-     * @return    void
+     * @param string $msg : the error message
      */
     public function mayday($msg)
     {
         tx_mkforms_util_Div::mayday($msg, $this);
     }
-
-
-
 
     /*********************************
      *
@@ -3371,7 +3309,7 @@ JAVASCRIPT;
      *********************************/
 
     /**
-     * Returns the form id
+     * Returns the form id.
      *
      * @return string
      */
@@ -3381,13 +3319,13 @@ JAVASCRIPT;
     }
 
     /**
-     * Callback function for preg_callback_replace
+     * Callback function for preg_callback_replace.
      *
      * Returns the translated string for the given {LLL} path
      *
-     * @param    string $label : {LLL} path
+     * @param string $label : {LLL} path
      *
-     * @return    string        The translated string
+     * @return string The translated string
      */
     public function _getLLLabelTag($aLabel)
     {
@@ -3397,16 +3335,16 @@ JAVASCRIPT;
     }
 
     /**
-     * Parses a template
+     * Parses a template.
      *
-     * @param    string $templatePath   : the path to the template file
-     * @param    string $templateMarker : the marker subpart
-     * @param    array  $aTags          : array containing the values to render
-     * @param    [type]        $aExclude: ...
-     * @param    [type]        $bClearNotUsed: ...
-     * @param    [type]        $aLabels: ...
+     * @param string $templatePath   : the path to the template file
+     * @param string $templateMarker : the marker subpart
+     * @param array  $aTags          : array containing the values to render
+     * @param [type] $aExclude:      ...
+     * @param [type] $bClearNotUsed: ...
+     * @param [type] $aLabels:       ...
      *
-     * @return    string        HTML string with substituted values
+     * @return string HTML string with substituted values
      */
     public function _parseTemplate(
         $templatePath,
@@ -3434,12 +3372,12 @@ JAVASCRIPT;
             $sExtKey = $GLOBALS['_EXTKEY'];
         }
 
-        return Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL') . tx_rnbase_util_Extensions::siteRelPath($sExtKey);
+        return Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath($sExtKey);
     }
 
     public function _substLLLInHtml($sHtml)
     {
-        if ($sHtml{0} === 'L' && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sHtml, 'LLL:')) {
+        if ('L' === $sHtml[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sHtml, 'LLL:')) {
             return $this->getConfigXML()->getLLLabel($sHtml);
         }
 
@@ -3497,8 +3435,8 @@ JAVASCRIPT;
             $sXml = tx_mkforms_util_Div::viewMixed($this->__sEvalTemp['xml']);
 
             $this->mayday(
-                '<b>' . $aErrors[$iErrno] . '</b>: ' . $sMessage . ' in <b>' . $sFile . '</b> on line <b>' . $iLine
-                . '</b><br /><hr />' . $sXml . '<hr/>' . $sPhp
+                '<b>'.$aErrors[$iErrno].'</b>: '.$sMessage.' in <b>'.$sFile.'</b> on line <b>'.$iLine
+                .'</b><br /><hr />'.$sXml.'<hr/>'.$sPhp
             );
         }
 
@@ -3534,23 +3472,23 @@ JAVASCRIPT;
                 $aKeys
             );
 
-            $iNeighbourPos = (int)$iPos + ($iDirection);
+            $iNeighbourPos = (int) $iPos + ($iDirection);
 
             if (array_key_exists($iNeighbourPos, $aKeys)) {
-                if ($bKey !== false) {
+                if (false !== $bKey) {
                     return $aKeys[$iNeighbourPos];
                 } else {
                     return $aData[$aKeys[$iNeighbourPos]];
                 }
             } elseif ($bCycle) {
                 if ($iDirection > 0) {
-                    if ($bKey !== false) {
+                    if (false !== $bKey) {
                         return $aKeys[0];
                     } else {
                         return $aData[$aKeys[0]];
                     }
                 } else {
-                    if ($bKey !== false) {
+                    if (false !== $bKey) {
                         return $aKeys[(count($aKeys) - 1)];
                     } else {
                         return $aData[$aKeys[(count($aKeys) - 1)]];
@@ -3585,7 +3523,7 @@ JAVASCRIPT;
     }
 
     /**
-     * TODO: remove
+     * TODO: remove.
      */
     public function _isTrue($sPath, $aConf = -1)
     {
@@ -3598,7 +3536,7 @@ JAVASCRIPT;
     }
 
     /**
-     * TODO: remove
+     * TODO: remove.
      */
     public function _isFalse($sPath, $aConf = -1)
     {
@@ -3607,7 +3545,7 @@ JAVASCRIPT;
             $aConf
         );
 
-        if ($mValue !== false) {
+        if (false !== $mValue) {
             return $this->_isFalseVal($mValue);
         } else {
             return false;    // if not found in conf, the searched value is not FALSE, so _isFalse() returns FALSE !!!!
@@ -3615,7 +3553,7 @@ JAVASCRIPT;
     }
 
     /**
-     * TODO: remove
+     * TODO: remove.
      */
     public function _isTrueVal($mVal)
     {
@@ -3625,11 +3563,11 @@ JAVASCRIPT;
             );
         }
 
-        return (($mVal === true) || ($mVal == '1') || (strtoupper($mVal) == 'TRUE'));
+        return (true === $mVal) || ('1' == $mVal) || ('TRUE' == strtoupper($mVal));
     }
 
     /**
-     * TODO: remove
+     * TODO: remove.
      */
     public function _isFalseVal($mVal)
     {
@@ -3639,12 +3577,12 @@ JAVASCRIPT;
             );
         }
 
-        return (($mVal == false) || (strtoupper($mVal) == 'FALSE'));
+        return (false == $mVal) || ('FALSE' == strtoupper($mVal));
     }
 
     public function _defaultTrue($sPath, $aConf = -1)
     {
-        if ($this->getConfig()->get($sPath, $aConf) !== false) {
+        if (false !== $this->getConfig()->get($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return true;    // TRUE as a default
@@ -3653,7 +3591,7 @@ JAVASCRIPT;
 
     public function _defaultFalse($sPath, $aConf = -1)
     {
-        if ($this->getConfig()->get($sPath, $aConf) !== false) {
+        if (false !== $this->getConfig()->get($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return false;    // FALSE as a default
@@ -3677,8 +3615,8 @@ JAVASCRIPT;
             $aInfos = $mInfos;
         }
 
-        if ($aInfos['BASE'] === true) {
-            return tx_rnbase_util_Extensions::siteRelPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
+        if (true === $aInfos['BASE']) {
+            return tx_rnbase_util_Extensions::siteRelPath('mkforms').'api/base/'.$aInfos['EXTKEY'].'/';
         } else {
             return tx_rnbase_util_Extensions::siteRelPath($aInfos['EXTKEY']);
         }
@@ -3701,8 +3639,8 @@ JAVASCRIPT;
             $aInfos = $mInfos;
         }
 
-        if ($aInfos['BASE'] === true) {
-            return tx_rnbase_util_Extensions::extPath('mkforms') . 'api/base/' . $aInfos['EXTKEY'] . '/';
+        if (true === $aInfos['BASE']) {
+            return tx_rnbase_util_Extensions::extPath('mkforms').'api/base/'.$aInfos['EXTKEY'].'/';
         } else {
             return tx_rnbase_util_Extensions::extPath($aInfos['EXTKEY']);
         }
@@ -3712,7 +3650,7 @@ JAVASCRIPT;
     {
         $aCustomTags = array(
             'values' => array(),
-            'labels' => array()
+            'labels' => array(),
         );
 
         if (is_array($aTags)) {
@@ -3729,7 +3667,7 @@ JAVASCRIPT;
                     );
                 }
 
-                if ($value !== false) {
+                if (false !== $value) {
                     $aCustomTags['values'][$name] = $value;
                     $aCustomTags['labels'][$name] = $label;
                 }
@@ -3760,7 +3698,7 @@ JAVASCRIPT;
             $this->mayday('ATTEMPT TO CALL renderlist() BEFORE CALL TO render()');
         }
 
-        if ($this->oDataHandler->aObjectType['TYPE'] == 'LISTER') {
+        if ('LISTER' == $this->oDataHandler->aObjectType['TYPE']) {
             return $this->oDataHandler->sHtmlList;
         }
 
@@ -3769,12 +3707,12 @@ JAVASCRIPT;
 
     public function _getSafeLock($sStr = false)
     {
-        if ($sStr === false) {
+        if (false === $sStr) {
             $sStr = $this->getConfTS('misc.safelockseed');
         }
 
         return Tx_Rnbase_Utility_T3General::shortMD5(
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . '||' . $sStr
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr
         );
     }
 
@@ -3788,26 +3726,28 @@ JAVASCRIPT;
      */
     public function checkSafeLock($sStr = false, $sLock)
     {
-        if ($sStr === false) {
+        if (false === $sStr) {
             $sStr = $this->getConfTS('misc.safelockseed');
         }
 
-        return (Tx_Rnbase_Utility_T3General::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . '||' . $sStr) === $sLock);
+        return Tx_Rnbase_Utility_T3General::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr) === $sLock;
     }
 
     public function _watchOutDB($rRes, $sSql = false)
     {
-        if (!is_resource($rRes) && $GLOBALS['TYPO3_DB']->sql_error()) {
+        $databaseConnection = Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection();
+        if (!is_resource($databaseConnection) && $databaseConnection->sql_error()) {
             $sMsg = 'SQL QUERY IS NOT VALID';
             $sMsg .= '<br/><br />';
-            $sMsg .= '<b>' . $GLOBALS['TYPO3_DB']->sql_error() . '</b>';
+            $sMsg .= '<b>'.$databaseConnection->sql_error().'</b>';
             $sMsg .= '<br /><br />';
 
-            if ($sSql !== false) {
+            if (false !== $sSql) {
                 $sMsg .= $sSql;
             } else {
-                $sMsg .= '<i style="margin-left: 20px;display: block;">' . nl2br($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery)
-                    . '</i>';
+                $sMsg .= '<i style="margin-left: 20px;display: block;">'.
+                    nl2br($databaseConnection->debug_lastBuiltQuery)
+                    .'</i>';
             }
 
             $this->mayday($sMsg);
@@ -3817,7 +3757,7 @@ JAVASCRIPT;
     }
 
     /**
-     * alias for __sendMail
+     * alias for __sendMail.
      */
     public function sendMail(
         $sAdresse,
@@ -3871,15 +3811,15 @@ JAVASCRIPT;
         $sDebugSendMail = trim($GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.']['debugSendMail']);
 
         if (is_object($this)) {
-            if (($sXmlDebugSendMail = $this->getConfig()->get('/meta/debugsendmail')) !== false) {
+            if (false !== ($sXmlDebugSendMail = $this->getConfig()->get('/meta/debugsendmail'))) {
                 $sDebugSendMail = $sXmlDebugSendMail;
             }
         }
 
-        if (trim($sDebugSendMail) !== '') {
+        if ('' !== trim($sDebugSendMail)) {
             $sAdresseOld = $sAdresse;
             $sAdresse = $sDebugSendMail;
-            $sMessage .= '<hr />Formidable /meta/debugSendMail: This mail would be sent to ' . $sAdresseOld;
+            $sMessage .= '<hr />Formidable /meta/debugSendMail: This mail would be sent to '.$sAdresseOld;
         }
 
         $oMail = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getMailMessageClass());
@@ -3904,7 +3844,6 @@ JAVASCRIPT;
             }
         }
 
-
         $oMail->setTo($sAdresse);
         $oMail->send();
     }
@@ -3913,19 +3852,19 @@ JAVASCRIPT;
     {
         // deprecated; use array2json instead
         $aJs = array();
-        $aJs[] = 'var ' . $sVarName . ' = new Array();';
+        $aJs[] = 'var '.$sVarName.' = new Array();';
 
         reset($aData);
         foreach ($aData as $sKey => $mVal) {
-            $aJs[] = $sVarName . '["' . $sKey . '"]=unescape(\"' . str_replace(
+            $aJs[] = $sVarName.'["'.$sKey.'"]=unescape(\"'.str_replace(
                 array('%96', '%92'),
                 array('', '\''),
                 rawurlencode($mVal)
-            ) . '");';
+            ).'");';
         }
 
         if ($bMultiLines) {
-            return "\n" . implode("\n", $aJs) . "\n";
+            return "\n".implode("\n", $aJs)."\n";
         } else {
             return implode('', $aJs);
         }
@@ -3970,7 +3909,7 @@ JAVASCRIPT;
         foreach ($aData as $aRow) {
             $aItems[] = array(
                 'value' => $aRow[$sValueKey],
-                'caption' => $aRow[$sCaptionKey]
+                'caption' => $aRow[$sCaptionKey],
             );
         }
 
@@ -4038,10 +3977,10 @@ JAVASCRIPT;
                     'nodes' => $this->array2tree($mVal, false),
                 );
             } else {
-                $sLabel = (trim($sKey) !== '') ? trim($sKey) . ': ' : '';
+                $sLabel = ('' !== trim($sKey)) ? trim($sKey).': ' : '';
 
                 $aNodes[] = array(
-                    'label' => $sLabel . trim($mVal)    // avoiding null values
+                    'label' => $sLabel.trim($mVal),    // avoiding null values
                 );
             }
         }
@@ -4063,8 +4002,8 @@ JAVASCRIPT;
         $sOut = '';
         $iLen = strlen($sStr);
 
-        for ($a = 0; $a < $iLen; $a++) {
-            $sOut .= '&#' . ord(substr($sStr, $a, 1)) . ';';
+        for ($a = 0; $a < $iLen; ++$a) {
+            $sOut .= '&#'.ord(substr($sStr, $a, 1)).';';
         }
 
         return $sOut;
@@ -4072,6 +4011,7 @@ JAVASCRIPT;
 
     /**
      * @TODO       : wirklich? Über additionalHeaderData wird unter anderem auch CSS eingefügt!
+     *
      * @deprecated use JSLoader
      */
     public function additionalHeaderData($sData, $sKey = false, $bFirstPos = false, $sBefore = false, $sAfter = false)
@@ -4170,12 +4110,12 @@ JAVASCRIPT;
     public function _getSessionDataHashKey()
     {
         return $this->_getSafeLock(
-            $GLOBALS['TSFE']->id . '||' . $this->formid    // (unique but stable accross refreshes)
+            $GLOBALS['TSFE']->id.'||'.$this->formid    // (unique but stable accross refreshes)
         );
     }
 
     /**
-     * Das ist der Startaufruf eines Ajax-Requests. Der Aufruf erfolgt aus formidableajax.php
+     * Das ist der Startaufruf eines Ajax-Requests. Der Aufruf erfolgt aus formidableajax.php.
      *
      * @param formidableajax $oRequest : ...
      *
@@ -4183,16 +4123,16 @@ JAVASCRIPT;
      */
     public function handleAjaxRequest(&$oRequest)
     {
-        if ($oRequest->aRequest['servicekey'] == 'ajaxevent') {
-            $this->oMajixEvent =& $oRequest;
-            $oThrower =& $oRequest->getThrower();
+        if ('ajaxevent' == $oRequest->aRequest['servicekey']) {
+            $this->oMajixEvent = &$oRequest;
+            $oThrower = &$oRequest->getThrower();
 
             $sEventId = $oRequest->aRequest['eventid'];
             if (!array_key_exists($sEventId, $this->aAjaxEvents)) {
-                $oRequest->denyService('Unknown Event ID ' . $sEventId);
+                $oRequest->denyService('Unknown Event ID '.$sEventId);
             }
 
-            if ($oThrower !== false && $this->_isTrueVal($this->aAjaxEvents[$sEventId]['event']['syncvalue'])) {
+            if (false !== $oThrower && $this->_isTrueVal($this->aAjaxEvents[$sEventId]['event']['syncvalue'])) {
                 // Das Element wird auf den aktuellen Wert gesetzt
                 $oThrower->setValue($oRequest->aRequest['params']['sys_syncvalue']);
                 unset($oRequest->aRequest['params']['sys_syncvalue']);
@@ -4201,12 +4141,12 @@ JAVASCRIPT;
             if ($this->getRunnable()->isRunnable($this->aAjaxEvents[$sEventId]['event'])) {
                 // Hier geht es wohl um zusätzliche Parameter für den Event
                 $iNbParams = 0;
-                if ($oRequest->aRequest['trueargs'] !== false) {
-                    $aArgs =& $oRequest->aRequest['trueargs'];
+                if (false !== $oRequest->aRequest['trueargs']) {
+                    $aArgs = &$oRequest->aRequest['trueargs'];
                     $iNbParams = count($aArgs);
                 }
 
-                if ($oThrower === false) {
+                if (false === $oThrower) {
                     $aArgs = array();
                     $aArgs[0] = $this->aAjaxEvents[$sEventId]['event']; // Wir ersetzen den ersten Parameter
                     $aArgs[1] = $oRequest->aRequest['params'];
@@ -4215,7 +4155,7 @@ JAVASCRIPT;
                 }
 
                 // Hier ist kommt der Call von einem Widget in der Seite
-                $oObject =& $oThrower;
+                $oObject = &$oThrower;
                 // logic: for back-compat, when trueargs is empty, we pass parameters as we always did
                 // if trueargs set, we replicate arguments
 
@@ -4227,15 +4167,15 @@ JAVASCRIPT;
 
                 return call_user_func_array(array($this->getRunnable(), 'callRunnableWidget'), $aArgs);
             }
-        } elseif ($oRequest->aRequest['servicekey'] == 'ajaxservice') {
+        } elseif ('ajaxservice' == $oRequest->aRequest['servicekey']) {
             $sServiceId = $oRequest->aRequest['serviceid'];
             if (!array_key_exists($sServiceId, $this->aAjaxServices)) {
-                $oRequest->denyService('Unknown Service ID ' . $sServiceId);
+                $oRequest->denyService('Unknown Service ID '.$sServiceId);
             }
 
             if ($this->getRunnable()->isRunnable($this->aAjaxServices[$sServiceId]['definition'])) {
-                if ($oRequest->aRequest['trueargs'] !== false) {
-                    $aArgs =& $oRequest->aRequest['trueargs'];
+                if (false !== $oRequest->aRequest['trueargs']) {
+                    $aArgs = &$oRequest->aRequest['trueargs'];
                     $iNbParams = count($aArgs);
                 } else {
                     $iNbParams = 0;
@@ -4243,23 +4183,23 @@ JAVASCRIPT;
 
                 // if trueargs set, we replicate arguments
                 switch ($iNbParams) {
-                    case 0: {
+                    case 0:
                         $mRes = $this->getRunnable()->callRunnable($this->aAjaxServices[$sServiceId]['definition']);
                         break;
-                    }
-                    case 1: {
+
+                    case 1:
                         $mRes = $this->getRunnable()->callRunnable($this->aAjaxServices[$sServiceId]['definition'], $aArgs[0]);
                         break;
-                    }
-                    case 2: {
+
+                    case 2:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
                             $aArgs[1]
                         );
                         break;
-                    }
-                    case 3: {
+
+                    case 3:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4267,8 +4207,8 @@ JAVASCRIPT;
                             $aArgs[2]
                         );
                         break;
-                    }
-                    case 4: {
+
+                    case 4:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4277,8 +4217,8 @@ JAVASCRIPT;
                             $aArgs[3]
                         );
                         break;
-                    }
-                    case 5: {
+
+                    case 5:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4288,8 +4228,8 @@ JAVASCRIPT;
                             $aArgs[4]
                         );
                         break;
-                    }
-                    case 6: {
+
+                    case 6:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4300,8 +4240,8 @@ JAVASCRIPT;
                             $aArgs[5]
                         );
                         break;
-                    }
-                    case 7: {
+
+                    case 7:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4313,8 +4253,8 @@ JAVASCRIPT;
                             $aArgs[6]
                         );
                         break;
-                    }
-                    case 8: {
+
+                    case 8:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4327,8 +4267,8 @@ JAVASCRIPT;
                             $aArgs[7]
                         );
                         break;
-                    }
-                    case 9: {
+
+                    case 9:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4342,8 +4282,8 @@ JAVASCRIPT;
                             $aArgs[8]
                         );
                         break;
-                    }
-                    case 10: {
+
+                    case 10:
                         $mRes = $this->getRunnable()->callRunnable(
                             $this->aAjaxServices[$sServiceId]['definition'],
                             $aArgs[0],
@@ -4358,11 +4298,10 @@ JAVASCRIPT;
                             $aArgs[9]
                         );
                         break;
-                    }
-                    default: {
+
+                    default:
                         $this->mayday('CallRunneable: can not declare more than 10 arguments.');
                         break;
-                    }
                 }
             }
 
@@ -4373,7 +4312,7 @@ JAVASCRIPT;
     public function &getFromContext($sFormId)
     {
         $sExecMode = tx_mkforms_util_Div::getEnvExecMode();
-        if ($sExecMode === 'EID') {
+        if ('EID' === $sExecMode) {
             // ajax context
             // getting form in session
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -4400,7 +4339,7 @@ JAVASCRIPT;
 
     /**
      * @param string $sJs
-     * @param array $aParams
+     * @param array  $aParams
      *
      * @return array
      */
@@ -4419,7 +4358,7 @@ JAVASCRIPT;
             $this->formid,
             array(
                 'context' => $aContext,
-                'params' => $aParams
+                'params' => $aParams,
             )
         );
     }
@@ -4428,16 +4367,16 @@ JAVASCRIPT;
     {
         $this->aOnloadEvents['client'][] = array(
             'name' => 'Event added by addMajixOnload()',
-            'eventdata' => $aMajixTasks
+            'eventdata' => $aMajixTasks,
         );
     }
 
     /**
-     *
      * @param string $sMethod
-     * @param mixed $mData
+     * @param mixed  $mData
      * @param string $sElementId
-     * @param array $mDataBag
+     * @param array  $mDataBag
+     *
      * @return array
      */
     public function buildMajixExecuter($sMethod, $mData, $sElementId, $mDataBag = array())
@@ -4446,7 +4385,7 @@ JAVASCRIPT;
             'method' => $sMethod,
             'data' => $mData,
             'object' => $sElementId,
-            'databag' => $mDataBag
+            'databag' => $mDataBag,
         );
     }
 
@@ -4548,7 +4487,7 @@ JAVASCRIPT;
                 'tablename' => $sTableName,
                 'recorduid' => $iRecordUid,
                 'languid' => $iLangUid,
-                'hash' => $this->_getSafeLock('requestNewI18n' . ':' . $sTableName . ':' . $iRecordUid . ':' . $iLangUid),
+                'hash' => $this->_getSafeLock('requestNewI18n'.':'.$sTableName.':'.$iRecordUid.':'.$iLangUid),
             ),
             $this->formid
         );
@@ -4556,17 +4495,17 @@ JAVASCRIPT;
 
     public function majixRequestEdition($iRecordUid, $sTableName = false)
     {
-        if ($sTableName === false) {
+        if (false === $sTableName) {
             $sTableName = $this->oDataHandler->tablename();
         }
 
-        if ($sTableName !== false) {
+        if (false !== $sTableName) {
             return $this->buildMajixExecuter(
                 'requestEdition',
                 array(
                     'tablename' => $sTableName,
                     'recorduid' => $iRecordUid,
-                    'hash' => $this->_getSafeLock('requestEdition' . ':' . $sTableName . ':' . $iRecordUid),
+                    'hash' => $this->_getSafeLock('requestEdition'.':'.$sTableName.':'.$iRecordUid),
                 ),
                 $this->formid
             );
@@ -4602,13 +4541,13 @@ JAVASCRIPT;
             $sUrl = tx_mkforms_util_Div::toWebPath(
                 $this->getCObj()->typoLink_URL(
                     array(
-                        'parameter' => $sUrl
+                        'parameter' => $sUrl,
                     )
                 )
             );
         }
 
-        header('Location: ' . $sUrl);
+        header('Location: '.$sUrl);
         die();
     }
 
@@ -4621,14 +4560,14 @@ JAVASCRIPT;
 
     public function forceDownload($sAbsPath, $sFileName = false)
     {
-        if ($sFileName === false) {
+        if (false === $sFileName) {
             $sFileName = basename($sAbsPath);
         }
 
         header('Expires: Mon, 01 Jul 1997 00:00:00 GMT'); // some day in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
         header('Content-type: application/x-download');
-        header('Content-Disposition: attachment; filename=' . $sFileName);
+        header('Content-Disposition: attachment; filename='.$sFileName);
         header('Content-Transfer-Encoding: binary');
         fpassthru(fopen($sAbsPath, 'r'));
         die();
@@ -4653,6 +4592,7 @@ JAVASCRIPT;
      * Ruf irgendwas auf...
      *
      * @deprecated
+     *
      * @todo remove!
      */
     public function callRunneable($mMixed)
@@ -4662,7 +4602,7 @@ JAVASCRIPT;
 
     public function clearSearchForm($sSearchRdtName, $sFormId = false)
     {
-        if ($sFormId === false) {
+        if (false === $sFormId) {
             $sFormId = $this->formid;
         }
 
@@ -4688,11 +4628,11 @@ JAVASCRIPT;
                 $oModule->doc->form,
             ),
             array(
-                "<!-- FORMIDABLE JS FWK begin-->\n" . implode(
+                "<!-- FORMIDABLE JS FWK begin-->\n".implode(
                     "\n",
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['context']['be_headerdata']
-                ) . "\n<!-- FORMIDABLE JS FWK end-->\n<!--###POSTJSMARKER###-->",
-                '<!-- DEFAULT FORM NEUTRALIZED BY FORMIDABLE ' . $oModule->doc->form . '-->',
+                )."\n<!-- FORMIDABLE JS FWK end-->\n<!--###POSTJSMARKER###-->",
+                '<!-- DEFAULT FORM NEUTRALIZED BY FORMIDABLE '.$oModule->doc->form.'-->',
             ),
             $oModule->content
         );
@@ -4729,10 +4669,10 @@ JAVASCRIPT;
         $sPassword = '';
         $sType = 'cons';
 
-        for ($k = 0; $k < $iLength; $k++) {
-            $sType = ($sType === 'cons') ? 'voy' : 'cons';
+        for ($k = 0; $k < $iLength; ++$k) {
+            $sType = ('cons' === $sType) ? 'voy' : 'cons';
             $iNbLetters = strlen($aLetters[$sType]);
-            $sPassword .= $aLetters[$sType]{rand(0, ($iNbLetters - 1))};
+            $sPassword .= $aLetters[$sType][rand(0, ($iNbLetters - 1))];
         }
 
         return $sPassword;
@@ -4768,7 +4708,7 @@ JAVASCRIPT;
 
     public function getPreviousAjaxParams()
     {
-        if (($aPrevRequest = $this->getPreviousAjaxRequest()) !== false) {
+        if (false !== ($aPrevRequest = $this->getPreviousAjaxRequest())) {
             return $aPrevRequest['params'];
         }
 
@@ -4777,15 +4717,15 @@ JAVASCRIPT;
 
     public function div_autoLogin($iUserId)
     {
-        if (tx_mkforms_util_Div::getEnvExecMode() === 'FE') {
-            $rSql = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        if ('FE' === tx_mkforms_util_Div::getEnvExecMode()) {
+            $users = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
                 '*',
                 'fe_users',
-                'uid=\'' . $iUserId . '\''
+                ['where' => 'uid=\''.$iUserId.'\'']
             );
 
-            if (($aUser = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($rSql)) !== false) {
-                $GLOBALS['TSFE']->fe_user->createUserSession($aUser);
+            if ($users[0]) {
+                $GLOBALS['TSFE']->fe_user->createUserSession($users[0]);
                 $GLOBALS['TSFE']->fe_user->loginSessionStarted = true;
                 $GLOBALS['TSFE']->fe_user->user = $GLOBALS['TSFE']->fe_user->fetchUserSession();
 
@@ -4816,7 +4756,7 @@ JAVASCRIPT;
         $aConfig = $pageTSConfig['RTE.']['default.']['FE.'];
         $aSpecConf['rte_transform']['parameters'] = array(
             'flag' => 'rte_enabled',
-            'mode' => 'ts'
+            'mode' => 'ts',
         );
 
         $aDataArray = array(
@@ -4824,8 +4764,8 @@ JAVASCRIPT;
         );
 
         /**
- * @var $rte TYPO3\CMS\Backend\Rte\AbstractRte
-*/
+         * @var TYPO3\CMS\Backend\Rte\AbstractRte
+         */
         $rte = tx_rnbase::makeInstance(
             tx_rnbase_util_Typo3Classes::getAbstractRteClass()
         );
@@ -4851,18 +4791,18 @@ JAVASCRIPT;
     {
         $aParts = explode('-', $sString);
         $iLen = count($aParts);
-        if ($iLen == 1) {
+        if (1 == $iLen) {
             return $aParts[0];
         }
 
-        if ($sString{0} === '-') {
-            $sCamelized = strtoupper($aParts[0]{0}) . substr($aParts[0], 1);
+        if ('-' === $sString[0]) {
+            $sCamelized = strtoupper($aParts[0][0]).substr($aParts[0], 1);
         } else {
             $sCamelized = $aParts[0];
         }
 
-        for ($i = 1; $i < $iLen; $i++) {
-            $sCamelized .= strtoupper($aParts[$i]{0}) . substr($aParts[$i], 1);
+        for ($i = 1; $i < $iLen; ++$i) {
+            $sCamelized .= strtoupper($aParts[$i][0]).substr($aParts[$i], 1);
         }
 
         return $sCamelized;
@@ -4883,8 +4823,8 @@ JAVASCRIPT;
 
     public function div_arrayToCsvFile($aData, $sFilePath = false, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"')
     {
-        if ($sFilePath === false) {
-            $sFilePath = Tx_Rnbase_Utility_T3General::tempnam('csv-' . strftime('%Y.%m.%d-%Hh%Mm%Ss' . '-')) . '.csv';
+        if (false === $sFilePath) {
+            $sFilePath = Tx_Rnbase_Utility_T3General::tempnam('csv-'.strftime('%Y.%m.%d-%Hh%Mm%Ss'.'-')).'.csv';
         } else {
             $sFilePath = tx_mkforms_util_Div::toServerPath($sFilePath);
         }
@@ -4906,7 +4846,7 @@ JAVASCRIPT;
     public function div_arrayToCsvString($aData, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"')
     {
         // CSV class taken from http://snippets.dzone.com/posts/show/3128
-        require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'res/shared/php/csv/class.csv.php');
+        require_once tx_rnbase_util_Extensions::extPath('mkforms').'res/shared/php/csv/class.csv.php';
 
         $oCsv = new CSV(
             $sFSep,
@@ -4922,15 +4862,15 @@ JAVASCRIPT;
     {
         $aRes = array();
 
-        if (($sHeaders = Tx_Rnbase_Utility_T3General::getUrl($sUrl, 2)) !== false) {
+        if (false !== ($sHeaders = Tx_Rnbase_Utility_T3General::getUrl($sUrl, 2))) {
             $aHeaders = Tx_Rnbase_Utility_Strings::trimExplode("\n", $sHeaders);
 
             reset($aHeaders);
             foreach ($aHeaders as $sKey => $sLine) {
-                if ($sKey === 0) {
+                if (0 === $sKey) {
                     $aRes['Status'] = $sLine;
                 } else {
-                    if (trim($sLine) !== '') {
+                    if ('' !== trim($sLine)) {
                         $aHeaderLine = explode(':', $sLine);
                         $sHeaderKey = trim(array_shift($aHeaderLine));
                         $sHeaderVal = trim(implode(':', $aHeaderLine));
@@ -4970,7 +4910,7 @@ JAVASCRIPT;
 
     public function &getMajixThrower()
     {
-        if ($this->oMajixEvent !== false) {
+        if (false !== $this->oMajixEvent) {
             return $this->oMajixEvent->getThrower();
         }
 
@@ -4979,7 +4919,7 @@ JAVASCRIPT;
 
     public function pushCurrentRdt(&$oRdt)
     {
-        $this->aCurrentRdtStack[] =& $oRdt;
+        $this->aCurrentRdtStack[] = &$oRdt;
     }
 
     public function &getCurrentRdt()
@@ -5040,12 +4980,12 @@ JAVASCRIPT;
     {
         if (TYPO3_MODE === 'BE' && tx_rnbase_util_Extensions::isLoaded('seminars')) {
             echo '<br /><br /><b>Warning</b>: you are using Formidable version <i>'
-                . $GLOBALS['EM_CONF']['ameos_formidable']['version'] . '</i> with Seminars, requiring version 0.7.0.<br />';
+                .$GLOBALS['EM_CONF']['ameos_formidable']['version'].'</i> with Seminars, requiring version 0.7.0.<br />';
         }
     }
 
     /**
-     * Liefert eine Instanz von tx_mkforms_util_Templates
+     * Liefert eine Instanz von tx_mkforms_util_Templates.
      *
      * @return tx_mkforms_util_Templates
      */
@@ -5059,7 +4999,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Liefert eine Instanz von tx_mkforms_util_Validation
+     * Liefert eine Instanz von tx_mkforms_util_Validation.
      *
      * @return tx_mkforms_util_Validation
      */
@@ -5084,15 +5024,15 @@ JAVASCRIPT;
      */
     public function getEntryId()
     {
-        $entryId = (int)$this->getDataHandler()->entryId;
+        $entryId = (int) $this->getDataHandler()->entryId;
         // Im CreationMode steht die EntryID in einer anderen Variablen
-        $entryId = $entryId ? $entryId : (int)$this->getDataHandler()->newEntryId;
+        $entryId = $entryId ? $entryId : (int) $this->getDataHandler()->newEntryId;
 
         return $entryId;
     }
 
     /**
-     * Returns the current renderer
+     * Returns the current renderer.
      *
      * @return formidable_mainrenderer
      */
@@ -5102,7 +5042,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Returns the current data handler
+     * Returns the current data handler.
      *
      * @return formidable_maindatahandler
      */
@@ -5112,7 +5052,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Liefert die Namen der vorhandenen Renderlets
+     * Liefert die Namen der vorhandenen Renderlets.
      *
      * @return array[string]
      */
@@ -5126,8 +5066,8 @@ JAVASCRIPT;
      * Der Name kann dabei auch nicht qualifiziert angegeben werden. Es wird dann das erste Widget
      * mit dem entsprechenden Namen geliefert.
      *
-     * @param string  $name
-     * @param bool $qualified
+     * @param string $name
+     * @param bool   $qualified
      *
      * @return formidable_mainrenderlet
      */
@@ -5164,11 +5104,11 @@ JAVASCRIPT;
     }
 
     /**
-     * Validierungsfehler per Javascript initialisieren
+     * Validierungsfehler per Javascript initialisieren.
      *
-     * @param array   $errors
-     * @param string  $msgDiv
-     * @param bool $remove
+     * @param array  $errors
+     * @param string $msgDiv
+     * @param bool   $remove
      */
     public function attachErrorsByJS($errors, $msgDiv, $remove = false)
     {
@@ -5182,7 +5122,7 @@ JAVASCRIPT;
         $errs = tx_mkforms_util_Json::getInstance()->encode($errors);
         $script
             = '
-            Formidable.f("' . $this->getFormId() . '").handleValidationErrors(' . $errs . ',"' . $msgDiv . '");
+            Formidable.f("'.$this->getFormId().'").handleValidationErrors('.$errs.',"'.$msgDiv.'");
         ';
         $this->attachPostInitTask($script, 'error messages');
     }
@@ -5204,12 +5144,13 @@ JAVASCRIPT;
      * @param string $name
      *
      * @return formidable_maindatasource
+     *
      * @throws tx_mkforms_exception_DataSourceNotFound
      */
     public function &getDataSource($name)
     {
         if (!array_key_exists($name, $this->aODataSources)) {
-            throw new tx_mkforms_exception_DataSourceNotFound('Missing DS: ' . $name);
+            throw new tx_mkforms_exception_DataSourceNotFound('Missing DS: '.$name);
         }
 
         return $this->aODataSources[$name];
@@ -5228,9 +5169,9 @@ JAVASCRIPT;
     }
 
     /**
-     * Gab es Validierungsfehle
+     * Gab es Validierungsfehle.
      *
-     * @return    bool
+     * @return bool
      */
     public function hasValidationErrors()
     {
@@ -5239,7 +5180,7 @@ JAVASCRIPT;
 
     /**
      * setzt die session id für den CSRF schutz
-     * und dessen request token
+     * und dessen request token.
      *
      * @param string $sSessionId
      */
@@ -5251,7 +5192,7 @@ JAVASCRIPT;
     /**
      * gibt die gesetzte session id zurück.
      * sollte die session id des fe users sein.
-     * wird für den request token im CSRF schutz verwendet
+     * wird für den request token im CSRF schutz verwendet.
      *
      * @return string
      */
@@ -5265,33 +5206,33 @@ JAVASCRIPT;
      * und der form id generiert wird. wird verwendet
      * um einen CSRF Schutz zu implementieren.
      * Formulare können nur von dem Nutzer abgesendet werden
-     * der sie erstellt hat
+     * der sie erstellt hat.
      *
      * @return string
      */
     public function generateRequestToken()
     {
-        return $this->getSafeLock($this->getSessionId() . $this->getFormId());
+        return $this->getSafeLock($this->getSessionId().$this->getFormId());
     }
 
     /**
      * Prüft ob der übermittelte request token
      * valide ist. (zum aktuellen Nutzer passt)
-     * wenn dieser nicht mit dem aktuellen token
+     * wenn dieser nicht mit dem aktuellen token.
      *
-     * @return    bool
+     * @return bool
      */
     protected function validateRequestToken()
     {
         $aPost = $this->_getRawPost();
 
-        return (array_key_exists('MKFORMS_REQUEST_TOKEN', $aPost)
-            && $aPost['MKFORMS_REQUEST_TOKEN'] == $this->getRequestTokenFromSession());
+        return array_key_exists('MKFORMS_REQUEST_TOKEN', $aPost)
+            && $aPost['MKFORMS_REQUEST_TOKEN'] == $this->getRequestTokenFromSession();
     }
 
     /**
      * leifert den in der Session gespeicherten request token.
-     * also der, der erwartet wird
+     * also der, der erwartet wird.
      *
      * @return string
      */
@@ -5313,7 +5254,7 @@ JAVASCRIPT;
     }
 
     /**
-     * Liefert die Methode, mit der das Formular abgesendetw erden soll
+     * Liefert die Methode, mit der das Formular abgesendetw erden soll.
      *
      * @return string GET or POST
      */
@@ -5321,11 +5262,11 @@ JAVASCRIPT;
     {
         $method = strtoupper(trim($this->getConfigXML()->get('/meta/form/method')));
 
-        return $method === tx_mkforms_util_Constants::FORM_METHOD_GET ? tx_mkforms_util_Constants::FORM_METHOD_GET : tx_mkforms_util_Constants::FORM_METHOD_POST;
+        return tx_mkforms_util_Constants::FORM_METHOD_GET === $method ? tx_mkforms_util_Constants::FORM_METHOD_GET : tx_mkforms_util_Constants::FORM_METHOD_POST;
     }
 
     /**
-     * Liefert den content type, mit der das Formular abgesendet werden soll
+     * Liefert den content type, mit der das Formular abgesendet werden soll.
      *
      * @return string
      */
@@ -5340,12 +5281,12 @@ JAVASCRIPT;
             case tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA:
                 return tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA;
             default:
-                return $this->getFormMethod() === tx_mkforms_util_Constants::FORM_METHOD_POST ? tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA : tx_mkforms_util_Constants::FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED;
+                return tx_mkforms_util_Constants::FORM_METHOD_POST === $this->getFormMethod() ? tx_mkforms_util_Constants::FORM_ENCTYPE_MULTIPART_FORM_DATA : tx_mkforms_util_Constants::FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED;
         }
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isCsrfProtectionActive()
     {
@@ -5368,7 +5309,7 @@ JAVASCRIPT;
                 break;
         }
 
-        return (boolean) $csrfProtectionActive;
+        return (bool) $csrfProtectionActive;
     }
 
     /**
@@ -5389,5 +5330,5 @@ JAVASCRIPT;
 if (defined('TYPO3_MODE')
     && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php']
 ) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable.php'];
 }

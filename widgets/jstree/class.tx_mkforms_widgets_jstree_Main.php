@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 {
     public $aLibs = array(
@@ -17,7 +15,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
     public $aPossibleCustomEvents = array(
         'onnodeclick',
         'onnodeopen',
-        'onnodeclose'
+        'onnodeclose',
     );
 
     public $bCustomIncludeScript = true;
@@ -29,24 +27,23 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
         $this->oForm->getJSLoader()->loadScriptaculousDragDrop();
 
         $this->oForm->additionalHeaderData(
-            '<link rel="stylesheet" type="text/css" href="' . $this->sExtWebPath . 'res/lib/css/tree.css" />',
+            '<link rel="stylesheet" type="text/css" href="'.$this->sExtWebPath.'res/lib/css/tree.css" />',
             'rdt_jstree_lib_css'
         );
-
 
         $mValue = $this->getValue();
         $sLabel = $this->getLabel();
         $this->aTreeData = $this->_fetchData();
         $sTree = $this->renderTree($this->aTreeData);
 
-        $sInput = '<ul id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . '>' . $sTree . '</ul>';
+        $sInput = '<ul id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().'>'.$sTree.'</ul>';
 
         $this->includeScripts(array(
-            'value' => $mValue
+            'value' => $mValue,
         ));
 
         return array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sInput,
+            '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
             'label' => $sLabel,
             'value' => $mValue,
@@ -55,8 +52,8 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 
     public function &_fetchData()
     {
-        if (($mData = $this->_navConf('/data')) === false || !$this->oForm->isRunneable($mData)) {
-            $this->oForm->mayday('RENDERLET JSTREE <b>' . $this->_getName() . '</b> - requires <b>/data</b> to be properly set with a runneable. Check your XML conf.');
+        if (false === ($mData = $this->_navConf('/data')) || !$this->oForm->isRunneable($mData)) {
+            $this->oForm->mayday('RENDERLET JSTREE <b>'.$this->_getName().'</b> - requires <b>/data</b> to be properly set with a runneable. Check your XML conf.');
         }
 
         return $this->getForm()->getRunnable()->callRunnable($mData);
@@ -75,7 +72,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
         reset($aData);
 
         $aBuffer[] = '<li>';
-        $aBuffer[] = "<span><input type='hidden' value=\"" . htmlspecialchars($aData['value']) . '"/>' . $aData['caption'] . '</span>';
+        $aBuffer[] = "<span><input type='hidden' value=\"".htmlspecialchars($aData['value']).'"/>'.$aData['caption'].'</span>';
 
         if (array_key_exists('childs', $aData)) {
             $aBuffer[] = '<ul>';
@@ -101,9 +98,9 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 INITSCRIPT;
 
         // initalization is made post-init
-            // as when rendered in an ajax context in a modalbox,
-            // the HTML is available *after* init tasks
-            // as the modalbox HTML is added to the page using after init tasks !
+        // as when rendered in an ajax context in a modalbox,
+        // the HTML is available *after* init tasks
+        // as the modalbox HTML is added to the page using after init tasks !
 
         $this->oForm->attachPostInitTask(
             $sInitScript,
@@ -135,7 +132,7 @@ INITSCRIPT;
 
         if (array_key_exists('childs', $aData) && is_array($aData['childs']) && !empty($aData['childs'])) {
             foreach ($aData['childs'] as $child) {
-                if (($mRes = $this->_getNodeLabel($iUid, $child)) !== false) {
+                if (false !== ($mRes = $this->_getNodeLabel($iUid, $child))) {
                     return $mRes;
                 }
             }
@@ -151,7 +148,7 @@ INITSCRIPT;
 
     public function getPathForNode($iUid)
     {
-        return implode('/', $this->getPathArrayForNode($iUid)) . '/';
+        return implode('/', $this->getPathArrayForNode($iUid)).'/';
     }
 
     public function getPathArrayForNode($iUid)
@@ -169,9 +166,9 @@ INITSCRIPT;
     }
 
     /**
-     * @param int $iUid
+     * @param int     $iUid
      * @param array[] $aData
-     * @param array $aNodes
+     * @param array   $aNodes
      *
      * @return bool
      */
@@ -195,7 +192,6 @@ INITSCRIPT;
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_jstree/api/class.tx_rdttext.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_jstree/api/class.tx_rdttext.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_jstree/api/class.tx_rdttext.php'];
 }

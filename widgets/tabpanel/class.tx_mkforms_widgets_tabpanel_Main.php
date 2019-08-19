@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'TabPanel';
@@ -17,12 +15,12 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        $sBegin = '<ul id="' . $this->_getElementHtmlId() . '" ' . $this->_getAddInputParams() . ' onmouseup="this.blur()">';
+        $sBegin = '<ul id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().' onmouseup="this.blur()">';
         $sEnd = '</ul>';
 
         $aTabs = array();
         foreach ($this->aChilds as $sName => $oRdt) {
-            if ($oRdt->_getType() == 'TAB') {
+            if ('TAB' == $oRdt->_getType()) {
                 $sId = $oRdt->_getElementHtmlId();
                 $aTabs[$sId] = array(
                     'name' => $sName,
@@ -42,7 +40,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
             'tabs' => $aTabs,
         );
 
-        if (($aUserConfig = $this->_navConf('config')) !== false) {
+        if (false !== ($aUserConfig = $this->_navConf('config'))) {
             if (array_key_exists('activeclassname', $aUserConfig)) {
                 $aConfig['activeClassName'] = $aUserConfig['activeclassname'];
             }
@@ -64,7 +62,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
         $aChilds = $this->renderChildsBag();
 
         $hideIfChildsBagCount = array();
-        if ($this->_navConf('hideifchildsbagcount') !== false) {
+        if (false !== $this->_navConf('hideifchildsbagcount')) {
             $hideIfChildsBagCount = $this->_navConf('hideifchildsbagcount');
             $hideIfChildsBagCount = Tx_Rnbase_Utility_Strings::trimExplode(',', $hideIfChildsBagCount);
             $hideIfChildsBagCount = array_flip($hideIfChildsBagCount);
@@ -76,16 +74,15 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
             $sCompiledChilds = $this->renderChildsCompiled(
                 $aChilds
             );
-            $compiled = $this->_displayLabel($sLabel) . $sBegin . $sCompiledChilds . $sEnd;
+            $compiled = $this->_displayLabel($sLabel).$sBegin.$sCompiledChilds.$sEnd;
         }
 
         $this->includeScripts(
             array(
                 'libconfig' => $aConfig,
-                'tabs' => $aTabs
+                'tabs' => $aTabs,
             )
         );
-
 
         $aHtmlBag = array(
             '__compiled' => $aConfig['visible'] ? $compiled : '',
@@ -93,7 +90,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
                 'begin' => $sBegin,
                 'end' => $sEnd,
             ),
-            'childs' => $aChilds
+            'childs' => $aChilds,
         );
 
         return $aHtmlBag;
@@ -167,5 +164,5 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tabpanel/api/class.tx_rdttabpanel.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tabpanel/api/class.tx_rdttabpanel.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_tabpanel/api/class.tx_rdttabpanel.php'];
 }

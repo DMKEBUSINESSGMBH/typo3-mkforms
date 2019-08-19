@@ -13,8 +13,7 @@ class formidable_mainjscb
     }
 
     /**
-     *
-     * @param string $sMethod name of js method to call
+     * @param string                 $sMethod name of js method to call
      * @param tx_mkforms_forms_IForm $oForm
      */
     public function majixExec($sMethod, $oForm)
@@ -28,7 +27,7 @@ class formidable_mainjscb
             array(
                 'cb' => $this->aConf,
                 'method' => $sMethod,
-                'params' => $aArgs
+                'params' => $aArgs,
             ),
             $oForm->getFormId()
         );

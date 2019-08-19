@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_util
  * @author Michael Wagner
  *  Copyright notice
  *
@@ -25,21 +23,17 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-
 /**
- * @package tx_mkforms
- * @subpackage tx_mkforms_tests_util
  * @author Michael Wagner
  */
 class tx_mkforms_tests_util_FormFillTest extends tx_rnbase_tests_BaseTestCase
 {
-
     /**
      * @group unit
      */
     public function testGetItemsFromDb()
     {
-        self::markTestIncomplete("Creating default object from empty value");
+        self::markTestIncomplete('Creating default object from empty value');
 
         $formBase = $this->getMock(
             'tx_mkforms_util_FormFill',
@@ -52,10 +46,10 @@ class tx_mkforms_tests_util_FormFillTest extends tx_rnbase_tests_BaseTestCase
             ->will(self::returnValue(
                 array(
                     0 => array(
-                        '__value__' => 123, '__caption__' => 'first'
+                        '__value__' => 123, '__caption__' => 'first',
                     ),
                     1 => array(
-                        '__value__' => 456, '__caption__' => 'second'
+                        '__value__' => 456, '__caption__' => 'second',
                     ),
                 )
             ));
@@ -69,7 +63,6 @@ class tx_mkforms_tests_util_FormFillTest extends tx_rnbase_tests_BaseTestCase
             'rückgabe falsch'
         );
     }
-
 
     public function testGetCountries()
     {
@@ -90,9 +83,9 @@ class tx_mkforms_tests_util_FormFillTest extends tx_rnbase_tests_BaseTestCase
             ->will(
                 $this->returnValue(
                     array(
-                        array('value' => '13','caption' => 'Oesterreich'),
-                        array('value' => '54','caption' => 'Deutschland'),
-                        array('value' => '41','caption' => 'Schweiz'),
+                        array('value' => '13', 'caption' => 'Oesterreich'),
+                        array('value' => '54', 'caption' => 'Deutschland'),
+                        array('value' => '41', 'caption' => 'Schweiz'),
                     )
                 )
             );
@@ -114,5 +107,5 @@ class tx_mkforms_tests_util_FormFillTest extends tx_rnbase_tests_BaseTestCase
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php']);
+    include_once $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/mkforms/tests/util/class.tx_mkforms_tests_util_Div_testcase.php'];
 }

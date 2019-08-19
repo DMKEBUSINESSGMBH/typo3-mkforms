@@ -29,9 +29,9 @@ class formidable_maindataset extends formidable_mainobject
 
     public function _initInternals(&$oDataSource, $aData)
     {
-        $this->oForm =& $oDataSource->oForm;
+        $this->oForm = &$oDataSource->oForm;
         $this->aData = $aData;
-        $this->oDataSource =& $oDataSource;
+        $this->oDataSource = &$oDataSource;
         $this->aChangedCells = array();
     }
 
@@ -55,7 +55,7 @@ class formidable_maindataset extends formidable_mainobject
             $mValue
         );
 
-        if ($mPreviousValue !== false && $mPreviousValue !== $mValue) {
+        if (false !== $mPreviousValue && $mPreviousValue !== $mValue) {
             $this->aChangedCells[$sPath] = $mValue;
             $this->aChangedCellsBefore[$sPath] = $mPreviousValue;
         }
@@ -64,7 +64,7 @@ class formidable_maindataset extends formidable_mainobject
     public function getCellValue($sPath)
     {
         $sPath = str_replace('.', '/', $sPath);
-        if (($aRes = $this->oForm->navDeepData($sPath, $this->aData)) !== false) {
+        if (false !== ($aRes = $this->oForm->navDeepData($sPath, $this->aData))) {
             return $aRes;
         }
 
@@ -108,7 +108,7 @@ class formidable_maindataset extends formidable_mainobject
 
     public function getSignature()
     {
-        return base64_encode($this->oForm->_getSafeLock($this->sKey) . ':' . $this->sKey);
+        return base64_encode($this->oForm->_getSafeLock($this->sKey).':'.$this->sKey);
     }
 
     public function baseCleanBeforeSession()

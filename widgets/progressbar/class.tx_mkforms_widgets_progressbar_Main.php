@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 {
     public $aLibs = array(
@@ -29,7 +27,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
         $fPercent = $this->getPercent();
         $bEffects = $this->defaultFalse('/effects');
 
-        $sBegin = "<div id='" . $this->_getElementHtmlId() . "' " . $this->_getAddInputParams() . '>';
+        $sBegin = "<div id='".$this->_getElementHtmlId()."' ".$this->_getAddInputParams().'>';
         $sEnd = '</div>';
 
         // allowed because of $bCustomIncludeScript = TRUE
@@ -46,14 +44,14 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
             )
         );
 
-        if (($aStep = $this->getStep($fValue)) === false) {
-            $sProgressLabel = $fPercent . '%';
+        if (false === ($aStep = $this->getStep($fValue))) {
+            $sProgressLabel = $fPercent.'%';
         } else {
             $sProgressLabel = $aStep['label'];
         }
 
         $aHtmlBag = array(
-            '__compiled' => $sBegin . '<span>' . $sProgressLabel . '</span>' . $sEnd,
+            '__compiled' => $sBegin.'<span>'.$sProgressLabel.'</span>'.$sEnd,
         );
 
         return $aHtmlBag;
@@ -61,29 +59,29 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public function getMaxValue()
     {
-        if (($mMax = $this->_navConf('/max')) !== false) {
+        if (false !== ($mMax = $this->_navConf('/max'))) {
             $mMax = $this->getForm()->getRunnable()->callRunnable($mMax);
         }
 
-        return (float)$mMax;
+        return (float) $mMax;
     }
 
     public function getMinValue()
     {
-        if (($mMin = $this->_navConf('/min')) !== false) {
+        if (false !== ($mMin = $this->_navConf('/min'))) {
             $mMin = $this->getForm()->getRunnable()->callRunnable($mMin);
         }
 
-        return (float)$mMin;
+        return (float) $mMin;
     }
 
     public function getPrecision()
     {
-        if (($iPrecision = $this->oForm->_navConf('/precision')) !== false) {
-            $iPrecision = (int)$mPrecision;
+        if (false !== ($iPrecision = $this->oForm->_navConf('/precision'))) {
+            $iPrecision = (int) $mPrecision;
         }
 
-        return (int)$iPrecision;
+        return (int) $iPrecision;
     }
 
     public function _readOnly()
@@ -121,9 +119,9 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public function initSteps()
     {
-        if ($this->aSteps === false) {
+        if (false === $this->aSteps) {
             $aResSteps = array();
-            if (($aSteps = $this->_navConf('/steps')) !== false) {
+            if (false !== ($aSteps = $this->_navConf('/steps'))) {
                 foreach ($aSteps as $aStep) {
                     $aResSteps[$aStep['value']] = array(
                         'value' => $aStep['value'],
@@ -142,7 +140,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public function getValue()
     {
-        $fValue = (float)parent::getValue();
+        $fValue = (float) parent::getValue();
 
         $fMin = $this->getMinValue();
         $fMax = $this->getMaxValue();
@@ -171,10 +169,10 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public function getPxWidth()
     {
-        if (($mWidth = $this->_navConf('/width')) !== false) {
-            $mWidth = (int)$this->getForm()->getRunnable()->callRunnable($mWidth);
+        if (false !== ($mWidth = $this->_navConf('/width'))) {
+            $mWidth = (int) $this->getForm()->getRunnable()->callRunnable($mWidth);
 
-            if (($mWidth = (int)$mWidth) === 0) {
+            if (0 === ($mWidth = (int) $mWidth)) {
                 $mWidth = false;
             }
         }
@@ -202,9 +200,9 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
         $iWidth = $this->getPxWidth();
 
-        if ($iWidth !== false) {
+        if (false !== $iWidth) {
             $iStepWidth = round((($iWidth * $this->getPercent()) / 100), 0);
-            $aStyles['width'] = $iStepWidth . 'px';
+            $aStyles['width'] = $iStepWidth.'px';
         }
 
         if ($this->defaultTrue('/usedefaultstyle')) {
@@ -235,7 +233,6 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/ap/base/rdt_progressbar/api/class.tx_rdtprogressbar.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_progressbar/api/class.tx_rdtprogressbar.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_progressbar/api/class.tx_rdtprogressbar.php'];
 }

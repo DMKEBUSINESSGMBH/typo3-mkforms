@@ -23,7 +23,7 @@
  ***************************************************************/
 
 /**
- * A session manager that uses php session and cache framework to store data
+ * A session manager that uses php session and cache framework to store data.
  *
  * Relevante Daten:
  * - ajax_services:  Widgets, die Ajax nutzen
@@ -38,19 +38,17 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     private $form;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see tx_mkforms_session_IManager::initialize()
      */
     public function initialize()
     {
-        if (session_status() == PHP_SESSION_NONE) {
+        if (PHP_SESSION_NONE == session_status()) {
             session_start();
         }
     }
 
-    /**
-     * @return void
-     */
     private function initializeSessionArray()
     {
         $this->initialize();
@@ -72,7 +70,8 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      * Optional kann bei Ajax-calls das Laden der TSFE abgeschaltet werden. Beim Persistieren
      * muss dann darauf geachtet werden, daß diese Daten nicht überschrieben werden! Eigentlich
      * können sie bei Ajax-Calls eh aussen vor gelassen werden. Die Daten ändern sich ja nicht...
-     * @param bool $fromAjax wenn true wird die Persistierung von einem Ajax-Call angestossen.
+     *
+     * @param bool $fromAjax wenn true wird die Persistierung von einem Ajax-Call angestossen
      */
     public function persistForm($fromAjax = false)
     {
@@ -110,10 +109,10 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $sessData['loadedClasses'] = $this->getForm()->getObjectLoader()->getLoadedClasses($formId);
 
         if (!$fromAjax) {
-            $sessData['sys_language_uid'] = (int)$GLOBALS['TSFE']->sys_language_uid;
-            $sessData['sys_language_content'] = (int)$GLOBALS['TSFE']->sys_language_content;
+            $sessData['sys_language_uid'] = (int) \Sys25\RnBase\Utility\FrontendControllerUtility::getLanguageId($GLOBALS['TSFE']);
+            $sessData['sys_language_content'] = (int) \Sys25\RnBase\Utility\FrontendControllerUtility::getLanguageContentId($GLOBALS['TSFE']);
             $sessData['pageid'] = $GLOBALS['TSFE']->id;
-            $sLang = (tx_mkforms_util_Div::getEnvExecMode() === 'BE') ? $GLOBALS['LANG']->lang : $GLOBALS['TSFE']->lang;
+            $sLang = \Sys25\RnBase\Utility\Environment::getCurrentLanguageKey();
             $sessData['lang'] = $sLang;
             $sessData['spamProtectEmailAddresses'] = $GLOBALS['TSFE']->spamProtectEmailAddresses;
             $sessData['spamProtectEmailAddresses_atSubst'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_atSubst'];
@@ -129,14 +128,14 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         }
 
         // FIXME: Das funktioniert noch nicht. Wird in mainrenderlet::_getEventsArray() gesetzt. Aber noch im Form!
-        if ($this->bStoreParentInSession === true) {
+        if (true === $this->bStoreParentInSession) {
             $sClass = get_class($this->getForm()->getParent());
-            $aParentConf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$sClass . '.'];
+            $aParentConf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$sClass.'.'];
 
             $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['parent'] = array(
                 'classpath' => tx_mkforms_util_Div::removeEndingSlash(
                     Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT')
-                ) . '/' . tx_mkforms_util_Div::removeStartingSlash($aParentConf['includeLibs']),
+                ).'/'.tx_mkforms_util_Div::removeStartingSlash($aParentConf['includeLibs']),
             );
         }
 
@@ -150,9 +149,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
 
     public $tsfeMode = 'nosession';
+
     /**
      * Save $GLOBALS['TSFE']->config to cache. This Typoscript data is globally cached. There is no user
      * specific data inside.
+     *
      * @param string $formId
      */
     private function persistFeConfig($formId)
@@ -162,7 +163,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $feConfig = serialize(gzcompress(serialize($feConfig), 1));
         // Das Speichern in der PHP-Session ist sehr schnell. Die Verwendung des DB-Caches dagegen ziemlich langsam
         // Bei MemCached kann das schon wieder anders aussehen... Erstmal beide Optionen offen halten.
-        if ($this->tsfeMode == 'session') {
+        if ('session' == $this->tsfeMode) {
             $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['tsfe_config'] = $feConfig;
 
             return;
@@ -175,16 +176,18 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         return false;
     }
+
     public function restoreFeConfig($formId)
     {
         $this->initializeSessionArray();
 
-        if ($this->tsfeMode == 'session') {
+        if ('session' == $this->tsfeMode) {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
                 return false;
             }
-            $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId];
+            $aHibernation = &$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId];
             $feConfig = unserialize(gzuncompress(unserialize($aHibernation['tsfe_config'])));
+
             return $feConfig;
         }
 
@@ -206,6 +209,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     /**
      * Save $GLOBALS['TSFE']->tmpl->setup to cache. This Typoscript data is globally cached. There is no user
      * specific data inside.
+     *
      * @param string $formId
      */
     private function persistFeSetup($formId, $tsSetupCache = array())
@@ -220,7 +224,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $tsSetup = serialize(gzcompress(serialize($tsSetup), 1));
         // Das Speichern in der PHP-Session ist sehr schnell. Die Verwendung des DB-Caches dagegen ziemlich langsam
         // Bei MemCached kann das schon wieder anders aussehen... Erstmal beide Optionen offen halten.
-        if ($this->tsfeMode == 'session') {
+        if ('session' == $this->tsfeMode) {
             $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['tsfe_setup'] = $tsSetup;
 
             return;
@@ -233,15 +237,16 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         return false;
     }
+
     public function restoreFeSetup($formId)
     {
         $this->initializeSessionArray();
 
-        if ($this->tsfeMode == 'session') {
+        if ('session' == $this->tsfeMode) {
             if (!array_key_exists($formId, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
                 return false;
             }
-            $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId];
+            $aHibernation = &$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId];
             $feSetup = unserialize(gzuncompress(unserialize($aHibernation['tsfe_setup'])));
 
             return $feSetup;
@@ -261,10 +266,13 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         return $feSetup;
     }
+
     /**
-     * Restores form from session
+     * Restores form from session.
+     *
      * @param   int
-     * @return  tx_ameosformidable or false
+     *
+     * @return tx_ameosformidable or false
      */
     public function restoreForm($formid)
     {
@@ -276,7 +284,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         if (!array_key_exists($formid, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
             return false;
         }
-        $aHibernation =& $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
+        $aHibernation = &$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
         $this->loadRunningObjects($aHibernation);
         $this->loadLoadedClasses($aHibernation);
         $this->loadParent($aHibernation);
@@ -298,7 +306,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $oForm->_includeSandBox();    // rebuilding class
         tx_mkforms_util_AutoLoad::setMessage('Unserialize sandbox object.');
         $oForm->oSandBox = unserialize($oForm->oSandBox);
-        $oForm->oSandBox->oForm =& $oForm;
+        $oForm->oSandBox->oForm = &$oForm;
 
         // configurations und parameters wieder herstellen
         tx_mkforms_util_AutoLoad::setMessage('Unserialize configuration array.');
@@ -313,8 +321,8 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         $oForm->setConfigurations($config, $oForm->getConfId());
 
-        $oForm->oDataHandler->oForm =& $oForm;
-        $oForm->oRenderer->oForm =& $oForm;
+        $oForm->oDataHandler->oForm = &$oForm;
+        $oForm->oRenderer->oForm = &$oForm;
         // Das ist vermutlich nicht notwendig...
         $oForm->getJSLoader()->setForm($oForm);
         tx_mkforms_util_AutoLoad::setMessage('Unserialize code behind objects.');
@@ -327,40 +335,41 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     }
 
     /**
-     *
-     * @param   array       $$aHibernation
+     * @param array $$aHibernation
      */
     private function loadRunningObjects(&$aHibernation)
     {
-        $aRObjects =& $aHibernation['runningobjects'];
+        $aRObjects = &$aHibernation['runningobjects'];
         tx_mkforms_util_Loader::loadRunningObjects($aRObjects);
     }
+
     /**
-     *
-     * @param   array       $$aHibernation
+     * @param array $$aHibernation
      */
     private function loadLoadedClasses(&$aHibernation)
     {
-        $aRObjects =& $aHibernation['loadedClasses'];
+        $aRObjects = &$aHibernation['loadedClasses'];
         tx_mkforms_util_Loader::loadLoadedClasses($aRObjects);
     }
+
     /**
-     * [Describe function...]
+     * [Describe function...].
      *
-     * @param   [type]      $$aHibernation: ...
-     * @return  [type]      ...
+     * @param [type] $$aHibernation: ...
+     *
+     * @return [type] ...
      */
     private function loadParent(&$aHibernation)
     {
-        if ($aHibernation['parent'] !== false) {
+        if (false !== $aHibernation['parent']) {
             $sClassPath = $aHibernation['parent']['classpath'];
-            require_once($sClassPath);
+            require_once $sClassPath;
         }
     }
 
-
     /**
-     * Liefert einen eindeutigen Key für Usersession und Form
+     * Liefert einen eindeutigen Key für Usersession und Form.
+     *
      * @return string
      */
     private function getUserFormKey($formid)
@@ -369,6 +378,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         return 'mkf_'.session_id().'_'.$formid;
     }
+
     private function getPageFormKey($formid, $pageId, $key = 'config')
     {
         $formid = $formid ? $formid : $this->getForm()->getFormId();
@@ -380,8 +390,10 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     {
         $this->form = $form;
     }
+
     /**
-     * Returns the form instance
+     * Returns the form instance.
+     *
      * @return tx_ameosformidable
      */
     public function getForm()
@@ -391,5 +403,5 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_MixedSessionManager.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_MixedSessionManager.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/util/class.tx_mkforms_session_MixedSessionManager.php'];
 }

@@ -4,13 +4,11 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-
-
 class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'ListBox';
     public $aLibs = array(
-        'rdt_listbox_class' => 'res/js/listbox.js'
+        'rdt_listbox_class' => 'res/js/listbox.js',
     );
 
     public function _render()
@@ -23,7 +21,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
         $aItems = $this->_getItems();
         $sAddStyle = '';
 
-        if ($this->_defaultFalse('/hideifempty') === true) {
+        if (true === $this->_defaultFalse('/hideifempty')) {
             if ($this->isDataEmpty()) {
                 $sAddStyle = 'display: none;';
             }
@@ -51,7 +49,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
                         }
                     }
                 } else {
-                    if ($bSelected === false && (
+                    if (false === $bSelected && (
                             (
                                 !$strictCheck && $aItem['value'] == $sValue
                             ) || (
@@ -68,7 +66,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
                 $sCustom = $this->_getCustom($aItem);
                 $sClass = $this->_getClasses($aItem, false);
 
-                $sInput = '<option value="' . $aItem['value'] . '" ' . $sSelected . $sClass . $sCustom . '>' . $sCaption . '</option>';
+                $sInput = '<option value="'.$aItem['value'].'" '.$sSelected.$sClass.$sCustom.'>'.$sCaption.'</option>';
                 $aHtml[] = $sInput;
 
                 $sOptionsListBag[$aItem['value'].'.'] = array(
@@ -77,7 +75,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
                     'selected' => $bSelected,
                     'caption' => $sCaption,
                     'class' => $sClass,
-                    'custom' => $sCustom
+                    'custom' => $sCustom,
                 );
             }
 
@@ -93,12 +91,12 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             $sMultiple = '';
         }
 
-        $sInputBegin = '<select name="' . $this->_getElementHtmlName() . $sBrackets . '" ' . $sMultiple . ' id="' . $this->_getElementHtmlId() . '"' . $this->_getAddInputParams(array('style' => $sAddStyle)) . '>';
+        $sInputBegin = '<select name="'.$this->_getElementHtmlName().$sBrackets.'" '.$sMultiple.' id="'.$this->_getElementHtmlId().'"'.$this->_getAddInputParams(array('style' => $sAddStyle)).'>';
         $sInputEnd = '</select>';
-        $sInput = $sInputBegin . $sOptionsList . $sInputEnd;
+        $sInput = $sInputBegin.$sOptionsList.$sInputEnd;
 
         $aHtmlBag = array(
-            '__compiled' => $this->_displayLabel($sLabel) . $sInput,
+            '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'value' => $sValue,
             'caption' => implode(', ', $aSelectedCaptions),
             'input' => $sInput,
@@ -112,7 +110,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 
     public function _getHumanReadableValue($data = false)
     {
-        if ($data === false) {
+        if (false === $data) {
             $data = $this->getValue();
         }
 
@@ -150,7 +148,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
         $aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $sValue);
         $aParts = array();
 
-        if ($sFieldName === '') {
+        if ('' === $sFieldName) {
             $sFieldName = $this->_getName();
         }
 
@@ -158,13 +156,13 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             $sTableName = $this->oForm->_navConf('/tablename', $this->oForm->oDataHandler->aElement);
 
             foreach ($aValues as $uid) {
-                //$aParts[] = "(FIND_IN_SET('" . addslashes($sValue) . "', " . $sFieldPrefix . $sFieldName . "))";
-                $aParts[] = $GLOBALS['TYPO3_DB']->listQuery($sFieldPrefix . $sFieldName, $uid, $sTableName);
+                $pattern = Tx_Rnbase_Database_Connection::getInstance()->quoteStr($uid);
+                $aParts[] = 'FIND_IN_SET(\''.$pattern.'\','.$sFieldPrefix.$sFieldName.')';
             }
 
-            $sSql = ' ( ' . implode(' OR ', $aParts) . ' ) ';
+            $sSql = ' ( '.implode(' OR ', $aParts).' ) ';
 
-            if ($bRec === true) {
+            if (true === $bRec) {
                 return $this->overrideSql(
                     $sValue,
                     $sFieldPrefix,
@@ -183,10 +181,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     {
         if ($this->_defaultFalse('/data/defaultvalue/first/')
             ||
-            ($this->_navConf('/data/defaultvalue/first/') === '')    // slick tag <first />
+            ('' === $this->_navConf('/data/defaultvalue/first/'))    // slick tag <first />
         ) {
             // on renvoie la valeur du premier item
-            if (($sFirstValue = $this->getFirstItemValue()) !== false) {
+            if (false !== ($sFirstValue = $this->getFirstItemValue())) {
                 return $sFirstValue;
             }
 
@@ -292,7 +290,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             'addItem',
             array(
                 'caption' => $sCaption,
-                'value' => $sValue
+                'value' => $sValue,
             )
         );
     }
@@ -303,14 +301,14 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             'modifyItem',
             array(
                 'caption' => $sCaption,
-                'value' => $sValue
+                'value' => $sValue,
             )
         );
     }
 
     public function _isMultiple()
     {
-        return ($this->oForm->_defaultFalse('/multiple/', $this->aElement));
+        return $this->oForm->_defaultFalse('/multiple/', $this->aElement);
     }
 
     public function _flatten($mData)
@@ -342,7 +340,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     public function _getValue()
     {
         $aItems = $this->_getItems();
-        if (is_array($aItems) && count($aItems) == 1) {
+        if (is_array($aItems) && 1 == count($aItems)) {
             $aFirst = array_shift($aItems);
 
             return $this->_substituteConstants($aFirst['value']);
@@ -355,11 +353,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     {
         $aItems = $this->_getItems();
 
-        return (count($aItems) === 0 || (count($aItems) === 1 && trim($aItems[array_shift(array_keys($aItems))]['value']) === ''));
+        return 0 === count($aItems) || (1 === count($aItems) && '' === trim($aItems[array_shift(array_keys($aItems))]['value']));
     }
 }
 
-
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_listbox/api/class.tx_rdtlistbox.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_listbox/api/class.tx_rdtlistbox.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_listbox/api/class.tx_rdtlistbox.php'];
 }

@@ -1,7 +1,5 @@
 <?php
 /**
- * @package tx_mklib
- * @subpackage tx_mklib_tests
  * @author Hannes Bochmann
  *
  *  Copyright notice
@@ -27,19 +25,15 @@
  */
 
 /**
- * benötigte Klassen einbinden
+ * benötigte Klassen einbinden.
  */
 /**
- * Statische Hilfsmethoden für Tests
- *
- * @package tx_mklib
- * @subpackage tx_mklib_tests
+ * Statische Hilfsmethoden für Tests.
  */
 class tx_mkforms_tests_Util
 {
-
     /**
-     * @param boolean $force
+     * @param bool $force
      */
     public static function getStaticTS($force = false)
     {
@@ -48,7 +42,6 @@ class tx_mkforms_tests_Util
             return $configArray;
         }
         tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
-
 
         tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 
@@ -70,7 +63,8 @@ class tx_mkforms_tests_Util
     }
 
     /**
-     * Liefert ein Form Objekt
+     * Liefert ein Form Objekt.
+     *
      * @return tx_mkforms_forms_Base
      */
     public static function getForm(
@@ -79,7 +73,7 @@ class tx_mkforms_tests_Util
         $parent = null,
         $oForm = null
     ) {
-        if ($oForm == null) {
+        if (null == $oForm) {
             $oForm = tx_mkforms_forms_Factory::createForm('generic');
             $oForm->setTestMode();
         }
@@ -155,8 +149,7 @@ class tx_mkforms_tests_Util
                     'csrfProtection' => $bCsrfProtection,
                     'checkWidgetsExist' => 1,
                 ),
-
-            )
+            ),
         );
     }
 
@@ -164,9 +157,8 @@ class tx_mkforms_tests_Util
      * Setzt die werte aus dem array für die korrespondierenden widgets.
      * bei boxen wird rekursiv durchgegangen.
      *
-     * @param array $aData  |   Die Daten wie sie in processForm ankommen
+     * @param array $aData |   Die Daten wie sie in processForm ankommen
      * @param $oForm
-     * @return void
      */
     public static function setWidgetValues($aData, $oForm)
     {
@@ -181,7 +173,7 @@ class tx_mkforms_tests_Util
 
     /**
      * @param string $formId
-     * @param array $formData
+     * @param array  $formData
      * @param string $requestToken
      */
     public static function setRequestTokenForFormId(
@@ -194,10 +186,9 @@ class tx_mkforms_tests_Util
         $GLOBALS['TSFE']->fe_user->setKey(
             'ses',
             'mkforms',
-            array('requestToken' =>
-                array(
-                    $formId => $requestToken
-                )
+            array('requestToken' => array(
+                    $formId => $requestToken,
+                ),
             )
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -219,18 +210,18 @@ class tx_mkforms_tests_Util
      *
      * Wir gehen also erst mal den Weg, den Fehler abzufangen.
      *
-     * @param int $errno
+     * @param int    $errno
      * @param string $errstr
      * @param string $errfile
-     * @param int $errline
-     * @param array $errcontext
+     * @param int    $errline
+     * @param array  $errcontext
      *
      * @return mixed
      */
     public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
     {
         $ignoreMsg = 'Cannot modify header information - headers already sent by';
-        if (strpos($errstr, $ignoreMsg) !== false) {
+        if (false !== strpos($errstr, $ignoreMsg)) {
             // Don't execute PHP internal error handler
             return true;
         }
@@ -240,5 +231,5 @@ class tx_mkforms_tests_Util
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php']);
+    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mklib/tests/class.tx_mklib_tests_Util.php'];
 }
