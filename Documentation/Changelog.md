@@ -1,12 +1,48 @@
 Changelog
 =========
 
-3.0.21
+9.5.0
 -----
 
--   added changelog
+-   Added TYPO3 9.5 support, dropped TYPO3 6.2 support
 
-3.0.20
+3.0.25
+-----
+
+-   Add travis ci support
+-   fixed name of checkbox
+
+3.0.24
+-----
+
+-   change typo3 requirement to cms-core instead of cms
+
+3.0.23
+-----
+
+-   PHP 7.2 compatibility fixed if $errors is no array 
+-   fixed PHP 7.2 deprecations 
+-   removed not longer needed lib 
+-   New base class for plugins 
+-   Fix some method visibility 
+-   fixed no onchange event when using Renderlet::DATE
+-   new view class for plugin and bugfix in js
+-   Trigger validation for CHECKBOX widget if no item selected
+-   bugfix for PHP 7.2
+-   make it possible to stop ajax requests
+-   New tag attribute for required
+-   optimized logging
+-   don't use constant if not defined
+
+3.0.22
+-----
+
+-   harden substring searches
+-   Replace the deprecated "each" method in widgets/
+-   Fix syntax error in the upload widget
+
+
+3.0.21
 -----
 
 -   avoid htmlspecialchars being used twice when value of widget is sanitized 
