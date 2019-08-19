@@ -28,14 +28,6 @@ if (TYPO3_MODE === 'FE') {
         = 'tx_mkforms_hooks_TSFE->contentPostProc_output';
 }
 
-if (!tx_rnbase_util_TYPO3::isTYPO76OrHigher() && !defined('PATH_tslib')) {
-    if (@is_dir(PATH_site . TYPO3_mainDir . 'sysext/cms/tslib/')) {
-        define('PATH_tslib', PATH_site . TYPO3_mainDir . 'sysext/cms/tslib/');
-    } elseif (@is_dir(PATH_site . 'tslib/')) {
-        define('PATH_tslib', PATH_site . 'tslib/');
-    }
-}
-
 if (!is_array($GLOBALS['EM_CONF']) || !array_key_exists($_EXTKEY, $GLOBALS['EM_CONF'])) {
     require_once(tx_rnbase_util_Extensions::extPath('mkforms', 'ext_emconf.php'));
 }

@@ -157,14 +157,6 @@ class tx_mkforms_util_Div
      */
     public static function virtualizeFE($aConfig = false, $feSetup = false)
     {
-        if (!tx_rnbase_util_TYPO3::isTYPO76OrHigher() && !defined('PATH_tslib')) {
-            if (@is_dir(PATH_site.TYPO3_mainDir.'sysext/cms/tslib/')) {
-                define('PATH_tslib', PATH_site.TYPO3_mainDir.'sysext/cms/tslib/');
-            } elseif (@is_dir(PATH_site.'tslib/')) {
-                define('PATH_tslib', PATH_site.'tslib/');
-            }
-        }
-
         $GLOBALS['TT'] = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getTimeTrackClass());
         $GLOBALS['CLIENT'] = Tx_Rnbase_Utility_T3General::clientInfo();
 
