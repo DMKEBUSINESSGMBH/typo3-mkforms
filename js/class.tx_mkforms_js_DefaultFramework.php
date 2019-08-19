@@ -1,5 +1,4 @@
 <?php
-tx_rnbase::load('tx_mkforms_forms_IJSFramework');
 
 /**
  * Diese Klasse bindet das notwendige Javascript für ein.

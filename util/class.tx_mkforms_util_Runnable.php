@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('Tx_Rnbase_Utility_Strings');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 /**
  * Execute code within XML.
@@ -246,7 +244,6 @@ class tx_mkforms_util_Runnable
         $method = $this->getConfig()->get('/userobj/method/', $aUserobj);
         $mode = $this->getConfig()->get('/userobj/loadmode', $aUserobj);
         if ($mode === 'tx_div' || $mode === 'auto' || $extension != 'this') {
-            tx_rnbase::load($extension);
         }
 
         $oExtension = (strcasecmp($extension, 'this') == 0) ? $this->getForm()->getParent() : tx_rnbase::makeInstance($extension);
@@ -274,7 +271,6 @@ class tx_mkforms_util_Runnable
 
             $ret =  'UNCAUGHT EXCEPTION FOR VIEW: ' . get_class($oCbObj) . "\r\n";
 
-            tx_rnbase::load('tx_rnbase_util_Logger');
             if (tx_rnbase_util_Logger::isWarningEnabled()) {
                 tx_rnbase_util_Logger::warn('Method callUserObj() failed.', 'mkforms', array('Exception' => $e->getMessage(), 'XML' => $aUserobj, 'Params' => $aParams, 'Form-ID' => $this->getForm()->getFormId()));
             }

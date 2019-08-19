@@ -27,15 +27,6 @@
  * @author    Jerome Schneider <typo3dev@ameos.com>
  */
 
-tx_rnbase::load('tx_mkforms_util_Div');
-tx_rnbase::load('tx_mkforms_util_Loader');
-tx_rnbase::load('tx_mkforms_util_Runnable');
-tx_rnbase::load('tx_mkforms_util_Templates');
-tx_rnbase::load('tx_mkforms_util_Json');
-tx_rnbase::load('tx_mkforms_forms_IForm');
-tx_rnbase::load('tx_mkforms_session_Factory');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.maindataset.php');
@@ -425,7 +416,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $this->_xmlPath = $mXml;
         }
 
-        tx_rnbase::load('tx_mkforms_util_Config');
         if ($this->bInitFromTs === false) {
 
             /**
@@ -2145,7 +2135,6 @@ SANDBOXCLASS;
             $aPath = explode('/', $sPath);
             $sTable = $aPath[0];
 
-            tx_rnbase::load('tx_rnbase_util_TCA');
             tx_rnbase_util_TCA::loadTCA($sTable);
 
             return $this->getConfig()->get($sPath, $GLOBALS['TCA']);
@@ -3276,7 +3265,6 @@ JAVASCRIPT;
      */
     public function debug($bExpand = false)
     {
-        tx_rnbase::load('tx_rnbase_util_Debug');
 
         $aHtml = array();
 
@@ -4388,7 +4376,6 @@ JAVASCRIPT;
         if ($sExecMode === 'EID') {
             // ajax context
             // getting form in session
-            tx_rnbase::load('tx_mkforms_session_Factory');
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
             $form = $sesMgr->restoreForm($sFormId);
 
@@ -5065,7 +5052,6 @@ JAVASCRIPT;
     public function getTemplateTool()
     {
         if (!$this->templateTool) {
-            tx_rnbase::load('tx_mkforms_util_Templates');
             $this->templateTool = tx_mkforms_util_Templates::createInstance($this);
         }
 
@@ -5080,7 +5066,6 @@ JAVASCRIPT;
     public function getValidationTool()
     {
         if (!$this->validationTool) {
-            tx_rnbase::load('tx_mkforms_util_Validation');
             $this->validationTool = tx_mkforms_util_Validation::createInstance($this);
         }
 
@@ -5224,7 +5209,6 @@ JAVASCRIPT;
     public function &getDataSource($name)
     {
         if (!array_key_exists($name, $this->aODataSources)) {
-            tx_rnbase::load('tx_mkforms_exception_DataSourceNotFound');
             throw new tx_mkforms_exception_DataSourceNotFound('Missing DS: ' . $name);
         }
 

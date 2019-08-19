@@ -21,8 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Templates');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 /**
  * Ersatz für einige Methoden aus Ameos.
@@ -405,7 +403,6 @@ class tx_mkforms_util_Templates
      */
     public function parseTemplateCode($sHtml, $aTags, $aExclude = array(), $bClearNotUsed = true, $aLabels = array(), $bThrusted = false)
     {
-        tx_rnbase::load('tx_rnbase_util_Templates');
         $sHtml = tx_rnbase_util_Templates::includeSubTemplates($sHtml);
 
         if (!isset($this->sPfxBegin)) {
@@ -480,7 +477,6 @@ class tx_mkforms_util_Templates
         }
 
         // call module markers, so Labels and Modules can be rendered
-        tx_rnbase::load('tx_rnbase_util_BaseMarker');
         // disable the cache
         tx_rnbase_util_Templates::disableSubstCache();
         $markerArray = $subpartArray = $wrappedSubpartArray = $params = array();

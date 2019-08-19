@@ -1,7 +1,6 @@
 <?php
 
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainscriptingmethods.php');
-tx_rnbase::load('tx_rnbase_cache_Manager');
 
 class formidable_templatemethods extends formidable_mainscriptingmethods
 {
@@ -441,7 +440,6 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_debug_trail($mData, $aParams)
     {
-        tx_rnbase::load('tx_rnbase_util_Debug');
 
         return tx_rnbase_util_Debug::getDebugTrail();
     }

@@ -254,7 +254,6 @@ class tx_mkforms_util_FormBase
                     $form->setSubmitter($sWidget, $flattenData['submitmode']);
                 } // Datumsfelder zusätzlich für MySQL konvertieren!
                 elseif ($oWidget->sMajixClass == 'Date' && $mValue) {
-                    tx_rnbase::load('tx_rnbase_util_Dates');
                     $flattenData[$sWidget.'_mysql'] = tx_rnbase_util_Dates::date_tstamp2mysql($mValue);
                 }
                 // den Wert holen

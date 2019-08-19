@@ -1,7 +1,5 @@
 <?php
 
-tx_rnbase::load('Tx_Rnbase_Utility_Strings');
-tx_rnbase::load('tx_rnbase_util_Templates');
 
 
 class formidable_mainrenderlet extends formidable_mainobject
@@ -1150,7 +1148,6 @@ class formidable_mainrenderlet extends formidable_mainobject
         }
 
         if (is_string($mValue)) {
-            tx_rnbase::load('tx_mkforms_util_Templates');
             $mValue = $this->sanitize() ? $mValue : htmlspecialchars($mValue);
             $mValue = tx_mkforms_util_Templates::sanitizeStringForTemplateEngine($mValue);
         }
@@ -1672,7 +1669,6 @@ TOOLTIP;
                             $sWhen = 'end';
                         }
 
-                        tx_rnbase::load('tx_rnbase_util_Debug');
                         if (!in_array($sWhen, $this->oForm->aAvailableCheckPoints)) {
                             $this->oForm->mayday(
                                 'SERVER EVENT on <b>' . $sEventName . ' ' . $this->getAbsName()
@@ -2064,7 +2060,6 @@ JAVASCRIPT;
         }
 
         if (($bFromTCA = $this->_defaultFalse('/data/items/fromtca')) === true) {
-            tx_rnbase::load('tx_rnbase_util_TCA');
             tx_rnbase_util_TCA::loadTCA($this->oForm->oDataHandler->tableName());
             if (($aItems = $this->oForm->_navConf(
                 'columns/' . $this->_getName() . '/config/items',
@@ -3297,7 +3292,6 @@ JAVASCRIPT;
                 $sPath = $sDir . 'manifest.xml';
 
                 if (file_exists($sPath) && is_readable($sPath)) {
-                    tx_rnbase::load('tx_mkforms_util_XMLParser');
                     $this->oForm->aSkinManifests[$sHash] = tx_mkforms_util_XMLParser::getXml($sPath, $isSubXml, $bPlain);
                     if (array_key_exists('skin', $this->oForm->aSkinManifests[$sHash])) {
                         $this->oForm->aSkinManifests[$sHash]['control'] = array(

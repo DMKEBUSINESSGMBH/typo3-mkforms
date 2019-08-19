@@ -29,7 +29,6 @@
 /**
  * benötigte Klassen einbinden
  */
-tx_rnbase::load('tx_mkforms_forms_Factory');
 /**
  * Statische Hilfsmethoden für Tests
  *
@@ -50,8 +49,6 @@ class tx_mkforms_tests_Util
         }
         tx_rnbase_util_Extensions::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
 
-        tx_rnbase::load('tx_rnbase_configurations');
-        tx_rnbase::load('tx_rnbase_util_Misc');
 
         tx_rnbase_util_Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 
@@ -61,7 +58,6 @@ class tx_mkforms_tests_Util
          * um das umzugehen, kann man das RootLine Parameter leer setzen.
          * Siehe: TYPO3\CMS\Backend\Utility\BackendUtility:getPagesTSconfig();
          */
-        tx_rnbase::load('Tx_Rnbase_Backend_Utility');
         $tsConfig = Tx_Rnbase_Backend_Utility::getPagesTSconfig(0, '');
 
         $configArray = $tsConfig['plugin.']['tx_mkforms.'];

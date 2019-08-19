@@ -31,8 +31,6 @@
  */
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainobject.php');
 require_once(tx_rnbase_util_Extensions::extPath('mkforms') . 'api/class.mainrenderlet.php');
-tx_rnbase::load('tx_mkforms_tests_Util');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet

@@ -25,8 +25,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
-tx_rnbase::load('tx_mkforms_forms_Factory');
 
 /**
  * Generic form action base class
@@ -201,7 +199,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
 
         // Flatten array
         if ($flattenData) {
-            tx_rnbase::load('tx_mkforms_util_FormBase');
             $data = tx_mkforms_util_FormBase::flatArray2MultipleTableStructure($data, $form, $this->getConfigurations(), $confId);
         }
 
@@ -329,7 +326,6 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         );
 
         $confId = $this->getConfId();
-        tx_rnbase::load('tx_mkforms_util_FormBase');
 
         if (!is_array($data) || empty($data)) {
             $data = array();

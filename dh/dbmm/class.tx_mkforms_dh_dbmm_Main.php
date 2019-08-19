@@ -22,7 +22,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('tx_mkforms_dh_db_Main');
 
 /**
  * This is a FORMidable data handler that can also handle m:n relations.

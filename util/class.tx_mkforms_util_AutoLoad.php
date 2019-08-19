@@ -96,7 +96,6 @@ class tx_mkforms_util_AutoLoad
             );
 
             if (!class_exists($sClassName)) {
-                tx_rnbase::load($sClassName);
             }
         } catch (Exception $e) {
             $msg = $e->getMessage();
@@ -113,7 +112,6 @@ class tx_mkforms_util_AutoLoad
             );
 
         //noch loggen
-        tx_rnbase::load('tx_rnbase_util_Logger');
         // warning ins log schreiben, wenn die klasse geladen wurde
         if (class_exists($sClassName) && tx_rnbase_util_Logger::isWarningEnabled()) {
             tx_rnbase_util_Logger::warn($msg, 'mkforms');

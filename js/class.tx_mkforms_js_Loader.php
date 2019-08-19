@@ -1,5 +1,4 @@
 <?php
-tx_rnbase::load('tx_mkforms_util_Json');
 
 /**
  * Diese Klasse bindet das notwendige Javascript ein. Es ist eine neue Fassung der

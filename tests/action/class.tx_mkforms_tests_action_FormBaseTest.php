@@ -26,9 +26,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('tx_mkforms_forms_Factory');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkforms_tests_Util');
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
 class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
@@ -93,7 +90,6 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
     private static function getStaticTS()
     {
-        tx_rnbase::load('tx_mkforms_tests_Util');
 
         return tx_mkforms_tests_Util::getStaticTS();
     }

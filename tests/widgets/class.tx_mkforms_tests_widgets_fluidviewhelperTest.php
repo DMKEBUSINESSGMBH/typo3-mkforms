@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkforms_widgets_fluidviewhelper_Main');
 
 
 /**
@@ -40,10 +38,6 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      */
     public function testGetArguments()
     {
-        if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
-            $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
-        }
-
         $widget = $this->getWidgetMock(array('getArguments'));
 
         $parsedParams = $this->callInaccessibleMethod($widget, 'getArguments');
@@ -59,10 +53,6 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      */
     public function testRender()
     {
-        if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
-            $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
-        }
-
         $widget = $this->getWidgetMock(array('_render'));
 
         $helper = $this->getAccessibleMock(
@@ -103,10 +93,6 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      */
     public function testRenderWithErrors()
     {
-        if (!tx_rnbase::load('\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper')) {
-            $this->markTestSkipped('Required DebugViewHelper does not exists for the tests.');
-        }
-
         $widget = $this->getWidgetMock(array('_render'));
 
         $helper = $this->getAccessibleMock(
@@ -194,7 +180,6 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
     protected function getAllClassMethods($class)
     {
         $methods = array();
-        tx_rnbase::load($class);
         $reflection = new ReflectionClass($class);
         foreach ($reflection->getMethods() as $method) {
             $methods[$method->getName()] = $method;

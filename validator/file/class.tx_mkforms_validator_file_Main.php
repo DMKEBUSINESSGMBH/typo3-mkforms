@@ -4,8 +4,6 @@
  *
  * @author  Luc Muller <typo3dev@ameos.com>
  */
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-tx_rnbase::load('tx_rnbase_util_Math');
 
 class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 {

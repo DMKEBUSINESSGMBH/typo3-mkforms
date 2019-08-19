@@ -21,7 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_mkforms_session_IManager');
 
 /**
  * A session manager that uses php session and cache framework to store data
@@ -102,7 +101,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         // hohe Kompression ist nicht notwendig und kostet nur Zeit!
         $serForm = gzcompress(serialize($form), 1);
         //form cachen
-        tx_rnbase::load('tx_rnbase_cache_Manager');
         $cache = tx_rnbase_cache_Manager::getCache('mkforms');
         $cache->set($this->getUserFormKey($formId), $serForm, 60 * 60 * 3); // 3h Lifetime
 
@@ -143,7 +141,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         }
 
         // Warning for large sessions
-        tx_rnbase::load('tx_rnbase_util_Logger');
         if (tx_rnbase_util_Logger::isNoticeEnabled()) {
             $sessionLen = strlen(serialize($GLOBALS['_SESSION']));
             if ($sessionLen > 300000) {
@@ -171,7 +168,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return;
         }
 
-        tx_rnbase::load('tx_rnbase_cache_Manager');
         $cache = tx_rnbase_cache_Manager::getCache('mkforms');
         // Die Daten müssen im Context des Forms und der PageID gespeichert werden, da ein
         // Formular in verschiedenen Seiten verwendet werden kann.
@@ -192,7 +188,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return $feConfig;
         }
 
-        tx_rnbase::load('tx_rnbase_cache_Manager');
         $cache = tx_rnbase_cache_Manager::getCache('mkforms');
 
         // Wir holen uns die pageID von dem Formular.
@@ -231,7 +226,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return;
         }
 
-        tx_rnbase::load('tx_rnbase_cache_Manager');
         $cache = tx_rnbase_cache_Manager::getCache('mkforms');
         // Die Daten müssen im Context des Forms und der PageID gespeichert werden, da ein
         // Formular in verschiedenen Seiten verwendet werden kann.
@@ -253,7 +247,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return $feSetup;
         }
 
-        tx_rnbase::load('tx_rnbase_cache_Manager');
         $cache = tx_rnbase_cache_Manager::getCache('mkforms');
 
         // Wir holen uns die pageID von dem Formular.
@@ -278,7 +271,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $this->initializeSessionArray();
 
         //registriert eine unserialize_callback_func
-        tx_rnbase::load('tx_mkforms_util_AutoLoad');
         tx_mkforms_util_AutoLoad::registerUnserializeCallbackFunc();
 
         if (!array_key_exists($formid, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {
@@ -289,7 +281,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $this->loadLoadedClasses($aHibernation);
         $this->loadParent($aHibernation);
 
-        tx_rnbase::load('tx_rnbase_cache_Manager');
         $cache = tx_rnbase_cache_Manager::getCache('mkforms');
         $serForm = $cache->get($this->getUserFormKey($formid));
         if (!$serForm) {
@@ -341,7 +332,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
      */
     private function loadRunningObjects(&$aHibernation)
     {
-        tx_rnbase::load('tx_mkforms_util_Loader');
         $aRObjects =& $aHibernation['runningobjects'];
         tx_mkforms_util_Loader::loadRunningObjects($aRObjects);
     }
@@ -352,7 +342,6 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     private function loadLoadedClasses(&$aHibernation)
     {
         $aRObjects =& $aHibernation['loadedClasses'];
-        tx_rnbase::load('tx_mkforms_util_Loader');
         tx_mkforms_util_Loader::loadLoadedClasses($aRObjects);
     }
     /**

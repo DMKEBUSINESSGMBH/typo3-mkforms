@@ -4,14 +4,10 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-tx_rnbase::load('tx_mkforms_util_Div');
-tx_rnbase::load('tx_mkforms_util_Constants');
-tx_rnbase::load('tx_rnbase_configurations');
 
 if (tx_rnbase_util_Extensions::isLoaded('mksanitizedparameters')) {
     require_once(tx_rnbase_util_Extensions::extPath($_EXTKEY) . 'ext_rules.php');
 }
-tx_rnbase::load('tx_rnbase_util_Arrays');
 // Predefine cache
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'])
     && tx_rnbase_configurations::getExtensionCfgValue('mkforms', 'activateCache')
@@ -32,7 +28,6 @@ if (TYPO3_MODE === 'FE') {
         = 'tx_mkforms_hooks_TSFE->contentPostProc_output';
 }
 
-tx_rnbase::load('tx_rnbase_util_TYPO3');
 if (!tx_rnbase_util_TYPO3::isTYPO76OrHigher() && !defined('PATH_tslib')) {
     if (@is_dir(PATH_site . TYPO3_mainDir . 'sysext/cms/tslib/')) {
         define('PATH_tslib', PATH_site . TYPO3_mainDir . 'sysext/cms/tslib/');

@@ -5,8 +5,6 @@ if (!defined('PATH_typo3conf')) {
     die('Could not access this script directly!');
 }
 
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 class formidableajax
 {
@@ -73,7 +71,6 @@ class formidableajax
             'trueargs'        => Tx_Rnbase_Utility_T3General::_GP('trueargs'),
         );
 
-        tx_rnbase::load('tx_mkforms_session_Factory');
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
         $sesMgr->initialize();
 
@@ -90,11 +87,6 @@ class formidableajax
         $this->aSession =&    $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']
                                             [$this->aRequest['object']][$this->aRequest['servicekey']][$this->aRequest['safelock']];
 
-        tx_rnbase::load('tx_mkforms_forms_Base');
-        tx_rnbase::load('tx_mkforms_util_Div');
-        tx_rnbase::load('tx_mkforms_util_Config');
-        tx_rnbase::load('tx_mkforms_util_Validation');
-        tx_rnbase::load('tx_mkforms_ds_db_Main');
 
         $formid = $this->aRequest['formid'];
 
@@ -212,7 +204,6 @@ class formidableajax
                 $aData = array();
             }
 
-            tx_rnbase::load('tx_mkforms_util_Json');
             $this->ttTimes['complete'] = (microtime(true) - $this->ttStart);
 
             // bei werten wie 1.59740447998E-5 wirft es sehr schnell JS Fehler!
@@ -437,7 +428,6 @@ try {
     }
     $ret = $oAjax->handleRequest();
 } catch (Exception $e) {
-    tx_rnbase::load('tx_rnbase_util_Logger');
     if (tx_rnbase_util_Logger::isWarningEnabled()) {
         $request = $oAjax instanceof formidableajax ? $oAjax->getRequestData() : 'unkown';
         $widgets = $oAjax instanceof formidableajax && is_object($oAjax->getForm()) ? $oAjax->getForm()->getWidgetNames() : array();

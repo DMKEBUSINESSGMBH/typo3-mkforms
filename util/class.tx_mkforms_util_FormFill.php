@@ -176,10 +176,8 @@ class tx_mkforms_util_FormFill
      */
     public function getStaticCountries($params, tx_mkforms_forms_Base $form)
     {
-        tx_rnbase::load('tx_rnbase_util_Extensions');
         tx_rnbase_util_Extensions::isLoaded('static_info_tables', true);
 
-        tx_rnbase::load('tx_rnbase_model_data');
         $config = tx_rnbase_model_data::getInstance($params);
 
         $captionField = (
@@ -201,7 +199,6 @@ class tx_mkforms_util_FormFill
 
         // sort some countries to top of the list.
         if ($config->hasAddTopCountries()) {
-            tx_rnbase::load('tx_rnbase_util_Strings');
             $topCountries = tx_rnbase_util_Strings::intExplode(',', $config->getAddTopCountries());
             foreach ($topCountries as &$topCountry) {
                 foreach ($countries as $countryKey => $country) {

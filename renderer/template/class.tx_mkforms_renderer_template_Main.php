@@ -4,7 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-tx_rnbase::load('tx_rnbase_util_Templates');
 
 class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 {

@@ -29,9 +29,6 @@
 /**
  * benötigte Klassen einbinden
  */
-tx_rnbase::load('tx_mkforms_tests_Util');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkforms_tests_Util');
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet

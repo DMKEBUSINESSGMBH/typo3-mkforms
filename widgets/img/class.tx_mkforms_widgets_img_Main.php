@@ -5,7 +5,6 @@
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
-tx_rnbase::load('tx_mkforms_util_Div');
 
 class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 {
@@ -197,7 +196,6 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             return $sPath;
         } else {
             // FAL-Referenz?
-            tx_rnbase::load('tx_rnbase_util_Math');
             if (tx_rnbase_util_Math::isInteger($sPath) && $this->defaultFalse('/treatidasreference')) {
                 $reference = tx_rnbase_util_TSFAL::getFileReferenceById($sPath);
                 $sPath = $reference->getForLocalProcessing(false);

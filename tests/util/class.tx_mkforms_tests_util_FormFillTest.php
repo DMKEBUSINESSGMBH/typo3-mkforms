@@ -25,9 +25,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkforms_util_FormFill');
-tx_rnbase::load('tx_mkforms_tests_Util');
 
 /**
  * @package tx_mkforms
@@ -76,7 +73,6 @@ class tx_mkforms_tests_util_FormFillTest extends tx_rnbase_tests_BaseTestCase
 
     public function testGetCountries()
     {
-        tx_rnbase::load('tx_rnbase_util_Extensions');
         if (!tx_rnbase_util_Extensions::isLoaded('static_info_tables')) {
             self::markTestSkipped('Die Extension static_info_tables ist nicht installiert.');
         }

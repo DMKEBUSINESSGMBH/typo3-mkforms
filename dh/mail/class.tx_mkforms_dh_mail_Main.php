@@ -22,7 +22,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-tx_rnbase::load('tx_rnbase_action_BaseIOC');
 
 /**
  * Datahandler um anhand von den Formulardaten E-Mails zu versenden.
@@ -244,7 +243,6 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
                 )
             );
         }
-        tx_rnbase::load('tx_mkmailer_util_ServiceRegistry');
         try {
             $templateObj = tx_mkmailer_util_ServiceRegistry::getMailService()->getTemplate($template);
         } catch (tx_mkmailer_exceptions_NoTemplateFound $e) {

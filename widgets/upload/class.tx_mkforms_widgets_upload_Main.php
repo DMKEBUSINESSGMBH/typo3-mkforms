@@ -5,7 +5,6 @@
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
 
-tx_rnbase::load('tx_mkforms_util_Div');
 
 class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 {
@@ -287,7 +286,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                 //@see tx_mkforms_widgets_damupload_Main::_render
                 //da gab es auch mal ein Problem und ein Bugfix
                 if (!is_string($sStoredData)) {
-                    tx_rnbase::load('tx_rnbase_util_Logger');
                     tx_rnbase_util_Logger::fatal(
                         'Der value des Uploadfelds ist kein string, was nie passieren darf!',
                         'mkforms',

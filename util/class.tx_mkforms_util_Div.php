@@ -23,9 +23,6 @@
  ***************************************************************/
 
 // @TODO: remove in 2 or 4 versions! it is only a localconf caching workaround
-tx_rnbase::load('tx_mkforms_util_Constants');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
-tx_rnbase::load('tx_rnbase_util_TYPO3');
 
 
 /**
@@ -191,7 +188,6 @@ class tx_mkforms_util_Div
         /* @var $tsfe tslib_fe */
         $tsfe = &$GLOBALS['TSFE']; // only an alias for codecomplication
 
-        tx_rnbase::load('tx_rnbase_util_TCA');
         tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
 
         $tsfe->connectToDB(); // takes 0.0000 T3 6.2
@@ -248,7 +244,6 @@ class tx_mkforms_util_Div
 
         $aDebug[] = '<span class="notice"><strong>debug trail: </strong></span><ol>';
 
-        tx_rnbase::load('tx_rnbase_util_Debug');
         foreach (Tx_Rnbase_Utility_Strings::trimExplode('//', tx_rnbase_util_Debug::getDebugTrail()) as $bt) {
             $aDebug[] = "\t<li>".$bt.'</li>';
         }
@@ -444,7 +439,6 @@ class tx_mkforms_util_Div
                 if ($bAnalyze) {
                     $aDebug[] = self::viewMixed($variable);
                 } else {
-                    tx_rnbase::load('tx_rnbase_util_Debug');
                     $aDebug[] = tx_rnbase_util_Debug::viewArray($variable);
                 }
             }
@@ -555,7 +549,6 @@ ERRORMESSAGE;
     {
         static $version = null;
         if ($version === null) {
-            tx_rnbase::load('tx_rnbase_util_TYPO3');
             $version = tx_rnbase_util_TYPO3::convertVersionNumberToInteger(self::getVersion());
         }
 
@@ -901,7 +894,6 @@ ERRORMESSAGE;
         }
         $cleaned = $name;
         if (function_exists('iconv')) {
-            tx_rnbase::load('tx_rnbase_util_Strings');
             $charset = tx_rnbase_util_Strings::isUtf8String($cleaned) ? 'UTF-8' : 'ISO-8859-1';
             $oldLocal = setlocale(LC_ALL, 0);
             setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'deu_deu', 'de', 'ge');

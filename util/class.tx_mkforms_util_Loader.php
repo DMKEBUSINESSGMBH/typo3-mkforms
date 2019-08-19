@@ -127,7 +127,6 @@ class tx_mkforms_util_Loader
             }
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType][$aTemp['TYPE']] = $aTemp;
 
-            tx_rnbase::load($aTemp['CLASS']);
 
             if (file_exists($aTemp['LOCALCONFPATH'])) {
                 require_once($aTemp['LOCALCONFPATH']);
@@ -202,7 +201,6 @@ class tx_mkforms_util_Loader
                 require_once($sPath);
             }
         }
-        tx_rnbase::load($sClass);
         $this->loadedClasses[$sClass] = $sPath ? $sPath : true;
 
         return $this->loadedClasses[$sClass];
@@ -238,7 +236,6 @@ class tx_mkforms_util_Loader
             if (is_string($sPath)) {
                 require_once($sPath);
             }
-            tx_rnbase::load($sClass);
         }
     }
 }

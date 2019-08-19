@@ -105,7 +105,6 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
     {
         if ($this->getForm()->isTestMode() && !empty($this->getForm()->_aValidationErrors)
         ) {
-            tx_rnbase::load('tx_rnbase_util_Debug');
             tx_rnbase_util_Debug::debug(
                 array(
                     'es gab Validierungsfehler' => $this->getForm()->_aValidationErrors

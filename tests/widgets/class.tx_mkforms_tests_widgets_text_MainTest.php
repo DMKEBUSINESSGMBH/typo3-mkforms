@@ -22,8 +22,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
-tx_rnbase::load('tx_mkforms_widgets_text_Main');
 
 /**
  * tx_mkforms_tests_widgets_text_Main_testcase
@@ -116,7 +114,6 @@ class tx_mkforms_tests_widgets_text_MainTest extends tx_rnbase_tests_BaseTestCas
     protected function getAllClassMethods($class)
     {
         $methods = array();
-        tx_rnbase::load($class);
         $reflection = new ReflectionClass($class);
         foreach ($reflection->getMethods() as $method) {
             $methods[$method->getName()] = $method;

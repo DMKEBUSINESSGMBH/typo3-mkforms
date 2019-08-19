@@ -4,7 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-tx_rnbase::load('tx_mkforms_js_Loader');
 
 
 class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet

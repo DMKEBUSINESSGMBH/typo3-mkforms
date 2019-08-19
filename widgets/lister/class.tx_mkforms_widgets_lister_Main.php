@@ -4,8 +4,6 @@
  *
  * @author  Jerome Schneider <typo3dev@ameos.com>
  */
-tx_rnbase::load('tx_rnbase_util_Templates');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 {
@@ -1475,7 +1473,6 @@ ERRORMESSAGE;
     {
         static $ignore = -1;
         if ($ignore == -1) {
-            tx_rnbase::load('tx_rnbase_configurations');
             $ignore = tx_rnbase_configurations::getExtensionCfgValue('mkforms', 'listerNameId');
             $ignore ? 1 : 0;
         }

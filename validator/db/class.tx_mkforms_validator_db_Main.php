@@ -90,11 +90,9 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
 
         $value = addslashes($value);
 
-        tx_rnbase::load('Tx_Rnbase_Database_Connection');
         $where = array();
         $where[] = $sField . ' = ' . Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($value, '');
 
-        tx_rnbase::load('tx_rnbase_util_TCA');
         if ($this->_defaultFalse('/unique/deleted/') === true) {
             $field = tx_rnbase_util_TCA::getDeletedFieldForTable($sTable);
             $field = empty($field) ? 'deleted' : $field;
@@ -111,7 +109,6 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
             $where[] = $sKey . ' != \'' . $datahandler->currentId() . '\'';
         }
 
-        tx_rnbase::load('Tx_Rnbase_Database_Connection');
         $rs = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
             'count(*) as nbentries',
             $sTable,

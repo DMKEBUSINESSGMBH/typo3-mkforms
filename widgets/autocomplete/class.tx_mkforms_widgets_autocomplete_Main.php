@@ -4,8 +4,6 @@
  *
  * @author  Loredana Zeca <typo3dev@ameos.com>
  */
-tx_rnbase::load('tx_rnbase_util_Templates');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 {

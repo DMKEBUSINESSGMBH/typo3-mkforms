@@ -25,8 +25,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_mkforms_util_FormBase');
-tx_rnbase::load('Tx_Rnbase_Utility_Strings');
 
 /**
  * Some static util functions für ajax calls.

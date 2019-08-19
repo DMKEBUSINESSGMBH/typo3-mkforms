@@ -25,7 +25,6 @@
 /**
  * benötigte Klassen einbinden
  */
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * Array util tests

@@ -1,5 +1,4 @@
 <?php
-tx_rnbase::load('tx_mkforms_util_Div');
 
 class formidable_mainrenderer extends formidable_mainobject
 {

@@ -9,12 +9,8 @@
 if (tx_rnbase_util_Extensions::isLoaded('dam')) {
     require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam.php');
     require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_db.php');
-    tx_rnbase::load('tx_rnbase_util_TSDAM');
 } else {
-    tx_rnbase::load('tx_rnbase_util_TSFAL');
 }
-tx_rnbase::load('tx_rnbase_util_TYPO3');
-tx_rnbase::load('tx_rnbase_util_Typo3Classes');
 
 class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 {

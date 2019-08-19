@@ -21,9 +21,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-tx_rnbase::load('tx_rnbase_util_Arrays');
-tx_rnbase::load('Tx_Rnbase_Utility_Strings');
-tx_rnbase::load('Tx_Rnbase_Utility_T3General');
 
 
 
@@ -191,7 +188,6 @@ class tx_mkforms_util_Config
      */
     private function loadXmlConf($xmlPath)
     {
-        tx_rnbase::load('tx_mkforms_util_XMLParser');
         $this->config = tx_mkforms_util_XMLParser::getXml($xmlPath);
 
         // root sollte mkforms sein!
@@ -210,7 +206,6 @@ class tx_mkforms_util_Config
         // the root is deleted
         $this->config = $this->config[$sRoot];
 
-        tx_rnbase::load('tx_rnbase_util_TYPO3');
         if (($sXmlMinVersion = $this->get('/minversion', $this->_aConf)) !== false) {
             if (tx_mkforms_util_Div::getVersionInt() < tx_rnbase_util_TYPO3::convertVersionNumberToInteger($sXmlMinVersion)) {
                 tx_mkforms_util_Div::mayday(
@@ -698,7 +693,6 @@ class tx_mkforms_util_Config
                         );
                         $iNewKey = count($aDebug) - 1;
 
-                        tx_rnbase::load('tx_mkforms_util_XMLParser');
                         $aXml = tx_mkforms_util_XMLParser::getXml(tx_mkforms_util_Div::toServerPath($sPath), true);
                         $aXml = $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml']);
 
@@ -762,7 +756,6 @@ class tx_mkforms_util_Config
 
                     $iNewKey = count($aDebug) - 1;
 
-                    tx_rnbase::load('tx_mkforms_util_XMLParser');
                     $aXml = tx_mkforms_util_XMLParser::getXml(Tx_Rnbase_Utility_T3General::getFileAbsFileName($val), true);
 
                     $aTemp = $this->array_add(

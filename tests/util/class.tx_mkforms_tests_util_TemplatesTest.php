@@ -25,8 +25,6 @@
 /**
  * benötigte Klassen einbinden
  */
-tx_rnbase::load('tx_mkforms_util_Templates');
-tx_rnbase::load('tx_rnbase_tests_BaseTestCase');
 
 /**
  * @package tx_mkforms
