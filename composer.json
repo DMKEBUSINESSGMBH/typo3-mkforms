@@ -45,6 +45,7 @@
             "api/",
             "Classes/",
             "dh/",
+            "ds/",
             "exception/",
             "forms/",
             "hooks/",
