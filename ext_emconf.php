@@ -43,6 +43,7 @@ $EM_CONF[$_EXTKEY] = array(
         'suggests' => array(
             'mkmailer' => '3.0.0-',
             'mklib' => '3.0.0-',
+            'mksanitizedparameters' => '3.0.0-',
         ),
     ),
     'autoload' => array(
