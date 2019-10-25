@@ -27,7 +27,6 @@
         "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkforms"
     },
     "replace": {
-        "mkforms": "self.version",
         "typo3-ter/mkforms": "self.version"
     },
     "require": {
@@ -86,6 +85,7 @@
     "extra": {
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "extension-key": "mkforms",
             "web-dir": ".Build/Web"
         }
     }
