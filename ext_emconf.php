@@ -50,7 +50,9 @@ $EM_CONF[$_EXTKEY] = array(
         'classmap' => array(
             'action/',
             'api/',
+            'Classes/',
             'dh/',
+            'ds/',
             'exception/',
             'forms/',
             'hooks/',
