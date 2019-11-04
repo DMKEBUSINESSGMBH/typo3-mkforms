@@ -1,6 +1,12 @@
 Changelog
 =========
 
+9.5.1
+-----
+
+-   add suggest information for mksanitizedparameters
+-   Fix autoloading for datasources in non-Composer installation
+
 9.5.0
 -----
 
