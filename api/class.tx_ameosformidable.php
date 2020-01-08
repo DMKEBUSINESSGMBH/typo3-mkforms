@@ -3219,12 +3219,12 @@ JAVASCRIPT;
         if (false === $bExpand && $this->getJSLoader()->mayLoadJsFramework()) {
             $aHtml[] = '<a href="javascript:void(Formidable.f(\''.$this->formid.'\').toggleDebug())"><img src="'
                 .Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms')
-                .'/res/images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
+                .'/Resources/Public/Images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
             $aHtml[] = '<div id="'.$this->formid
                 .'_debugzone" style="font-family: Verdana; display: none; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;">';
         } else {
             $aHtml[] = '<img src="'.Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms')
-                .'/res/images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
+                .'/Resources/Public/Images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
             $aHtml[] = "<div id = '".$this->formid
                 ."_debugzone' style = 'font-family: Verdana; display: block; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;'>";
         }

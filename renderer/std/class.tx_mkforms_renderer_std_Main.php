@@ -19,7 +19,7 @@ class tx_mkforms_renderer_std_Main extends formidable_mainrenderer
         }
 
         $this->oForm->additionalHeaderData(
-            '<link href="'.$this->sExtWebPath.'res/css/style.css" type="text/css" rel="stylesheet" />',
+            '<link href="'.$this->sExtWebPath.'Resources/Public/CSS/style.css" type="text/css" rel="stylesheet" />',
             'formidable-rdrstd-style.css'
         );
 
