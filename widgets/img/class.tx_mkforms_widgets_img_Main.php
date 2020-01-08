@@ -69,7 +69,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                     }
 
                     $sTempFileName = $aInfosFile['filebody'].$aInfosFile['fileext'].'-'.$sSignature.'.'.$aInfosFile['fileext'];
-                    $sTempFilePath = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sTempFileName;
+                    $sTempFilePath = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/assets/'.$sTempFileName;
 
                     if (!file_exists($sTempFilePath)) {
                         Tx_Rnbase_Utility_T3General::writeFileToTypo3tempDir(
