@@ -212,21 +212,21 @@ config.tx_mkforms {
                             10.file = ...
 
                             20 = IMAGE
-                            20.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            20.file = typo3conf/ext/ameos_formidable/Resources/Public/Images/xml/imageprocess/rounded/angle.png
                             20.offset = 0,0
 
                             30 = IMAGE
-                            30.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            30.file = typo3conf/ext/ameos_formidable/Resources/Public/Images/xml/imageprocess/rounded/angle.png
                             30.file.params = -rotate 90
                             30.offset = [10.w] - [30.w], 0
 
                             40 = IMAGE
-                            40.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            40.file = typo3conf/ext/ameos_formidable/Resources/Public/Images/xml/imageprocess/rounded/angle.png
                             40.file.params = -rotate -90
                             40.offset = 0, [10.h] - [40.h]
 
                             50 = IMAGE
-                            50.file = typo3conf/ext/ameos_formidable/res/images/xml/imageprocess/rounded/angle.png
+                            50.file = typo3conf/ext/ameos_formidable/Resources/Public/Images/xml/imageprocess/rounded/angle.png
                             50.file.params = -rotate 180
                             50.offset = [10.w] - [50.w], [10.h] - [50.h]
                         }

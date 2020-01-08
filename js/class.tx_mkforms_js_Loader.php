@@ -234,7 +234,7 @@ JAVASCRIPT;
         if ($this->oForm->bDebug) {
             $sPath = tx_rnbase_util_Extensions::siteRelPath('mkforms');
             $this->additionalHeaderData(
-                "<link rel='stylesheet' type='text/css' href='".$sPath."res/css/debug.css' />",
+                "<link rel='stylesheet' type='text/css' href='".$sPath."Resources/Public/CSS/debug.css' />",
                 'tx_ameosformidable_debugstyles'
             );
         }
@@ -244,10 +244,10 @@ JAVASCRIPT;
      * Einbindung der Basisskripte des Base-JS-Frameworks. Derzeit werden
      * Prototype und jQuery unterstützt. Wobei aktiv nur noch für jQuery entwickelt wird.
      *
-     * - res/jsfwk/prototype/prototype.js
-     * - res/jsfwk/prototype/addons/lowpro/lowpro.js
-     * - res/jsfwk/prototype/addons/base/Base.js
-     * - res/jsfwk/json/json.js
+     * - Resources/Public/JavaScript/prototype/prototype.js
+     * - Resources/Public/JavaScript/prototype/addons/lowpro/lowpro.js
+     * - Resources/Public/JavaScript/prototype/addons/base/Base.js
+     * - Resources/Public/JavaScript/json/json.js
      */
     private function _includeBaseFramework()
     {
@@ -257,8 +257,8 @@ JAVASCRIPT;
 
         // JSON stringifier
         // http://www.thomasfrank.se/downloadableJS/jsonStringify.js
-        $pagePath = $absRefPrefix.tx_rnbase_util_Extensions::siteRelPath($ext).'res/jsfwk/json/json.js';
-        $serverPath = tx_rnbase_util_Extensions::extPath($ext).'res/jsfwk/json/json.js';
+        $pagePath = $absRefPrefix.tx_rnbase_util_Extensions::siteRelPath($ext).'Resources/Public/JavaScript/json/json.js';
+        $serverPath = tx_rnbase_util_Extensions::extPath($ext).'Resources/Public/JavaScript/json/json.js';
         $includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 
         foreach ($includes as $include) {
@@ -307,7 +307,7 @@ JAVASCRIPT;
 
         if (true === $this->bLoadScriptaculousDragDrop) {
             $sPath = $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms')
-                .'res/jsfwk/scriptaculous/dragdrop.js';
+                .'Resources/Public/JavaScript/scriptaculous/dragdrop.js';
 
             $this->additionalHeaderData(
                 '<script type="text/javascript" src="'.$this->getScriptPath($sPath).'"></script>',
@@ -322,7 +322,7 @@ JAVASCRIPT;
 
         if (true === $this->bLoadScriptaculousBuilder) {
             $sPath = $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms')
-                .'res/jsfwk/scriptaculous/builder.js';
+                .'Resources/Public/JavaScript/scriptaculous/builder.js';
 
             $this->additionalHeaderData(
                 '<script type="text/javascript" src="'.$this->getScriptPath($sPath).'"></script>',
@@ -346,7 +346,7 @@ JAVASCRIPT;
 
     private function _includeJSFramework()
     {
-        $sPath = $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms').'res/jsfwk/framework.js';
+        $sPath = $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms').'Resources/Public/JavaScript/framework.js';
         $tag = '<script type="text/javascript" src="'.$this->getScriptPath($sPath).'"></script>';
         $this->additionalHeaderData(
             $tag,
@@ -421,7 +421,7 @@ JAVASCRIPT;
             // tooltip css
             $sPath
                 =
-                $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms').'res/jsfwk/tooltip/tooltips.css';
+                $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms').'Resources/Public/JavaScript/tooltip/tooltips.css';
 
             $this->additionalHeaderData(
                 '<link rel="stylesheet" type="text/css" href="'.$sPath.'" />',
@@ -434,7 +434,7 @@ JAVASCRIPT;
             // tooltip js
             $sPath
                 =
-                $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms').'res/jsfwk/tooltip/tooltips.js';
+                $this->getAbsRefPrefix().tx_rnbase_util_Extensions::siteRelPath('mkforms').'Resources/Public/JavaScript/tooltip/tooltips.js';
 
             $this->additionalHeaderData(
                 '<script type="text/javascript" src="'.$sPath.'"></script>',

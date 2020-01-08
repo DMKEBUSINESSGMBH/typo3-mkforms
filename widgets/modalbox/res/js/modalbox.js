@@ -80,7 +80,7 @@ Formidable.Classes.ModalBox = Formidable.Classes.RdtBaseClass.extend({
 
 			if(this.config.showclosebutton) {
 				this.oImgClose = MKWrapper.$tag('img', {
-					src: Formidable.path + 'res/images/modalboxclose.gif',
+					src: Formidable.path + 'Resources/Public/Images/modalboxclose.gif',
 					style: 'position:absolute; top:-5px; right:-5px; cursor:pointer;'
 				});
 			}

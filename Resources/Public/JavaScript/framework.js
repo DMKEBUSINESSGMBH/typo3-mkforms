@@ -1206,7 +1206,7 @@ Formidable.Classes.FormBaseClass = Base.extend({
 //		spinner.appendChild(msg);
 
 		var img = MKWrapper.$tag('img',{
-				src: Formidable.path + "res/images/loading.gif"
+				src: Formidable.path + "Resources/Public/Images/loading.gif"
 			});
 		spinner.appendChild(img);
 		spinnerWrap.appendChild(spinnerOverlay);
