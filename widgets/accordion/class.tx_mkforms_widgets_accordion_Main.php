@@ -6,23 +6,23 @@
  */
 class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_accordion_lib' => 'res/js/accordion-fixed.js',
         'rdt_accordion_class' => 'res/js/accordion.js',
-    );
+    ];
 
     public $sMajixClass = 'Accordion';
     public $bCustomIncludeScript = true;
 
-    public $aPossibleCustomEvents = array(
+    public $aPossibleCustomEvents = [
         'ontabopen',
         'ontabclose',
         'ontabchange',
-    );
+    ];
 
     public function _render()
     {
-        $aConf = array();
+        $aConf = [];
         if (false !== ($sSpeed = $this->_navConf('/speed'))) {
             $aConf['resizeSpeed'] = (int) $sSpeed;
         }
@@ -122,19 +122,19 @@ STYLE;
 
         $this->oForm->getJSLoader()->loadScriptaculous();
 
-        $this->includeScripts(array(
+        $this->includeScripts([
             'libconf' => $aConf,
-        ));
+        ]);
 
         $sAddInputParams = $this->_getAddInputParams();
 
         $aChilds = $this->renderChildsBag();
         $sCompiledChilds = $this->renderChildsCompiled($aChilds);
 
-        return array(
+        return [
             '__compiled' => '<div id="'.$this->_getElementHtmlId().'" '.$sAddInputParams.'>'.$sCompiledChilds.'</div>',
             'childs' => $aChilds,
-        );
+        ];
     }
 
     public function majixSetActiveTab($sTab)

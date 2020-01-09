@@ -33,20 +33,20 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         $sCompiledChilds = $this->renderChildsCompiled($aChildBags);
 
         if ($this->isRemoteReceiver() && !$this->mayDisplayRemoteReceiver()) {
-            return array(
+            return [
                 '__compiled' => '',
-            );
+            ];
         }
 
-        return array(
+        return [
             '__compiled' => $this->_displayLabel($sLabel).$sCompiledChilds,
             'childs' => $aChildBags,
-        );
+        ];
     }
 
     public function getDescendants()
     {
-        $aDescendants = array();
+        $aDescendants = [];
         $sMyName = $this->getAbsName();
 
         foreach ($this->oForm->aORenderlets as $sName => $renderlet) {
@@ -115,10 +115,10 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         $this->aCriterias = false;
         tx_mkforms_session_Factory::getSessionManager()->initialize();
         $aAppData = &$GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
-        $aAppData['rdt_lister'][$this->oForm->formid][$this->getAbsName()]['criterias'] = array();
+        $aAppData['rdt_lister'][$this->oForm->formid][$this->getAbsName()]['criterias'] = [];
 
         if ($this->isRemoteReceiver()) {
-            $aAppData['rdt_lister'][$this->getRemoteSenderFormId()][$this->getRemoteSenderAbsName()]['criterias'] = array();
+            $aAppData['rdt_lister'][$this->getRemoteSenderFormId()][$this->getRemoteSenderAbsName()]['criterias'] = [];
         }
     }
 
@@ -167,25 +167,25 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                 $sSearchAbsName = $this->getAbsName();
             }
 
-            $this->aCriterias = array();
+            $this->aCriterias = [];
 
             tx_mkforms_session_Factory::getSessionManager()->initialize();
             $aAppData = &$GLOBALS['_SESSION']['ameos_formidable']['applicationdata'];
 
             if (!array_key_exists('rdt_lister', $aAppData)) {
-                $aAppData['rdt_lister'] = array();
+                $aAppData['rdt_lister'] = [];
             }
 
             if (!array_key_exists($sFormId, $aAppData['rdt_lister'])) {
-                $aAppData['rdt_lister'][$sFormId] = array();
+                $aAppData['rdt_lister'][$sFormId] = [];
             }
 
             if (!array_key_exists($sSearchAbsName, $aAppData['rdt_lister'][$sFormId])) {
-                $aAppData['rdt_lister'][$sFormId][$sSearchAbsName] = array();
+                $aAppData['rdt_lister'][$sFormId][$sSearchAbsName] = [];
             }
 
             if (!array_key_exists('criterias', $aAppData['rdt_lister'][$sFormId][$sSearchAbsName])) {
-                $aAppData['rdt_lister'][$sFormId][$sSearchAbsName]['criterias'] = array();
+                $aAppData['rdt_lister'][$sFormId][$sSearchAbsName]['criterias'] = [];
             }
 
             if ($this->shouldUpdateCriteriasClassical()) {
@@ -227,7 +227,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
             if (true === $bUpdate) {
                 if ($this->_getParamsFromGET()) {
-                    $aGet = (Tx_Rnbase_Utility_T3General::_GET($sFormId)) ? Tx_Rnbase_Utility_T3General::_GET($sFormId) : array();
+                    $aGet = (Tx_Rnbase_Utility_T3General::_GET($sFormId)) ? Tx_Rnbase_Utility_T3General::_GET($sFormId) : [];
 
                     foreach ($aGet as $sAbsName => $_) {
                         if (array_key_exists($sAbsName, $this->oForm->aORenderlets)) {
@@ -237,11 +237,11 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
                                 $this->aCriterias[$sAbsName]
                             );
 
-                            $aTemp = array(
-                                $sFormId => array(
+                            $aTemp = [
+                                $sFormId => [
                                     $sAbsName => 1,
-                                ),
-                            );
+                                ],
+                            ];
 
                             $this->oForm->setParamsToRemove($aTemp);
                         }
@@ -326,7 +326,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
             }
         } else {
             if ($this->_getParamsFromGET()) {
-                $aGet = (Tx_Rnbase_Utility_T3General::_GET($this->oForm->formid)) ? Tx_Rnbase_Utility_T3General::_GET($this->oForm->formid) : array();
+                $aGet = (Tx_Rnbase_Utility_T3General::_GET($this->oForm->formid)) ? Tx_Rnbase_Utility_T3General::_GET($this->oForm->formid) : [];
                 $aIntersect = array_intersect(array_keys($aGet), array_keys($this->oForm->aORenderlets));
 
                 return count($aIntersect) > 0;    // are there get params in url matching at least one criteria in the searchform ?
@@ -357,7 +357,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         }
 
         if (!is_array($aCriterias)) {
-            $aCriterias = array();
+            $aCriterias = [];
         }
 
         return $aCriterias;
@@ -370,7 +370,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         }
 
         if (!is_array($aResults)) {
-            $aResults = array();
+            $aResults = [];
         }
 
         return $aResults;
@@ -379,7 +379,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     public function _initFilters()
     {
         if (false === $this->aFilters) {
-            $this->aFilters = array();
+            $this->aFilters = [];
 
             $aCriterias = $this->processBeforeSearch($this->aCriterias);
             reset($aCriterias);
@@ -441,12 +441,12 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         return $this->aFilters;
     }
 
-    public function &fetchData($aConfig = array())
+    public function &fetchData($aConfig = [])
     {
         return $this->_fetchData($aConfig);
     }
 
-    public function &_fetchData($aConfig = array())
+    public function &_fetchData($aConfig = [])
     {
         return $this->processAfterSearch(
             $this->oDataSource->_fetchData(

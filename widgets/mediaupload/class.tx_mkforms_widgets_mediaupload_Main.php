@@ -14,136 +14,36 @@ if (tx_rnbase_util_Extensions::isLoaded('dam')) {
 
 class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'widget_mediaupload_class' => 'res/js/mediaupload.js',
-    );
+    ];
 
     public $bArrayValue = true;
     public $sMajixClass = 'MediaUpload';
-    public $aPossibleCustomEvents = array(
+    public $aPossibleCustomEvents = [
         'onajaxstart',
         'onajaxcomplete',
-    );
+    ];
 
     public $aUploaded = false;    // array if file has just been uploaded
 
-    private $uploadsWithoutReferences = array();
+    private $uploadsWithoutReferences = [];
 
-    private $uploadedMediaFiles = array();
+    private $uploadedMediaFiles = [];
 
     /**
      * folgendes brauch man um eine Liste der DAM/FAL Uploads auszugeben:.
-     *
-        <datasources>
-            <datasource:PHPARRAY name="mediaUploadList">
-                <bindsto>
-                    <userobj extension="tx_mkforms_util_DamUpload" method="getUploadsByWidget">
-                        <params>
-                            <param name="damWidget" value="locationDescription-mediaUpload" />
-                        </params>
-                    </userobj>
-                </bindsto>
-            </datasource:PHPARRAY>
-        </datasources>
-
-        <renderlet:MEDIAUPLOAD name="locationDescription-mediaUpload" label="LLL:label_media">
-            <data multiple="true" showFileList="false" cleanfilename="true">
-                <reftable>tx_a4base_locdescriptions</reftable>
-                <reffield>media</reffield>
-                <targetdir><userobj extension="tx_mklib_util_MiscTools" method="getPicturesUploadPath" /></targetdir>
-                <beuser><userobj extension="tx_mklib_util_MiscTools" method="getProxyBeUserId" /></beuser>
-            </data>
-
-            <!-- damit können uploads gelöscht werden. sollte eine checkbox sein -->
-            <deleteWidget>tab_step1__lister-mediaUploadList__delete</deleteWidget>
-
-            <validators>
-                <validator:FILE>
-                    <extension value="gif,jpg,jpeg,bmp,png,pdf" message="LLL:msg_picture_filetype" />
-                </validator:FILE>
-            </validators>
-        </renderlet:MEDIAUPLOAD>
-
-        <renderlet:LISTER
-            name="lister-mediaUploadList" uidColumn="uid"
-        >
-            <datasource use="mediaUploadList" />
-            <ifEmpty message="" />
-            <template
-                path="EXT:mkaltstadt/Resources/Private/Templates/Html/editAdPurchase.html"
-                subpart="###MEDIAUPLOADLIST###"
-                alternateRows="###ROW###"
-            />
-            <pager window="10"><rows perpage="-1"/></pager>
-            <columns>
-                <column name="thumbnail" listHeader="Image" type="renderlet:IMAGE">
-                    <data>
-                        <value>
                             <userobj>
                                 <php><![CDATA[/*<?php
      */
     /**
      * diese zeile entfernen.
-                                    $currentFile = $this->getWidget('lister-groundplanUploadList')->getCurrentRow();
                                     return $currentFile['file_path'] . $currentFile['file_name'];
                                 /*?>
      */
 
     /**
      * diese zeile entfernen.
-                    ]]></php>
-                            </userobj>
-                        </value>
-                    </data>
-                    <imageconf>
-                        <userobj>
-                            <ts><![CDATA[
-                                10 = IMAGE
-                                10 {
-                                    file < params.relwebpath
-                                    file.maxW = 100
-                                    file.maxH = 100
-                                    stdWrap = |
-                                }
-                            ]]></ts>
-                        </userobj>
-                    </imageconf>
-                </column>
-                <column name="title" type="renderlet:TEXT"/>
-                <column name="file_name" type="renderlet:TEXT"/>
-                <column name="delete" type="renderlet:CHECKSINGLE" activelistable="true" >
-                    <data><defaultValue>0</defaultValue></data>
-                </column>
-            </columns>
-        </renderlet:LISTER>
-
-        <renderlet:SUBMIT name="deleteUpload" label="LLL:delete_upload" mode="draft"/>
-        <renderlet:SUBMIT name="upload" label="LLL:upload" mode="draft"/>
-
-        im MEDIA Widget wird keine refuid gesetzt. Das liegt daran dass diese beim erstellen
-        noch nicht bekannt ist. daher setzen wir diese im formhandler.
-        dazu muss folgendes in processForm und fillForm aufgerufen werden. Vorrausgesetzt
-        es wird von tx_mkforms_util_FormBase geerbt:
-
-        public function fillForm(array $formParameters, tx_mkforms_forms_Base $form) {
-            // Media Uploads vorbefüllen
-            $form->getDataHandler()->newEntryId = HIER DIE UID DES JEWEILIGEN MODELS BZW. NICHTS;
-
-            return $formData;
-        }
-
-        public function processForm(array $formParameters, tx_mkforms_forms_Base $form) {
-            // damit die Formularverarbeitung bei DAM/FAL Uploads nicht anspringt
-            if(!$form->isFullySubmitted()) {
-                return;
-            }
-
-            // UID für DAM/FAL Uploads setzen
-            $form->getDataHandler()->newEntryId = HIER DIE UID DES JEWEILIGEN MODELS, DAS GERADE ERSTELLT ODER BEARBEITET WURDE
-            parent::processForm($formParameters, $form);
-        }
-
-
      *
      * (non-PHPdoc)
      *
@@ -177,11 +77,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $sLabel = $this->getLabel();
         $sInput = '<input type="file" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().' />';
 
-        $aRes = array(
+        $aRes = [
             '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
             'value' => $sValue,
-        );
+        ];
 
         if (!$this->isMultiple()) {
             if ('' != trim($sValue)) {
@@ -238,7 +138,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     /**
      * @see api/formidable_mainrenderlet#checkPoint($aPoints)
      */
-    public function checkPoint(&$aPoints, array &$options = array())
+    public function checkPoint(&$aPoints, array &$options = [])
     {
         parent::checkPoint($aPoints, $options);
 
@@ -273,7 +173,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     {
         $aData = $this->getValue();
 
-        $uploadedFileIds = array();
+        $uploadedFileIds = [];
         // die bisher hochgeladenen media IDs sammeln, damit wir diese auch in
         // einem lister ausgeben können
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
@@ -330,7 +230,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
 
         // jetzt kümmern wir uns um die Dateien, die gelöscht werden sollen
-        $currentFileIds = array(); // die DAM Ids, welche übrig sind nachdem gelöscht wurde
+        $currentFileIds = []; // die DAM Ids, welche übrig sind nachdem gelöscht wurde
         // sollte eine checkbox sein
         $deleteWidgetName = $this->getForm()->_navConf('/deletewidget', $this->aElement);
         if (!empty($mediaFiles)) {
@@ -371,7 +271,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getTargetFileData($aData)
     {
-        $ret = array();
+        $ret = [];
         if (false !== ($sTargetFile = $this->getTargetFile())) {
             $ret['sTargetDir'] = Tx_Rnbase_Utility_T3General::dirname($sTargetFile);
             $ret['sName'] = basename($sTargetFile);
@@ -403,10 +303,6 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
     /**
      * ALGORITHM of file management.
-     *
-            0: PAGE DISPLAY:
-                1: file has been uploaded
-                    1.1: moving file to targetdir and setValue(newfilename)
                         1.1.1: multiple == TRUE
                             1.1.1.1: data *are not* stored in database (creation mode)
                                 1.1.1.1.1: setValue to backupdata . newfilename
@@ -434,12 +330,12 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         }
 
         // success
-        $this->aUploaded = array(
+        $this->aUploaded = [
             'dir' => $sTargetDir,
             'name' => $sName,
             'path' => $sTarget,
             'infos' => $aData,
-        );
+        ];
 
         // In Set Value kommt die Anzahl der Zuordnungen rein!
         // Bei nur einer erlaubten Zuordnung muss die ggf. vorhandene Datei dereferenziert werden
@@ -517,7 +413,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return;
         }
         if ($this->openUid && !$this->uploadsWithoutReferences) {
-            $mediaUids = array($this->openUid);
+            $mediaUids = [$this->openUid];
         } else {
             $mediaUids = $this->uploadsWithoutReferences;
         }
@@ -531,12 +427,6 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     /**
             2: file has not been uploaded
                 2.1: data *are not* stored in database, as it's a creation mode not fully completed yet.
-                    2.1.1: formdata is a string
-                        2.1.1.1: formdata != backupdata ( value has been set by some server event with setValue )
-                            2.1.1.1.1: no need to setValue as it already contains what we need
-                        2.2.1.2: formdata == backupdata
-                            2.2.1.2.1: setValue to backupdata
-                    2.1.2: formdata is an array, and error!=0 (form submitted but no file given)
                         2.1.2.1: setValue to backupdata
                 2.2: data *are* stored in database
                         2.2.1: formdata is a string
@@ -744,7 +634,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     {
         if (!$this->getEntryId()) {
             // Ohne ID gibt es auch keine Bilder
-            return array();
+            return [];
         }
         $tableName = trim($this->getRefTable());
         $fieldName = $this->getRefField();
@@ -760,11 +650,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         global $PAGES_TYPES, $BE_USER;
         if (!is_array($PAGES_TYPES) || !array_key_exists(254, $PAGES_TYPES)) {
             // SysFolder als definieren
-            $PAGES_TYPES[254] = array(
+            $PAGES_TYPES[254] = [
                 'type' => 'sys',
                 'icon' => 'sysf.gif',
                 'allowedTables' => '*',
-            );
+            ];
         }
         // Check BE User
         if (!is_object($BE_USER) || !is_array($BE_USER->user)) {
@@ -831,7 +721,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return $this->aLibs;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -839,14 +729,14 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      *
      * @see api/formidable_mainrenderlet#includeScripts($aConfig)
      */
-    public function includeScripts($aConf = array())
+    public function includeScripts($aConf = [])
     {
         if ($this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
             // Die Config um weitere Werte erweitern
             $url = $this->createUploadUrl();
-            $aConf = array(
+            $aConf = [
                 'uploadUrl' => $url,
-            );
+            ];
         }
         parent::includeScripts($aConf);
         if (!$this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
@@ -881,12 +771,12 @@ INITSCRIPT;
             '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         tx_mkforms_session_Factory::getSessionManager()->initialize();
-        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
-            'requester' => array(
+        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
+            'requester' => [
                 'name' => $this->_getName(),
                 'xpath' => $this->sXPath,
-            ),
-        );
+            ],
+        ];
 
         return $sUploadUrl;
     }
@@ -896,7 +786,7 @@ INITSCRIPT;
         $aData = $this->getForm()->getRawFile(false, true);
 
         //Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen
-        $path = array();
+        $path = [];
         $widget = $this;
         do {
             $path[] = $widget->getName();
@@ -910,14 +800,14 @@ INITSCRIPT;
         //Validieren
         if ($validate = $this->_navConf('/validate')) {
             $errors = $this->getForm()->getValidationTool()->validateWidgets4Ajax(
-                array($this->getName() => $myData)
+                [$this->getName() => $myData]
             );
             if (count($errors)) {
                 $this->getForm()->attachErrorsByJS($errors, $validate);
                 // Replace value which contains the submitted data as ARRAY, while value must be a string!
                 $this->setValue('');
 
-                return array();
+                return [];
             } else {
                 // wenn keine validationsfehler aufgetreten sind,
                 // eventuell vorherige validierungs fehler entfernen
@@ -930,14 +820,14 @@ INITSCRIPT;
             $newSize = $this->handleUpload($myData);
         }
 
-        return array(
-            array(
+        return [
+            [
                 'data' => $newSize,
                 'databag' => '{}',
                 'method' => 'doNothing',
                 'object' => $this->getAbsName(),
-            ),
-        );
+            ],
+        ];
     }
 
     /**

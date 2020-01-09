@@ -10,9 +10,9 @@
 class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'ListerSel';
-    public $aLibs = array(
+    public $aLibs = [
         'widget_listersel_class' => 'res/js/listersel.js',
-    );
+    ];
 
     public function _render()
     {
@@ -36,26 +36,26 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         $sLabelEnd = '</label>';
         $sLabel = $sLabelStart.$sCaption.$sLabelEnd;
 
-        $aHtml = array();
+        $aHtml = [];
         $aHtml[] = (('' !== $selected) ? $this->_wrapSelected($sInput.$sLabel) : $this->_wrapItem($sInput.$sLabel));
         $this->sCustomElementId = false;
         reset($aHtml);
         $sRadioGroup = $this->_implodeElements($aHtml);
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $sLabel.$sRadioGroup,
             'label' => $sCaption,
-            'label.' => array(
+            'label.' => [
                 'tag' => $sLabel,
-                'tag.' => array(
+                'tag.' => [
                     'start' => $sLabelStart,
                     'end' => $sLabelEnd,
-                ),
-            ),
+                ],
+            ],
             'input' => $sInput,
             'value' => $sValue,
             'caption' => $sCaption,
-        );
+        ];
         reset($aHtmlBag);
 
         return $aHtmlBag;
@@ -71,7 +71,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
     private function addSelectorId($sId)
     {
         if (!is_array($this->aSubWidgets)) {
-            $this->aSubWidgets = array();
+            $this->aSubWidgets = [];
         }
         $this->aSubWidgets[] = $sId;
     }
@@ -99,10 +99,10 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
     public function doAfterListRender(&$oListObject)
     {
         $this->includeScripts(
-            array(
+            [
                 'radiobuttons' => $this->aSubWidgets,
                 'bParentObj' => true,
-            )
+            ]
         );
     }
 
@@ -153,7 +153,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
     public function _implodeElements($aHtml)
     {
         if (!is_array($aHtml)) {
-            $aHtml = array();
+            $aHtml = [];
         }
 
         return implode(

@@ -9,7 +9,7 @@
 // Only the data in the array - anything else is removed by next write.
 // 'version' and 'dependencies' must not be touched!
 //
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'MK Forms',
     'description' => 'Making HTML forms for TYPO3',
     'category' => 'misc',
@@ -31,23 +31,23 @@ $EM_CONF[$_EXTKEY] = array(
     'author_company' => 'DMK E-BUSINESS GmbH',
     'CGLcompliance' => '',
     'CGLcompliance_note' => '',
-    'constraints' => array(
-        'depends' => array(
+    'constraints' => [
+        'depends' => [
             'rn_base' => '1.10.5-',
             'typo3' => '7.6.0-9.5.99',
             'php' => '5.6.0-8.9.99',
-        ),
-        'conflicts' => array(
+        ],
+        'conflicts' => [
             'ameos_formidable' => '',
-        ),
-        'suggests' => array(
+        ],
+        'suggests' => [
             'mkmailer' => '3.0.0-',
             'mklib' => '3.0.0-',
             'mksanitizedparameters' => '3.0.0-',
-        ),
-    ),
-    'autoload' => array(
-        'classmap' => array(
+        ],
+    ],
+    'autoload' => [
+        'classmap' => [
             'action/',
             'api/',
             'Classes/',
@@ -65,7 +65,7 @@ $EM_CONF[$_EXTKEY] = array(
             'validator/',
             'view/',
             'widgets/',
-        ),
-    ),
+        ],
+    ],
     '_md5_values_when_last_written' => '',
-);
+];

@@ -16,13 +16,13 @@ class user_ameosformidable_cobj
                 $substKey = 'INT_SCRIPT.'.$GLOBALS['TSFE']->uniqueHash();
                 $content .= '<!--'.$substKey.'-->';
 
-                $GLOBALS['TSFE']->config['INTincScript'][$substKey] = array(
+                $GLOBALS['TSFE']->config['INTincScript'][$substKey] = [
                     'file' => $incFile,
                     'conf' => $conf,
                     'cObj' => serialize($this),
                     'type' => 'POSTUSERFUNC',
                     // places a flag to call callUserFunction() later on serialized object $this, precisely in $GLOBALS["TSFE"]->INTincScript()
-                );
+                ];
 
                 break;
 

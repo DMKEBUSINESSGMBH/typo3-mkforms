@@ -39,9 +39,9 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
     protected function setUp()
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
-        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true, 'initFEuser' => true));
+        \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
 
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', []);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
     }
 
@@ -59,7 +59,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
 
@@ -78,7 +78,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
         $this->setCreationTimestamp(1);
@@ -100,13 +100,13 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
 
         $validator->validate($timetrackingWidget);
         self::assertEquals(
-            array('timetracking-toofast' => 'form send too fast'),
+            ['timetracking-toofast' => 'form send too fast'],
             $form->_aValidationErrors,
             'Es sind doch keine Validierungsfehler aufgetreten.'
         );
@@ -126,7 +126,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
 
@@ -146,7 +146,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
 
@@ -166,14 +166,14 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
         $this->setCreationTimestamp(1);
 
         $validator->validate($timetrackingWidget);
         self::assertEquals(
-            array('timetracking-tooslow' => 'form send too slow'),
+            ['timetracking-tooslow' => 'form send too slow'],
             $form->_aValidationErrors,
             'Es sind doch keine Validierungsfehler aufgetreten.'
         );
@@ -193,7 +193,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
 
@@ -214,7 +214,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
 
@@ -234,7 +234,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
 
@@ -250,7 +250,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
             true,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
-                array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/timetracking.xml'))
+                ['generic.' => ['xml' => 'EXT:mkforms/tests/xml/timetracking.xml']]
             )
         );
     }
@@ -263,11 +263,11 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $GLOBALS['TSFE']->fe_user->setKey(
             'ses',
             'mkforms',
-            array(
-                'creationTimestamp' => array(
+            [
+                'creationTimestamp' => [
                     'timetrackingTestForm' => $timestamp,
-                ),
-            )
+                ],
+            ]
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
     }
@@ -288,7 +288,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
         $validator->handleAfterRenderCheckPoint();
@@ -309,12 +309,12 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $GLOBALS['TSFE']->fe_user->setKey(
             'ses',
             'mkforms',
-            array(
-                'creationTimestamp' => array(
+            [
+                'creationTimestamp' => [
                     'firstForm' => 123,
                     'secondForm' => 456,
-                ),
-            )
+                ],
+            ]
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
         $validator = tx_rnbase::makeInstance('tx_mkforms_validator_timetracking_Main');
@@ -323,7 +323,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
         $validator->handleAfterRenderCheckPoint();
@@ -358,11 +358,11 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends tx_rnbase_tests_B
         $form->getConfigurations()->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER);
         // init gets called when the form is initialized. so we need to reset the session data
         // und call init again to see if everything works as expected
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', []);
         $validator->_init(
             $form,
             $timetrackingWidget->aElement['validators']['validator'],
-            array(),
+            [],
             ''
         );
         $validator->handleAfterRenderCheckPoint();

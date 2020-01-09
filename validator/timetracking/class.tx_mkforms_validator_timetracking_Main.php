@@ -133,9 +133,7 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
         }
 
         if (!$threshold) {
-            throw new InvalidArgumentException(
-                'Please provide the threshold parameter for the tooFast validation'
-            );
+            throw new InvalidArgumentException('Please provide the threshold parameter for the tooFast validation');
         }
 
         return $threshold;

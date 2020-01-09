@@ -41,16 +41,16 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
         $aEvents = parent::_getEventsArray();
 
         if (!array_key_exists('onclick', $aEvents)) {
-            $aEvents['onclick'] = array();
+            $aEvents['onclick'] = [];
         }
 
         $aEvents['onclick'][] = 'MKWrapper.stopEvent(event)';
 
         $sMode = $this->getSubmitMode();
 
-        $aAddPost = array(
+        $aAddPost = [
             $this->_getElementHtmlNameWithoutFormId() => '1',        // to simulate default browser behaviour
-        );
+        ];
 
         if ('refresh' == $sMode || false !== $this->_navConf('/refresh')) {
             $sOnclick = $this->oForm->oRenderer->_getRefreshSubmitEvent();

@@ -60,13 +60,13 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
 
 FLASHOBJECT;
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
-            'mp3.' => array(
+            'mp3.' => [
                 'file' => $sPath,
-            ),
-        );
+            ],
+        ];
 
         return $aHtmlBag;
     }

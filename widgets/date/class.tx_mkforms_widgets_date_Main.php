@@ -69,27 +69,27 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
             .$sInput
             .$sTrigger;
 
-        return array(
+        return [
             '__compiled' => $sCompiled,
             'input' => $sInput.' '.$sTrigger,
-            'input.' => array(
+            'input.' => [
                 'textbox' => $sInput,
-                'textbox.' => array(
+                'textbox.' => [
                     'emptystring' => $sEmptyString,
-                ),
+                ],
                 'datefield' => $sInput,
                 'trigger' => $sTrigger,
-            ),
+            ],
             'trigger' => $sTrigger,
-            'trigger.' => array(
+            'trigger.' => [
                 'id' => $sTriggerId,
                 'tag' => $sTrigger,
-            ),
-            'value.' => array(
+            ],
+            'value.' => [
                 'timestamp' => $iTstamp,
                 'readable' => $sUnflattenHscValue,
-            ),
-        );
+            ],
+        ];
     }
 
     public function getEmptyString()
@@ -141,14 +141,14 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         $bTime = $this->oForm->_defaultFalse('/data/datetime/displaytime/', $this->aElement);
         $sHtmlId = $this->_getElementHtmlId();
 
-        $aConfig = array(
+        $aConfig = [
             'inputField' => $sHtmlId,    // id of the input field
             'ifFormat' => $sFormat,                    // format of the input field
             'showsTime' => $bTime,                        // will display a time selector
             'button' => $this->getTriggerId(),        // trigger for the calendar (button ID)
             'singleClick' => true,                        // single-click mode
             'step' => 1,                            // show all years in drop-down boxes (instead of every other year as default)
-        );
+        ];
 
         if (!$this->_allowManualEdition()) {
             if ($bTime) {
@@ -164,12 +164,12 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
             $aConfig['daFormat'] = $sFormat;
         }
 
-        $this->includeScripts(array(
+        $this->includeScripts([
             'calendarconf' => $aConfig,
             'emptystring' => $this->getEmptyString(),
             'converttotimestamp' => $this->shouldConvertToTimestamp(),
             'allowmanualedition' => $this->_allowManualEdition(),
-        ));
+        ]);
     }
 
     public function _flatten($mData)
@@ -220,7 +220,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
     private function __date2tstamp($dateAsString, $dateFormat)
     {
         /* @var string[] $dateFormatSeparators */
-        $dateFormatSeparators = array();
+        $dateFormatSeparators = [];
 
         /* @var string $concatenatedDateFormatSeparators */
         $concatenatedDateFormatSeparators = str_replace($this->allowedDateFormatParts, '', $dateFormat);
@@ -232,7 +232,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         $dateParts = explode('#', str_replace($dateFormatSeparators, '#', $dateAsString));
 
         /* @var int[] $datePartsByFormatCode */
-        $datePartsByFormatCode = array();
+        $datePartsByFormatCode = [];
         foreach ($dateFormatParts as $index => $dateFormat) {
             $datePartsByFormatCode[$dateFormat] = (int) $dateParts[$index];
         }

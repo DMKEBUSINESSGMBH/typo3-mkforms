@@ -9,9 +9,9 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
     public $sMajixClass = 'CheckSingle';
     // define methodname, if a specific init method in the js should be called, after dom is ready.
     public $sAttachPostInitTask = 'initialize';
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_checksingle_class' => 'res/js/checksingle.js',
-    );
+    ];
     public $sDefaultLabelClass = 'label-inline';
 
     public function _render()
@@ -62,15 +62,15 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
 
         $renderLabelFirst = $this->isTrue('renderlabelfirst');
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => ($renderLabelFirst ? $sLabelFor.$sInput : $sInput.$sLabelFor),
             'input' => $sInput,
             'checked' => $sChecked,
             'value' => $iValue,
-            'value.' => array(
+            'value.' => [
                 'humanreadable' => $this->_getHumanReadableValue($iValue),
-            ),
-        );
+            ],
+        ];
 
         return $aHtmlBag;
     }

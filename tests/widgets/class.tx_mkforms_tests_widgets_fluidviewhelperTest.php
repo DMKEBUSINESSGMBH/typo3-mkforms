@@ -34,7 +34,7 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      */
     public function testGetArguments()
     {
-        $widget = $this->getWidgetMock(array('getArguments'));
+        $widget = $this->getWidgetMock(['getArguments']);
 
         $parsedParams = $this->callInaccessibleMethod($widget, 'getArguments');
 
@@ -49,7 +49,7 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      */
     public function testRender()
     {
-        $widget = $this->getWidgetMock(array('_render'));
+        $widget = $this->getWidgetMock(['_render']);
 
         $helper = $this->getAccessibleMock(
             '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
@@ -89,7 +89,7 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      */
     public function testRenderWithErrors()
     {
-        $widget = $this->getWidgetMock(array('_render'));
+        $widget = $this->getWidgetMock(['_render']);
 
         $helper = $this->getAccessibleMock(
             '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\DebugViewHelper'
@@ -130,7 +130,7 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      *
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getWidgetMock(array $allowedMethods = array())
+    protected function getWidgetMock(array $allowedMethods = [])
     {
         $mockedMethods = array_flip(
             array_keys(
@@ -156,11 +156,11 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
             ->with()
             ->will(
                 self::returnValue(
-                    array(
+                    [
                         'title' => 'rdt:value',
                         'maxDepth' => 4,
                         'plainText' => 'Hello World',
-                    )
+                    ]
                 )
             );
 
@@ -177,7 +177,7 @@ class tx_mkforms_tests_widgets_fluidviewhelperTest extends tx_rnbase_tests_BaseT
      */
     protected function getAllClassMethods($class)
     {
-        $methods = array();
+        $methods = [];
         $reflection = new ReflectionClass($class);
         foreach ($reflection->getMethods() as $method) {
             $methods[$method->getName()] = $method;

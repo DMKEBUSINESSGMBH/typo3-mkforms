@@ -212,8 +212,8 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
         $mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
 
         self::assertEquals(
-            array('test'),
-            $mainRenderlet->getValueForHtml(array('test')),
+            ['test'],
+            $mainRenderlet->getValueForHtml(['test']),
             'array bereinigt'
         );
     }
@@ -265,20 +265,20 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
      */
     public function testAfterRenderCheckPointHandledCorrect()
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINT'] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINT'] = [
             'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpoint',
-        );
+        ];
         // if the method handleAfterRenderCheckPoint would be called on all validators
         // without checkingif the method exists we would get a fatal error
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINTNOT'] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['validators']['HANDLESAFTERRENDERCHECKPOINTNOT'] = [
             'key' => 'tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpointNot',
-        );
+        ];
         self::assertFalse(self::$validatorWasCalled);
         $form = tx_mkforms_tests_Util::getForm(
             false,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(false),
-                array('generic.' => array('xml' => 'EXT:mkforms/tests/xml/afterRenderCheckPointHandledCorrect.xml'))
+                ['generic.' => ['xml' => 'EXT:mkforms/tests/xml/afterRenderCheckPointHandledCorrect.xml']]
             )
         );
         $form->render();

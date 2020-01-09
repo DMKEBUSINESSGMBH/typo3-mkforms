@@ -6,9 +6,9 @@
  */
 class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_link_class' => 'res/js/link.js',
-    );
+    ];
     public $bCustomIncludeScript = true;
 
     public $sMajixClass = 'Link';
@@ -23,10 +23,10 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
         $sValue = $this->getValue();
 
         if ($this->_isTrue('/typolink')) {
-            $sUrl = $this->getForm()->getCObj()->typoLink_URL(array(
+            $sUrl = $this->getForm()->getCObj()->typoLink_URL([
                 'parameter' => $sValue,
                 'additionalParams' => '',
-            ));
+            ]);
         } elseif ((false !== ($iPageId = $this->_navConf('pageid'))) ||
             (false !== ($iPageId = $this->_navConf('pid')))
         ) {
@@ -34,11 +34,11 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 $iPageId = $this->getForm()->getRunnable()->callRunnableWidget($this, $iPageId);
             }
             $absoluteUrl = $this->_defaultFalse('forceabsoluteurl');
-            $sUrl = $this->getForm()->getCObj()->typoLink_URL(array(
+            $sUrl = $this->getForm()->getCObj()->typoLink_URL([
                 'parameter' => $iPageId ? $iPageId : $GLOBALS['TSFE']->id,
                 'additionalParams' => '',
                 'forceAbsoluteUrl' => $absoluteUrl,
-            ));
+            ]);
         } else {
             $sUrl = $this->_navConf('/href');
 
@@ -96,16 +96,16 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
             $sHref = false;
         }
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             'url' => $sUrl,
             'href' => $sHref,
             'anchor' => $sAnchor,
-            'tag.' => array(
+            'tag.' => [
                 'begin' => '',
                 'innerhtml' => '',
                 'end' => '',
-            ),
-        );
+            ],
+        ];
 
         if (!$this->oForm->_isTrue('/urlonly', $this->aElement)) {
             if ($this->hasChilds()) {
@@ -156,10 +156,10 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 
         $aHtmlBag['__compiled'] = $sCompiled;
 
-        $this->includeScripts(array(
+        $this->includeScripts([
             // Timeout in ms
             'followTimeout' => false === ($timeout = $this->_navConf('/followtimeout')) ? 0 : (int) $timeout,
-        ));
+        ]);
 
         return $aHtmlBag;
     }
@@ -190,7 +190,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
         return true;
     }
 
-    public function _getAddInputParamsArray($aAdditional = array())
+    public function _getAddInputParamsArray($aAdditional = [])
     {
         $aAddParams = parent::_getAddInputParamsArray();
         if (false !== ($sTarget = $this->_navConf('/target'))) {

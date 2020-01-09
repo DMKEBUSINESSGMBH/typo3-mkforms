@@ -2,7 +2,7 @@
 
 class formidable_mainjscb
 {
-    public $aConf = array();
+    public $aConf = [];
 
     public $oForm = null;
 
@@ -24,11 +24,11 @@ class formidable_mainjscb
 
         return $oForm->buildMajixExecuter(
             'executeCbMethod',
-            array(
+            [
                 'cb' => $this->aConf,
                 'method' => $sMethod,
                 'params' => $aArgs,
-            ),
+            ],
             $oForm->getFormId()
         );
     }

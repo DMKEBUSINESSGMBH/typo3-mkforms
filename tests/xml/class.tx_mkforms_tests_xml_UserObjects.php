@@ -46,7 +46,7 @@ class tx_mkforms_tests_xml_UserObjects extends tx_mkforms_util_FormBaseAjax
         if ($params['deep'] && $params['flatten']) {
             $params['deep'] = self::multipleTableStructure2DeepArray($params['flatten'], $form, 'fieldset__texte');
         }
-        $params['flatten'] = $params['flatten'] ? $params['flatten'] : array();
+        $params['flatten'] = $params['flatten'] ? $params['flatten'] : [];
         $params['flatten']['textarea'] = 'neuer langer Teste Text für die Textarea';
         tx_mkforms_util_Div::debug4ajax($params, 'DEBUG: '.__METHOD__.' Line: '.__LINE__); // @TODO: remove me
 

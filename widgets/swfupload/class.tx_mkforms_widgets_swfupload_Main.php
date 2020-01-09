@@ -6,13 +6,13 @@
  */
 class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_swfupload_lib' => 'res/js/swfupload.js',
         'rdt_swfupload_lib_cookies' => 'res/js/swfupload.cookies.js',
         'rdt_swfupload_lib_queue' => 'res/js/swfupload.queue.js',
         'rdt_swfupload_lib_queuetracker' => 'res/js/swfupload.queuetracker.js',
         'rdt_swfupload_class' => 'res/js/rdt_swfupload.js',
-    );
+    ];
 
     public $sMajixClass = 'SwfUpload';
 
@@ -22,7 +22,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
 
     public $bCustomIncludeScript = true;
 
-    public $aPossibleCustomEvents = array(
+    public $aPossibleCustomEvents = [
         'onuploadprogress',
         'ondialogstart',
         'ondialogclose',
@@ -35,7 +35,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
         'onqueueerrorfilesize',
         'onqueueerrorfiletype',
         'onqueuecomplete',
-    );
+    ];
 
     public function _render()
     {
@@ -62,11 +62,11 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
         $sUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
         $sButtonUrl = $this->oForm->getConfigXML()->getLLLabel('LLL:EXT:mkforms/widgets/swfupload/res/locallang.xml:buttonbrowse.image_url');
 
-        $aConf = array(
+        $aConf = [
             'buttonBrowseId' => $this->oButtonBrowse->_getElementHtmlId(),
             'buttonUploadId' => $this->oButtonUpload->_getElementHtmlId(),
             'listQueueId' => $this->oListQueue->_getElementHtmlId(),
-            'swfupload_config' => array(
+            'swfupload_config' => [
                 'upload_url' => $sUrl,
                 'flash_url' => $this->sExtWebPath.'res/flash/swfupload.swf',
                 'file_post_name' => 'rdt_swfupload',
@@ -81,24 +81,24 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
                 'button_image_url' => tx_mkforms_util_Div::toWebPath($sButtonUrl),
                 'button_width' => '61',
                 'button_height' => '22',
-            ),
-        );
+            ],
+        ];
 
         $this->includeScripts($aConf);
 
-        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
-            'requester' => array(
+        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
+            'requester' => [
                 'name' => $this->getAbsName(),
                 'xpath' => $this->sXPath,
-            ),
-        );
+            ],
+        ];
 
-        return array(
+        return [
             '__compiled' => $aButtonBrowse['__compiled'].' '.$aButtonUpload['__compiled'].' '.$aListQueue['__compiled'],
             'buttonBrowse' => $aButtonBrowse,
             'buttonUpload' => $aButtonUpload,
             'listQueue' => $aListQueue,
-        );
+        ];
     }
 
     public function includeScripts($aConf)
@@ -193,9 +193,9 @@ INITSCRIPT;
         if (false === $this->oButtonBrowse) {
             $sName = $this->getAbsName();
 
-            $aConf = array(
+            $aConf = [
                 'type' => 'BOX',
-            );
+            ];
 
             $aConf['name'] = $sName.'_btnbrowse';
             $this->oButtonBrowse = $this->oForm->_makeRenderlet(
@@ -224,16 +224,16 @@ INITSCRIPT;
 
 PHP;
 
-            $aConf = array(
+            $aConf = [
                 'type' => 'BUTTON',
                 'label' => 'Upload',
-                'onclick-999' => array(            // 999 to avoid overruling by potential customly defined event
+                'onclick-999' => [            // 999 to avoid overruling by potential customly defined event
                     'runat' => 'client',
-                    'userobj' => array(
+                    'userobj' => [
                         'php' => $sEvent,
-                    ),
-                ),
-            );
+                    ],
+                ],
+            ];
 
             if (false !== ($aCustomConf = $this->_navConf('/buttonupload'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -262,12 +262,12 @@ PHP;
         if (false === $this->oListQueue) {
             $sName = $this->getAbsName();
 
-            $aConf = array(
+            $aConf = [
                 'type' => 'LISTBOX',
                 'label' => 'Queue',
                 'multiple' => true,
                 'style' => 'width: 100%',
-            );
+            ];
 
             if (false !== ($aCustomConf = $this->_navConf('/listqueue'))) {
                 $aConf = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -299,12 +299,12 @@ PHP;
 
 JAVASCRIPT;
 
-            $this->aElement['onfilequeued-999'] = array(            // 999 to avoid overruling by potential customly defined event
+            $this->aElement['onfilequeued-999'] = [            // 999 to avoid overruling by potential customly defined event
                 'runat' => 'client',
-                'userobj' => array(
+                'userobj' => [
                     'js' => $sEvent,
-                ),
-            );
+                ],
+            ];
 
             $sEvent = <<<JAVASCRIPT
 
@@ -315,12 +315,12 @@ JAVASCRIPT;
 
 JAVASCRIPT;
 
-            $this->aElement['onuploadsuccess-999'] = array(            // 999 to avoid overruling by potential customly defined event
+            $this->aElement['onuploadsuccess-999'] = [            // 999 to avoid overruling by potential customly defined event
                 'runat' => 'client',
-                'userobj' => array(
+                'userobj' => [
                     'js' => $sEvent,
-                ),
-            );
+                ],
+            ];
         }
     }
 
@@ -342,11 +342,11 @@ JAVASCRIPT;
     {
         // sizes are all converted to KB
 
-        $aSizes = array(
+        $aSizes = [
             'iPhpFileMax' => 1024 * (int) ini_get('upload_max_filesize'),
             'iPhpPostMax' => 1024 * (int) ini_get('post_max_size'),
             'iT3FileMax' => (int) $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
-        );
+        ];
 
         if (false !== ($mFileSize = $this->_navConf('maxsize'))) {
             // maxSize has to be KB

@@ -6,17 +6,17 @@
  */
 class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'widget_autocomplete_class' => 'res/js/autocomplete.js',
-    );
+    ];
 
     public $sAttachPostInitTask = 'initialize';
     public $sMajixClass = 'Autocomplete';
 
     public $bCustomIncludeScript = true;
-    public $aPossibleCustomEvents = array(
+    public $aPossibleCustomEvents = [
         'onlistselect',
-    );
+    ];
 
     public $sTemplate = false;
     public $aRowsSubpart = false;
@@ -76,12 +76,12 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
         $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
-        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = array(
-            'requester' => array(
+        $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
+            'requester' => [
                 'name' => $this->_getName(),
                 'xpath' => $this->sXPath, // Der Wert wird im INIT gesetzt
-            ),
-        );
+            ],
+        ];
 
         $sLabel = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/label'));
         $sValue = $this->getValue(); // hier steckt bei buhl ab und zu ein array drinn, warum!? lister? #2439
@@ -93,7 +93,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         $sChilds = '<div id="'.$this->_getElementHtmlId().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.'loader" class="'.$sLoaderClass.'"></div>';
         $sChilds .= '<div id="'.$this->_getElementHtmlId().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.'list" class="'.$sChildsClass.'"></div>';
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($sLabel).$sInput.$sChilds,
             'label' => $sLabel,
             'name' => $this->_getElementHtmlName(),
@@ -103,25 +103,25 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
             'childs' => $sChilds,
             'html' => $sInput.$sChilds,
             'addparams' => $this->_getAddInputParams(),
-        );
+        ];
 
         // allowed because of $bCustomIncludeScript = TRUE
-        $this->aConfig = array(
+        $this->aConfig = [
             'timeObserver' => $sTimeObserver,
             'searchType' => $sSearchType,
             'searchFields' => $sSearchOnFields,
             'searchUrl' => $sSearchUrl,
-            'item' => array(
+            'item' => [
                 'width' => $this->_navConf('/itemwidth'),
                 'height' => $this->_navConf('/itemheight'),
                 'style' => $this->_navConf('/itemstyle'),
                 'class' => $sItemClass,
-            ),
+            ],
             'selectedItemClass' => $sSelectedItemClass,
             'jsExtend' => $this->_navConf('/jsextend', false),
             'selectionRequired' => $this->defaultFalse('/selectionrequired'),
             'hideItemListOnLeave' => $this->defaultTrue('/hideitemlistonleave'),
-        );
+        ];
         $this->includeScripts($this->aConfig);
 
         return $aHtmlBag;
@@ -129,7 +129,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     public function &_getRowsSubpart($sTemplate)
     {
-        $aRowsTmpl = array();
+        $aRowsTmpl = [];
         if (false !== ($sAltRows = $this->_navConf('/template/alternaterows'))) {
             if ($this->oForm->isRunneable($sAltRows)) {
                 $sAltRows = $this->oForm->isRunneable($sAltRows);
@@ -196,15 +196,15 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
         $this->renderList($aParts, $aRowsHtml);
 
-        return array(
+        return [
             'counter' => $this->aConfig['searchCounter'],
-            'html' => array(
+            'html' => [
                 'before' => trim($aParts[0]),
                 'after' => trim($aParts[1]),
                 'childs' => $aRowsHtml,
-            ),
+            ],
             'results' => count($aRowsHtml),
-        );
+        ];
     }
 
     private function renderList(&$aParts, &$aRowsHtml)
@@ -234,7 +234,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                 false,
                 false
             );
-            $sHtml = str_replace(array('{autocomplete_search.numrows}'), array(count($aRows)), $sHtml);
+            $sHtml = str_replace(['{autocomplete_search.numrows}'], [count($aRows)], $sHtml);
             $aParts = explode('###ROWS###', $sHtml);
         }
     }
@@ -265,10 +265,10 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                 if ($this->_defaultTrue('highlightresults')) {
                     $sValue = preg_replace_callback(
                         $sPattern,
-                        array(
+                        [
                             $this,
                             'highlightSearch',
-                        ),
+                        ],
                         $aData[$sName],
                         1        // replace only the first occurence
                     );
@@ -298,7 +298,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         $sAbsName = $rdt->getAbsName();
         $sAbsPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sAbsName);
 
-        $aData = array();
+        $aData = [];
         $this->getForm()->setDeepData($sAbsPath, $aData, $mValue);
 
         $rdt->mForcedValue = $mValue;
@@ -344,7 +344,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
     private function initLimitAndSort()
     {
         // dont set filters if set to false!
-        $aFilters = array();
+        $aFilters = [];
 
         if (false === ($sLimit = $this->_navConf('/datasource/limit'))) {
             $sLimit = '5';
@@ -372,7 +372,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     private function initFilters()
     {
-        $aFilters = array();
+        $aFilters = [];
         if ('external' == $this->aConfig['searchType']) {
             // Suche wird extern durchgeführt. Es ist nur der Suchbegriff notwendig
             $aFilters[] = $this->aConfig['searchText'];
@@ -381,7 +381,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         }
 
         $aFields = explode(',', $this->aConfig['searchFields']);
-        $aFilter = array();
+        $aFilter = [];
 
         foreach ($aFields as $sField) {
             switch ($this->aConfig['searchType']) {

@@ -89,7 +89,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
 
         $value = addslashes($value);
 
-        $where = array();
+        $where = [];
         $where[] = $sField.' = '.Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($value, '');
 
         if (true === $this->_defaultFalse('/unique/deleted/')) {
@@ -111,10 +111,10 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
         $rs = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
             'count(*) as nbentries',
             $sTable,
-            array(
+            [
                 'enablefieldsoff' => $this->_defaultTrue('/unique/enablefieldsoff/'),
                 'where' => implode(' AND ', $where),
-            )
+            ]
         );
 
         return !((int) $rs[0]['nbentries'] > 0);

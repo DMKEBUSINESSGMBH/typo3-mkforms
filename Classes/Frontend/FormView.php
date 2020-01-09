@@ -2,9 +2,9 @@
 
 namespace DMK\MkForms\Frontend;
 
-use Sys25\RnBase\Frontend\View\Marker\BaseView;
 use Sys25\RnBase\Frontend\Request\RequestInterface;
 use Sys25\RnBase\Frontend\View\ContextInterface;
+use Sys25\RnBase\Frontend\View\Marker\BaseView;
 
 /***************************************************************
  * Copyright notice
@@ -56,7 +56,7 @@ class FormView extends BaseView
             if (is_array($data)) {
                 // else:
 
-                $markerArrays = $subpartArrays = $wrappedSubpartArrays = array();
+                $markerArrays = $subpartArrays = $wrappedSubpartArrays = [];
 
                 foreach ($data as $key => $values) {
                     $currentMarkerPrefix = strtoupper($key).'_';
@@ -74,7 +74,7 @@ class FormView extends BaseView
                      * oder die globale addAdditionalMarkers Methode angelegt werden!
                      */
                     if (\tx_rnbase_util_BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
-                        $currentSubpartArray = $currentWrappedSubpartArray = array();
+                        $currentSubpartArray = $currentWrappedSubpartArray = [];
                         $currentMarkerArray = $formatter->getItemMarkerArrayWrapped(
                             $values,
                             $currentConfId,
@@ -103,9 +103,9 @@ class FormView extends BaseView
                     }
                 }
                 // die marker arrays zusammenführen
-                $markerArray = empty($markerArrays) ? array() : call_user_func_array('array_merge', $markerArrays);
-                $subpartArray = empty($subpartArrays) ? array() : call_user_func_array('array_merge', $subpartArrays);
-                $wrappedSubpartArray = empty($wrappedSubpartArrays) ? array() : call_user_func_array('array_merge', $wrappedSubpartArrays);
+                $markerArray = empty($markerArrays) ? [] : call_user_func_array('array_merge', $markerArrays);
+                $subpartArray = empty($subpartArrays) ? [] : call_user_func_array('array_merge', $subpartArrays);
+                $wrappedSubpartArray = empty($wrappedSubpartArrays) ? [] : call_user_func_array('array_merge', $wrappedSubpartArrays);
             }
         }
 
@@ -192,7 +192,7 @@ class FormView extends BaseView
                 $confId,
                 $linkId,
                 $markerPrefix,
-                empty($params) ? array() : $params,
+                empty($params) ? [] : $params,
                 $template
             );
         }

@@ -110,7 +110,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     protected function getParams()
     {
         $params = $this->_navConf('/params');
-        $params = is_array($params) ? $params : array();
+        $params = is_array($params) ? $params : [];
 
         return $this->getForm()->getRunnable()->parseParams($params);
     }
@@ -156,18 +156,18 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
             $rendered = $this->getViewHelper()->initializeArgumentsAndRender();
         } catch (Exception $e) {
             $rendered = '<span class="error">'.$e->getMessage().'</span>';
-            $error = array(
+            $error = [
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
-            );
+            ];
         }
 
-        $htmlBag = array(
+        $htmlBag = [
             '__compiled' => $this->_displayLabel($label).$rendered,
             'rendered' => $rendered,
             'label' => $label,
             'value' => $this->getValue(),
-        );
+        ];
 
         if (isset($error)) {
             $htmlBag['renderError'] = true;

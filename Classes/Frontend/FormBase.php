@@ -2,9 +2,9 @@
 
 namespace DMK\MkForms\Frontend;
 
+use Sys25\RnBase\Configuration\ConfigurationInterface;
 use Sys25\RnBase\Frontend\Controller\AbstractAction;
 use Sys25\RnBase\Frontend\Request\RequestInterface;
-use Sys25\RnBase\Configuration\ConfigurationInterface;
 
 /**
  * @author     Michael Wagner
@@ -74,7 +74,7 @@ class FormBase extends AbstractAction
      *
      * @var array
      */
-    protected $errors = array();
+    protected $errors = [];
 
     private $configurations;
 
@@ -247,7 +247,7 @@ class FormBase extends AbstractAction
         \tx_rnbase_util_Misc::callHook(
             'mkforms',
             'action_formbase_before_processdata',
-            array('data' => &$data),
+            ['data' => &$data],
             $this
         );
 
@@ -266,7 +266,7 @@ class FormBase extends AbstractAction
         \tx_rnbase_util_Misc::callHook(
             'mkforms',
             'action_formbase_after_processdata',
-            array('data' => &$data),
+            ['data' => &$data],
             $this
         );
 
@@ -361,14 +361,14 @@ class FormBase extends AbstractAction
         \tx_rnbase_util_Misc::callHook(
             'mkforms',
             'action_formbase_after_filldata',
-            array('data' => &$data),
+            ['data' => &$data],
             $this
         );
 
         $confId = $this->getConfId();
 
         if (!is_array($data) || empty($data)) {
-            $data = array();
+            $data = [];
             // @see self::flatArray2MultipleTableStructure -> addfields
             $addFields = $this->configurations->get($confId.'addfields.', true);
             // Felder setzen, überschreiben oder löschen

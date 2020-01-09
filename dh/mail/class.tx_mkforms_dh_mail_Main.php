@@ -56,7 +56,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 
         $engine = $this->findEngine();
 
-        $params = array();
+        $params = [];
         $params[0] = $this->getDataModel($data);
 
         $success = call_user_func_array($engine, $params);
@@ -82,7 +82,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     private function getFlattenFormData($data = null)
     {
         $data = is_array($data) ? $data : $this->getFormData();
-        $flatten = array();
+        $flatten = [];
         foreach ($data as $field => $value) {
             if (is_array($value)) {
                 foreach ($this->getFlattenFormData($value) as $subField => $subValue) {
@@ -106,7 +106,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         $engine = $this->_navConf('/engine');
         $method = 'send'.ucfirst($engine);
         if (method_exists($this, $method)) {
-            return array($this, $method);
+            return [$this, $method];
         } else {
             $this->getForm()->mayday(
                 'Invalid engine "'.$engine.'" configured.'.
@@ -257,7 +257,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         );
 
         // set the contents
-        foreach (array('subject', 'contenttext', 'contenthtml') as $key) {
+        foreach (['subject', 'contenttext', 'contenthtml'] as $key) {
             $content = $this->_navConf('/mkmailer/template/'.$key);
             if (is_array($content)) {
                 $content = tx_rnbase_util_Templates::getSubpartFromFile(
@@ -314,7 +314,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         /* @var $job tx_mkmailer_mail_MailJob */
         $job = tx_rnbase::makeInstance(
             'tx_mkmailer_mail_MailJob',
-            array($receiver),
+            [$receiver],
             $templateObj
         );
 
@@ -334,13 +334,13 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         tx_rnbase_util_Misc::callHook(
             'mkforms',
             'dh_mail_beforeSpoolMailJob',
-            array(
+            [
                 'job' => &$job,
                 'templateObj' => $templateObj,
                 'model' => $model,
                 'receiver' => $receiver,
                 'form' => $this->getForm(),
-            ),
+            ],
             $this
         );
 
@@ -371,14 +371,14 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         Tx_Rnbase_Domain_Model_DataInterface $model
     ) {
         // Die Daten in die E-Mail Rendern.
-        foreach (array(
+        foreach ([
             'subject',
             'contenttext',
             'contenthtml',
             'mail_from',
             'mail_fromName',
             'mail_bcc',
-        ) as $key) {
+        ] as $key) {
             if (!$content->getProperty($key)) {
                 continue;
             }

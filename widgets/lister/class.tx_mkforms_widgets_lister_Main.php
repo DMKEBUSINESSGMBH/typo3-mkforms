@@ -6,9 +6,9 @@
  */
 class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_lister_class' => 'res/js/lister.js',
-    );
+    ];
 
     public $uidColumn = false;
 
@@ -40,7 +40,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
     public $bResetPager = false;
     public $mCurrentSelected = false;
 
-    public $aRdtByRow = array();
+    public $aRdtByRow = [];
 
     public $iCurRowNum = false;
     public $iTempPage = false;
@@ -61,13 +61,13 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         $ok = false;
         while (!$ok) {
             $aData = $this->_fetchData(
-                $aConfig = array(
+                $aConfig = [
                     'page' => ($this->aLimitAndSort['curpage'] - 1),
                     'perpage' => $this->aLimitAndSort['rowsperpage'],
                     'sortcolumn' => $this->aLimitAndSort['sortby'],
                     'sortdirection' => $this->aLimitAndSort['sortdir'],
                     'iteratingid' => $this->getIteratingId(),
-                )
+                ]
             );
 
             $ok = (count($aData['results']) || 0 === $this->aLimitAndSort['curpage']);
@@ -84,7 +84,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        $this->aRdtByRow = array();
+        $this->aRdtByRow = [];
 
         $aData = $this->fetchListerData();
         if (0 === (int) $aData['numrows']) {
@@ -92,10 +92,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 if (is_array($mEmpty)) {
                     if (false === $this->getForm()->_defaultTrue('/process', $mEmpty)) {
                         // nicht verarbeiten!
-                        return array(
+                        return [
                                 '__compiled' => '',
-                                'pager.' => array('numrows' => 0),
-                            );
+                                'pager.' => ['numrows' => 0],
+                            ];
                     }
 
                     if (false !== $this->getForm()->_navConf('/message', $mEmpty)) {
@@ -118,55 +118,55 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     // nur die nachricht ausgeben
                     $sOut = $this->oForm->getConfigXML()->getLLLabel($sMessage);
                 }
-                $aHtmlBag = array(
+                $aHtmlBag = [
                     '__compiled' => $this->_wrapIntoContainer($sOut),
-                    'pager.' => array('numrows' => 0),
-                );
+                    'pager.' => ['numrows' => 0],
+                ];
             } else {
-                $aHtmlBag = array(
+                $aHtmlBag = [
                     '__compiled' => '',
-                    'pager.' => array('numrows' => 0),
-                );
+                    'pager.' => ['numrows' => 0],
+                ];
             }
         } else {
             $this->_initPager($aData['numrows']);
 
             $sAddParams = $this->_getAddInputParams();
 
-            $aHtmlBag = array(
+            $aHtmlBag = [
                 '__compiled' => $this->_wrapIntoContainer($this->_renderList($aData), $sAddParams),
                 'addparams' => $sAddParams,
-                'pager.' => array(
+                'pager.' => [
                     'display' => (true === $this->aPager['display']) ? '1' : '0',
                     'page' => $this->aPager['page'],
                     'pagemax' => $this->aPager['pagemax'],
                     'offset' => $this->aPager['offset'],
                     'numrows' => $this->aPager['numrows'],
-                    'links.' => array(
+                    'links.' => [
                         'first' => $this->aPager['links']['first'],
                         'prev' => $this->aPager['links']['prev'],
                         'next' => $this->aPager['links']['next'],
                         'last' => $this->aPager['links']['last'],
-                    ),
+                    ],
                     'rowsperpage' => $this->aLimitAndSort['rowsperpage'],
                     'limitoffset' => $this->aLimitAndSort['limitoffset'],
                     'limitdisplayed' => $this->aLimitAndSort['limitdisplayed'],
                     'sortby' => $this->aLimitAndSort['sortby'],
                     'sortdir' => $this->aLimitAndSort['sortdir'],
-                ),
-            );
+                ],
+            ];
         }
 
         $this->includeScripts(
-            array(
+            [
                 'rdtbyrow' => $this->aRdtByRow,
                 'columns' => array_keys($this->aOColumns),
                 'isajaxlister' => $this->isAjaxLister(),
                 'selected' => $this->mCurrentSelected,
-                'sort' => array(
+                'sort' => [
                     'column' => $this->aLimitAndSort['sortby'],
                     'direction' => $this->aLimitAndSort['sortdir'],
-                ),
+                ],
                 'pages' => $this->aPager['numrows'],
                 'repaintfirst' => $this->synthetizeAjaxEventCb(
                     'onclick',
@@ -204,7 +204,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     'sys_event.sortcol, sys_event.sortdir',
                     false
                 ),
-            )
+            ]
         );
 
         return $aHtmlBag;
@@ -314,14 +314,14 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 $sRealSortCol = $aSort['col'];
             }
 
-            $this->aLimitAndSort = array(
+            $this->aLimitAndSort = [
                 'curpage' => $iCurPage,
                 'rowsperpage' => $iRowsPerPage,
                 'limitoffset' => ($iCurPage - 1) * $iRowsPerPage,
                 'limitdisplayed' => $iRowsPerPage,
                 'sortby' => $sRealSortCol,
                 'sortdir' => $aSort['dir'],
-            );
+            ];
         }
     }
 
@@ -352,15 +352,15 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         if ($iPageMax >= 1) {
             if ($this->aLimitAndSort['curpage'] > 1) {
                 if ($this->shouldAvoidPageOneInUrl()) {
-                    $sLinkFirst = $this->_buildLink(array(), array('page' => 1));
+                    $sLinkFirst = $this->_buildLink([], ['page' => 1]);
                 } else {
-                    $sLinkFirst = $this->_buildLink(array('page' => 1));
+                    $sLinkFirst = $this->_buildLink(['page' => 1]);
                 }
 
                 if ($this->aLimitAndSort['curpage'] > 2) {
-                    $sLinkPrev = $this->_buildLink(array(
+                    $sLinkPrev = $this->_buildLink([
                         'page' => $this->aLimitAndSort['curpage'] - 1,
-                    ));
+                    ]);
                 } else {
                     $sLinkPrev = $sLinkFirst;
                 }
@@ -370,20 +370,20 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             // on the last page
 
             if ($this->aLimitAndSort['curpage'] < $iPageMax) {
-                $sLinkNext = $this->_buildLink(array(
+                $sLinkNext = $this->_buildLink([
                     'page' => ($this->aLimitAndSort['curpage'] + 1),
-                ));
+                ]);
 
-                $sLinkLast = $this->_buildLink(array(
+                $sLinkLast = $this->_buildLink([
                     'page' => $iPageMax,
-                ));
+                ]);
             }
         }
 
         $iPage = (0 == $iPageMax) ? 0 : $this->aLimitAndSort['curpage'];
         $bAlwaysFullWidth = false;
 
-        $aWindow = array();
+        $aWindow = [];
 
         if (false !== ($mWindow = $this->_navConf('/pager/window')) && $iNumRows > 0) {
             if ($this->oForm->isRunneable($mWindow)) {
@@ -439,52 +439,52 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
                 for ($k = $iStart; $k <= $iEnd; ++$k) {
                     if ($k <= $iPageMax) {
-                        $aWindow[$k] = $this->_buildLink(array(
+                        $aWindow[$k] = $this->_buildLink([
                             'page' => $k,
-                        ));
+                        ]);
                     }
                 }
             }
         }
 
-        $this->aPager = array(
+        $this->aPager = [
             'display' => $bDisplay,
             'numrows' => $iNumRows,
             'offset' => $this->aLimitAndSort['limitoffset'],
             'page' => $iPage,
             'pagemax' => $iPageMax,
             'rowsperpage' => $this->aLimitAndSort['rowsperpage'],
-            'links' => array(
+            'links' => [
                 'first' => $sLinkFirst,
                 'prev' => $sLinkPrev,
                 'next' => $sLinkNext,
                 'last' => $sLinkLast,
-            ),
+            ],
             'window' => $aWindow,
             'alwaysfullwidth' => $bAlwaysFullWidth,
-        );
+        ];
     }
 
-    public function _buildLink($aParams, $aExcludeParams = array())
+    public function _buildLink($aParams, $aExcludeParams = [])
     {
-        $aRdtParams = array(
-            $this->oForm->formid => array(
+        $aRdtParams = [
+            $this->oForm->formid => [
                 $this->_getElementHtmlId() => $aParams,
-            ),
-        );
+            ],
+        ];
 
         $sEnvMode = tx_mkforms_util_Div::getEnvExecMode();
         if ('BE' === $sEnvMode) {
             $sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
             $aQueryParts = parse_url($sBaseUrl);
-            $aParams = array();
+            $aParams = [];
             if ($aQueryParts['query']) {
                 parse_str($aQueryParts['query'], $aParams);
             }
         } elseif ('EID' === $sEnvMode) {
             $sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('HTTP_REFERER');
             $aQueryParts = parse_url($sBaseUrl);
-            $aParams = array();
+            $aParams = [];
             if ($aQueryParts['query']) {
                 parse_str($aQueryParts['query'], $aParams);
             }
@@ -498,11 +498,11 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         );
 
         if (!empty($aExcludeParams) || !empty($this->oForm->aParamsToRemove)) {
-            $aRdtParamsExclude = array(
-                $this->oForm->formid => array(
+            $aRdtParamsExclude = [
+                $this->oForm->formid => [
                     $this->_getElementHtmlId() => $aExcludeParams,
-                ),
-            );
+                ],
+            ];
 
             $aRdtParamsExclude = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                 $aRdtParamsExclude,
@@ -547,13 +547,13 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 unset($aFullParams['id']);
             }
 
-            return $this->getForm()->getCObj()->typoLink_URL(array(
+            return $this->getForm()->getCObj()->typoLink_URL([
                 'parameter' => $GLOBALS['TSFE']->id,
                 'additionalParams' => Tx_Rnbase_Utility_T3General::implodeArrayForUrl(
                     '',
                     $aFullParams
                 ),
-            ));
+            ]);
         }
     }
 
@@ -565,15 +565,15 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             $this->aLimitAndSort = false;
             $this->_initLimitAndSort();
 
-            $aConfig = array(
+            $aConfig = [
                     'page' => ($this->aLimitAndSort['curpage'] - 1),
                     'perpage' => $this->aLimitAndSort['rowsperpage'],
                     'sortcolumn' => $this->aLimitAndSort['sortby'],
                     'sortdirection' => $this->aLimitAndSort['sortdir'],
-            );
+            ];
         }
 
-        $aFilters = is_array($aFilters) ? $aFilters : array();
+        $aFilters = is_array($aFilters) ? $aFilters : [];
 
         // zusätzliche parameter besorgen
         $aParams = $this->_navConf('/datasource/config');
@@ -648,10 +648,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function _renderList_displayRows(&$aTemplate, &$aRows)
     {
-        $aRowsHtml = array();
+        $aRowsHtml = [];
         if (true !== $this->bNoTemplate) {
-            $aAltRows = array();
-            $aRowsHtml = array();
+            $aAltRows = [];
+            $aRowsHtml = [];
             $sRowsPart = tx_rnbase_util_Templates::getSubpart($aTemplate['html'], '###ROWS###');
 
             if (true === $aTemplate['default']) {
@@ -694,7 +694,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             $aCurRow = $this->_refineRow($aCurRow);
             $aCurRow = $this->processBeforeDisplay($aCurRow);
 
-            $this->__aCurRow = array();
+            $this->__aCurRow = [];
 
             $aCurRow = $this->filterUnprocessedColumns($aCurRow, $aTableCols);
 
@@ -737,8 +737,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     for ($k = $iRowNum % $iNbAlt; $k < $iNbAlt; ++$k) {
                         $aRowsHtml[] = $this->oForm->getTemplateTool()->parseTemplateCode(
                             $aAltRows[$k],        // current alternate subpart for row
-                            array(),
-                            array(),
+                            [],
+                            [],
                             false
                         );
                     }
@@ -822,16 +822,16 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             $sPager = $mHtml;
         } elseif (true === $this->aPager['display']) {
             $sPager = $aTemplate['pager'];
-            $aLinks = array();
+            $aLinks = [];
 
             $sPager = $this->_parseThrustedTemplateCode(
                 $sPager,
-                array(
+                [
                     'page' => $this->aPager['page'],
                     'pagemax' => $this->aPager['pagemax'],
                     'numrows' => $this->aPager['numrows'],
-                ),
-                array(),
+                ],
+                [],
                 false
             );
 
@@ -839,11 +839,11 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 if ('' !== $sLink) {
                     $aLinks[$sWhich] = $this->oForm->getTemplateTool()->parseTemplateCode(
                         tx_rnbase_util_Templates::getSubpart($sPager, '###LINK'.strtoupper($sWhich).'###'),
-                        array(
+                        [
                             'link' => $sLink,
                             'linkid' => $sHtmlId.'_pagelink_'.strtolower($sWhich),
-                        ),
-                        array(),
+                        ],
+                        [],
                         false
                     );
                 } else {
@@ -872,7 +872,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     }
                 }
 
-                $aLinks = array();
+                $aLinks = [];
 
                 reset($this->aPager['window']);
                 if (key($this->aPager['window']) > 2 && '' !== trim($sMoreBefore)) {
@@ -885,29 +885,29 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     if (false === $sLink) {
                         $aLinks[] = $this->_parseThrustedTemplateCode(
                             $sLinkAct,
-                            array(
+                            [
                                 'link' => $sLink,
                                 'page' => $iPageNum,
                                 'id' => $sPageNumLinkHtmlId,
-                            )
+                            ]
                         );
                     } elseif ($this->aPager['page'] == $iPageNum) {
                         $aLinks[] = $this->_parseThrustedTemplateCode(
                             $sLinkAct,
-                            array(
+                            [
                                 'link' => $sLink,
                                 'page' => $iPageNum,
                                 'id' => $sPageNumLinkHtmlId,
-                            )
+                            ]
                         );
                     } else {
                         $aLinks[] = $this->_parseThrustedTemplateCode(
                             $sLinkNo,
-                            array(
+                            [
                                 'link' => $sLink,
                                 'page' => $iPageNum,
                                 'id' => $sPageNumLinkHtmlId,
-                            )
+                            ]
                         );
                     }
                 }
@@ -931,15 +931,15 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         $aTemplate['html'] = $this->_parseThrustedTemplateCode(
             $aTemplate['html'],
-            array(
+            [
                 'PAGER' => $sPager,
-            ),
-            array(),
+            ],
+            [],
             false
         );
     }
 
-    private function _parseThrustedTemplateCode($sHtml, $aTags, $aExclude = array(), $bClearNotUsed = true, $aLabels = array())
+    private function _parseThrustedTemplateCode($sHtml, $aTags, $aExclude = [], $bClearNotUsed = true, $aLabels = [])
     {
         return $this->getForm()->getTemplateTool()->parseTemplateCode($sHtml, $aTags, $aExclude, $bClearNotUsed, $aLabels, $bThrusted = true);
     }
@@ -974,9 +974,9 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                         }
                     }
 
-                    $sLink = $this->_buildLink(array(
+                    $sLink = $this->_buildLink([
                         'sort' => $sColumn.'-'.$sNewDir,
-                    ));
+                    ]);
 
                     if ('' !== ($sHeader = $this->getListHeader($sColumn))) {
                         $sAccesTitle = '{LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sortby} &quot;'.strip_tags($sHeader).'&quot; {LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sort.'.$sNewDir.'}';
@@ -1006,14 +1006,14 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function &_getTemplate()
     {
-        $aRes = array(
+        $aRes = [
             'default' => false,
             'html' => '',
             'styles' => '',
             'cssfile' => '',
             'pager' => '',
             'alternaterows' => false,
-        );
+        ];
 
         if ((false === ($aTemplate = $this->_navConf('/template'))) || (true === ($this->bNoTemplate = $this->_defaultFalse('/template/notemplate')))) {
             if (false === $this->bNoTemplate) {
@@ -1022,9 +1022,9 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 $this->bDefaultTemplate = true;
                 $this->bNoTemplate = false;
             } else {
-                $aRes = array(
+                $aRes = [
                     'default' => false,
-                );
+                ];
 
                 $this->bDefaultTemplate = false;
                 $this->bNoTemplate = true;
@@ -1221,21 +1221,21 @@ ERRORMESSAGE;
 
     public function &__buildDefaultTemplate($sCssPrefix = '.ameosformidable-rdtlister-defaultwrap')
     {
-        $aRes = array(
+        $aRes = [
             'default' => true,
             'html' => '',
             'styles' => '',
             'cssfile' => '',
             'pager' => '',
-        );
+        ];
 
-        $aHtml = array(
-            'TOP' => array(),
-            'DATA' => array(
-                'ROW1' => array(),
-                'ROW2' => array(),
-            ),
-        );
+        $aHtml = [
+            'TOP' => [],
+            'DATA' => [
+                'ROW1' => [],
+                'ROW2' => [],
+            ],
+        ];
 
         $sPath = $this->sExtPath.'res/html/default-template.html';
         $sSubpart = '###LIST###';
@@ -1252,11 +1252,11 @@ ERRORMESSAGE;
                 Tx_Rnbase_Utility_T3General::getUrl($sPath),
                 '###STYLES###'
             ),
-            array(
+            [
                 'PREFIX' => $sCssPrefix,
                 'EXTPATH' => '/'.$this->sExtRelPath,
-            ),
-            array(),
+            ],
+            [],
             false
         );
 
@@ -1276,32 +1276,32 @@ ERRORMESSAGE;
 
                 $aHtml['TOP'][] = $this->_parseThrustedTemplateCode(
                     $sTopColumn,
-                    array(
+                    [
                         'COLNAME' => $sColName,
                         'COLCONTENT' => '<!-- ###SORT_'.$sColName.'### begin-->'.$sHeader.'<!-- ###SORT_'.$sColName.'### end-->',
-                    ),
-                    array(),    // exclude
+                    ],
+                    [],    // exclude
                     false        // bClearNotUsed
                 );
             }
 
             // building data cells for this column
-            $aTemp = array(
+            $aTemp = [
                 'COLNAME' => $sColName,
                 'COLCONTENT' => '{'.$sColName.'}',
-            );
+            ];
 
             $aHtml['DATA']['ROW1'][] = $this->_parseThrustedTemplateCode(
                 $sDataColumn1,
                 $aTemp,
-                array(),
+                [],
                 false
             );
 
             $aHtml['DATA']['ROW2'][] = $this->_parseThrustedTemplateCode(
                 $sDataColumn2,
                 $aTemp,
-                array(),
+                [],
                 false
             );
         }
@@ -1313,10 +1313,10 @@ ERRORMESSAGE;
 
         $aRes['html'] = $this->_parseThrustedTemplateCode(
             $aRes['html'],
-            array(
+            [
                 'NBCOLS' => sizeof($this->aOColumns),
-            ),
-            array(),
+            ],
+            [],
             false
         );
 
@@ -1338,7 +1338,7 @@ ERRORMESSAGE;
             return;
         }
 
-        $this->aOColumns = array();
+        $this->aOColumns = [];
         if (false !== ($aColumns = $this->_navConf('/columns')) && is_array($aColumns)) {
             $aColKeys = array_keys($aColumns);
             reset($aColKeys);
@@ -1522,7 +1522,7 @@ ERRORMESSAGE;
 
                     $errors = $oChild->validate() ? $errors : false;
 
-                    $this->__aCurRow = array();
+                    $this->__aCurRow = [];
                     $oChild->setIteratingId();
                 }
             }
@@ -1593,7 +1593,7 @@ ERRORMESSAGE;
                 $this->aOColumns[$sName]->doAfterIteration();
             }
         } else {
-            $aRow = array();
+            $aRow = [];
         }
 
         reset($aRow);
@@ -1622,15 +1622,15 @@ ERRORMESSAGE;
     public function _getSortColAndDirection()
     {
         if (false !== $this->aLimitAndSort) {
-            $aRes = array(
+            $aRes = [
                 'col' => $this->aLimitAndSort['sortby'],
                 'dir' => $this->aLimitAndSort['sortdir'],
-            );
+            ];
         } else {
-            $aRes = array(
+            $aRes = [
                 'col' => '',
                 'dir' => '',
-            );
+            ];
 
             $aGet = $this->oForm->oDataHandler->_G();
             $sName = $this->_getElementHtmlId();
@@ -1646,15 +1646,15 @@ ERRORMESSAGE;
                     }
 
                     $sDir = $aSort[1];
-                    if (!in_array($sDir, array('asc', 'desc'))) {
+                    if (!in_array($sDir, ['asc', 'desc'])) {
                         $sDir = 'asc';
                     }
                 }
 
-                $aRes = array(
+                $aRes = [
                     'col' => $sCol,
                     'dir' => $sDir,
-                );
+                ];
             } elseif (false !== $this->_navConf('/pager/sort')) {
                 if (false !== ($sSortCol = $this->_navConf('/pager/sort/column'))) {
                     if ($this->oForm->isRunneable($sSortCol)) {
@@ -1892,7 +1892,7 @@ ERRORMESSAGE;
                 $aUnknownRdts = array_diff(array_keys($aListerData), array_keys($aAllowedRdts));
                 $aCurrentData = &$aListerData;
             } else { //z.B. selected
-                $aUnknownRdts = array_diff(array($sRdtKey), array_keys($aAllowedRdts));
+                $aUnknownRdts = array_diff([$sRdtKey], array_keys($aAllowedRdts));
                 $aCurrentData = &$aGP;
             }
 

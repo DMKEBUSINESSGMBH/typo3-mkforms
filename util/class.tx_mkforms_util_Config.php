@@ -168,10 +168,7 @@ class tx_mkforms_util_Config
                         'ein default LL aber keine label für die childs. Entweder wird kein '.
                         'default LL verwendet oder den childs wird ein label gegeben, die es'.
                         'gar nicht geben muss da diese nicht gerendered werden.';
-                    throw new Exception(
-                        $message,
-                        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode']. 2
-                    );
+                    throw new Exception($message, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode']. 2);
                 }
 
                 return $GLOBALS['TSFE']->sL($mLabel);
@@ -238,10 +235,10 @@ class tx_mkforms_util_Config
      */
     private function refineTS($aConf)
     {
-        $aTemp = array();
+        $aTemp = [];
 
         // processing meta
-        $aTemp['meta'] = array();
+        $aTemp['meta'] = [];
         if (isset($aConf['meta.']) && is_array($aConf['meta.'])) {
             reset($aConf['meta.']);
             foreach ($aConf['meta.'] as $sKey => $notNeeded) {
@@ -262,15 +259,15 @@ class tx_mkforms_util_Config
         }
 
         // processing control
-        $aTemp['control'] = array();
+        $aTemp['control'] = [];
         if (isset($aConf['control.']) && is_array($aConf['control.'])) {
             reset($aConf['control.']);
             foreach ($aConf['control.'] as $sKey => $notNeeded) {
                 if (is_string($aConf['control.'][$sKey])) {
                     if ('datahandler' === $sKey) {
-                        $aTemp['control']['datahandler'] = array(
+                        $aTemp['control']['datahandler'] = [
                             'type' => substr($aConf['control.'][$sKey], strlen('datahandler:')),
-                        );
+                        ];
 
                         if (array_key_exists($sKey.'.', $aConf['control.'])) {
                             $aTemp['control']['datahandler'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -279,9 +276,9 @@ class tx_mkforms_util_Config
                             );
                         }
                     } elseif ('renderer' === $sKey) {
-                        $aTemp['control']['renderer'] = array(
+                        $aTemp['control']['renderer'] = [
                             'type' => substr($aConf['control.'][$sKey], strlen('renderer:')),
-                        );
+                        ];
 
                         if (array_key_exists($sKey.'.', $aConf['control.'])) {
                             $aTemp['control']['renderer'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -292,14 +289,14 @@ class tx_mkforms_util_Config
                     }
                 } else {
                     if ('actionlets.' === $sKey) {
-                        $aTemp['control']['actionlets'] = array();
+                        $aTemp['control']['actionlets'] = [];
 
                         reset($aConf['control.'][$sKey]);
                         foreach ($aConf['control.'][$sKey] as $sActKey => $notNeeded) {
                             if (is_string($aConf['control.'][$sKey][$sActKey])) {
-                                $aTemp['control']['actionlets']['actionlet-'.$sActKey] = array(
+                                $aTemp['control']['actionlets']['actionlet-'.$sActKey] = [
                                     'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('actionlet:')),
-                                );
+                                ];
 
                                 if (array_key_exists($sActKey.'.', $aConf['control.'][$sKey])) {
                                     $aTemp['control']['actionlets']['actionlet-'.$sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -310,14 +307,14 @@ class tx_mkforms_util_Config
                             }
                         }
                     } elseif ('datasources.' === $sKey) {
-                        $aTemp['control']['datasources'] = array();
+                        $aTemp['control']['datasources'] = [];
 
                         reset($aConf['control.'][$sKey]);
                         foreach ($aConf['control.'][$sKey] as $sActKey => $notNeeded) {
                             if (is_string($aConf['control.'][$sKey][$sActKey])) {
-                                $aTemp['control']['datasources']['datasource-'.$sActKey] = array(
+                                $aTemp['control']['datasources']['datasource-'.$sActKey] = [
                                     'type' => substr($aConf['control.'][$sKey][$sActKey], strlen('datasource:')),
-                                );
+                                ];
 
                                 if (array_key_exists($sActKey.'.', $aConf['control.'][$sKey])) {
                                     $aTemp['control']['datasources']['datasource-'.$sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -335,7 +332,7 @@ class tx_mkforms_util_Config
         }
 
         // processing renderlets
-        $aTemp['elements'] = array();
+        $aTemp['elements'] = [];
         if (isset($aConf['elements.']) && is_array($aConf['elements.'])) {
             reset($aConf['elements.']);
             foreach ($aConf['elements.'] as $sKey => $notNeeded) {
@@ -349,7 +346,7 @@ class tx_mkforms_util_Config
                                 $aConf['elements.'][$sKey.'.']
                             );
                         } else {
-                            $aTemp['elements'][$aType[0].'-'.$sKey.'-'.rand()] = array('type' => $aType[1]);
+                            $aTemp['elements'][$aType[0].'-'.$sKey.'-'.rand()] = ['type' => $aType[1]];
                         }
                     }
                 }
@@ -369,16 +366,16 @@ class tx_mkforms_util_Config
     private function refineTS_renderlet($sTen, $aTenDot)
     {
         $aType = explode(':', $sTen);
-        $aRdt = array(
+        $aRdt = [
             'type' => $aType[1],
-        );
+        ];
 
         if (array_key_exists('childs.', $aTenDot)) {
-            $aRdt['childs'] = array();
+            $aRdt['childs'] = [];
 
             reset($aTenDot['childs.']);
             foreach ($aTenDot['childs.'] as $sKey => $sChild) {
-                $aChild = array();
+                $aChild = [];
                 if (is_string($sChild)) {
                     $aChildType = explode(':', $sChild);
                     if ('renderlet' === $aChildType[0]) {
@@ -390,7 +387,7 @@ class tx_mkforms_util_Config
                         } else {
                             $aChild = $this->refineTS_renderlet(
                                 $sChild,
-                                array()
+                                []
                             );
                         }
                     }
@@ -403,10 +400,10 @@ class tx_mkforms_util_Config
         }
 
         if (array_key_exists('validators.', $aTenDot)) {
-            $aRdt['validators'] = array();
+            $aRdt['validators'] = [];
             reset($aTenDot['validators.']);
             foreach ($aTenDot['validators.'] as $sKey => $sValidator) {
-                $aValidator = array();
+                $aValidator = [];
                 if (is_string($sValidator)) {
                     $aValType = explode(':', $sValidator);
                     if ('validator' === $aValType[0]) {
@@ -462,7 +459,7 @@ class tx_mkforms_util_Config
             if ('.' == substr($key, strlen($key) - 1, 1)) {
                 $key_1 = substr($key, 0, strlen($key) - 1);
                 if (!is_array($aXmlConf[$key_1])) {
-                    $aXmlConf[$key_1] = array();
+                    $aXmlConf[$key_1] = [];
                 }
                 $aXmlConf[$key_1] = $this->loadDefaultXmlConf($aXmlConf[$key_1], $value);
             } elseif (!array_key_exists($key, $aXmlConf)) {
@@ -617,7 +614,7 @@ class tx_mkforms_util_Config
 
     private function compileConf($aConf, &$aTempDebug)
     {
-        $aTempDebug['aIncHierarchy'] = array();
+        $aTempDebug['aIncHierarchy'] = [];
 
         $aConf = $this->insertSubXml($aConf, $aTempDebug['aIncHierarchy']);
         $aConf = $this->insertSubTS($aConf);
@@ -638,7 +635,7 @@ class tx_mkforms_util_Config
      *
      * @return array processed array of conf
      */
-    private function insertXmlBuilder($aConf, $aTemp = array())
+    private function insertXmlBuilder($aConf, $aTemp = [])
     {
         reset($aConf);
         foreach ($aConf as $key => $val) {
@@ -669,11 +666,11 @@ class tx_mkforms_util_Config
     private function insertSubXml($aConf, &$aDebug, $sParent = false)
     {
         if (!$aConf) {
-            return array();
+            return [];
         }
         reset($aConf);
 
-        $aTemp = array();
+        $aTemp = [];
         if (false === $sParent) {
             $sParent = '/formidable';
         }
@@ -699,10 +696,10 @@ class tx_mkforms_util_Config
                     $bInclude = '' === trim($sPath) ? false : $bInclude;
 
                     if ($bInclude) {
-                        $aDebug[] = array(
+                        $aDebug[] = [
                             $sParent.' 1- '.$sPath,
-                            'subxml' => array(),
-                        );
+                            'subxml' => [],
+                        ];
                         $iNewKey = count($aDebug) - 1;
 
                         $aXml = tx_mkforms_util_XMLParser::getXml(tx_mkforms_util_Div::toServerPath($sPath), true);
@@ -728,7 +725,7 @@ class tx_mkforms_util_Config
                         }
 
                         if (array_key_exists('debug', $val) && $this->_isTrueVal($val['debug'])) {
-                            $this->debug(array('include' => $val, 'result' => $aXml));
+                            $this->debug(['include' => $val, 'result' => $aXml]);
                         }
 
                         $aTemp = $this->array_add(
@@ -761,10 +758,10 @@ class tx_mkforms_util_Config
                 }
             } else {
                 if ('i' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
-                    $aDebug[] = array(
+                    $aDebug[] = [
                         $sParent => $val,
-                        'subxml' => array(),
-                    );
+                        'subxml' => [],
+                    ];
 
                     $iNewKey = count($aDebug) - 1;
 
@@ -808,7 +805,7 @@ class tx_mkforms_util_Config
             return $this->get($sPath, $aConf);
         }
 
-        $aSegments = array();
+        $aSegments = [];
         if (-1 === $aConf) {
             $aConf = $this->_aConf;
         }
@@ -822,23 +819,23 @@ class tx_mkforms_util_Config
                 $sWhat = $aTemp[0];
                 $aTempCrits = Tx_Rnbase_Utility_Strings::trimExplode(',', $aTemp[1]);
                 reset($aTempCrits);
-                $aCrits = array();
+                $aCrits = [];
                 foreach ($aTempCrits as $sTempCrit) {
                     $aCrit = Tx_Rnbase_Utility_Strings::trimExplode('=', $sTempCrit);
                     $aCrits[$aCrit[0]] = $aCrit[1];
                 }
-                $aSegments[] = array('what' => $sWhat, 'crits' => $aCrits, 'segment' => $sPart);
+                $aSegments[] = ['what' => $sWhat, 'crits' => $aCrits, 'segment' => $sPart];
             } else {
-                $aSegments[] = array('what' => $sPart, 'crits' => false, 'segment' => $sPart);
+                $aSegments[] = ['what' => $sPart, 'crits' => false, 'segment' => $sPart];
             }
         }
-        $aPossibles = array(0 => $aConf);
+        $aPossibles = [0 => $aConf];
 
         reset($aConf);
         foreach ($aSegments as $iLevel => $aSegment) {
             $bSegMatch = false;
             $this->sLastXPathError .= '/'.$aSegment['segment'];
-            $aNewPossibles = array();
+            $aNewPossibles = [];
             $aPossKeys = array_keys($aPossibles);
             foreach ($aPossKeys as $sPosKey) {
                 $aKeys = array_keys($aPossibles[$sPosKey]);
@@ -896,7 +893,7 @@ class tx_mkforms_util_Config
      *
      * @return array processed conf array
      */
-    private function insertSubTS($aConf, $aTemp = array())
+    private function insertSubTS($aConf, $aTemp = [])
     {
         reset($aConf);
         foreach ($aConf as $key => $val) {

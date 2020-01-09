@@ -35,7 +35,7 @@ class tx_mkforms_tests_util_FormBaseAjaxTest extends tx_rnbase_tests_BaseTestCas
     {
         self::markTestIncomplete('Creating default object from empty value');
 
-        $params = array('me' => 'fieldset__widget-listbox');
+        $params = ['me' => 'fieldset__widget-listbox'];
         $ret = tx_mkforms_util_FormBaseAjax::repaintDependencies($params, tx_mkforms_tests_Util::getForm());
         // formidable_mainrenderlet::majixRepaintDependancies liefert immer ein array!
         $ret = $ret[0];

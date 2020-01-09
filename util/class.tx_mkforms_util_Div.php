@@ -69,7 +69,7 @@ class tx_mkforms_util_Div
      */
     public static function arrayToRdtItems($aData, $sCaptionMap = false, $sValueMap = false)
     {
-        $aItems = array();
+        $aItems = [];
 
         //wenn wir kein Array haben dann gibts nix zu tun
         //sonst knallts bei reset() in tests!!!
@@ -81,17 +81,17 @@ class tx_mkforms_util_Div
 
         if (false !== $sCaptionMap && false !== $sValueMap) {
             foreach ($aData as $sKey => $notNeeded) {
-                $aItems[] = array(
+                $aItems[] = [
                     'value' => $aData[$sKey][$sValueMap],
                     'caption' => $aData[$sKey][$sCaptionMap],
-                );
+                ];
             }
         } else {
             foreach ($aData as $sValue => $sCaption) {
-                $aItems[] = array(
+                $aItems[] = [
                     'value' => $sValue,
                     'caption' => $sCaption,
-                );
+                ];
             }
         }
 
@@ -105,7 +105,7 @@ class tx_mkforms_util_Div
      */
     public static function array_insert($arr1, $key, $arr2, $before = false)
     {
-        $arr1 = is_array($arr1) ? $arr1 : array();
+        $arr1 = is_array($arr1) ? $arr1 : [];
         $index = array_search($key, array_keys($arr1), true);
         if (false === $index) {
             $index = count($arr1); // insert @ end of array if $key not found
@@ -190,7 +190,7 @@ class tx_mkforms_util_Div
         $tsfe->getFromCache(); // takes 0.0040 T3 6.2
 
         if (!is_array($tsfe->config)) {
-            $tsfe->config = array();
+            $tsfe->config = [];
             $tsfe->forceTemplateParsing = true;
         }
 
@@ -223,7 +223,7 @@ class tx_mkforms_util_Div
         // Konfigurationen wie forceException4Mayday,
         // verboseMayday und dieOnMayday werden so mit beachtet.
 
-        $aDebug = array('<h2>MKFORMS:</h2><p><strong>'.$msg.'</strong></p>');
+        $aDebug = ['<h2>MKFORMS:</h2><p><strong>'.$msg.'</strong></p>'];
         if ($form) {
             $aDebug[] = "<span class='notice'><strong>XML: </strong> ".$form->_xmlPath.'</span><br />';
             $aDebug[] = "<span class='notice'><strong>MKFORMS Version: </strong>v".self::getVersion().'</span><br />';
@@ -271,9 +271,9 @@ class tx_mkforms_util_Div
         $sStyleRed = $sStyle.'color: red;';
         $sStyleGreen = $sStyle.'color: green;';
 
-        $aBgColors = array(
+        $aBgColors = [
             'FFFFFF', 'F8F8F8', 'EEEEEE', 'E7E7E7', 'DDDDDD', 'D7D7D7', 'CCCCCC', 'C6C6C6', 'BBBBBB', 'B6B6B6', 'AAAAAA', 'A5A5A5', '999999', '949494', '888888', '848484', '777777', '737373',
-        );
+        ];
 
         if (is_array($mMixed)) {
             $result = "<table border=1 style='border: 1px solid silver' cellpadding=1 cellspacing=0 bgcolor='#".$aBgColors[$iLevel]."'>";
@@ -361,7 +361,7 @@ class tx_mkforms_util_Div
         $aTrace9 = array_shift($aTrace);
         $aTrace0 = array_shift($aTrace);
 
-        $aDebug = array();
+        $aDebug = [];
         $aDebug[] = 'Call  0: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aLocation['file']).':'.$aLocation['line'].' | '.$aTrace1['class'].$aTrace1['type'].$aTrace1['function'];
         $aDebug[] = 'Call -1: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace1['file']).':'.$aTrace1['line'].' | '.$aTrace2['class'].$aTrace2['type'].$aTrace2['function'];
         $aDebug[] = 'Call -2: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace2['file']).':'.$aTrace2['line'].' | '.$aTrace3['class'].$aTrace3['type'].$aTrace3['function'];
@@ -397,7 +397,7 @@ class tx_mkforms_util_Div
 
             $numcall = sizeof($form->aDebug) + 1;
 
-            $aDebug = array();
+            $aDebug = [];
             $aDebug[] = "<p align = 'right'><a href = '#".$form->formid."formidable_debugtop' target = '_self'>^top^</a></p>";
             $aDebug[] = "<a name = '".$form->formid.'formidable_call'.$numcall."' />";
             $aDebug[] = "<a href = '#".$form->formid.'formidable_call'.($numcall - 1)."'>&lt;&lt; prev</a> / <a href = '#".$form->formid.'formidable_call'.($numcall + 1)."'>next &gt;&gt;</a><br>";
@@ -712,7 +712,7 @@ ERRORMESSAGE;
      */
     public static function findKeysWithPrefix($params, $prefix)
     {
-        $ret = array();
+        $ret = [];
         $keys = array_keys($params);
         foreach ($keys as $key) {
             if (0 === strpos($key, $prefix)) {
@@ -736,7 +736,7 @@ ERRORMESSAGE;
     public static function removeDots($aData, $aTemp = false, $sParentKey = false)
     {
         if (false === $aTemp) {
-            $aTemp = array();
+            $aTemp = [];
         }
 
         foreach ($aData as $key => $val) {
@@ -765,7 +765,7 @@ ERRORMESSAGE;
      */
     public static function addDots($aData, $aTemp = false)
     {
-        $aTemp = (false === $aTemp) ? array() : $aTemp;
+        $aTemp = (false === $aTemp) ? [] : $aTemp;
         foreach ($aData as $key => $val) {
             if (is_array($val)) {
                 $aTemp[$key.'.'] = self::addDots($val);
@@ -809,7 +809,7 @@ ERRORMESSAGE;
      */
     public static function extractParams($mParams)
     {
-        $aParamsCollection = array();
+        $aParamsCollection = [];
         if (false === $mParams) {
             return $aParamsCollection;
         }
@@ -836,7 +836,7 @@ ERRORMESSAGE;
     public static function urlDecodeRecursive(&$aArray)
     {
         if (is_array($aArray)) {//nur wenn ein array vorliegt
-            array_walk_recursive($aArray, array('tx_mkforms_util_Div', 'urlDecodeByReference'));
+            array_walk_recursive($aArray, ['tx_mkforms_util_Div', 'urlDecodeByReference']);
         }
     }
 
@@ -929,7 +929,7 @@ ERRORMESSAGE;
     public static function getSetupByKeys($tsSetup, $keys)
     {
         arsort($keys);
-        $tsArray = array();
+        $tsArray = [];
         if (!empty($tsSetup) && is_array($keys)) {
             foreach ($keys as $key => $value) {
                 if ('.' === substr($key, -1)) {

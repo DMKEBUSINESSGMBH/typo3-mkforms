@@ -7,21 +7,21 @@
 class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Radio';
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_radio_class' => 'res/js/radio.js',
-    );
+    ];
 
     public $sDefaultLabelClass = 'label-radio';
     public $bCustomIncludeScript = true;
 
     public function _render()
     {
-        $aHtmlBag = array();
+        $aHtmlBag = [];
         $sCurValue = $this->getValue();
         $sRadioGroup = '';
 
         $aItems = $this->_getItems();
-        $aSubRdts = array();
+        $aSubRdts = [];
 
         if (null === $sCurValue &&
             $this->_defaultFalse('/data/firstactive') &&
@@ -34,7 +34,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
         $aHtmlBag['value'] = $sCurValue;
 
         if (!empty($aItems)) {
-            $aHtml = array();
+            $aHtml = [];
 
             foreach ($aItems as $itemindex => $aItem) {
                 // item configuration
@@ -72,20 +72,20 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
                 }
                 $sLabelTag = $sLabelStart.$sCaption.$sLabelEnd;
 
-                $aHtmlBag[$sValue.'.'] = array(
+                $aHtmlBag[$sValue.'.'] = [
                     'label' => $sCaption,
-                    'label.' => array(
+                    'label.' => [
                         'tag' => $sLabelTag,
-                        'tag.' => array(
+                        'tag.' => [
                             'start' => $sLabelStart,
                             'end' => $sLabelEnd,
-                        ),
-                    ),
+                        ],
+                    ],
                     'input' => $sInput,
                     'value' => $sValue,
                     'caption' => $sCaption,
                     'selected' => $isSelected,
-                );
+                ];
 
                 $aHtml[] = (('' !== $selected) ? $this->_wrapSelected($sInput.$sLabelTag) : $this->_wrapItem($sInput.$sLabelTag));
                 $this->sCustomElementId = false;
@@ -97,11 +97,11 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
 
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
-            array(
+            [
                 'name' => $this->_getElementHtmlName(),
                 'radiobuttons' => $aSubRdts,
                 'bParentObj' => true,
-            )
+            ]
         );
 
         $sInput = $this->_implodeElements($aHtml);
@@ -143,7 +143,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
     public function _implodeElements($aHtml)
     {
         if (!is_array($aHtml)) {
-            $aHtml = array();
+            $aHtml = [];
         }
 
         return implode(

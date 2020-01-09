@@ -15,7 +15,7 @@ class CSV
         $this->cellDelimiter = $cellDelimiter;
         $this->valueEnclosure = $valueEnclosure;
         $this->rowDelimiter = $rowDelimiter;
-        $this->o = array();
+        $this->o = [];
     }
 
     public function getArray()
@@ -46,14 +46,14 @@ class CSV
 
     public function setContent($s)
     {
-        $this->o = array();
+        $this->o = [];
         if (!strlen($s)) {
             return true;
         }
         if (!(($bl = strlen($b = $this->rowDelimiter)) && ($dl = strlen($d = $this->cellDelimiter)) && ($ql = strlen($q = $this->valueEnclosure)))) {
             return false;
         }
-        for ($o = array(array('')), $this->o = &$o, $e = $r = $c = 0, $i = -1, $l = strlen($s); ++$i < $l;) {
+        for ($o = [['']], $this->o = &$o, $e = $r = $c = 0, $i = -1, $l = strlen($s); ++$i < $l;) {
             if (!$e && substr($s, $i, $bl) == $b) {
                 $o[++$r][$c = 0] = '';
                 $i += $bl - 1;

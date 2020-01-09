@@ -44,7 +44,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                     );
                 }
 
-                $aChild = array();
+                $aChild = [];
                 $aChild['sys_language_uid'] = $aNewI18n['sys_language_uid'];
                 $aChild['l18n_parent'] = $aNewI18n['i18n_parent'];    // notice difference between i and l
                 $aChild['crdate'] = $GLOBALS['EXEC_TIME'];
@@ -76,7 +76,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                         if ($this->i18n() && $this->i18n_updateChildsOnSave() && $this->i18n_currentRecordUsesDefaultLang()) {
                             // updating non translatable child data
 
-                            $aUpdateData = array();
+                            $aUpdateData = [];
 
                             $this->oForm->_debug(
                                 '',
@@ -132,7 +132,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
                         // updating stored data
                         if (!is_array($this->__aStoredData)) {
-                            $storedData = array();
+                            $storedData = [];
                         } else {
                             $storedData = $this->__aStoredData;
                         }
@@ -183,14 +183,14 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                             $this->bHasCreated = true;
 
                             // updating stored data
-                            $this->__aStoredData = array();
+                            $this->__aStoredData = [];
                             $this->_getStoredData();
                         } else {
                             $this->newEntryId = false;
                             $this->oForm->_debug('', 'NOTHING CREATED IN DB');
 
                             // updating stored data
-                            $this->__aStoredData = array();
+                            $this->__aStoredData = [];
                         }
 
                         $this->_processAfterCreation($this->_getStoredData());
@@ -258,7 +258,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
      */
     protected function getDataPreparedForDB()
     {
-        $aRes = array();
+        $aRes = [];
         $aKeys = array_keys($this->oForm->aORenderlets);
         reset($aKeys);
 
@@ -296,7 +296,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             }
 
             if (!is_array($aData)) {
-                $aData = array();
+                $aData = [];
             }
         }
 
@@ -340,7 +340,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             }
 
             if (!is_array($aData)) {
-                $aData = array();
+                $aData = [];
             }
         }
 
@@ -379,7 +379,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             }
 
             if (!is_array($aData)) {
-                $aData = array();
+                $aData = [];
             }
         }
 
@@ -418,7 +418,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
     protected function __getDbData($sTablename, $sKeyname, $iUid, $sFields = '*')
     {
-        $options = array();
+        $options = [];
         $options['enablefieldsoff'] = 1;
         $options['where'] = $sKeyname.' = '.Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($iUid, $sTablename);
         $ret = Tx_Rnbase_Database_Connection::getInstance()->doSelect($sFields, $sTablename, $options, 0);
@@ -430,7 +430,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     {
         if (empty($this->__aStoredData)) {
             // Hier wird der Record aus der DB geholt
-            $this->__aStoredData = array();
+            $this->__aStoredData = [];
 
             $tablename = $this->tableName();
             $keyname = $this->keyName();
@@ -468,7 +468,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             return $this->__aStoredData;
         }
 
-        return (false !== $sName) ? '' : array();
+        return (false !== $sName) ? '' : [];
     }
 
     public function newI18nRequested()
@@ -487,10 +487,10 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                         );
                         $sTheirSafeLock = $this->oForm->aAddPostVars[$sKey]['params']['hash'];
                         if ($sOurSafeLock === $sTheirSafeLock) {
-                            return array(
+                            return [
                                 'i18n_parent' => $this->oForm->aAddPostVars[$sKey]['params']['recorduid'],
                                 'sys_language_uid' => $this->oForm->aAddPostVars[$sKey]['params']['languid'],
-                            );
+                            ];
                         }
                     }
                 }

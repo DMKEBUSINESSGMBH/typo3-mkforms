@@ -38,7 +38,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
         $form = tx_mkforms_tests_Util::getForm();
 
-        tx_mkforms_util_FormBase::getConfigurationValue(array(), $form);
+        tx_mkforms_util_FormBase::getConfigurationValue([], $form);
     }
 
     /**
@@ -52,14 +52,14 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
             true,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
-                array('myConf.' => array('path' => 'test'))
+                ['myConf.' => ['path' => 'test']]
             )
         );
 
         self::assertEquals(
             'test',
             tx_mkforms_util_FormBase::getConfigurationValue(
-                array('configurationId' => 'myConf.path'),
+                ['configurationId' => 'myConf.path'],
                 $form
             )
         );
@@ -77,18 +77,18 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
             true,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
-                array('myConf.' => array(
+                ['myConf.' => [
                         'path' => 'TEXT',
-                        'path.' => array('value' => 'textvalue'),
-                    ),
-                )
+                        'path.' => ['value' => 'textvalue'],
+                    ],
+                ]
             )
         );
 
         self::assertEquals(
             'textvalue',
             tx_mkforms_util_FormBase::getConfigurationValue(
-                array('configurationId' => 'myConf.path'),
+                ['configurationId' => 'myConf.path'],
                 $form
             )
         );
@@ -105,13 +105,13 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
             true,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
-                array('myConf.' => array('path' => 'test'))
+                ['myConf.' => ['path' => 'test']]
             )
         );
 
         self::assertTrue(
             tx_mkforms_util_FormBase::getConfigurationValue(
-                array('configurationId' => 'myConf.path', 'castToBoolean' => 1),
+                ['configurationId' => 'myConf.path', 'castToBoolean' => 1],
                 $form
             )
         );
@@ -128,13 +128,13 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
             true,
             tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
-                array('generic.' => array('formconfig.' => array('myConf.' => array('path' => 'test'))))
+                ['generic.' => ['formconfig.' => ['myConf.' => ['path' => 'test']]]]
             )
         );
         self::assertEquals(
             'test',
             tx_mkforms_util_FormBase::getConfigurationValue(
-                array('prefixWithConfigurationIdOfForm' => 1, 'configurationId' => 'myConf.path'),
+                ['prefixWithConfigurationIdOfForm' => 1, 'configurationId' => 'myConf.path'],
                 $form
             )
         );

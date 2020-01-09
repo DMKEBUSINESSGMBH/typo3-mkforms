@@ -56,7 +56,7 @@ class JSMin
     public $inputIndex = 0;
     public $inputLength = 0;
     public $lookAhead = null;
-    public $output = array();
+    public $output = [];
 
     // -- Public Static Methods --------------------------------------------------
 

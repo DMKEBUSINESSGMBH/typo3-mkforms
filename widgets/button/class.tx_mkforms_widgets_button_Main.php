@@ -7,9 +7,9 @@
 class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Button';
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_button_class' => 'res/js/button.js',
-    );
+    ];
 
     public function _render()
     {
@@ -22,12 +22,12 @@ class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet
         $sLabel = $this->getLabel();
         $sInput = '<input type="button" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.htmlspecialchars($sLabel).'" '.$this->_getAddInputParams().' />';
 
-        return array(
+        return [
             '__compiled' => $sInput,
             'input' => $sInput,
             'label' => $sLabel,
             'value' => $sValue,
-        );
+        ];
     }
 
     public function _renderOnly($bForAjax = false)

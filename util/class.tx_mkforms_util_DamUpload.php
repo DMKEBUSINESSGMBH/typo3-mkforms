@@ -40,10 +40,7 @@ class tx_mkforms_util_DamUpload
     public function getUploadsByWidget($formParameters, tx_mkforms_forms_Base $form)
     {
         if (!$formParameters['damWidget']) {
-            throw new RuntimeException(
-                '$formParameters[\'damWidget\'] konfigurieren',
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode']. 31
-            );
+            throw new RuntimeException('$formParameters[\'damWidget\'] konfigurieren', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode']. 31);
         }
 
         $damWidget = $form->getWidget($formParameters['damWidget']);
@@ -54,7 +51,7 @@ class tx_mkforms_util_DamUpload
             $damPics = $damWidget->getReferencedMedia();
         }
 
-        return isset($damPics['rows']) ? $damPics['rows'] : array();
+        return isset($damPics['rows']) ? $damPics['rows'] : [];
     }
 }
 

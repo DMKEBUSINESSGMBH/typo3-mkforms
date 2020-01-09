@@ -124,7 +124,7 @@ TEMPLATE;
                 $formcustom .= ' class="'.$sClass.'" ';
             }
 
-            $wrapForm = array('', '');
+            $wrapForm = ['', ''];
             if (false !== ($sWrap = $oForm->getConfigXML()->get('/meta/form/wrap'))) {
                 $wrapForm = Tx_Rnbase_Utility_T3General::trimExplode('|', $sWrap);
             }
@@ -142,7 +142,7 @@ TEMPLATE;
             $formBegin = $formEnd = '';
         }
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             'SCRIPT' => '',
             'FORMBEGIN' => $formBegin,
             'CONTENT' => $html,
@@ -150,7 +150,7 @@ TEMPLATE;
             'HIDDEN' => '<p style="position:absolute; top:-5000px; left:-5000px;">'.$hidden_entryid.$hidden_custom.$sSysHidden
                 .'</p>',
             'FORMEND' => $formEnd,
-        );
+        ];
 
         reset($aHtmlBag);
 
@@ -172,7 +172,7 @@ TEMPLATE;
     {
         $formId = $this->getForm()->getFormId();
         $sysHidden = '';
-        $params = array();
+        $params = [];
 
         if (false !== strpos($url, '?')) {
             $params = substr($url, strpos($url, '?') + 1);
@@ -224,23 +224,23 @@ TEMPLATE;
         return "Formidable.f('".$this->getForm()->getFormId()."').submitSearch();";
     }
 
-    public function _getServerEvent($sRdtAbsName, $aEvent, $sEventId, $aData = array())
+    public function _getServerEvent($sRdtAbsName, $aEvent, $sEventId, $aData = [])
     {
         // $aData is typicaly the current row if in lister
 
         $sJsParam = 'false';
         $sHash = 'false';
-        $aGrabbedParams = array();
+        $aGrabbedParams = [];
         $aFullEvent = $this->getForm()->aServerEvents[$sEventId];
 
         if (true === $aFullEvent['earlybird']) {
             // registering absolute name,
             // this will help when early-processing the event
-            $aGrabbedParams['_sys_earlybird'] = array(
+            $aGrabbedParams['_sys_earlybird'] = [
                 'absname' => $aFullEvent['name'],
                 'xpath' => tx_mkforms_util_Div::removeEndingSlash($this->getForm()->aORenderlets[$aFullEvent['name']]->sXPath).'/'
                     .$aFullEvent['trigger'],
-            );
+            ];
         }
 
         reset($aFullEvent['params']);
@@ -315,12 +315,12 @@ TEMPLATE;
         $bCache = true,
         $bSyncValue = false
     ) {
-        $aEvent = array(
+        $aEvent = [
             'runat' => 'ajax',
             'cache' => (int) $bCache,    // intval because FALSE would be bypassed by navconf
             'syncvalue' => (int) $bSyncValue,    // same reason
             'params' => $mParams,
-        );
+        ];
 
         if (false !== $sCb) {
             $aEvent['exec'] = $sCb;
@@ -331,16 +331,16 @@ TEMPLATE;
         $sRdtAbsName = $oRdt->getAbsName();
         $sEventId = $this->getForm()->_getAjaxEventId(
             $sRdtAbsName,
-            array($sEventHandler => $aEvent)
+            [$sEventHandler => $aEvent]
         );
 
-        $this->getForm()->aAjaxEvents[$sEventId] = array(
+        $this->getForm()->aAjaxEvents[$sEventId] = [
             'name' => $sRdtAbsName,
             'eventid' => $sEventId,
             'trigger' => $sEventHandler,
             'cache' => (int) $bCache,    // because FALSE would be bypassed by navconf
             'event' => $aEvent,
-        );
+        ];
 
         return $this->_getAjaxEvent(
             $oRdt,
@@ -364,7 +364,7 @@ TEMPLATE;
 
         $sEventId = $this->getForm()->_getAjaxEventId(
             $sRdtName,
-            array($sEvent => $aEvent)
+            [$sEvent => $aEvent]
         );
 
         $sRdtId = $oRdt->_getElementHtmlId();
@@ -383,9 +383,9 @@ TEMPLATE;
             ).'\'';
         }
 
-        $aParams = array();
-        $aParamsCollection = array();
-        $aRowParams = array();
+        $aParams = [];
+        $aParamsCollection = [];
+        $aRowParams = [];
 
         if (false !== ($mParams = $this->getForm()->_navConf('/params', $aEvent))) {
             if (is_string($mParams)) {
@@ -393,10 +393,10 @@ TEMPLATE;
                 $aTemp = Tx_Rnbase_Utility_T3General::trimExplode(',', $mParams);
                 reset($aTemp);
                 foreach ($aTemp as $sParam) {
-                    $aParamsCollection[] = array(
+                    $aParamsCollection[] = [
                         'get' => $sParam,
                         'as' => false,
-                    );
+                    ];
                 }
             } else {
                 // Anscheinend kann die Methode auch direkt mit einem Array aufgerufen werden...
@@ -484,7 +484,7 @@ TEMPLATE;
         }
 
         $aAjaxEventParams = $oRdt->alterAjaxEventParams(
-            array(
+            [
                 'eventname' => $sEvent,
                 'eventid' => $sEventId,
                 'hash' => $sHash,
@@ -494,7 +494,7 @@ TEMPLATE;
                 'params' => $aParams,
                 'row' => $aRowParams,
                 'trigertinymce' => $sTrigerTinyMCE,
-            )
+            ]
         );
         $sJsonParams = $this->getForm()->array2json($aAjaxEventParams['params']);
         $sJsonRowParams = $this->getForm()->array2json($aAjaxEventParams['row']);
@@ -509,7 +509,7 @@ TEMPLATE;
 
     public function wrapEventsForInlineJs($aEvents)
     {
-        $aJson = array();
+        $aJson = [];
         reset($aEvents);
         foreach ($aEvents as $sJs) {
             $aJson[] = rawurlencode($sJs);
@@ -518,13 +518,13 @@ TEMPLATE;
         return 'Formidable.executeInlineJs('.$this->getForm()->array2json($aJson).');';
     }
 
-    public function _getClientEvent($sObjectId, $aEvent = array(), $aEventData, $sEvent)
+    public function _getClientEvent($sObjectId, $aEvent = [], $aEventData, $sEvent)
     {
         if (empty($aEventData)) {
-            $aEventData = array();
+            $aEventData = [];
         }
 
-        $aParams = array();
+        $aParams = [];
         if (false !== ($mParams = $this->getForm()->_navConf('/params', $aEvent))) {
             if (!is_array($mParams)) {
                 $aParams[] = $mParams;
@@ -538,15 +538,15 @@ TEMPLATE;
                     }
                 }
             }
-            $aEventData['data']['params'] = array($aParams);
+            $aEventData['data']['params'] = [$aParams];
         }
 
         $sData = $this->getForm()->array2json(
-            array(
-                'init' => array(),            // init and attachevents are here for majix-ajax compat
-                'attachevents' => array(),
+            [
+                'init' => [],            // init and attachevents are here for majix-ajax compat
+                'attachevents' => [],
                 'tasks' => $aEventData,
-            )
+            ]
         );
 
         $bPersist = $this->getForm()->_defaultFalse('/persist', $aEvent);
@@ -585,7 +585,7 @@ TEMPLATE;
     public function _setHiddenCustom($name, $value)
     {
         if (!is_array($this->aCustomHidden)) {
-            $this->aCustomHidden = array();
+            $this->aCustomHidden = [];
         }
 
         $this->aCustomHidden[$name]
@@ -659,14 +659,14 @@ TEMPLATE;
                 foreach ($this->getForm()->aORenderlets as $sName => $notNeeded) {
                     $oRdt = &$this->getForm()->aORenderlets[$sName];
                     $sStyle = str_replace(
-                        array(
+                        [
                             '#'.$sName,
                             '{PARENTPATH}',
-                        ),
-                        array(
+                        ],
+                        [
                             '#'.$oRdt->_getElementCssId(),
                             $this->getForm()->_getParentExtSitePath(),
-                        ),
+                        ],
                         $sStyle
                     );
                 }
@@ -694,9 +694,9 @@ TEMPLATE;
         $sLabel = $oRdt->getLabel();
 
         if (is_string($mHtml)) {        // can be empty with empty readonly
-            $mHtml = array(
+            $mHtml = [
                 '__compiled' => $mHtml,
-            );
+            ];
         }
 
         if (!empty($mHtml) && array_key_exists('__compiled', $mHtml) && is_string($mHtml['__compiled'])) {
@@ -716,7 +716,7 @@ TEMPLATE;
             }
 
             if (!array_key_exists('label.', $mHtml)) {
-                $mHtml['label.'] = array();
+                $mHtml['label.'] = [];
             }
 
             if (!array_key_exists('tag', $mHtml['label.'])) {
@@ -732,7 +732,7 @@ TEMPLATE;
             }
 
             if (!array_key_exists('htmlid.', $mHtml)) {
-                $mHtml['htmlid.'] = array();
+                $mHtml['htmlid.'] = [];
             }
 
             if (!array_key_exists('withoutformid', $mHtml['htmlid.'])) {
@@ -766,7 +766,7 @@ TEMPLATE;
                 );
             }
         } else {
-            $mHtml = array();
+            $mHtml = [];
         }
 
         reset($mHtml);

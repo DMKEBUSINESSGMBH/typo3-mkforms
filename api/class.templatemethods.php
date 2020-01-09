@@ -128,7 +128,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
         return false;
     }
 
-    protected function templateDataAsString($mData, $aParams = array())
+    protected function templateDataAsString($mData, $aParams = [])
     {
         return $this->getForm()->templateDataAsString($mData);
     }
@@ -260,7 +260,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_extract($mData, $aParams)
     {
-        $aRes = array();
+        $aRes = [];
         if (is_array($mData)) {
             reset($aParams);
             foreach ($aParams as $sKeyName) {
@@ -671,9 +671,9 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     public function method_linkUrl($mData, $aParams)
     {
         return $this->oForm->getCObj()->typoLink_URL(
-            array(
+            [
                 'parameter' => $aParams[0],
-            )
+            ]
         );
     }
 

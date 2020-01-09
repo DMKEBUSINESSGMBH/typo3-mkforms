@@ -46,12 +46,12 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
     protected function setUp()
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
-        \DMK\Mklib\Utility\Tests::prepareTSFE(array('force' => true, 'initFEuser' => true));
+        \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
 
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array());
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', []);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-        set_error_handler(array('tx_mkforms_tests_Util', 'errorHandler'), E_WARNING);
+        set_error_handler(['tx_mkforms_tests_Util', 'errorHandler'], E_WARNING);
     }
 
     /**
@@ -69,9 +69,9 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
     {
         $form = tx_mkforms_tests_Util::getForm();
         $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-        $renderer->_init($form, array(), array(), '');
+        $renderer->_init($form, [], [], '');
 
-        $rendered = $renderer->_render(array());
+        $rendered = $renderer->_render([]);
 
         self::assertContains(
             '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$form->generateRequestToken().'" />',
@@ -90,20 +90,20 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
         $GLOBALS['TSFE']->fe_user->setKey(
             'ses',
             'mkforms',
-            array(
-                'requestToken' => array(
+            [
+                'requestToken' => [
                     'firstForm' => 'secret',
                     'secondForm' => 'anotherSecret',
-                ),
-            )
+                ],
+            ]
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         $form = tx_mkforms_tests_Util::getForm();
         $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
-        $renderer->_init($form, array(), array(), '');
+        $renderer->_init($form, [], [], '');
 
-        $rendered = $renderer->_render(array());
+        $rendered = $renderer->_render([]);
 
         self::assertContains(
             '<input type="hidden" name="radioTestForm[MKFORMS_REQUEST_TOKEN]" id="radioTestForm_MKFORMS_REQUEST_TOKEN" value="'.$form->generateRequestToken().'" />',
@@ -125,17 +125,17 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
      */
     public function testRenderAppliesHtmlspcielcharsToActionUrl()
     {
-        $form = $this->getMock('tx_mkforms_forms_Base', array('getFormAction'), array('generic'));
+        $form = $this->getMock('tx_mkforms_forms_Base', ['getFormAction'], ['generic']);
         $form
             ->expects(self::once())
             ->method('getFormAction')
             ->will(self::returnValue('/url.html?parameter=test&xss="/>ohoh'));
 
-        $form = tx_mkforms_tests_Util::getForm(false, array(), null, $form);
-        $renderer = $this->getMock('formidable_mainrenderer', array('setCreationTimestampToSession'));
-        $renderer->_init($form, array(), array(), '');
+        $form = tx_mkforms_tests_Util::getForm(false, [], null, $form);
+        $renderer = $this->getMock('formidable_mainrenderer', ['setCreationTimestampToSession']);
+        $renderer->_init($form, [], [], '');
 
-        $renderedData = $renderer->_render(array());
+        $renderedData = $renderer->_render([]);
         self::assertContains('action="/url.html?parameter=test&amp;xss=&quot;/&gt;ohoh"', $renderedData['FORMBEGIN']);
     }
 }

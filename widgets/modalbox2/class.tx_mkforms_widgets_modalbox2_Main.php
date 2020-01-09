@@ -6,10 +6,10 @@
  */
 class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_modalbox2_class' => 'res/js/modalbox2.js',
         'rdt_modalbox2_lib_class' => 'res/js/modalbox1.6.0/modalbox.js',
-    );
+    ];
 
     public $bCustomIncludeScript = true;
     public $sMajixClass = 'ModalBox2';
@@ -42,7 +42,7 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
         return true;
     }
 
-    public function majixShowBox($aConfig = array(), $aTags = array())
+    public function majixShowBox($aConfig = [], $aTags = [])
     {
         if ('EID' !== tx_mkforms_util_Div::getEnvExecMode()) {
             $aEventsBefore = array_keys($this->oForm->aRdtEvents);
@@ -54,7 +54,7 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
         if ('EID' !== tx_mkforms_util_Div::getEnvExecMode()) {
             $aEventsAfter = array_keys($this->oForm->aRdtEvents);
             $aAddedKeys = array_diff($aEventsAfter, $aEventsBefore);
-            $aAddedEvents = array();
+            $aAddedEvents = [];
             foreach ($aAddedKeys as $sKey) {
                 $aAddedEvents[$sKey] = $this->oForm->aRdtEvents[$sKey];
                 unset($this->oForm->aRdtEvents[$sKey]);
@@ -71,8 +71,8 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
             // in that case, using the modalbox's afterLoad event handler
             $aConfig['attachevents'] = $this->oForm->aRdtEventsAjax;
             $aConfig['postinit'] = $this->oForm->aPostInitTasksAjax;
-            $this->oForm->aRdtEventsAjax = array();
-            $this->oForm->aPostInitTasksAjax = array();
+            $this->oForm->aRdtEventsAjax = [];
+            $this->oForm->aPostInitTasksAjax = [];
         }
 
         $sCompiledChilds = $this->renderChildsCompiled(

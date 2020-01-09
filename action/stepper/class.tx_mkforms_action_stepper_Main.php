@@ -59,18 +59,18 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
             tx_mkforms_session_Factory::getSessionManager()->initialize();
 
             if (!array_key_exists('ameos_formidable', $GLOBALS['_SESSION'])) {
-                $GLOBALS['_SESSION']['ameos_formidable'] = array();
+                $GLOBALS['_SESSION']['ameos_formidable'] = [];
             }
 
             if (!array_key_exists('stepper', $GLOBALS['_SESSION']['ameos_formidable'])) {
-                $GLOBALS['_SESSION']['ameos_formidable']['stepper'] = array();
+                $GLOBALS['_SESSION']['ameos_formidable']['stepper'] = [];
             }
 
-            $GLOBALS['_SESSION']['ameos_formidable']['stepper'][$sStepperId] = array(
+            $GLOBALS['_SESSION']['ameos_formidable']['stepper'][$sStepperId] = [
                 'AMEOSFORMIDABLE_STEP' => $iStepToGo,
                 'AMEOSFORMIDABLE_STEP_UID' => $sUid,
                 'AMEOSFORMIDABLE_STEP_HASH' => $this->oForm->_getSafeLock($iStepToGo.$sUid),
-            );
+            ];
 
             $sUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
 

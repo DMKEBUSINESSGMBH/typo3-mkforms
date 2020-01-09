@@ -6,21 +6,21 @@
  */
 class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 {
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_jstree_class' => 'res/js/jstree.js',
         'rdt_jstree_lib_class' => 'res/lib/js/AxentTree.js',
-    );
+    ];
 
     public $sMajixClass = 'JsTree';
-    public $aPossibleCustomEvents = array(
+    public $aPossibleCustomEvents = [
         'onnodeclick',
         'onnodeopen',
         'onnodeclose',
-    );
+    ];
 
     public $bCustomIncludeScript = true;
 
-    public $aTreeData = array();
+    public $aTreeData = [];
 
     public function _render()
     {
@@ -38,16 +38,16 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 
         $sInput = '<ul id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().'>'.$sTree.'</ul>';
 
-        $this->includeScripts(array(
+        $this->includeScripts([
             'value' => $mValue,
-        ));
+        ]);
 
-        return array(
+        return [
             '__compiled' => $this->_displayLabel($sLabel).$sInput,
             'input' => $sInput,
             'label' => $sLabel,
             'value' => $mValue,
-        );
+        ];
     }
 
     public function &_fetchData()
@@ -61,7 +61,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 
     public function renderTree($aData)
     {
-        $aBuffer = array();
+        $aBuffer = [];
         $this->_renderTree($aData, $aBuffer);
 
         return implode("\n", $aBuffer);
@@ -87,7 +87,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
         $aBuffer[] = '</li>';
     }
 
-    public function includeScripts($aConf = array())
+    public function includeScripts($aConf = [])
     {
         parent::includeScripts($aConf);
 
@@ -153,10 +153,10 @@ INITSCRIPT;
 
     public function getPathArrayForNode($iUid)
     {
-        $aNodes = array();    // only to allow pass-by-ref
+        $aNodes = [];    // only to allow pass-by-ref
         $this->_getPathArrayForNode(
             $iUid,
-            array('childs' => array($this->aTreeData)),
+            ['childs' => [$this->aTreeData]],
             $aNodes
         );
         $aNodes = array_reverse($aNodes, true);

@@ -27,13 +27,13 @@ class tx_mkforms_js_Loader
 
     protected $bLoadtooltip = false;
 
-    protected $headerKeys = array(); // Hier sammeln wir die Keys der zusatzlichen JS-Scripte
+    protected $headerKeys = []; // Hier sammeln wir die Keys der zusatzlichen JS-Scripte
 
-    protected $aHeadersAjax = array();    // stores the headers that are added to the page via ajax
+    protected $aHeadersAjax = [];    // stores the headers that are added to the page via ajax
 
-    protected $aHeadersWhenInjectNonStandard = array();    // stores the headers when they have to be injected in the page content at given marker
+    protected $aHeadersWhenInjectNonStandard = [];    // stores the headers when they have to be injected in the page content at given marker
 
-    protected $aCodeBehindJsIncludes = array();
+    protected $aCodeBehindJsIncludes = [];
 
     private function __construct($form)
     {
@@ -178,23 +178,23 @@ class tx_mkforms_js_Loader
      */
     private function includeThisFormDesc()
     {
-        $aConf = array(
+        $aConf = [
             'sFormId' => $this->oForm->formid,
-            'Misc' => array(
-                'Urls' => array(
-                    'Ajax' => array(
+            'Misc' => [
+                'Urls' => [
+                    'Ajax' => [
                         'event' => tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()).'/index.php?eID='
                             .tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxevent',
                         'service' => tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()).'/index.php?eID='
                             .tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxservice',
-                    ),
-                ),
-                'MajixSpinner' => (false !== ($aSpinner = $this->oForm->_navConf('/meta/majixspinner'))) ? $aSpinner : array(),
+                    ],
+                ],
+                'MajixSpinner' => (false !== ($aSpinner = $this->oForm->_navConf('/meta/majixspinner'))) ? $aSpinner : [],
                 'useUserChange' => $this->getForm()->_defaultFalse('/meta/form/useuserchange'),
                 'disableButtonsOnSubmit' => $this->getForm()->_defaultTrue('/meta/form/disablebuttonsonsubmit'),
                 'displayLoaderOnSubmit' => $this->getForm()->_defaultFalse('/meta/form/displayloaderonsubmit'),
-            ),
-        );
+            ],
+        ];
 
         $sJson = tx_mkforms_util_Json::getInstance()->encode($aConf);
         $sScript
@@ -532,7 +532,7 @@ JAVASCRIPT;
 
         if (is_string($str)) {
             if ('' != $sDesc) {
-                $sDesc = "\n\n<!-- MKFORMS: ".str_replace(array('<!--', '-->'), '', $sDesc).' -->';
+                $sDesc = "\n\n<!-- MKFORMS: ".str_replace(['<!--', '-->'], '', $sDesc).' -->';
             }
 
             // Create filename / tags:
@@ -596,14 +596,14 @@ JAVASCRIPT;
         } else {
             if (false === $sKey) {
                 if (true === $bFirstPos) {
-                    $aHeaders = array(rand() => $sData) + $aHeaders;
+                    $aHeaders = [rand() => $sData] + $aHeaders;
                 } elseif (false !== $sBefore || false !== $sAfter) {
                     $bBefore = (false !== $sBefore);
                     $sLookFor = $bBefore ? $sBefore : $sAfter;
                     $aHeaders = tx_mkforms_util_Div::array_insert(
                         $aHeaders,
                         $sLookFor,
-                        array(count($aHeaders) => $sData),
+                        [count($aHeaders) => $sData],
                         $bBefore
                     );
                 } else {
@@ -611,11 +611,11 @@ JAVASCRIPT;
                 }
             } else {
                 if (true === $bFirstPos) {
-                    $aHeaders = array($sKey => $sData) + $aHeaders;
+                    $aHeaders = [$sKey => $sData] + $aHeaders;
                 } elseif (false !== $sBefore || false !== $sAfter) {
                     $bBefore = (false !== $sBefore);
                     $sLookFor = $bBefore ? $sBefore : $sAfter;
-                    $aHeaders = tx_mkforms_util_Div::array_insert($aHeaders, $sLookFor, array($sKey => $sData), $bBefore);
+                    $aHeaders = tx_mkforms_util_Div::array_insert($aHeaders, $sLookFor, [$sKey => $sData], $bBefore);
                 } else {
                     $aHeaders[$sKey] = $sData;
                 }
@@ -663,15 +663,15 @@ JAVASCRIPT;
     public function injectHeaders()
     {
         if (false !== ($sHeaderMarker = $this->getMarkerForHeaderInjection())) {
-            $GLOBALS['tx_ameosformidable']['headerinjection'][] = array(
+            $GLOBALS['tx_ameosformidable']['headerinjection'][] = [
                 'marker' => $sHeaderMarker,
                 'headers' => $this->getHeadersWhenInjectNonStandard(),
-            );
+            ];
         } elseif ($this->manuallyInjectHeaders()) {
-            $GLOBALS['tx_ameosformidable']['headerinjection'][] = array(
+            $GLOBALS['tx_ameosformidable']['headerinjection'][] = [
                 'manual' => true,
                 'headers' => $this->getHeadersWhenInjectNonStandard(),
-            );
+            ];
         }
     }
 

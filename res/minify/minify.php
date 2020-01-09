@@ -143,7 +143,7 @@ define('TYPE_JS', 'text/javascript');
 
 class Minify
 {
-    public $files = array();
+    public $files = [];
     public $type;
 
     public function Minify($type = TYPE_JS)
@@ -281,7 +281,7 @@ class Minify
      *                            Minify::TYPE_CSS or Minify::TYPE_JS)
      * @param array|string $files filename or array of filenames to be minified
      */
-    public function __construct($type = TYPE_JS, $files = array())
+    public function __construct($type = TYPE_JS, $files = [])
     {
         if (TYPE_JS !== $type && TYPE_CSS !== $type) {
             die('Invalid argument ($type): '.
@@ -307,7 +307,7 @@ class Minify
      */
     public function addFile($files)
     {
-        $files = array_map(array($this, 'resolveFilePath'), (array) $files);
+        $files = array_map([$this, 'resolveFilePath'], (array) $files);
         $this->files = array_unique(array_merge($this->files, $files));
     }
 
@@ -381,7 +381,7 @@ class Minify
         }
 
         // Combine contents.
-        $combined = array();
+        $combined = [];
 
         foreach ($this->files as $file) {
             if (TYPE_CSS === $this->type && MINIFY_REWRITE_CSS_URLS) {
@@ -462,7 +462,7 @@ class Minify
      */
     public function removeFile($files)
     {
-        $files = array_map(array($this, 'resolveFilePath'), (array) $files);
+        $files = array_map([$this, 'resolveFilePath'], (array) $files);
         $this->files = array_diff($this->files, $files);
     }
 

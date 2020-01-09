@@ -31,7 +31,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
     public function setUp()
     {
-        set_error_handler(array('tx_mkforms_tests_Util', 'errorHandler'), E_WARNING);
+        set_error_handler(['tx_mkforms_tests_Util', 'errorHandler'], E_WARNING);
 
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
         tx_rnbase_util_Misc::prepareTSFE()->sys_page = tx_rnbase_util_TYPO3::getSysPage();
@@ -132,51 +132,51 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
     public function test_processForm()
     {
-        $sData = array(
-                'fieldset' => array(
-                    'texte' => array(
-                        'input' => array(
+        $sData = [
+                'fieldset' => [
+                    'texte' => [
+                        'input' => [
                             'widget-text' => 'Eins',
                             'widget1-widget2-text' => 'Zwei',
-                        ),
-                        'area' => array(
+                        ],
+                        'area' => [
                             'textarea' => 'Sehr Lang!',
-                        ),
-                    ),
+                        ],
+                    ],
                     'widget-remove' => 'sollte entfernt werden',
                     'widget-radiobutton' => '3',
                     'widget-listbox' => '7',
-                    'widget-checkbox' => array(
+                    'widget-checkbox' => [
                         'item-5' => '6',
                         'item-8' => '9',
-                    ),
+                    ],
                     'widget-date' => '426204000',
-                    'widgetlister' => array(
-                        1 => array(
+                    'widgetlister' => [
+                        1 => [
                             'listerdata-uid' => 1,
                             'listerdata-title' => 'Titel 1',
                             'listerdata-notInXml' => 'Titel 1',
-                        ),
-                        2 => array(
+                        ],
+                        2 => [
                             'listerdata-uid' => 2,
                             'listerdata-title' => 'Titel 2',
-                        ),
-                        3 => array(
+                        ],
+                        3 => [
                             'listerdata-uid' => 3,
                             'listerdata-title' => 'Titel 3',
-                        ),
-                        4 => array(
+                        ],
+                        4 => [
                             'listerdata-uid' => 4,
                             'listerdata-title' => 'Titel 4',
-                        ),
-                        5 => array(
+                        ],
+                        5 => [
                             'listerdata-uid' => 5,
                             'listerdata-title' => 'Titel 5',
-                        ),
+                        ],
                         'selected' => '5',
                         'notInXml' => 'Titel 1',
-                    ),
-                ),
+                    ],
+                ],
                 'widget-submit' => 'Daten absenden',
                 'widget-thatDoesNotExistInTheXml' => 'valueThatShouldBeRemoved',
                 'AMEOSFORMIDABLE_SERVEREVENT' => '',
@@ -187,8 +187,8 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
                 'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
                 'AMEOSFORMIDABLE_SUBMITTER' => '',
                 'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->generateRequestToken(),
-            );
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken())));
+            ];
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', ['requestToken' => [self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken()]]);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         $_POST['radioTestForm'] = $sData;
@@ -268,11 +268,11 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
      */
     public function test_processFormThrowsExceptionWithInvalidRequestToken()
     {
-        $sData = array(
+        $sData = [
                 'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
                 'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid',
-            );
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', array('requestToken' => array(self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken())));
+            ];
+        $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', ['requestToken' => [self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken()]]);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         $_POST['radioTestForm'] = $sData;

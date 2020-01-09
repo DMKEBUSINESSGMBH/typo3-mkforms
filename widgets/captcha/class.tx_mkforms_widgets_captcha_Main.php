@@ -31,9 +31,9 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Captcha';
     public $bCustomIncludeScript = true;
-    public $aLibs = array(
+    public $aLibs = [
         'rdt_captcha_class' => 'res/js/captcha.js',
-    );
+    ];
 
     /**
      * @return tx_mkforms_widgets_captcha_Main
@@ -50,7 +50,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
         $_SESSION['cryptdir'] = $this->sExtRelPath.'res/lib/';
         $iSID = session_id();
 
-        $aCaptcha = array();
+        $aCaptcha = [];
         $aCaptcha['img'] = '<img id="'.$this->_getElementHtmlId().'img" src="'.$_SESSION['cryptdir'].'cryptographp.php?cfg=0&amp;'.$iSID.'" alt="captcha" />';
 
         $reload = 1;
@@ -68,20 +68,20 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
 
         // allowed because of $bCustomIncludeScript = TRUE
         $this->includeScripts(
-            array(
+            [
                 'reloadurl' => tx_mkforms_util_Div::toWebPath(
                     $_SESSION['cryptdir'].'cryptographp.php?cfg=0&amp;'.$iSID
                 ),
-            )
+            ]
         );
 
-        $aHtmlBag = array(
+        $aHtmlBag = [
             '__compiled' => $this->_displayLabel($this->getLabel()).$aCaptcha['img'].$aCaptcha['reload'].''.$sCopy.''.$sInput,
             'image' => $aCaptcha['img'],
             'reload' => $aCaptcha['reload'],
             'copylabel' => $sCopy,
             'input' => $sInput,
-        );
+        ];
 
         return $aHtmlBag;
     }
@@ -287,7 +287,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
         if ($this->aElement['font']['family'] && '' != trim($this->aElement['font']['family'])) {
             $_SESSION['rdt_captcha']['config']['tfont'] = explode(',', trim($this->aElement['font']['family']));
         } else {
-            $_SESSION['rdt_captcha']['config']['tfont'] = array('luggerbu.ttf', 'WAVY.TTF', 'SCRAWL.TTF');
+            $_SESSION['rdt_captcha']['config']['tfont'] = ['luggerbu.ttf', 'WAVY.TTF', 'SCRAWL.TTF'];
         }
 
         if ($this->aElement['authchar']) {

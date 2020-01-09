@@ -53,13 +53,13 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                         $aHeaders = $this->oForm->div_getHeadersForUrl($sAbsWebPath);
                         if (array_key_exists('ETag', $aHeaders)) {
                             $sSignature = str_replace(
-                                array('"', ',', ':', '-', '.', '/', '\\', ' '),    // removing separators and protecting againts backpath hacks
+                                ['"', ',', ':', '-', '.', '/', '\\', ' '],    // removing separators and protecting againts backpath hacks
                                 '',
                                 $aHeaders['ETag']
                             );
                         } elseif (array_key_exists('Last-Modified', $aHeaders)) {
                             $sSignature = str_replace(
-                                array('"', ',', ':', '-', '.', '/', '\\', ' '),    // removing separators and protecting againts backpath hacks
+                                ['"', ',', ':', '-', '.', '/', '\\', ' '],    // removing separators and protecting againts backpath hacks
                                 '',
                                 $aHeaders['Last-Modified']
                             );
@@ -99,23 +99,23 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
             $sRelWebPath = tx_mkforms_util_Div::removeStartingSlash($sRelWebPath);
 
-            $aHtmlBag = array(
+            $aHtmlBag = [
                 'filepath' => $sAbsWebPath,
-                'filepath.' => array(
+                'filepath.' => [
                     'rel' => $sRelWebPath,
                     'web' => tx_mkforms_util_Div::toWebPath(tx_mkforms_util_Div::toServerPath($sRelWebPath)),
                     'original' => $sAbsWebPath,
-                    'original.' => array(
+                    'original.' => [
                         'rel' => $sRelWebPath,
                         'web' => tx_mkforms_util_Div::toWebPath($sAbsServerPath),
                         'server' => $sAbsServerPath,
-                    ),
-                ),
+                    ],
+                ],
                 'filename' => $sFileName,
-                'filename.' => array(
+                'filename.' => [
                     'original' => $sFileName,
-                ),
-            );
+                ],
+            ];
 
             if (false !== $aSize) {
                 $aHtmlBag['filesize.']['width'] = $aSize[0];
@@ -127,11 +127,11 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             if (true === $bReprocess) {
                 // expecting typoscript
 
-                $aParams = array(
+                $aParams = [
                     'filename' => $sFileName,
                     'abswebpath' => $sAbsWebPath,
                     'relwebpath' => $sRelWebPath,
-                );
+                ];
 
                 if ('LISTER' == $this->oForm->oDataHandler->aObjectType['TYPE']) {
                     $aParams['row'] = $this->oForm->oDataHandler->__aListData;
@@ -275,7 +275,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
         return tx_mkforms_util_Div::toServerPath($sPath);
     }
 
-    public function _getAddInputParamsArray($aAdditional = array())
+    public function _getAddInputParamsArray($aAdditional = [])
     {
         $aAddParams = parent::_getAddInputParamsArray();
 

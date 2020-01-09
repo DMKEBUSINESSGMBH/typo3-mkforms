@@ -44,7 +44,7 @@ class formidable_mainobject
         $this->sNamePrefix = $sNamePrefix;
 
         $this->conf = $this->getForm()->getConfTS($aObjectType['OBJECT'].'.'.$aObjectType['EXTKEY'].'.');
-        $this->conf = $this->conf ? $this->conf : array();
+        $this->conf = $this->conf ? $this->conf : [];
     }
 
     /**
@@ -255,7 +255,7 @@ class formidable_mainobject
             $aArgs[] = &$this;
         }
         $ref = $this->getForm()->getRunnable();
-        $mRes = call_user_func_array(array($ref, 'callRunnable'), $aArgs);
+        $mRes = call_user_func_array([$ref, 'callRunnable'], $aArgs);
 
         return $mRes;
     }
