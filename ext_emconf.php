@@ -35,7 +35,7 @@ $EM_CONF[$_EXTKEY] = array(
         'depends' => array(
             'rn_base' => '1.10.5-',
             'typo3' => '7.6.0-9.5.99',
-            'php' => '5.4.0-8.9.99',
+            'php' => '5.6.0-8.9.99',
         ),
         'conflicts' => array(
             'ameos_formidable' => '',
