@@ -261,7 +261,7 @@ class tx_mkforms_util_Runnable
 
         if (!method_exists($oExtension, $method)) {
             $sObject = ('this' == $extension) ? '$this (<b>'.get_class($this->getForm()->getParent()).'</b>)' : $extension;
-            tx_mkforms_util_Div::mayday($this->getConfig()->get('/type/', $aElement).' <b>'.$this->getConfig()->get('/name/', $aElement).'</b> : callback method <b>'.$method.'</b> of the Object <b>'.$sObject.'</b> doesn\'t exist');
+            tx_mkforms_util_Div::mayday($this->getConfig()->get('/type/', $aUserobj).' <b>'.$this->getConfig()->get('/name/', $aUserobj).'</b> : callback method <b>'.$method.'</b> of the Object <b>'.$sObject.'</b> doesn\'t exist');
         }
 
         try {
