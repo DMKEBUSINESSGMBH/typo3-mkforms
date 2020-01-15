@@ -249,8 +249,6 @@ class tx_mkforms_util_Runnable
         $extension = $this->getConfig()->get('/userobj/extension/', $aUserobj);
         $method = $this->getConfig()->get('/userobj/method/', $aUserobj);
         $mode = $this->getConfig()->get('/userobj/loadmode', $aUserobj);
-        if ('tx_div' === $mode || 'auto' === $mode || 'this' != $extension) {
-        }
 
         $oExtension = (0 == strcasecmp($extension, 'this')) ? $this->getForm()->getParent() : tx_rnbase::makeInstance($extension);
 
