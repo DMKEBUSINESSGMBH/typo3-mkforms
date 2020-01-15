@@ -257,7 +257,6 @@ class tx_mkforms_util_Runnable
         }
 
         $form = &$this->getForm();
-        set_error_handler([&$form, '__catchEvalException']);
 
         if (!method_exists($oExtension, $method)) {
             $sObject = ('this' == $extension) ? '$this (<b>'.get_class($this->getForm()->getParent()).'</b>)' : $extension;
@@ -285,7 +284,6 @@ class tx_mkforms_util_Runnable
             // set msg to return;
             $newData = $ret;
         }
-        restore_error_handler();
         tx_mkforms_util_Div::debug($newData, 'RESULT OF '.$extension.'->'.$method.'()', $this->getForm());
 
         return $newData;
