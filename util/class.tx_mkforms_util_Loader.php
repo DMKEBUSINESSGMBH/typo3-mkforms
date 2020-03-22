@@ -121,15 +121,22 @@ class tx_mkforms_util_Loader
                 'OBJECT' => $objectType,
             ];
 
-            $aTemp['PATH'] = tx_mkforms_util_Div::getExtPath($aTemp['EXTKEY']);
-            $aTemp['RELPATH'] = tx_mkforms_util_Div::getExtRelPath($aTemp['EXTKEY']);
-
-            if (true === $aTemp['BASE'] && file_exists($aTemp['PATH'].'ext_localconf.php')) {
-                $aTemp['LOCALCONFPATH'] = $aTemp['PATH'].'ext_localconf.php';
+            try {
+                $aTemp['PATH'] = tx_mkforms_util_Div::getExtPath($aTemp['EXTKEY']);
+                $aTemp['RELPATH'] = tx_mkforms_util_Div::getExtRelPath($aTemp['EXTKEY']);
+                if (true === $aTemp['BASE'] && file_exists($aTemp['PATH'].'ext_localconf.php')) {
+                    $aTemp['LOCALCONFPATH'] = $aTemp['PATH'].'ext_localconf.php';
+                }
             }
+            catch (\Exception $e) {
+                if (!class_exists($aTemp['CLASS'])) {
+                    throw $e;
+                }
+            }
+
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms'][$objectType][$aTemp['TYPE']] = $aTemp;
 
-            if (file_exists($aTemp['LOCALCONFPATH'])) {
+            if (isset($aTemp['LOCALCONFPATH']) && file_exists($aTemp['LOCALCONFPATH'])) {
                 require_once $aTemp['LOCALCONFPATH'];
             }
 
