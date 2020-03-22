@@ -385,7 +385,7 @@ MKWrapper.handleValidationErrors = function(oErrors, form, msgDiv) {
 		if(field != null) {
 			if(msgDiv) {
 				var errDiv = MKWrapper.$tag('div', {'class':'error'});
-				jQuery(errDiv).text(oErrors[widget]);
+				jQuery(errDiv).html(oErrors[widget]);
 				jQuery(errContainer).append(errDiv);
 			}
 			var input = MKWrapper.$(field.config.id, false);
