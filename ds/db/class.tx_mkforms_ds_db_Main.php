@@ -367,7 +367,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
     public function dset_getSignature()
     {
-        die('dsdb:dset_getSignature() disabled');
+        exit('dsdb:dset_getSignature() disabled');
     }
 
     public function dset_hasFlexibleStructure()
@@ -405,7 +405,6 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                 if ($bProcess) {
                     switch ($sType) {
                         case 'WHERE':
-
                             if (false !== ($mProcess = $this->oForm->_defaultTrue('/process', $aWhere))) {
                                 if ($this->oForm->isRunneable($mProcess)) {
                                     $mProcess = $this->callRunneable($mProcess);
@@ -460,7 +459,6 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                             break;
 
                         case 'LOGIC':
-
                             if ($bClauses) {
                                 if (is_array($aWhere) && array_key_exists('value', $aWhere)) {
                                     $mValue = $aWhere['value'];

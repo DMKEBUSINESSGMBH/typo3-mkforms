@@ -97,7 +97,7 @@ class JSMin
                         }
 
                         if (ord($this->a) <= ORD_LF) {
-                            die('Unterminated string literal.');
+                            exit('Unterminated string literal.');
                         }
 
                         if ('\\' === $this->a) {
@@ -127,7 +127,7 @@ class JSMin
                             $this->output[] = $this->a;
                             $this->a = $this->get();
                         } elseif (ord($this->a) <= ORD_LF) {
-                            die('Unterminated regular expression literal.');
+                            exit('Unterminated regular expression literal.');
                         }
 
                         $this->output[] = $this->a;
@@ -278,7 +278,7 @@ class JSMin
                                 break;
 
                             case null:
-                                die('Unterminated comment.');
+                                exit('Unterminated comment.');
                         }
                     }
 

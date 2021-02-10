@@ -16,7 +16,6 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
 
             switch ($this->aElement['step']) {
                 case 'next':
-
                     $iStepToGo = $this->oForm->_getNextInArray(
                         $iStep,
                         $this->oForm->aSteps,
@@ -27,7 +26,6 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
                     break;
 
                 case 'previous':
-
                     $iStepToGo = $this->oForm->_getPrevInArray(
                         $iStep,
                         $this->oForm->aSteps,
@@ -76,7 +74,7 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
 
             if (!is_null($sUrl)) {
                 header('Location: '.$sUrl);
-                die();
+                exit();
             }
         }
     }

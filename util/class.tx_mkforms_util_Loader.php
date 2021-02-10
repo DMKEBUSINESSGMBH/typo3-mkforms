@@ -127,8 +127,7 @@ class tx_mkforms_util_Loader
                 if (true === $aTemp['BASE'] && file_exists($aTemp['PATH'].'ext_localconf.php')) {
                     $aTemp['LOCALCONFPATH'] = $aTemp['PATH'].'ext_localconf.php';
                 }
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 if (!class_exists($aTemp['CLASS'])) {
                     throw $e;
                 }

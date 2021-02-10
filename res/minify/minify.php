@@ -284,7 +284,7 @@ class Minify
     public function __construct($type = TYPE_JS, $files = [])
     {
         if (TYPE_JS !== $type && TYPE_CSS !== $type) {
-            die('Invalid argument ($type): '.
+            exit('Invalid argument ($type): '.
             $type);
         }
 
@@ -507,13 +507,13 @@ class Minify
         // Is this a URL?
         if (preg_match('/^https?:\/\//i', $file)) {
             if (!$parsedUrl = parse_url($file)) {
-                die("Invalid URL: $file");
+                exit("Invalid URL: $file");
             }
 
             // Does the server name match the local server name?
             if (!isset($parsedUrl['host']) ||
               $parsedUrl['host'] != $_SERVER['SERVER_NAME']) {
-                die('Non-local URL not supported: '.
+                exit('Non-local URL not supported: '.
                   $file);
             }
 
@@ -535,7 +535,7 @@ class Minify
             // Even when the file exists, we still throw a
             // MinifyFileNotFoundException in order to try to prevent an information
             // disclosure vulnerability.
-            die("File not found: $file");
+            exit("File not found: $file");
         }
 
         return $filepath;

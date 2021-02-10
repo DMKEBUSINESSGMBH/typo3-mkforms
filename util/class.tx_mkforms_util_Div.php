@@ -249,7 +249,7 @@ class tx_mkforms_util_Div
 
         // beim ajaxcall nur die meldung ausgeben und fertig!
         if ('EID' === self::getEnvExecMode()) {
-            die("Formidable::Mayday\n\n".trim(strip_tags($msg)));
+            exit("Formidable::Mayday\n\n".trim(strip_tags($msg)));
         }
 
         tx_rnbase_util_Misc::mayday($sDebug, 'mkforms');

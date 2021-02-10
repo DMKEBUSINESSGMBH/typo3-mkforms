@@ -1747,7 +1747,6 @@ TOOLTIP;
                             break;
 
                         case 'ajax':
-
                             $sEventId = $this->oForm->_getAjaxEventId(
                                 $this->getAbsName(),
                                 [$sEventName => $mEvent]
@@ -1798,7 +1797,6 @@ TOOLTIP;
                             break;
 
                         case 'js':
-
                             if ($this->oForm->isRunneable($mEvent)) {
                                 if ('onload' !== $sEventName) {
                                     $aEvent = $this->getForm()->getRunnable()->callRunnableWidget($this, $mEvent);
@@ -1827,7 +1825,6 @@ TOOLTIP;
                             break;
 
                         case 'client':
-
                             // array client mode event
 
                             if ('onload' !== $sEventName) {
@@ -1874,7 +1871,6 @@ TOOLTIP;
                             break;
 
                         case 'inline':
-
                             if ($this->oForm->isRunneable($mEvent)) {
                                 $aEvent = $this->getForm()->getRunnable()->callRunnableWidget($this, $mEvent);
                             } else {

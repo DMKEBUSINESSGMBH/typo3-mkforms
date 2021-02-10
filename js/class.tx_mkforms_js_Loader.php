@@ -539,7 +539,6 @@ JAVASCRIPT;
             $script = '';
             switch ($ext) {
                 case 'js':
-
                     $script = 'typo3temp/assets/mkforms/javascript_'.substr(md5($str), 0, 10).'.js';
                     $output = $sDesc."\n".'<script type="text/javascript" src="'.htmlspecialchars(
                         $this->getAbsRefPrefix().$script

@@ -91,7 +91,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
     {
         $mNonCheckedLabel = $this->_navConf('/labels/nonchecked/');
 
-        return  ($mNonCheckedLabel) ? $this->oForm->getConfigXML()->getLLLabel($mNonCheckedLabel) : 'N';
+        return ($mNonCheckedLabel) ? $this->oForm->getConfigXML()->getLLLabel($mNonCheckedLabel) : 'N';
     }
 
     public function _getHumanReadableValue($data)

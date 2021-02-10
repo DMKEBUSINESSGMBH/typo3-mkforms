@@ -130,7 +130,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         return $action;
     }
 
-    public function test_processForm()
+    public function testProcessForm()
     {
         $sData = [
                 'fieldset' => [
@@ -254,7 +254,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         self::assertFalse(isset($formData['widget']['thatDoesNotExistInTheXml']), 'LINE:'.__LINE__);
     }
 
-    public function test_handleRequest()
+    public function testHandleRequest()
     {
         $action = self::getAction();
 
@@ -266,7 +266,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
      * @expectedExceptionCode 2001
      * @expectedExceptionMessage Das Formular ist nicht valide
      */
-    public function test_processFormThrowsExceptionWithInvalidRequestToken()
+    public function testProcessFormThrowsExceptionWithInvalidRequestToken()
     {
         $sData = [
                 'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
@@ -280,7 +280,7 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         self::getAction();
     }
 
-    public function test_fillForm()
+    public function testFillForm()
     {
         $sData['widget']['text'] = 'Default Text';
         // die vorselektierten Werte für mehrere Checkboxen müssen kommasepariert angegebenw werden!

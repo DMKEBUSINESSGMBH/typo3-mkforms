@@ -599,7 +599,6 @@ class tx_mkforms_util_Runnable
                 break;
 
             case 'js':
-
                 if (count($aParts) < 2) {
                     tx_mkforms_util_Div::mayday('CodeBehind ['.$sCBRef.']: you have to provide a class name for javascript codebehind <b>'.$sCBRef."</b>. Please add ':myClassName' after the file-path.");
                 } else {
@@ -758,7 +757,7 @@ class tx_mkforms_util_Runnable
                             }
 
                             if ($dieOnMayday) {
-                                die($ret);
+                                exit($ret);
                             } else {
                                 echo $ret;
                             }

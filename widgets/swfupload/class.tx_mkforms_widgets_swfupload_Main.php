@@ -140,7 +140,7 @@ INITSCRIPT;
 
         if (false !== $this->_defaultTrue('/usedenypattern')) {
             if (!Tx_Rnbase_Utility_T3General::verifyFilenameAgainstDenyPattern($sFileName)) {
-                die('FILE EXTENSION DENIED');
+                exit('FILE EXTENSION DENIED');
             }
         }
 
@@ -172,7 +172,7 @@ INITSCRIPT;
             $sTarget
         );
 
-        die('OK: '.$sTarget);
+        exit('OK: '.$sTarget);
     }
 
     public function getTargetDir()

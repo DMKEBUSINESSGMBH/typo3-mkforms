@@ -158,7 +158,7 @@ if ($bgimg) {
 function ecriture()
 {
     // Cr�ation de l'�criture
-    global  $img, $ink, $charR, $charG, $charB, $charclear, $xvariation, $charnb, $charcolorrnd, $charcolorrndlevel, $tword, $charspace;
+    global $img, $ink, $charR, $charG, $charB, $charclear, $xvariation, $charnb, $charcolorrnd, $charcolorrndlevel, $tword, $charspace;
     if (function_exists('imagecolorallocatealpha')) {
         $ink = imagecolorallocatealpha($img, $charR, $charG, $charB, $charclear);
     } else {

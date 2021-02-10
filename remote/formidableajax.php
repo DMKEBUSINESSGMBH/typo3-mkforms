@@ -2,7 +2,7 @@
 
 // Exit, if script is called directly (must be included via eID in index_ts.php)
 if (!defined('PATH_typo3conf')) {
-    die('Could not access this script directly!');
+    exit('Could not access this script directly!');
 }
 
 class formidableajax
@@ -237,7 +237,7 @@ class formidableajax
 
         // text/plain Will der IE nicht, deswegen text/html, damit sollten alle Browser klar kommen.
         header('Content-Type: text/html; charset='.$sCharset);
-        die($sJson);
+        exit($sJson);
     }
 
     /**
@@ -256,7 +256,7 @@ class formidableajax
     public function denyService($sMessage)
     {
         header('Content-Type: text/plain; charset=UTF-8');
-        die('{/* SERVICE DENIED: '.$sMessage.' */}');
+        exit('{/* SERVICE DENIED: '.$sMessage.' */}');
     }
 
     /**
@@ -415,7 +415,7 @@ try {
     $oAjax = new formidableajax();
     if (false === $oAjax->init()) {
         $oAjax->denyService(); // Damit wird der Prozess beendet.
-        die();
+        exit();
     }
     $ret = $oAjax->handleRequest();
 } catch (Exception $e) {

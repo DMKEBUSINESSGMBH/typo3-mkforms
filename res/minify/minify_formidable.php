@@ -1,3 +1,3 @@
 <?php
 
-die('DISABLED');
+exit('DISABLED');

@@ -4545,7 +4545,7 @@ JAVASCRIPT;
         }
 
         header('Location: '.$sUrl);
-        die();
+        exit();
     }
 
     public function reloadCurrentUrl()
@@ -4567,7 +4567,7 @@ JAVASCRIPT;
         header('Content-Disposition: attachment; filename='.$sFileName);
         header('Content-Transfer-Encoding: binary');
         fpassthru(fopen($sAbsPath, 'r'));
-        die();
+        exit();
     }
 
     public function isUserObj($mMixed)

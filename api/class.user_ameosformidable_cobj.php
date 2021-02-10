@@ -12,7 +12,6 @@ class user_ameosformidable_cobj
 
         switch ($name) {
             case 'FORMIDABLE_INT':
-
                 $substKey = 'INT_SCRIPT.'.$GLOBALS['TSFE']->uniqueHash();
                 $content .= '<!--'.$substKey.'-->';
 
@@ -27,7 +26,6 @@ class user_ameosformidable_cobj
                 break;
 
             case 'FORMIDABLE':
-
                 $content .= $this->_render($conf);
 
                 if ($GLOBALS['TSFE']->cObj->checkIf($conf['if.'])) {
