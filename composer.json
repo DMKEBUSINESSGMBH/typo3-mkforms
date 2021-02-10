@@ -31,12 +31,12 @@
     },
     "require": {
         "typo3/cms-core": "^7.6 || ^8.7 || ^9.5",
-        "digedag/rn-base": ">=1.10.5",
-        "php": ">=5.6.0"
+        "digedag/rn-base": "^1.10.5"
     },
     "require-dev": {
         "nimut/testing-framework": "^4.0",
         "dmk/mklib": ">=3.0.8",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.15"
     },
     "autoload": {
@@ -80,6 +80,32 @@
         "post-autoload-dump": [
             "mkdir -p .Build/Web/typo3conf/ext/",
             "[ -L .Build/Web/typo3conf/ext/mkforms ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkforms"
+        ],
+        "lint:php": [
+            "[ -e .Build/bin/parallel-lint ] || composer update",
+            ".Build/bin/parallel-lint  ./action ./api ./Classes ./dh ./ds ./exception ./forms ./hooks ./js ./remote ./renderer ./session ./tests ./util ./validator ./view ./widgets"
+        ],
+        "lint": [
+            "@lint:php"
+        ],
+        "test:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
+        ],
+        "test:phpunit": [
+            "[ -e .Build/bin/phpunit ] || composer update --ansi",
+            "export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit --colors=always"
+        ],
+        "test": [
+            "@test:phpcs",
+            "@test:phpunit"
+        ],
+        "fix:phpcs": [
+            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+            ".Build/bin/php-cs-fixer fix -v"
+        ],
+        "fix": [
+            "@fix:phpcs"
         ]
     },
     "extra": {
