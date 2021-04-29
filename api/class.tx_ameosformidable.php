@@ -3930,13 +3930,11 @@ JAVASCRIPT;
         $tmpl->tt_track = 0;    // Do not log time-performance information
         $tmpl->init();
 
-        // Gets the rootLine
-        $sys_page = tx_rnbase::makeInstance(tx_rnbase_util_TYPO3::getSysPage());
-
         $tmpl->runThroughTemplates(
-            $sys_page->getRootLine(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                \TYPO3\CMS\Core\Utility\RootlineUtility::class,
                 $iPageId
-            ),
+            )->get(),
             $iTemplateUid
         );
 

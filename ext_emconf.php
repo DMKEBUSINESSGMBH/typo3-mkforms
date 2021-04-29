@@ -9,7 +9,7 @@
 // Only the data in the array - anything else is removed by next write.
 // 'version' and 'dependencies' must not be touched!
 //
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['mkforms'] = [
     'title' => 'MK Forms',
     'description' => 'Making HTML forms for TYPO3',
     'category' => 'misc',
@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'rn_base' => '1.10.5-',
-            'typo3' => '7.6.0-9.5.99',
+            'typo3' => '9.5.0-10.4.99',
             'php' => '5.6.0-8.9.99',
         ],
         'conflicts' => [

@@ -142,8 +142,8 @@ class formidableajax
      * @param tx_mkforms_session_IManager $sesMgr
      * @param array                       $aHibernation
      *
-     * @todo no support for virtualizeFE option and typo3 9.5 right now. If no support is needed/added this method can be
-     * removed when making mkforms campoatible to TYPO3 10.
+     * @todo no support for virtualizeFE option since typo3 9.5 right now. If no support is needed/added this method can be
+     * removed when making mkforms compatible to TYPO3 11.
      */
     private function initTSFE($formid, $sesMgr, $aHibernation)
     {
@@ -262,8 +262,8 @@ class formidableajax
     /**
      * @return Exception|object|string
      *
-     * @todo no support for typo3 9.5 right now. If no support is needed/added this method can be
-     * removed when making mkforms campoatible to TYPO3 10.
+     * @todo no support since typo3 9.5 right now. If no support is needed/added this method can be
+     * removed when making mkforms compatible to TYPO3 11.
      */
     public function _initBeUser()
     {
