@@ -54,7 +54,6 @@
             "remote/",
             "renderer/",
             "session/",
-            "tests/",
             "util/",
             "validator/",
             "view/",
@@ -65,6 +64,11 @@
         },
         "files": [
             "Classes/Constants.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
         ]
     },
     "suggest": {
