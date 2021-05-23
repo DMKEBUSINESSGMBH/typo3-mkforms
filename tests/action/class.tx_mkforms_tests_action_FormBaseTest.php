@@ -322,7 +322,3 @@ class tx_mkforms_tests_action_FormBaseTest extends tx_rnbase_tests_BaseTestCase
         self::assertFalse(isset($fillData['widget-remove']), 'LINE:'.__LINE__);
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/tests/action/class.tx_mkforms_tests_action_FormBase_testcase.php'];
-}

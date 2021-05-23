@@ -82,9 +82,3 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
         return $this->pi_wrapInBaseClass($this->oForm->render());
     }
 }
-
-if (defined('TYPO3_MODE')
-    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php']
-) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/class.tx_ameosformidable_pi.php'];
-}

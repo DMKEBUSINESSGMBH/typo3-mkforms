@@ -304,7 +304,3 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
         return $aAddParams;
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdt_img/api/class.tx_rdtimg.php'];
-}

@@ -166,7 +166,3 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
         $this->baseCleanBeforeSession();
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_template/api/class.tx_rdrtemplate.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/rdr_template/api/class.tx_rdrtemplate.php'];
-}
