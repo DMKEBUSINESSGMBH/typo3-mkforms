@@ -39,7 +39,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         }
 
         return [
-            '__compiled' => $this->_displayLabel($sLabel).$sCompiledChilds,
+            '__compiled' => $sCompiledChilds,
             'childs' => $aChildBags,
         ];
     }

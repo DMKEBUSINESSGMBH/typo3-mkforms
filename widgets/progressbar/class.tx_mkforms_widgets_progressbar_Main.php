@@ -78,7 +78,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
     public function getPrecision()
     {
         if (false !== ($iPrecision = $this->oForm->_navConf('/precision'))) {
-            $iPrecision = (int) $mPrecision;
+            $iPrecision = 0;
         }
 
         return (int) $iPrecision;

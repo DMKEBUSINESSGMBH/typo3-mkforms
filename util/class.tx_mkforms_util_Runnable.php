@@ -208,7 +208,7 @@ class tx_mkforms_util_Runnable
             } catch (Exception  $e) {
                 $verbose = (int) \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'verboseMayday');
 
-                $ret = 'UNCAUGHT EXCEPTION FOR VIEW: '.get_class($oCbObj)."\r\n";
+                $ret = 'UNCAUGHT EXCEPTION FOR VIEW: '.get_class($contextObj)."\r\n";
 
                 if ($verbose) {
                     $ret .= "\r\n".$e->__toString();
@@ -375,7 +375,7 @@ class tx_mkforms_util_Runnable
             }
         } else {
             if (array_key_exists($iIndex, $this->aForcedUserObjParamsStack)) {
-                unset($this->aForcedUserObjParamsStack[$sName]);
+                unset($this->aForcedUserObjParamsStack[$iIndex]);
             }
         }
     }
@@ -553,6 +553,7 @@ class tx_mkforms_util_Runnable
 
         // determining type of the CB
         $sFileExt = strtolower(array_pop(\Sys25\RnBase\Utility\T3General::revExplode('.', $sFileRef, 2)));
+        $sClass = '';
         switch ($sFileExt) {
             case 'php':
                 if (is_file($sFilePath) && is_readable($sFilePath)) {
@@ -601,6 +602,7 @@ class tx_mkforms_util_Runnable
             case 'js':
                 if (count($aParts) < 2) {
                     tx_mkforms_util_Div::mayday('CodeBehind ['.$sCBRef.']: you have to provide a class name for javascript codebehind <b>'.$sCBRef."</b>. Please add ':myClassName' after the file-path.");
+                    break;
                 } else {
                     $sClass = $aParts[1];
                 }
@@ -691,6 +693,7 @@ class tx_mkforms_util_Runnable
             if (true !== $bCbRdt) {
                 tx_mkforms_util_Div::mayday('CodeBehind '.$sCBRef.': '.$sName.' is not a declared CodeBehind');
             }
+            $sType = '';
         }
 
         // Jetzt wird wohl die eigentliche Klasse aufgelöst die aufgerufen wird
@@ -708,6 +711,9 @@ class tx_mkforms_util_Runnable
                 $aCB = &$this->aCodeBehinds[$sType][$sName]->aConf;
                 $oCbObj = &$this->aCodeBehinds[$sType][$sName];
                 $sClass = $aCB['class'];
+            } else {
+                $oCbObj = null;
+                $sClass = '';
             }
         }
 
@@ -723,6 +729,7 @@ class tx_mkforms_util_Runnable
         // Jetzt der Aufruf
         switch ($sType) {
             case 'php':
+                $mRes = null;
                 array_shift($aArgs);
                 if (is_object($oCbObj) && method_exists($oCbObj, $sMethod)) {
                     // sollen die Widget validiert werden?
@@ -779,6 +786,9 @@ class tx_mkforms_util_Runnable
                 }
                 $aArgs[0] = $sMethod;
                 $mRes = call_user_func_array([$oCbObj, 'majixExec'], $aArgs);
+                break;
+            default:
+                $mRes = null;
         }
 
         $this->pullUserObjParam();

@@ -166,6 +166,7 @@ function ecriture()
     }
 
     $x = $xvariation;
+    $rndink = 0;
     for ($i = 1; $i <= $charnb; ++$i) {
         if ($charcolorrnd) {   // Choisit des couleurs au hasard
             $ok = false;

@@ -39,6 +39,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             $sScrollMode = 'horizontal';
         }
 
+        $sScrollDirection = '';
         switch ($sScrollMode) {
             case 'horizontal':
                 if (false === ($sScrollDirection = $this->_navConf('/scrolling/direction')) || ('left' !== $sScrollDirection && 'right' !== $sScrollDirection)) {
@@ -143,12 +144,14 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         if ($this->aDatasource) {        // if this ticker has a datasource that must be used to generate his content
             if (0 == $this->aDatasource['numrows']) {
                 $sRowsHtml = '';
+                $sTemplate = '';
             } else {
                 $sTemplate = $this->_getTemplate();
                 $aAltRows = $this->_getRowsSubpart($sTemplate);
                 $iNbAlt = count($aAltRows);
 
                 $aRows = $this->aDatasource['results'];
+                $aRowsHtml = [];
                 foreach ($aRows as $i => $aRow) {
                     $aCurRow = $this->_refineRow($aRow);
                     $sRowHtml = $this->oForm->getTemplateTool()->parseTemplateCode(
@@ -240,7 +243,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
             return $this->oForm->getTemplateTool()->parseTemplateCode(
                 $sHtml,
-                $aChildsBag,
+                [],
                 [],
                 false
             );

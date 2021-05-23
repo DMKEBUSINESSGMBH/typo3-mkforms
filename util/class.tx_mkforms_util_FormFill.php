@@ -96,9 +96,7 @@ class tx_mkforms_util_FormFill
                 $val = $widget->getValue();
 
                 // Use another table?
-                $tab = isset($params['dependsOn']['dbtable']) ? $params['dependsOn']['dbtable'] : (
-                        is_array($table) ? $table['tablename'] : $table
-                    );
+                $tab = isset($params['dependsOn']['dbtable']) ? $params['dependsOn']['dbtable'] : '';
                 if (isset($params['options']['where'])
                     && $params['options']['where']
                 ) {
@@ -132,6 +130,8 @@ class tx_mkforms_util_FormFill
                 isset($params['options']) ? $params['options'] : [],
                 isset($params['debug']) ? $params['debug'] : null
             );
+        } else {
+            $rows = [];
         }
 
         return $rows;

@@ -221,7 +221,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         if ((empty($mediaFiles) || empty($mediaFiles['files'])) &&
             !empty($uploadedFileIds)
         ) {
-            $mediaFiles = \Sys25\RnBase\Utility\TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
+            $mediaFiles = \Sys25\RnBase\Utility\TSFAL::getReferencesFileInfo(
+                $this->getRefTable(), $this->getEntryId(), $this->getRefField()
+            );
 
             foreach ($mediaFiles as $uid => $mediaInfo) {
                 // wird benötigt um in handleCreation die Referenzen anlegen zu können
@@ -443,7 +445,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         // dann gab es aber wohl eine Sonderbehandlung
         // Für DAM ist ist aber wohl nicht relevant
 
-        if (is_string($aData) && (true === $this->bForcedValue || trim($aData) !== $sStoredData)) {
+        if (is_string($aData) && true === $this->bForcedValue) {
             // Nothing to do here
             return;
         }

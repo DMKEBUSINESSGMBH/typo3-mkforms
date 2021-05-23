@@ -620,7 +620,7 @@ class tx_mkforms_util_Config
         $aConf = $this->deleteEmpties($aConf);    // ????  surveiller
         $aConf = $this->insertXmlBuilder($aConf);
 
-        tx_mkforms_util_Div::debug($aIncHierarchy, 'MKFORMS CORE - INCLUSION HIERARCHY', $this->form);
+        tx_mkforms_util_Div::debug($aTempDebug['aIncHierarchy'], 'MKFORMS CORE - INCLUSION HIERARCHY', $this->form);
 
         return $aConf;
     }

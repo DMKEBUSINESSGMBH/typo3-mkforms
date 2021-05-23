@@ -592,7 +592,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         $mHtml = [
             '__compiled' => $sCompiled,
-            'additionalinputparams' => $this->_getAddInputParams($sId),
+            'additionalinputparams' => '',
             'value' => $mValue,
             'value.' => [
                 'nl2br' => nl2br((string) $mValue),
@@ -697,6 +697,8 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         if (false !== $this->defaultTrue('/labelfor', $aConfig)) {
             $forAttribute = !$this->_readOnly() ? ' for="'.$sHtmlId.'"' : '';
+        } else {
+            $forAttribute = '';
         }
 
         if (false !== ($sLabelCustom = $this->_navConf('/labelcustom', $aConfig))) {
@@ -1967,6 +1969,8 @@ TOOLTIP;
 
         if ('click' === $sEventHandler && 'LINK' === $this->_getType()) {
             $sAppend = 'MKWrapper.stopEvent(event);';
+        } else {
+            $sAppend = '';
         }
 
         $sEvents
@@ -2157,6 +2161,8 @@ JAVASCRIPT;
                         ['where' => $mWhere, 'orderby' => 'caption']
                     );
                 }
+            } else {
+                $aDbItems = [];
             }
 
             $aItems = $this->_mergeItems($aXmlItems, $aUserItems);
@@ -3234,7 +3240,7 @@ JAVASCRIPT;
                 $this->aSkin['declaredskin'],
                 $this->aSkin['manifest'],
                 $this->aSkin['submanifest'],
-                $aSkinFeed,
+                [],
                 $this->aSkin['sMode']
             );
 
@@ -3287,7 +3293,7 @@ JAVASCRIPT;
                 $sPath = $sDir.'manifest.xml';
 
                 if (file_exists($sPath) && is_readable($sPath)) {
-                    $this->oForm->aSkinManifests[$sHash] = tx_mkforms_util_XMLParser::getXml($sPath, $isSubXml, $bPlain);
+                    $this->oForm->aSkinManifests[$sHash] = tx_mkforms_util_XMLParser::getXml($sPath);
                     if (array_key_exists('skin', $this->oForm->aSkinManifests[$sHash])) {
                         $this->oForm->aSkinManifests[$sHash]['control'] = [
                             'serverpath' => $sDir,
@@ -3425,6 +3431,8 @@ JAVASCRIPT;
             if (array_key_exists($sElementHtmlId, $this->aStatics['hasSubmitted'])) {
                 return $this->aStatics['hasSubmitted'][$sElementHtmlId];
             }
+        } else {
+            $sElementHtmlId = '';
         }
 
         if ($this->maySubmit() && $this->isNaturalSubmitter()) {
@@ -4228,10 +4236,7 @@ JAVASCRIPT;
 
     public function majixRemoveAllClass()
     {
-        return $this->buildMajixExecuter(
-            'removeAllClass',
-            $sClass
-        );
+        return $this->buildMajixExecuter('removeAllClass');
     }
 
     public function majixSetStyle($aStyles)

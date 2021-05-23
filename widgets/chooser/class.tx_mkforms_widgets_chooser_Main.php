@@ -52,7 +52,7 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
 JAVASCRIPT;
 
         $this->oForm->additionalHeaderData(
-            $this->oForm->inline2TempFile($sScript, 'js', 'Chooser '.$sHtmlId.' stuff')
+            $this->oForm->inline2TempFile($sScript, 'js', 'Chooser stuff')
         );
 
         $aItems = $this->_getItems();

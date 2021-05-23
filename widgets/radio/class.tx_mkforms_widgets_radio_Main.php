@@ -33,9 +33,8 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
 
         $aHtmlBag['value'] = $sCurValue;
 
+        $aHtml = [];
         if (!empty($aItems)) {
-            $aHtml = [];
-
             foreach ($aItems as $itemindex => $aItem) {
                 // item configuration
                 $aConfig = array_merge($this->aElement, $aItem);
