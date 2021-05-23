@@ -388,11 +388,13 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      *
      * @param array              $params
      * @param tx_ameosformidable $form
+     *
+     * @return array;
      */
     public static function repaintDependencies(array $params, tx_ameosformidable $form)
     {
         if (!isset($params['me'])) {
-            return;
+            return [];
         }
         if ($widget = $form->getWidget($params['me'])) {
             if (isset($params['uidParam']) && isset($params[$params['uidParam']])) {

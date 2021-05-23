@@ -7,13 +7,19 @@
  */
 class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
 {
+    /**
+     * @param array $aRendered
+     * @param string $sForm
+     *
+     * @return string
+     */
     public function _doTheMagic($aRendered, $sForm)
     {
         if (!$this->getForm()->getDataHandler()->_allIsValid()) {
-            return;
+            return '';
         }
         if (!$this->shouldProcess()) {
-            return;
+            return '';
         }
 
         if (false !== ($mPage = $this->_navConf('/pageid'))) {
@@ -24,7 +30,7 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
             }
         } else {
             $sUrl = $this->_navConf('/url');
-            $sUrl = $this->callRunneable($sUrl);
+            $sUrl = (string) $this->callRunneable($sUrl);
         }
 
         if ($this->getForm()->isTestMode()) {
@@ -36,6 +42,8 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
                 header('Location: '.$sUrl);
                 exit();
             }
+
+            return '';
         }
     }
 }

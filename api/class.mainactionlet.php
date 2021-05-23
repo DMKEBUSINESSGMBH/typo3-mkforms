@@ -2,8 +2,15 @@
 
 class formidable_mainactionlet extends formidable_mainobject
 {
+    /**
+     * @param array $aRendered
+     * @param string $sForm
+     *
+     * @return string
+     */
     public function _doTheMagic($aRendered, $sForm)
     {
+        return '';
     }
 
     /**

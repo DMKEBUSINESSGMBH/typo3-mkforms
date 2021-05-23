@@ -39,13 +39,18 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         return $aData;
     }
 
+    /**
+     * @param bool $bShouldProcess
+     *
+     * @return string
+     */
     public function _doTheMagic($bShouldProcess = true)
     {
         // @TODO: mw, das gehört hier nicht her!
         if (!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())) {
             $this->showValidationErrorsInTestMode();
 
-            return;
+            return '';
         }
 
         $aData = $this->getFormData();
@@ -67,7 +72,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         // hab vorerst skipcallback implementiert.
         if (false === $callback) {
             if ($this->_defaultFalse('/skipcallback')) {
-                return;
+                return '';
             }
             tx_mkforms_util_Div::mayday(
                 'DATAHANDLER RAW : you MUST declare a callback method on the Parent Object <b>'.get_class(
@@ -92,6 +97,8 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
                 );
             }
         }
+
+        return '';
     }
 
     /**

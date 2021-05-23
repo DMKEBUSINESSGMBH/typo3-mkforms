@@ -7,6 +7,12 @@
  */
 class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
 {
+    /**
+     * @param array $aRendered
+     * @param string $sForm
+     *
+     * @return string
+     */
     public function _doTheMagic($aRendered, $sForm)
     {
         $sUrl = null;
@@ -76,6 +82,8 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
                 header('Location: '.$sUrl);
                 exit();
             }
+
+            return '';
         }
     }
 }

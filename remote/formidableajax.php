@@ -170,6 +170,11 @@ class formidableajax
         }
     }
 
+    /**
+     * @throws \Exception
+     *
+     * @return void
+     */
     public function handleRequest()
     {
         $this->oForm->aInitTasksAjax = [];
@@ -417,7 +422,7 @@ try {
         $oAjax->denyService(); // Damit wird der Prozess beendet.
         exit();
     }
-    $ret = $oAjax->handleRequest();
+    $oAjax->handleRequest();
 } catch (Exception $e) {
     if (tx_rnbase_util_Logger::isWarningEnabled()) {
         $request = $oAjax instanceof formidableajax ? $oAjax->getRequestData() : 'unkown';

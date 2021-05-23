@@ -317,10 +317,12 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
      * Wir wollen hier immer ein Array.
      *
      * @param mixed $mValue
+     *
+     * @return void
      */
     public function setValue($mValue)
     {
-        return parent::setValue(is_array($mValue) || empty($mValue) ? $mValue : [$mValue]);
+        parent::setValue(is_array($mValue) || empty($mValue) ? $mValue : [$mValue]);
     }
 }
 

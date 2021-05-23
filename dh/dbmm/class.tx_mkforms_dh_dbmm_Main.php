@@ -59,7 +59,9 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      * - _extractMmRelationsFromFormData
      * - _storeMmRelations (2 times)
      *
-     * @param    bool        whether the data should be processed at all
+     * @param bool $bShouldProcess whether the data should be processed at all
+     *
+     * @return string
      */
     public function _doTheMagic($bShouldProcess = true)
     {
@@ -125,6 +127,8 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
         } else {
             $this->oForm->_debug('', 'EXECUTION OF DATAHANDLER DB - NOTHING TO DO - SKIPPING PROCESS '.$tablename);
         }
+
+        return '';
     }
 
     /**

@@ -7,6 +7,11 @@
  */
 class tx_mkforms_dh_std_Main extends formidable_maindatahandler
 {
+    /**
+     * @param bool $bShouldProcess
+     *
+     * @return string
+     */
     public function _doTheMagic($bShouldProcess = true)
     {
         if ($bShouldProcess && $this->_allIsValid()) {
@@ -17,6 +22,8 @@ class tx_mkforms_dh_std_Main extends formidable_maindatahandler
                 'DATAHANDLER STANDARD - EXECUTION'
             );
         }
+
+        return '';
     }
 }
 

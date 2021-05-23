@@ -1056,6 +1056,8 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     /**
      * @param mixed $mValue
+     *
+     * @return void
      */
     public function setValue($mValue)
     {

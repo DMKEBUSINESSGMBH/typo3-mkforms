@@ -72,6 +72,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $oRenderer = null;
 
+    /**
+     * @var formidable_maindatahandler|null
+     */
     public $oDataHandler = null;
 
     /**
@@ -1641,15 +1644,22 @@ SANDBOXCLASS;
      * Forces datahandler to edit the given uid.
      *
      * @param int $iForcedEntryId : uid to edit
+     *
+     * @return void
      */
     public function _forceEntryId($iForcedEntryId = false)
     {
         $this->iForcedEntryId = $iForcedEntryId;
     }
 
+    /**
+     * @param bool $iForcedEntryId
+     *
+     * @return void
+     */
     public function forceEntryId($iForcedEntryId = false)
     {
-        return $this->_forceEntryId($iForcedEntryId);
+        $this->_forceEntryId($iForcedEntryId);
     }
 
     /**

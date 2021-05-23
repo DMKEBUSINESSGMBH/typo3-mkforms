@@ -8,6 +8,11 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 {
     public $__aStoredI18NParent = false;
 
+    /**
+     * @param bool $bShouldProcess
+     *
+     * @return string
+     */
     public function _doTheMagic($bShouldProcess = true)
     {
         $tablename = $this->tableName();
@@ -207,6 +212,8 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                 "DATAHANDLER configuration isn't correct : check /tablename AND /keyname in your datahandler conf"
             );
         }
+
+        return '';
     }
 
     /**
