@@ -46,7 +46,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
             // damit das Label auf die checkbox zeigt
             $aConfig['sId'] = $this->_getElementHtmlId().'_checkbox';
         } else {
-            $sInput .= sprintf(
+            $sInput = sprintf(
                 '<input type="checkbox" name="%1$s" id="%2$s" %3$s %4$s value="1" />',
                 $this->_getElementHtmlName(),
                 $this->_getElementHtmlId(),

@@ -31,10 +31,9 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         $selected = ($rowId == $this->getValue()) ? ' checked="checked" ' : '';
 
         $sInput = '<input type="radio" name="'.$this->_getElementHtmlName().'" id="'.$sId.'" value="'.$rowId.'" '.$selected.$this->_getAddInputParams().' />';
-        $sCaption = $this->getForm()->getConfigXML()->getLLLabel($aItem['caption']);
         $sLabelStart = '<label for="'.$sId.'">';
         $sLabelEnd = '</label>';
-        $sLabel = $sLabelStart.$sCaption.$sLabelEnd;
+        $sLabel = $sLabelStart.$sLabelEnd;
 
         $aHtml = [];
         $aHtml[] = (('' !== $selected) ? $this->_wrapSelected($sInput.$sLabel) : $this->_wrapItem($sInput.$sLabel));
@@ -44,7 +43,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
 
         $aHtmlBag = [
             '__compiled' => $sLabel.$sRadioGroup,
-            'label' => $sCaption,
+            'label' => '',
             'label.' => [
                 'tag' => $sLabel,
                 'tag.' => [

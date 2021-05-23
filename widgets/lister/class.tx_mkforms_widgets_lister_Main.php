@@ -86,6 +86,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
     {
         $this->aRdtByRow = [];
 
+        $sMessage = '';
+        $sOut = '';
         $aData = $this->fetchListerData();
         if (0 === (int) $aData['numrows']) {
             if (false !== ($mEmpty = $this->_navConf('/ifempty'))) {
@@ -489,7 +491,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 parse_str($aQueryParts['query'], $aParams);
             }
         } elseif ('FE' === $sEnvMode) {
+            $sBaseUrl = '';
             $aParams = Tx_Rnbase_Utility_T3General::_GET();
+        } else {
+            $sBaseUrl = '';
         }
 
         $aFullParams = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -649,8 +654,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
     public function _renderList_displayRows(&$aTemplate, &$aRows)
     {
         $aRowsHtml = [];
+        $aAltRows = [];
         if (true !== $this->bNoTemplate) {
-            $aAltRows = [];
             $aRowsHtml = [];
             $sRowsPart = tx_rnbase_util_Templates::getSubpart($aTemplate['html'], '###ROWS###');
 
@@ -668,6 +673,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             }
 
             $iNbAlt = sizeof($aAltRows);
+        } else {
+            $iNbAlt = 0;
         }
 
         foreach ($this->aOColumns as $column) {

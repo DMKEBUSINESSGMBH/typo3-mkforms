@@ -584,6 +584,8 @@ JAVASCRIPT;
             } else {
                 $aHeaders = &$this->aHeadersWhenInjectNonStandard;
             }
+        } else {
+            $aHeaders = [];
         }
 
         if ('EID' === tx_mkforms_util_Div::getEnvExecMode()) {

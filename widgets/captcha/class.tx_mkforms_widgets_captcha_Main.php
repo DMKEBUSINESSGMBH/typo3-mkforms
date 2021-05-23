@@ -54,7 +54,6 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
         $aCaptcha['img'] = '<img id="'.$this->_getElementHtmlId().'img" src="'.$_SESSION['cryptdir'].'cryptographp.php?cfg=0&amp;'.$iSID.'" alt="captcha" />';
 
         $reload = 1;
-        $this->oForm->additionalHeaderData($sScript, $this->_getElementHtmlId());
         $sReloadId = $this->_getElementHtmlId().'_reload';
 
         if ($this->_navConf('/reloadpic') && is_string(trim(strtolower($this->aElement['reloadpic'])))) {
@@ -164,6 +163,8 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
         /***************************************************
         *CONFIGURATION DU BACKGROUND
         ****************************************************/
+        $aBgColors = [];
+        $aFontColors = [];
         if ('' != trim($this->aElement['bgcolor'])) {
             if (is_string($this->aElement['bgcolor'])) {
                 $aColors = explode(',', $this->aElement['bgcolor']);

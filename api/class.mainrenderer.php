@@ -137,7 +137,7 @@ TEMPLATE;
             $formBegin
                 = $wrapForm[0].'<form enctype="'.$oForm->getFormEnctype().'" '.' action="'.$xssSafeUrl
                 .'" '.$formid.$formonsubmit.$formcustom.' method="'.$oForm->getFormMethod().'">';
-            $formEnd = $hiddenFields.'</form>'.$wrapForm[1];
+            $formEnd = '</form>'.$wrapForm[1];
         } else {
             $formBegin = $formEnd = '';
         }

@@ -29,6 +29,10 @@ function dsp_crypt($cfg = 0, $reload = 1)
 
 function chk_crypt($code)
 {
+    $difuplow = false;
+    $cryptsecure = '';
+    $cryptoneuse = false;
+
     // V�rifie si le code est correct
     include $_SESSION['configfile'];
     $code = addslashes($code);

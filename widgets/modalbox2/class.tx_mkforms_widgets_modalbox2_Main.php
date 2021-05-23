@@ -46,6 +46,8 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
     {
         if ('EID' !== tx_mkforms_util_Div::getEnvExecMode()) {
             $aEventsBefore = array_keys($this->oForm->aRdtEvents);
+        } else {
+            $aEventsBefore = [];
         }
 
         $aChildsBag = $this->renderChildsBag();

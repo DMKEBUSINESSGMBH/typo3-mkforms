@@ -65,7 +65,11 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                             );
                         } elseif (array_key_exists('Content-Length', $aHeaders)) {
                             $sSignature = $aHeaders['Content-Length'];
+                        } else {
+                            $sSignature = '';
                         }
+                    } else {
+                        $sSignature = '';
                     }
 
                     $sTempFileName = $aInfosFile['filebody'].$aInfosFile['fileext'].'-'.$sSignature.'.'.$aInfosFile['fileext'];
@@ -166,10 +170,14 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             if (false === $sTag) {
                 if (isset($aHtmlBag['filesize.']['width'])) {
                     $sWidth = ' width="'.$aHtmlBag['filesize.']['width'].'" ';
+                } else {
+                    $sWidth = '';
                 }
 
                 if (isset($aHtmlBag['filesize.']['height'])) {
                     $sHeight = ' height="'.$aHtmlBag['filesize.']['height'].'" ';
+                } else {
+                    $sHeight = '';
                 }
 
                 $aHtmlBag['imagetag'] = '<img src="'.$aHtmlBag['filepath'].'" id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().' '.$sWidth.$sHeight.'/>';

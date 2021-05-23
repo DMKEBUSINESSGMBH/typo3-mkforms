@@ -13,6 +13,8 @@ class tx_mkforms_renderer_be_Main extends formidable_mainrenderer
 
         if (!$this->oForm->oDataHandler->_allIsValid()) {
             $sValidationErrors = implode('<br />', $this->oForm->_aValidationErrors).'<hr />';
+        } else {
+            $sValidationErrors = '';
         }
 
         return $this->_wrapIntoForm($sValidationErrors.$sForm);

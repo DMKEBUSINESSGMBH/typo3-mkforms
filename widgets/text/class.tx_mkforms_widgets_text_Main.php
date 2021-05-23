@@ -33,6 +33,7 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
     {
         $sValue = parent::getValue();
         if ($this->defaultFalse('/convertfromrte/')) {
+            $aParseFunc = [];
             $aParseFunc['parseFunc.'] = $GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'];
             $sValue = $this->getForm()->getCObj()->stdWrap($sValue, $aParseFunc);
         }

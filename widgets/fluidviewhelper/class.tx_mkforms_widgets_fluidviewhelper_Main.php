@@ -67,6 +67,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     protected function getViewHelperClass()
     {
         if (null === $this->_viewHelperClass) {
+            $viewHelper = null;
             $helperClass = $this->_navConf('/viewhelper');
             try {
                 $viewHelper = $this->getObjectManager()->get($helperClass);
@@ -152,6 +153,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     {
         $label = $this->getLabel();
 
+        $error = [];
         try {
             $rendered = $this->getViewHelper()->initializeArgumentsAndRender();
         } catch (Exception $e) {
@@ -169,7 +171,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
             'value' => $this->getValue(),
         ];
 
-        if (isset($error)) {
+        if (!empty($error)) {
             $htmlBag['renderError'] = true;
             $htmlBag['renderError.'] = $error;
         }
