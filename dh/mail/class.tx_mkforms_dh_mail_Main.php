@@ -215,10 +215,11 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         if (!$template) {
             $template = $this->_navConf('/mkmailer/templatekey');
             if ($template) {
-                Tx_Rnbase_Utility_T3General::deprecationLog(
+                trigger_error(
                     'MKFORMS ('.$this->getForm()->_xmlPath.'):'.
-                    ' config key "/mkmailer/templatekey" is deprecated,'.
-                    ' use "/mkmailer/template/key" instead.'
+                        ' config key "/mkmailer/templatekey" is deprecated,'.
+                        ' use "/mkmailer/template/key" instead.',
+                    E_USER_DEPRECATED
                 );
             }
         }

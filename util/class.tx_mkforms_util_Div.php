@@ -51,13 +51,13 @@ class tx_mkforms_util_Div
      */
     public static function getEnvExecMode()
     {
-        if (defined('TYPO3_cliMode') && TYPO3_cliMode) {
+        if (\Sys25\RnBase\Utility\TYPO3::isCliMode()) {
             return 'CLI';
         } elseif (TYPO3_MODE == 'BE') {
             return TYPO3_MODE;
         }
 
-        return (is_null(Tx_Rnbase_Utility_T3General::_GP('eID'))) ? 'FE' : 'EID';
+        return (is_null(Tx_Rnbase_Utility_T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
     }
 
     /**
@@ -133,7 +133,9 @@ class tx_mkforms_util_Div
     {
         $infos = tx_rnbase::getClassInfo($clazzname);
 
-        return tx_rnbase_util_Extensions::siteRelPath($infos['extkey']).$infos['dir'];
+        return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+            tx_rnbase_util_Extensions::extPath($infos['extkey'])
+        ).$infos['dir'];
     }
 
     /**
@@ -148,67 +150,6 @@ class tx_mkforms_util_Div
         $infos = tx_rnbase::getClassInfo($clazzname);
 
         return tx_rnbase_util_Extensions::extPath($infos['extkey']).$infos['dir'];
-    }
-
-    /**
-     * FE-Umgebung initialisieren.
-     *
-     * @param array $aConfig optional config array for TSFE
-     */
-    public static function virtualizeFE($aConfig = false, $feSetup = false)
-    {
-        $GLOBALS['TT'] = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getTimeTrackClass());
-        $GLOBALS['CLIENT'] = Tx_Rnbase_Utility_T3General::clientInfo();
-
-        // ***********************************
-        // Create $TSFE object (TSFE = TypoScript Front End)
-        // Connecting to database
-        // ***********************************
-
-        $GLOBALS['TSFE'] = tx_rnbase::makeInstance(
-            tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(),
-            $GLOBALS['TYPO3_CONF_VARS'],
-            Tx_Rnbase_Utility_T3General::_GP('id'),
-            Tx_Rnbase_Utility_T3General::_GP('type'),
-            Tx_Rnbase_Utility_T3General::_GP('no_cache'),
-            Tx_Rnbase_Utility_T3General::_GP('cHash'),
-            Tx_Rnbase_Utility_T3General::_GP('jumpurl'),
-            Tx_Rnbase_Utility_T3General::_GP('MP'),
-            Tx_Rnbase_Utility_T3General::_GP('RDCT')
-        );
-
-        /* @var $tsfe \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
-        $tsfe = &$GLOBALS['TSFE']; // only an alias for codecomplication
-
-        tx_rnbase_util_TCA::loadTCA('pages'); // takes 0.0080 T3 6.2
-
-        $tsfe->connectToDB(); // takes 0.0000 T3 6.2
-        $tsfe->initFEuser(); // takes 0.0400 T3 6.2
-        $tsfe->determineId(); // takes 0.0240 T3 6.2
-
-        $tsfe->initTemplate(); // takes 0.0030 T3 6.2
-        $tsfe->getFromCache(); // takes 0.0040 T3 6.2
-
-        if (!is_array($tsfe->config)) {
-            $tsfe->config = [];
-            $tsfe->forceTemplateParsing = true;
-        }
-
-        if (false === $aConfig) {
-            // Das benötigt 80-90% der Zeit für diese Methode in anspruch und sollte vermieden werden!
-            $tsfe->getConfigArray();
-        } else {
-            $tsfe->config = $aConfig;
-            if ($feSetup) {
-                $tsfe->tmpl->setup = !empty($tsfe->tmpl->setup) ? array_merge($tsfe->tmpl->setup, $feSetup) : $feSetup;
-            }
-        }
-
-        $tsfe->convPOSTCharset();
-        $tsfe->settingLanguage();
-        $tsfe->settingLocale();
-
-        $tsfe->cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
     }
 
     /**
@@ -543,7 +484,7 @@ ERRORMESSAGE;
     }
 
     /**
-     * Returns eID for Ajax calls.
+     * Returns mkformsAjaxId for Ajax calls.
      *
      * @return string
      */
@@ -786,7 +727,9 @@ ERRORMESSAGE;
         list($extKey, $local) = explode('/', substr($filename, 4), 2);
         $filename = '';
         if (strcmp($extKey, '') && tx_rnbase_util_Extensions::isLoaded($extKey) && strcmp($local, '')) {
-            $filename = tx_rnbase_util_Extensions::siteRelPath($extKey).$local;
+            $filename = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                tx_rnbase_util_Extensions::extPath($extKey)
+            ).$local;
         }
 
         return $filename;

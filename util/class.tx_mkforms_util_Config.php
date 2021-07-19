@@ -197,9 +197,7 @@ class tx_mkforms_util_Config
             if (!array_key_exists('formidable', $this->config)) {
                 tx_mkforms_util_Div::mayday('Root "mkforms" not found in XML. ('.$xmlPath.')');
             }
-            Tx_Rnbase_Utility_T3General::deprecationLog(
-                'Root node "mkforms" in "'.$xmlPath.'" missed, but deprecated "formidable" found.'
-            );
+            trigger_error('Root node "mkforms" in "'.$xmlPath.'" missed, but deprecated "formidable" found.', E_USER_DEPRECATED);
         }
 
         // the root is deleted

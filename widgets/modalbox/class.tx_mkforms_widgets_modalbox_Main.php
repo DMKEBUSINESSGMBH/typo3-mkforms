@@ -108,19 +108,6 @@ class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
         );
     }
 
-    public function loadModalBox(&$oForm)
-    {
-        $oJsLoader = $this->getForm()->getJSLoader();
-        $oJsLoader->loadScriptaculous();
-
-        $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('ameos_formidable').'api/base/rdt_modalbox/res/js/modalbox.js';
-
-        $oForm->additionalHeaderData(
-            '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($sPath).'"></script>',
-            'rdt_modalbox_class'
-        );
-    }
-
     // this has to be static !!!
     public static function loaded(&$aParams)
     {

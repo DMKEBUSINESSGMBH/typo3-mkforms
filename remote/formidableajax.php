@@ -1,10 +1,5 @@
 <?php
 
-// Exit, if script is called directly (must be included via eID in index_ts.php)
-if (!defined('PATH_typo3conf')) {
-    exit('Could not access this script directly!');
-}
-
 class formidableajax
 {
     /**
@@ -154,14 +149,22 @@ class formidableajax
             $feConfig = $sesMgr->restoreFeConfig($formid);
             $feSetup = $sesMgr->restoreFeSetup($formid);
             // Das dauert hier echt lang. Ca. 70% der Init-Zeit
-            tx_mkforms_util_Div::virtualizeFE($feConfig, $feSetup);
             $this->ttTimes['fecrest'] = microtime(true) - $start;
+            $context = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
+            $context->setAspect(
+                'language',
+                new \TYPO3\CMS\Core\Context\LanguageAspect(
+                    $aHibernation['sys_language_uid'],
+                    $aHibernation['sys_language_content'],
+                    $context->getAspect('language')->getOverlayType(),
+                    $context->getAspect('language')->getFallbackChain()
+                )
+            );
+
             $GLOBALS['TSFE']->config = $feConfig;
             $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] = $aHibernation['sys_language_uid'];
             $GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.'] = $aHibernation['formidable_tsconfig'];
-            $GLOBALS['TSFE']->sys_language_uid = $aHibernation['sys_language_uid'];
-            $GLOBALS['TSFE']->sys_language_content = $aHibernation['sys_language_content'];
-            $GLOBALS['TSFE']->lang = $aHibernation['lang'];
+
             $GLOBALS['TSFE']->config['config']['language'] = $aHibernation['lang'];
             $GLOBALS['TSFE']->id = $aHibernation['pageid'];
             $GLOBALS['TSFE']->spamProtectEmailAddresses = $aHibernation['spamProtectEmailAddresses'];
@@ -170,7 +173,7 @@ class formidableajax
         }
     }
 
-    public function handleRequest()
+    public function handleRequest(): string
     {
         $this->oForm->aInitTasksAjax = [];
         $this->oForm->aPostInitTasksAjax = [];
@@ -235,9 +238,7 @@ class formidableajax
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
         $sesMgr->persistForm(true);
 
-        // text/plain Will der IE nicht, deswegen text/html, damit sollten alle Browser klar kommen.
-        header('Content-Type: text/html; charset='.$sCharset);
-        exit($sJson);
+        return $sJson;
     }
 
     /**
@@ -409,31 +410,32 @@ class formidableajax
     {
         return $this->oForm->getPreviousAjaxParams();
     }
-}
 
-try {
-    $oAjax = new formidableajax();
-    if (false === $oAjax->init()) {
-        $oAjax->denyService(); // Damit wird der Prozess beendet.
-        exit();
-    }
-    $ret = $oAjax->handleRequest();
-} catch (Exception $e) {
-    if (tx_rnbase_util_Logger::isWarningEnabled()) {
-        $request = $oAjax instanceof formidableajax ? $oAjax->getRequestData() : 'unkown';
-        $widgets = $oAjax instanceof formidableajax && is_object($oAjax->getForm()) ? $oAjax->getForm()->getWidgetNames() : [];
-        tx_rnbase_util_Logger::warn(
-            'Exception in ajax call',
-            'mkforms',
-            [
-                'Exception Message' => $e->getMessage(),
-                'Exception Trace' => $e->getTraceAsString(),
-                'Request' => $request,
-                'Widgets' => $widgets,
-            ]);
-    }
-}
+    public function run(\Psr\Http\Message\ServerRequestInterface $request): \Psr\Http\Message\ResponseInterface
+    {
+        $json = '';
+        try {
+            if (false === $this->init()) {
+                $this->denyService(); // Damit wird der Prozess beendet.
+                exit();
+            }
+            return new \TYPO3\CMS\Core\Http\JsonResponse(json_decode($this->handleRequest(), true));
+        } catch (Exception $e) {
+            if (tx_rnbase_util_Logger::isWarningEnabled()) {
+                $request = $this instanceof formidableajax ? $this->getRequestData() : 'unkown';
+                $widgets = $this instanceof formidableajax && is_object($this->getForm()) ? $this->getForm()->getWidgetNames() : [];
+                tx_rnbase_util_Logger::warn(
+                    'Exception in ajax call',
+                    'mkforms',
+                    [
+                        'Exception Message' => $e->getMessage(),
+                        'Exception Trace' => $e->getTraceAsString(),
+                        'Request' => $request,
+                        'Widgets' => $widgets,
+                    ]);
+            }
+        }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/remote/formidableajax.php'];
+        return new \TYPO3\CMS\Core\Http\NullResponse();
+    }
 }

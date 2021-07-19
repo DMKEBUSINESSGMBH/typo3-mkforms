@@ -18,10 +18,6 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
     ];
 }
 
-// defines the Formidable ajax content-engine ID
-// TODO: Anpassen!
-$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][tx_mkforms_util_Div::getAjaxEId()] = 'EXT:mkforms/remote/formidableajax.php';
-
 if (TYPO3_MODE === 'FE') {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][]
         = 'tx_mkforms_hooks_TSFE->contentPostProc_output';

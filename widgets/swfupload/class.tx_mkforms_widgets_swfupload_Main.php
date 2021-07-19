@@ -39,7 +39,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        // requesting eID context for upload-service
+        // requesting mkformsAjax context for upload-service
         $this->getForm()->setStoreFormInSession();
 
         $this->initButtonBrowse();
@@ -59,7 +59,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
         $sSafeLock = $this->_getSessionDataHashKey();
         $sThrower = $sHtmlId;
 
-        $sUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+        $sUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/index.php?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
         $sButtonUrl = $this->oForm->getConfigXML()->getLLLabel('LLL:EXT:mkforms/widgets/swfupload/res/locallang.xml:buttonbrowse.image_url');
 
         $aConf = [

@@ -768,7 +768,7 @@ INITSCRIPT;
         $sUploadUrl = tx_mkforms_util_Div::removeEndingSlash(
             Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')
         ).
-            '/index.php?eID='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+            '/index.php?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         tx_mkforms_session_Factory::getSessionManager()->initialize();
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [

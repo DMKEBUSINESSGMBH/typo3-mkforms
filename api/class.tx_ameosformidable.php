@@ -379,20 +379,12 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         $this->makeHtmlParser();
-
-        //In tests brauchen wir das nicht da es bei installiertem
-        //ameos nur zu fehler führen würde wegen dem cache
-        if ('FE' !== tx_mkforms_util_Div::getEnvExecMode()
-            && !$this->isTestMode()
-        ) {    // virtualizing FE for BE and eID (ajax) modes
-            tx_mkforms_util_Div::virtualizeFE();
-        }
         /***** BASE INIT *****
          *
          */
         $this->sExtPath = tx_rnbase_util_Extensions::extPath('mkforms');
-        $this->sExtRelPath = tx_rnbase_util_Extensions::siteRelPath('mkforms');
-        $this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms');
+        $this->sExtRelPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix($this->sExtPath);
+        $this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath;
 
         // TODO: Der Zugriff auf conf wird durch tx_rnbase_configurations ersetzt
         $this->setConfigurations($configurations, $confid);
@@ -3213,14 +3205,15 @@ JAVASCRIPT;
         $aHtml[] = '<a name= "'.$this->formid.'formidable_debugtop" />';
 
         // wenn kein js immer ausklappen
+        $mkformsPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath('mkforms'));
         if (false === $bExpand && $this->getJSLoader()->mayLoadJsFramework()) {
             $aHtml[] = '<a href="javascript:void(Formidable.f(\''.$this->formid.'\').toggleDebug())"><img src="'
-                .Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms')
+                .Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$mkformsPath
                 .'/Resources/Public/Images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
             $aHtml[] = '<div id="'.$this->formid
                 .'_debugzone" style="font-family: Verdana; display: none; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;">';
         } else {
-            $aHtml[] = '<img src="'.Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath('mkforms')
+            $aHtml[] = '<img src="'.Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$mkformsPath
                 .'/Resources/Public/Images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
             $aHtml[] = "<div id = '".$this->formid
                 ."_debugzone' style = 'font-family: Verdana; display: block; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;'>";
@@ -3369,7 +3362,8 @@ JAVASCRIPT;
             $sExtKey = $GLOBALS['_EXTKEY'];
         }
 
-        return Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').tx_rnbase_util_Extensions::siteRelPath($sExtKey);
+        return Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').
+            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath($sExtKey));
     }
 
     public function _substLLLInHtml($sHtml)
@@ -3613,9 +3607,11 @@ JAVASCRIPT;
         }
 
         if (true === $aInfos['BASE']) {
-            return tx_rnbase_util_Extensions::siteRelPath('mkforms').'api/base/'.$aInfos['EXTKEY'].'/';
+
+            return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath('mkforms')).
+                'api/base/'.$aInfos['EXTKEY'].'/';
         } else {
-            return tx_rnbase_util_Extensions::siteRelPath($aInfos['EXTKEY']);
+            return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath($aInfos['EXTKEY']));
         }
     }
 

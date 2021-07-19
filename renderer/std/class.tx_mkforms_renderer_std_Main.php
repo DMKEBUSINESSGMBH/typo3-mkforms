@@ -18,11 +18,6 @@ class tx_mkforms_renderer_std_Main extends formidable_mainrenderer
             $sValidationErrors = '<div id="'.$errDiv.'" class="errors"><div class="error">'.implode('</div><div class="error">', $this->oForm->_aValidationErrorsByHtmlId).'</div></div><hr class="separator" />';
         }
 
-        $this->oForm->additionalHeaderData(
-            '<link href="'.$this->sExtWebPath.'Resources/Public/CSS/style.css" type="text/css" rel="stylesheet" />',
-            'formidable-rdrstd-style.css'
-        );
-
         return $this->_wrapIntoForm($sValidationErrors.$sForm);
     }
 
