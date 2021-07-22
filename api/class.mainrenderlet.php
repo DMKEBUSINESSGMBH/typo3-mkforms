@@ -2634,7 +2634,7 @@ JAVASCRIPT;
 
         reset($aLibs);
         foreach ($aLibs as $sKey => $sLib) {
-            $this->getForm()->additionalHeaderData(
+            $oJsLoader->additionalHeaderData(
                 '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($this->sExtWebPath.$sLib).'"></script>',
                 $sKey
             );
