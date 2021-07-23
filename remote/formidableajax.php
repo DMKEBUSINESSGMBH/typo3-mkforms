@@ -419,7 +419,7 @@ class formidableajax
                 $this->denyService(); // Damit wird der Prozess beendet.
                 exit();
             }
-            return new \TYPO3\CMS\Core\Http\JsonResponse(json_decode($this->handleRequest(), true));
+            return new \TYPO3\CMS\Core\Http\HtmlResponse($this->handleRequest());
         } catch (Exception $e) {
             if (tx_rnbase_util_Logger::isWarningEnabled()) {
                 $request = $this instanceof formidableajax ? $this->getRequestData() : 'unkown';
