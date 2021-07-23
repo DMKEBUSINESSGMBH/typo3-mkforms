@@ -3822,7 +3822,7 @@ JAVASCRIPT;
         $oMail->setReplyTo($sReplyAd, $sReplyName);
 
         // HTML
-        $oMail->setBody($sMessage);
+        $oMail->html($sMessage);
 
         // SET Attachements
 
