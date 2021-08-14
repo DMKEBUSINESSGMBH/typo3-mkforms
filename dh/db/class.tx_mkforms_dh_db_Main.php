@@ -561,9 +561,3 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
         return $this->_isTrue('/fillstandardtypo3fields');
     }
 }
-
-if (defined('TYPO3_MODE')
-    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_db/api/class.tx_dhdb.php']
-) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/ameos_formidable/api/base/dh_db/api/class.tx_dhdb.php'];
-}

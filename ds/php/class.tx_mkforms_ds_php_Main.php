@@ -109,9 +109,3 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
         return true;
     }
 }
-
-if (defined('TYPO3_MODE')
-    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php']
-) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/ds/php/class.tx_mkforms_ds_php_Main.php'];
-}
