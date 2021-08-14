@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 if (tx_rnbase_util_Extensions::isLoaded('mksanitizedparameters')) {
-    require_once tx_rnbase_util_Extensions::extPath($_EXTKEY).'ext_rules.php';
+    require_once tx_rnbase_util_Extensions::extPath('mkforms').'ext_rules.php';
 }
 // Predefine cache
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['mkforms'])
@@ -27,7 +27,7 @@ if (TYPO3_MODE === 'FE') {
         = 'tx_mkforms_hooks_TSFE->contentPostProc_output';
 }
 
-if (!is_array($GLOBALS['EM_CONF']) || !array_key_exists($_EXTKEY, $GLOBALS['EM_CONF'])) {
+if (!is_array($GLOBALS['EM_CONF']) || !array_key_exists('mkforms', $GLOBALS['EM_CONF'])) {
     require_once tx_rnbase_util_Extensions::extPath('mkforms', 'ext_emconf.php');
 }
 
@@ -143,6 +143,6 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['rdt_autocomp
 //das ist nur eine info für entwickler welcher basis exception code
 //für diese extension verwendet wird. in diesem fall 200.
 //also könnte ein valider exception code dieser extension 2001 sein
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['baseExceptionCode'] = 200;
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] = 200;
 
-require_once tx_rnbase_util_Extensions::extPath($_EXTKEY, 'Classes/Constants.php');
+require_once tx_rnbase_util_Extensions::extPath('mkforms', 'Classes/Constants.php');

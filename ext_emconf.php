@@ -9,7 +9,7 @@
 // Only the data in the array - anything else is removed by next write.
 // 'version' and 'dependencies' must not be touched!
 //
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['mkforms'] = [
     'title' => 'MK Forms',
     'description' => 'Making HTML forms for TYPO3',
     'category' => 'misc',
