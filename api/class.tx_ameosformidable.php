@@ -26,15 +26,6 @@
  *
  * @author    Jerome Schneider <typo3dev@ameos.com>
  */
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainobject.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.maindataset.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.maindatasource.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainvalidator.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.maindatahandler.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainrenderer.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainrenderlet.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainactionlet.php';
-
 class tx_ameosformidable implements tx_mkforms_forms_IForm
 {
     /**
@@ -4837,7 +4828,7 @@ JAVASCRIPT;
     public function div_arrayToCsvString($aData, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"')
     {
         // CSV class taken from http://snippets.dzone.com/posts/show/3128
-        require_once tx_rnbase_util_Extensions::extPath('mkforms').'res/shared/php/csv/class.csv.php';
+        require_once __DIR__ . '/../res/shared/php/csv/class.csv.php';
 
         $oCsv = new CSV(
             $sFSep,

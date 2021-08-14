@@ -295,7 +295,6 @@ class formidableajax
             if ($BE_USER->checkLockToIP() && $BE_USER->checkBackendAccessSettingsFromInitPhp()) {
                 $BE_USER->extInitFeAdmin();
                 if ($BE_USER->extAdmEnabled) {
-                    require_once tx_rnbase_util_Extensions::extPath('lang').'lang.php';
                     $LANG = tx_rnbase::makeInstance('language');
                     $LANG->init($BE_USER->uc['lang']);
 

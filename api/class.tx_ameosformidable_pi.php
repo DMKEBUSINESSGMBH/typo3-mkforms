@@ -23,8 +23,6 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
             )
         );
 
-        require_once PATH_formidableapi;
-
         if ('' !== $sConfPath) {
             $aCurZone = &$GLOBALS['TSFE']->tmpl->setup;
 
@@ -65,7 +63,6 @@ class tx_ameosformidable_pi extends Tx_Rnbase_Frontend_Plugin
     {
         // init+render
 
-        require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.tx_ameosformidable.php';
         $this->oForm = tx_rnbase::makeInstance('tx_ameosformidable');
         if (false === $this->sXmlPath) {
             $this->oForm->initFromTs(

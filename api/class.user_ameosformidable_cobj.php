@@ -63,7 +63,6 @@ class user_ameosformidable_cobj
 
     public function _render($conf)
     {
-        require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.tx_ameosformidable.php';
         $this->oForm = tx_rnbase::makeInstance('tx_ameosformidable');
         $this->oForm->initFromTs(
             $this,

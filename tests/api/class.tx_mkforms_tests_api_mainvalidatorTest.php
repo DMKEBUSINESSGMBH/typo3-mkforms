@@ -25,12 +25,6 @@
  */
 
 /**
- * benötigte Klassen einbinden.
- */
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainobject.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainvalidator.php';
-
-/**
  * Testfälle für tx_mkforms_util_Solr.
  *
  * @author hbochmann
