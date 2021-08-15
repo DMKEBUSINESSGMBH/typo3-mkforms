@@ -385,9 +385,9 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
         $oJsLoader->additionalHeaderData(
             (
-                '<script type="text/javascript" src="'.$oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar.js').'"></script>'.
-                '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($sLangFile).'"></script>'.
-                '<script type="text/javascript" src="'.$oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar-setup.js').'"></script>'.
+                '<script src="'.$oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar.js').'"></script>'.
+                '<script src="'.$oJsLoader->getScriptPath($sLangFile).'"></script>'.
+                '<script src="'.$oJsLoader->getScriptPath(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar-setup.js').'"></script>'.
                 $css
             ),
             'mkforms_date_includeonce'

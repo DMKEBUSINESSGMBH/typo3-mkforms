@@ -127,7 +127,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
         if (defined('TYPO3_cliMode') && TYPO3_cliMode) {
             $this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
         }
-        $this->oForm->getWidget('widget-text')->setValue('<script type="text/javascript">alert("XSS");</script>');
+        $this->oForm->getWidget('widget-text')->setValue('<script>alert("XSS");</script>');
 
         $dTime = microtime(true);
         // sind 100 aufrufe real? es sind sicher um einiges mehr.
@@ -150,7 +150,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
         if (defined('TYPO3_cliMode') && TYPO3_cliMode) {
             $this->markTestSkipped('Dieser Test kann nur nur manuell für Analysen gestartet werden.');
         }
-        $this->oForm->getWidget('widget-text2')->setValue('<script type="text/javascript">alert("XSS");</script>');
+        $this->oForm->getWidget('widget-text2')->setValue('<script>alert("XSS");</script>');
 
         $dTime = microtime(true);
         // sind 100 aufrufe real? es sind sicher um einiges mehr.

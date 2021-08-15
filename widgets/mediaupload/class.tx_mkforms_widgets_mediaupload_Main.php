@@ -695,7 +695,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $sFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/js/'.$dir.'/ajaxfileupload.js';
 
         $oJsLoader->additionalHeaderData(
-            '<script type="text/javascript" src="'.$oJsLoader->getScriptPath($sFile).'"></script>',
+            '<script src="'.$oJsLoader->getScriptPath($sFile).'"></script>',
             'mkforms_mediaupload_includeonce'
         );
     }
