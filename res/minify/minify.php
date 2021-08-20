@@ -238,7 +238,7 @@ class Minify
      */
     public function minifyJS($js)
     {
-        require_once dirname(__FILE__).'/lib/jsmin.php';
+        require_once __DIR__ . '/lib/jsmin.php';
 
         return JSMin::minify($js);
     }

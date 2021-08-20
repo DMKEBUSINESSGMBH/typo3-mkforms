@@ -1,7 +1,5 @@
 <?php
 
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainscriptingmethods.php';
-
 class formidable_inlineconfmethods extends formidable_mainscriptingmethods
 {
     public function &method_this(&$oRdt, $aParams)

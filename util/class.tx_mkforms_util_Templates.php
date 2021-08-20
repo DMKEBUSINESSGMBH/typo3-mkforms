@@ -646,7 +646,7 @@ class tx_mkforms_util_Templates
 
         $sClassPath = 'class.'.$sInterpreter.'.php';
 
-        require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/'.$sClassPath;
+        require_once __DIR__ . '/../api/' . $sClassPath;
         // TODO: Was ist das??
         // wird für template scripting benötigt
         // Bsp.: <!-- ###jobads-subtype.formData("jobads-maintype").equals(501) perimeter### begin-->

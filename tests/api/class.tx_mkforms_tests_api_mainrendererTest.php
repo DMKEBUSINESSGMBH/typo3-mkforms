@@ -25,12 +25,6 @@
  */
 
 /**
- * benötigte Klassen einbinden.
- */
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainobject.php';
-require_once tx_rnbase_util_Extensions::extPath('mkforms').'api/class.mainrenderer.php';
-
-/**
  * Testfälle für tx_mkforms_api_mainrenderlet
  * wir testen am beispiel des TEXT widgets.
  *

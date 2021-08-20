@@ -99,7 +99,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
      *                          example: <param get="setStatusMessage::status__statusSaved|LLL:EXT:mkhogafe/locallang.xml:header_form_saved"/>
      *      * majixAction:      Name of method to be executed -
      *
-     * @see ext:mkforms/api/class.mainrenderlet.php:formidable_mainrenderlet->majix* functions
+     * @see formidable_mainrenderlet->majix* functions
      *                          Give names like "displayNone", "hidden" etc. in order to call "majixDisplayNone()",
      *                          "majixHidden()" etc. respectively.
      *                          Additionally evaluated function name:

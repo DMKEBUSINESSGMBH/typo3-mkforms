@@ -673,7 +673,6 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         if (!$GLOBALS['LANG']) {
             // Bei Ajax-Calls fehlt das Objekt
-            require_once tx_rnbase_util_Extensions::extPath('lang').'lang.php';
             $GLOBALS['LANG'] = tx_rnbase::makeInstance('language');
             $GLOBALS['LANG']->init($BE_USER->uc['lang']);
         }
