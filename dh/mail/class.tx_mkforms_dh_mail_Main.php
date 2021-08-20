@@ -431,9 +431,3 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         return $content;
     }
 }
-
-if (defined('TYPO3_MODE')
-    && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php']
-) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['/mkforms/dh/mail/class.tx_mkforms_dh_mail_Main.php'];
-}

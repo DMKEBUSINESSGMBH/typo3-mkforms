@@ -177,7 +177,3 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
         return $htmlBag;
     }
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/fluidviewhelper/class.tx_mkforms_widgets_fluidviewhelper_Main.php']) {
-    include_once $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/mkforms/widgets/fluidviewhelper/class.tx_mkforms_widgets_fluidviewhelper_Main.php'];
-}
