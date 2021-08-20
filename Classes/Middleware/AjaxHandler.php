@@ -56,7 +56,7 @@ class AjaxHandler implements MiddlewareInterface
     {
         $mkformsAjaxId = $request->getParsedBody()['mkformsAjaxId'] ?? $request->getQueryParams()['mkformsAjaxId'] ?? null;
 
-        if ($mkformsAjaxId === null) {
+        if (null === $mkformsAjaxId) {
             return $handler->handle($request);
         }
 
@@ -64,6 +64,7 @@ class AjaxHandler implements MiddlewareInterface
         ob_clean();
 
         $request = $request->withAttribute('target', \formidableajax::class.'::run');
+
         return $this->dispatcher->dispatch($request) ?? new NullResponse();
     }
 }

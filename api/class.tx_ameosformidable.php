@@ -3598,7 +3598,6 @@ JAVASCRIPT;
         }
 
         if (true === $aInfos['BASE']) {
-
             return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath('mkforms')).
                 'api/base/'.$aInfos['EXTKEY'].'/';
         } else {
@@ -4828,7 +4827,7 @@ JAVASCRIPT;
     public function div_arrayToCsvString($aData, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"')
     {
         // CSV class taken from http://snippets.dzone.com/posts/show/3128
-        require_once __DIR__ . '/../res/shared/php/csv/class.csv.php';
+        require_once __DIR__.'/../res/shared/php/csv/class.csv.php';
 
         $oCsv = new CSV(
             $sFSep,
