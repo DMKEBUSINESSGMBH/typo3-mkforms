@@ -2457,7 +2457,7 @@ SANDBOXCLASS;
                 );
             } else {
                 $this->additionalHeaderData(
-                    "<!-- BEGIN:Formidable '".$this->formid."' initialization-->\n"."<script type=\"text/javascript\">\n"
+                    "<!-- BEGIN:Formidable '".$this->formid."' initialization-->\n"."<script>\n"
                     .$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid."' initialization-->\n"
                 );
             }
@@ -2473,7 +2473,7 @@ SANDBOXCLASS;
             } else {
                 $this->additionalHeaderData(
                     "<!-- BEGIN:Formidable '".$this->formid."' post-initialization-->\n"
-                    ."<script type=\"text/javascript\">\n".$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid
+                    ."<script>\n".$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid
                     ."' post-initialization-->\n"
                 );
             }

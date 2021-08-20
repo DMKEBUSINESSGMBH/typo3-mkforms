@@ -135,7 +135,7 @@ class tx_mkforms_js_Loader
     {
         $path = tx_mkforms_util_Div::removeStartingSlash(tx_mkforms_util_Div::toRelPath($sFilePath));
         $path = $this->getAbsRefPrefix().$path;
-        $this->aCodeBehindJsIncludes[$ref] = '<script type="text/javascript" src="'.
+        $this->aCodeBehindJsIncludes[$ref] = '<script src="'.
             $this->getForm()->getJSLoader()->getScriptPath($path).'"></script>';
     }
 
@@ -266,7 +266,7 @@ JAVASCRIPT;
         $includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 
         foreach ($includes as $include) {
-            $tag = $include->isJS() ? '<script type="text/javascript" src="'.$this->getScriptPath($include->getPagePath()).'"></script>' :
+            $tag = $include->isJS() ? '<script src="'.$this->getScriptPath($include->getPagePath()).'"></script>' :
                 '<link href="'.$this->getScriptPath($include->getPagePath(), 'css').'" type="text/css" rel="stylesheet" />';
             $this->additionalHeaderData(
                 $tag,
@@ -295,7 +295,7 @@ JAVASCRIPT;
         $includes = $this->getJSFramework()->getEffectIncludes($this->getAbsRefPrefix());
 
         foreach ($includes as $include) {
-            $tag = $include->isJS() ? '<script type="text/javascript" src="'.$this->getScriptPath($include->getPagePath()).'"></script>' :
+            $tag = $include->isJS() ? '<script src="'.$this->getScriptPath($include->getPagePath()).'"></script>' :
                 '<link href="'.$this->getScriptPath($include->getPagePath(), 'css').'" type="text/css" rel="stylesheet" />';
             $this->additionalHeaderData(
                 $tag,
@@ -316,7 +316,7 @@ JAVASCRIPT;
             $sPath = $this->getAbsRefPrefix().$mkformsPath.'Resources/Public/JavaScript/scriptaculous/dragdrop.js';
 
             $this->additionalHeaderData(
-                '<script type="text/javascript" src="'.$this->getScriptPath($sPath).'"></script>',
+                '<script src="'.$this->getScriptPath($sPath).'"></script>',
                 'tx_ameosformidable_scriptaculous_dragdrop',
                 $bFirstPos = false,
                 $sBefore = false,
@@ -330,7 +330,7 @@ JAVASCRIPT;
             $sPath = $this->getAbsRefPrefix().$mkformsPath.'Resources/Public/JavaScript/scriptaculous/builder.js';
 
             $this->additionalHeaderData(
-                '<script type="text/javascript" src="'.$this->getScriptPath($sPath).'"></script>',
+                '<script src="'.$this->getScriptPath($sPath).'"></script>',
                 'tx_ameosformidable_scriptaculous_builder',
                 $bFirstPos = false,
                 $sBefore = false,
@@ -356,7 +356,7 @@ JAVASCRIPT;
                 tx_rnbase_util_Extensions::extPath('mkforms')
             ).
             'Resources/Public/JavaScript/framework.js';
-        $tag = '<script type="text/javascript" src="'.$this->getScriptPath($sPath).'"></script>';
+        $tag = '<script src="'.$this->getScriptPath($sPath).'"></script>';
         $this->additionalHeaderData(
             $tag,
             'tx_ameosformidable_jsframework',
@@ -447,7 +447,7 @@ JAVASCRIPT;
             $sPath = $this->getAbsRefPrefix().$mkformsPath.'Resources/Public/JavaScript/tooltip/tooltips.js';
 
             $this->additionalHeaderData(
-                '<script type="text/javascript" src="'.$sPath.'"></script>',
+                '<script src="'.$sPath.'"></script>',
                 'tx_ameosformidable_tooltip_js',
                 $bFirstPos = false,
                 $sBefore = false,
@@ -550,7 +550,7 @@ JAVASCRIPT;
             switch ($ext) {
                 case 'js':
                     $script = 'typo3temp/assets/mkforms/javascript_'.substr(md5($str), 0, 10).'.js';
-                    $output = $sDesc."\n".'<script type="text/javascript" src="'.htmlspecialchars(
+                    $output = $sDesc."\n".'<script src="'.htmlspecialchars(
                         $this->getAbsRefPrefix().$script
                     ).'"></script>'."\n\n";
                     break;
