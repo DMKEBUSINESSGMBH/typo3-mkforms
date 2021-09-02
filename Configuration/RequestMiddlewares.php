@@ -9,6 +9,7 @@ return [
             ],
             'before' => [
                 'typo3/cms-frontend/output-compression',
+                'typo3/cms-frontend/prepare-tsfe-rendering',
             ],
         ],
     ],
