@@ -37,7 +37,6 @@
     "require-dev": {
         "nimut/testing-framework": "^4.0 || ^5.0",
         "dmk/mklib": ">=3.0.8",
-        "php-parallel-lint/php-parallel-lint": "^1.2",
         "friendsofphp/php-cs-fixer": "^2.16"
     },
     "autoload": {
@@ -87,8 +86,7 @@
             "[ -L .Build/Web/typo3conf/ext/mkforms ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkforms"
         ],
         "lint:php": [
-            "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint  ./action ./api ./Classes ./dh ./ds ./exception ./forms ./hooks ./js ./remote ./renderer ./session ./tests ./util ./validator ./view ./widgets"
+            "find *.php action api Classes dh ds exception forms hooks js remote renderer session tests util validator view widgets -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l"
         ],
         "lint": [
             "@lint:php"
