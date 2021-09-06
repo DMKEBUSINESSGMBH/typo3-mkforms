@@ -35,7 +35,7 @@ $EM_CONF['mkforms'] = [
         'depends' => [
             'rn_base' => '1.10.5-',
             'typo3' => '9.5.0-10.4.99',
-            'php' => '5.6.0-8.9.99',
+            'php' => '7.2.0-7.4.99',
         ],
         'conflicts' => [
             'ameos_formidable' => '',
