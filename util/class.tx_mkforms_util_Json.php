@@ -659,14 +659,9 @@ class tx_mkforms_util_Json
         }
     }
 
-    /**
-     * @todo Ultimately, this should just call PEAR::isError()
-     */
     public function isError($data, $code = null)
     {
-        if (class_exists('pear')) {
-            return PEAR::isError($data, $code);
-        } elseif (is_object($data) && ('services_json_error' == get_class($data) ||
+        if (is_object($data) && ('services_json_error' == get_class($data) ||
                                  is_subclass_of($data, 'services_json_error'))) {
             return true;
         }
@@ -675,32 +670,14 @@ class tx_mkforms_util_Json
     }
 }
 
-if (class_exists('PEAR_Error')) {
-    class mkforms_json_Error extends PEAR_Error
-    {
-        public function Services_JSON_Error(
-            $message = 'unknown error',
-            $code = null,
-            $mode = null,
-            $options = null,
-            $userinfo = null
-        ) {
-            parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
-        }
-    }
-} else {
-    /**
-     * @todo Ultimately, this class shall be descended from PEAR_Error
-     */
-    class mkforms_json_Error
-    {
-        public function Services_JSON_Error(
-            $message = 'unknown error',
-            $code = null,
-            $mode = null,
-            $options = null,
-            $userinfo = null
-        ) {
-        }
+class mkforms_json_Error
+{
+    public function Services_JSON_Error(
+        $message = 'unknown error',
+        $code = null,
+        $mode = null,
+        $options = null,
+        $userinfo = null
+    ) {
     }
 }
