@@ -410,7 +410,7 @@ class formidableajax
         return $this->oForm->getPreviousAjaxParams();
     }
 
-    public function run(\Psr\Http\Message\ServerRequestInterface $request): \Psr\Http\Message\ResponseInterface
+    public function run(Psr\Http\Message\ServerRequestInterface $request): Psr\Http\Message\ResponseInterface
     {
         $json = '';
         try {
@@ -418,6 +418,7 @@ class formidableajax
                 $this->denyService(); // Damit wird der Prozess beendet.
                 exit();
             }
+
             return new \TYPO3\CMS\Core\Http\HtmlResponse($this->handleRequest());
         } catch (Exception $e) {
             if (tx_rnbase_util_Logger::isWarningEnabled()) {

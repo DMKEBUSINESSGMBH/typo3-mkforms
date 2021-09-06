@@ -433,7 +433,7 @@ JAVASCRIPT;
             $mkformsPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
                 tx_rnbase_util_Extensions::extPath('mkforms')
             );
-            $sPath = $this->getAbsRefPrefix().$mkformsPath. 'Resources/Public/JavaScript/tooltip/tooltips.css';
+            $sPath = $this->getAbsRefPrefix().$mkformsPath.'Resources/Public/JavaScript/tooltip/tooltips.css';
 
             $this->additionalHeaderData(
                 '<link rel="stylesheet" type="text/css" href="'.$sPath.'" />',
