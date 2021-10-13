@@ -1,8 +1,8 @@
-/.buildpath
-/.project
 /.Build
-/.settings
-/nbproject
+/.buildpath
 /.idea
-/composer.lock
 /.php_cs.cache
+/.project
+/.settings
+/composer.lock
+/nbproject
