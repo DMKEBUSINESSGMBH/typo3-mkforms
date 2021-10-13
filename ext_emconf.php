@@ -60,11 +60,15 @@ $EM_CONF['mkforms'] = [
             'remote/',
             'renderer/',
             'session/',
-            'tests/',
             'util/',
             'validator/',
             'view/',
             'widgets/',
+        ],
+    ],
+    'autoload-dev' => [
+        'classmap' => [
+            'tests/',
         ],
     ],
     '_md5_values_when_last_written' => '',
