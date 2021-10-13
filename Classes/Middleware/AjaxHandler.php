@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Core\Http\DispatcherInterface;
+use TYPO3\CMS\Core\Http\NullResponse;
 
 /***************************************************************
  * Copyright notice
@@ -42,16 +42,6 @@ use TYPO3\CMS\Core\Http\DispatcherInterface;
  */
 class AjaxHandler implements MiddlewareInterface
 {
-    /**
-     * @var DispatcherInterface
-     */
-    protected $dispatcher;
-
-    public function __construct(DispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-    }
-
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $mkformsAjaxId = $request->getParsedBody()['mkformsAjaxId'] ?? $request->getQueryParams()['mkformsAjaxId'] ?? null;
@@ -65,6 +55,6 @@ class AjaxHandler implements MiddlewareInterface
 
         $request = $request->withAttribute('target', \formidableajax::class.'::run');
 
-        return $this->dispatcher->dispatch($request) ?? new NullResponse();
+        return $handler->handle($request) ?? new NullResponse();
     }
 }
