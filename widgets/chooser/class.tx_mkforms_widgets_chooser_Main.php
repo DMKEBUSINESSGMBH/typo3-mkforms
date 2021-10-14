@@ -22,7 +22,7 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
         $sFuncName = '_formidableRdtChooser'.\Sys25\RnBase\Utility\T3General::shortMd5($this->oForm->formid.$this->_getName());
         $sElementId = $this->_getElementHtmlId();
 
-        $sMode = $this->_navConf('/submitmode');
+        $sMode = $this->getConfigValue('/submitmode');
         if ('draft' == $sMode) {
             $sSubmitEvent = $this->oForm->oRenderer->_getDraftSubmitEvent($aAddPost);
         } elseif ('test' == $sMode) {
@@ -38,7 +38,7 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
         }
 
         $sSystemField = $this->oForm->formid.'_AMEOSFORMIDABLE_SUBMITTER';
-        $sSubmitter = $this->_getElementHtmlIdWithoutFormId();
+        $sSubmitter = $this->getElementHtmlId();
 
         $sScript = <<<JAVASCRIPT
 
@@ -69,8 +69,8 @@ JAVASCRIPT;
 
                 $sSelected = ($sValue == $sItemValue) ? 1 : 0;
 
-                if ($this->oForm->isRunneable($this->_navConf('/renderaslinks'))) {
-                    $sHref = $this->getForm()->getRunnable()->callRunnableWidget($this, $this->_navConf('/renderaslinks'), ['value' => $sItemValue]);
+                if ($this->oForm->isRunneable($this->getConfigValue('/renderaslinks'))) {
+                    $sHref = $this->getForm()->getRunnable()->callRunnableWidget($this, $this->getConfigValue('/renderaslinks'), ['value' => $sItemValue]);
                 } else {
                     $sHref = 'javascript:void('.$sFuncName."(unescape('".rawurlencode($sItemValue)."'), unescape('".rawurlencode($sId)."')))";
                 }
@@ -129,7 +129,7 @@ JAVASCRIPT;
 
     public function _getSeparator()
     {
-        if (false === ($mSep = $this->_navConf('/separator'))) {
+        if (false === ($mSep = $this->getConfigValue('/separator'))) {
             $mSep = ' &#124; ';
         } else {
             if ($this->oForm->isRunneable($mSep)) {
@@ -150,7 +150,7 @@ JAVASCRIPT;
 
     public function _wrapSelected($sHtml)
     {
-        if (false !== ($mWrap = $this->_navConf('/wrapselected'))) {
+        if (false !== ($mWrap = $this->getConfigValue('/wrapselected'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }
@@ -165,7 +165,7 @@ JAVASCRIPT;
 
     public function _wrapItem($sHtml)
     {
-        if (false !== ($mWrap = $this->_navConf('/wrapitem'))) {
+        if (false !== ($mWrap = $this->getConfigValue('/wrapitem'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }

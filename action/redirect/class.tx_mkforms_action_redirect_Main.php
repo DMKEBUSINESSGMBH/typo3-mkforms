@@ -9,21 +9,21 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
 {
     public function _doTheMagic($aRendered, $sForm)
     {
-        if (!$this->getForm()->getDataHandler()->_allIsValid()) {
+        if (!$this->getForm()->getValidationTool()->isAllValid()) {
             return;
         }
         if (!$this->shouldProcess()) {
             return;
         }
 
-        if (false !== ($mPage = $this->_navConf('/pageid'))) {
+        if (false !== ($mPage = $this->getConfigValue('/pageid'))) {
             $mPage = $this->callRunneable($mPage);
             $sUrl = $this->getForm()->getCObj()->typoLink_URL(['parameter' => $mPage]);
             if (!\Sys25\RnBase\Utility\T3General::isFirstPartOfStr($sUrl, 'http://') && '' !== trim($GLOBALS['TSFE']->baseUrl)) {
                 $sUrl = tx_mkforms_util_Div::removeEndingSlash($GLOBALS['TSFE']->baseUrl).'/'.$sUrl;
             }
         } else {
-            $sUrl = $this->_navConf('/url');
+            $sUrl = $this->getConfigValue('/url');
             $sUrl = $this->callRunneable($sUrl);
         }
 

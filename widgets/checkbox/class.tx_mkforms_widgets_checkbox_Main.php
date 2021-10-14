@@ -172,7 +172,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
             reset($aValues);
 
             $sTableName = $this->oForm->_navConf('/tablename', $this->oForm->oDataHandler->aElement);
-            $aConf = $this->_navConf('/search');
+            $aConf = $this->getConfigValue('/search');
 
             if (!is_array($aConf)) {
                 $aConf = [];
@@ -247,7 +247,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
     public function _getSeparator()
     {
-        if (false === ($mSep = $this->_navConf('/separator'))) {
+        if (false === ($mSep = $this->getConfigValue('/separator'))) {
             $mSep = "<br />\n";
         } else {
             if ($this->oForm->isRunneable($mSep)) {
@@ -268,7 +268,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
     public function _wrapSelected($sHtml)
     {
-        if (false !== ($mWrap = $this->_navConf('/wrapselected'))) {
+        if (false !== ($mWrap = $this->getConfigValue('/wrapselected'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }
@@ -283,7 +283,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
     public function _wrapItem($sHtml)
     {
-        if (false !== ($mWrap = $this->_navConf('/wrapitem'))) {
+        if (false !== ($mWrap = $this->getConfigValue('/wrapitem'))) {
             if ($this->oForm->isRunneable($mWrap)) {
                 $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
             }

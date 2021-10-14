@@ -38,7 +38,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
 
     public function getName()
     {
-        return $this->_navConf('/name');
+        return $this->getConfigValue('/name');
     }
 
     public function writable()

@@ -124,7 +124,10 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         foreach (self::explodeParam($params['setStatusMessage']) as $message) {
             if ($widget = $form->getWidget($message[0])) {
                 if (!empty($message[1])) { // wenn eine nachricht enthalten, ggf LLL ersetzen und dann ausgeben
-                    self::setValueToWidget($widget, $form->getConfig()->getLLLabel($message[1]), $widget->_isSubmitted());
+                    self::setValueToWidget(
+                        $widget,
+                        $form->getConfigXML()->getLLLabel($message[1]), $widget->_isSubmitted()
+                    );
                 }
                 $return[] = $widget->majixRepaint();
             }

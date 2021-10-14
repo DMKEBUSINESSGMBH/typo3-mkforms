@@ -49,7 +49,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             return '';
         }
 
-        $aKeys = array_keys($this->_navConf('/'));
+        $aKeys = array_keys($this->getConfigValue('/'));
         reset($aKeys);
         foreach ($aKeys as $sKey) {
             // Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
@@ -64,7 +64,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             ***********************************************************************/
 
             if ('e' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'extension')) {
-                $sFileExts = $this->_navConf('/'.$sKey.'/value');
+                $sFileExts = $this->getConfigValue('/'.$sKey.'/value');
                 if ($this->oForm->isRunneable($sFileExts)) {
                     $sFileExts = $this->callRunneable($sFileExts);
                 }
@@ -78,7 +78,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:extension',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     $bError = true;
@@ -95,7 +95,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesize') &&
                     \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizekb') &&
                     \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
-                $mSize = $this->_navConf('/'.$sKey.'/value');
+                $mSize = $this->getConfigValue('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
                     $mSize = $this->callRunneable($mSize);
@@ -105,7 +105,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:filesize',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     $bError = true;
@@ -120,7 +120,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             ***********************************************************************/
 
             if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizekb')) {
-                $mSize = $this->_navConf('/'.$sKey.'/value');
+                $mSize = $this->getConfigValue('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
                     $mSize = $this->callRunneable($mSize);
@@ -130,7 +130,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:filesizekb',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     $bError = true;
@@ -145,7 +145,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             ***********************************************************************/
 
             if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
-                $mSize = $this->_navConf('/'.$sKey.'/value');
+                $mSize = $this->getConfigValue('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
                     $mSize = $this->callRunneable($mSize);
@@ -155,7 +155,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'FILE:filesizemb',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     $bError = true;

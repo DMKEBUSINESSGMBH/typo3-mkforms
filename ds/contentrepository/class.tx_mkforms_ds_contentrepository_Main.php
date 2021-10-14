@@ -46,13 +46,13 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
     public function loadRepository()
     {
         if (false === $this->oRepo) {
-            if (false === $this->_navConf('/repository')) {
+            if (false === $this->getConfigValue('/repository')) {
                 $this->oForm->mayday(
                     'datasource:CONTENTREPOSITORY[name=\''.$this->getName().'\'] You have to provide <b>/repository</b>.'
                 );
             }
 
-            if (false === ($sClassFile = $this->_navConf('/repository/classfile'))) {
+            if (false === ($sClassFile = $this->getConfigValue('/repository/classfile'))) {
                 $this->oForm->mayday(
                     "datasource:CONTENTREPOSITORY[name='".$this->getName()
                     ."'] You have to provide <b>/repository/classFile</b>."
@@ -77,7 +77,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
                 require_once $sClassFile;
             }
 
-            if (false === ($sClassName = $this->_navConf('/repository/classname'))) {
+            if (false === ($sClassName = $this->getConfigValue('/repository/classname'))) {
                 $this->oForm->mayday(
                     "datasource:CONTENTREPOSITORY[name='".$this->getName()
                     ."'] You have to provide <b>/repository/className</b>."
@@ -100,7 +100,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
         reset($this->aElement);
         foreach ($this->aElement as $sElementName => $notNeeded) {
             if ('a' === $sElementName[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sElementName, 'aggregate')) {
-                if (false === ($sClassFile = $this->_navConf('/'.$sElementName.'/classfile'))) {
+                if (false === ($sClassFile = $this->getConfigValue('/'.$sElementName.'/classfile'))) {
                     $this->oForm->mayday(
                         "datasource:CONTENTREPOSITORY[name='".$this->getName()
                         ."'] You have to provide <b>/aggregate/classFile</b>."
@@ -125,7 +125,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
                     require_once $sClassFile;
                 }
 
-                if (false === ($sClassName = $this->_navConf('/'.$sElementName.'/classname'))) {
+                if (false === ($sClassName = $this->getConfigValue('/'.$sElementName.'/classname'))) {
                     $this->oForm->mayday(
                         "datasource:CONTENTREPOSITORY[name='".$this->getName()
                         ."'] You have to provide <b>/aggregate/className</b>."

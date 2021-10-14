@@ -92,7 +92,7 @@ class formidable_mainobject
     public function _isTrue($sPath, $aConf = false)
     {
         return $this->_isTrueVal(
-            $this->_navConf($sPath, $aConf)
+            $this->getConfigValue($sPath, $aConf)
         );
     }
 
@@ -150,7 +150,7 @@ class formidable_mainobject
 
     public function _defaultTrue($sPath, $aConf = false)
     {
-        if (false !== $this->_navConf($sPath, $aConf)) {
+        if (false !== $this->getConfigValue($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return true;    // TRUE as a default
@@ -159,7 +159,7 @@ class formidable_mainobject
 
     public function _defaultFalse($sPath, $aConf = false)
     {
-        if (false !== $this->_navConf($sPath, $aConf)) {
+        if (false !== $this->getConfigValue($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return false;    // FALSE as a default
@@ -184,7 +184,7 @@ class formidable_mainobject
 
     public function _defaultTrueMixed($sPath)
     {
-        if (false !== ($mMixed = $this->_navConf($sPath))) {
+        if (false !== ($mMixed = $this->getConfigValue($sPath))) {
             if ('TRUE' !== strtoupper($mMixed) && 'FALSE' !== strtoupper($mMixed)) {
                 return $mMixed;
             }
@@ -202,7 +202,7 @@ class formidable_mainobject
 
     public function _defaultFalseMixed($sPath)
     {
-        if (false !== ($mMixed = $this->_navConf($sPath))) {
+        if (false !== ($mMixed = $this->getConfigValue($sPath))) {
             if ('TRUE' !== strtoupper($mMixed) && 'FALSE' !== strtoupper($mMixed)) {
                 return $mMixed;
             }

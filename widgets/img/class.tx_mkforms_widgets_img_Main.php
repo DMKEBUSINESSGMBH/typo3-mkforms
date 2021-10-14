@@ -15,7 +15,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
     {
         $sPath = $this->_getPath();
         if (false !== $sPath || (
-                is_array($this->_navConf('/imageconf/')) &&
+                is_array($this->getConfigValue('/imageconf/')) &&
                 $this->defaultFalse('/imageconf/forcegeneration')
             )
         ) {
@@ -23,7 +23,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             $aSize = false;
             $bReprocess = false;
 
-            if (is_array($mConf = $this->_navConf('/imageconf/')) && $this->oForm->isRunneable($mConf)) {
+            if (is_array($mConf = $this->getConfigValue('/imageconf/')) && $this->oForm->isRunneable($mConf)) {
                 $bReprocess = true;
             }
 
@@ -187,7 +187,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
     public function _getPath()
     {
-        if (false !== ($sPath = $this->_navConf('/path'))) {
+        if (false !== ($sPath = $this->getConfigValue('/path'))) {
             $sPath = $this->_processPath($sPath);
         }
         if (tx_mkforms_util_Div::isAbsWebPath($sPath)) {
@@ -197,7 +197,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             if (\Sys25\RnBase\Utility\Math::isInteger($sPath) && $this->defaultFalse('/treatidasreference')) {
                 $reference = \Sys25\RnBase\Utility\TSFAL::getFileReferenceById($sPath);
                 $sPath = $reference->getForLocalProcessing(false);
-            } elseif (false !== ($mFolder = $this->_navConf('/folder'))) {
+            } elseif (false !== ($mFolder = $this->getConfigValue('/folder'))) {
                 if ($this->oForm->isRunneable($mFolder)) {
                     $mFolder = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFolder);
                 }
@@ -214,7 +214,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             $sFullPath = tx_mkforms_util_Div::toServerPath($sPath);
 
             if (!file_exists($sFullPath) || !is_file($sFullPath) || !is_readable($sFullPath)) {
-                if (false !== ($sDefaultPath = $this->_navConf('/defaultpath'))) {
+                if (false !== ($sDefaultPath = $this->getConfigValue('/defaultpath'))) {
                     $sDefaultPath = $this->_processPath($sDefaultPath);
                     $sFullDefaultPath = tx_mkforms_util_Div::toServerPath($sDefaultPath);
 
@@ -279,7 +279,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
     {
         $aAddParams = parent::_getAddInputParamsArray();
 
-        if (false !== ($mUseMap = $this->_navConf('/usemap'))) {
+        if (false !== ($mUseMap = $this->getConfigValue('/usemap'))) {
             if ($this->oForm->isRunneable($mUseMap)) {
                 $mUseMap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mUseMap);
             }
@@ -289,7 +289,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             }
         }
 
-        if (false !== ($mAlt = $this->_navConf('/alt'))) {
+        if (false !== ($mAlt = $this->getConfigValue('/alt'))) {
             if ($this->oForm->isRunneable($mAlt)) {
                 $mAlt = $this->getForm()->getRunnable()->callRunnableWidget($this, $mAlt);
             }

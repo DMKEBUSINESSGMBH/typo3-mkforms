@@ -56,9 +56,9 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         }
 
         // calling back
-        $callback = $this->getForm()->getConfig()->get('/control/datahandler/parentcallback/');
+        $callback = $this->getForm()->getConfigXML()->get('/control/datahandler/parentcallback/');
         if (false === $callback) {
-            $callback = $this->getForm()->getConfig()->get('/control/datahandler/callback/');
+            $callback = $this->getForm()->getConfigXML()->get('/control/datahandler/callback/');
         }
 
         // sicher, was ist mit formularen, die nur etwas anzeigen, aber nichts verarbeiten!?
@@ -129,7 +129,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
         if (empty($this->__aStoredData)) {
             $this->__aStoredData = [];
 
-            if (false !== ($record = $this->getForm()->getConfig()->get('/control/datahandler/record'))) {
+            if (false !== ($record = $this->getForm()->getConfigXML()->get('/control/datahandler/record'))) {
                 $this->__aStoredData = $this->getForm()->getRunnable()->callRunnable($record);
                 if (!is_array($this->__aStoredData)) {
                     tx_mkforms_util_Div::mayday('DataHandler RAW needs a record!');
@@ -139,7 +139,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
                 $widgetNames = $this->getForm()->getWidgetNames();
                 foreach ($widgetNames as $name) {
                     // Das ist nur für Confirm-Felder interessant
-                    if (false !== ($sConfirm = $this->getForm()->getWidget($name)->_navConf('/confirm'))) {
+                    if (false !== ($sConfirm = $this->getForm()->getWidget($name)->getConfigValue('/confirm'))) {
                         $this->__aStoredData[$name] = $this->__aStoredData[$sConfirm];
                     }
                 }

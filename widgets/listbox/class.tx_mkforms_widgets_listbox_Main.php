@@ -39,7 +39,8 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             foreach ($aItems as $aItem) {
                 $sSelected = '';
                 $value = $aItem['value'];
-                $sCaption = isset($aItem['caption']) ? $this->getForm()->getConfig()->getLLLabel($aItem['caption']) : $aItem['value'];
+                $sCaption = isset($aItem['caption'])
+                    ? $this->getForm()->getConfigXML()->getLLLabel($aItem['caption']) : $aItem['value'];
 
                 if ($this->_isMultiple()) {
                     if (is_array($sValue)) {
@@ -181,7 +182,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     {
         if ($this->_defaultFalse('/data/defaultvalue/first/')
             ||
-            ('' === $this->_navConf('/data/defaultvalue/first/'))    // slick tag <first />
+            ('' === $this->getConfigValue('/data/defaultvalue/first/'))    // slick tag <first />
         ) {
             // on renvoie la valeur du premier item
             if (false !== ($sFirstValue = $this->getFirstItemValue())) {

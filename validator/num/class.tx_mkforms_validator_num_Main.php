@@ -17,7 +17,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             return;
         }
 
-        $aKeys = array_keys($this->_navConf('/'));
+        $aKeys = array_keys($this->getConfigValue('/'));
         reset($aKeys);
         foreach ($aKeys as $sKey) {
             // Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
@@ -36,7 +36,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'NUM:isnum',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     break;
@@ -52,14 +52,14 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'isbetween')) {
                 $aBoundaries = \Sys25\RnBase\Utility\Strings::trimExplode(
                     ',',
-                    $this->_navConf('/'.$sKey.'/value')
+                    $this->getConfigValue('/'.$sKey.'/value')
                 );
 
                 if (!$this->_checkIsIn($mNum, $aBoundaries)) {
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'NUM:isbetween',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     break;
@@ -75,14 +75,14 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'islower')) {
                 $aBoundaries = \Sys25\RnBase\Utility\Strings::trimExplode(
                     ',',
-                    $this->_navConf('/'.$sKey.'/value')
+                    $this->getConfigValue('/'.$sKey.'/value')
                 );
 
                 if (!$this->_checkIsLow($mNum, $aBoundaries)) {
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'NUM:islower',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     break;
@@ -98,14 +98,14 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'ishigher')) {
                 $aBoundaries = \Sys25\RnBase\Utility\Strings::trimExplode(
                     ',',
-                    $this->_navConf('/'.$sKey.'/value')
+                    $this->getConfigValue('/'.$sKey.'/value')
                 );
 
                 if (!$this->_checkIsHigh($mNum, $aBoundaries)) {
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'NUM:ishigher',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     break;
@@ -123,7 +123,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'NUM:isfloat',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     break;
@@ -141,7 +141,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'NUM:isinteger',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     break;

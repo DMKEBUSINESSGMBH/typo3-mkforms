@@ -39,7 +39,7 @@ class tx_mkforms_tests_widgets_text_MainTest extends \Sys25\RnBase\Testing\BaseT
         $widget = $this->getWidgetMock(['_render', 'getInputType']);
 
         $widget->expects(self::once())
-            ->method('_navConf')
+            ->method('getConfigValue')
             ->with('/inputtype')
             ->will(self::returnValue(''));
 
@@ -59,7 +59,7 @@ class tx_mkforms_tests_widgets_text_MainTest extends \Sys25\RnBase\Testing\BaseT
         $widget = $this->getWidgetMock(['_render', 'getInputType']);
 
         $widget->expects(self::once())
-            ->method('_navConf')
+            ->method('getConfigValue')
             ->with('/inputtype')
             ->will(self::returnValue('email'));
 

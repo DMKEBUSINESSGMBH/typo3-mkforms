@@ -179,7 +179,7 @@ INITSCRIPT;
     {
         $oFileTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
 
-        if ($this->oForm->isRunneable(($sTargetDir = $this->_navConf('/data/targetdir/')))) {
+        if ($this->oForm->isRunneable(($sTargetDir = $this->getConfigValue('/data/targetdir/')))) {
             $sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
         }
 
@@ -235,7 +235,7 @@ PHP;
                 ],
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/buttonupload'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/buttonupload'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -269,7 +269,7 @@ PHP;
                 'style' => 'width: 100%',
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/listqueue'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/listqueue'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -348,7 +348,7 @@ JAVASCRIPT;
             'iT3FileMax' => (int) $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
         ];
 
-        if (false !== ($mFileSize = $this->_navConf('maxsize'))) {
+        if (false !== ($mFileSize = $this->getConfigValue('maxsize'))) {
             // maxSize has to be KB
 
             if ($this->oForm->isRunneable($mFileSize)) {
@@ -368,7 +368,7 @@ JAVASCRIPT;
 
     public function getQueueLimit()
     {
-        if (false !== ($mLimit = $this->_navConf('/queuelimit'))) {
+        if (false !== ($mLimit = $this->getConfigValue('/queuelimit'))) {
             if ($this->oForm->isRunneable($mLimit)) {
                 $mLimit = $this->getForm()->getRunnable()->callRunnableWidget($this, $mLimit);
             }
@@ -381,7 +381,7 @@ JAVASCRIPT;
 
     public function getFileType()
     {
-        if (false !== ($mFileType = $this->_navConf('/filetype'))) {
+        if (false !== ($mFileType = $this->getConfigValue('/filetype'))) {
             if ($this->oForm->isRunneable($mFileType)) {
                 $mFileType = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFileType);
             }
@@ -396,7 +396,7 @@ JAVASCRIPT;
     {
         $sFileTypeDesc = 'LLL:EXT:mkforms/widgets/res/locallang.xml:filetypedesc.allfiles';
 
-        if (false !== ($mFileTypeDesc = $this->_navConf('filetypedesc'))) {
+        if (false !== ($mFileTypeDesc = $this->getConfigValue('filetypedesc'))) {
             if ($this->oForm->isRunneable($mFileTypeDesc)) {
                 $mFileTypeDesc = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFileTypeDesc);
             }

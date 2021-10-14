@@ -12,7 +12,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
     public function getTemplatePath()
     {
-        $sPath = $this->_navConf('/template/path/');
+        $sPath = $this->getConfigValue('/template/path/');
         if ($this->getForm()->isRunneable($sPath)) {
             $sPath = $this->callRunneable(
                 $sPath
@@ -28,7 +28,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
     public function getTemplateSubpart()
     {
-        $sSubpart = $this->_navConf('/template/subpart/');
+        $sSubpart = $this->getConfigValue('/template/subpart/');
         if ($this->getForm()->isRunneable($sSubpart)) {
             $sSubpart = $this->callRunneable(
                 $sSubpart
@@ -63,7 +63,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
                         $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'".$sPath."'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
                     }
                 }
-            } elseif (false !== ($mHtml = $this->_navConf('/html'))) {
+            } elseif (false !== ($mHtml = $this->getConfigValue('/html'))) {
                 if (is_array($mHtml)) {
                     if ($this->getForm()->isRunneable($mHtml)) {
                         $mHtml = $this->callRunneable($mHtml);
@@ -91,8 +91,8 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
         $this->getForm()->_debug($aRendered, 'RENDERER TEMPLATE - rendered elements array');
 
-        if (false === ($sErrorTag = $this->_navConf('/template/errortag/'))) {
-            if (false === ($sErrorTag = $this->_navConf('/html/errortag'))) {
+        if (false === ($sErrorTag = $this->getConfigValue('/template/errortag/'))) {
+            if (false === ($sErrorTag = $this->getConfigValue('/html/errortag'))) {
                 $sErrorTag = 'errors';
             }
         }
@@ -116,7 +116,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
             }
         }
 
-        if ('true' == strtolower(trim($this->_navConf('/template/errortagcompilednobr')))) {
+        if ('true' == strtolower(trim($this->getConfigValue('/template/errortagcompilednobr')))) {
             $aErrors['__compiled'] = implode('', $aCompiledErrors);
         } else {
             $aErrors['__compiled'] = implode('<br />', $aCompiledErrors);
@@ -142,7 +142,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
     public function beforeDisplay($aRendered)
     {
-        if (false !== ($aUserObj = $this->_navConf('/beforedisplay/'))) {
+        if (false !== ($aUserObj = $this->getConfigValue('/beforedisplay/'))) {
             if ($this->getForm()->isRunneable($aUserObj)) {
                 $aRendered = $this->callRunneable(
                     $aUserObj,

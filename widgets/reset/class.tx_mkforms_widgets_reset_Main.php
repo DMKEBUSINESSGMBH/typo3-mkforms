@@ -10,7 +10,7 @@ class tx_mkforms_widgets_reset_Main extends formidable_mainrenderlet
     {
         $sLabel = $this->getLabel();
 
-        if (false !== ($sPath = $this->_navConf('/path'))) {
+        if (false !== ($sPath = $this->getConfigValue('/path'))) {
             $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
             $sPath = $this->oForm->toWebPath($sPath);
             $sHtml = '<input type="image" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.$sLabel.'" src="'.$sPath.'"'.$this->_getAddInputParams().' />';

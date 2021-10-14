@@ -13,7 +13,7 @@ class tx_mkforms_widgets_passthru_Main extends formidable_mainrenderlet
 
     public function _sqlSearchClause($sValue, $sFieldPrefix = '', $sFieldName = '', $bRec = true)
     {
-        return $sFieldPrefix.$this->_navConf('/name')." = '".$sValue."'";
+        return $sFieldPrefix.$this->getConfigValue('/name')." = '".$sValue."'";
     }
 
     public function _listable()

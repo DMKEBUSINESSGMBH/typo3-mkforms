@@ -22,7 +22,7 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
     protected function getAdditionalParams()
     {
         $aAdditionalParams = [];
-        if (false !== ($sMaxLength = $this->_navConf('/maxlength'))) {
+        if (false !== ($sMaxLength = $this->getConfigValue('/maxlength'))) {
             $aAdditionalParams[] = 'maxlength="'.$sMaxLength.'"';
         }
 
@@ -50,7 +50,7 @@ class tx_mkforms_widgets_text_Main extends formidable_mainrenderlet
      */
     protected function getInputType()
     {
-        if (!($type = $this->_navConf('/inputtype'))) {
+        if (!($type = $this->getConfigValue('/inputtype'))) {
             $type = 'text';
         }
 

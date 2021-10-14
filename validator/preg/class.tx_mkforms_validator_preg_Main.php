@@ -49,7 +49,7 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
             return;
         }
 
-        $aKeys = array_keys($this->_navConf('/'));
+        $aKeys = array_keys($this->getConfigValue('/'));
         reset($aKeys);
         foreach ($aKeys as $sKey) {
             // Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
@@ -59,7 +59,7 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
 
             //pattern
             if ('p' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'pattern')) {
-                $sPattern = $this->_navConf('/'.$sKey.'/value');
+                $sPattern = $this->getConfigValue('/'.$sKey.'/value');
 
                 if (!$this->_isValid($sPattern)) {
                     $this->oForm->mayday('<b>validator:PREG</b> on renderlet '.$sAbsName.': the given regular expression pattern seems to be not valid');
@@ -69,7 +69,7 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'PREG:pattern',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message'))
                     );
 
                     break;

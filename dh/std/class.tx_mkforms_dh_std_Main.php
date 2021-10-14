@@ -9,7 +9,7 @@ class tx_mkforms_dh_std_Main extends formidable_maindatahandler
 {
     public function _doTheMagic($bShouldProcess = true)
     {
-        if ($bShouldProcess && $this->_allIsValid()) {
+        if ($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid()) {
             $this->oForm->_debug(
                 [
                     'DATA' => $this->getFormData(),
