@@ -33,9 +33,9 @@ $EM_CONF['mkforms'] = [
     'CGLcompliance_note' => '',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.10.5-',
             'typo3' => '9.5.0-10.4.99',
             'php' => '7.2.0-7.4.99',
+            'rn_base' => '1.13.15-1.13.99',
         ],
         'conflicts' => [
             'ameos_formidable' => '',
