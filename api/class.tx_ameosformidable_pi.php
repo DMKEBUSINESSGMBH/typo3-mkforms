@@ -1,6 +1,8 @@
 <?php
 
-class tx_ameosformidable_pi extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+
+class tx_ameosformidable_pi extends AbstractPlugin
 {
     public $extKey = 'ameos_formidable';
 
