@@ -1,124 +1,124 @@
 {
-    "name": "dmk/mkforms",
-    "description": "Making HTML forms for TYPO3",
-    "type": "typo3-cms-extension",
-    "keywords": [
-        "TYPO3 CMS",
-        "forms",
-        "formidable"
-    ],
-    "homepage": "http://www.dmk-ebusiness.de/",
-    "license": "GPL-2.0-or-later",
-    "authors": [
-        {
-            "name": "Michael Wagner",
-            "email": "michael.wagner@dmk-ebusiness.de",
-            "role": "Developer"
-        },
-        {
-            "name": "René Nitzsche",
-            "email": "nitzsche@dmk-ebusiness.de",
-            "role": "Developer"
-        }
-    ],
-    "support": {
-        "email": "dev@dmk-ebusiness.de",
-        "source": "https://github.com/DMKEBUSINESSGMBH/typo3-mkforms",
-        "issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkforms"
-    },
-    "replace": {
-        "typo3-ter/mkforms": "self.version"
-    },
-    "require": {
-        "php": "^7.2",
-        "typo3/cms-core": "^9.5 || ^10.4",
-        "digedag/rn-base": "^1.15"
-    },
-    "require-dev": {
-        "nimut/testing-framework": "^4.0 || ^5.0",
-        "dmk/mklib": ">=3.0.8",
-        "php-parallel-lint/php-parallel-lint": "^1.2",
-        "friendsofphp/php-cs-fixer": "^2.16"
-    },
-    "autoload": {
-        "classmap": [
-            "action/",
-            "api/",
-            "Classes/",
-            "dh/",
-            "ds/",
-            "exception/",
-            "forms/",
-            "hooks/",
-            "js/",
-            "remote/",
-            "renderer/",
-            "session/",
-            "util/",
-            "validator/",
-            "view/",
-            "widgets/"
-        ],
-        "psr-4": {
-            "DMK\\MkForms\\": "Classes"
-        },
-        "files": [
-            "Classes/Constants.php"
-        ]
-    },
-    "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
-    },
-    "suggest": {
-        "dmk/mksanitizedparameters": "keeps your parameters clean and safe"
-    },
-    "config": {
-        "vendor-dir": ".Build/vendor",
-        "bin-dir": ".Build/bin",
-        "preferred-install": {
-            "typo3/cms": "source"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "mkdir -p .Build/Web/typo3conf/ext/",
-            "[ -L .Build/Web/typo3conf/ext/mkforms ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkforms"
-        ],
-        "lint:php": [
-            "[ -e .Build/bin/parallel-lint ] || composer update",
-            ".Build/bin/parallel-lint  ./action ./api ./Classes ./dh ./ds ./exception ./forms ./hooks ./js ./remote ./renderer ./session ./tests ./util ./validator ./view ./widgets"
-        ],
-        "lint": [
-            "@lint:php"
-        ],
-        "test:phpcs": [
-            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
-            ".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
-        ],
-        "test:phpunit": [
-            "[ -e .Build/bin/phpunit ] || composer update --ansi",
-            "export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit --colors=always"
-        ],
-        "test": [
-            "@test:phpcs",
-            "@test:phpunit"
-        ],
-        "fix:phpcs": [
-            "[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
-            ".Build/bin/php-cs-fixer fix -v"
-        ],
-        "fix": [
-            "@fix:phpcs"
-        ]
-    },
-    "extra": {
-        "typo3/cms": {
-            "cms-package-dir": "{$vendor-dir}/typo3/cms",
-            "extension-key": "mkforms",
-            "web-dir": ".Build/Web",
-            "app-dir": ".Build"
-        }
-    }
+	"name": "dmk/mkforms",
+	"description": "Making HTML forms for TYPO3",
+	"type": "typo3-cms-extension",
+	"keywords": [
+		"TYPO3 CMS",
+		"forms",
+		"formidable"
+	],
+	"homepage": "http://www.dmk-ebusiness.de/",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Michael Wagner",
+			"email": "michael.wagner@dmk-ebusiness.de",
+			"role": "Developer"
+		},
+		{
+			"name": "René Nitzsche",
+			"email": "nitzsche@dmk-ebusiness.de",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"email": "dev@dmk-ebusiness.de",
+		"source": "https://github.com/DMKEBUSINESSGMBH/typo3-mkforms",
+		"issues": "https://github.com/DMKEBUSINESSGMBH/typo3-mkforms"
+	},
+	"replace": {
+		"typo3-ter/mkforms": "self.version"
+	},
+	"require": {
+		"php": "^7.2",
+		"typo3/cms-core": "^9.5 || ^10.4",
+		"digedag/rn-base": "^1.15"
+	},
+	"require-dev": {
+		"nimut/testing-framework": "^4.0 || ^5.0",
+		"dmk/mklib": ">=3.0.8",
+		"php-parallel-lint/php-parallel-lint": "^1.2",
+		"friendsofphp/php-cs-fixer": "^2.16"
+	},
+	"autoload": {
+		"classmap": [
+			"action/",
+			"api/",
+			"Classes/",
+			"dh/",
+			"ds/",
+			"exception/",
+			"forms/",
+			"hooks/",
+			"js/",
+			"remote/",
+			"renderer/",
+			"session/",
+			"util/",
+			"validator/",
+			"view/",
+			"widgets/"
+		],
+		"psr-4": {
+			"DMK\\MkForms\\": "Classes"
+		},
+		"files": [
+			"Classes/Constants.php"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/"
+		]
+	},
+	"suggest": {
+		"dmk/mksanitizedparameters": "keeps your parameters clean and safe"
+	},
+	"config": {
+		"vendor-dir": ".Build/vendor",
+		"bin-dir": ".Build/bin",
+		"preferred-install": {
+			"typo3/cms": "source"
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"mkdir -p .Build/Web/typo3conf/ext/",
+			"[ -L .Build/Web/typo3conf/ext/mkforms ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkforms"
+		],
+		"lint:php": [
+			"[ -e .Build/bin/parallel-lint ] || composer update",
+			".Build/bin/parallel-lint  ./action ./api ./Classes ./dh ./ds ./exception ./forms ./hooks ./js ./remote ./renderer ./session ./tests ./util ./validator ./view ./widgets"
+		],
+		"lint": [
+			"@lint:php"
+		],
+		"test:phpcs": [
+			"[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+			".Build/bin/php-cs-fixer fix -v --dry-run --diff --diff-format udiff --ansi"
+		],
+		"test:phpunit": [
+			"[ -e .Build/bin/phpunit ] || composer update --ansi",
+			"export TYPO3_PATH_WEB=$PWD/.Build/Web && .Build/bin/phpunit --colors=always"
+		],
+		"test": [
+			"@test:phpcs",
+			"@test:phpunit"
+		],
+		"fix:phpcs": [
+			"[ -e .Build/bin/php-cs-fixer ] || composer update --ansi",
+			".Build/bin/php-cs-fixer fix -v"
+		],
+		"fix": [
+			"@fix:phpcs"
+		]
+	},
+	"extra": {
+		"typo3/cms": {
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"extension-key": "mkforms",
+			"web-dir": ".Build/Web",
+			"app-dir": ".Build"
+		}
+	}
 }
