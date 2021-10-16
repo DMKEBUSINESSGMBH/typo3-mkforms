@@ -30,6 +30,8 @@ jobs:
             -
                 name: "Setup PHP"
                 uses: "shivammathur/setup-php@v2"
+                env:
+                    COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 with:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -40,13 +42,6 @@ jobs:
                 name: "Determine composer cache directory"
                 id: "determine-composer-cache-directory"
                 run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
-            -
-                name: "Cache dependencies installed with composer"
-                uses: "actions/cache@v2.0.0"
-                with:
-                    path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-                    key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.lock') }}"
-                    restore-keys: "php-${{ matrix.php-version }}-composer-"
             -
                 name: "Install composer dependencies"
                 run: "composer install --no-interaction --no-progress --no-suggest"
@@ -75,6 +70,8 @@ jobs:
             -
                 name: "Setup PHP"
                 uses: "shivammathur/setup-php@v2"
+                env:
+                    COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 with:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -85,13 +82,6 @@ jobs:
                 name: "Determine composer cache directory"
                 id: "determine-composer-cache-directory"
                 run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
-            -
-                name: "Cache dependencies installed with composer"
-                uses: "actions/cache@v2.0.0"
-                with:
-                    path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-                    key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.lock') }}"
-                    restore-keys: "php-${{ matrix.php-version }}-composer-"
             -
                 name: "Install composer dependencies"
                 run: "composer install --no-interaction --no-progress --no-suggest"
@@ -137,6 +127,8 @@ jobs:
             -
                 name: "Setup PHP"
                 uses: "shivammathur/setup-php@v2"
+                env:
+                    COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 with:
                     php-version: "${{ matrix.php-version }}"
                     extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -147,13 +139,6 @@ jobs:
                 name: "Determine composer cache directory"
                 id: "determine-composer-cache-directory"
                 run: "echo \"::set-output name=directory::$(composer config cache-dir)\""
-            -
-                name: "Cache dependencies installed with composer"
-                uses: "actions/cache@v2.0.0"
-                with:
-                    path: "${{ steps.determine-composer-cache-directory.outputs.directory }}"
-                    key: "php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.lock') }}"
-                    restore-keys: "php-${{ matrix.php-version }}-composer-"
             -
                 name: "Install composer dependencies"
                 run: |
