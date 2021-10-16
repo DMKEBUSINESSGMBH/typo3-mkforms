@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Utility\T3General;
+
 class formidable_maindatahandler extends formidable_mainobject
 {
     public $entryId = null;
@@ -504,13 +506,13 @@ class formidable_maindatahandler extends formidable_mainobject
         if ($this->_isSubmitted() && !$this->_isClearSubmitted()) {
             $form_id = $this->getForm()->formid;
 
-            $aPost = Tx_Rnbase_Utility_T3General::_POST();
+            $aPost = T3General::_POST();
 
             $aPost = is_array($aPost[$form_id]) ? $aPost[$form_id] : [];
             $aFiles = is_array($GLOBALS['_FILES'][$form_id]) ? $GLOBALS['_FILES'][$form_id] : [];
             $aP = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
 
-            Tx_Rnbase_Utility_T3General::stripSlashesOnArray($aP);
+            T3General::stripSlashesOnArray($aP);
 
             if (array_key_exists('AMEOSFORMIDABLE_ENTRYID', $aP) && '' !== trim($aP['AMEOSFORMIDABLE_ENTRYID'])) {
                 return (int) $aP['AMEOSFORMIDABLE_ENTRYID'];

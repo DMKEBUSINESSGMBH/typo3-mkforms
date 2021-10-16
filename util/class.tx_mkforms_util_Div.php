@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Some static util functions.
  */
@@ -29,7 +31,7 @@ class tx_mkforms_util_Div
 {
     public static function isAbsServerPath($sPath)
     {
-        $sServerRoot = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT');
+        $sServerRoot = T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 
         return substr($sPath, 0, strlen($sServerRoot)) === $sServerRoot;
     }
@@ -57,7 +59,7 @@ class tx_mkforms_util_Div
             return TYPO3_MODE;
         }
 
-        return (is_null(Tx_Rnbase_Utility_T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
+        return (is_null(T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
     }
 
     /**
@@ -168,7 +170,7 @@ class tx_mkforms_util_Div
         if ($form) {
             $aDebug[] = "<span class='notice'><strong>XML: </strong> ".$form->_xmlPath.'</span><br />';
             $aDebug[] = "<span class='notice'><strong>MKFORMS Version: </strong>v".self::getVersion().'</span><br />';
-            $aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>".round(Tx_Rnbase_Utility_T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec</span><br />';
+            $aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>".round(T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec</span><br />';
         }
         $aDebug[] = '<br />';
 
@@ -265,7 +267,7 @@ class tx_mkforms_util_Div
 
     public static function isDebugIP()
     {
-        return Tx_Rnbase_Utility_T3General::cmpIP(Tx_Rnbase_Utility_T3General::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']);
+        return T3General::cmpIP(T3General::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']);
     }
 
     /**
@@ -344,7 +346,7 @@ class tx_mkforms_util_Div
             $aDebug[] = "<a href = '#".$form->formid.'formidable_call'.($numcall - 1)."'>&lt;&lt; prev</a> / <a href = '#".$form->formid.'formidable_call'.($numcall + 1)."'>next &gt;&gt;</a><br>";
             $aDebug[] = '<strong>#'.$numcall.' - '.$name.'</strong>';
             $aDebug[] = '<br/>';
-            $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>".round(Tx_Rnbase_Utility_T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec)</span>';
+            $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>".round(T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec)</span>';
             $aDebug[] = '<br/>';
 
             $aDebug[] = "<a href='javascript:void(Formidable.f(\"".$form->formid.'").toggleBacktrace('.$numcall."))'>Toggle details</a><br>";
@@ -506,7 +508,7 @@ ERRORMESSAGE;
             return $sPath;
         }
 
-        return self::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/'.self::removeStartingSlash(self::toRelPath($sPath));
+        return self::removeEndingSlash(T3General::getIndpEnv('TYPO3_SITE_URL')).'/'.self::removeStartingSlash(self::toRelPath($sPath));
     }
 
     /**
@@ -521,7 +523,7 @@ ERRORMESSAGE;
     public static function toRelPath($sPath)
     {
         if ('EXT:' === substr($sPath, 0, 4)) {
-            $sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath);
+            $sPath = T3General::getFileAbsFileName($sPath);
         }
         $sPath = str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '', $sPath);
         if ('/' != $sPath[0]) {
@@ -609,7 +611,7 @@ ERRORMESSAGE;
         foreach ($allParts as $part) {
             $root .= $part.'/';
             if (!is_dir($destination.$root)) {
-                Tx_Rnbase_Utility_T3General::mkdir($destination.$root);
+                T3General::mkdir($destination.$root);
                 if (!@is_dir($destination.$root)) {
                     return 'Error: The directory "'.$destination.$root.'" could not be created...';
                 }
@@ -724,7 +726,7 @@ ERRORMESSAGE;
             return $filename;
         }
 
-        list($extKey, $local) = explode('/', substr($filename, 4), 2);
+        [$extKey, $local] = explode('/', substr($filename, 4), 2);
         $filename = '';
         if (strcmp($extKey, '') && tx_rnbase_util_Extensions::isLoaded($extKey) && strcmp($local, '')) {
             $filename = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(

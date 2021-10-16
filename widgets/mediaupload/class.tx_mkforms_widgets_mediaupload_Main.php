@@ -6,6 +6,9 @@
  * @author  René Nitzsche <rene@system25.de>
  * @author  Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
+
+use Sys25\RnBase\Utility\T3General;
+
 if (tx_rnbase_util_Extensions::isLoaded('dam')) {
     require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam.php');
     require_once tx_rnbase_util_Extensions::extPath('dam', 'lib/class.tx_dam_db.php');
@@ -273,7 +276,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     {
         $ret = [];
         if (false !== ($sTargetFile = $this->getTargetFile())) {
-            $ret['sTargetDir'] = Tx_Rnbase_Utility_T3General::dirname($sTargetFile);
+            $ret['sTargetDir'] = T3General::dirname($sTargetFile);
             $ret['sName'] = basename($sTargetFile);
             $ret['sTarget'] = $sTargetFile;
         } else {
@@ -471,7 +474,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             $sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
         }
 
-        return Tx_Rnbase_Utility_T3General::fixWindowsFilePath(
+        return T3General::fixWindowsFilePath(
             $oFileTool->slashPath($sTargetDir)
         );
     }
@@ -691,7 +694,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $oJsLoader = $this->getForm()->getJSLoader();
         // JS-Lib ermitteln
         $dir = $oJsLoader->getJSFrameworkId();
-        $sFile = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/js/'.$dir.'/ajaxfileupload.js';
+        $sFile = T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/js/'.$dir.'/ajaxfileupload.js';
 
         $oJsLoader->additionalHeaderData(
             '<script src="'.$oJsLoader->getScriptPath($sFile).'"></script>',
@@ -765,7 +768,7 @@ INITSCRIPT;
         $sFormId = $this->getForm()->getFormId();
         $sSafeLock = $this->_getSessionDataHashKey();
         $sUploadUrl = tx_mkforms_util_Div::removeEndingSlash(
-            Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')
+            T3General::getIndpEnv('TYPO3_SITE_URL')
         ).
             '/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 

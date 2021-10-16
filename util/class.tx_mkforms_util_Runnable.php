@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Execute code within XML.
  */
@@ -552,7 +554,7 @@ class tx_mkforms_util_Runnable
         $sFilePath = tx_mkforms_util_Div::toServerPath($sFileRef);
 
         // determining type of the CB
-        $sFileExt = strtolower(array_pop(Tx_Rnbase_Utility_T3General::revExplode('.', $sFileRef, 2)));
+        $sFileExt = strtolower(array_pop(T3General::revExplode('.', $sFileRef, 2)));
         switch ($sFileExt) {
             case 'php':
                 if (is_file($sFilePath) && is_readable($sFilePath)) {

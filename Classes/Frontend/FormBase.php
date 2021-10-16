@@ -5,6 +5,7 @@ namespace DMK\MkForms\Frontend;
 use Sys25\RnBase\Configuration\ConfigurationInterface;
 use Sys25\RnBase\Frontend\Controller\AbstractAction;
 use Sys25\RnBase\Frontend\Request\RequestInterface;
+use Sys25\RnBase\Utility\T3General;
 
 /**
  * @author     Michael Wagner
@@ -205,7 +206,7 @@ class FormBase extends AbstractAction
             $this->errors[] = 'No XML file found (TS: '.$confId.'xml).';
         }
         // existiert das xml
-        $absXmlPath = \Tx_Rnbase_Utility_T3General::getFileAbsFileName($xmlPath);
+        $absXmlPath = T3General::getFileAbsFileName($xmlPath);
         if (empty($absXmlPath) || !file_exists($absXmlPath)) {
             $this->errors[] = 'The given XML file path ('.$xmlPath.') doesn\'t exists.';
         }

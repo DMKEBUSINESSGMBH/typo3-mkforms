@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Ersatz für einige Methoden aus Ameos.
  */
@@ -70,7 +72,7 @@ class tx_mkforms_util_Templates
      */
     public function parseTemplate($templatePath, $templateMarker, $aTags = [], $aExclude = [], $bClearNotUsed = true, $aLabels = [])
     {
-        // $tempUrl : the path of the template for use with Tx_Rnbase_Utility_T3General::getUrl()
+        // $tempUrl : the path of the template for use with T3General::getUrl()
         // $tempMarker :  the template subpart marker
         // $aTags : the marker array for substitution
         // $aExclude : tag names that should not be substituted
@@ -81,7 +83,7 @@ class tx_mkforms_util_Templates
         $templatePath = tx_mkforms_util_Div::toServerPath($templatePath);
 
         return $this->parseTemplateCode(
-            tx_rnbase_util_Templates::getSubpart(Tx_Rnbase_Utility_T3General::getUrl($templatePath), $templateMarker),
+            tx_rnbase_util_Templates::getSubpart(T3General::getUrl($templatePath), $templateMarker),
             $aTags,
             $aExclude,
             $bClearNotUsed,

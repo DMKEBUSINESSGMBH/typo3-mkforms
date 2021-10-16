@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_searchform' for the 'ameos_formidable' extension.
  *
@@ -227,7 +230,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
             if (true === $bUpdate) {
                 if ($this->_getParamsFromGET()) {
-                    $aGet = (Tx_Rnbase_Utility_T3General::_GET($sFormId)) ? Tx_Rnbase_Utility_T3General::_GET($sFormId) : [];
+                    $aGet = (T3General::_GET($sFormId)) ? T3General::_GET($sFormId) : [];
 
                     foreach ($aGet as $sAbsName => $_) {
                         if (array_key_exists($sAbsName, $this->oForm->aORenderlets)) {
@@ -326,7 +329,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
             }
         } else {
             if ($this->_getParamsFromGET()) {
-                $aGet = (Tx_Rnbase_Utility_T3General::_GET($this->oForm->formid)) ? Tx_Rnbase_Utility_T3General::_GET($this->oForm->formid) : [];
+                $aGet = (T3General::_GET($this->oForm->formid)) ? T3General::_GET($this->oForm->formid) : [];
                 $aIntersect = array_intersect(array_keys($aGet), array_keys($this->oForm->aORenderlets));
 
                 return count($aIntersect) > 0;    // are there get params in url matching at least one criteria in the searchform ?

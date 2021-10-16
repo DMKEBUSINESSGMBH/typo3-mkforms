@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_lister' for the 'ameos_formidable' extension.
  *
@@ -475,21 +478,21 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         $sEnvMode = tx_mkforms_util_Div::getEnvExecMode();
         if ('BE' === $sEnvMode) {
-            $sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
+            $sBaseUrl = T3General::getIndpEnv('TYPO3_REQUEST_URL');
             $aQueryParts = parse_url($sBaseUrl);
             $aParams = [];
             if ($aQueryParts['query']) {
                 parse_str($aQueryParts['query'], $aParams);
             }
         } elseif ('EID' === $sEnvMode) {
-            $sBaseUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('HTTP_REFERER');
+            $sBaseUrl = T3General::getIndpEnv('HTTP_REFERER');
             $aQueryParts = parse_url($sBaseUrl);
             $aParams = [];
             if ($aQueryParts['query']) {
                 parse_str($aQueryParts['query'], $aParams);
             }
         } elseif ('FE' === $sEnvMode) {
-            $aParams = Tx_Rnbase_Utility_T3General::_GET();
+            $aParams = T3General::_GET();
         }
 
         $aFullParams = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
@@ -526,10 +529,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         }
 
         if (true === $this->oForm->_defaultFalse('/cachehash', $this->aElement)) {
-            $aFullParams['cHash'] = Tx_Rnbase_Utility_T3General::shortMD5(
+            $aFullParams['cHash'] = T3General::shortMD5(
                 serialize(
-                    Tx_Rnbase_Utility_T3General::cHashParams(
-                        Tx_Rnbase_Utility_T3General::implodeArrayForUrl('', $aFullParams)
+                    T3General::cHashParams(
+                        T3General::implodeArrayForUrl('', $aFullParams)
                     )
                 )
             );
@@ -537,7 +540,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         if ('BE' === $sEnvMode || 'EID' === $sEnvMode) {
             return $this->oForm->xhtmlUrl(
-                Tx_Rnbase_Utility_T3General::linkThisUrl(
+                T3General::linkThisUrl(
                     $sBaseUrl,
                     $aFullParams
                 )
@@ -549,7 +552,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
             return $this->getForm()->getCObj()->typoLink_URL([
                 'parameter' => $GLOBALS['TSFE']->id,
-                'additionalParams' => Tx_Rnbase_Utility_T3General::implodeArrayForUrl(
+                'additionalParams' => T3General::implodeArrayForUrl(
                     '',
                     $aFullParams
                 ),
@@ -1062,7 +1065,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             if (file_exists($aTemplate['path'])) {
                 if (is_readable($aTemplate['path'])) {
                     $aRes['html'] = tx_rnbase_util_Templates::getSubpart(
-                        Tx_Rnbase_Utility_T3General::getUrl($aTemplate['path']),
+                        T3General::getUrl($aTemplate['path']),
                         $aTemplate['subpart']
                     );
 
@@ -1119,7 +1122,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 if (file_exists($aPagerTemplate['path'])) {
                     if (is_readable($aPagerTemplate['path'])) {
                         $aRes['pager'] = tx_rnbase_util_Templates::getSubpart(
-                            Tx_Rnbase_Utility_T3General::getUrl($aPagerTemplate['path']),
+                            T3General::getUrl($aPagerTemplate['path']),
                             $aPagerTemplate['subpart']
                         );
 
@@ -1214,7 +1217,7 @@ ERRORMESSAGE;
         $sSubPart = '###LISTPAGER###';
 
         return tx_rnbase_util_Templates::getSubpart(
-            Tx_Rnbase_Utility_T3General::getUrl($sPath),
+            T3General::getUrl($sPath),
             $sSubPart
         );
     }
@@ -1241,7 +1244,7 @@ ERRORMESSAGE;
         $sSubpart = '###LIST###';
 
         $aRes['html'] = tx_rnbase_util_Templates::getSubpart(
-            Tx_Rnbase_Utility_T3General::getUrl($sPath),
+            T3General::getUrl($sPath),
             $sSubpart
         );
 
@@ -1249,7 +1252,7 @@ ERRORMESSAGE;
 
         $aRes['styles'] = $this->_parseThrustedTemplateCode(
             tx_rnbase_util_Templates::getSubpart(
-                Tx_Rnbase_Utility_T3General::getUrl($sPath),
+                T3General::getUrl($sPath),
                 '###STYLES###'
             ),
             [

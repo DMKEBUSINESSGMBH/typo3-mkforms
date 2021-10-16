@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_link' for the 'ameos_formidable' extension.
  *
@@ -54,7 +57,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 $sValue = trim($sValue);
                 $aParsedURL = @parse_url($sValue);
 
-                if (Tx_Rnbase_Utility_T3General::inList('ftp,ftps,http,https,gopher,telnet', $aParsedURL['scheme'])) {
+                if (T3General::inList('ftp,ftps,http,https,gopher,telnet', $aParsedURL['scheme'])) {
                     $sUrl = $sValue;
                 } else {
                     $sUrl = false;
@@ -75,7 +78,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 
             if ('' !== $sAnchor) {
                 if (false === $sUrl) {
-                    $sUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI');
+                    $sUrl = T3General::getIndpEnv('REQUEST_URI');
                 }
 
                 if (array_key_exists($sAnchor, $this->oForm->aORenderlets)) {

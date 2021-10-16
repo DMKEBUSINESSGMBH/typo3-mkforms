@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_upload' for the 'ameos_formidable' extension.
  *
@@ -179,7 +182,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
             // a file has just been uploaded
 
             if (false !== ($sTargetFile = $this->getTargetFile())) {
-                $sTargetDir = Tx_Rnbase_Utility_T3General::dirname($sTargetFile);
+                $sTargetDir = T3General::dirname($sTargetFile);
                 $sName = basename($sTargetFile);
                 $sTarget = $sTargetFile;
             } else {
@@ -288,8 +291,8 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                             '$aData' => $aData,
                             'getValue' => $this->getValue(),
                             'Validierungsfehler' => $this->getForm()->_aValidationErrors,
-                            '$GET' => Tx_Rnbase_Utility_T3General::_GET(),
-                            '$POST' => Tx_Rnbase_Utility_T3General::_POST(),
+                            '$GET' => T3General::_GET(),
+                            '$POST' => T3General::_POST(),
                         ]
                     );
                 }

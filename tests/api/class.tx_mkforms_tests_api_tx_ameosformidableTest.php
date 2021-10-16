@@ -24,9 +24,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden.
  */
+
+use Sys25\RnBase\Utility\T3General;
 
 /**
  * Testfälle für tx_mkforms_api_mainrenderlet
@@ -241,6 +243,6 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
      */
     public function testGetFormActionWhenActionIsTransparent()
     {
-        self::assertEquals(Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI'), tx_mkforms_tests_Util::getForm()->getFormAction());
+        self::assertEquals(T3General::getIndpEnv('REQUEST_URI'), tx_mkforms_tests_Util::getForm()->getFormAction());
     }
 }

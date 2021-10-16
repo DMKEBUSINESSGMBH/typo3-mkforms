@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'act_stepper' for the 'ameos_formidable' extension.
  *
@@ -70,7 +72,7 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
                 'AMEOSFORMIDABLE_STEP_HASH' => $this->oForm->_getSafeLock($iStepToGo.$sUid),
             ];
 
-            $sUrl = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL');
+            $sUrl = T3General::getIndpEnv('TYPO3_REQUEST_URL');
 
             if (!is_null($sUrl)) {
                 header('Location: '.$sUrl);

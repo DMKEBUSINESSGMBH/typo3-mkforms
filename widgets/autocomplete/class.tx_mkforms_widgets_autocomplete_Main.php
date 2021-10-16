@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_autocomplete' for the 'ameos_formidable' extension.
  *
@@ -74,7 +77,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         // thwoerID without iterating id
         $sThrower = $this->_getElementHtmlId(false, true, false);
 
-        $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+        $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
             'requester' => [
@@ -160,7 +163,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
     public function &_getTemplate()
     {
         if (false !== ($aTemplate = $this->_navConf('/template'))) {
-            $sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
+            $sPath = T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
                 $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
             } elseif (is_dir($sPath)) {
@@ -174,7 +177,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
             }
 
             $sHtml = tx_rnbase_util_Templates::getSubpart(
-                Tx_Rnbase_Utility_T3General::getUrl($sPath),
+                T3General::getUrl($sPath),
                 $sSubpart
             );
 
@@ -190,9 +193,9 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     public function handleAjaxRequest($oRequest)
     {
-        $this->aConfig['searchType'] = Tx_Rnbase_Utility_T3General::_GP('searchType');
-        $this->aConfig['searchText'] = Tx_Rnbase_Utility_T3General::_GP('searchText');
-        $this->aConfig['searchCounter'] = (int) Tx_Rnbase_Utility_T3General::_GP('searchCounter');
+        $this->aConfig['searchType'] = T3General::_GP('searchType');
+        $this->aConfig['searchText'] = T3General::_GP('searchText');
+        $this->aConfig['searchCounter'] = (int) T3General::_GP('searchCounter');
 
         $this->renderList($aParts, $aRowsHtml);
 

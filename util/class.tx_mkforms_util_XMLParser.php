@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Loading classes.
  */
@@ -138,8 +140,8 @@ class tx_mkforms_util_XMLParser
 
             if (self::$useCache) {
                 if (!@is_dir(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sCacheDir)) {
-                    if (function_exists('Tx_Rnbase_Utility_T3General::mkdir_deep')) {
-                        Tx_Rnbase_Utility_T3General::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
+                    if (function_exists('T3General::mkdir_deep')) {
+                        T3General::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
                     } else {
                         tx_mkforms_util_Div::mkdirDeep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
                     }

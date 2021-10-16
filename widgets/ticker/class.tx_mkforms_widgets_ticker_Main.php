@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_ticker' for the 'ameos_formidable' extension.
  *
@@ -216,7 +219,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     public function &_getTemplate()
     {
         if (false !== ($aTemplate = $this->_navConf('/template'))) {
-            $sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
+            $sPath = T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
                 $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
             } elseif (is_dir($sPath)) {
@@ -230,7 +233,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             }
 
             $sHtml = tx_rnbase_util_Templates::getSubpart(
-                Tx_Rnbase_Utility_T3General::getUrl($sPath),
+                T3General::getUrl($sPath),
                 $sSubpart
             );
 

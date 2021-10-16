@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Utility\T3General;
+
 class formidable_templatemethods extends formidable_mainscriptingmethods
 {
     private static $cache = null;
@@ -356,7 +358,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_substr($mData, $aParams)
     {
-        return Tx_Rnbase_Utility_T3General::fixed_lgd_cs(
+        return T3General::fixed_lgd_cs(
             $this->templateDataAsString($mData),
             $aParams[0],
             $aParams[1]

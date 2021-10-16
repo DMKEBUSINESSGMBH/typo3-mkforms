@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * A session manager that uses php session and cache framework to store data.
  *
@@ -134,7 +136,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
             $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['parent'] = [
                 'classpath' => tx_mkforms_util_Div::removeEndingSlash(
-                    Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT')
+                    T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT')
                 ).'/'.tx_mkforms_util_Div::removeStartingSlash($aParentConf['includeLibs']),
             ];
         }

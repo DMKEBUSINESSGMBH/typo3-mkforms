@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Utility\T3General;
+
 class formidableajax
 {
     /**
@@ -54,16 +56,16 @@ class formidableajax
         $this->ttTimes = [];
 
         $this->aRequest = [
-            'safelock' => Tx_Rnbase_Utility_T3General::_GP('safelock'),
-            'object' => Tx_Rnbase_Utility_T3General::_GP('object'),
-            'servicekey' => Tx_Rnbase_Utility_T3General::_GP('servicekey'),
-            'eventid' => Tx_Rnbase_Utility_T3General::_GP('eventid'),
-            'serviceid' => Tx_Rnbase_Utility_T3General::_GP('serviceid'),
-            'value' => stripslashes(Tx_Rnbase_Utility_T3General::_GP('value')),
-            'formid' => Tx_Rnbase_Utility_T3General::_GP('formid'),
-            'thrower' => Tx_Rnbase_Utility_T3General::_GP('thrower'),
-            'arguments' => Tx_Rnbase_Utility_T3General::_GP('arguments'),
-            'trueargs' => Tx_Rnbase_Utility_T3General::_GP('trueargs'),
+            'safelock' => T3General::_GP('safelock'),
+            'object' => T3General::_GP('object'),
+            'servicekey' => T3General::_GP('servicekey'),
+            'eventid' => T3General::_GP('eventid'),
+            'serviceid' => T3General::_GP('serviceid'),
+            'value' => stripslashes(T3General::_GP('value')),
+            'formid' => T3General::_GP('formid'),
+            'thrower' => T3General::_GP('thrower'),
+            'arguments' => T3General::_GP('arguments'),
+            'trueargs' => T3General::_GP('trueargs'),
         ];
 
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -304,16 +306,16 @@ class formidableajax
                     $TSFE->displayEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayIcons');
                     $TSFE->displayFieldEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayFieldIcons');
 
-                    if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_editIcons')) {
+                    if (T3General::_GP('ADMCMD_editIcons')) {
                         $TSFE->displayFieldEditIcons = 1;
                         $BE_USER->uc['TSFE_adminConfig']['edit_editNoPopup'] = 1;
                     }
-                    if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int) Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser');
+                    if (T3General::_GP('ADMCMD_simUser')) {
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int) T3General::_GP('ADMCMD_simUser');
                         $BE_USER->ext_forcePreview = 1;
                     }
-                    if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int) Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime');
+                    if (T3General::_GP('ADMCMD_simTime')) {
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int) T3General::_GP('ADMCMD_simTime');
                         $BE_USER->ext_forcePreview = 1;
                     }
 

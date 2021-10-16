@@ -22,6 +22,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Die Klasse ist für die Verarbeitung der XML-Formulardatei verantwortlich.
  * Der Zugriff auf das Form sollte nur reduziert geschehen. Derzeit wird über das Form das Runnable ermittelt.
@@ -763,7 +765,7 @@ class tx_mkforms_util_Config
 
                     $iNewKey = count($aDebug) - 1;
 
-                    $aXml = tx_mkforms_util_XMLParser::getXml(Tx_Rnbase_Utility_T3General::getFileAbsFileName($val), true);
+                    $aXml = tx_mkforms_util_XMLParser::getXml(T3General::getFileAbsFileName($val), true);
 
                     $aTemp = $this->array_add(
                         $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml'], $sParent.'/'.$key),
@@ -1099,7 +1101,7 @@ class tx_mkforms_util_Config
     public static function createInstanceByPath($path, $form)
     {
         $cfg = new tx_mkforms_util_Config($form);
-        $cfg->loadXmlConf(Tx_Rnbase_Utility_T3General::getFileAbsFileName($path));
+        $cfg->loadXmlConf(T3General::getFileAbsFileName($path));
         // default config laden hinzufügen
         $cfg->loadDefaultXmlConf();
 

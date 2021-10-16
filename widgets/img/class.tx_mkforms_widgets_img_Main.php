@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_img' for the 'ameos_formidable' extension.
  *
@@ -46,8 +49,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
                 $aInfosPath = parse_url($sAbsWebPath);
 
-                $aInfosFile = Tx_Rnbase_Utility_T3General::split_fileref($sAbsWebPath);
-                if (strtolower($aInfosPath['host']) !== strtolower(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_HOST_ONLY'))) {
+                $aInfosFile = T3General::split_fileref($sAbsWebPath);
+                if (strtolower($aInfosPath['host']) !== strtolower(T3General::getIndpEnv('TYPO3_HOST_ONLY'))) {
                     if (true === $bReprocess) {
                         // we have to make a local copy of the image to enable TS processing
                         $aHeaders = $this->oForm->div_getHeadersForUrl($sAbsWebPath);
@@ -72,9 +75,9 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                     $sTempFilePath = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/assets/'.$sTempFileName;
 
                     if (!file_exists($sTempFilePath)) {
-                        Tx_Rnbase_Utility_T3General::writeFileToTypo3tempDir(
+                        T3General::writeFileToTypo3tempDir(
                             $sTempFilePath,
-                            Tx_Rnbase_Utility_T3General::getUrl($sAbsWebPath)
+                            T3General::getUrl($sAbsWebPath)
                         );
                     }
 
@@ -84,8 +87,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                 } else {
                     // it's an local image given as an absolute web url
                     // trying to convert pathes to handle the image as a local one
-                    if (Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR') == substr($sAbsWebPath, 0, strlen(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR')))) {
-                        $sTrimmedWebPath = substr($sAbsWebPath, strlen(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_DIR')));
+                    if (T3General::getIndpEnv('TYPO3_REQUEST_DIR') == substr($sAbsWebPath, 0, strlen(T3General::getIndpEnv('TYPO3_REQUEST_DIR')))) {
+                        $sTrimmedWebPath = substr($sAbsWebPath, strlen(T3General::getIndpEnv('TYPO3_REQUEST_DIR')));
                     } else {
                         $sTrimmedWebPath = $aInfosPath['path'];
                     }
@@ -241,7 +244,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
         if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sPath, 'EXT:')) {
             $sPath = $this->oForm->_removeStartingSlash(
                 tx_mkforms_util_Div::toRelPath(
-                    Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath)
+                    T3General::getFileAbsFileName($sPath)
                 )
             );
         }

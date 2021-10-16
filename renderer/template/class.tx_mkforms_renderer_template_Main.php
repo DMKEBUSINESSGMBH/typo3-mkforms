@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdr_template' for the 'ameos_formidable' extension.
  *
@@ -50,7 +53,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
                 if (false !== ($sSubpart = $this->getTemplateSubpart())) {
                     $mHtml = tx_rnbase_util_Templates::getSubpart(
-                        Tx_Rnbase_Utility_T3General::getUrl($sPath),
+                        T3General::getUrl($sPath),
                         $sSubpart
                     );
 
@@ -58,7 +61,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
                         $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'".$sPath."'</b> with subpart marker ".$sSubpart.' <b>returned an empty string</b> - Check your template');
                     }
                 } else {
-                    $mHtml = Tx_Rnbase_Utility_T3General::getUrl($sPath);
+                    $mHtml = T3General::getUrl($sPath);
                     if ('' == trim($mHtml)) {
                         $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'".$sPath."'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
                     }

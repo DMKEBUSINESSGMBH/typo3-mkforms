@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Diese Klasse bindet das notwendige Javascript ein. Es ist eine neue Fassung der
  * Klasse formidable_jslayer.
@@ -370,7 +372,7 @@ JAVASCRIPT;
     {
         $absRefPrefix = $this->getForm()->getConfTS('absRefPrefix');
         if (null === $absRefPrefix) {
-            $absRefPrefix = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL');
+            $absRefPrefix = T3General::getIndpEnv('TYPO3_SITE_URL');
         }
 
         return $absRefPrefix;
@@ -566,7 +568,7 @@ JAVASCRIPT;
             // Write file:
             if ($script) {
                 if (!@is_file(\Sys25\RnBase\Utility\Environment::getPublicPath().$script)) {
-                    Tx_Rnbase_Utility_T3General::writeFile(\Sys25\RnBase\Utility\Environment::getPublicPath().$script, $str);
+                    T3General::writeFile(\Sys25\RnBase\Utility\Environment::getPublicPath().$script, $str);
                 }
             }
         }

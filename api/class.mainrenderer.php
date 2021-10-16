@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Utility\T3General;
+
 class formidable_mainrenderer extends formidable_mainobject
 {
     public $aCustomHidden = null;
@@ -126,7 +128,7 @@ TEMPLATE;
 
             $wrapForm = ['', ''];
             if (false !== ($sWrap = $oForm->getConfigXML()->get('/meta/form/wrap'))) {
-                $wrapForm = Tx_Rnbase_Utility_T3General::trimExplode('|', $sWrap);
+                $wrapForm = T3General::trimExplode('|', $sWrap);
             }
 
             if (tx_mkforms_util_Constants::FORM_METHOD_GET === $oForm->getFormMethod()) {
@@ -176,14 +178,14 @@ TEMPLATE;
 
         if (false !== strpos($url, '?')) {
             $params = substr($url, strpos($url, '?') + 1);
-            $params = Tx_Rnbase_Utility_T3General::explodeUrl2Array($params);
+            $params = T3General::explodeUrl2Array($params);
             $url = substr($url, 0, strpos($url, '?'));
         }
         // alle Parameter als Hidden Felder bereitstellen
         foreach ($params as $name => $value) {
             // nur für die Parameter, die nicht zum Formular gehören
             // @TODO: die widgets prüfen, nicht nur den parametername!
-            if (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($name, $formId.'[')) {
+            if (T3General::isFirstPartOfStr($name, $formId.'[')) {
                 continue;
             }
             $name = htmlspecialchars($name);
@@ -390,7 +392,7 @@ TEMPLATE;
         if (false !== ($mParams = $this->getForm()->_navConf('/params', $aEvent))) {
             if (is_string($mParams)) {
                 // Das ist der Normalfall. Die Parameter als String
-                $aTemp = Tx_Rnbase_Utility_T3General::trimExplode(',', $mParams);
+                $aTemp = T3General::trimExplode(',', $mParams);
                 reset($aTemp);
                 foreach ($aTemp as $sParam) {
                     $aParamsCollection[] = [
@@ -413,13 +415,13 @@ TEMPLATE;
 
                 $sParam = $param['get'];
                 $sAs = $param['as'];
-                if (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sParam, 'rowData::')) {
+                if (T3General::isFirstPartOfStr($sParam, 'rowData::')) {
                     $sParamName = substr($sParam, 9);
                     $aRowParams[$sParamName] = '';
                     if (false !== ($sValue = $this->getForm()->getDataHandler()->_getListData($sParamName))) {
                         $aRowParams[$sParamName] = $sValue;
                     }
-                } elseif (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sParam, 'rowInput::')) {
+                } elseif (T3General::isFirstPartOfStr($sParam, 'rowInput::')) {
                     $sParamName = substr($sParam, 10);
                     /* replacing *id* with *id for this row*; will be handled by JS framework */
 
@@ -430,7 +432,7 @@ TEMPLATE;
                     if (array_key_exists($sParamName, $this->getForm()->aORenderlets)) {
                         $aParams[] = 'rowInput::'.$sAs.'::'.$this->getForm()->getWidget($sParamName)->_getElementHtmlId();
                     }
-                } elseif (Tx_Rnbase_Utility_T3General::isFirstPartOfStr($sParam, 'sys_event.')) {
+                } elseif (T3General::isFirstPartOfStr($sParam, 'sys_event.')) {
                     $aParams[] = $sParam;
                 } elseif (array_key_exists($sParam, $this->getForm()->aORenderlets)) {
                     $sAs = (!$sAs) ? $sParam : $sAs;
@@ -646,7 +648,7 @@ TEMPLATE;
                 if (true === $this->_defaultFalse('/style/rewrite')) {
                     if (!tx_mkforms_util_Div::isAbsWebPath($sUrl)) {
                         $sUrl = tx_mkforms_util_Div::toServerPath($sUrl);
-                        $sStyle = Tx_Rnbase_Utility_T3General::getUrl($sUrl);
+                        $sStyle = T3General::getUrl($sUrl);
                         $sUrl = false;
                     }
                 }

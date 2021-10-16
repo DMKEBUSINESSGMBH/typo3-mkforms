@@ -1,4 +1,7 @@
 <?php
+
+use Sys25\RnBase\Utility\T3General;
+
 /**
  * Plugin 'rdt_dewplayer' for the 'ameos_formidable' extension.
  *
@@ -84,11 +87,11 @@ FLASHOBJECT;
             }
 
             if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sPath, 'EXT:')) {
-                $sPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').
+                $sPath = T3General::getIndpEnv('TYPO3_SITE_URL').
                     str_replace(
-                        Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
+                        T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
                         '',
-                        Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath)
+                        T3General::getFileAbsFileName($sPath)
                     );
             }
         }

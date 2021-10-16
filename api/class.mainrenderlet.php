@@ -1,5 +1,7 @@
 <?php
 
+use Sys25\RnBase\Utility\T3General;
+
 class formidable_mainrenderlet extends formidable_mainobject
 {
     public $__aCacheItems = [];
@@ -2836,7 +2838,7 @@ JAVASCRIPT;
         if (file_exists($aTemplate['path'])) {
             if (is_readable($aTemplate['path'])) {
                 $sHtml = tx_rnbase_util_Templates::getSubpart(
-                    Tx_Rnbase_Utility_T3General::getUrl($aTemplate['path']),
+                    T3General::getUrl($aTemplate['path']),
                     $aTemplate['subpart']
                 );
 
@@ -3182,7 +3184,7 @@ JAVASCRIPT;
                                         );
                                     if (file_exists($sSrc) && is_readable($sSrc)) {
                                         $this->aSkin['template']['full'] = tx_rnbase_util_Templates::getSubpart(
-                                            Tx_Rnbase_Utility_T3General::getUrl($sSrc),
+                                            T3General::getUrl($sSrc),
                                             $this->aSkin['submanifest']['resources']['template']['subpart']
                                         );
 
