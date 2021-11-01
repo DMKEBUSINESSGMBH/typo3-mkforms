@@ -22,6 +22,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Sys25\RnBase\Utility\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Loading classes.
  */
@@ -80,8 +83,11 @@ class tx_mkforms_util_XMLParser
 
             $sHash = md5($sPath.'-'.@filemtime($sPath).'-'.tx_mkforms_util_Div::getVersion());
             $sFile = 'xmlcache_'.$sHash.'.php';
-            $sCacheDir = 'mkforms/cache/';
-            $sCachePath = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sCacheDir.$sFile;
+            $sCacheDir = Environment::getPublicPath().'typo3temp/mkforms/cache/';
+            if (!\is_dir($sCacheDir)) {
+                GeneralUtility::mkdir_deep($sCacheDir);
+            }
+            $sCachePath = $sCacheDir.$sFile;
 
             if (file_exists($sCachePath)) {
                 $aConf = unserialize(

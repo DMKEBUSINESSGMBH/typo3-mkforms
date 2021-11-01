@@ -1,5 +1,8 @@
 <?php
 
+use Sys25\RnBase\Utility\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Diese Klasse bindet das notwendige Javascript ein. Es ist eine neue Fassung der
  * Klasse formidable_jslayer.
@@ -545,28 +548,32 @@ JAVASCRIPT;
                 $sDesc = "\n\n<!-- MKFORMS: ".str_replace(['<!--', '-->'], '', $sDesc).' -->';
             }
 
+            $directory = 'typo3temp/assets/mkforms/';
             // Create filename / tags:
             $script = '';
             switch ($ext) {
                 case 'js':
-                    $script = 'typo3temp/assets/mkforms/javascript_'.substr(md5($str), 0, 10).'.js';
+                    $script = 'javascript_'.substr(md5($str), 0, 10).'.js';
                     $output = $sDesc."\n".'<script src="'.htmlspecialchars(
-                        $this->getAbsRefPrefix().$script
+                        $this->getAbsRefPrefix().$directory.$script
                     ).'"></script>'."\n\n";
                     break;
 
                 case 'css':
-                    $script = 'typo3temp/assets/mkforms/stylesheet_'.substr(md5($str), 0, 10).'.css';
+                    $script = 'stylesheet_'.substr(md5($str), 0, 10).'.css';
                     $output = $sDesc."\n".'<link rel="stylesheet" type="text/css" href="'.htmlspecialchars(
-                        $this->getAbsRefPrefix().$script
+                        $this->getAbsRefPrefix().$directory.$script
                     ).'" />'."\n\n";
                     break;
             }
 
             // Write file:
             if ($script) {
-                if (!@is_file(\Sys25\RnBase\Utility\Environment::getPublicPath().$script)) {
-                    Tx_Rnbase_Utility_T3General::writeFile(\Sys25\RnBase\Utility\Environment::getPublicPath().$script, $str);
+                if (!\is_dir($directory)) {
+                    GeneralUtility::mkdir_deep($directory);
+                }
+                if (!@is_file(Environment::getPublicPath().$directory.$script)) {
+                    Tx_Rnbase_Utility_T3General::writeFile(Environment::getPublicPath().$directory.$script, $str);
                 }
             }
         }

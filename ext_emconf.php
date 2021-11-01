@@ -22,7 +22,6 @@ $EM_CONF['mkforms'] = [
     'module' => '',
     'state' => 'stable',
     'uploadfolder' => 0,
-    'createDirs' => 'typo3temp/mkforms/cache/,typo3temp/assets/mkforms/',
     'modify_tables' => '',
     'clearcacheonload' => 1,
     'lockType' => '',
