@@ -56,7 +56,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('r' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'required')) {
+            if ('r' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'required')) {
                 if ($this->_isEmpty($oRdt, $mValue)) {
                     if (false !== ($mMessage = $this->_navConf('/'.$sKey.'/message'))
                         && $this->oForm->isRunneable(
@@ -82,7 +82,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('a' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'authentified')) {
+            if ('a' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'authentified')) {
                 if (!$this->_isAuthentified()) {
                     $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
@@ -101,8 +101,8 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ((('m' === $sKey[0]) && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'maxsize')
-                && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr(
+            if ((('m' === $sKey[0]) && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'maxsize')
+                && !\Sys25\RnBase\Utility\Strings::isFirstPartOfStr(
                     $sKey,
                     'maxsizebychars'
                 ))
@@ -127,7 +127,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('m' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'maxsizebychars')) {
+            if ('m' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'maxsizebychars')) {
                 $iMaxSize = (int) $this->_navConf('/'.$sKey.'/value/');
                 $sEncoding = $this->_navConf('/'.$sKey.'/encoding/');
 
@@ -149,7 +149,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('o' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'onerdthasavalue')) {
+            if ('o' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'onerdthasavalue')) {
                 $sRdt = $this->_navConf('/'.$sKey.'/rdt/');
 
                 if ($this->_oneRdtHasAValue($mValue, $sRdt)) {
@@ -170,7 +170,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('m' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'minsize')) {
+            if ('m' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'minsize')) {
                 $iMinSize = (int) $this->_navConf('/'.$sKey.'/value/');
 
                 if ($this->_isTooSmall($mValue, $iMinSize)) {
@@ -191,7 +191,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('s' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'size')) {
+            if ('s' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'size')) {
                 $iSize = (int) $this->_navConf('/'.$sKey.'/value/');
 
                 if (!$this->_sizeIs($mValue, $iSize)) {
@@ -212,7 +212,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('s' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'sameas')) {
+            if ('s' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'sameas')) {
                 $sameas = trim($this->_navConf('/'.$sKey.'/value/'));
 
                 if (array_key_exists($sameas, $this->oForm->aORenderlets)) {
@@ -237,7 +237,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('e' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'email')) {
+            if ('e' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'email')) {
                 if (!$this->_isEmail($mValue)) {
                     $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
@@ -258,7 +258,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('u' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'userobj')) {
+            if ('u' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'userobj')) {
                 $this->oForm->mayday(
                     'WIDGET ['.$oRdt->getName()
                     .'] <b>/validator:STANDARD/userobj is deprecated.</b> Use /validator:STANDARD/custom instead.'
@@ -271,7 +271,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('u' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'unique')) {
+            if ('u' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'unique')) {
                 // field value has to be unique in the database
                 // checking this
 
@@ -292,7 +292,7 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ('c' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'custom')) {
+            if ('c' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'custom')) {
                 $mCustom = $this->_navConf('/'.$sKey);
                 if ($this->oForm->isRunneable($mCustom)) {
                     if (true !== ($mResult = $this->getForm()->getRunnable()->callRunnable(
@@ -339,7 +339,7 @@ class formidable_mainvalidator extends formidable_mainobject
             }
         }
         if (false !== ($mSkipIf = $this->_navConf('/'.$sKey.'/skipif'))) {
-            $mSkipIf = Tx_Rnbase_Utility_Strings::trimExplode(',', $mSkipIf);
+            $mSkipIf = \Sys25\RnBase\Utility\Strings::trimExplode(',', $mSkipIf);
             if (in_array($mValue, $mSkipIf)) {
                 return false;
             }
@@ -385,7 +385,7 @@ class formidable_mainvalidator extends formidable_mainobject
                 //@TODO: dependsonifnot integrieren
                 if (false !== ($aDependsOnIf = $this->_navConf('/'.$sKey.'/dependsonif'))) {
                     $aDependsOnIf = $this->getForm()->getRunnable()->callRunnable($aDependsOnIf);
-                    $aDependsOnIf = is_array($aDependsOnIf) ? $aDependsOnIf : Tx_Rnbase_Utility_Strings::trimExplode(',', $aDependsOnIf, 1);
+                    $aDependsOnIf = is_array($aDependsOnIf) ? $aDependsOnIf : \Sys25\RnBase\Utility\Strings::trimExplode(',', $aDependsOnIf, 1);
                     $negate = true;
                 } else {
                     // default false values
@@ -498,7 +498,7 @@ class formidable_mainvalidator extends formidable_mainobject
 
     public function _isEmail($mValue)
     {
-        return '' == trim($mValue) || Tx_Rnbase_Utility_Strings::validEmail($mValue);
+        return '' == trim($mValue) || \Sys25\RnBase\Utility\Strings::validEmail($mValue);
     }
 
     public function _isAuthentified()
@@ -560,7 +560,7 @@ class formidable_mainvalidator extends formidable_mainobject
             }
         }
 
-        $rs = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
+        $rs = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
             'count(*) as nbentries',
             $sTable,
             ['where' => $sWhere]

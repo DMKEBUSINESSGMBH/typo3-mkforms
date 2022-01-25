@@ -5,12 +5,12 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     private static $cache = null;
 
     /**
-     * @return tx_rnbase_cache_TYPO3Cache
+     * @return \Sys25\RnBase\Cache\CacheInterface
      */
     private function getCache()
     {
         if (is_null(self::$cache)) {
-            self::$cache = tx_rnbase_cache_Manager::getCache('mkforms_rdt_tmpl');
+            self::$cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms_rdt_tmpl');
         }
 
         return self::$cache;
@@ -233,7 +233,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_extPath($mData, $aParams)
     {
-        return tx_rnbase_util_Extensions::extPath($aParams[0]);
+        return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($aParams[0]);
     }
 
     public function method_toWebPath($mData, $aParams)
@@ -356,7 +356,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_substr($mData, $aParams)
     {
-        return Tx_Rnbase_Utility_T3General::fixed_lgd_cs(
+        return \Sys25\RnBase\Utility\T3General::fixed_lgd_cs(
             $this->templateDataAsString($mData),
             $aParams[0],
             $aParams[1]
@@ -438,7 +438,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_debug_trail($mData, $aParams)
     {
-        return tx_rnbase_util_Debug::getDebugTrail();
+        return \Sys25\RnBase\Utility\Debug::getDebugTrail();
     }
 
     public function method_hsc($mData, $aParams)
@@ -605,7 +605,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
             $sSep = $aParams[0];
         }
 
-        $aRes = Tx_Rnbase_Utility_Strings::trimExplode(
+        $aRes = \Sys25\RnBase\Utility\Strings::trimExplode(
             $sSep,
             $this->templateDataAsString($mData)
         );

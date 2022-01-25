@@ -161,7 +161,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 $sRowsHtml = implode('', $aRowsHtml);
             }
 
-            $sHtml = tx_rnbase_util_Templates::substituteSubpart(
+            $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
                 $sTemplate,
                 '###ROWS###',
                 $sRowsHtml,
@@ -201,12 +201,12 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             $this->oForm->mayday('RENDERLET TICKER <b>'.$this->_getName().'</b> requires /template/alternaterows to be properly set. Please check your XML configuration');
         }
 
-        $aAltList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sAltList);
+        $aAltList = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sAltList);
         if (sizeof($aAltList) > 0) {
-            $sRowsPart = tx_rnbase_util_Templates::getSubpart($sTemplate, '###ROWS###');
+            $sRowsPart = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sTemplate, '###ROWS###');
 
             foreach ($aAltList as $sAltSubpart) {
-                $aRowsTmpl[] = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
+                $aRowsTmpl[] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sRowsPart, $sAltSubpart);
             }
         }
 
@@ -216,7 +216,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     public function &_getTemplate()
     {
         if (false !== ($aTemplate = $this->_navConf('/template'))) {
-            $sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
+            $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
                 $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
             } elseif (is_dir($sPath)) {
@@ -229,8 +229,8 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 $sSubpart = $this->getName();
             }
 
-            $sHtml = tx_rnbase_util_Templates::getSubpart(
-                Tx_Rnbase_Utility_T3General::getUrl($sPath),
+            $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                \Sys25\RnBase\Utility\T3General::getUrl($sPath),
                 $sSubpart
             );
 

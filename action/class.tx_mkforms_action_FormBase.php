@@ -72,8 +72,8 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
     /**
      * Start the dance...
      *
-     * @param tx_rnbase_parameters     $parameters
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Frontend\Request\Parameters     $parameters
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param ArrayObject              $viewData
      *
      * @return string
@@ -121,7 +121,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
     /**
      * Gibt den Pfad zum XML zurück.
      *
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return string
@@ -134,7 +134,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
     /**
      * Wir prüfen die Konfiguration.
      *
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return array
@@ -158,7 +158,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
             $this->errors[] = 'No XML file found (TS: '.$confId.'xml).';
         }
         // existiert das xml
-        $absXmlPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($xmlPath);
+        $absXmlPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($xmlPath);
         if (empty($absXmlPath) || !file_exists($absXmlPath)) {
             $this->errors[] = 'The given XML file path ('.$xmlPath.') doesn\'t exists.';
         }
@@ -197,7 +197,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         }
 
         // Hook to handle data
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_before_processdata',
             ['data' => &$data],
@@ -216,7 +216,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         $data = $this->processData($data);
 
         // Hook to handle data
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_after_processdata',
             ['data' => &$data],
@@ -301,7 +301,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         }
 
         // Hook to handle data
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_before_filldata',
             ['data' => &$params],
@@ -311,7 +311,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         $data = $this->fillData($params);
 
         // Hook to handle data
-        tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_after_filldata',
             ['data' => &$data],

@@ -84,7 +84,7 @@ class tx_mkforms_util_Loader
             tx_mkforms_util_Div::mayday('TYPE '.$aElement['type'].' is not associated to any '.$objectType);
         }
 
-        $oObj = tx_rnbase::makeInstance($aObj['CLASS']);
+        $oObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($aObj['CLASS']);
 
         if (!empty($aOParent) && is_object($aOParent[0])) {
             $oObj->setParent($aOParent[0]);
@@ -180,7 +180,7 @@ class tx_mkforms_util_Loader
      *
      * @return object instance of the class or false if it fails
      *
-     * @see         tx_rnbase::makeInstance
+     * @see         \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance
      * @see         load()
      */
     public function makeInstance($sClass, $sPath = false)
@@ -189,7 +189,7 @@ class tx_mkforms_util_Loader
         if ($this->load($sClass, $sPath)) {
             $args = func_get_args();
             unset($args[1]); // path entfernen
-            $ret = call_user_func_array(['tx_rnbase', 'makeInstance'], $args);
+            $ret = call_user_func_array([\TYPO3\CMS\Core\Utility\GeneralUtility::class, 'makeInstance'], $args);
         }
 
         return $ret;

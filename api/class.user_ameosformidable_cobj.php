@@ -63,7 +63,7 @@ class user_ameosformidable_cobj
 
     public function _render($conf)
     {
-        $this->oForm = tx_rnbase::makeInstance('tx_ameosformidable');
+        $this->oForm = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ameosformidable');
         $this->oForm->initFromTs(
             $this,
             $conf

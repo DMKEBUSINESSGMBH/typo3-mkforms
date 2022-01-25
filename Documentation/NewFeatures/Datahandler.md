@@ -33,8 +33,8 @@ Konfiguration:
   <engine>mkmailer</engine>
   <!-- Optional: Das Model, welches die Daten für die E-Mail bereit stellt
      Als Record werden die Daten aus dem Formular genutzt.
-     Default ist tx_rnbase_model_base. -->
-  <model>tx_rnbase_model_base</model>
+     Default ist \Sys25\RnBase\Domain\Model\BaseModel. -->
+  <model>\Sys25\RnBase\Domain\Model\BaseModel</model>
   <!-- Pflicht: Die E-Mail-Adresse, an die versendet werden soll. -->
   <mailTo>mwagner@localhost.de</mailTo>
   <!-- Optional: Absender, wird default aus dem MKmailer-Mail-Template genommen. -->
@@ -78,7 +78,7 @@ plugin.tx_mkforms {
       generalcontact {
          ### Hier kommt nun die normale Konfiguration für die Markerklasse rein
          ### Das können Links, Felder oder dcmarker sein.
-         ### Als Markerklasse wird tx_rnbase_util_SimpleMarker genutzt.
+         ### Als Markerklasse wird \Sys25\RnBase\Frontend\Marker\SimpleMarker genutzt.
          contactsubject {
             links {
             }
@@ -104,7 +104,7 @@ Mit dem datahandler:DB kommt es öfters mal vor, daß man dem Formularrecord ger
       <php><![CDATA[
         // Jetzt noch einen Wert einfügen
         $record = $this->getParams();
-        $record['date'] = tx_rnbase_util_Dates::date_mysql2tstamp($record['date']);
+        $record['date'] = \Sys25\RnBase\Utility\Dates::date_mysql2tstamp($record['date']);
         return $record;
       ]]></php>
     </userobj>

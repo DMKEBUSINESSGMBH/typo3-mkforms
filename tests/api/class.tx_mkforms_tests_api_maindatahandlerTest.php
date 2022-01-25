@@ -30,12 +30,12 @@
  *
  * @author hbochmann
  */
-class tx_mkforms_tests_api_maindatahandlerTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_api_maindatahandlerTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     public function setUp()
     {
         self::markTestIncomplete('Exception: No extension key found for classname: Tx_Phpunit_Framework');
-        $oTestFramework = tx_rnbase::makeInstance('Tx_Phpunit_Framework', 'mkforms');
+        $oTestFramework = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Phpunit_Framework', 'mkforms');
         $oTestFramework->createFakeFrontEnd();
     }
 
@@ -85,7 +85,7 @@ class tx_mkforms_tests_api_maindatahandlerTest extends tx_rnbase_tests_BaseTestC
         $_POST['radioTestForm'] = $sData;
 
         $oForm = tx_mkforms_tests_Util::getForm();
-        $oHandler = tx_rnbase::makeInstance('formidable_maindatahandler');
+        $oHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindatahandler');
         $oHandler->_init($oForm, [], [], '');
 
         //einzelnes renderlet

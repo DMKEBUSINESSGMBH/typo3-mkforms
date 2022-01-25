@@ -34,8 +34,8 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
      *
      * @param string                    $template
      * @param ArrayObject               $viewData
-     * @param tx_rnbase_configurations  $configurations
-     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param \Sys25\RnBase\Configuration\Processor  $configurations
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      *
      * @return mixed Ready rendered output or HTTP redirect
      */
@@ -74,7 +74,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
                      * müssen für den speziellen Fall die add Methoden
                      * oder die globale addAdditionalMarkers Methode angelegt werden!
                      */
-                    if (tx_rnbase_util_BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
+                    if (\Sys25\RnBase\Frontend\Marker\BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
                         $currentSubpartArray = $currentWrappedSubpartArray = [];
                         $currentMarkerArray = $formatter->getItemMarkerArrayWrapped(
                             $values,
@@ -123,7 +123,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
         );
 
         $markerArray['###FORM###'] = $viewData->offsetGet('form');
-        $out = tx_rnbase_util_Templates::substituteMarkerArrayCached(
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached(
             $template,
             $markerArray,
             $subpartArray,
@@ -146,7 +146,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
      * @param array                     $markerArray
      * @param array                     $subpartArray
      * @param array                     $wrappedSubpartArray
-     * @param tx_rnbase_util_FormatUtil $formatter
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      * @param string                    $template
      *
      * @return string
@@ -172,7 +172,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
             $params = $formatter->getConfigurations()->get(
                 $confId.'links.'.$linkId.'.params.'
             );
-            tx_rnbase_util_BaseMarker::initLink(
+            \Sys25\RnBase\Frontend\Marker\BaseMarker::initLink(
                 $markerArray,
                 $subpartArray,
                 $wrappedSubpartArray,
@@ -193,7 +193,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
      * in einem eigenen View überschrieben werden.
      *
      * @param ArrayObject              $viewData
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)
     protected function handleRedirect(&$viewData, &$configurations)
@@ -226,7 +226,7 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
      * Erzeugt den Link für den Redirect. Kind-Klassen haben die Möglchkeit diese Methode zu überschreiben.
      *
      * @param ArrayObject              $viewData
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)

@@ -15,7 +15,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
     {
         parent::_init($oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix);
 
-        if (!tx_rnbase_util_Extensions::isLoaded('extbase')) {
+        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('extbase')) {
             $this->oForm->mayday(
                 'datasource:CONTENTREPOSITORY[name=\''.$this->getName()
                 .'\'] The Content Repository API is <b>not loaded</b>, and should be (<b>EXT:extbase</b>).'
@@ -29,7 +29,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
 
     public function loadContentRepositoryFramework()
     {
-        $sExtBasePath = tx_rnbase_util_Extensions::extPath('extbase');
+        $sExtBasePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('extbase');
         require_once $sExtBasePath.'Classes/Utility/Strings.php';
         require_once $sExtBasePath.'Classes/Exception.php';
         require_once $sExtBasePath.'Classes/Persistence/Session.php';
@@ -91,7 +91,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
                 }
             }
 
-            $this->oRepo = tx_rnbase::makeInstance($sClassName);
+            $this->oRepo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($sClassName);
         }
     }
 
@@ -99,7 +99,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
     {
         reset($this->aElement);
         foreach ($this->aElement as $sElementName => $notNeeded) {
-            if ('a' === $sElementName[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'aggregate')) {
+            if ('a' === $sElementName[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sElementName, 'aggregate')) {
                 if (false === ($sClassFile = $this->_navConf('/'.$sElementName.'/classfile'))) {
                     $this->oForm->mayday(
                         "datasource:CONTENTREPOSITORY[name='".$this->getName()
@@ -149,7 +149,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
 
     public function initDataSet($sKey)
     {
-        $oDataSet = tx_rnbase::makeInstance('formidable_maindataset');
+        $oDataSet = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindataset');
 
         if ('new' === $sKey) {
             // new record to create
@@ -192,7 +192,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
             $oObject->$sKey = $aData[$sKey];
         }
 
-        $oSession = tx_rnbase::makeInstance('TX_EXTBASE_Persistence_Session');
+        $oSession = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TX_EXTBASE_Persistence_Session');
         $oSession->registerAddedObject($oObject);
         $oSession->commit();
     }

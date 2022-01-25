@@ -144,11 +144,7 @@ class tx_mkforms_util_XMLParser
 
             if (self::$useCache) {
                 if (!@is_dir(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sCacheDir)) {
-                    if (function_exists('Tx_Rnbase_Utility_T3General::mkdir_deep')) {
-                        Tx_Rnbase_Utility_T3General::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
-                    } else {
-                        tx_mkforms_util_Div::mkdirDeep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
-                    }
+                    GeneralUtility::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
                 }
                 tx_mkforms_util_Div::fileWriteBin(
                     $sCachePath,
@@ -298,7 +294,7 @@ class tx_mkforms_util_XMLParser
                 }
 
                 // Get the tag name (without prefix if specified)
-                $tagName = ($prefix && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($val['tag'], $prefix)) ? substr($val['tag'], strlen($prefix)) : $val['tag'];
+                $tagName = ($prefix && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($val['tag'], $prefix)) ? substr($val['tag'], strlen($prefix)) : $val['tag'];
                 if (false === $bPlain) {
                     $aTagName = explode(
                         ':',

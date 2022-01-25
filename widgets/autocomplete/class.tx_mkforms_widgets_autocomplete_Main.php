@@ -74,7 +74,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         // thwoerID without iterating id
         $sThrower = $this->_getElementHtmlId(false, true, false);
 
-        $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+        $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
             'requester' => [
@@ -141,12 +141,12 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
             }
         }
 
-        $aAltList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sAltRows);
+        $aAltList = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sAltRows);
         if (sizeof($aAltList) > 0) {
-            $sRowsPart = tx_rnbase_util_Templates::getSubpart($sTemplate, '###ROWS###');
+            $sRowsPart = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sTemplate, '###ROWS###');
 
             foreach ($aAltList as $sAltSubpart) {
-                $sHtml = tx_rnbase_util_Templates::getSubpart($sRowsPart, $sAltSubpart);
+                $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sRowsPart, $sAltSubpart);
                 if (empty($sHtml)) {
                     $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template with subpart marquer <b>'".$sAltSubpart."'</b> returned an empty string - Please check your template!");
                 }
@@ -160,7 +160,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
     public function &_getTemplate()
     {
         if (false !== ($aTemplate = $this->_navConf('/template'))) {
-            $sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
+            $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
                 $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
             } elseif (is_dir($sPath)) {
@@ -173,8 +173,8 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                 $sSubpart = $this->getName();
             }
 
-            $sHtml = tx_rnbase_util_Templates::getSubpart(
-                Tx_Rnbase_Utility_T3General::getUrl($sPath),
+            $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                \Sys25\RnBase\Utility\T3General::getUrl($sPath),
                 $sSubpart
             );
 
@@ -190,9 +190,9 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     public function handleAjaxRequest($oRequest)
     {
-        $this->aConfig['searchType'] = Tx_Rnbase_Utility_T3General::_GP('searchType');
-        $this->aConfig['searchText'] = Tx_Rnbase_Utility_T3General::_GP('searchText');
-        $this->aConfig['searchCounter'] = (int) Tx_Rnbase_Utility_T3General::_GP('searchCounter');
+        $this->aConfig['searchType'] = \Sys25\RnBase\Utility\T3General::_GP('searchType');
+        $this->aConfig['searchText'] = \Sys25\RnBase\Utility\T3General::_GP('searchText');
+        $this->aConfig['searchCounter'] = (int) \Sys25\RnBase\Utility\T3General::_GP('searchCounter');
 
         $this->renderList($aParts, $aRowsHtml);
 
@@ -227,7 +227,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                 $aRowsHtml[] = trim($sRowHtml);
             }
 
-            $sHtml = tx_rnbase_util_Templates::substituteSubpart(
+            $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
                 trim($this->sTemplate),
                 '###ROWS###',
                 '###ROWS###',

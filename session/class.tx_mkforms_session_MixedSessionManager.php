@@ -100,7 +100,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         // hohe Kompression ist nicht notwendig und kostet nur Zeit!
         $serForm = gzcompress(serialize($form), 1);
         //form cachen
-        $cache = tx_rnbase_cache_Manager::getCache('mkforms');
+        $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
         $cache->set($this->getUserFormKey($formId), $serForm, 60 * 60 * 3); // 3h Lifetime
 
         $sessData = [];
@@ -134,16 +134,16 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
             $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId]['parent'] = [
                 'classpath' => tx_mkforms_util_Div::removeEndingSlash(
-                    Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT')
+                    \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT')
                 ).'/'.tx_mkforms_util_Div::removeStartingSlash($aParentConf['includeLibs']),
             ];
         }
 
         // Warning for large sessions
-        if (tx_rnbase_util_Logger::isNoticeEnabled()) {
+        if (\Sys25\RnBase\Utility\Logger::isNoticeEnabled()) {
             $sessionLen = strlen(serialize($GLOBALS['_SESSION']));
             if ($sessionLen > 300000) {
-                tx_rnbase_util_Logger::notice('Alert: Large session size!', 'mkforms', ['Size' => $sessionLen, 'PHP-SessionID' => session_id(), 'FormId' => $formId]);
+                \Sys25\RnBase\Utility\Logger::notice('Alert: Large session size!', 'mkforms', ['Size' => $sessionLen, 'PHP-SessionID' => session_id(), 'FormId' => $formId]);
             }
         }
     }
@@ -169,7 +169,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return;
         }
 
-        $cache = tx_rnbase_cache_Manager::getCache('mkforms');
+        $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
         // Die Daten müssen im Context des Forms und der PageID gespeichert werden, da ein
         // Formular in verschiedenen Seiten verwendet werden kann.
         $cache->set($this->getPageFormKey($formId, $GLOBALS['TSFE']->id), $feConfig, 60 * 60 * 3); // 3h Lifetime
@@ -191,7 +191,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return $feConfig;
         }
 
-        $cache = tx_rnbase_cache_Manager::getCache('mkforms');
+        $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
 
         // Wir holen uns die pageID von dem Formular.
         // Bei AjaxCalls steht im TSFE keine oder die falsche ID!
@@ -230,7 +230,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return;
         }
 
-        $cache = tx_rnbase_cache_Manager::getCache('mkforms');
+        $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
         // Die Daten müssen im Context des Forms und der PageID gespeichert werden, da ein
         // Formular in verschiedenen Seiten verwendet werden kann.
         $cache->set($this->getPageFormKey($formId, $GLOBALS['TSFE']->id, 'setup'), $tsSetup, 60 * 60 * 3); // 3h Lifetime
@@ -252,7 +252,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             return $feSetup;
         }
 
-        $cache = tx_rnbase_cache_Manager::getCache('mkforms');
+        $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
 
         // Wir holen uns die pageID von dem Formular.
         // Bei AjaxCalls steht im TSFE keine oder die falsche ID!
@@ -289,7 +289,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         $this->loadLoadedClasses($aHibernation);
         $this->loadParent($aHibernation);
 
-        $cache = tx_rnbase_cache_Manager::getCache('mkforms');
+        $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
         $serForm = $cache->get($this->getUserFormKey($formid));
         if (!$serForm) {
             return false;
@@ -297,7 +297,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         if (defined('TYPO3_UseCachingFramework') && TYPO3_UseCachingFramework) {
             // Zur Sicherheit den Cache initialisieren. Sonst kann es zu Exceptions kommen.
-            tx_rnbase_cache_Manager::getCache('cache_hash');
+            \Sys25\RnBase\Cache\CacheManager::getCache('cache_hash');
         }
 
         /* @var $oForm tx_ameosformidable */
@@ -311,11 +311,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         // configurations und parameters wieder herstellen
         tx_mkforms_util_AutoLoad::setMessage('Unserialize configuration array.');
         $aConfigArray = unserialize(gzuncompress($oForm->getConfigurations()));
-        /* @var $config Tx_Rnbase_Configuration_ProcessorInterface */
-        $config = tx_rnbase::makeInstance('Tx_Rnbase_Configuration_Processor');
+        /* @var $config \Sys25\RnBase\Configuration\ConfigurationInterface */
+        $config = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
         $config->init($aConfigArray, $oForm->getCObj(), 'mkforms', 'mkforms');
 
-        $parameters = tx_rnbase::makeInstance('tx_rnbase_parameters');
+        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
         $parameters->setQualifier($config->getQualifier());
         $config->setParameters($parameters);
 

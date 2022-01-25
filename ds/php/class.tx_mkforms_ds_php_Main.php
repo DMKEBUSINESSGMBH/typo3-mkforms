@@ -16,7 +16,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
 
     public function initDataSet($sKey)
     {
-        $oDataSet = tx_rnbase::makeInstance('formidable_maindataset');
+        $oDataSet = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindataset');
 
         if ('new' === $sKey) {
             // new record to create

@@ -70,7 +70,7 @@ class tx_mkforms_util_Templates
      */
     public function parseTemplate($templatePath, $templateMarker, $aTags = [], $aExclude = [], $bClearNotUsed = true, $aLabels = [])
     {
-        // $tempUrl : the path of the template for use with Tx_Rnbase_Utility_T3General::getUrl()
+        // $tempUrl : the path of the template for use with \Sys25\RnBase\Utility\T3General::getUrl()
         // $tempMarker :  the template subpart marker
         // $aTags : the marker array for substitution
         // $aExclude : tag names that should not be substituted
@@ -81,7 +81,7 @@ class tx_mkforms_util_Templates
         $templatePath = tx_mkforms_util_Div::toServerPath($templatePath);
 
         return $this->parseTemplateCode(
-            tx_rnbase_util_Templates::getSubpart(Tx_Rnbase_Utility_T3General::getUrl($templatePath), $templateMarker),
+            \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(\Sys25\RnBase\Utility\T3General::getUrl($templatePath), $templateMarker),
             $aTags,
             $aExclude,
             $bClearNotUsed,
@@ -276,7 +276,7 @@ class tx_mkforms_util_Templates
         $aParams = [];
         $sArgs = trim($sArgs);
         if ('' !== $sArgs) {
-            $aArgs = Tx_Rnbase_Utility_Strings::trimExplode(',', $sArgs);
+            $aArgs = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sArgs);
             reset($aArgs);
             foreach ($aArgs as $sArg) {
                 $sTrimArg = trim($sArg);
@@ -407,7 +407,7 @@ class tx_mkforms_util_Templates
      */
     public function parseTemplateCode($sHtml, $aTags, $aExclude = [], $bClearNotUsed = true, $aLabels = [], $bThrusted = false)
     {
-        $sHtml = tx_rnbase_util_Templates::includeSubTemplates($sHtml);
+        $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::includeSubTemplates($sHtml);
 
         if (!isset($this->sPfxBegin)) {
             $this->sPfxBegin = md5(rand());
@@ -432,8 +432,8 @@ class tx_mkforms_util_Templates
         }
         reset($aTags);
         foreach ($aTags as $sName => $mVal) {
-            if ('' !== ($sRdtSubPart = tx_rnbase_util_Templates::getSubpart($sHtml, '###'.$sName.'###'))) {
-                $sHtml = tx_rnbase_util_Templates::substituteSubpart(
+            if ('' !== ($sRdtSubPart = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sHtml, '###'.$sName.'###'))) {
+                $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
                     $sHtml,
                     '###'.$sName.'###',
                     $mVal['__compiled'],
@@ -482,10 +482,10 @@ class tx_mkforms_util_Templates
 
         // call module markers, so Labels and Modules can be rendered
         // disable the cache
-        tx_rnbase_util_Templates::disableSubstCache();
+        \Sys25\RnBase\Frontend\Marker\Templates::disableSubstCache();
         $markerArray = $subpartArray = $wrappedSubpartArray = $params = [];
         // check for Module markers
-        tx_rnbase_util_BaseMarker::callModules(
+        \Sys25\RnBase\Frontend\Marker\BaseMarker::callModules(
             $sHtml,
             $markerArray,
             $subpartArray,
@@ -494,7 +494,7 @@ class tx_mkforms_util_Templates
             $this->getForm()->getConfigurations()->getFormatter()
         );
         // render the module markers
-        $sHtml = tx_rnbase_util_BaseMarker::substituteMarkerArrayCached(
+        $sHtml = \Sys25\RnBase\Frontend\Marker\BaseMarker::substituteMarkerArrayCached(
             $sHtml,
             $markerArray,
             $subpartArray,
@@ -650,7 +650,7 @@ class tx_mkforms_util_Templates
         // TODO: Was ist das??
         // wird für template scripting benötigt
         // Bsp.: <!-- ###jobads-subtype.formData("jobads-maintype").equals(501) perimeter### begin-->
-        $oMethods = tx_rnbase::makeInstance('formidable_'.$sInterpreter);
+        $oMethods = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_'.$sInterpreter);
         $oMethods->_init($this->form);
 
         return $oMethods->process($sMethod, $mData, $sArgs);

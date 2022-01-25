@@ -30,7 +30,7 @@
  *
  * @author hbochmann
  */
-class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_api_mainrenderletTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @var bool
@@ -203,7 +203,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
      */
     public function testGetValueForHtmlConvertsNotHtmlSpecialCharsCorrectIfIsArray()
     {
-        $mainRenderlet = tx_rnbase::makeInstance('formidable_mainrenderlet');
+        $mainRenderlet = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainrenderlet');
 
         self::assertEquals(
             ['test'],
@@ -270,7 +270,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends tx_rnbase_tests_BaseTestCas
         self::assertFalse(self::$validatorWasCalled);
         $form = tx_mkforms_tests_Util::getForm(
             false,
-            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(false),
                 ['generic.' => ['xml' => 'EXT:mkforms/tests/xml/afterRenderCheckPointHandledCorrect.xml']]
             )

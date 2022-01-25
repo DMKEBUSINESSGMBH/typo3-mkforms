@@ -38,11 +38,11 @@ class tx_mkforms_util_FormFill
      * * 'table':           Mandatory:  String or array of tables with keys 'from' (complete from-clause including aliases etc.), 'tablename' (name of first table) and (optionally) 'alias' (alias of first table)
      * * 'valueField':      Mandatory:  Field representing the item's value. May be a calculated SQL expression - but WITHOUT 'as fieldalias' part!!! Implicitely used alias is '__value__', can be used e.g. for sorting.
      * * 'captionField':    Mandatory:  Field representing the item's label aka caption. May be a calculated SQL expression - but WITHOUT 'as fieldalias' part!!! Implicitely used alias is '__caption__', can be used e.g. for sorting.
-     * * 'options':         Optional:   Array of options which are directly passed to tx_rnbase_util_DB::doSelect
+     * * 'options':         Optional:   Array of options which are directly passed to \Sys25\RnBase\Database\Connection::getInstance()->doSelect
      * * 'dependsOn':       Optional:   Array of options for dependent fields: array('formfieldname' => form fields which's value is used, 'dbfield' => dedicated database field, 'dbtable'(optional) => real name of the table of the dedicated database field (needed for complex searches with JOINs; otherwise $params['table'] is used.)). Note that either used table needs to be defined in $TCA!
      * * 'debug':           Optional:   Flag whether SQL query is executed in debug mode
      *
-     * @see tx_rnbase_util_DB::doSelect
+     * @see \Sys25\RnBase\Database\Connection::getInstance()->doSelect
      *
      * Complete example:
      *  <params>
@@ -108,7 +108,7 @@ class tx_mkforms_util_FormFill
                 }
 
                 $params['options']['where'] .= $params['dependsOn']['dbfield'].'='.
-                Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($val, $tab);
+                \Sys25\RnBase\Database\Connection::getInstance()->fullQuoteStr($val, $tab);
             }
         }
 
@@ -126,7 +126,7 @@ class tx_mkforms_util_FormFill
         if (empty($params['dependsOn'])
             || (!empty($params['dependsOn']) && !empty($val))
         ) {
-            $rows = tx_rnbase_util_DB::doSelect(
+            $rows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                 $params['valueField'].' as __value__,'.$params['captionField'].' as __caption__',
                 $table,
                 isset($params['options']) ? $params['options'] : [],
@@ -168,9 +168,9 @@ class tx_mkforms_util_FormFill
      */
     public function getStaticCountries($params, tx_mkforms_forms_Base $form)
     {
-        tx_rnbase_util_Extensions::isLoaded('static_info_tables', true);
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables', true);
 
-        $config = tx_rnbase_model_data::getInstance($params);
+        $config = \Sys25\RnBase\Domain\Model\DataModel::getInstance($params);
 
         $captionField = (
             $config->hasCaptionField() ? $config->getCaptionField() : 'cn_short_en'
@@ -191,7 +191,7 @@ class tx_mkforms_util_FormFill
 
         // sort some countries to top of the list.
         if ($config->hasAddTopCountries()) {
-            $topCountries = tx_rnbase_util_Strings::intExplode(',', $config->getAddTopCountries());
+            $topCountries = \Sys25\RnBase\Utility\Strings::intExplode(',', $config->getAddTopCountries());
             foreach ($topCountries as &$topCountry) {
                 foreach ($countries as $countryKey => $country) {
                     if ($country['value'] != $topCountry) {

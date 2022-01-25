@@ -31,7 +31,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                 }
 
                 //then check that no i18n record exists for requested sys_language_uid on this parent record
-                $rows = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
+                $rows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                     $keyname,
                     $tablename,
                     ['where' => "l18n_parent='".$aNewI18n['i18n_parent']."' AND sys_language_uid='".$aNewI18n['sys_language_uid']."'"]
@@ -52,7 +52,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                 $aChild['cruser_id'] = $GLOBALS['TSFE']->fe_user->user['uid'];
                 $aChild['pid'] = $aParent['pid'];
 
-                $this->newEntryId = Tx_Rnbase_Database_Connection::getInstance()->doInsert($tablename, $aChild);
+                $this->newEntryId = \Sys25\RnBase\Database\Connection::getInstance()->doInsert($tablename, $aChild);
                 $this->bHasCreated = true;
                 $this->refreshAllData();
             }
@@ -99,7 +99,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                                     .$editEntry.'] - UPDATING NON TRANSLATED I18N CHILDS'
                                 );
 
-                                Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
+                                \Sys25\RnBase\Database\Connection::getInstance()->doUpdate(
                                     $tablename,
                                     "l18n_parent = '".$editEntry."'",
                                     $aUpdateData
@@ -119,14 +119,14 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                             .']'
                         );
 
-                        Tx_Rnbase_Database_Connection::getInstance()->doUpdate(
+                        \Sys25\RnBase\Database\Connection::getInstance()->doUpdate(
                             $tablename,
                             $keyname." = '".$editEntry."'",
                             $aFormData
                         );
 
                         $this->oForm->_debug(
-                            Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                            \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
                             'DATAHANDLER DB - SQL EXECUTED'
                         );
 
@@ -172,10 +172,10 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
                             $this->oForm->_debug($aFormData, 'EXECUTION OF DATAHANDLER DB - INSERTION MODE in '.$tablename);
 
-                            $this->newEntryId = Tx_Rnbase_Database_Connection::getInstance()->doInsert($tablename, $aFormData);
+                            $this->newEntryId = \Sys25\RnBase\Database\Connection::getInstance()->doInsert($tablename, $aFormData);
 
                             $this->oForm->_debug(
-                                Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                                \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
                                 'DATAHANDLER DB - SQL EXECUTED'
                             );
                             $this->oForm->_debug('', 'NEW ENTRY ID ['.$keyname.'='.$this->newEntryId.']');
@@ -220,31 +220,31 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     {
         if ($this->_defaultTrue('/cleannontcafields')) {
             $tablename = $this->tableName();
-            $cols = tx_rnbase_util_TCA::getTcaColumns($tablename);
+            $cols = \Sys25\RnBase\Backend\Utility\TCA::getTcaColumns($tablename);
             if (!empty($cols)) {
                 $cols = array_keys($cols);
-                if ($field = tx_rnbase_util_TCA::getCrdateFieldForTable($tablename)) {
+                if ($field = \Sys25\RnBase\Backend\Utility\TCA::getCrdateFieldForTable($tablename)) {
                     $cols[] = $field;
                 }
-                if ($field = tx_rnbase_util_TCA::getTstampFieldForTable($tablename)) {
+                if ($field = \Sys25\RnBase\Backend\Utility\TCA::getTstampFieldForTable($tablename)) {
                     $cols[] = $field;
                 }
-                if ($field = tx_rnbase_util_TCA::getDeletedFieldForTable($tablename)) {
+                if ($field = \Sys25\RnBase\Backend\Utility\TCA::getDeletedFieldForTable($tablename)) {
                     $cols[] = $field;
                 }
-                if ($field = tx_rnbase_util_TCA::getLanguageFieldForTable($tablename)) {
+                if ($field = \Sys25\RnBase\Backend\Utility\TCA::getLanguageFieldForTable($tablename)) {
                     $cols[] = $field;
                 }
-                if ($field = tx_rnbase_util_TCA::getTransOrigPointerFieldForTable($tablename)) {
+                if ($field = \Sys25\RnBase\Backend\Utility\TCA::getTransOrigPointerFieldForTable($tablename)) {
                     $cols[] = $field;
                 }
-                if ($field = tx_rnbase_util_TCA::getSortbyFieldForTable($tablename)) {
+                if ($field = \Sys25\RnBase\Backend\Utility\TCA::getSortbyFieldForTable($tablename)) {
                     $cols[] = $field;
                 }
             }
             if (!empty($cols)) {
                 $cols[] = 'pid';
-                $aFormData = tx_rnbase_util_Arrays::removeNotIn($aFormData, $cols);
+                $aFormData = \Sys25\RnBase\Utility\Arrays::removeNotIn($aFormData, $cols);
             }
         }
 
@@ -420,8 +420,8 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
     {
         $options = [];
         $options['enablefieldsoff'] = 1;
-        $options['where'] = $sKeyname.' = '.Tx_Rnbase_Database_Connection::getInstance()->fullQuoteStr($iUid, $sTablename);
-        $ret = Tx_Rnbase_Database_Connection::getInstance()->doSelect($sFields, $sTablename, $options, 0);
+        $options['where'] = $sKeyname.' = '.\Sys25\RnBase\Database\Connection::getInstance()->fullQuoteStr($iUid, $sTablename);
+        $ret = \Sys25\RnBase\Database\Connection::getInstance()->doSelect($sFields, $sTablename, $options, 0);
 
         return count($ret) ? $ret[0] : false;
     }

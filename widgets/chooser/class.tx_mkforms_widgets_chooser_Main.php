@@ -19,7 +19,7 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
             ],
         ];
 
-        $sFuncName = '_formidableRdtChooser'.Tx_Rnbase_Utility_T3General::shortMd5($this->oForm->formid.$this->_getName());
+        $sFuncName = '_formidableRdtChooser'.\Sys25\RnBase\Utility\T3General::shortMd5($this->oForm->formid.$this->_getName());
         $sElementId = $this->_getElementHtmlId();
 
         $sMode = $this->_navConf('/submitmode');

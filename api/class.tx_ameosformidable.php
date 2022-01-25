@@ -261,7 +261,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                 $this->cObj = $this->configurations->getCObj();
             }
             if (!is_object($this->cObj)) {
-                $this->cObj = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getContentObjectRendererClass());
+                $this->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass());
             }
         }
 
@@ -271,7 +271,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     /**
      * Return the typoscript configurations object.
      *
-     * @return tx_rnbase_configurations
+     * @return \Sys25\RnBase\Configuration\Processor
      */
     public function getConfigurations()
     {
@@ -303,13 +303,13 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     /**
      * Set TS-Configuration. This is either the given instance or a new instance based on config.tx_mkforms.
      *
-     * @param tx_rnbase_configurations $config
+     * @param \Sys25\RnBase\Configuration\Processor $config
      * @param string                   $confid
      */
     public function setConfigurations($config, $confid)
     {
         if (!is_object($config)) {
-            $config = tx_rnbase::makeInstance('tx_rnbase_configurations');
+            $config = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
             $config->init($GLOBALS['TSFE']->config['config']['tx_mkforms.'], $config->getCObj(1), 'mkforms', 'mkforms');
         }
         $this->configurations = $config;
@@ -357,12 +357,12 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      * @param                          object          Parent extension using FORMidable
      * @param                          mixed           Absolute path to the XML configuration file
      * @param int                      $iForcedEntryId :
-     * @param tx_rnbase_configurations $configurations TS-Configuration
+     * @param \Sys25\RnBase\Configuration\Processor $configurations TS-Configuration
      * @param string                   $confid         ;
      */
     public function init(&$oParent, $mXml, $iForcedEntryId = false, $configurations = false, $confid = '')
     {
-        $this->start_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();
+        $this->start_tstamp = \Sys25\RnBase\Utility\T3General::milliseconds();
 
         if (!$this->isTestMode()) {
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -373,11 +373,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         /***** BASE INIT *****
          *
          */
-        $this->sExtPath = tx_rnbase_util_Extensions::extPath('mkforms');
+        $this->sExtPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms');
         $this->sExtRelPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix($this->sExtPath);
-        $this->sExtWebPath = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath;
+        $this->sExtWebPath = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath;
 
-        // TODO: Der Zugriff auf conf wird durch tx_rnbase_configurations ersetzt
+        // TODO: Der Zugriff auf conf wird durch \Sys25\RnBase\Configuration\Processor ersetzt
         $this->setConfigurations($configurations, $confid);
         $this->_oParent = &$oParent;
         $this->oParent = &$oParent;
@@ -435,7 +435,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         // TODO: alle Vorkommen suchen!
         // $this->bDebug -> $this->getConfig()->isDebug()
 
-        $database = Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection();
+        $database = \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection();
         $database->store_lastBuiltQuery = true;
         if ($this->getConfig()->isDebug()) {
             $database->debugOutput = true;
@@ -559,7 +559,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             );
         }
 
-        if (false === $this->sDefaultLLLPrefix && ($this->oParent instanceof Tx_Rnbase_Frontend_Plugin)) {
+        if (false === $this->sDefaultLLLPrefix && ($this->oParent instanceof \TYPO3\CMS\Frontend\Plugin\AbstractPlugin)) {
             if ($this->oParent->scriptRelPath) {
                 $sLLPhp = 'EXT:'.$this->oParent->extKey.'/'.dirname($this->oParent->scriptRelPath).'/locallang.php';
                 $sLLXml = 'EXT:'.$this->oParent->extKey.'/'.dirname($this->oParent->scriptRelPath).'/locallang.xml';
@@ -579,7 +579,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             // set classes for all new xml versions to mkforms
             $this->sDefaultWrapClass = 'mkforms-rdrstd';
             // for older forms leave as formidable!
-            if (2000000 > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($this->getConfig()->get('/version'))) {
+            if (2000000 > \Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger($this->getConfig()->get('/version'))) {
                 $this->sDefaultWrapClass = 'formidable-rdrstd';
             }
         }
@@ -642,7 +642,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public function initAPI(&$oParent)
     {
         $this->_oParent = &$oParent;
-        $this->formid = Tx_Rnbase_Utility_T3General::shortMD5(rand());
+        $this->formid = \Sys25\RnBase\Utility\T3General::shortMD5(rand());
     }
 
     /**
@@ -675,7 +675,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public function makeHtmlParser()
     {
         if (false === $this->oHtml) {
-            $this->oHtml = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getHtmlParserClass());
+            $this->oHtml = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getHtmlParserClass());
         }
     }
 
@@ -697,7 +697,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public function analyzeFormAction()
     {
         if ($this->isFormActionTransparent()) {
-            $aGet = Tx_Rnbase_Utility_T3General::_GET();
+            $aGet = \Sys25\RnBase\Utility\T3General::_GET();
 
             // diese Parameter werden von TYPO3 verwaltet und dürfen nie übernommen
             // werden
@@ -728,7 +728,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public function formActionAdd($aParams)
     {
         if ($this->isFormActionTransparent()) {
-            $this->aFormAction = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($this->aFormAction, $aParams);
+            $this->aFormAction = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($this->aFormAction, $aParams);
         }
     }
 
@@ -840,11 +840,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         if ($this->isFormActionTransparent()) {
             // we use the current URL including the host. We do this in case
             // we are on the root page. in this case we would have an empty
-            // action attribute if we only used Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI')
+            // action attribute if we only used \Sys25\RnBase\Utility\T3General::getIndpEnv('REQUEST_URI')
             // Caution! You need to make sure to escape the URL properly
             // when using it somewhere as we pass through the current URL
             // which can be manipulated by users.
-            $sRes = Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI');
+            $sRes = \Sys25\RnBase\Utility\T3General::getIndpEnv('REQUEST_URI');
         } // Link zur aktuellen Seite.
         // Z.b bei Formularen mit Pagebrowsern interessant
         elseif ($this->isFormActionCurrent()) {
@@ -875,7 +875,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public function setParamsToRemove($aParams)
     {
-        $this->aParamsToRemove = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+        $this->aParamsToRemove = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $this->aParamsToRemove,
             $aParams
         );
@@ -894,7 +894,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $sFormId = $this->formid;
         }
 
-        $aRawPost = Tx_Rnbase_Utility_T3General::_POST();
+        $aRawPost = \Sys25\RnBase\Utility\T3General::_POST();
         $aRawPost = is_array($aRawPost[$sFormId]) ? $aRawPost[$sFormId] : [];
 
         if (array_key_exists('AMEOSFORMIDABLE_ADDPOSTVARS', $aRawPost) && '' !== trim($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS'])) {
@@ -1003,7 +1003,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         $aExtends = explode('::', $sExtends);
         if (2 == sizeof($aExtends)) {
-            $sFile = Tx_Rnbase_Utility_T3General::getFileAbsFileName($aExtends[0]);
+            $sFile = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($aExtends[0]);
             $sClass = $aExtends[1];
 
             if (file_exists($sFile) && is_readable($sFile)) {
@@ -1017,7 +1017,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         } else {
             // trying to auto-determine class-name
 
-            $sFile = Tx_Rnbase_Utility_T3General::getFileAbsFileName($aExtends[0]);
+            $sFile = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($aExtends[0]);
             if (file_exists($sFile) && is_readable($sFile)) {
                 $aClassesBefore = get_declared_classes();
 
@@ -1148,7 +1148,7 @@ SANDBOXCLASS;
                 $this->_aStep = $GLOBALS['_SESSION']['ameos_formidable']['stepper'][$sStepperId];
                 unset($GLOBALS['_SESSION']['ameos_formidable']['stepper'][$sStepperId]);
             } else {
-                $aP = Tx_Rnbase_Utility_T3General::_POST();
+                $aP = \Sys25\RnBase\Utility\T3General::_POST();
 
                 if (array_key_exists('AMEOSFORMIDABLE_STEP', $aP) && array_key_exists('AMEOSFORMIDABLE_STEP_HASH', $aP)) {
                     if ($this->_getSafeLock($aP['AMEOSFORMIDABLE_STEP']) === $aP['AMEOSFORMIDABLE_STEP_HASH']) {
@@ -1403,14 +1403,14 @@ SANDBOXCLASS;
         }
 
         if (!array_key_exists((string) $sFormId, $this->aRawPost) || (false === $bCache)) {
-            $aPost = Tx_Rnbase_Utility_T3General::_POST();
+            $aPost = \Sys25\RnBase\Utility\T3General::_POST();
             if ($this->_useGP) {
-                $aGet = Tx_Rnbase_Utility_T3General::_GET();
+                $aGet = \Sys25\RnBase\Utility\T3General::_GET();
                 //wurden die Daten Urlencodiert?
                 if ($this->_useGPWithUrlDecode) {
                     tx_mkforms_util_Div::urlDecodeRecursive($aGet);
                 }
-                $aPost = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $aPost = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aGet,
                     is_array($aPost) ? $aPost : []
                 );
@@ -1433,9 +1433,9 @@ SANDBOXCLASS;
                     if (array_key_exists('action', $aAddPostVars[$sKey]) && 'formData' === $aAddPostVars[$sKey]['action']) {
                         reset($aAddPostVars[$sKey]['params']);
                         foreach ($aAddPostVars[$sKey]['params'] as $sParam => $sValue) {
-                            $aAddParams = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                            $aAddParams = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                 $aAddParams,
-                                Tx_Rnbase_Utility_T3General::explodeUrl2Array(
+                                \Sys25\RnBase\Utility\T3General::explodeUrl2Array(
                                     $sParam.'='.$sValue,
                                     true    // multidim ?
                                 )
@@ -1445,8 +1445,8 @@ SANDBOXCLASS;
                 }
             }
 
-            $aRes = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
-            $aRes = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule($aRes, $aAddParams);
+            $aRes = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
+            $aRes = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aRes, $aAddParams);
             reset($aRes);
 
             if (false === $bCache) {
@@ -1472,7 +1472,7 @@ SANDBOXCLASS;
         }
 
         if (!array_key_exists((string) $sFormId, $this->aRawGet)) {
-            $aGet = Tx_Rnbase_Utility_T3General::_GET($sFormId);
+            $aGet = \Sys25\RnBase\Utility\T3General::_GET($sFormId);
             //wurden die Daten Urlencodiert?
             if ($this->_useGPWithUrlDecode) {
                 tx_mkforms_util_Div::urlDecodeRecursive($aGet);
@@ -1574,7 +1574,7 @@ SANDBOXCLASS;
      * @param object                        $oParent        ref to parent object (usually plugin)
      * @param array                         $aConf          typoscript array
      * @param int|bool                      $iForcedEntryId UID to edit (if any)
-     * @param tx_rnbase_configurations|bool $configurations
+     * @param \Sys25\RnBase\Configuration\Processor|bool $configurations
      * @param string                        $confid
      */
     public function initFromTs($oParent, array $aConf, $iForcedEntryId = false, $configurations = false, $confid = '')
@@ -1610,14 +1610,14 @@ SANDBOXCLASS;
      */
     public function _substituteDynaXml($aXml, $aDynaXml)
     {
-        $sXml = Tx_Rnbase_Utility_T3General::array2xml($aXml);
+        $sXml = \Sys25\RnBase\Utility\T3General::array2xml($aXml);
 
         reset($aDynaXml);
         foreach ($aDynaXml as $aDynaSubst) {
             $sXml = str_replace('['.$aDynaSubst['name'].']', $aDynaSubst['value'], $sXml);
         }
 
-        return Tx_Rnbase_Utility_T3General::xml2array($sXml);
+        return \Sys25\RnBase\Utility\T3General::xml2array($sXml);
     }
 
     /**
@@ -1645,7 +1645,7 @@ SANDBOXCLASS;
 
     public function relativizeName($sOurs, $sTheirs)
     {
-        if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sOurs, $sTheirs)) {
+        if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sOurs, $sTheirs)) {
             return substr($sOurs, strlen($sTheirs) + 1);
         }
 
@@ -1744,8 +1744,8 @@ SANDBOXCLASS;
         if (is_array($aConf)) {
             reset($aConf);
             foreach ($aConf as $sElementName => $notNeeded) {
-                if ('d' === $sElementName[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasource')
-                    && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'datasources')
+                if ('d' === $sElementName[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sElementName, 'datasource')
+                    && !\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sElementName, 'datasources')
                 ) {
                     $aElement = &$aConf[$sElementName];
 
@@ -1797,7 +1797,7 @@ SANDBOXCLASS;
 
             reset($aConf);
             foreach ($aConf as $sElementName => $notNeeded) {
-                if ('r' === $sElementName[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sElementName, 'renderlet')) {
+                if ('r' === $sElementName[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sElementName, 'renderlet')) {
                     if (array_key_exists('name', $aConf[$sElementName]) && ('' != trim($aConf[$sElementName]['name']))) {
                         $sName = trim($aConf[$sElementName]['name']);
                         $bAnonymous = false;
@@ -1988,7 +1988,7 @@ SANDBOXCLASS;
 
                 if (is_array($curZone) && is_array($mValue) && true === $bMergeIfArray) {
                     // merging arrays
-                    $curZone = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                    $curZone = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                         $curZone,
                         $mValue
                     );
@@ -2083,8 +2083,6 @@ SANDBOXCLASS;
             $aPath = explode('/', $sPath);
             $sTable = $aPath[0];
 
-            tx_rnbase_util_TCA::loadTCA($sTable);
-
             return $this->getConfig()->get($sPath, $GLOBALS['TCA']);
         }
 
@@ -2118,7 +2116,7 @@ SANDBOXCLASS;
     public function _render()
     {
         if (false === $this->bInited) {
-            $this->start_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();    // because it has not been initialized yet
+            $this->start_tstamp = \Sys25\RnBase\Utility\T3General::milliseconds();    // because it has not been initialized yet
             $this->mayday('TRIED TO RENDER FORM BEFORE CALLING INIT() !');
         }
 
@@ -2151,7 +2149,7 @@ SANDBOXCLASS;
                 $sDH = $this->getDataHandler()->_doTheMagic(true);
 
                 // Renderlets are rendered
-                $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $aRendered = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $this->_renderElements(),
                     $this->aPreRendered
                 );
@@ -2222,7 +2220,7 @@ SANDBOXCLASS;
                 $sDH = $this->oDataHandler->_doTheMagic(false);
 
                 // Renderlets are rendered
-                $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $aRendered = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $this->_renderElements(),
                     $this->aPreRendered
                 );
@@ -2250,7 +2248,7 @@ SANDBOXCLASS;
                 $sDH = $this->oDataHandler->_doTheMagic(false);
 
                 // Renderlets are rendered
-                $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $aRendered = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $this->_renderElements(),
                     $this->aPreRendered
                 );
@@ -2278,7 +2276,7 @@ SANDBOXCLASS;
                 $sDH = $this->oDataHandler->_doTheMagic(true);
 
                 // Renderlets are rendered
-                $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $aRendered = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $this->_renderElements(),
                     $this->aPreRendered
                 );
@@ -2329,7 +2327,7 @@ SANDBOXCLASS;
                 $sDH = $this->oDataHandler->_doTheMagic(false);
 
                 // Renderlets are rendered
-                $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $aRendered = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $this->_renderElements(),
                     $this->aPreRendered
                 );
@@ -2352,7 +2350,7 @@ SANDBOXCLASS;
             $sDH = $this->oDataHandler->_doTheMagic(false);
 
             // Renderlets are rendered
-            $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            $aRendered = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 $this->_renderElements(),
                 $this->aPreRendered
             );
@@ -2498,7 +2496,7 @@ SANDBOXCLASS;
             $this->_clearFormInSession();
         }
 
-        $this->end_tstamp = Tx_Rnbase_Utility_T3General::milliseconds();
+        $this->end_tstamp = \Sys25\RnBase\Utility\T3General::milliseconds();
         if (!empty($sDH)) {
             return $aHtmlBag['FORMBEGIN'].$sDH.$aHtmlBag['HIDDEN'].$aHtmlBag['FORMEND'].$debug;
         } else {
@@ -3144,8 +3142,8 @@ JAVASCRIPT;
 
         if (is_array($aActionlets)) {
             foreach ($aActionlets as $sKey => $aActionlet) {
-                if ('a' === $sKey[0] && 'c' === $sKey[1] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlet')
-                    && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'actionlets')
+                if ('a' === $sKey[0] && 'c' === $sKey[1] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'actionlet')
+                    && !\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'actionlets')
                 ) {
                     $this->_executeActionlet($aActionlet, $aRendered, $sForm);
                 }
@@ -3196,15 +3194,15 @@ JAVASCRIPT;
         $aHtml[] = '<a name= "'.$this->formid.'formidable_debugtop" />';
 
         // wenn kein js immer ausklappen
-        $mkformsPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath('mkforms'));
+        $mkformsPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms'));
         if (false === $bExpand && $this->getJSLoader()->mayLoadJsFramework()) {
             $aHtml[] = '<a href="javascript:void(Formidable.f(\''.$this->formid.'\').toggleDebug())"><img src="'
-                .Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$mkformsPath
+                .\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$mkformsPath
                 .'/Resources/Public/Images/debug.gif" border="0" alt="Toggle mkforms::debug()" title="Toggle mkforms::debug()"></a>';
             $aHtml[] = '<div id="'.$this->formid
                 .'_debugzone" style="font-family: Verdana; display: none; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;">';
         } else {
-            $aHtml[] = '<img src="'.Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').$mkformsPath
+            $aHtml[] = '<img src="'.\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$mkformsPath
                 .'/Resources/Public/Images/debug.gif" border="0" alt="Toggle FORMidable::debug()" title="Toggle FORMidable::debug()">';
             $aHtml[] = "<div id = '".$this->formid
                 ."_debugzone' style = 'font-family: Verdana; display: block; background-color: #bed1f4; padding-left: 10px; padding-top: 3px; padding-bottom: 10px;font-size: 9px;'>";
@@ -3212,11 +3210,11 @@ JAVASCRIPT;
 
         $aHtml[] = '<h4>FORMidable debug()</h4>';
 
-        $aHtml[] = '<h5>Tx_Rnbase_Utility_T3General::_POST()</h5>';
-        $aHtml[] = tx_rnbase_util_Debug::viewArray(Tx_Rnbase_Utility_T3General::_POST());
+        $aHtml[] = '<h5>\Sys25\RnBase\Utility\T3General::_POST()</h5>';
+        $aHtml[] = \Sys25\RnBase\Utility\Debug::viewArray(\Sys25\RnBase\Utility\T3General::_POST());
 
-        $aHtml[] = '<h5>Tx_Rnbase_Utility_T3General::_GET()</h5>';
-        $aHtml[] = tx_rnbase_util_Debug::viewArray(Tx_Rnbase_Utility_T3General::_GET());
+        $aHtml[] = '<h5>\Sys25\RnBase\Utility\T3General::_GET()</h5>';
+        $aHtml[] = \Sys25\RnBase\Utility\Debug::viewArray(\Sys25\RnBase\Utility\T3General::_GET());
 
         $aHtml[] = '<br>';
         $aHtml[] = '<ul>';
@@ -3243,7 +3241,7 @@ JAVASCRIPT;
         $aHtml[] = "<a name = '".$this->formid."formidable_configuration' />";
         $aHtml[] = '<h5>FORM configuration</h5>';
         $aHtml[]
-            = "<div WIDTH = '100%' style = 'HEIGHT: 400px; overflow: scroll'>".tx_rnbase_util_Debug::viewArray($this->_aConf)
+            = "<div WIDTH = '100%' style = 'HEIGHT: 400px; overflow: scroll'>".\Sys25\RnBase\Utility\Debug::viewArray($this->_aConf)
             .'</div>';
         $aHtml[] = "<p align = 'right'><a href = '#".$this->formid."formidable_debugtop' target = '_self'>^top^</a></p>";
 
@@ -3348,18 +3346,18 @@ JAVASCRIPT;
     public function _getParentExtSitePath()
     {
         if (TYPO3_MODE === 'FE') {
-            $sExtKey = (is_subclass_of($this->_oParent, 'Tx_Rnbase_Frontend_Plugin')) ? $this->_oParent->extKey : 'mkforms';
+            $sExtKey = (is_subclass_of($this->_oParent, \TYPO3\CMS\Frontend\Plugin\AbstractPlugin::class)) ? $this->_oParent->extKey : 'mkforms';
         } else {
             $sExtKey = $GLOBALS['_EXTKEY'];
         }
 
-        return Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL').
-            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath($sExtKey));
+        return \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').
+            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($sExtKey));
     }
 
     public function _substLLLInHtml($sHtml)
     {
-        if ('L' === $sHtml[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sHtml, 'LLL:')) {
+        if ('L' === $sHtml[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sHtml, 'LLL:')) {
             return $this->getConfigXML()->getLLLabel($sHtml);
         }
 
@@ -3598,10 +3596,10 @@ JAVASCRIPT;
         }
 
         if (true === $aInfos['BASE']) {
-            return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath('mkforms')).
+            return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')).
                 'api/base/'.$aInfos['EXTKEY'].'/';
         } else {
-            return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(tx_rnbase_util_Extensions::extPath($aInfos['EXTKEY']));
+            return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($aInfos['EXTKEY']));
         }
     }
 
@@ -3623,9 +3621,9 @@ JAVASCRIPT;
         }
 
         if (true === $aInfos['BASE']) {
-            return tx_rnbase_util_Extensions::extPath('mkforms').'api/base/'.$aInfos['EXTKEY'].'/';
+            return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'api/base/'.$aInfos['EXTKEY'].'/';
         } else {
-            return tx_rnbase_util_Extensions::extPath($aInfos['EXTKEY']);
+            return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($aInfos['EXTKEY']);
         }
     }
 
@@ -3694,7 +3692,7 @@ JAVASCRIPT;
             $sStr = $this->getConfTS('misc.safelockseed');
         }
 
-        return Tx_Rnbase_Utility_T3General::shortMD5(
+        return \Sys25\RnBase\Utility\T3General::shortMD5(
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr
         );
     }
@@ -3713,12 +3711,12 @@ JAVASCRIPT;
             $sStr = $this->getConfTS('misc.safelockseed');
         }
 
-        return Tx_Rnbase_Utility_T3General::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr) === $sLock;
+        return \Sys25\RnBase\Utility\T3General::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr) === $sLock;
     }
 
     public function _watchOutDB($rRes, $sSql = false)
     {
-        $databaseConnection = Tx_Rnbase_Database_Connection::getInstance()->getDatabaseConnection();
+        $databaseConnection = \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection();
         if (!is_resource($databaseConnection) && $databaseConnection->sql_error()) {
             $sMsg = 'SQL QUERY IS NOT VALID';
             $sMsg .= '<br/><br />';
@@ -3805,7 +3803,7 @@ JAVASCRIPT;
             $sMessage .= '<hr />Formidable /meta/debugSendMail: This mail would be sent to '.$sAdresseOld;
         }
 
-        $oMail = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getMailMessageClass());
+        $oMail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getMailMessageClass());
 
         $oMail->setSubject($sSubject);
         $oMail->setFrom($sFromAd, $sFromName);
@@ -3819,7 +3817,7 @@ JAVASCRIPT;
         if (is_array($aAttachPaths) && !empty($aAttachPaths)) {
             reset($aAttachPaths);
             foreach ($aAttachPaths as $sPath) {
-                $sFilePath = Tx_Rnbase_Utility_T3General::fixWindowsFilePath($sPath);
+                $sFilePath = \Sys25\RnBase\Utility\T3General::fixWindowsFilePath($sPath);
 
                 if (file_exists($sFilePath) && is_file($sFilePath) && is_readable($sFilePath)) {
                     $oMail->attach(Swift_Attachment::fromPath($sFilePath));
@@ -3912,7 +3910,7 @@ JAVASCRIPT;
     {
         global $tmpl;
 
-        $tmpl = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getExtendedTypoScriptTemplateServiceClass());    // Defined global here!
+        $tmpl = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getExtendedTypoScriptTemplateServiceClass());    // Defined global here!
         $tmpl->tt_track = 0;    // Do not log time-performance information
         $tmpl->init();
 
@@ -4535,7 +4533,7 @@ JAVASCRIPT;
     public function reloadCurrentUrl()
     {
         $this->sendToPage(
-            Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_REQUEST_URL')
+            \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_URL')
         );
     }
 
@@ -4699,7 +4697,7 @@ JAVASCRIPT;
     public function div_autoLogin($iUserId)
     {
         if ('FE' === tx_mkforms_util_Div::getEnvExecMode()) {
-            $users = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
+            $users = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                 '*',
                 'fe_users',
                 ['where' => 'uid=\''.$iUserId.'\'']
@@ -4747,8 +4745,8 @@ JAVASCRIPT;
         /**
          * @var TYPO3\CMS\Backend\Rte\AbstractRte
          */
-        $rte = tx_rnbase::makeInstance(
-            tx_rnbase_util_Typo3Classes::getAbstractRteClass()
+        $rte = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \Sys25\RnBase\Utility\Typo3Classes::getAbstractRteClass()
         );
 
         return $rte->transformContent(
@@ -4805,7 +4803,7 @@ JAVASCRIPT;
     public function div_arrayToCsvFile($aData, $sFilePath = false, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"')
     {
         if (false === $sFilePath) {
-            $sFilePath = Tx_Rnbase_Utility_T3General::tempnam('csv-'.strftime('%Y.%m.%d-%Hh%Mm%Ss'.'-')).'.csv';
+            $sFilePath = \Sys25\RnBase\Utility\T3General::tempnam('csv-'.strftime('%Y.%m.%d-%Hh%Mm%Ss'.'-')).'.csv';
         } else {
             $sFilePath = tx_mkforms_util_Div::toServerPath($sFilePath);
         }
@@ -4843,8 +4841,8 @@ JAVASCRIPT;
     {
         $aRes = [];
 
-        if (false !== ($sHeaders = Tx_Rnbase_Utility_T3General::getUrl($sUrl, 2))) {
-            $aHeaders = Tx_Rnbase_Utility_Strings::trimExplode("\n", $sHeaders);
+        if (false !== ($sHeaders = \Sys25\RnBase\Utility\T3General::getUrl($sUrl, 2))) {
+            $aHeaders = \Sys25\RnBase\Utility\Strings::trimExplode("\n", $sHeaders);
 
             reset($aHeaders);
             foreach ($aHeaders as $sKey => $sLine) {
@@ -4959,7 +4957,7 @@ JAVASCRIPT;
     // declare*() methods below are meant to smoothen transition between 0.7.x and 1.0/2.0+
     public function declareDataHandler()
     {
-        if (TYPO3_MODE === 'BE' && tx_rnbase_util_Extensions::isLoaded('seminars')) {
+        if (TYPO3_MODE === 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('seminars')) {
             echo '<br /><br /><b>Warning</b>: you are using Formidable version <i>'
                 .$GLOBALS['EM_CONF']['ameos_formidable']['version'].'</i> with Seminars, requiring version 0.7.0.<br />';
         }

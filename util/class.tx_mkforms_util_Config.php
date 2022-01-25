@@ -124,7 +124,7 @@ class tx_mkforms_util_Config
     public function getLLLabel($mLabel)
     {
         $mLabel = $this->findLLLabel($mLabel);
-        if (is_string($mLabel) && Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtoupper($mLabel), 'LABEL_')) {
+        if (is_string($mLabel) && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtoupper($mLabel), 'LABEL_')) {
             $mLabel = $this->getForm()->getConfigurations()->getLL($mLabel, $mLabel);
         }
 
@@ -154,12 +154,12 @@ class tx_mkforms_util_Config
         // Wenn im meta der XML Form ein defaultLLL gesetzt ist,
         // wird versucht anand des absoluten namens vom renderlet ein label zu finden.
         if (false !== $this->getForm()->sDefaultLLLPrefix) {
-            if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:') && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:EXT:')) {
+            if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($mLabel, 'LLL:') && !\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($mLabel, 'LLL:EXT:')) {
                 $mLabel = str_replace('LLL:', 'LLL:'.$this->getForm()->sDefaultLLLPrefix.':', $mLabel);
             }
         }
 
-        if ('L' === $mLabel[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($mLabel, 'LLL:')) {
+        if ('L' === $mLabel[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($mLabel, 'LLL:')) {
             if (TYPO3_MODE == 'FE') {
                 // front end
                 if (!$GLOBALS['TSFE']) {
@@ -204,7 +204,7 @@ class tx_mkforms_util_Config
         $this->config = $this->config[$sRoot];
 
         if (false !== ($sXmlMinVersion = $this->get('/minversion', $this->_aConf))) {
-            if (tx_mkforms_util_Div::getVersionInt() < tx_rnbase_util_TYPO3::convertVersionNumberToInteger($sXmlMinVersion)) {
+            if (tx_mkforms_util_Div::getVersionInt() < \Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger($sXmlMinVersion)) {
                 tx_mkforms_util_Div::mayday(
                     'The given XML requires a version of MKFORMS'.
                     ' (<b>'.$sXmlMinVersion.'</b> or above)'.
@@ -215,7 +215,7 @@ class tx_mkforms_util_Config
         }
 
         if (false !== ($sXmlMaxVersion = $this->get('/maxversion', $this->_aConf))) {
-            if (tx_mkforms_util_Div::getVersionInt() > tx_rnbase_util_TYPO3::convertVersionNumberToInteger($sXmlMaxVersion)) {
+            if (tx_mkforms_util_Div::getVersionInt() > \Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger($sXmlMaxVersion)) {
                 tx_mkforms_util_Div::mayday(
                     'The given XML requires a version of MKFORMS'.
                     ' (<b>'.$sXmlMaxVersion.'</b> maximum)'.
@@ -268,7 +268,7 @@ class tx_mkforms_util_Config
                         ];
 
                         if (array_key_exists($sKey.'.', $aConf['control.'])) {
-                            $aTemp['control']['datahandler'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                            $aTemp['control']['datahandler'] = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                 $aTemp['control']['datahandler'],
                                 tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey.'.'])
                             );
@@ -279,7 +279,7 @@ class tx_mkforms_util_Config
                         ];
 
                         if (array_key_exists($sKey.'.', $aConf['control.'])) {
-                            $aTemp['control']['renderer'] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                            $aTemp['control']['renderer'] = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                 $aTemp['control']['renderer'],
                                 tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey.'.'])
                             );
@@ -297,7 +297,7 @@ class tx_mkforms_util_Config
                                 ];
 
                                 if (array_key_exists($sActKey.'.', $aConf['control.'][$sKey])) {
-                                    $aTemp['control']['actionlets']['actionlet-'.$sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                                    $aTemp['control']['actionlets']['actionlet-'.$sActKey] = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                         $aTemp['control']['actionlets']['actionlet-'.$sActKey],
                                         tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey.'.'])
                                     );
@@ -315,7 +315,7 @@ class tx_mkforms_util_Config
                                 ];
 
                                 if (array_key_exists($sActKey.'.', $aConf['control.'][$sKey])) {
-                                    $aTemp['control']['datasources']['datasource-'.$sActKey] = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                                    $aTemp['control']['datasources']['datasource-'.$sActKey] = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                         $aTemp['control']['datasources']['datasource-'.$sActKey],
                                         tx_mkforms_util_Div::removeDots($aConf['control.'][$sKey][$sActKey.'.'])
                                     );
@@ -408,7 +408,7 @@ class tx_mkforms_util_Config
                         $aValidator['type'] = $aValType[1];
 
                         if (array_key_exists($sKey.'.', $aTenDot['validators.'])) {
-                            $aValidator = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                            $aValidator = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                 $aValidator,
                                 tx_mkforms_util_Div::removeDots($aTenDot['validators.'][$sKey.'.'])
                             );
@@ -422,7 +422,7 @@ class tx_mkforms_util_Config
             unset($aTenDot['validators.']);
         }
 
-        $aRdt = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+        $aRdt = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $aRdt,
             tx_mkforms_util_Div::removeDots($aTenDot)
         );
@@ -638,7 +638,7 @@ class tx_mkforms_util_Config
         reset($aConf);
         foreach ($aConf as $key => $val) {
             if (is_array($val)) {
-                if ('x' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'xmlbuilder')) {
+                if ('x' === $key[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($key, 'xmlbuilder')) {
                     $aTemp = $this->array_add($this->getForm()->getRunnable()->callRunnable($val), $aTemp);
                 } else {
                     $aTemp[$key] = $this->insertXmlBuilder($val);
@@ -675,7 +675,7 @@ class tx_mkforms_util_Config
 
         foreach ($aConf as $key => $val) {
             if (is_array($val)) {
-                if ('i' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
+                if ('i' === $key[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($key, 'includexml')) {
                     if (array_key_exists('path', $val)) {
                         $sPath = $val['path'];
                     } elseif ('' !== trim($val['__value'])) {
@@ -755,7 +755,7 @@ class tx_mkforms_util_Config
                     }
                 }
             } else {
-                if ('i' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includexml')) {
+                if ('i' === $key[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($key, 'includexml')) {
                     $aDebug[] = [
                         $sParent => $val,
                         'subxml' => [],
@@ -763,7 +763,7 @@ class tx_mkforms_util_Config
 
                     $iNewKey = count($aDebug) - 1;
 
-                    $aXml = tx_mkforms_util_XMLParser::getXml(Tx_Rnbase_Utility_T3General::getFileAbsFileName($val), true);
+                    $aXml = tx_mkforms_util_XMLParser::getXml(\Sys25\RnBase\Utility\T3General::getFileAbsFileName($val), true);
 
                     $aTemp = $this->array_add(
                         $this->insertSubXml($aXml, $aDebug[$iNewKey]['subxml'], $sParent.'/'.$key),
@@ -815,11 +815,11 @@ class tx_mkforms_util_Config
             if (count($aTemp) > 1) {
                 // we have to search on a criteria sequence
                 $sWhat = $aTemp[0];
-                $aTempCrits = Tx_Rnbase_Utility_Strings::trimExplode(',', $aTemp[1]);
+                $aTempCrits = \Sys25\RnBase\Utility\Strings::trimExplode(',', $aTemp[1]);
                 reset($aTempCrits);
                 $aCrits = [];
                 foreach ($aTempCrits as $sTempCrit) {
-                    $aCrit = Tx_Rnbase_Utility_Strings::trimExplode('=', $sTempCrit);
+                    $aCrit = \Sys25\RnBase\Utility\Strings::trimExplode('=', $sTempCrit);
                     $aCrits[$aCrit[0]] = $aCrit[1];
                 }
                 $aSegments[] = ['what' => $sWhat, 'crits' => $aCrits, 'segment' => $sPart];
@@ -895,7 +895,7 @@ class tx_mkforms_util_Config
     {
         reset($aConf);
         foreach ($aConf as $key => $val) {
-            $isIncludeTS = ('i' === $key[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($key, 'includets'));
+            $isIncludeTS = ('i' === $key[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($key, 'includets'));
             if (is_array($val)) {
                 if ($isIncludeTS) {
                     if (array_key_exists('path', $val)) {
@@ -974,7 +974,7 @@ class tx_mkforms_util_Config
             foreach ($aModifiers as $sModKey => $aModifier) {
                 if ($this->_matchConditions($aModifier)) {
                     $aSubConf =
-                        tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                        \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                             $aSubConf,
                             $aSubConf['modifiers'][$sModKey]['modification']
                         );
@@ -1008,7 +1008,7 @@ class tx_mkforms_util_Config
             }
 
             foreach ($aConditions as $sCondKey => $notNeeded) {
-                if ('c' === $sCondKey[0] && 'o' === $sCondKey[1] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sCondKey, 'condition')) {
+                if ('c' === $sCondKey[0] && 'o' === $sCondKey[1] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sCondKey, 'condition')) {
                     $aCondition = $this->get($sCondKey, $aConditions);
                     switch ($sLogic) {
                         case 'OR':
@@ -1099,7 +1099,7 @@ class tx_mkforms_util_Config
     public static function createInstanceByPath($path, $form)
     {
         $cfg = new tx_mkforms_util_Config($form);
-        $cfg->loadXmlConf(Tx_Rnbase_Utility_T3General::getFileAbsFileName($path));
+        $cfg->loadXmlConf(\Sys25\RnBase\Utility\T3General::getFileAbsFileName($path));
         // default config laden hinzufügen
         $cfg->loadDefaultXmlConf();
 

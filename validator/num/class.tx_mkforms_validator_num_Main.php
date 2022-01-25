@@ -31,7 +31,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('i' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'isnum')) {
+            if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'isnum')) {
                 if (!$this->_checkIsNum($mNum)) {
                     $this->oForm->_declareValidationError(
                         $sAbsName,
@@ -49,8 +49,8 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('i' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'isbetween')) {
-                $aBoundaries = Tx_Rnbase_Utility_Strings::trimExplode(
+            if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'isbetween')) {
+                $aBoundaries = \Sys25\RnBase\Utility\Strings::trimExplode(
                     ',',
                     $this->_navConf('/'.$sKey.'/value')
                 );
@@ -72,8 +72,8 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('i' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'islower')) {
-                $aBoundaries = Tx_Rnbase_Utility_Strings::trimExplode(
+            if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'islower')) {
+                $aBoundaries = \Sys25\RnBase\Utility\Strings::trimExplode(
                     ',',
                     $this->_navConf('/'.$sKey.'/value')
                 );
@@ -95,8 +95,8 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('i' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'ishigher')) {
-                $aBoundaries = Tx_Rnbase_Utility_Strings::trimExplode(
+            if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'ishigher')) {
+                $aBoundaries = \Sys25\RnBase\Utility\Strings::trimExplode(
                     ',',
                     $this->_navConf('/'.$sKey.'/value')
                 );
@@ -118,7 +118,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('i' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'isfloat')) {
+            if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'isfloat')) {
                 if (!$this->_checkIsFloat($mNum)) {
                     $this->oForm->_declareValidationError(
                         $sAbsName,
@@ -136,7 +136,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('i' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'isinteger')) {
+            if ('i' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'isinteger')) {
                 if (!$this->_checkIsInteger($mNum)) {
                     $this->oForm->_declareValidationError(
                         $sAbsName,

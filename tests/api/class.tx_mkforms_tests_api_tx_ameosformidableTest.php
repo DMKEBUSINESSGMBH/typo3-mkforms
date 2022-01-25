@@ -34,7 +34,7 @@
  *
  * @author hbochmann
  */
-class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * (non-PHPdoc).
@@ -159,7 +159,7 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
     {
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 $typoScriptConfiguration
             )
@@ -226,12 +226,12 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
     {
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 $typoScriptConfiguration
             )
         );
-        $contentObjectRendererClass = tx_rnbase_util_Typo3Classes::getContentObjectRendererClass();
+        $contentObjectRendererClass = \Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
         $form->getConfigurations()->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER);
         self::assertFalse($form->isCsrfProtectionActive());
     }
@@ -241,6 +241,6 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends tx_rnbase_tests_BaseTe
      */
     public function testGetFormActionWhenActionIsTransparent()
     {
-        self::assertEquals(Tx_Rnbase_Utility_T3General::getIndpEnv('REQUEST_URI'), tx_mkforms_tests_Util::getForm()->getFormAction());
+        self::assertEquals(\Sys25\RnBase\Utility\T3General::getIndpEnv('REQUEST_URI'), tx_mkforms_tests_Util::getForm()->getFormAction());
     }
 }

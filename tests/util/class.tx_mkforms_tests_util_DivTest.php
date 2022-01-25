@@ -29,7 +29,7 @@
 /**
  * Array util tests.
  */
-class tx_mkforms_tests_util_DivTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_util_DivTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     public function testToCamelCase()
     {

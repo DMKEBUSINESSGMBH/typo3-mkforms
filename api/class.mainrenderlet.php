@@ -141,7 +141,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         if (false === ($sDeps = $this->_navConf('/dependson'))) {
             return;
         }
-        $aDeps = Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sDeps));
+        $aDeps = \Sys25\RnBase\Utility\Strings::trimExplode(',', trim($sDeps));
 
         reset($aDeps);
         foreach ($aDeps as $sDep) {
@@ -443,8 +443,8 @@ class formidable_mainrenderlet extends formidable_mainobject
             $configuration = $this->getConfigValue($validatorPath);
             if (is_array($configuration) && !empty($configuration)) {
                 foreach ($configuration as $configurationOption => $configurationOptionValue) {
-                    if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr($configurationOption, 'validator')
-                        && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($configurationOption, 'validators')
+                    if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($configurationOption, 'validator')
+                        && !\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($configurationOption, 'validators')
                     ) {
                         $validator = $this->getForm()->_makeValidator($configurationOptionValue);
                         if (method_exists($validator, 'handleAfterRenderCheckPoint')) {
@@ -472,7 +472,7 @@ class formidable_mainrenderlet extends formidable_mainobject
                     $aNeededParams = [];
 
                     if (array_key_exists('params', $aEvent) && is_string($aEvent['params'])) {
-                        $aNeededParams = Tx_Rnbase_Utility_Strings::trimExplode(',', $aEvent['params']);
+                        $aNeededParams = \Sys25\RnBase\Utility\Strings::trimExplode(',', $aEvent['params']);
                         $aEvent['params'] = $aNeededParams;
                     }
 
@@ -1358,11 +1358,11 @@ TOOLTIP;
             )
         ) {
             // bei hideIfDependancyIs & hideIfDependancyIsNot sind mehrere Werte Kommasepariert möglich.
-            $sIs = $sIs ? Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sIs)) : false;
+            $sIs = $sIs ? \Sys25\RnBase\Utility\Strings::trimExplode(',', trim($sIs)) : false;
             $sOperator = $this->_navConf('/hideifoperator');
             $sOperator = (false === $sOperator || 'OR' != strtoupper($sOperator)) ? 'AND' : 'OR';
             $bHide = false;
-            $sIsNot = $sIsNot ? Tx_Rnbase_Utility_Strings::trimExplode(',', trim($sIsNot)) : false;
+            $sIsNot = $sIsNot ? \Sys25\RnBase\Utility\Strings::trimExplode(',', trim($sIsNot)) : false;
             $sIsHiddenD = $this->_defaultFalse('/hideifdependancyishiddenbecausedependancy');
             reset($this->aDependsOn);
             foreach ($this->aDependsOn as $sKey) {
@@ -1439,11 +1439,11 @@ TOOLTIP;
         $aStyles = [];
 
         if ('' !== trim($sStyle)) {
-            $aTemp = Tx_Rnbase_Utility_Strings::trimExplode(';', $sStyle);
+            $aTemp = \Sys25\RnBase\Utility\Strings::trimExplode(';', $sStyle);
             reset($aTemp);
             foreach ($aTemp as $sKey => $notNeeded) {
                 if ('' !== trim($aTemp[$sKey])) {
-                    $aStyleItem = Tx_Rnbase_Utility_Strings::trimExplode(':', $aTemp[$sKey]);
+                    $aStyleItem = \Sys25\RnBase\Utility\Strings::trimExplode(':', $aTemp[$sKey]);
                     $aStyles[$aStyleItem[0]] = $aStyleItem[1];
                 }
             }
@@ -1545,7 +1545,7 @@ TOOLTIP;
             }
 
             if (is_string($mClass) && ('' !== trim($mClass))) {
-                $aClasses = Tx_Rnbase_Utility_Strings::trimExplode(' ', $mClass);
+                $aClasses = \Sys25\RnBase\Utility\Strings::trimExplode(' ', $mClass);
             }
         }
 
@@ -1639,7 +1639,7 @@ TOOLTIP;
 
                         if (array_key_exists('params', $mEvent)) {
                             if (is_string($mEvent['params'])) {
-                                $aTemp = Tx_Rnbase_Utility_Strings::trimExplode(',', $mEvent['params']);
+                                $aTemp = \Sys25\RnBase\Utility\Strings::trimExplode(',', $mEvent['params']);
                                 reset($aTemp);
                                 foreach ($aTemp as $sKey => $notNeeded) {
                                     $aNeededParams[] = [
@@ -1665,7 +1665,7 @@ TOOLTIP;
                             $this->oForm->mayday(
                                 'SERVER EVENT on <b>'.$sEventName.' '.$this->getAbsName()
                                 ."</b>: defined checkpoint (when='".$sWhen
-                                ."') does not exists; Available checkpoints are: <br /><br />".tx_rnbase_util_Debug::viewArray(
+                                ."') does not exists; Available checkpoints are: <br /><br />".\Sys25\RnBase\Utility\Debug::viewArray(
                                     $this->oForm->aAvailableCheckPoints
                                 )
                             );
@@ -1685,7 +1685,7 @@ TOOLTIP;
                                     'SERVER EVENT on <b>'.$sEventName.' '.$this->getAbsName()
                                     ."</b>: defined checkpoint (when='".$sWhen
                                     ."') triggers too early in the execution to be catchable by a server event.<br />The first checkpoint available for server event is <b>after-init-renderlets</b>. <br /><br />The full list of checkpoints is: <br /><br />"
-                                    .tx_rnbase_util_Debug::viewArray($this->oForm->aAvailableCheckPoints)
+                                    .\Sys25\RnBase\Utility\Debug::viewArray($this->oForm->aAvailableCheckPoints)
                                 );
                             }
                         }
@@ -2047,7 +2047,6 @@ JAVASCRIPT;
         }
 
         if (true === ($bFromTCA = $this->_defaultFalse('/data/items/fromtca'))) {
-            tx_rnbase_util_TCA::loadTCA($this->oForm->oDataHandler->tableName());
             if (false !== ($aItems = $this->oForm->_navConf(
                 'columns/'.$this->_getName().'/config/items',
                 $GLOBALS['TCA'][$this->oForm->oDataHandler->tableName()]
@@ -2133,7 +2132,7 @@ JAVASCRIPT;
                     }
                 }
 
-                if ((true === $this->_defaultFalse('/db/static/')) && (tx_rnbase_util_Extensions::isLoaded('static_info_tables'))) {
+                if ((true === $this->_defaultFalse('/db/static/')) && (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables'))) {
                     // If it is a static table
                     $aDbItems = $this->__getItemsStaticTable($mTable, $mValueField, $mWhere);
                 } else {
@@ -2152,7 +2151,7 @@ JAVASCRIPT;
                     $sFields = $mValueField.' as value, '.$mCaptionField.' as caption';
 
                     // Get the items
-                    $aDbItems = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
+                    $aDbItems = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                         $sFields,
                         $mTable,
                         ['where' => $mWhere, 'orderby' => 'caption']
@@ -2259,7 +2258,7 @@ JAVASCRIPT;
             $sName = $sFieldName;
         }
         $sSql = $sFieldPrefix.$sName." LIKE '%".
-            Tx_Rnbase_Database_Connection::getInstance()->quoteStr($sValue, $sTable)."%'";
+            \Sys25\RnBase\Database\Connection::getInstance()->quoteStr($sValue, $sTable)."%'";
 
         if (true === $bRec) {
             $sSql = $this->overrideSql(
@@ -2291,7 +2290,7 @@ JAVASCRIPT;
                     $sOnFields = $aConf['onfields'];
                 }
 
-                $aFields = Tx_Rnbase_Utility_Strings::trimExplode(',', $sOnFields);
+                $aFields = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sOnFields);
                 reset($aFields);
             } else {
                 $aFields = [$sName];
@@ -2343,13 +2342,13 @@ JAVASCRIPT;
                             if ('number' != $sValue) {
                                 $aSql[]
                                     = '('.$sFieldPrefix.$sField." LIKE '"
-                                    .Tx_Rnbase_Database_Connection::getInstance()->quoteStr($sValue, $sTable)
+                                    .\Sys25\RnBase\Database\Connection::getInstance()->quoteStr($sValue, $sTable)
                                     ."%')";
                             } else {
                                 for ($k = 0; $k < 10; ++$k) {
                                     $aSql[]
                                         = '('.$sFieldPrefix.$sField." LIKE '"
-                                        .Tx_Rnbase_Database_Connection::getInstance()->quoteStr($k, $sTable)
+                                        .\Sys25\RnBase\Database\Connection::getInstance()->quoteStr($k, $sTable)
                                         ."%')";
                                 }
                             }
@@ -2392,7 +2391,7 @@ JAVASCRIPT;
                             '+',
                             trim($sValue)
                         );
-                        $aWords = Tx_Rnbase_Utility_Strings::trimExplode('+', $sValue);
+                        $aWords = \Sys25\RnBase\Utility\Strings::trimExplode('+', $sValue);
 
                         if (is_array($aConf['mode']) && array_key_exists('handlepluriels', $aConf['mode'])) {
                             reset($aWords);
@@ -2412,7 +2411,7 @@ JAVASCRIPT;
                             reset($aWords);
                             foreach ($aWords as $iKey => $sWord) {
                                 $aTemp[] = $sFieldPrefix.$sField." LIKE '%"
-                                    .Tx_Rnbase_Database_Connection::getInstance()->quoteStr($sWord, $sTable)
+                                    .\Sys25\RnBase\Database\Connection::getInstance()->quoteStr($sWord, $sTable)
                                     ."%' ";
                             }
 
@@ -2779,7 +2778,7 @@ JAVASCRIPT;
 
         if (false !== ($mValue = $this->oForm->navDeepData($sAbsPath, $this->oForm->aPreRendered))) {
             if (is_array($mValue) && array_key_exists('childs', $mValue)) {
-                $aRendered = tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+                $aRendered = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aRendered,
                     $mValue['childs']
                 );
@@ -2835,8 +2834,8 @@ JAVASCRIPT;
         $sHtml = '';
         if (file_exists($aTemplate['path'])) {
             if (is_readable($aTemplate['path'])) {
-                $sHtml = tx_rnbase_util_Templates::getSubpart(
-                    Tx_Rnbase_Utility_T3General::getUrl($aTemplate['path']),
+                $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                    \Sys25\RnBase\Utility\T3General::getUrl($aTemplate['path']),
                     $aTemplate['subpart']
                 );
 
@@ -2886,7 +2885,7 @@ JAVASCRIPT;
 
                 $sSubpartName = str_replace('#', '', $sSubpartName);
 
-                $sSubpart = tx_rnbase_util_Templates::getSubpart(
+                $sSubpart = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
                     $this->oForm->oRenderer->getTemplateHtml(),
                     '###'.$sSubpartName.'###'
                 );
@@ -3160,7 +3159,7 @@ JAVASCRIPT;
                     reset($aManifest['skin'][$this->aObjectType['OBJECT']]);
                     foreach ($aManifest['skin'][$this->aObjectType['OBJECT']] as $aSubManifest) {
                         if ($aSubManifest['type'] == $this->aObjectType['TYPE']) {
-                            $aModes = Tx_Rnbase_Utility_Strings::trimExplode(',', $aSubManifest['modes']);
+                            $aModes = \Sys25\RnBase\Utility\Strings::trimExplode(',', $aSubManifest['modes']);
                             if (in_array($sMode, $aModes)) {
                                 $this->aSkin = [
                                     'declaredskin' => $aSkin,
@@ -3181,8 +3180,8 @@ JAVASCRIPT;
                                             $this->aSkin['submanifest']['resources']['template']['file']['src']
                                         );
                                     if (file_exists($sSrc) && is_readable($sSrc)) {
-                                        $this->aSkin['template']['full'] = tx_rnbase_util_Templates::getSubpart(
-                                            Tx_Rnbase_Utility_T3General::getUrl($sSrc),
+                                        $this->aSkin['template']['full'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                                            \Sys25\RnBase\Utility\T3General::getUrl($sSrc),
                                             $this->aSkin['submanifest']['resources']['template']['subpart']
                                         );
 
@@ -3195,7 +3194,7 @@ JAVASCRIPT;
                                             foreach ($aChannels as $aChannel) {
                                                 $this->aSkin['template']['channels'][$aChannel['name']]
                                                     = $this->oForm->getTemplateTool()->parseTemplateCode(
-                                                        tx_rnbase_util_Templates::getSubpart(
+                                                        \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
                                                             $this->aSkin['template']['full'],
                                                             '###CHANNEL:'.$aChannel['name'].'###'
                                                         ),    // HTML code
@@ -3207,7 +3206,7 @@ JAVASCRIPT;
 
                                             $this->aSkin['template']['compiled'] = $this->oForm->getTemplateTool()
                                                 ->parseTemplateCode(
-                                                    tx_rnbase_util_Templates::getSubpart(
+                                                    \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
                                                         $this->aSkin['template']['full'],
                                                         '###COMPILED###'
                                                     ),
@@ -3551,7 +3550,7 @@ JAVASCRIPT;
     {
         if (false !== ($sClass = $this->_navConf('/class'))) {
             $sClass = trim($sClass);
-            $aClasses = Tx_Rnbase_Utility_Strings::trimExplode(' ', $sClass);
+            $aClasses = \Sys25\RnBase\Utility\Strings::trimExplode(' ', $sClass);
         } else {
             $aClasses = [];
         }
@@ -4167,7 +4166,7 @@ JAVASCRIPT;
         $sFields = implode(', ', $aFieldNames);
 
         // Get data from static table
-        $aRows = Tx_Rnbase_Database_Connection::getInstance()->doSelect(
+        $aRows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
             $sValueField.', '.$sFields,
             $sTable,
             ['where' => $sWhere, 'orderby' => $sFields]
@@ -4381,8 +4380,8 @@ JAVASCRIPT;
                     if ($this->hasError()) {
                         break;
                     }
-                    if ('v' === $sKey[0] && 'a' === $sKey[1] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validator')
-                        && !Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'validators')
+                    if ('v' === $sKey[0] && 'a' === $sKey[1] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'validator')
+                        && !\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'validators')
                     ) {
                         // the conf section exists
                         // call validator

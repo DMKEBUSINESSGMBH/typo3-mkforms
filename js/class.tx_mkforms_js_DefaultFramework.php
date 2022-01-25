@@ -57,7 +57,7 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
                 $pagePath = tx_mkforms_util_Div::getRelExtensionPath($jsPath);
             }
             $pagePath = $server.$pagePath;
-            $serverPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($jsPath);
+            $serverPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($jsPath);
             $ret[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, $key);
         }
 

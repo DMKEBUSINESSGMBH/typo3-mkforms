@@ -16,7 +16,7 @@ Upload einer einzelnen Datei
 Nehmen wir an, zu einem Firmen-Datensatz soll der User ein Logo hochladen können. Das Feld ist in der TCA mit folgenden Werten konfiguriert:
 
 ```php
-		'logo' => tx_rnbase_util_TSFAL::getMediaTCA('logo', array(
+		'logo' => \Sys25\RnBase\Utility\TSFAL::getMediaTCA('logo', array(
 				'label' => 'LLL:EXT:myext/Resources/Private/Language/locallang_db.xml:label_tx_myext_company_logo',
 				'config' => array('size' => 1, 'maxitems' => 1),
 		)),

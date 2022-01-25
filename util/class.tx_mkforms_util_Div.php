@@ -29,7 +29,7 @@ class tx_mkforms_util_Div
 {
     public static function isAbsServerPath($sPath)
     {
-        $sServerRoot = Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT');
+        $sServerRoot = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 
         return substr($sPath, 0, strlen($sServerRoot)) === $sServerRoot;
     }
@@ -57,7 +57,7 @@ class tx_mkforms_util_Div
             return TYPO3_MODE;
         }
 
-        return (is_null(Tx_Rnbase_Utility_T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
+        return (is_null(\Sys25\RnBase\Utility\T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
     }
 
     /**
@@ -134,7 +134,7 @@ class tx_mkforms_util_Div
         $infos = tx_rnbase::getClassInfo($clazzname);
 
         return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-            tx_rnbase_util_Extensions::extPath($infos['extkey'])
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($infos['extkey'])
         ).$infos['dir'];
     }
 
@@ -149,7 +149,7 @@ class tx_mkforms_util_Div
     {
         $infos = tx_rnbase::getClassInfo($clazzname);
 
-        return tx_rnbase_util_Extensions::extPath($infos['extkey']).$infos['dir'];
+        return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($infos['extkey']).$infos['dir'];
     }
 
     /**
@@ -168,13 +168,13 @@ class tx_mkforms_util_Div
         if ($form) {
             $aDebug[] = "<span class='notice'><strong>XML: </strong> ".$form->_xmlPath.'</span><br />';
             $aDebug[] = "<span class='notice'><strong>MKFORMS Version: </strong>v".self::getVersion().'</span><br />';
-            $aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>".round(Tx_Rnbase_Utility_T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec</span><br />';
+            $aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>".round(\Sys25\RnBase\Utility\T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec</span><br />';
         }
         $aDebug[] = '<br />';
 
         $aDebug[] = '<span class="notice"><strong>debug trail: </strong></span><ol>';
 
-        foreach (Tx_Rnbase_Utility_Strings::trimExplode('//', tx_rnbase_util_Debug::getDebugTrail()) as $bt) {
+        foreach (\Sys25\RnBase\Utility\Strings::trimExplode('//', \Sys25\RnBase\Utility\Debug::getDebugTrail()) as $bt) {
             $aDebug[] = "\t<li>".$bt.'</li>';
         }
         $aDebug[] = '</ol>';
@@ -182,10 +182,10 @@ class tx_mkforms_util_Div
         $sDebug = implode('', $aDebug);
 
         // email senden
-        $addr = tx_rnbase_configurations::getExtensionCfgValue('rn_base', 'sendEmailOnException');
+        $addr = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'sendEmailOnException');
         if ($addr) {
-            $exception = tx_rnbase::makeInstance('tx_mkforms_exception_Mayday', $msg, -1, $sDebug);
-            tx_rnbase_util_Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : __CLASS__, $exception);
+            $exception = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_exception_Mayday', $msg, -1, $sDebug);
+            \Sys25\RnBase\Utility\Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : __CLASS__, $exception);
         }
 
         // beim ajaxcall nur die meldung ausgeben und fertig!
@@ -193,7 +193,7 @@ class tx_mkforms_util_Div
             exit("Formidable::Mayday\n\n".trim(strip_tags($msg)));
         }
 
-        tx_rnbase_util_Misc::mayday($sDebug, 'mkforms');
+        \Sys25\RnBase\Utility\Misc::mayday($sDebug, 'mkforms');
     }
 
     /**
@@ -265,7 +265,7 @@ class tx_mkforms_util_Div
 
     public static function isDebugIP()
     {
-        return Tx_Rnbase_Utility_T3General::cmpIP(Tx_Rnbase_Utility_T3General::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']);
+        return \Sys25\RnBase\Utility\T3General::cmpIP(\Sys25\RnBase\Utility\T3General::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']);
     }
 
     /**
@@ -344,7 +344,7 @@ class tx_mkforms_util_Div
             $aDebug[] = "<a href = '#".$form->formid.'formidable_call'.($numcall - 1)."'>&lt;&lt; prev</a> / <a href = '#".$form->formid.'formidable_call'.($numcall + 1)."'>next &gt;&gt;</a><br>";
             $aDebug[] = '<strong>#'.$numcall.' - '.$name.'</strong>';
             $aDebug[] = '<br/>';
-            $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>".round(Tx_Rnbase_Utility_T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec)</span>';
+            $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>".round(\Sys25\RnBase\Utility\T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec)</span>';
             $aDebug[] = '<br/>';
 
             $aDebug[] = "<a href='javascript:void(Formidable.f(\"".$form->formid.'").toggleBacktrace('.$numcall."))'>Toggle details</a><br>";
@@ -367,7 +367,7 @@ class tx_mkforms_util_Div
                 if ($bAnalyze) {
                     $aDebug[] = self::viewMixed($variable);
                 } else {
-                    $aDebug[] = tx_rnbase_util_Debug::viewArray($variable);
+                    $aDebug[] = \Sys25\RnBase\Utility\Debug::viewArray($variable);
                 }
             }
 
@@ -477,7 +477,7 @@ ERRORMESSAGE;
     {
         static $version = null;
         if (null === $version) {
-            $version = tx_rnbase_util_TYPO3::convertVersionNumberToInteger(self::getVersion());
+            $version = \Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger(self::getVersion());
         }
 
         return $version;
@@ -502,11 +502,11 @@ ERRORMESSAGE;
      */
     public static function toWebPath($sPath)
     {
-        if (Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtolower($sPath), 'http://') || Tx_Rnbase_Utility_Strings::isFirstPartOfStr(strtolower($sPath), 'https://')) {
+        if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sPath), 'http://') || \Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sPath), 'https://')) {
             return $sPath;
         }
 
-        return self::removeEndingSlash(Tx_Rnbase_Utility_T3General::getIndpEnv('TYPO3_SITE_URL')).'/'.self::removeStartingSlash(self::toRelPath($sPath));
+        return self::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/'.self::removeStartingSlash(self::toRelPath($sPath));
     }
 
     /**
@@ -521,7 +521,7 @@ ERRORMESSAGE;
     public static function toRelPath($sPath)
     {
         if ('EXT:' === substr($sPath, 0, 4)) {
-            $sPath = Tx_Rnbase_Utility_T3General::getFileAbsFileName($sPath);
+            $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath);
         }
         $sPath = str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '', $sPath);
         if ('/' != $sPath[0]) {
@@ -604,12 +604,12 @@ ERRORMESSAGE;
 
     public static function mkdirDeep($destination, $deepDir)
     {
-        $allParts = Tx_Rnbase_Utility_Strings::trimExplode('/', $deepDir, 1);
+        $allParts = \Sys25\RnBase\Utility\Strings::trimExplode('/', $deepDir, 1);
         $root = '';
         foreach ($allParts as $part) {
             $root .= $part.'/';
             if (!is_dir($destination.$root)) {
-                Tx_Rnbase_Utility_T3General::mkdir($destination.$root);
+                \Sys25\RnBase\Utility\T3General::mkdir($destination.$root);
                 if (!@is_dir($destination.$root)) {
                     return 'Error: The directory "'.$destination.$root.'" could not be created...';
                 }
@@ -726,9 +726,9 @@ ERRORMESSAGE;
 
         list($extKey, $local) = explode('/', substr($filename, 4), 2);
         $filename = '';
-        if (strcmp($extKey, '') && tx_rnbase_util_Extensions::isLoaded($extKey) && strcmp($local, '')) {
+        if (strcmp($extKey, '') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
             $filename = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                tx_rnbase_util_Extensions::extPath($extKey)
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey)
             ).$local;
         }
 
@@ -759,7 +759,7 @@ ERRORMESSAGE;
 
         if (is_string($mParams)) {
             // Das ist der Normalfall. Die Parameter als String
-            $paramArr = Tx_Rnbase_Utility_Strings::trimExplode('::', $mParams);
+            $paramArr = \Sys25\RnBase\Utility\Strings::trimExplode('::', $mParams);
             $aParamsCollection[$paramArr[0]] = (count($paramArr) > 0) ? $paramArr[1] : '';
         } else {
             foreach ($mParams as $mParam) {
@@ -838,7 +838,7 @@ ERRORMESSAGE;
         }
         $cleaned = $name;
         if (function_exists('iconv')) {
-            $charset = tx_rnbase_util_Strings::isUtf8String($cleaned) ? 'UTF-8' : 'ISO-8859-1';
+            $charset = \Sys25\RnBase\Utility\Strings::isUtf8String($cleaned) ? 'UTF-8' : 'ISO-8859-1';
             $oldLocal = setlocale(LC_ALL, 0);
             setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'deu_deu', 'de', 'ge');
             $cleaned = iconv($charset, 'ASCII//TRANSLIT', $cleaned);

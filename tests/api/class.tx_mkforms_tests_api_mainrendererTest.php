@@ -30,7 +30,7 @@
  *
  * @author hbochmann
  */
-class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * (non-PHPdoc).
@@ -62,7 +62,7 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
     public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSession()
     {
         $form = tx_mkforms_tests_Util::getForm();
-        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainrenderer');
         $renderer->_init($form, [], [], '');
 
         $rendered = $renderer->_render([]);
@@ -94,7 +94,7 @@ class tx_mkforms_tests_api_mainrendererTest extends tx_rnbase_tests_BaseTestCase
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         $form = tx_mkforms_tests_Util::getForm();
-        $renderer = tx_rnbase::makeInstance('formidable_mainrenderer');
+        $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainrenderer');
         $renderer->_init($form, [], [], '');
 
         $rendered = $renderer->_render([]);

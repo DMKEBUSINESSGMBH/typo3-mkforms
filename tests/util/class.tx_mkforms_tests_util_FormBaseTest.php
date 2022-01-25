@@ -25,7 +25,7 @@
 /**
  * benötigte Klassen einbinden.
  */
-class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_util_FormBaseTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @group unit
@@ -50,7 +50,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 ['myConf.' => ['path' => 'test']]
             )
@@ -72,10 +72,10 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
 
-        tx_rnbase_util_Misc::prepareTSFE();
+        \Sys25\RnBase\Utility\Misc::prepareTSFE();
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 ['myConf.' => [
                         'path' => 'TEXT',
@@ -103,7 +103,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 ['myConf.' => ['path' => 'test']]
             )
@@ -126,7 +126,7 @@ class tx_mkforms_tests_util_FormBaseTest extends tx_rnbase_tests_BaseTestCase
 
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            tx_rnbase_util_Arrays::mergeRecursiveWithOverrule(
+            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 ['generic.' => ['formconfig.' => ['myConf.' => ['path' => 'test']]]]
             )

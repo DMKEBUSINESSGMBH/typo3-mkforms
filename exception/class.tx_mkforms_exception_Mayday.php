@@ -5,7 +5,7 @@
  *
  * @author     Michael Wagner <dev@dmk-business.de>
  */
-class tx_mkforms_exception_Mayday extends tx_rnbase_util_Exception
+class tx_mkforms_exception_Mayday extends \Sys25\RnBase\Exception\AdditionalException
 {
     /**
      * Liefert den Stacktrace und konvertiert ihn (htmlspecialchars).

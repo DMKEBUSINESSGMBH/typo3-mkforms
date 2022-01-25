@@ -29,11 +29,11 @@
 /**
  * Array util tests.
  */
-class tx_mkforms_tests_util_JsonTest extends tx_rnbase_tests_BaseTestCase
+class tx_mkforms_tests_util_JsonTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
     protected function getNewInstance()
     {
-        return tx_rnbase::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
     }
 
     public function testUnicodeCharacterU2028()

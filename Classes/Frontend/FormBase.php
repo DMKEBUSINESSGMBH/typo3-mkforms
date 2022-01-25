@@ -168,7 +168,7 @@ class FormBase extends AbstractAction
     /**
      * Gibt den Pfad zum XML zurück.
      *
-     * @param \tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string                    $confId
      *
      * @return string
@@ -181,7 +181,7 @@ class FormBase extends AbstractAction
     /**
      * Wir prüfen die Konfiguration.
      *
-     * @param \tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string                    $confId
      *
      * @return array
@@ -205,7 +205,7 @@ class FormBase extends AbstractAction
             $this->errors[] = 'No XML file found (TS: '.$confId.'xml).';
         }
         // existiert das xml
-        $absXmlPath = \Tx_Rnbase_Utility_T3General::getFileAbsFileName($xmlPath);
+        $absXmlPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($xmlPath);
         if (empty($absXmlPath) || !file_exists($absXmlPath)) {
             $this->errors[] = 'The given XML file path ('.$xmlPath.') doesn\'t exists.';
         }
@@ -244,7 +244,7 @@ class FormBase extends AbstractAction
         }
 
         // Hook to handle data
-        \tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_before_processdata',
             ['data' => &$data],
@@ -263,7 +263,7 @@ class FormBase extends AbstractAction
         $data = $this->processData($data);
 
         // Hook to handle data
-        \tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_after_processdata',
             ['data' => &$data],
@@ -348,7 +348,7 @@ class FormBase extends AbstractAction
         }
 
         // Hook to handle data
-        \tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_before_filldata',
             ['data' => &$params],
@@ -358,7 +358,7 @@ class FormBase extends AbstractAction
         $data = $this->fillData($params);
 
         // Hook to handle data
-        \tx_rnbase_util_Misc::callHook(
+        \Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_after_filldata',
             ['data' => &$data],

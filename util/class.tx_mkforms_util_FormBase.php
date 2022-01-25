@@ -111,7 +111,7 @@ class tx_mkforms_util_FormBase
             return null;
         }
 
-        $ref = tx_rnbase_util_TSFAL::getFirstReference($refTable, $refUid, $refField);
+        $ref = \Sys25\RnBase\Utility\TSFAL::getFirstReference($refTable, $refUid, $refField);
         if (is_object($ref)) {
             return $ref->getUid();
         }
@@ -157,11 +157,11 @@ class tx_mkforms_util_FormBase
      * Liefert das Konfigurations-Objekt.
      *
      * @param tx_ameosformidable       $form
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      *
-     * @return tx_rnbase_configurations
+     * @return \Sys25\RnBase\Configuration\Processor
      */
-    protected static function &getConfigurations(tx_ameosformidable &$form, tx_rnbase_configurations &$configurations = null)
+    protected static function &getConfigurations(tx_ameosformidable &$form, Sys25\RnBase\Configuration\Processor &$configurations = null)
     {
         if (!is_object($configurations)) {
             $configurations = (is_object($oParent = self::getParent($form, 'getConfiguration'))) ? $oParent->getConfiguration() : $form->getConfigurations();
@@ -192,12 +192,12 @@ class tx_mkforms_util_FormBase
     }
 
     /**
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return string
      */
-    protected static function getFieldSeparator(tx_rnbase_configurations &$configurations, &$confId)
+    protected static function getFieldSeparator(Sys25\RnBase\Configuration\Processor &$configurations, &$confId)
     {
         $separator = $configurations->get($confId.'fieldSeparator');
 
@@ -210,7 +210,7 @@ class tx_mkforms_util_FormBase
      *
      * @param array                    $data
      * @param tx_ameosformidable       $form
-     * @param tx_rnbase_configurations $configurations
+     * @param \Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return array
@@ -218,7 +218,7 @@ class tx_mkforms_util_FormBase
     public static function flatArray2MultipleTableStructure(
         array $data,
         tx_ameosformidable &$form,
-        tx_rnbase_configurations &$configurations = null,
+        Sys25\RnBase\Configuration\Processor &$configurations = null,
         $confId = ''
     ) {
         // Konfiguration und Id besorgen, falls nicht übergeben.
@@ -259,7 +259,7 @@ class tx_mkforms_util_FormBase
                     $form->setSubmitter($sWidget, $flattenData['submitmode']);
                 } // Datumsfelder zusätzlich für MySQL konvertieren!
                 elseif ('Date' == $oWidget->sMajixClass && $mValue) {
-                    $flattenData[$sWidget.'_mysql'] = tx_rnbase_util_Dates::date_tstamp2mysql($mValue);
+                    $flattenData[$sWidget.'_mysql'] = \Sys25\RnBase\Utility\Dates::date_tstamp2mysql($mValue);
                 }
                 // den Wert holen
                 // @TODO: siehe todo oben
@@ -306,7 +306,7 @@ class tx_mkforms_util_FormBase
     public static function multipleTableStructure2FlatArray(
         array $data,
         tx_ameosformidable &$form,
-        tx_rnbase_configurations &$configurations = null,
+        Sys25\RnBase\Configuration\Processor &$configurations = null,
         $confId = ''
     ) {
         // Konfiguration und Id besorgen, falls nicht übergeben.
@@ -607,7 +607,7 @@ class tx_mkforms_util_FormBase
     public static function getRowsFromDataBase(array $params, tx_ameosformidable $form)
     {
         /* @var $formfill tx_mkforms_util_FormFill */
-        $formfill = tx_rnbase::makeInstance('tx_mkforms_util_FormFill');
+        $formfill = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_FormFill');
 
         return $formfill->getRowsFromDataBase($params, $form);
     }
@@ -627,7 +627,7 @@ class tx_mkforms_util_FormBase
     public function getItemsFromDb(array $params, tx_ameosformidable $form)
     {
         /* @var $formfill tx_mkforms_util_FormFill */
-        $formfill = tx_rnbase::makeInstance('tx_mkforms_util_FormFill');
+        $formfill = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_FormFill');
 
         return $formfill->getItemsFromDb($params, $form);
     }

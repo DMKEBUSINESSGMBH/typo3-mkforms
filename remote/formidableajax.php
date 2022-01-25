@@ -54,16 +54,16 @@ class formidableajax
         $this->ttTimes = [];
 
         $this->aRequest = [
-            'safelock' => Tx_Rnbase_Utility_T3General::_GP('safelock'),
-            'object' => Tx_Rnbase_Utility_T3General::_GP('object'),
-            'servicekey' => Tx_Rnbase_Utility_T3General::_GP('servicekey'),
-            'eventid' => Tx_Rnbase_Utility_T3General::_GP('eventid'),
-            'serviceid' => Tx_Rnbase_Utility_T3General::_GP('serviceid'),
-            'value' => stripslashes(Tx_Rnbase_Utility_T3General::_GP('value')),
-            'formid' => Tx_Rnbase_Utility_T3General::_GP('formid'),
-            'thrower' => Tx_Rnbase_Utility_T3General::_GP('thrower'),
-            'arguments' => Tx_Rnbase_Utility_T3General::_GP('arguments'),
-            'trueargs' => Tx_Rnbase_Utility_T3General::_GP('trueargs'),
+            'safelock' => \Sys25\RnBase\Utility\T3General::_GP('safelock'),
+            'object' => \Sys25\RnBase\Utility\T3General::_GP('object'),
+            'servicekey' => \Sys25\RnBase\Utility\T3General::_GP('servicekey'),
+            'eventid' => \Sys25\RnBase\Utility\T3General::_GP('eventid'),
+            'serviceid' => \Sys25\RnBase\Utility\T3General::_GP('serviceid'),
+            'value' => stripslashes(\Sys25\RnBase\Utility\T3General::_GP('value')),
+            'formid' => \Sys25\RnBase\Utility\T3General::_GP('formid'),
+            'thrower' => \Sys25\RnBase\Utility\T3General::_GP('thrower'),
+            'arguments' => \Sys25\RnBase\Utility\T3General::_GP('arguments'),
+            'trueargs' => \Sys25\RnBase\Utility\T3General::_GP('trueargs'),
         ];
 
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -270,8 +270,8 @@ class formidableajax
     {
         global $BE_USER, $_COOKIE;
 
-        $TSFE = tx_rnbase::makeInstance(
-            tx_rnbase_util_Typo3Classes::getTypoScriptFrontendControllerClass(),
+        $TSFE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \Sys25\RnBase\Utility\Typo3Classes::getTypoScriptFrontendControllerClass(),
             $GLOBALS['TYPO3_CONF_VARS'],
             0,
             0
@@ -284,7 +284,7 @@ class formidableajax
         $BE_USER = '';
         if ($_COOKIE['be_typo_user']) {        // If the backend cookie is set, we proceed and checks if a backend user is logged in.
             // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-            $BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
+            $BE_USER = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
             $BE_USER->lockIP = $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'];
             $BE_USER->start();            // Object is initialized
             $BE_USER->unpack_uc('');
@@ -295,7 +295,7 @@ class formidableajax
             if ($BE_USER->checkLockToIP() && $BE_USER->checkBackendAccessSettingsFromInitPhp()) {
                 $BE_USER->extInitFeAdmin();
                 if ($BE_USER->extAdmEnabled) {
-                    $LANG = tx_rnbase::makeInstance('language');
+                    $LANG = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
                     $LANG->init($BE_USER->uc['lang']);
 
                     $BE_USER->extSaveFeAdminConfig();
@@ -304,16 +304,16 @@ class formidableajax
                     $TSFE->displayEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayIcons');
                     $TSFE->displayFieldEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayFieldIcons');
 
-                    if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_editIcons')) {
+                    if (\Sys25\RnBase\Utility\T3General::_GP('ADMCMD_editIcons')) {
                         $TSFE->displayFieldEditIcons = 1;
                         $BE_USER->uc['TSFE_adminConfig']['edit_editNoPopup'] = 1;
                     }
-                    if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int) Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simUser');
+                    if (\Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simUser')) {
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int) \Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simUser');
                         $BE_USER->ext_forcePreview = 1;
                     }
-                    if (Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int) Tx_Rnbase_Utility_T3General::_GP('ADMCMD_simTime');
+                    if (\Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simTime')) {
+                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int) \Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simTime');
                         $BE_USER->ext_forcePreview = 1;
                     }
 
@@ -337,7 +337,7 @@ class formidableajax
             }
         } elseif ($TSFE->ADMCMD_preview_BEUSER_uid) {
             // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-            $BE_USER = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
+            $BE_USER = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
             $BE_USER->userTS_dontGetCached = 1;
             $BE_USER->setBeUserByUid($TSFE->ADMCMD_preview_BEUSER_uid);
             $BE_USER->unpack_uc('');
@@ -421,10 +421,10 @@ class formidableajax
 
             return new \TYPO3\CMS\Core\Http\HtmlResponse($this->handleRequest());
         } catch (Exception $e) {
-            if (tx_rnbase_util_Logger::isWarningEnabled()) {
+            if (\Sys25\RnBase\Utility\Logger::isWarningEnabled()) {
                 $request = $this instanceof formidableajax ? $this->getRequestData() : 'unkown';
                 $widgets = $this instanceof formidableajax && is_object($this->getForm()) ? $this->getForm()->getWidgetNames() : [];
-                tx_rnbase_util_Logger::warn(
+                \Sys25\RnBase\Utility\Logger::warn(
                     'Exception in ajax call',
                     'mkforms',
                     [

@@ -24,7 +24,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 
         $bError = false;
 
-        $this->oFileFunc = tx_rnbase::makeInstance(tx_rnbase_util_Typo3Classes::getBasicFileUtilityClass());
+        $this->oFileFunc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
 
         if ('FILE' === $oRdt->_getType()) {    // renderlet:FILE
             $sFileName = strtolower($this->oFileFunc->cleanFileName($sFileName));
@@ -33,11 +33,11 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 
             if ('' !== $sFileName) {
                 if ($oRdt->isMultiple()) {
-                    $aFileList = Tx_Rnbase_Utility_Strings::trimExplode(',', $sFileName);
+                    $aFileList = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sFileName);
                     $sFileName = array_pop($aFileList);    // last one, and remove from list; will be added later if valid
                 }
             }
-        } elseif ('MEDIAUPLOAD' === $oRdt->_getType() && tx_rnbase_util_Math::isInteger($sFileName)) {
+        } elseif ('MEDIAUPLOAD' === $oRdt->_getType() && \Sys25\RnBase\Utility\Math::isInteger($sFileName)) {
             // Wenn das Upload-Widget einen Integer liefert, dann ist das nur die Anzahl der Referenzen
             // In dem Fall hat kein Upload stattgefunden. Es gibt also nichts zu validieren.
             $sFileName = '';
@@ -63,13 +63,13 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('e' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'extension')) {
+            if ('e' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'extension')) {
                 $sFileExts = $this->_navConf('/'.$sKey.'/value');
                 if ($this->oForm->isRunneable($sFileExts)) {
                     $sFileExts = $this->callRunneable($sFileExts);
                 }
 
-                $aExtensions = Tx_Rnbase_Utility_Strings::trimExplode(
+                $aExtensions = \Sys25\RnBase\Utility\Strings::trimExplode(
                     ',',
                     $sFileExts
                 );
@@ -92,9 +92,9 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('f' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesize') &&
-                    Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizekb') &&
-                    Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
+            if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesize') &&
+                    \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizekb') &&
+                    \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
                 $mSize = $this->_navConf('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
@@ -119,7 +119,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('f' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizekb')) {
+            if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizekb')) {
                 $mSize = $this->_navConf('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {
@@ -144,7 +144,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('f' === $sKey[0] && Tx_Rnbase_Utility_Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
+            if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
                 $mSize = $this->_navConf('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {

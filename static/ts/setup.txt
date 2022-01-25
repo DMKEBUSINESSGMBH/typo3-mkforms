@@ -1,5 +1,3 @@
-includeLibs.tx_rnbase_controller = EXT:rn_base/class.tx_rnbase_controller.php
-
 plugin.tx_mkforms                = USER
 plugin.tx_mkforms.flexform       = flexform_main.xml
 plugin.tx_mkforms.userFunc       = tx_rnbase_controller->main

@@ -73,7 +73,7 @@ class FormView extends BaseView
                      * müssen für den speziellen Fall die add Methoden
                      * oder die globale addAdditionalMarkers Methode angelegt werden!
                      */
-                    if (\tx_rnbase_util_BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
+                    if (\Sys25\RnBase\Frontend\Marker\BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
                         $currentSubpartArray = $currentWrappedSubpartArray = [];
                         $currentMarkerArray = $formatter->getItemMarkerArrayWrapped(
                             $values,
@@ -122,7 +122,7 @@ class FormView extends BaseView
         );
 
         $markerArray['###FORM###'] = $viewData->offsetGet('form');
-        $out = \tx_rnbase_util_Templates::substituteMarkerArrayCached(
+        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached(
             $template,
             $markerArray,
             $subpartArray,
@@ -137,12 +137,13 @@ class FormView extends BaseView
         return $this->parseItems($viewData->offsetGet('items'), $confId, $formatter, $out);
     }
 
-    protected function parseItems($items, $confId, \tx_rnbase_util_FormatUtil $formatter, $template)
+    protected function parseItems($items, $confId, \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter, $template)
     {
         if (is_array($items)) {
             foreach ($items as $key => $item) {
-                $markerClass = $formatter->getConfigurations()->get($confId.$key.'.__markerclass') ?: 'tx_rnbase_util_SimpleMarker';
-                $marker = \tx_rnbase::makeInstance($markerClass);
+                $markerClass = $formatter->getConfigurations()->get($confId.$key.'.__markerclass')
+                    ?: \Sys25\RnBase\Frontend\Marker\SimpleMarker::class;
+                $marker = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($markerClass);
                 $template = $marker->parseTemplate($template, $item, $formatter, $confId.$key.'.', strtoupper($key));
             }
         }
@@ -158,7 +159,7 @@ class FormView extends BaseView
      * @param array                      $markerArray
      * @param array                      $subpartArray
      * @param array                      $wrappedSubpartArray
-     * @param \tx_rnbase_util_FormatUtil $formatter
+     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      * @param string                     $template
      *
      * @return string
@@ -184,7 +185,7 @@ class FormView extends BaseView
             $params = $formatter->getConfigurations()->get(
                 $confId.'links.'.$linkId.'.params.'
             );
-            \tx_rnbase_util_BaseMarker::initLink(
+            \Sys25\RnBase\Frontend\Marker\BaseMarker::initLink(
                 $markerArray,
                 $subpartArray,
                 $wrappedSubpartArray,

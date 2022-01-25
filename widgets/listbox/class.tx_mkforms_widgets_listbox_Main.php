@@ -115,7 +115,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
         }
 
         if ($this->_isMultiple() && !is_array($data)) {
-            $data = Tx_Rnbase_Utility_Strings::trimExplode(',', $data);
+            $data = \Sys25\RnBase\Utility\Strings::trimExplode(',', $data);
         }
 
         if (is_array($data)) {
@@ -145,7 +145,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 
     public function _sqlSearchClause($sValue, $sFieldPrefix = '', $sFieldName = '', $bRec = true)
     {
-        $aValues = Tx_Rnbase_Utility_Strings::trimExplode(',', $sValue);
+        $aValues = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sValue);
         $aParts = [];
 
         if ('' === $sFieldName) {
@@ -156,7 +156,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             $sTableName = $this->oForm->_navConf('/tablename', $this->oForm->oDataHandler->aElement);
 
             foreach ($aValues as $uid) {
-                $pattern = Tx_Rnbase_Database_Connection::getInstance()->quoteStr($uid);
+                $pattern = \Sys25\RnBase\Database\Connection::getInstance()->quoteStr($uid);
                 $aParts[] = 'FIND_IN_SET(\''.$pattern.'\','.$sFieldPrefix.$sFieldName.')';
             }
 
@@ -328,7 +328,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     {
         if ($this->_isMultiple()) {
             if (!$this->_emptyFormValue($sData)) {
-                return Tx_Rnbase_Utility_Strings::trimExplode(',', $sData);
+                return \Sys25\RnBase\Utility\Strings::trimExplode(',', $sData);
             } else {
                 return [];
             }
