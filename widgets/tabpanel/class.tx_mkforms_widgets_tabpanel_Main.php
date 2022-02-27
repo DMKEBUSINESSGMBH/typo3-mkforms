@@ -74,7 +74,9 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
             $sCompiledChilds = $this->renderChildsCompiled(
                 $aChilds
             );
-            $compiled = $this->_displayLabel($sLabel).$sBegin.$sCompiledChilds.$sEnd;
+            $compiled = $sBegin.$sCompiledChilds.$sEnd;
+        } else {
+            $compiled = '';
         }
 
         $this->includeScripts(

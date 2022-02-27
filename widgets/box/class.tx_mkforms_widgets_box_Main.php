@@ -51,6 +51,8 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
             $sDBridgeId = $this->_getElementHtmlId().'_databridge';
             $sSignature = $this->dbridge_getCurrentDsetSignature();
             $sHidden = '<input type="hidden" name="'.$sDBridgeName.'" id="'.$sDBridgeId.'" value="'.htmlspecialchars($sSignature).'" />';
+        } else {
+            $sHidden = '';
         }
 
         if ('inline' !== $sMode) {
@@ -87,6 +89,8 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
                     if (false !== ($sConstraint = $this->_navConf('/draggable/constraint'))) {
                         $aConf['constraint'] = strtolower($sConstraint);
                     }
+                } else {
+                    $bDraggable = true;
                 }
             } else {
                 $bDraggable = true;
@@ -163,7 +167,7 @@ Droppables.add("'.$sHtmlId.'", '.$sJson.');
         }
 
         $aHtmlBag = [
-            '__compiled' => $this->_displayLabel($sLabel).$sBegin.$sHtml.$sCompiledChilds.$sEnd,
+            '__compiled' => $sBegin.$sHtml.$sCompiledChilds.$sEnd,
             'html' => $sHtml,
             'box.' => [
                 'begin' => $sBegin,

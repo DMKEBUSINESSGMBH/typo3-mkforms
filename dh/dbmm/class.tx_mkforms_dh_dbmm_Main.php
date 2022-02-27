@@ -74,7 +74,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
         $keyname = $this->keyName();
 
         if (('' == $tablename) || ('' == $keyname)) {
-            $oForm->mayday(
+            $this->getForm()->mayday(
                 "DATAHANDLER configuration isn't correct : check tablename ' .
 					'AND keyname in your datahandler conf"
             );

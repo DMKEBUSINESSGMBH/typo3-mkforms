@@ -102,6 +102,10 @@ class tx_mkforms_util_XMLParser
                     reset($aConf);
                 }
             }
+        } else {
+            $sProtection = '';
+            $sCacheDir = '';
+            $sCachePath = '';
         }
 
         if (empty($aConf)) {

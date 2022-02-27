@@ -26,6 +26,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 
         $this->oFileFunc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
 
+        $aFileList = [];
         if ('FILE' === $oRdt->_getType()) {    // renderlet:FILE
             $sFileName = strtolower($this->oFileFunc->cleanFileName($sFileName));
         } elseif ('UPLOAD' === $oRdt->_getType()) {
@@ -179,6 +180,8 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
         if (is_array($sFileName)) {
             $sFilePath = $sFileName['tmp_name'];
             $sFileName = $sFileName['name'];
+        } else {
+            $sFilePath = null;
         }
 
         // Wurde keine Datei übertragen, nicht validieren
@@ -197,7 +200,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
         }
 
         // no match, unlink
-        if (!isset($sFilePath)) {
+        if (!is_string($sFilePath)) {
             $sFilePath = $this->_getFullServerPath($sAbsName, $sFileName);
         }
         $this->_unlink($sFilePath);

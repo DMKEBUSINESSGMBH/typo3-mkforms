@@ -66,9 +66,11 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
         $sInput = '<input type="file" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().' />';
         $sInput .= '<input type="hidden" name="'.$this->_getElementHtmlName().'[backup]" id="'.$this->_getElementHtmlId().'_backup" value="'.$this->getValueForHtml($sValue).'" />';
 
+        $sValuePreview = '';
         if (!empty($sValue) && $this->defaultTrue('showfilelist')) {
             $aValues = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getValueForHtml($sValue));
 
+            $aLinks = [];
             foreach ($aValues as $url) {
                 $sWebPath = tx_mkforms_util_Div::toWebPath(
                     $this->getServerPath($url)
@@ -81,8 +83,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
             $sValueCvs = implode(', ', $aValues);
             $sLinkCvs = implode(', ', $aLinks);
 
-            $sValuePreview = '';
-
             if (('' !== trim($sValue)) && (true === $this->defaultTrue('showlink'))) {
                 if ('' !== trim($sLinkCvs)) {
                     $sValuePreview = $sLinkCvs.'<br />';
@@ -92,6 +92,9 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                     $sValuePreview = $sValueCvs.'<br />';
                 }
             }
+        } else {
+            $sLis = '';
+            $sLinkLis = '';
         }
 
         $aRes = [
