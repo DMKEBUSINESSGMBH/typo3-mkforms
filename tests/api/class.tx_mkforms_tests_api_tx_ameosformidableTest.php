@@ -36,12 +36,7 @@
  */
 class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
         \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
@@ -52,12 +47,7 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
         set_error_handler(['tx_mkforms_tests_Util', 'errorHandler'], E_WARNING);
     }
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::tearDown()
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // error handler zurücksetzen
         restore_error_handler();
@@ -102,13 +92,13 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
     public function testRenderThrowsNoExceptionIfRequestTokenIsValid()
     {
         $_POST['radioTestForm']['AMEOSFORMIDABLE_SUBMITTED'] = AMEOSFORMIDABLE_EVENT_SUBMIT_FULL;
-        //damit wir generateRequestToken aufrufen können
+        // damit wir generateRequestToken aufrufen können
         $oForm = tx_mkforms_tests_Util::getForm();
         $_POST['radioTestForm']['MKFORMS_REQUEST_TOKEN'] = $oForm->generateRequestToken();
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', ['requestToken' => [$oForm->getFormId() => $oForm->generateRequestToken()]]);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
-        //jetzt die eigentliche initialisierung
+        // jetzt die eigentliche initialisierung
         $oForm = tx_mkforms_tests_Util::getForm();
 
         self::assertContains(

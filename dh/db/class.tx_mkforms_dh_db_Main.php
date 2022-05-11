@@ -24,13 +24,13 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
         if ('' != $tablename && '' != $keyname) {
             if ($this->i18n() && false !== ($aNewI18n = $this->newI18nRequested())) {
                 // first check that parent exists
-                if (false === ($aParent = $this->__getDbData($tablename, $keyname, $aNewI18n['i18n_parent']))) {
+                if (false === ($aParent = $this->_getDbData($tablename, $keyname, $aNewI18n['i18n_parent']))) {
                     $this->oForm->mayday(
                         'DATAHANDLER DB cannot create requested i18n for non existing parent:'.$aNewI18n['i18n_parent']
                     );
                 }
 
-                //then check that no i18n record exists for requested sys_language_uid on this parent record
+                // then check that no i18n record exists for requested sys_language_uid on this parent record
                 $rows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                     $keyname,
                     $tablename,
@@ -416,7 +416,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
         return false !== $this->_currentEntryId();
     }
 
-    protected function __getDbData($sTablename, $sKeyname, $iUid, $sFields = '*')
+    protected function _getDbData($sTablename, $sKeyname, $iUid, $sFields = '*')
     {
         $options = [];
         $options['enablefieldsoff'] = 1;
@@ -438,7 +438,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
             $editid = $this->_currentEntryId();
 
             if (false !== $editid) {
-                if (false !== ($this->__aStoredData = $this->__getDbData($tablename, $keyname, $editid))) {
+                if (false !== ($this->__aStoredData = $this->_getDbData($tablename, $keyname, $editid))) {
                     // on va rechercher la configuration du champ en question
                     reset($this->oForm->aORenderlets);
                     $aRdts = array_keys($this->oForm->aORenderlets);
@@ -536,7 +536,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                     $this->__aStoredI18NParent = $aData;
                 } else {
                     $iParent = (int) $aData['l18n_parent'];
-                    if (false !== ($aParent = $this->__getDbData($this->tableName(), $this->keyName(), $iParent))) {
+                    if (false !== ($aParent = $this->_getDbData($this->tableName(), $this->keyName(), $iParent))) {
                         $this->__aStoredI18NParent = $aParent;
                     }
                 }

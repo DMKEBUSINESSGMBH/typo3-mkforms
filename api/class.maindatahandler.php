@@ -759,7 +759,7 @@ class formidable_maindatahandler extends formidable_mainobject
                 return $this->getRdtValue_noSubmit_edit($sAbsName);
             } else {
                 $widget = $this->getForm()->getWidget($sAbsName);
-                $mValue = $widget->__getValue();
+                $mValue = $widget->_getValue();
                 if (false === $mValue) {
                     if ($widget->_readOnly()) {
                         if ($widget->_edition()) {
@@ -799,9 +799,9 @@ class formidable_maindatahandler extends formidable_mainobject
      */
     protected function checkWidgetsExist(&$aGP, $sAbsName)
     {
-        //wenn es kein widget ist, dann setzen wir den wert auf null
-        //um manipulationen zu verhindern. Sonst könnten willkürlich
-        //werte mitgeschickt werden
+        // wenn es kein widget ist, dann setzen wir den wert auf null
+        // um manipulationen zu verhindern. Sonst könnten willkürlich
+        // werte mitgeschickt werden
         if (!isset($this->getForm()->aORenderlets[$sAbsName])) {
             $aGP = null;
 
@@ -828,7 +828,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $aGP = $this->_GP();
         // Das ist für die einfachen Widgets ohne Boxen
         if (array_key_exists($sAbsName, $aGP)) {
-            //es werden nur Renderlets akzeptiert, die auch im XML vorhanden sind!!!
+            // es werden nur Renderlets akzeptiert, die auch im XML vorhanden sind!!!
             if ($this->getForm()->getConfTS('checkWidgetsExist')) {
                 $this->checkWidgetsExist($aGP[$sAbsName], $sAbsName);
             }
@@ -846,7 +846,7 @@ class formidable_maindatahandler extends formidable_mainobject
             // converting id to data path
             $sAbsPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sHtmlId);
             if (false !== ($aRes = $this->getForm()->navDeepData($sAbsPath, $aGP))) {
-                //es werden nur Renderlets akzeptiert, die auch im XML vorhanden sind!!!
+                // es werden nur Renderlets akzeptiert, die auch im XML vorhanden sind!!!
                 if ($this->getForm()->getConfTS('checkWidgetsExist')) {
                     $this->checkWidgetsExist($aRes, $sAbsName);
                 }
@@ -868,8 +868,8 @@ class formidable_maindatahandler extends formidable_mainobject
             }
         }
 
-        //get defaultValue if no value is set
-        if (is_object($widget) && false !== ($mValue = $widget->__getDefaultValue())) {
+        // get defaultValue if no value is set
+        if (is_object($widget) && false !== ($mValue = $widget->_getDefaultValue())) {
             return $this->getForm()->getWidget($sAbsName)->_unFlatten($mValue);
         }
 
@@ -899,10 +899,10 @@ class formidable_maindatahandler extends formidable_mainobject
 
         $sPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sName);
 
-        if (false !== ($mValue = $this->getForm()->aORenderlets[$sName]->__getValue())
+        if (false !== ($mValue = $this->getForm()->aORenderlets[$sName]->_getValue())
         ) {            // value is prioritary if submitted
             return $this->getForm()->aORenderlets[$sName]->_unFlatten($mValue);
-        } elseif (false !== ($mValue = $this->getForm()->aORenderlets[$sName]->__getDefaultValue())) {
+        } elseif (false !== ($mValue = $this->getForm()->aORenderlets[$sName]->_getDefaultValue())) {
             return $this->getForm()->aORenderlets[$sName]->_unFlatten($mValue);
         } elseif (false !== ($mValue = $this->getForm()->navDeepData($sPath, $aGP))) {
             // if rdt has no childs, do not use the posted data, as it will contain the post-flag "1"
@@ -936,7 +936,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $sPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sName);
         $sRelPath = $widget->getName();
 
-        if (false !== ($mValue = $widget->__getValue())) {
+        if (false !== ($mValue = $widget->_getValue())) {
             return $widget->_unFlatten($mValue);
         } elseif (false !== $this->aProcessBeforeRenderData
             && (false !== ($mValue = $this->getForm()->navDeepData($sPath, $this->aProcessBeforeRenderData))
@@ -945,7 +945,7 @@ class formidable_maindatahandler extends formidable_mainobject
             return $widget->_unFlatten($mValue);
         } elseif (false !== ($mValue = $this->getForm()->navDeepData($sPath, $aGP))) {
             return $widget->_unFlatten($mValue);
-        } elseif (false !== ($mValue = $widget->__getDefaultValue())) {
+        } elseif (false !== ($mValue = $widget->_getDefaultValue())) {
             return $widget->_unFlatten($mValue);
         }
     }
@@ -953,7 +953,7 @@ class formidable_maindatahandler extends formidable_mainobject
     public function getRdtValue_noSubmit_edit($sAbsName)
     {
         if (array_key_exists($sAbsName, $this->getForm()->aORenderlets)) {
-            if (false !== ($mValue = $this->getForm()->getWidget($sAbsName)->__getValue())) {    // value a toujours le dessus
+            if (false !== ($mValue = $this->getForm()->getWidget($sAbsName)->_getValue())) {    // value a toujours le dessus
                 return $this->getForm()->getWidget($sAbsName)->_unFlatten($mValue);
             } else {
                 $mRes = null;
@@ -998,9 +998,9 @@ class formidable_maindatahandler extends formidable_mainobject
                         }
                     }
                 }
-                //@TODO War auskommentiert, warum!?
+                // @TODO War auskommentiert, warum!?
                 if (is_null($mRes) || $this->getForm()->getWidget($sAbsName)->_emptyFormValue($mRes)) {
-                    if (false !== ($mValue = $this->getForm()->getWidget($sAbsName)->__getDefaultValue())) {
+                    if (false !== ($mValue = $this->getForm()->getWidget($sAbsName)->_getDefaultValue())) {
                         return $this->getForm()->getWidget($sAbsName)->_unFlatten($mValue);
                     }
                 }

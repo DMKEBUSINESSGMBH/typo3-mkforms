@@ -250,7 +250,7 @@ class tx_mkforms_util_XMLParser
         // Support for PHP5 charset detection
         if ((float) phpversion() >= 5) {
             // Find the encoding parameter in the XML declaration
-            //ereg('^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"',substr($data,0,200),$result);
+            // ereg('^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"',substr($data,0,200),$result);
             preg_match('/^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"/', substr($data, 0, 200), $result);
             // Check result
             if ($result[1]) {
@@ -315,7 +315,7 @@ class tx_mkforms_util_XMLParser
                     $tagName = (int) $numTag;
                 }
                 // Support for alternative value
-                if (strlen($val['attributes'][$index])) {
+                if (strlen($val['attributes'][$index] ?? '')) {
                     // Store alternate value
                     $tagName = $val['attributes'][$index];
                 }
@@ -343,7 +343,7 @@ class tx_mkforms_util_XMLParser
                         // Reset main storage
                         $xml = [];
                         // Support for tag attributes
-                        if ($keepAttribs && $val['attributes']) {
+                        if ($keepAttribs && ($val['attributes'] ?? null)) {
                             $xml = $val['attributes'];
                         }
                         break;
@@ -370,7 +370,7 @@ class tx_mkforms_util_XMLParser
                     // Complete tag
                     case 'complete':
                         // Check for base64
-                        if ($val['attributes']['base64']) {
+                        if ($val['attributes']['base64'] ?? false) {
                             // Decode value
                             $xml[$tagName] = base64_decode($val['value']);
                         } else {
@@ -384,7 +384,7 @@ class tx_mkforms_util_XMLParser
                                 $xml[$tagName] = '';
                             }
                             // Support for value types
-                            switch ((string) $val['attributes'][$type]) {
+                            switch ((string) ($val['attributes'][$type] ?? '')) {
                                 // Integer
                                 case 'integer':
                                     // Force variable type
@@ -408,7 +408,7 @@ class tx_mkforms_util_XMLParser
                         }
 
                         // Support for tag attributes
-                        if ($keepAttribs && $val['attributes']) {
+                        if ($keepAttribs && ($val['attributes'] ?? null)) {
                             // Store attributes
                             if (is_array($xml[$tagName])) {
                                 $xml[$tagName] = array_merge($xml[$tagName], $val['attributes']);
@@ -416,7 +416,7 @@ class tx_mkforms_util_XMLParser
                                 $xml[$tagName] = array_merge(
                                     $val['attributes'],
                                     [
-                                        '__value' => $val['value'],
+                                        '__value' => $val['value'] ?? null,
                                     ]
                                 );
                             }

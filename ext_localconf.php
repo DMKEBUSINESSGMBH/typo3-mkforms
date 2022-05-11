@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     exit('Access denied.');
 }
 
@@ -8,7 +8,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mksanitizedpar
     require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'ext_rules.php';
 }
 // Predefine cache
-if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'])
+if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'] ?? null)
     && \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkforms', 'activateCache')
 ) {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'] = [
@@ -16,11 +16,6 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
         'backend' => 'TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend',
         'options' => [],
     ];
-}
-
-if (TYPO3_MODE === 'FE') {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][]
-        = 'tx_mkforms_hooks_TSFE->contentPostProc_output';
 }
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['declaredobjects']['datasources'] = [
@@ -132,9 +127,9 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['rdt_autocomp
     'initBEuser' => false,
 ];
 
-//das ist nur eine info für entwickler welcher basis exception code
-//für diese extension verwendet wird. in diesem fall 200.
-//also könnte ein valider exception code dieser extension 2001 sein
+// das ist nur eine info für entwickler welcher basis exception code
+// für diese extension verwendet wird. in diesem fall 200.
+// also könnte ein valider exception code dieser extension 2001 sein
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] = 200;
 
 require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms', 'Classes/Constants.php');

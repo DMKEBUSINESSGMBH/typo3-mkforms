@@ -178,9 +178,9 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
             return '';
         }
 
-        if ($this->oForm->_defaultTrue('/data/datetime/converttotimestamp/', $this->aElement) && !$this->__isTimestamp($mData)) {
+        if ($this->oForm->_defaultTrue('/data/datetime/converttotimestamp/', $this->aElement) && !$this->_isTimestamp($mData)) {
             $sFormat = $this->_getFormat();
-            $result = $this->__date2tstamp($mData, $sFormat);
+            $result = $this->_date2tstamp($mData, $sFormat);
         } else {
             $result = $mData;
         }
@@ -190,14 +190,14 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
     public function _unFlatten($mData)
     {
-        if ($this->__isTimestamp($mData)) {
-            return $this->__tstamp2date($mData);
+        if ($this->_isTimestamp($mData)) {
+            return $this->_tstamp2date($mData);
         }
 
         return $mData;
     }
 
-    private function __isTimestamp($mData)
+    private function _isTimestamp($mData)
     {
         return (''.(int) $mData) === (''.$mData);
     }
@@ -217,7 +217,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
      *
      * @return int the date as a UNIX timestamp
      */
-    private function __date2tstamp($dateAsString, $dateFormat)
+    private function _date2tstamp($dateAsString, $dateFormat)
     {
         /* @var string[] $dateFormatSeparators */
         $dateFormatSeparators = [];
@@ -281,12 +281,12 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         return mktime($hour, $minute, $second, $month, $day, $year);
     }
 
-    protected function _getHumanReadableValue($data)
+    public function _getHumanReadableValue($data)
     {
         return $this->_unFlatten($data);
     }
 
-    protected function __tstamp2date($data)
+    protected function _tstamp2date($data)
     {
         if ($this->shouldConvertToTimestamp()) {
             if (0 != (int) $data) {
@@ -407,7 +407,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
         if ($this->_allowManualEdition() && $this->shouldConvertToTimestamp()) {
             if (!$this->_emptyFormValue($mValue)) {
-                return $this->__date2tstamp(
+                return $this->_date2tstamp(
                     $mValue,
                     $this->_getFormat()
                 );

@@ -141,7 +141,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
 
             return true;
         } else {
-            //thanks to Hauke Hain : localisation of error message;
+            // thanks to Hauke Hain : localisation of error message;
             $sAutoKey = 'LLL:'.$this->getAbsName().'.error.nomatch';
             $sError = $this->getLabel($this->_navConf('/errormessage'), $sAutoKey);
 

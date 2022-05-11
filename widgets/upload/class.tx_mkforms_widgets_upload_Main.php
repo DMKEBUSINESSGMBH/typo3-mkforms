@@ -56,9 +56,9 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 
         $sValue = $this->getValue();
 
-        //@FIXME manchmal steckt ein array im value, was nie passieren darf!!!
-        //@see tx_mkforms_widgets_damupload_Main::_render() Zeile 47
-        //evtl. hilt dieser bugfix auch
+        // @FIXME manchmal steckt ein array im value, was nie passieren darf!!!
+        // @see tx_mkforms_widgets_damupload_Main::_render() Zeile 47
+        // evtl. hilt dieser bugfix auch
         if (!is_string($sValue)) {
             $sValue = 0;
         }
@@ -275,8 +275,8 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                 }
             } else {
                 $sStoredData = $aStoredData[$this->_getName()];
-                //@see tx_mkforms_widgets_damupload_Main::_render
-                //da gab es auch mal ein Problem und ein Bugfix
+                // @see tx_mkforms_widgets_damupload_Main::_render
+                // da gab es auch mal ein Problem und ein Bugfix
                 if (!is_string($sStoredData)) {
                     \Sys25\RnBase\Utility\Logger::fatal(
                         'Der value des Uploadfelds ist kein string, was nie passieren darf!',

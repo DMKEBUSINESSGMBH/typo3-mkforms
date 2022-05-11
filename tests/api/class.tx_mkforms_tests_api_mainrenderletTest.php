@@ -49,28 +49,17 @@ class tx_mkforms_tests_api_mainrenderletTest extends \Sys25\RnBase\Testing\BaseT
      */
     protected $languageBackup;
 
-    /**
-     * setUp() = init DB etc.
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
-        self::markTestIncomplete(
-            'Line below throws multiple errors:'.
-            'call_user_func_array() expects parameter 1 to be a valid callback, first array member is not a valid class name or object'.
-            'Creating default object from empty value'
-        );
         $this->oForm = tx_mkforms_tests_Util::getForm();
-        $this->languageBackup = $GLOBALS['LANG']->lang;
+        $this->languageBackup = $GLOBALS['LANG']->lang ?? null;
     }
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::tearDown()
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $GLOBALS['LANG']->lang = $this->languageBackup;
+        if ($this->languageBackup) {
+            $GLOBALS['LANG']->lang = $this->languageBackup;
+        }
         self::$validatorWasCalled = false;
     }
 
@@ -79,14 +68,14 @@ class tx_mkforms_tests_api_mainrenderletTest extends \Sys25\RnBase\Testing\BaseT
      */
     public function testGetValueSanitizesStringIfConfigured()
     {
-        //per default soll bereinigt werden
+        // per default soll bereinigt werden
         $this->oForm->getWidget('widget-text')->setValue('<script>alert("ohoh");</script>');
         self::assertEquals(
             '&lt;script&gt;alert(&quot;ohoh&quot;);&lt;/script&gt;',
             $this->oForm->getWidget('widget-text')->getValue(),
             'JS wurde nicht entfernt bei widget-text!'
         );
-        //hier ist sanitize auf false gesetzt
+        // hier ist sanitize auf false gesetzt
         $this->oForm->getWidget('widget-text2')->setValue('<script>alert("ohoh");</script>');
         self::assertEquals('<script>alert("ohoh");</script>', $this->oForm->getWidget('widget-text2')->getValue(), 'JS wurde nicht entfernt bei widget-text2!');
 
@@ -130,7 +119,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends \Sys25\RnBase\Testing\BaseT
         }
         $dUsedtime = microtime(true) - $dTime;
 
-        //der grenzwert sollte nicht überschritten werden
+        // der grenzwert sollte nicht überschritten werden
         self::assertLessThanOrEqual('0.1200000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
     }
 
@@ -152,7 +141,7 @@ class tx_mkforms_tests_api_mainrenderletTest extends \Sys25\RnBase\Testing\BaseT
             $this->oForm->getWidget('widget-text2')->getValue();
         }
         $dUsedtime = microtime(true) - $dTime;
-        //der grenzwert sollte nicht überschritten werden
+        // der grenzwert sollte nicht überschritten werden
         self::assertLessThanOrEqual('0.0400000000000000', $dUsedtime, 'Das bereinigen des Values dauert zu lange und sollte refactorisiert werden.');
     }
 
@@ -217,6 +206,8 @@ class tx_mkforms_tests_api_mainrenderletTest extends \Sys25\RnBase\Testing\BaseT
      */
     public function testGetAddInputParamsArrayWithPlaceholderDefinedAsLocallangLabel()
     {
+        self::markTestSkipped('Language Service needs to be mocked.');
+
         $GLOBALS['LANG']->lang = 'default';
         $addInputParams = $this->oForm
                             ->getWidget('widget-text-with-placeholder')

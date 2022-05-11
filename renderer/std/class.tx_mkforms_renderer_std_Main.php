@@ -13,6 +13,7 @@ class tx_mkforms_renderer_std_Main extends formidable_mainrenderer
         $this->oForm->_debug($aRendered, 'RENDERER STANDARD - rendered elements array');
         $sForm = $this->_collate($aRendered);
 
+        $sValidationErrors = '';
         if (!$this->oForm->oDataHandler->_allIsValid()) {
             $errDiv = $this->getForm()->getFormId().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.'errors';
             $sValidationErrors = '<div id="'.$errDiv.'" class="errors"><div class="error">'.implode('</div><div class="error">', $this->oForm->_aValidationErrorsByHtmlId).'</div></div><hr class="separator" />';

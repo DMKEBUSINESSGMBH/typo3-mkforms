@@ -24,10 +24,10 @@
 
 class tx_mkforms_util_Constants
 {
-    const FORM_METHOD_POST = 'POST';
-    const FORM_METHOD_GET = 'GET';
+    public const FORM_METHOD_POST = 'POST';
+    public const FORM_METHOD_GET = 'GET';
 
-    const FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
-    const FORM_ENCTYPE_MULTIPART_FORM_DATA = 'multipart/form-data';
-    const FORM_ENCTYPE_TEXT_PLAIN = 'text/plain';
+    public const FORM_ENCTYPE_APPLICATION_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
+    public const FORM_ENCTYPE_MULTIPART_FORM_DATA = 'multipart/form-data';
+    public const FORM_ENCTYPE_TEXT_PLAIN = 'text/plain';
 }

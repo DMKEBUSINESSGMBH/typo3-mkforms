@@ -294,12 +294,12 @@ class FormBase extends AbstractAction
     protected function handleUploads($data)
     {
         $form = $this->getForm();
-        //update newEntryId to create dam references
+        // update newEntryId to create dam references
         if (array_key_exists('newEntryId', $data)) {
             // newEntryId steht im creation mode und auch sonst zur verfügung
             $form->getDataHandler()->newEntryId = $data['newEntryId'];
         }
-        //update dam references
+        // update dam references
         $tempId = $form->getDataHandler()->entryId;
         foreach ($this->getForm()->getWidgetNames() as $rdtName) {
             if (($widget = $form->getWidget($rdtName)) && ($widget instanceof \tx_mkforms_widgets_mediaupload_Main)

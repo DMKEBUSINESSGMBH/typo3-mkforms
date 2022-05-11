@@ -362,7 +362,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      */
     public function init(&$oParent, $mXml, $iForcedEntryId = false, $configurations = false, $confid = '')
     {
-        $this->start_tstamp = \Sys25\RnBase\Utility\T3General::milliseconds();
+        $this->start_tstamp = microtime(true);
 
         if (!$this->isTestMode()) {
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -385,7 +385,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         $this->aTempDebug = [];
 
         // wird beispielsweise für caching genutzt
-        $this->iPageId = $GLOBALS['TSFE']->id;
+        $this->iPageId = $GLOBALS['TSFE']->id ?? 0;
 
         /***** XML INIT *****
          *
@@ -451,10 +451,10 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         // CHECKING FORMID COLLISION IN PAGE
-        if (!(!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms'])
+        if (!(!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms'] ?? null)
             || !array_key_exists(
                 $this->formid,
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms']
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['context']['forms'] ?? []
             )
             || !$this->_defaultFalse('/meta/formwrap'))
         ) {
@@ -522,7 +522,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         $aRawPost = $this->_getRawPost();
-        if ('' !== trim($aRawPost['AMEOSFORMIDABLE_SERVEREVENT'])) {
+        if ('' !== trim($aRawPost['AMEOSFORMIDABLE_SERVEREVENT'] ?? '')) {
             $aServerEventParams = $this->_getServerEventParams();
             if (array_key_exists('_sys_earlybird', $aServerEventParams)) {
                 $aEarlyBird = $aServerEventParams['_sys_earlybird'];
@@ -609,9 +609,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         $this->_initDataSources();
         $this->_initRenderer();
 
-        //wir müssen noch die fe user session id setzen für CSRF schutz
-        //und dessen request token
-        $this->setSessionId($GLOBALS['TSFE']->fe_user->id);
+        // wir müssen noch die fe user session id setzen für CSRF schutz
+        // und dessen request token
+        $this->setSessionId($GLOBALS['TSFE']->fe_user->id ?? 0);
 
         $this->checkPoint(['after-init-renderer', 'before-init-renderlets']);
 
@@ -895,7 +895,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         }
 
         $aRawPost = \Sys25\RnBase\Utility\T3General::_POST();
-        $aRawPost = is_array($aRawPost[$sFormId]) ? $aRawPost[$sFormId] : [];
+        $aRawPost = is_array($aRawPost[$sFormId] ?? null) ? $aRawPost[$sFormId] : [];
 
         if (array_key_exists('AMEOSFORMIDABLE_ADDPOSTVARS', $aRawPost) && '' !== trim($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS'])) {
             if (!is_array(
@@ -1068,7 +1068,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 SANDBOXCLASS;
 
                 $this->__sEvalTemp = ['code' => $sSandClass, 'xml' => $aBox];
-                set_error_handler([&$this, '__catchEvalException']);
+                set_error_handler([&$this, '_catchEvalException']);
                 eval($sSandClass);
                 unset($this->__sEvalTemp);
                 restore_error_handler();
@@ -1098,7 +1098,7 @@ SANDBOXCLASS;
     {
         $this->aSteps = $aSteps;
 
-        $aExtract = $this->__extractStep();
+        $aExtract = $this->_extractStep();
 
         $iStep = $this->_getStep();
         $aCurStep = $this->aSteps[$iStep];
@@ -1127,7 +1127,7 @@ SANDBOXCLASS;
 
     public function _getStep()
     {
-        $aStep = $this->__extractStep();
+        $aStep = $this->_extractStep();
         if (false === $aStep) {
             return 0;
         }
@@ -1135,7 +1135,7 @@ SANDBOXCLASS;
         return $aStep['AMEOSFORMIDABLE_STEP'];
     }
 
-    public function __extractStep()
+    public function _extractStep()
     {
         $sStepperId = $this->_getStepperId();
 
@@ -1165,13 +1165,13 @@ SANDBOXCLASS;
     }
 
     /**
-     * Util-method for use in __getEventsInConf.
+     * Util-method for use in _getEventsInConf.
      *
      * @param string $sName : name of the current conf-key
      *
      * @return bool TRUE if event (onXYZ), FALSE if not
      */
-    public function __cbkFilterEvents($sName)
+    public function _cbkFilterEvents($sName)
     {
         return 'o' === $sName[0] && 'n' === $sName[1];    // should start with 'on', but speed check
     }
@@ -1183,12 +1183,12 @@ SANDBOXCLASS;
      *
      * @return array events extracted
      */
-    public function __getEventsInConf($aConf)
+    public function _getEventsInConf($aConf)
     {
         return array_merge(// array_merge reindexes array
             array_filter(
                 array_keys($aConf),
-                [$this, '__cbkFilterEvents']
+                [$this, '_cbkFilterEvents']
             )
         );
     }
@@ -1406,7 +1406,7 @@ SANDBOXCLASS;
             $aPost = \Sys25\RnBase\Utility\T3General::_POST();
             if ($this->_useGP) {
                 $aGet = \Sys25\RnBase\Utility\T3General::_GET();
-                //wurden die Daten Urlencodiert?
+                // wurden die Daten Urlencodiert?
                 if ($this->_useGPWithUrlDecode) {
                     tx_mkforms_util_Div::urlDecodeRecursive($aGet);
                 }
@@ -1416,7 +1416,7 @@ SANDBOXCLASS;
                 );
             }
 
-            $aPost = is_array($aPost[$sFormId]) ? $aPost[$sFormId] : [];
+            $aPost = is_array($aPost[$sFormId] ?? null) ? $aPost[$sFormId] : [];
             $aFiles = $this->_getRawFile();
 
             $aAddParams = [];
@@ -1473,7 +1473,7 @@ SANDBOXCLASS;
 
         if (!array_key_exists((string) $sFormId, $this->aRawGet)) {
             $aGet = \Sys25\RnBase\Utility\T3General::_GET($sFormId);
-            //wurden die Daten Urlencodiert?
+            // wurden die Daten Urlencodiert?
             if ($this->_useGPWithUrlDecode) {
                 tx_mkforms_util_Div::urlDecodeRecursive($aGet);
             }
@@ -1506,7 +1506,7 @@ SANDBOXCLASS;
         }
 
         if ($forced || !array_key_exists((string) $sFormId, $this->aRawFile)) {
-            $aTemp = is_array($GLOBALS['_FILES'][$sFormId]) ? $GLOBALS['_FILES'][$sFormId] : [];
+            $aTemp = is_array($GLOBALS['_FILES'][$sFormId] ?? null) ? $GLOBALS['_FILES'][$sFormId] : [];
             $aF = [];
 
             if (!empty($aTemp)) {
@@ -1815,13 +1815,13 @@ SANDBOXCLASS;
                         );
                     }
 
-                    $oRdt = &$this->_makeRenderlet(
+                    $oRdt = $this->_makeRenderlet(
                         $aConf[$sElementName],
                         $sXPath.$sElementName.'/',
                         $bChilds,
                         $oChildParent,
                         $bAnonymous,
-                        $sNamePrefix
+                        false
                     );
 
                     $sAbsName = $oRdt->getAbsName();
@@ -2068,7 +2068,7 @@ SANDBOXCLASS;
                     $aTemp
                 );
             } else {
-                $aPathes[] = implode($aTemp, '/');
+                $aPathes[] = implode('/', $aTemp);
             }
         }
     }
@@ -2116,13 +2116,13 @@ SANDBOXCLASS;
     public function _render()
     {
         if (false === $this->bInited) {
-            $this->start_tstamp = \Sys25\RnBase\Utility\T3General::milliseconds();    // because it has not been initialized yet
+            $this->start_tstamp = microtime(true);    // because it has not been initialized yet
             $this->mayday('TRIED TO RENDER FORM BEFORE CALLING INIT() !');
         }
 
         $this->checkPoint(['before-render']);
 
-        //submit mode merken
+        // submit mode merken
         $this->setIsFullySubmitted();
 
         $this->bRendered = true;
@@ -2130,8 +2130,8 @@ SANDBOXCLASS;
         $this->oRenderer->renderStyles();
 
         if ($this->getDataHandler()->_isSubmitted()) {
-            //jetzt prüfen wir ob das Formular auch vom Nutzer abgeschickt wurde,
-            //der das Formular erstellt hat
+            // jetzt prüfen wir ob das Formular auch vom Nutzer abgeschickt wurde,
+            // der das Formular erstellt hat
             if ($this->isCsrfProtectionActive() && !$this->validateRequestToken()) {
                 throw new RuntimeException('Das Formular ist nicht valide! erwarteter Token: '.$this->getRequestTokenFromSession(), $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'].'1');
             }
@@ -2496,7 +2496,7 @@ SANDBOXCLASS;
             $this->_clearFormInSession();
         }
 
-        $this->end_tstamp = \Sys25\RnBase\Utility\T3General::milliseconds();
+        $this->end_tstamp = microtime(true);
         if (!empty($sDH)) {
             return $aHtmlBag['FORMBEGIN'].$sDH.$aHtmlBag['HIDDEN'].$aHtmlBag['FORMEND'].$debug;
         } else {
@@ -2543,7 +2543,7 @@ SANDBOXCLASS;
         $aServices = array_merge(// array_merge reindexes array
             array_filter(
                 array_keys($aMeta),
-                [$this, '__cbkFilterAjaxServices']
+                [$this, '_cbkFilterAjaxServices']
             )
         );
 
@@ -2603,7 +2603,7 @@ JAVASCRIPT;
         );
     }
 
-    public function __cbkFilterAjaxServices($sName)
+    public function _cbkFilterAjaxServices($sName)
     {
         $sName = strtolower($sName);
 
@@ -3268,7 +3268,7 @@ JAVASCRIPT;
      */
     public function _debug($variable, $name, $bAnalyze = true)
     {
-        tx_mkforms_util_Div::debug($msg, $name, $this, $bAnalyze);
+        tx_mkforms_util_Div::debug($variable, $name, $this, $bAnalyze);
     }
 
     /**
@@ -3345,10 +3345,10 @@ JAVASCRIPT;
 
     public function _getParentExtSitePath()
     {
-        if (TYPO3_MODE === 'FE') {
+        if (\Sys25\RnBase\Utility\Environment::isFrontend()) {
             $sExtKey = (is_subclass_of($this->_oParent, \TYPO3\CMS\Frontend\Plugin\AbstractPlugin::class)) ? $this->_oParent->extKey : 'mkforms';
         } else {
-            $sExtKey = $GLOBALS['_EXTKEY'];
+            $sExtKey = $GLOBALS['_EXTKEY'] ?? 'mkforms';
         }
 
         return \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').
@@ -3400,7 +3400,7 @@ JAVASCRIPT;
         return array_reverse(array_reverse($aParts));    // reordering keys
     }
 
-    public function __catchEvalException($iErrno, $sMessage, $sFile, $iLine, $oObj)
+    public function _catchEvalException($iErrno, $sMessage, $sFile, $iLine, $oObj)
     {
         $aErrors = [
             E_ERROR => 'Error',
@@ -3443,7 +3443,7 @@ JAVASCRIPT;
         return $this->oDataHandler->_getListData($sKey);
     }
 
-    public function __getNeighbourInArray($iStart, $aData, $bCycle, $iDirection, $bKey = false)
+    public function _getNeighbourInArray($iStart, $aData, $bCycle, $iDirection, $bKey = false)
     {
         if (!empty($aData)) {
             $aKeys = array_keys($aData);
@@ -3482,7 +3482,7 @@ JAVASCRIPT;
 
     public function _getNextInArray($iStart, $aData, $bCycle = false, $bKey = false)
     {
-        return self::__getNeighbourInArray(
+        return self::_getNeighbourInArray(
             $iStart,
             $aData,
             $bCycle,
@@ -3493,7 +3493,7 @@ JAVASCRIPT;
 
     public function _getPrevInArray($iStart, $aData, $bCycle = false, $bKey = false)
     {
-        return self::__getNeighbourInArray(
+        return self::_getNeighbourInArray(
             $iStart,
             $aData,
             $bCycle,
@@ -3738,7 +3738,7 @@ JAVASCRIPT;
     }
 
     /**
-     * alias for __sendMail.
+     * alias for _sendMail.
      */
     public function sendMail(
         $sAdresse,
@@ -3752,7 +3752,7 @@ JAVASCRIPT;
         $iMediaRef = 0
     ) {
         if (is_object($this)) {
-            return $this->__sendMail(
+            return $this->_sendMail(
                 $sAdresse,
                 $sMessage,
                 $sSubject,
@@ -3764,7 +3764,7 @@ JAVASCRIPT;
                 $iMediaRef
             );
         } else {
-            return self::__sendMail(
+            return self::_sendMail(
                 $sAdresse,
                 $sMessage,
                 $sSubject,
@@ -3778,7 +3778,7 @@ JAVASCRIPT;
         }
     }
 
-    public function __sendMail(
+    public function _sendMail(
         $sAdresse,
         $sMessage,
         $sSubject,
@@ -4000,7 +4000,7 @@ JAVASCRIPT;
 
     public function getAdditionalHeaderData()
     {
-        if (TYPO3_MODE === 'FE') {
+        if (\Sys25\RnBase\Utility\Environment::isFrontend()) {
             return $GLOBALS['TSFE']->additionalHeaderData;
         } else {
             return $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ameos_formidable']['context']['be_headerdata'];
@@ -4017,7 +4017,7 @@ JAVASCRIPT;
 
     public function issetAdditionalHeaderData($sKey)
     {
-        if (TYPO3_MODE === 'FE') {
+        if (\Sys25\RnBase\Utility\Environment::isFrontend()) {
             return isset($GLOBALS['TSFE']->additionalHeaderData[$sKey]);
         } else {
             return isset($this->_oParent->doc->inDocStylesArray[$sKey]);
@@ -4046,10 +4046,10 @@ JAVASCRIPT;
         $this->getRunnable()->cleanBeforeSession();
 
         unset($this->oSandBox->oForm);
-        //den jsWrapper brauchen wir nicht. er enthält eine configuration und
-        //die wiederrum enthält ein CObj. Wenn nun ameos_formidable
-        //installiert ist, sind im CObj Hooks enthalten, die zu Fehlern beim
-        //wiederherstellen der Form führen.
+        // den jsWrapper brauchen wir nicht. er enthält eine configuration und
+        // die wiederrum enthält ein CObj. Wenn nun ameos_formidable
+        // installiert ist, sind im CObj Hooks enthalten, die zu Fehlern beim
+        // wiederherstellen der Form führen.
         $this->oJs->unsetForm();
         unset($this->_oParent);
         unset($this->oParent);
@@ -4079,7 +4079,7 @@ JAVASCRIPT;
 
     public function _clearFormInSession()
     {
-        if (is_array($GLOBALS['_SESSION']['ameos_formidable']['hibernate'])
+        if (is_array($GLOBALS['_SESSION']['ameos_formidable']['hibernate'] ?? null)
             && array_key_exists($this->formid, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])
         ) {
             unset($GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$this->formid]);
@@ -4957,7 +4957,7 @@ JAVASCRIPT;
     // declare*() methods below are meant to smoothen transition between 0.7.x and 1.0/2.0+
     public function declareDataHandler()
     {
-        if (TYPO3_MODE === 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('seminars')) {
+        if (\Sys25\RnBase\Utility\Environment::isBackend() && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('seminars')) {
             echo '<br /><br /><b>Warning</b>: you are using Formidable version <i>'
                 .$GLOBALS['EM_CONF']['ameos_formidable']['version'].'</i> with Seminars, requiring version 0.7.0.<br />';
         }
@@ -4991,9 +4991,9 @@ JAVASCRIPT;
         return $this->validationTool;
     }
 
-    //////////////////////////////////////////
+    // ////////////////////////////////////////
     // Ab hier neue Methode aus mkameos
-    //////////////////////////////////////////
+    // ////////////////////////////////////////
 
     /**
      * Liefert die aktuelle EntryID. Der Aufruf ist hier etwas einfacher als über den DataHandler. Außerdem

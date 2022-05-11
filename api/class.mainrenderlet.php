@@ -1023,7 +1023,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         );
     }
 
-    public function __getDefaultValue()
+    public function _getDefaultValue()
     {
         $mValue = $this->_navConf('/data/defaultvalue/');
 
@@ -1045,7 +1045,7 @@ class formidable_mainrenderlet extends formidable_mainobject
      *
      * @return den Wert oder FALSE
      */
-    public function __getValue()
+    public function _getValue()
     {
         if (false !== ($mValue = $this->_navConf('/data/value/'))) {
             $mValue = $this->getForm()->getRunnable()->callRunnable($mValue);
@@ -1070,7 +1070,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         $this->mForcedValue = $mValue;
         $this->bForcedValue = true;
-        $this->wasValidated = false; //falls Abhängigkeiten bestehen
+        $this->wasValidated = false; // falls Abhängigkeiten bestehen
     }
 
     public function _getListValue()
@@ -1088,18 +1088,6 @@ class formidable_mainrenderlet extends formidable_mainobject
         }
 
         return $this->_substituteConstants($mValue);
-    }
-
-    public function _getValue()
-    {
-        $this->oForm->mayday('_getValue() is deprecated');
-        if (true === $this->bForcedValue) {
-            return $this->mForcedValue;
-        } else {
-            return $this->getForm()->getDataHandler()->getRdtValue(
-                $this->getAbsName()
-            );
-        }
     }
 
     public function getValue()
@@ -1608,7 +1596,7 @@ TOOLTIP;
 
     public function fetchServerEvents()
     {
-        $aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
+        $aGrabbedEvents = $this->oForm->_getEventsInConf($this->aElement);
         reset($aGrabbedEvents);
         foreach ($aGrabbedEvents as $sEvent) {
             if (false !== ($mEvent = $this->_navConf('/'.$sEvent.'/'))) {
@@ -1710,7 +1698,7 @@ TOOLTIP;
     {
         $aEvents = [];
 
-        $aGrabbedEvents = $this->oForm->__getEventsInConf($this->aElement);
+        $aGrabbedEvents = $this->oForm->_getEventsInConf($this->aElement);
 
         reset($aGrabbedEvents);
         foreach ($aGrabbedEvents as $sEvent) {
@@ -2134,7 +2122,7 @@ JAVASCRIPT;
 
                 if ((true === $this->_defaultFalse('/db/static/')) && (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables'))) {
                     // If it is a static table
-                    $aDbItems = $this->__getItemsStaticTable($mTable, $mValueField, $mWhere);
+                    $aDbItems = $this->_getItemsStaticTable($mTable, $mValueField, $mWhere);
                 } else {
                     // Get caption field
                     if (false !== ($mCaptionField = $this->_navConf('/db/caption/'))) {
@@ -2231,7 +2219,7 @@ JAVASCRIPT;
         return $sData;
     }
 
-    protected function _getHumanReadableValue($data)
+    public function _getHumanReadableValue($data)
     {
         return $data;
     }
@@ -4157,7 +4145,7 @@ JAVASCRIPT;
         return false;
     }
 
-    public function __getItemsStaticTable($sTable, $sValueField = 'uid', $sWhere = '')
+    public function _getItemsStaticTable($sTable, $sValueField = 'uid', $sWhere = '')
     {
         $sLang = \Sys25\RnBase\Utility\Environment::getCurrentLanguageKey();
 
@@ -4467,20 +4455,20 @@ JAVASCRIPT;
      */
     public function checkValue(&$aGP)
     {
-        //wenn das übergeben renderlet gar keine childs hat
-        //dann gibt es auch nix zu prüfen. da das rdt offentsichtlich vorhanden ist!
+        // wenn das übergeben renderlet gar keine childs hat
+        // dann gibt es auch nix zu prüfen. da das rdt offentsichtlich vorhanden ist!
         if (!$this->hasChilds()) {
             return;
         }
 
-        //Jeden übermittelten überprüfen ob es dazu ein widget gibt. wenn der wert ein array
+        // Jeden übermittelten überprüfen ob es dazu ein widget gibt. wenn der wert ein array
         if (!empty($aGP) && is_array($aGP)) {
             foreach ($aGP as $rdtName => $rdtValue) {
                 $absRdtName = $this->getAbsName().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$rdtName;
 
-                //wenn in der übergeben array ein eintrag enthalten ist, der nicht
-                //durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
-                //zu verhinden
+                // wenn in der übergeben array ein eintrag enthalten ist, der nicht
+                // durch ein widget repräsentiert wird, entfernen wir ihn um Manipulationen
+                // zu verhinden
                 if (!isset($this->getForm()->aORenderlets[$absRdtName])) {
                     unset($aGP[$rdtName]);
                 } else {

@@ -85,7 +85,7 @@ class tx_mkforms_util_FormFill
      */
     public function getRowsFromDataBase(array $params, tx_mkforms_forms_Base $form)
     {
-        //erstmal prüfen ob alle notwendigen params gesetzt wurden
+        // erstmal prüfen ob alle notwendigen params gesetzt wurden
         if (empty($params['table']) || empty($params['valueField']) || empty($params['captionField'])) {
             throw new InvalidArgumentException('tx_mkforms_util_FormFill->getRowsFromDataBase():'.' Bitte gib die Parameter "table", "valueField" und "captionField" an.');
         }

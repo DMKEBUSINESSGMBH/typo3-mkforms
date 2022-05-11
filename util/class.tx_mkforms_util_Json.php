@@ -233,7 +233,7 @@ class tx_mkforms_util_Json
 
             case 'string':
                 // STRINGS ARE EXPECTED TO BE IN ASCII OR UTF-8 FORMAT
-                //$ascii = addslashes(utf8_encode($var));
+                // $ascii = addslashes(utf8_encode($var));
 
                 if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($var, 'function(')) {
                     return $var;
@@ -278,7 +278,7 @@ class tx_mkforms_util_Json
                         // Dieser Char zerstört das Javascript
                         // und wird erstmal durch einen normalen umbruch ersetzt!
                         // @TODO: spezielles encoding fürs javascript?
-                        case 0xe2 == $ord_var_c && 0x80 == ord($var[$c + 1]) && 0xa8 == ord($var[$c + 2]):
+                        case 0xE2 == $ord_var_c && 0x80 == ord($var[$c + 1]) && 0xA8 == ord($var[$c + 2]):
                             $c += 2;
                             $ascii .= '\n';
                             break;
@@ -487,7 +487,7 @@ class tx_mkforms_util_Json
 
                             case 0xC0 == ($ord_chrs_c & 0xE0):
                                 // characters U-00000080 - U-000007FF, mask 110XXXXX
-                                //see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
+                                // see http://www.cl.cam.ac.uk/~mgk25/unicode.html#utf-8
                                 $utf8 .= substr($chrs, $c, 2);
                                 ++$c;
                                 break;
@@ -554,7 +554,7 @@ class tx_mkforms_util_Json
                         }
                     }
 
-                    //print("\nparsing {$chrs}\n");
+                    // print("\nparsing {$chrs}\n");
 
                     $strlen_chrs = strlen($chrs);
 
@@ -567,7 +567,7 @@ class tx_mkforms_util_Json
                             // OR we've reached the end of the character list
                             $slice = substr($chrs, $top['where'], ($c - $top['where']));
                             array_push($stk, ['what' => SERVICES_JSON_SLICE, 'where' => ($c + 1), 'delim' => false]);
-                            //print("Found split at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                            // print("Found split at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
 
                             if (SERVICES_JSON_IN_ARR == reset($stk)) {
                                 // we are in an array, so just push an element onto the stack
@@ -604,7 +604,7 @@ class tx_mkforms_util_Json
                         } elseif ((('"' == $chrs[$c]) || ("'" == $chrs[$c])) && (SERVICES_JSON_IN_STR != $top['what'])) {
                             // found a quote, and we are not inside a string
                             array_push($stk, ['what' => SERVICES_JSON_IN_STR, 'where' => $c, 'delim' => $chrs[$c]]);
-                        //print("Found start of string at {$c}\n");
+                        // print("Found start of string at {$c}\n");
                         } elseif (($chrs[$c] == $top['delim']) &&
                                  (SERVICES_JSON_IN_STR == $top['what']) &&
                                  (1 != (strlen(substr($chrs, 0, $c)) - strlen(rtrim(substr($chrs, 0, $c), '\\'))) % 2)) {
@@ -612,31 +612,31 @@ class tx_mkforms_util_Json
                             // we know that it's not escaped becase there is _not_ an
                             // odd number of backslashes at the end of the string so far
                             array_pop($stk);
-                        //print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
+                        // print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
                         } elseif (('[' == $chrs[$c]) &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-bracket, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_ARR, 'where' => $c, 'delim' => false]);
-                        //print("Found start of array at {$c}\n");
+                        // print("Found start of array at {$c}\n");
                         } elseif ((']' == $chrs[$c]) && (SERVICES_JSON_IN_ARR == $top['what'])) {
                             // found a right-bracket, and we're in an array
                             array_pop($stk);
-                        //print("Found end of array at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                        // print("Found end of array at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         } elseif (('{' == $chrs[$c]) &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-brace, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_OBJ, 'where' => $c, 'delim' => false]);
-                        //print("Found start of object at {$c}\n");
+                        // print("Found start of object at {$c}\n");
                         } elseif (('}' == $chrs[$c]) && (SERVICES_JSON_IN_OBJ == $top['what'])) {
                             // found a right-brace, and we're in an object
                             array_pop($stk);
-                        //print("Found end of object at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                        // print("Found end of object at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         } elseif (('/*' == $substr_chrs_c_2) &&
                                  in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a comment start, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_CMT, 'where' => $c, 'delim' => false]);
                             ++$c;
-                        //print("Found start of comment at {$c}\n");
+                        // print("Found start of comment at {$c}\n");
                         } elseif (('*/' == $substr_chrs_c_2) && (SERVICES_JSON_IN_CMT == $top['what'])) {
                             // found a comment end, and we're in one now
                             array_pop($stk);
@@ -646,7 +646,7 @@ class tx_mkforms_util_Json
                                 $chrs = substr_replace($chrs, ' ', $i, 1);
                             }
 
-                            //print("Found end of comment at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                            // print("Found end of comment at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         }
                     }
 

@@ -667,14 +667,14 @@ class tx_mkforms_util_FormBase
      */
     public static function getConfigurationValue(array $params, tx_mkforms_forms_Base $form)
     {
-        if (!$params['configurationId']) {
+        if (!($params['configurationId'] ?? false)) {
             throw new InvalidArgumentException('Please provide the parameter for \'configurationId\'');
         }
 
-        $configurationIdPrefix = $params['prefixWithConfigurationIdOfForm'] ? $form->getConfId() : '';
+        $configurationIdPrefix = ($params['prefixWithConfigurationIdOfForm'] ?? false) ? $form->getConfId() : '';
         $configurationValue = $form->getConfigurations()->get($configurationIdPrefix.$params['configurationId'], true);
 
-        if ($params['castToBoolean']) {
+        if ($params['castToBoolean'] ?? false) {
             $configurationValue = (bool) $configurationValue;
         }
 

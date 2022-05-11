@@ -189,7 +189,7 @@ class tx_mkforms_validator_num_Main extends formidable_mainvalidator
 
     public function _checkIsFloat($mNum)
     {
-        $split = split('\.', $mNum);
+        $split = explode('\.', $mNum);
 
         if (2 == count($split)) {
             if (ctype_digit($split[0]) && ctype_digit($split[1])) {

@@ -107,7 +107,7 @@ class tx_mkforms_util_AutoLoad
                 )
             );
 
-        //noch loggen
+        // noch loggen
         // warning ins log schreiben, wenn die klasse geladen wurde
         if (class_exists($sClassName) && \Sys25\RnBase\Utility\Logger::isWarningEnabled()) {
             \Sys25\RnBase\Utility\Logger::warn($msg, 'mkforms');

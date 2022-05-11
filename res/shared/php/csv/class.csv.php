@@ -1,7 +1,7 @@
 <?php
 
-//+ Jonas Raoni Soares Silva
-//@ http://jsfromhell.com
+// + Jonas Raoni Soares Silva
+// @ http://jsfromhell.com
 // taken from http://snippets.dzone.com/posts/show/3128
 
 class CSV

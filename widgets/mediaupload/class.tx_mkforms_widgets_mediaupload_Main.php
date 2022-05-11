@@ -63,12 +63,12 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         $sValue = $this->getValue();
 
-        //wenn die datei hochgeladen wurde und der value wurde nicht richtig
-        //gesetzt, dann holen wir das nach. das kann z.B. passieren wenn ein
-        //anderes widget nicht validiert wurde weil dann der checkpoint in checkPoint()
-        //nicht anspringt, der den value setzt. Das liegt am eigentlichen Bug beim setzen der
-        //checkpoints. after-validation-ok wird NACH dem render der widgets gesetzt. Also
-        //nachdem wir hier waren. Wir brauchen den value aber hier!
+        // wenn die datei hochgeladen wurde und der value wurde nicht richtig
+        // gesetzt, dann holen wir das nach. das kann z.B. passieren wenn ein
+        // anderes widget nicht validiert wurde weil dann der checkpoint in checkPoint()
+        // nicht anspringt, der den value setzt. Das liegt am eigentlichen Bug beim setzen der
+        // checkpoints. after-validation-ok wird NACH dem render der widgets gesetzt. Also
+        // nachdem wir hier waren. Wir brauchen den value aber hier!
         if (!is_string($sValue) && $this->aUploaded) {
             $this->setValue($this->aUploaded['newSize']);
             $sValue = $this->aUploaded['newSize'];
@@ -203,7 +203,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
                     $this->aUploaded['mediaid']
                 );
             }
-            //auch für den Lister löschen
+            // auch für den Lister löschen
             foreach ($uploadedFileIds as $key => $mediaId) {
                 if ($this->aUploaded['mediaid'] == $mediaId) {
                     unset($uploadedFileIds[$key]);
@@ -784,7 +784,7 @@ INITSCRIPT;
     {
         $aData = $this->getForm()->getRawFile(false, true);
 
-        //Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen
+        // Wir müssen uns das Element anhand der XML-Struktur aus $aData besorgen
         $path = [];
         $widget = $this;
         do {
@@ -796,7 +796,7 @@ INITSCRIPT;
             $myData = $myData[$p];
         }
 
-        //Validieren
+        // Validieren
         if ($validate = $this->_navConf('/validate')) {
             $errors = $this->getForm()->getValidationTool()->validateWidgets4Ajax(
                 [$this->getName() => $myData]

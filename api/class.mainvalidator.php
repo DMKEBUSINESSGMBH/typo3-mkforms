@@ -382,7 +382,7 @@ class formidable_mainvalidator extends formidable_mainobject
 
             if ($widget) {
                 $negate = false;
-                //@TODO: dependsonifnot integrieren
+                // @TODO: dependsonifnot integrieren
                 if (false !== ($aDependsOnIf = $this->_navConf('/'.$sKey.'/dependsonif'))) {
                     $aDependsOnIf = $this->getForm()->getRunnable()->callRunnable($aDependsOnIf);
                     $aDependsOnIf = is_array($aDependsOnIf) ? $aDependsOnIf : \Sys25\RnBase\Utility\Strings::trimExplode(',', $aDependsOnIf, 1);
@@ -402,14 +402,14 @@ class formidable_mainvalidator extends formidable_mainobject
                 // die iterating Id wieder löschen!
                 $widget->setIteratingId();
 
-                //bei einem array von Werten (zb select mit multiple = 1)
-                //prüfen wir ob einer der array Werte dem Wert in
-                //dependsonif entspricht
+                // bei einem array von Werten (zb select mit multiple = 1)
+                // prüfen wir ob einer der array Werte dem Wert in
+                // dependsonif entspricht
                 if (is_array($mValue)) {
                     $inArray = false;
                     foreach ($mValue as $mTempValue) {
                         if (in_array($mTempValue, $aDependsOnIf, $this->_defaultTrue('/'.$sKey.'/dependsonifstrict'))) {
-                            $inArray = true; //treffer?
+                            $inArray = true; // treffer?
                             break;
                         }
                     }
@@ -463,7 +463,7 @@ class formidable_mainvalidator extends formidable_mainobject
      */
     public function _isTooLongByChars($mValue, $iMaxSize, $sEncoding = 'utf8')
     {
-        //zur Sicherheit weiterer Fallback :)
+        // zur Sicherheit weiterer Fallback :)
         $sEncoding = (empty($sEncoding)) ? 'utf8' : $sEncoding;
 
         if (is_array($mValue)) {
@@ -586,7 +586,7 @@ class formidable_mainvalidator extends formidable_mainobject
     {
         $widget = &$this->getForm()->getWidget($sRdt);
 
-        //abhähniges feld existiert, ist geklickt oder widget selbst ist nicht leer
+        // abhähniges feld existiert, ist geklickt oder widget selbst ist nicht leer
         if (($widget && $widget->getValue()) || !empty($mValue)) {
             return false;
         } else {

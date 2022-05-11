@@ -11,5 +11,11 @@ return [
                 'typo3/cms-frontend/output-compression',
             ],
         ],
+        'dmk/mkforms/header-injection' => [
+            'target' => \DMK\MkForms\Middleware\HeaderInjection::class,
+            'after' => [
+                'typo3/cms-frontend/tsfe',
+            ],
+        ],
     ],
 ];

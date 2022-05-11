@@ -298,7 +298,7 @@ class tx_mkforms_util_Templates
 
     private static function str_split($text, $split = 1)
     {
-        //place each character of the string into an array
+        // place each character of the string into an array
         $array = [];
         for ($i = 0; $i < strlen($text); ++$i) {
             $key = '';
@@ -341,7 +341,7 @@ class tx_mkforms_util_Templates
                     }
                 }
             } else {
-                //nothing
+                // nothing
                 if ($bClearNotUsed) {
                     return '';
                 } else {
@@ -386,12 +386,6 @@ class tx_mkforms_util_Templates
     public function processMarkersCallBackKeepNotUsedThrusted($aMatch)
     {
         return $this->processMarkersCallBack($aMatch, false, true);
-    }
-
-    public static function clear()
-    {
-        unset($this->sPfxBegin);
-        unset($this->sPfxEnd);
     }
 
     /**

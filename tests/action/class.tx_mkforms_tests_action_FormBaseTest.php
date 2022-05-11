@@ -29,7 +29,7 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
 {
     protected $sCachefile;
 
-    public function setUp()
+    public function setUp(): void
     {
         set_error_handler(['tx_mkforms_tests_Util', 'errorHandler'], E_WARNING);
 
@@ -43,19 +43,19 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
 
         unset($_POST['radioTestForm']);
 
-        //aktuelle Konfiguration sichern
-        //@todo funktionen aus mklib_tests_Util nutzen
+        // aktuelle Konfiguration sichern
+        // @todo funktionen aus mklib_tests_Util nutzen
         $this->sCachefile = $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'];
-        //und für den test löschen
+        // und für den test löschen
         $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] = null;
 
         $this->init();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        //ursprüngliche Konfiguration wieder setzen
-        //@todo funktionen aus mklib_tests_Util nutzen
+        // ursprüngliche Konfiguration wieder setzen
+        // @todo funktionen aus mklib_tests_Util nutzen
         $GLOBALS['TYPO3_LOADED_EXT']['_CACHEFILE'] = $this->sCachefile;
 
         unset($_POST['radioTestForm']);
@@ -230,27 +230,27 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
             self::assertEquals($formData['widgetlister'][$i]['listerdata']['uid'], $i, $i.' LINE:'.__LINE__);
             self::assertTrue(isset($formData['widgetlister'][$i]['listerdata']['title']), $i.' LINE:'.__LINE__);
             self::assertEquals($formData['widgetlister'][$i]['listerdata']['title'], 'Titel '.$i, $i.' LINE:'.__LINE__);
-            //sollte entfernt werden da nicht im xml
+            // sollte entfernt werden da nicht im xml
             self::assertFalse(isset($formData['widgetlister'][$i]['listerdata']['notInXml']), $i.' LINE:'.__LINE__);
         }
-        //submit
+        // submit
         self::assertTrue(isset($formData['widget']['submit']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['submit'], '1', 'LINE:'.__LINE__);
-        //date
+        // date
         self::assertTrue(isset($formData['widget']['date']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['date'], '426204000', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['widget']['date_mysql']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['date_mysql'], '1983-07-05', 'LINE:'.__LINE__);
-        //addpostvars
+        // addpostvars
         self::assertInternalType('array', $formData['addpostvars'], 'LINE:'.__LINE__);
         self::assertEquals($formData['addpostvars'][0]['action'], 'formData', 'LINE:'.__LINE__);
         self::assertTrue(isset($formData['addpostvars'][0]['params']['widget']['submit']), 'LINE:'.__LINE__);
-        //addfields
+        // addfields
         self::assertTrue(isset($formData['widget']['addfield']), 'LINE:'.__LINE__);
         self::assertEquals($formData['widget']['addfield'], 'addfield feld', 'LINE:'.__LINE__);
         self::assertFalse(isset($formData['widget']['remove']), 'LINE:'.__LINE__);
 
-        //sollte entfernt werden
+        // sollte entfernt werden
         self::assertFalse(isset($formData['widget']['thatDoesNotExistInTheXml']), 'LINE:'.__LINE__);
     }
 
@@ -316,7 +316,7 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
         self::assertTrue(isset($fillData['widget-widget1-widget2-text']), 'LINE:'.__LINE__);
         self::assertEquals($fillData['widget-widget1-widget2-text'], 'Default Text', 'LINE:'.__LINE__);
 
-        //addfields
+        // addfields
         self::assertTrue(isset($fillData['widget-addfield']), 'LINE:'.__LINE__);
         self::assertEquals($fillData['widget-addfield'], 'addfield feld', 'LINE:'.__LINE__);
         self::assertFalse(isset($fillData['widget-remove']), 'LINE:'.__LINE__);

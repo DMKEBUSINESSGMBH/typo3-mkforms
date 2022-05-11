@@ -31,6 +31,11 @@ class tx_mkforms_util_Config
     private $debug = -99;
     private $config;
 
+    /**
+     * @var array
+     */
+    private $_aConf;
+
     private function __construct($form)
     {
         $this->form = $form;
@@ -159,8 +164,8 @@ class tx_mkforms_util_Config
             }
         }
 
-        if ('L' === $mLabel[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($mLabel, 'LLL:')) {
-            if (TYPO3_MODE == 'FE') {
+        if ('L' === ($mLabel[0] ?? '') && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($mLabel, 'LLL:')) {
+            if (\Sys25\RnBase\Utility\Environment::isFrontend()) {
                 // front end
                 if (!$GLOBALS['TSFE']) {
                     $message = 'Es gibt kein TSFE aber es soll ein label gesucht werden. Das kann '.
@@ -620,7 +625,7 @@ class tx_mkforms_util_Config
         $aConf = $this->deleteEmpties($aConf);    // ????  surveiller
         $aConf = $this->insertXmlBuilder($aConf);
 
-        tx_mkforms_util_Div::debug($aIncHierarchy, 'MKFORMS CORE - INCLUSION HIERARCHY', $this->form);
+        tx_mkforms_util_Div::debug($aTempDebug['aIncHierarchy'], 'MKFORMS CORE - INCLUSION HIERARCHY', $this->form);
 
         return $aConf;
     }

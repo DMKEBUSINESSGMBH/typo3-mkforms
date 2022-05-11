@@ -32,6 +32,8 @@ class tx_mkforms_util_Runnable
     private $aUserObjParamsStack = [];
     private $aForcedUserObjParamsStack = [];
     private $aCodeBehinds = [];
+    private $_xmlPath;
+    private $formid;
 
     private function __construct($config, $form)
     {
@@ -71,28 +73,26 @@ class tx_mkforms_util_Runnable
      */
     public function callRunnable($mMixed)
     {
-        if (!self::isRunnable($mMixed)) {
+        $aArgs = func_get_args();
+        if (!self::isRunnable($aArgs[0])) {
             return $mMixed;
         }
         // NOTE: for userobj, only ONE argument may be passed
-        $aArgs = func_get_args();
 
-        if (self::isUserObj($mMixed)) {
+        if (self::isUserObj($aArgs[0])) {
             $params = array_key_exists(1, $aArgs) && is_array($aArgs[1]) ? $aArgs[1] : [];
             $contextObj = count($aArgs) > 1 ? $aArgs[count($aArgs) - 1] : false; // Ggf. das Context-Objekt
 
-            return $this->callUserObj($mMixed, $params, $contextObj);
+            return $this->callUserObj($aArgs[0], $params, $contextObj);
         }
 
-        if (self::hasCodeBehind($mMixed)) {
-            // it's a codebehind
-            $aArgs[0] = $mMixed; // Wir ersetzen den ersten Parameter
+        if (self::hasCodeBehind($aArgs[0])) {
             $mRes = call_user_func_array([$this, 'callCodeBehind'], $aArgs);
 
             return $mRes;
         }
 
-        return $mMixed;
+        return $aArgs[0];
     }
 
     /**
@@ -634,12 +634,12 @@ class tx_mkforms_util_Runnable
      */
     private function &callCodeBehind($aCB)
     {
-        if (!array_key_exists('exec', $aCB)) {
+        $aArgs = func_get_args();
+        $cbConfig = $aArgs[0];
+        if (!array_key_exists('exec', $cbConfig)) {
             return;
         } // Nix zu tun
 
-        $aArgs = func_get_args();
-        $cbConfig = $aArgs[0];
         $bCbRdt = false;
         // $sCBRef - Der eigentliche Aufruf: cb.doSomething()
         $sCBRef = $aCB['exec'];
@@ -829,7 +829,7 @@ class tx_mkforms_util_Runnable
             return $this->aCodeBehinds[$sType][$sNname];
         }
 
-        //else
+        // else
         return false;
     }
 }

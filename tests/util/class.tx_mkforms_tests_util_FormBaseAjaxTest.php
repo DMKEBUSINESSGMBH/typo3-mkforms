@@ -33,13 +33,11 @@ class tx_mkforms_tests_util_FormBaseAjaxTest extends \Sys25\RnBase\Testing\BaseT
 {
     public function testRepaintDependenciesReturnsCorrectArray()
     {
-        self::markTestIncomplete('Creating default object from empty value');
-
         $params = ['me' => 'fieldset__widget-listbox'];
         $ret = tx_mkforms_util_FormBaseAjax::repaintDependencies($params, tx_mkforms_tests_Util::getForm());
         // formidable_mainrenderlet::majixRepaintDependancies liefert immer ein array!
         $ret = $ret[0];
-        self::assertContains('radioTestForm[fieldset][widget-checksingle]', $ret['data']);
+        self::assertStringContainsString('radioTestForm[fieldset][widget-checksingle]', $ret['data']);
         self::assertEquals('radioTestForm__fieldset__widget-checksingle', $ret['object'], 'Es wurde nicht das richtige object zurück gegeben!');
         self::assertEmpty($ret['databag'], 'Es wurde doch ein databag zurück gegeben!');
         self::assertEquals('repaint', $ret['method'], 'Es wurde nicht die richtige Methode zurück gegeben!');

@@ -34,8 +34,8 @@ class formidable_mainobject
         $this->aElement = $aElement;
         $this->aObjectType = $aObjectType;
 
-        $this->sExtPath = $aObjectType['PATH'];
-        $this->sExtRelPath = $aObjectType['RELPATH'];
+        $this->sExtPath = $aObjectType['PATH'] ?? '';
+        $this->sExtRelPath = $aObjectType['RELPATH'] ?? '';
         $absRefPrefix = $oForm->getJSLoader()->getAbsRefPrefix();
         $this->sExtWebPath = $absRefPrefix.$this->sExtRelPath;
 
@@ -43,7 +43,7 @@ class formidable_mainobject
 
         $this->sNamePrefix = $sNamePrefix;
 
-        $this->conf = $this->getForm()->getConfTS($aObjectType['OBJECT'].'.'.$aObjectType['EXTKEY'].'.');
+        $this->conf = $this->getForm()->getConfTS(($aObjectType['OBJECT'] ?? '').'.'.($aObjectType['EXTKEY'] ?? '').'.');
         $this->conf = $this->conf ? $this->conf : [];
     }
 

@@ -25,6 +25,6 @@ class tx_mkforms_tests_fixtures_ValidatorHandlesAfterRenderCheckpoint extends fo
 {
     public function handleAfterRenderCheckPoint()
     {
-        tx_mkforms_tests_api_mainrenderlet_testcase::$validatorWasCalled = true;
+        tx_mkforms_tests_api_mainrenderletTest::$validatorWasCalled = true;
     }
 }

@@ -117,7 +117,7 @@ class tx_mkforms_util_Loader
                 'EXTKEY' => $declaredObjects[$objectKey]['key'],
                 'CLASS' => $declaredObjects[$objectKey]['key'],
                 'TYPE' => $objectKey,
-                'BASE' => $declaredObjects[$objectKey]['base'],
+                'BASE' => $declaredObjects[$objectKey]['base'] ?? null,
                 'OBJECT' => $objectType,
             ];
 
@@ -186,8 +186,8 @@ class tx_mkforms_util_Loader
     public function makeInstance($sClass, $sPath = false)
     {
         $ret = false;
-        if ($this->load($sClass, $sPath)) {
-            $args = func_get_args();
+        $args = func_get_args();
+        if ($this->load($args[0], $args[1])) {
             unset($args[1]); // path entfernen
             $ret = call_user_func_array([\TYPO3\CMS\Core\Utility\GeneralUtility::class, 'makeInstance'], $args);
         }

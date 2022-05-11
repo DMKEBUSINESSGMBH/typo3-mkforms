@@ -32,12 +32,7 @@
  */
 class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::setUp()
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
         \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
@@ -48,12 +43,7 @@ class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTe
         set_error_handler(['tx_mkforms_tests_Util', 'errorHandler'], E_WARNING);
     }
 
-    /**
-     * (non-PHPdoc).
-     *
-     * @see PHPUnit_Framework_TestCase::tearDown()
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // error handler zurücksetzen
         restore_error_handler();
@@ -73,7 +63,7 @@ class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTe
             'Es ist nicht der richtige request token enthalten!'
         );
 
-        //requestToken auch in der session?
+        // requestToken auch in der session?
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         self::assertCount(1, $sessionData['requestToken'], 'mehr request tokens in der session als erwartet!');
         self::assertEquals($sessionData['requestToken']['radioTestForm'], $form->generateRequestToken(), 'falscher request token in der session!');
@@ -105,11 +95,11 @@ class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTe
             'Es ist nicht der richtige request token enthalten!'
         );
 
-        //requestToken auch in der session?
+        // requestToken auch in der session?
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         self::assertCount(3, $sessionData['requestToken'], 'mehr request tokens in der session als erwartet!');
         self::assertEquals($sessionData['requestToken']['radioTestForm'], $form->generateRequestToken(), 'falscher request token in der session!');
-        //alte request tokens richtig?
+        // alte request tokens richtig?
         self::assertEquals($sessionData['requestToken']['firstForm'], 'secret', 'falscher request token in der session!');
         self::assertEquals($sessionData['requestToken']['secondForm'], 'anotherSecret', 'falscher request token in der session!');
     }

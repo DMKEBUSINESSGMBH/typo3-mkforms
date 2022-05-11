@@ -45,19 +45,13 @@ class tx_mkforms_tests_api_mainvalidatorTest extends \Sys25\RnBase\Testing\BaseT
      */
     protected $oForm;
 
-    /**
-     * setUp() = init DB etc.
-     */
-    public function setUp()
+    public function setUp(): void
     {
         $this->oMainValidator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainvalidator');
-        self::markTestIncomplete('Line below throws multiple errors:'.
-            'call_user_func_array() expects parameter 1 to be a valid callback, first array member is not a valid class name or object'.
-            'Creating default object from empty value');
         $this->oForm = tx_mkforms_tests_Util::getForm();
         $this->oMainValidator->_init($this->oForm, null, null, null);
 
-        //evtl. aus vorherigen Tests
+        // evtl. aus vorherigen Tests
         $_POST = null;
     }
 

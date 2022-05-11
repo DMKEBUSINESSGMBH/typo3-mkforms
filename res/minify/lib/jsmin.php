@@ -88,7 +88,7 @@ class JSMin
                   $this->a = $this->b;
 
                 if ("'" === $this->a || '"' === $this->a) {
-                    for (;;) {
+                      while (true){
                         $this->output[] = $this->a;
                         $this->a = $this->get();
 
@@ -118,7 +118,7 @@ class JSMin
                     $this->output[] = $this->a;
                     $this->output[] = $this->b;
 
-                    for (;;) {
+                      while (true){
                         $this->a = $this->get();
 
                         if ('/' === $this->a) {
@@ -255,7 +255,7 @@ class JSMin
         if ('/' === $c) {
             switch ($this->peek()) {
                 case '/':
-                    for (;;) {
+                      while (true){
                         $c = $this->get();
 
                         if (ord($c) <= ORD_LF) {
@@ -267,7 +267,7 @@ class JSMin
                 case '*':
                           $this->get();
 
-                    for (;;) {
+                      while (true){
                         switch ($this->get()) {
                             case '*':
                                 if ('/' === $this->peek()) {

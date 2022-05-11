@@ -54,7 +54,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             return $this->aListerData;
         }
 
-        //wird benötigt um die lister data zu holen
+        // wird benötigt um die lister data zu holen
         $this->_initDataStream();
         $this->_initLimitAndSort();
 
@@ -1018,7 +1018,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         if ((false === ($aTemplate = $this->_navConf('/template'))) || (true === ($this->bNoTemplate = $this->_defaultFalse('/template/notemplate')))) {
             if (false === $this->bNoTemplate) {
                 // no template defined, building default lister template
-                $aRes = $this->__buildDefaultTemplate();
+                $aRes = $this->_buildDefaultTemplate();
                 $this->bDefaultTemplate = true;
                 $this->bNoTemplate = false;
             } else {
@@ -1143,7 +1143,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
     public function _autoTemplateMayday($aTemplate, $bSubpartError = false)
     {
         /* ERROR message with automatic generated TEMPLATE and CSS */
-        $aDefaultTemplate = $this->__buildDefaultTemplate('#'.$this->_getElementHtmlId());
+        $aDefaultTemplate = $this->_buildDefaultTemplate('#'.$this->_getElementHtmlId());
 
         $sDefaultTemplate = htmlspecialchars($aDefaultTemplate['html']);
         $sDefaultStyles = htmlspecialchars($aDefaultTemplate['styles']);
@@ -1181,7 +1181,7 @@ ERRORMESSAGE;
     {
         /* ERROR message for PAGER with automatic generated TEMPLATE */
 
-        $sDefaultPager = htmlspecialchars($this->__getDefaultPager());
+        $sDefaultPager = htmlspecialchars($this->_getDefaultPager());
 
         $sError = $bSubpartError ?
             'RENDERLET LISTER <b>'.$this->_getName()."</b> - the given SUBPART for PAGER '<b>".$aTemplate['subpart']."</b>' doesn't exists." : 'RENDERLET LISTER <b>'.$this->_getName()."</b> - the given TEMPLATE FILE for PAGER '<b>".$aTemplate['path']."</b>' doesn't exists.";
@@ -1208,7 +1208,7 @@ ERRORMESSAGE;
         $this->oForm->mayday($sMessage);
     }
 
-    public function &__getDefaultPager()
+    public function &_getDefaultPager()
     {
         $sPath = $this->sExtPath.'res/html/default-template.html';
         $sSubPart = '###LISTPAGER###';
@@ -1219,7 +1219,7 @@ ERRORMESSAGE;
         );
     }
 
-    public function &__buildDefaultTemplate($sCssPrefix = '.ameosformidable-rdtlister-defaultwrap')
+    public function &_buildDefaultTemplate($sCssPrefix = '.ameosformidable-rdtlister-defaultwrap')
     {
         $aRes = [
             'default' => true,
@@ -1260,7 +1260,7 @@ ERRORMESSAGE;
             false
         );
 
-        /*END of CSS */
+        /* END of CSS */
 
         $sTopColumn = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###TOPCOLUMN###');
         $sDataColumn1 = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###DATACOLUMN1###');
@@ -1322,7 +1322,7 @@ ERRORMESSAGE;
 
         /* RETRIEVING pager */
 
-        $aRes['pager'] = $this->__getDefaultPager();
+        $aRes['pager'] = $this->_getDefaultPager();
 
         return $aRes;
     }
@@ -1364,7 +1364,7 @@ ERRORMESSAGE;
                         $bChilds = true,
                         $this,
                         $bAnonymous,
-                        $sNamePrefix
+                        false
                     );
 
                     $sAbsName = $oRdt->getAbsName();
@@ -1885,18 +1885,18 @@ ERRORMESSAGE;
         }
 
         $aAllowedRdts = $this->getChilds();
-        //in $aGP sind alle möglichen Lister Elemente.
+        // in $aGP sind alle möglichen Lister Elemente.
         foreach ($aGP as $sRdtKey => &$aListerData) {
-            //alle renderlets suchen, die nicht im XML angegeben sind
-            if (is_array($aListerData)) {//normale Listerelemente
+            // alle renderlets suchen, die nicht im XML angegeben sind
+            if (is_array($aListerData)) {// normale Listerelemente
                 $aUnknownRdts = array_diff(array_keys($aListerData), array_keys($aAllowedRdts));
                 $aCurrentData = &$aListerData;
-            } else { //z.B. selected
+            } else { // z.B. selected
                 $aUnknownRdts = array_diff([$sRdtKey], array_keys($aAllowedRdts));
                 $aCurrentData = &$aGP;
             }
 
-            //jetzt entfernen
+            // jetzt entfernen
             foreach ($aUnknownRdts as $sUnknownRdt) {
                 unset($aCurrentData[$sUnknownRdt]);
             }

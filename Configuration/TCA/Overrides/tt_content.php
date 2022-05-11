@@ -10,7 +10,7 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['tx_mkforms']
     [
         'LLL:EXT:'.'mkforms'.'/locallang_db.xml:plugin.mkforms.label',
         'tx_mkforms',
-        'EXT:mkforms/ext_icon.gif',
+        'EXT:mkforms/Resources/Public/Icons/Extension.gif',
     ],
     'list_type',
     'mkforms'

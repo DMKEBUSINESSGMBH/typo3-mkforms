@@ -33,16 +33,15 @@ $EM_CONF['mkforms'] = [
     'constraints' => [
         'depends' => [
             'rn_base' => '1.15.0-',
-            'typo3' => '9.5.0-10.4.99',
-            'php' => '7.2.0-7.4.99',
+            'typo3' => '10.4.25-11.5.99',
         ],
         'conflicts' => [
             'ameos_formidable' => '',
         ],
         'suggests' => [
-            'mkmailer' => '3.0.0-',
-            'mklib' => '3.0.0-',
-            'mksanitizedparameters' => '3.0.0-',
+            'mkmailer' => '11.0.0-',
+            'mklib' => '11.0.0-',
+            'mksanitizedparameters' => '11.0.0-',
         ],
     ],
     'autoload' => [
@@ -54,7 +53,6 @@ $EM_CONF['mkforms'] = [
             'ds/',
             'exception/',
             'forms/',
-            'hooks/',
             'js/',
             'remote/',
             'renderer/',

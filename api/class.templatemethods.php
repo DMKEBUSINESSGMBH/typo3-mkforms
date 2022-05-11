@@ -273,9 +273,9 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_implode($mData, $aParams)
     {
-        //man kann nicht direkt ein komma angegeben da dieses in
-        //mkforms_util_Templates rausgeparsed wird. wenn also nichts
-        //gesetzt wird, dann nehmen wir das komma als connector
+        // man kann nicht direkt ein komma angegeben da dieses in
+        // mkforms_util_Templates rausgeparsed wird. wenn also nichts
+        // gesetzt wird, dann nehmen wir das komma als connector
         if (!isset($aParams[0])) {
             $aParams[0] = ', ';
         }

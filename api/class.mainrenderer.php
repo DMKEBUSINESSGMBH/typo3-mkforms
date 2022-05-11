@@ -79,13 +79,13 @@ TEMPLATE;
             .'<input type="hidden" name="'.$iFormId.'[AMEOSFORMIDABLE_SUBMITTER]" id="'.$iFormId
             .'_AMEOSFORMIDABLE_SUBMITTER" />';
 
-        //CSRF Schutz integrieren
+        // CSRF Schutz integrieren
         if ($this->getForm()->isCsrfProtectionActive()) {
             $sRequestToken = $this->getForm()->generateRequestToken();
             $sSysHidden .= '<input type="hidden" name="'.$iFormId.'[MKFORMS_REQUEST_TOKEN]" id="'.$iFormId
                 .'_MKFORMS_REQUEST_TOKEN" value="'.$sRequestToken.'" />';
-            //der request token muss noch in die session damit wir ihn prüfen können.
-            //mit bestehenden mergen
+            // der request token muss noch in die session damit wir ihn prüfen können.
+            // mit bestehenden mergen
             $aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
             $aSessionData['requestToken'][$iFormId] = $sRequestToken;
             $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', $aSessionData);
@@ -137,7 +137,7 @@ TEMPLATE;
             $formBegin
                 = $wrapForm[0].'<form enctype="'.$oForm->getFormEnctype().'" '.' action="'.$xssSafeUrl
                 .'" '.$formid.$formonsubmit.$formcustom.' method="'.$oForm->getFormMethod().'">';
-            $formEnd = $hiddenFields.'</form>'.$wrapForm[1];
+            $formEnd = '</form>'.$wrapForm[1];
         } else {
             $formBegin = $formEnd = '';
         }
@@ -447,16 +447,16 @@ TEMPLATE;
                     foreach ($names as $name) {
                         $widget = $this->getForm()->getWidget($name);
                         if ($widget
-                            && $widget->hasData(/*$bForAjax*/
+                            && $widget->hasData(/* $bForAjax */
                                 true
                             )
                         ) { // Nur Widget mit Daten übernehmen. (Keine Buttons usw.)
                             // Beim sammeln von Daten nie die IteratingId einbeziehen,
                             // wir wollen alle Daten, nicht nur von dem ersten Feld!
                             $sAs = $widget->getAbsName();
-                            $aParams[] = 'rowInput::'.$sAs.'::'.$widget->_getElementHtmlId(/*def*/
-                                    false, /*def*/
-                                true, /*no iterating id*/
+                            $aParams[] = 'rowInput::'.$sAs.'::'.$widget->_getElementHtmlId(/* def */
+                                    false, /* def */
+                                true, /* no iterating id */
                                 false
                             );
                         }

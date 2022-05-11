@@ -33,8 +33,6 @@ class tx_mkforms_tests_util_FormFillTest extends \Sys25\RnBase\Testing\BaseTestC
      */
     public function testGetItemsFromDb()
     {
-        self::markTestIncomplete('Creating default object from empty value');
-
         $formBase = $this->getMock(
             'tx_mkforms_util_FormFill',
             ['getRowsFromDataBase']

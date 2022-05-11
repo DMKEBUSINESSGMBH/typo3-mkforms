@@ -595,7 +595,7 @@ JAVASCRIPT;
         if ($sKey && !array_key_exists($sKey, $this->headerKeys)) {
             $this->headerKeys[$sKey] = 1;
         }
-        if (TYPO3_MODE === 'FE') {
+        if (\Sys25\RnBase\Utility\Environment::isFrontend()) {
             if ($this->mayUseStandardHeaderInjection()) {
                 $aHeaders = &$GLOBALS['TSFE']->additionalHeaderData;
             } else {

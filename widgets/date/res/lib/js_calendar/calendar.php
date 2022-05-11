@@ -99,7 +99,7 @@ class DHTML_Calendar
         echo $this->_make_calendar($options);
     }
 
-    /// PRIVATE SECTION
+    // / PRIVATE SECTION
 
     public function _field_id($id)
     {

@@ -93,13 +93,13 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
                 $form->getConfTS('cache.tsPaths') ? $form->getConfTS('cache.tsPaths.') : []
             );
         }
-        //aufräumen vor dem cachen der form
+        // aufräumen vor dem cachen der form
         $form->cleanBeforeSession();
         $formId = $this->getForm()->getFormId();
 
         // hohe Kompression ist nicht notwendig und kostet nur Zeit!
         $serForm = gzcompress(serialize($form), 1);
-        //form cachen
+        // form cachen
         $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
         $cache->set($this->getUserFormKey($formId), $serForm, 60 * 60 * 3); // 3h Lifetime
 
@@ -278,7 +278,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     {
         $this->initializeSessionArray();
 
-        //registriert eine unserialize_callback_func
+        // registriert eine unserialize_callback_func
         tx_mkforms_util_AutoLoad::registerUnserializeCallbackFunc();
 
         if (!array_key_exists($formid, $GLOBALS['_SESSION']['ameos_formidable']['hibernate'])) {

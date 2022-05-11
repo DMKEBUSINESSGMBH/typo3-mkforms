@@ -229,14 +229,14 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         if ($setChildsExplizit && is_array($mValue)) {
             if (is_object($mWidget)) {
                 if ($mWidget->hasChilds()) {
-                    //Set Value for Childs renderlets
+                    // Set Value for Childs renderlets
                     self::setValueToWidget($mWidget->getChilds(), $mValue, $setChildsExplizit);
                 } elseif (array_key_exists($mWidget->getName(), $mValue)) {
-                    //Set Value if exist
+                    // Set Value if exist
                     $mWidget->setValue($mValue[$mWidget->getName()]);
                 }
             } elseif (is_array($mWidget)) {
-                //Set Value of all Childs renderlets
+                // Set Value of all Childs renderlets
                 foreach ($mWidget as $oWidget) {
                     if (array_key_exists($oWidget->getName(), $mValue)) {
                         self::setValueToWidget($oWidget, $mValue[$oWidget->getName()], $setChildsExplizit);
@@ -246,7 +246,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                 }
             }
         } elseif (is_object($mWidget)) {
-            //Set Value without ignoreSubmit
+            // Set Value without ignoreSubmit
             $mWidget->setValue($mValue);
         }
     }

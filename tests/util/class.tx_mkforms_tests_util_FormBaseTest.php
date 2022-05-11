@@ -29,13 +29,11 @@ class tx_mkforms_tests_util_FormBaseTest extends \Sys25\RnBase\Testing\BaseTestC
 {
     /**
      * @group unit
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Please provide the parameter for 'configurationId'
      */
     public function testGetConfigurationValueThrowsExceptionIfNoCondifurationIdConfigured()
     {
-        self::markTestIncomplete('Creating default object from empty value');
-
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Please provide the parameter for \'configurationId\'');
         $form = tx_mkforms_tests_Util::getForm();
 
         tx_mkforms_util_FormBase::getConfigurationValue([], $form);
@@ -46,8 +44,6 @@ class tx_mkforms_tests_util_FormBaseTest extends \Sys25\RnBase\Testing\BaseTestC
      */
     public function testGetConfigurationValue()
     {
-        self::markTestIncomplete('Creating default object from empty value');
-
         $form = tx_mkforms_tests_Util::getForm(
             true,
             \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
@@ -99,8 +95,6 @@ class tx_mkforms_tests_util_FormBaseTest extends \Sys25\RnBase\Testing\BaseTestC
      */
     public function testGetConfigurationValueIfCastToBoolean()
     {
-        self::markTestIncomplete('Creating default object from empty value');
-
         $form = tx_mkforms_tests_Util::getForm(
             true,
             \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
@@ -122,8 +116,6 @@ class tx_mkforms_tests_util_FormBaseTest extends \Sys25\RnBase\Testing\BaseTestC
      */
     public function testGetConfigurationValueIfPrefixWithConfigurationIdOfForm()
     {
-        self::markTestIncomplete('Creating default object from empty value');
-
         $form = tx_mkforms_tests_Util::getForm(
             true,
             \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(

@@ -44,7 +44,7 @@ class tx_mkforms_tests_util_TemplatesTest extends \Sys25\RnBase\Testing\BaseTest
      */
     public function testParseTemplateCodeIncludesSubtemplates()
     {
-        self::markTestIncomplete('Creating default object from empty value');
+        self::markTestIncomplete('TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException: A cache with identifier "runtime" does not exist.');
 
         $templatesUtility = tx_mkforms_util_Templates::createInstance(tx_mkforms_tests_Util::getForm());
         $template = '<!-- ### INCLUDE_TEMPLATE EXT:mkforms/tests/fixtures/subtemplate.html@SUBPART ### -->';

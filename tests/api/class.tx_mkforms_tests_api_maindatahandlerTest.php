@@ -32,11 +32,9 @@
  */
 class tx_mkforms_tests_api_maindatahandlerTest extends \Sys25\RnBase\Testing\BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
-        self::markTestIncomplete('Exception: No extension key found for classname: Tx_Phpunit_Framework');
-        $oTestFramework = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Phpunit_Framework', 'mkforms');
-        $oTestFramework->createFakeFrontEnd();
+        require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'/ext_localconf.php';
     }
 
     public function testGetRdtValueSubmitEditionRemovesValuesOfNoneWidgets()
@@ -88,12 +86,12 @@ class tx_mkforms_tests_api_maindatahandlerTest extends \Sys25\RnBase\Testing\Bas
         $oHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindatahandler');
         $oHandler->_init($oForm, [], [], '');
 
-        //einzelnes renderlet
+        // einzelnes renderlet
         $formData = $oHandler->getRdtValue_submit_edition('widget-thatDoesNotExistInTheXml3');
-        //wert sollte auf null gesetzt werden
+        // wert sollte auf null gesetzt werden
         self::assertNull($formData, 'wert für nicht existentes widget nicht auf null gesetzt');
 
-        //renderlet box
+        // renderlet box
         $formData = $oHandler->getRdtValue_submit_edition('fieldset');
 
         self::assertTrue(isset($formData['texte']['input']['widget-text']), 'LINE:'.__LINE__);
@@ -103,7 +101,7 @@ class tx_mkforms_tests_api_maindatahandlerTest extends \Sys25\RnBase\Testing\Bas
         self::assertTrue(isset($formData['widgetlister']), 'LINE:'.__LINE__);
         self::assertEquals([1 => ['listerdata-uid' => 1, 'listerdata-title' => 'Titel 1'], 2 => ['listerdata-uid' => 2, 'listerdata-title' => 'Titel 2'], 3 => ['listerdata-uid' => 3, 'listerdata-title' => 'Titel 3'], 4 => ['listerdata-uid' => 4, 'listerdata-title' => 'Titel 4'], 5 => ['listerdata-uid' => 5, 'listerdata-title' => 'Titel 5'], 'selected' => '5'], $formData['widgetlister'], 'LINE:'.__LINE__);
 
-        //werte sollte entfernt wurden sein
+        // werte sollte entfernt wurden sein
         self::assertFalse(isset($formData['texte']['widget-thatDoesNotExistInTheXml1']), 'wert für nicht existentes widget nicht auf null gesetzt');
         self::assertFalse(isset($formData['widget-thatDoesNotExistInTheXml2']), 'wert für nicht existentes widget nicht auf null gesetzt');
     }

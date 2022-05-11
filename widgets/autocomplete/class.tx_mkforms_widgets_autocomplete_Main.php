@@ -89,7 +89,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
         $sInput = '<input type="text" name="'.$this->_getElementHtmlName().'" id="'.$this->_getElementHtmlId().'" value="'.$sValueForHtml.'" '.$this->_getAddInputParams().' />';
 
-        //div has no name (name="' .$this->_getElementHtmlName(). '[list]")
+        // div has no name (name="' .$this->_getElementHtmlName(). '[list]")
         $sChilds = '<div id="'.$this->_getElementHtmlId().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.'loader" class="'.$sLoaderClass.'"></div>';
         $sChilds .= '<div id="'.$this->_getElementHtmlId().AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.'list" class="'.$sChildsClass.'"></div>';
 
@@ -282,8 +282,8 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                     $bReplaced = true;
                 }
             }
-            //Wir können hier nicht die setValue Methode der renderlets aufrufen,
-            //da nach dem Submit die Felder gefüllt werden würden, was zu fehlern führt!
+            // Wir können hier nicht die setValue Methode der renderlets aufrufen,
+            // da nach dem Submit die Felder gefüllt werden würden, was zu fehlern führt!
             $this->setChildValue($this->aChilds[$sName], $sValue);
         }
 

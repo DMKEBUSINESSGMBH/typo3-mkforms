@@ -53,8 +53,8 @@ class tx_mkforms_util_Div
     {
         if (\Sys25\RnBase\Utility\TYPO3::isCliMode()) {
             return 'CLI';
-        } elseif (TYPO3_MODE == 'BE') {
-            return TYPO3_MODE;
+        } elseif (\Sys25\RnBase\Utility\Environment::isBackend()) {
+            return 'BE';
         }
 
         return (is_null(\Sys25\RnBase\Utility\T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
@@ -71,8 +71,8 @@ class tx_mkforms_util_Div
     {
         $aItems = [];
 
-        //wenn wir kein Array haben dann gibts nix zu tun
-        //sonst knallts bei reset() in tests!!!
+        // wenn wir kein Array haben dann gibts nix zu tun
+        // sonst knallts bei reset() in tests!!!
         if (!is_array($aData)) {
             return $aItems;
         }
@@ -168,7 +168,7 @@ class tx_mkforms_util_Div
         if ($form) {
             $aDebug[] = "<span class='notice'><strong>XML: </strong> ".$form->_xmlPath.'</span><br />';
             $aDebug[] = "<span class='notice'><strong>MKFORMS Version: </strong>v".self::getVersion().'</span><br />';
-            $aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>".round(\Sys25\RnBase\Utility\T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec</span><br />';
+            $aDebug[] = "<span class='notice'><strong>Total exec. time: </strong>".round(microtime(true) - $form->start_tstamp, 4) / 1000 .' sec</span><br />';
         }
         $aDebug[] = '<br />';
 
@@ -329,7 +329,7 @@ class tx_mkforms_util_Div
     public static function debug($variable, $name, $form, $bAnalyze = true)
     {
         if ($form->getConfig()->isDebug() || $form->bDebug) {
-            $aTrace = debug_backtrace();
+            $aTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             $aLocation = array_shift($aTrace);
             $aTrace1 = array_shift($aTrace);
             $aTrace2 = array_shift($aTrace);
@@ -344,7 +344,7 @@ class tx_mkforms_util_Div
             $aDebug[] = "<a href = '#".$form->formid.'formidable_call'.($numcall - 1)."'>&lt;&lt; prev</a> / <a href = '#".$form->formid.'formidable_call'.($numcall + 1)."'>next &gt;&gt;</a><br>";
             $aDebug[] = '<strong>#'.$numcall.' - '.$name.'</strong>';
             $aDebug[] = '<br/>';
-            $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>".round(\Sys25\RnBase\Utility\T3General::milliseconds() - $form->start_tstamp, 4) / 1000 .' sec)</span>';
+            $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>(Total exec. time: </b>".round(microtime(true) - $form->start_tstamp, 4) / 1000 .' sec)</span>';
             $aDebug[] = '<br/>';
 
             $aDebug[] = "<a href='javascript:void(Formidable.f(\"".$form->formid.'").toggleBacktrace('.$numcall."))'>Toggle details</a><br>";
@@ -524,7 +524,7 @@ ERRORMESSAGE;
             $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath);
         }
         $sPath = str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '', $sPath);
-        if ('/' != $sPath[0]) {
+        if ('/' != ($sPath[0] ?? null)) {
             $sPath = '/'.$sPath;
         }
 
@@ -778,7 +778,7 @@ ERRORMESSAGE;
      */
     public static function urlDecodeRecursive(&$aArray)
     {
-        if (is_array($aArray)) {//nur wenn ein array vorliegt
+        if (is_array($aArray)) {// nur wenn ein array vorliegt
             array_walk_recursive($aArray, ['tx_mkforms_util_Div', 'urlDecodeByReference']);
         }
     }
@@ -806,7 +806,7 @@ ERRORMESSAGE;
      */
     public static function toCamelCase($sString, $sDelimiter = '_', $bLcFirst = false)
     {
-        //$sCamelCase = implode('', array_map('ucfirst', explode($sDelimiter, $sString)));
+        // $sCamelCase = implode('', array_map('ucfirst', explode($sDelimiter, $sString)));
         // das ist schneller als die array_map methode!
         $sCamelCase = '';
         foreach (explode($sDelimiter, $sString) as $sPart) {

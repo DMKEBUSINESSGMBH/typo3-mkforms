@@ -6,7 +6,7 @@
  */
 class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 {
-    public $oFileFunc = null; //object for basics file function
+    public $oFileFunc = null; // object for basics file function
 
     /**
      * (non-PHPdoc).

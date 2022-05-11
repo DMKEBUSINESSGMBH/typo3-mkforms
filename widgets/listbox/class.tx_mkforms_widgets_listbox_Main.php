@@ -177,7 +177,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
         return '';
     }
 
-    public function __getDefaultValue()
+    public function _getDefaultValue()
     {
         if ($this->_defaultFalse('/data/defaultvalue/first/')
             ||
@@ -191,7 +191,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             return '';
         }
 
-        return parent::__getDefaultValue();
+        return parent::_getDefaultValue();
     }
 
     public function getFirstItemValue()
