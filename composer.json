@@ -89,7 +89,8 @@
     "scripts": {
         "post-autoload-dump": [
             "mkdir -p .Build/Web/typo3conf/ext/",
-            "[ -L .Build/Web/typo3conf/ext/mkforms ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkforms"
+            "[ -L .Build/Web/typo3conf/ext/mkforms ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mkforms",
+			"[ -f .Build/Web/typo3conf/LocalConfiguration.php ] || cp tests/fixtures/LocalConfiguration.php .Build/Web/typo3conf/LocalConfiguration.php"
         ],
         "lint:php": [
             "[ -e .Build/bin/parallel-lint ] || composer update",
