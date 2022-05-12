@@ -27,7 +27,7 @@ im TypoScript lib.mkforms.formbase liegt die Basiskonfiguration, welche für die
 ~~~~ {.sourceCode .ts}
 plugin.tx_mkforms {
    ### Allgemeine Formulare ###
-   extendedTemplate = EXT:mkforms/templates/formonly.html
+   extendedTemplate = EXT:mkforms/Resources/Private/Templates/formonly.html
    extended =< lib.mkforms.formbase
    extended {
       ### wird nur für Tests genutzt. Verhindert beispielsweise das Cachen des Formulars.
@@ -223,13 +223,13 @@ return self::buildAjaxReturn(
 
 In der Action werden die Daten beim Füllen und Verarbeiten bereits aufbereiteten übergeben. Damit die Daten in den AjaxCalls genauso verarbeitet werden, stehen in der tx\_mkforms\_util\_FormBase folgende Methoden zur verfügung. (Die Klasse tx\_mkforms\_util\_FormBaseAjax leitet bereits von dieser ab.)
 
--   self::flatArray2MultipleTableStructure(\$params, \$form);  
+-   self::flatArray2MultipleTableStructure(\$params, \$form);
     Wandelt die Werte der Renderlets in den Parametern in ihre Tabellenstruktur und liefert ein Array, wie es der processData Methode der FormBase Action übergeben wird.
 
--   self::multipleTableStructure2FlatArray(\$data, \$form);  
+-   self::multipleTableStructure2FlatArray(\$data, \$form);
     Wandelt das Daten-Array mit der Tabellenstruktur, wie es in der fillData Methode der FormBase Action erzeugt wird, in ein flaches Daten-Array für einen Datahandler record.
 
--   self::multipleTableStructure2DeepArray(\$data, \$form);  
+-   self::multipleTableStructure2DeepArray(\$data, \$form);
     Wandelt das Daten-Array mit der Tabellenstruktur, wie es in der fillData Methode der FormBase Action erzeugt wird, in ein Array, welches die Renderlet Struktur im XML repräsentiert. Das wird benötigt, um ein setValue auf ein Widget durchzuführen, welches Child-Elemente enthält. In self::buildAjaxReturn(); wird dies durchgeführt, die methode benötigt also die Quelldaten mit der Tabellenstruktur.
 
 **TypoScript Konfiguration abfragen**

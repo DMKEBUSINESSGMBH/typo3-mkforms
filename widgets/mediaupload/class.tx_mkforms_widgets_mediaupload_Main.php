@@ -15,7 +15,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
 class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'widget_mediaupload_class' => 'res/js/mediaupload.js',
+        'widget_mediaupload_class' => 'Resources/Public/JavaScript/widgets/mediaupload/mediaupload.js',
     ];
 
     public $bArrayValue = true;
@@ -690,8 +690,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         $oJsLoader = $this->getForm()->getJSLoader();
         // JS-Lib ermitteln
-        $dir = $oJsLoader->getJSFrameworkId();
-        $sFile = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/js/'.$dir.'/ajaxfileupload.js';
+        $sFile = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'Resources/Public/JavaScript/widgets/mediaupload/ajaxfileupload.js';
 
         $oJsLoader->additionalHeaderData(
             '<script src="'.$oJsLoader->getScriptPath($sFile).'"></script>',

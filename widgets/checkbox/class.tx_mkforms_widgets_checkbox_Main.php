@@ -9,7 +9,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
     public $sMajixClass = 'CheckBox';
     public $sAttachPostInitTask = 'initialize';
     public $aLibs = [
-        'rdt_checkbox_class' => 'res/js/checkbox.js',
+        'rdt_checkbox_class' => 'Resources/Public/JavaScript/widgets/checkbox/checkbox.js',
     ];
 
     public $bArrayValue = true;

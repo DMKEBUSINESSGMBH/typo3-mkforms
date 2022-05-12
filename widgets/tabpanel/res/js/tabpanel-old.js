@@ -1,1 +1,0 @@
-Formidable.Classes.TabPanel = Formidable.Classes.RdtBaseClass.extend();

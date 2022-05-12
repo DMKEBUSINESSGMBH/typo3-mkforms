@@ -10,7 +10,7 @@ class tx_mkforms_widgets_checksingle_Main extends formidable_mainrenderlet
     // define methodname, if a specific init method in the js should be called, after dom is ready.
     public $sAttachPostInitTask = 'initialize';
     public $aLibs = [
-        'rdt_checksingle_class' => 'res/js/checksingle.js',
+        'rdt_checksingle_class' => 'Resources/Public/JavaScript/widgets/checksingle/checksingle.js',
     ];
     public $sDefaultLabelClass = 'label-inline';
 

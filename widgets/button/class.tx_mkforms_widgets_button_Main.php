@@ -8,7 +8,7 @@ class tx_mkforms_widgets_button_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Button';
     public $aLibs = [
-        'rdt_button_class' => 'res/js/button.js',
+        'rdt_button_class' => 'Resources/Public/JavaScript/widgets/button/js/button.js',
     ];
 
     public function _render()

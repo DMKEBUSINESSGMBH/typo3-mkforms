@@ -30,8 +30,8 @@ class tx_mkforms_widgets_txtarea_Main extends formidable_mainrenderlet
         if ('jquery' == $this->getForm()->getJSLoader()->getJSFrameworkId() && $this->defaultFalse('/autoresize')) {
             $this->sMajixClass = 'TxtArea';
             $this->bCustomIncludeScript = true;
-            $this->aLibs['rdt_autoresize_class'] = 'res/js/autoresize.min.js';
-            $this->aLibs['rdt_txtarea_class'] = 'res/js/txtarea.js';
+            $this->aLibs['rdt_autoresize_class'] = 'Resources/Public/JavaScript/widgets/txtarea/autoresize.min.js';
+            $this->aLibs['rdt_txtarea_class'] = 'Resources/Public/JavaScript/widgets/txtarea/txtarea.js';
             // damit im JS bekannt ist, ob autoresize gesetzt ist
             $this->includeScripts(['autoresize' => $this->defaultFalse('/autoresize')]);
         }

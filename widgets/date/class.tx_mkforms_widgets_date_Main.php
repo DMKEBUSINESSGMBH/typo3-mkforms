@@ -7,7 +7,7 @@
 class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_date_class' => 'res/js/date.js',
+        'rdt_date_class' => 'Resources/Public/JavaScript/widgets/date/date.js',
     ];
 
     public $sMajixClass = 'Date';
@@ -43,7 +43,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         $sLabel = $this->getLabel();
 
         $sTriggerId = $this->getTriggerId();
-        $sTrigger = " <img src='".\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath."res/lib/js_calendar/img.gif' id='".$sTriggerId."' style='cursor: pointer;' alt='Pick date' /> ";
+        $sTrigger = " <img src='".\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath."Resources/Public/JavaScript/widgets/date/lib/js_calendar/img.gif' id='".$sTriggerId."' style='cursor: pointer;' alt='Pick date' /> ";
 
         $this->_initJs();
 
@@ -369,11 +369,11 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         }
 
         $sLang = ('default' != \Sys25\RnBase\Utility\Environment::getCurrentLanguageKey()) ?? 'en';
-        $sAbsLangFile = $this->sExtPath.'res/lib/js_calendar/lang/calendar-'.$sLang.'.js';
+        $sAbsLangFile = $this->sExtPath.'Resources/Public/JavaScript/widgets/date/lib/js_calendar/lang/calendar-'.$sLang.'.js';
         if (!file_exists($sAbsLangFile)) {
             $sLang = 'en';
         }
-        $sLangFile = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/lang/calendar-'.$sLang.'.js';
+        $sLangFile = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'Resources/Public/JavaScript/widgets/date/lib/js_calendar/lang/calendar-'.$sLang.'.js';
 
         $oJsLoader = $this->getForm()->getJSLoader();
         $css = '';
@@ -385,9 +385,9 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
         $oJsLoader->additionalHeaderData(
             (
-                '<script src="'.$oJsLoader->getScriptPath(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar.js').'"></script>'.
+                '<script src="'.$oJsLoader->getScriptPath(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'Resources/Public/JavaScript/widgets/date/lib/js_calendar/calendar.js').'"></script>'.
                 '<script src="'.$oJsLoader->getScriptPath($sLangFile).'"></script>'.
-                '<script src="'.$oJsLoader->getScriptPath(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'res/lib/js_calendar/calendar-setup.js').'"></script>'.
+                '<script src="'.$oJsLoader->getScriptPath(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'Resources/Public/JavaScript/widgets/date/lib/js_calendar/calendar-setup.js').'"></script>'.
                 $css
             ),
             'mkforms_date_includeonce'

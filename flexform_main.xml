@@ -8,20 +8,20 @@
 		<sDEF>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tab.common</sheetTitle>
+					<sheetTitle>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.tab.common</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<action>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.action</label>
+							<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.action</label>
 							<config>
 								<type>select</type>
 								<renderType>selectMultipleSideBySide</renderType>
 								<items type="array">
 									<numIndex index="16" type="array">
-										<numIndex index="0">LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.action.FormBase</numIndex>
+										<numIndex index="0">LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.action.FormBase</numIndex>
 										<numIndex index="1">tx_mkforms_action_FormBase</numIndex>
 									</numIndex>
 								</items>
@@ -37,20 +37,20 @@
 		<s_generic>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tab.generic</sheetTitle>
+					<sheetTitle>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.tab.generic</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<genericTemplate>
 						<TCEforms>
 						<exclude>1</exclude>
-						<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.template</label>
+						<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.template</label>
 						<config>
 							<type>input</type>
 							<size>50</size>
 							<max>256</max>
 							<eval>trim</eval>
-							<default>EXT:mkforms/templates/formonly.html</default>
+							<default>EXT:mkforms/Resources/Private/Templates/formonly.html</default>
 							<wizards type="array">
 								<_PADDING>2</_PADDING>
 								<link type="array">
@@ -72,7 +72,7 @@
 					<generic.xml>
 						<TCEforms>
 						<exclude>1</exclude>
-						<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.xml</label>
+						<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.xml</label>
 						<config>
 							<type>input</type>
 							<size>50</size>
@@ -100,7 +100,7 @@
 					<generic.redirect>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.redirect</label>
+							<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.redirect</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -109,7 +109,7 @@
 					<generic.redirect.pid>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.redirect.pid</label>
+							<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.redirect.pid</label>
 							<config>
 								<type>input</type>
 								<size>50</size>
@@ -132,7 +132,7 @@
 					<generic.redirect.qualifier>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.redirect.qualifier</label>
+							<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.redirect.qualifier</label>
 							<config>
 								<type>input</type>
 								<size>50</size>
@@ -145,7 +145,7 @@
 					<generic.viewClassName>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.viewClassName</label>
+							<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.viewClassName</label>
 							<config>
 								<type>input</type>
 								<size>50</size>
@@ -160,14 +160,14 @@
 		<s_tssetup>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tab.TSSetup</sheetTitle>
+					<sheetTitle>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.tab.TSSetup</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<flexformTS>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:mkforms/locallang_db.xml:plugin.mkforms.flexform.tssetup</label>
+							<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.tssetup</label>
 							<config>
 								<type>text</type>
 								<cols>80</cols>

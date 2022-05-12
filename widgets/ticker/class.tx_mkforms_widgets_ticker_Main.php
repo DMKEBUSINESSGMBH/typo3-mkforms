@@ -7,7 +7,7 @@
 class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_ticker_class' => 'res/js/ticker.js',
+        'rdt_ticker_class' => 'Resources/Public/JavaScript/widgets/ticker/ticker.js',
     ];
 
     public $sMajixClass = 'Ticker';

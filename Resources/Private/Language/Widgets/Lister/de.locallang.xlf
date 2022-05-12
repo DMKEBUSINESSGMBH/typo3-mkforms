@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2022-05-12T07:11:23Z" product-name="mkforms">
+		<header/>
+		<body>
+			<trans-unit id="pager.first" resname="pager.first"  approved="yes">
+				<source>&amp;laquo;&amp;laquo;First</source>
+				<target>&amp;laquo;&amp;laquo;erste</target>
+			</trans-unit>
+			<trans-unit id="pager.previous" resname="pager.previous"  approved="yes">
+				<source>&amp;laquo;Previous</source>
+				<target>&amp;laquo;vorherige</target>
+			</trans-unit>
+			<trans-unit id="pager.next" resname="pager.next"  approved="yes">
+				<source>Next&amp;raquo;</source>
+				<target>n&amp;auml;chste&amp;raquo;</target>
+			</trans-unit>
+			<trans-unit id="pager.last" resname="pager.last"  approved="yes">
+				<source>Last&amp;raquo;&amp;raquo;</source>
+				<target>letzte&amp;raquo;&amp;raquo;</target>
+			</trans-unit>
+			<trans-unit id="pager.first.title" resname="pager.first.title"  approved="yes">
+				<source>Jump to first page</source>
+				<target>Springe zur ersten Seite</target>
+			</trans-unit>
+			<trans-unit id="pager.previous.title" resname="pager.previous.title"  approved="yes">
+				<source>Return to previous page</source>
+				<target>Zur&amp;uuml;ck zur letzten Seite</target>
+			</trans-unit>
+			<trans-unit id="pager.next.title" resname="pager.next.title"  approved="yes">
+				<source>Advance to next page</source>
+				<target>Weiter zur n&amp;auml;chsten Seite</target>
+			</trans-unit>
+			<trans-unit id="pager.last.title" resname="pager.last.title"  approved="yes">
+				<source>Jump to last page</source>
+				<target>Springe zur letzten Seite</target>
+			</trans-unit>
+			<trans-unit id="sortby" resname="sortby"  approved="yes">
+				<source>Sort by</source>
+				<target>Sortiere nach</target>
+			</trans-unit>
+			<trans-unit id="sort" resname="sort"  approved="yes">
+				<source>Sort</source>
+				<target>Sortiere</target>
+			</trans-unit>
+			<trans-unit id="sort.asc" resname="sort.asc"  approved="yes">
+				<source>ascending</source>
+				<target>aufsteigend</target>
+			</trans-unit>
+			<trans-unit id="sort.desc" resname="sort.desc"  approved="yes">
+				<source>descending</source>
+				<target>absteigend</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

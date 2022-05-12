@@ -7,11 +7,11 @@
 class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_swfupload_lib' => 'res/js/swfupload.js',
-        'rdt_swfupload_lib_cookies' => 'res/js/swfupload.cookies.js',
-        'rdt_swfupload_lib_queue' => 'res/js/swfupload.queue.js',
-        'rdt_swfupload_lib_queuetracker' => 'res/js/swfupload.queuetracker.js',
-        'rdt_swfupload_class' => 'res/js/rdt_swfupload.js',
+        'rdt_swfupload_lib' => 'Resources/Public/JavaScript/widgets/swfupload/swfupload.js',
+        'rdt_swfupload_lib_cookies' => 'Resources/Public/JavaScript/widgets/swfupload/swfupload.cookies.js',
+        'rdt_swfupload_lib_queue' => 'Resources/Public/JavaScript/widgets/swfupload/swfupload.queue.js',
+        'rdt_swfupload_lib_queuetracker' => 'Resources/Public/JavaScript/widgets/swfupload/swfupload.queuetracker.js',
+        'rdt_swfupload_class' => 'Resources/Public/JavaScript/widgets/swfupload/rdt_swfupload.js',
     ];
 
     public $sMajixClass = 'SwfUpload';
@@ -60,7 +60,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
         $sThrower = $sHtmlId;
 
         $sUrl = tx_mkforms_util_Div::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
-        $sButtonUrl = $this->oForm->getConfigXML()->getLLLabel('LLL:EXT:mkforms/widgets/swfupload/res/locallang.xml:buttonbrowse.image_url');
+        $sButtonUrl = $this->oForm->getConfigXML()->getLLLabel('LLL:EXT:mkforms/Resources/Private/Language/Widgets/Swfupload/locallang.xlf:buttonbrowse.image_url');
 
         $aConf = [
             'buttonBrowseId' => $this->oButtonBrowse->_getElementHtmlId(),
@@ -68,7 +68,7 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
             'listQueueId' => $this->oListQueue->_getElementHtmlId(),
             'swfupload_config' => [
                 'upload_url' => $sUrl,
-                'flash_url' => $this->sExtWebPath.'res/flash/swfupload.swf',
+                'flash_url' => $this->sExtWebPath.'Resources/Public/Flash/swfupload.swf',
                 'file_post_name' => 'rdt_swfupload',
                 'file_size_limit' => $this->getMaxUploadSize(),    // KiloBytes
 
@@ -394,7 +394,7 @@ JAVASCRIPT;
 
     public function getFileTypeDesc()
     {
-        $sFileTypeDesc = 'LLL:EXT:mkforms/widgets/res/locallang.xml:filetypedesc.allfiles';
+        $sFileTypeDesc = 'LLL:EXT:mkforms/Resources/Private/Language/Widgets/Swfupload/locallang.xlf:filetypedesc.allfiles';
 
         if (false !== ($mFileTypeDesc = $this->_navConf('filetypedesc'))) {
             if ($this->oForm->isRunneable($mFileTypeDesc)) {

@@ -11,7 +11,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'ListerSel';
     public $aLibs = [
-        'widget_listersel_class' => 'res/js/listersel.js',
+        'widget_listersel_class' => 'Resources/Public/JavaScript/widgets/listerselect/listersel.js',
     ];
 
     public function _render()

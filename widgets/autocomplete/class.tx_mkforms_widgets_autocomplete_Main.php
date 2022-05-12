@@ -7,7 +7,7 @@
 class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'widget_autocomplete_class' => 'res/js/autocomplete.js',
+        'widget_autocomplete_class' => 'Resources/Public/JavaScript/widgets/autocomplete/autocomplete.js',
     ];
 
     public $sAttachPostInitTask = 'initialize';

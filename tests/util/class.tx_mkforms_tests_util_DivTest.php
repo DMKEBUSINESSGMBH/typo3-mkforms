@@ -55,7 +55,7 @@ class tx_mkforms_tests_util_DivTest extends \Sys25\RnBase\Testing\BaseTestCase
                 'plugin.' => [
                     'tx_mkforms' => 'USER_INT',
                     'tx_mkforms.' => [
-                        'genericTemplate' => 'EXT:mkforms/templates/formonly.html',
+                        'genericTemplate' => 'EXT:mkforms/Resources/Private/Templates/formonly.html',
                     ],
                     'tx_mkextension.' => [
                         'extensionTemplate' => 'EXT:mkextension/templates/template.html',
@@ -90,7 +90,7 @@ class tx_mkforms_tests_util_DivTest extends \Sys25\RnBase\Testing\BaseTestCase
         self::assertEquals('USER_INT', $aArray['plugin.']['tx_mkforms'], 'plugin.tx_mkforms not USER_INT.');
         self::assertTrue(array_key_exists('tx_mkforms.', $aArray['plugin.']), 'plugin.tx_mkforms. not found in array.');
         self::assertTrue(array_key_exists('genericTemplate', $aArray['plugin.']['tx_mkforms.']), 'plugin.tx_mkforms.genericTemplate not found in array.');
-        self::assertEquals('EXT:mkforms/templates/formonly.html', $aArray['plugin.']['tx_mkforms.']['genericTemplate'], 'plugin.tx_mkforms.genericTemplate has wrong value.');
+        self::assertEquals('EXT:mkforms/Resources/Private/Templates/formonly.html', $aArray['plugin.']['tx_mkforms.']['genericTemplate'], 'plugin.tx_mkforms.genericTemplate has wrong value.');
 
         self::assertFalse(array_key_exists('tx_mkextension.', $aArray['plugin.']), 'plugin.tx_mkextension. found in array.');
         self::assertFalse(array_key_exists('config.', $aArray), 'config. found in array.');

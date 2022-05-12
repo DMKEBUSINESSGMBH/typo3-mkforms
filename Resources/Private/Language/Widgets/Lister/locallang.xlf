@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-12T07:11:23Z" product-name="mkforms">
+		<header/>
+		<body>
+			<trans-unit id="pager.first" resname="pager.first" >
+				<source>&amp;laquo;&amp;laquo;First</source>
+			</trans-unit>
+			<trans-unit id="pager.previous" resname="pager.previous" >
+				<source>&amp;laquo;Previous</source>
+			</trans-unit>
+			<trans-unit id="pager.next" resname="pager.next" >
+				<source>Next&amp;raquo;</source>
+			</trans-unit>
+			<trans-unit id="pager.last" resname="pager.last" >
+				<source>Last&amp;raquo;&amp;raquo;</source>
+			</trans-unit>
+			<trans-unit id="pager.first.title" resname="pager.first.title" >
+				<source>Jump to first page</source>
+			</trans-unit>
+			<trans-unit id="pager.previous.title" resname="pager.previous.title" >
+				<source>Return to previous page</source>
+			</trans-unit>
+			<trans-unit id="pager.next.title" resname="pager.next.title" >
+				<source>Advance to next page</source>
+			</trans-unit>
+			<trans-unit id="pager.last.title" resname="pager.last.title" >
+				<source>Jump to last page</source>
+			</trans-unit>
+			<trans-unit id="sortby" resname="sortby" >
+				<source>Sort by</source>
+			</trans-unit>
+			<trans-unit id="sort" resname="sort" >
+				<source>Sort</source>
+			</trans-unit>
+			<trans-unit id="sort.asc" resname="sort.asc" >
+				<source>ascending</source>
+			</trans-unit>
+			<trans-unit id="sort.desc" resname="sort.desc" >
+				<source>descending</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

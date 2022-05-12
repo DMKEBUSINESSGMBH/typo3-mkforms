@@ -9,7 +9,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
     public $sMajixClass = 'Box';
     public $bCustomIncludeScript = true;
     public $aLibs = [
-        'rdt_box_class' => 'res/js/box.js',
+        'rdt_box_class' => 'Resources/Public/JavaScript/widgets/box/box.js',
     ];
     public $aPossibleCustomEvents = [
         'ondragdrop',

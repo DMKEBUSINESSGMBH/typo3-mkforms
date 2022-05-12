@@ -611,7 +611,17 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         // wir müssen noch die fe user session id setzen für CSRF schutz
         // und dessen request token
-        $this->setSessionId($GLOBALS['TSFE']->fe_user->id ?? 0);
+        $sessionId = 0;
+        /* @var \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication $frontendUser */
+        $frontendUser = $GLOBALS['TSFE']->fe_user ?? null;
+        if ($frontendUser) {
+            if (\Sys25\RnBase\Utility\TYPO3::isTYPO115OrHigher()) {
+                $sessionId = $frontendUser->getSession()->getIdentifier();
+            } else {
+                $sessionId = $frontendUser->id;
+            }
+        }
+        $this->setSessionId($sessionId ?? 0);
 
         $this->checkPoint(['after-init-renderer', 'before-init-renderlets']);
 

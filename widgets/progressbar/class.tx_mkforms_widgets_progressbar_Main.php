@@ -7,7 +7,7 @@
 class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_progressbar_class' => 'res/js/progressbar.js',
+        'rdt_progressbar_class' => 'Resources/Public/JavaScript/widgets/progressbar/progressbar.js',
     ];
 
     public $sMajixClass = 'ProgressBar';

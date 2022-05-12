@@ -7,7 +7,7 @@
 class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_lister_class' => 'res/js/lister.js',
+        'rdt_lister_class' => 'Resources/Public/JavaScript/widgets/lister/lister.js',
     ];
 
     public $uidColumn = false;
@@ -979,9 +979,9 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     ]);
 
                     if ('' !== ($sHeader = $this->getListHeader($sColumn))) {
-                        $sAccesTitle = '{LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sortby} &quot;'.strip_tags($sHeader).'&quot; {LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sort.'.$sNewDir.'}';
+                        $sAccesTitle = '{LLL:EXT:mkforms/Resources/Private/Language/Widgets/Lister/locallang.xlf:sortby} &quot;'.strip_tags($sHeader).'&quot; {LLL:EXT:mkforms/Resources/Private/Language/Widgets/Lister/locallang.xlf:sort.'.$sNewDir.'}';
                     } else {
-                        $sAccesTitle = '{LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sort} {LLL:EXT:ameos_formidable/api/base/rdt_lister/res/locallang/locallang.xml:sort.'.$sNewDir.'}';
+                        $sAccesTitle = '{LLL:EXT:mkforms/Resources/Private/Language/Widgets/Lister/locallang.xlf:sort} {LLL:EXT:mkforms/Resources/Private/Language/Widgets/Lister/locallang.xlf:sort.'.$sNewDir.'}';
                     }
 
                     if (false == ($this->defaultFalse('pager/sort/useunicodegeometricshapes'))) {
@@ -1210,7 +1210,7 @@ ERRORMESSAGE;
 
     public function &_getDefaultPager()
     {
-        $sPath = $this->sExtPath.'res/html/default-template.html';
+        $sPath = $this->sExtPath.'Resources/Private/Templates/Widgets/Lister/default-template.html';
         $sSubPart = '###LISTPAGER###';
 
         return \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
@@ -1237,7 +1237,7 @@ ERRORMESSAGE;
             ],
         ];
 
-        $sPath = $this->sExtPath.'res/html/default-template.html';
+        $sPath = $this->sExtPath.'Resources/Private/Templates/Widgets/Lister/default-template.html';
         $sSubpart = '###LIST###';
 
         $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(

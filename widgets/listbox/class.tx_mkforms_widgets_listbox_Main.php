@@ -8,7 +8,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'ListBox';
     public $aLibs = [
-        'rdt_listbox_class' => 'res/js/listbox.js',
+        'rdt_listbox_class' => 'Resources/Public/JavaScript/widgets/listbox/listbox.js',
     ];
 
     public function _render()

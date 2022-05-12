@@ -471,8 +471,6 @@ TEMPLATE;
                     if ($this->getForm()->isRenderlet($mResult)) {
                         $sAs = $param['as'];
                         $aParams[] = 'rowInput::'.$sAs.'::'.$mResult->getAbsName();
-                    } else {
-                        debug($mResult, $sParam);
                     }
                 }
             }

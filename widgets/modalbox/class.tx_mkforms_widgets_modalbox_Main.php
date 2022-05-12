@@ -7,7 +7,7 @@
 class tx_mkforms_widgets_modalbox_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_modalbox_class' => 'res/js/modalbox.js',
+        'rdt_modalbox_class' => 'Resources/Public/JavaScript/widgets/modalbox/modalbox.js',
     ];
 
     public $bCustomIncludeScript = true;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-12T07:13:54Z" product-name="mkforms">
+		<header/>
+		<body>
+			<trans-unit id="ERROR_default" resname="ERROR_default" >
+				<source>Leider ist ein Fehler aufgetreten!</source>
+			</trans-unit>
+			<trans-unit id="ERROR_2001" resname="ERROR_2001" >
+				<source>Das Formular ist nicht valide. Bitte laden Sie die Seite neu und füllen Sie das Formular erneut aus.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

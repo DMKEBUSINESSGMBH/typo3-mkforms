@@ -7,8 +7,8 @@
 class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_modalbox2_class' => 'res/js/modalbox2.js',
-        'rdt_modalbox2_lib_class' => 'res/js/modalbox1.6.0/modalbox.js',
+        'rdt_modalbox2_class' => 'Resources/Public/JavaScript/widgets/modalbox2/modalbox2.js',
+        'rdt_modalbox2_lib_class' => 'Resources/Public/JavaScript/widgets/modalbox2/modalbox1.6.0/modalbox.js',
     ];
 
     public $bCustomIncludeScript = true;
@@ -124,7 +124,7 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
     public static function loaded(&$aParams)
     {
         $aParams['form']->getJSLoader()->loadScriptaculous();
-        $sCss = $aParams['form']->toWebPath('EXT:ameos_formidable/api/base/rdt_modalbox2/res/js/modalbox1.6.0/modalbox.css');
+        $sCss = $aParams['form']->toWebPath('EXT:mkforms/Resources/Public/JavaScript/widgets/modalbox2/modalbox1.6.0/modalbox.css');
         $aParams['form']->additionalHeaderData(
             '<link rel="stylesheet" type="text/css" href="'.$sCss.'" />'
         );

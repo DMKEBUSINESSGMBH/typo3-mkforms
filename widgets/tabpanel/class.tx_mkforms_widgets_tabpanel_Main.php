@@ -8,8 +8,8 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'TabPanel';
     public $aLibs = [
-        'rdt_tabpanel_lib' => 'res/js/libs/control.tabs.2.1.1.js',
-        'rdt_tabpanel_class' => 'res/js/tabpanel.js',
+        'rdt_tabpanel_lib' => 'Resources/Public/JavaScript/widgets/tabpanel/libs/control.tabs.2.1.1.js',
+        'rdt_tabpanel_class' => 'Resources/Public/JavaScript/widgets/tabpanel/tabpanel.js',
     ];
     public $bCustomIncludeScript = true;
 

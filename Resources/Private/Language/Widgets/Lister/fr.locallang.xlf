@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2022-05-12T07:11:23Z" product-name="mkforms">
+		<header/>
+		<body>
+			<trans-unit id="pager.first" resname="pager.first"  approved="yes">
+				<source>&amp;laquo;&amp;laquo;First</source>
+				<target>&amp;laquo;&amp;laquo;Premier</target>
+			</trans-unit>
+			<trans-unit id="pager.previous" resname="pager.previous"  approved="yes">
+				<source>&amp;laquo;Previous</source>
+				<target>&amp;laquo;Pr&amp;eacute;c&amp;eacute;dent</target>
+			</trans-unit>
+			<trans-unit id="pager.next" resname="pager.next"  approved="yes">
+				<source>Next&amp;raquo;</source>
+				<target>Suivant&amp;raquo;</target>
+			</trans-unit>
+			<trans-unit id="pager.last" resname="pager.last"  approved="yes">
+				<source>Last&amp;raquo;&amp;raquo;</source>
+				<target>Dernier&amp;raquo;&amp;raquo;</target>
+			</trans-unit>
+			<trans-unit id="pager.first.title" resname="pager.first.title"  approved="yes">
+				<source>Jump to first page</source>
+				<target>Sauter &amp;agrave; la premi&amp;egrave;re page</target>
+			</trans-unit>
+			<trans-unit id="pager.previous.title" resname="pager.previous.title"  approved="yes">
+				<source>Return to previous page</source>
+				<target>Retourner &amp;agrave; la page pr&amp;eacute;c&amp;eacute;dente</target>
+			</trans-unit>
+			<trans-unit id="pager.next.title" resname="pager.next.title"  approved="yes">
+				<source>Advance to next page</source>
+				<target>Avancer &amp;agrave; la page suivante</target>
+			</trans-unit>
+			<trans-unit id="pager.last.title" resname="pager.last.title"  approved="yes">
+				<source>Jump to last page</source>
+				<target>Sauter &amp;agrave; la derni&amp;egrave;re page</target>
+			</trans-unit>
+			<trans-unit id="sortby" resname="sortby"  approved="yes">
+				<source>Sort by</source>
+				<target>Ordonnancer par</target>
+			</trans-unit>
+			<trans-unit id="sort" resname="sort"  approved="yes">
+				<source>Sort</source>
+				<target>Ordonnancer</target>
+			</trans-unit>
+			<trans-unit id="sort.asc" resname="sort.asc"  approved="yes">
+				<source>ascending</source>
+				<target>croissant</target>
+			</trans-unit>
+			<trans-unit id="sort.desc" resname="sort.desc"  approved="yes">
+				<source>descending</source>
+				<target>d&amp;eacute;croissant</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

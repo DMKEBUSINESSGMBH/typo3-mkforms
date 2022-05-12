@@ -12,7 +12,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Selector';
     public $aLibs = [
-        'rdt_selector_class' => 'res/js/selector.js',
+        'rdt_selector_class' => 'Resources/Public/JavaScript/widgets/selector/selector.js',
     ];
 
     public $bCustomIncludeScript = true;
@@ -254,7 +254,7 @@ PHP;
 
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'res/img/remove.gif',
+                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/remove.gif',
                 'onclick-999' => [            // 999 to avoid overruling by potential customly defined event
                     'runat' => 'client',
                     'userobj' => [
@@ -299,7 +299,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'res/img/top.gif',
+                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/top.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [
@@ -344,7 +344,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'res/img/up.gif',
+                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/up.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [
@@ -387,7 +387,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'res/img/down.gif',
+                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/down.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [
@@ -431,7 +431,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'res/img/bottom.gif',
+                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/bottom.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [

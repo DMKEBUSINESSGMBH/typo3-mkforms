@@ -4,7 +4,7 @@ Widgets
 Allgemein
 ---------
 
-Neben den bekannten Attributen, die ein Widget haben kann (siehe formidableDocLinks), kann auch das placeholder Attribut gesetzt werden. Innerhalb des Attributes kann sowohl normaler Text, ein Runnable oder auch ein LL Label (LLL:EXT:myext/locallang.xml:label\_path) angegeben werden.
+Neben den bekannten Attributen, die ein Widget haben kann (siehe formidableDocLinks), kann auch das placeholder Attribut gesetzt werden. Innerhalb des Attributes kann sowohl normaler Text, ein Runnable oder auch ein LL Label (LLL:EXT:myext/Resources/Private/Language/locallang.xlf:label\_path) angegeben werden.
 
 Box
 ---

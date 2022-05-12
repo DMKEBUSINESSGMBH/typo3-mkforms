@@ -32,7 +32,7 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
     public $sMajixClass = 'Captcha';
     public $bCustomIncludeScript = true;
     public $aLibs = [
-        'rdt_captcha_class' => 'res/js/captcha.js',
+        'rdt_captcha_class' => 'Resources/Public/JavaScript/widgets/captcha/captcha.js',
     ];
 
     /**

@@ -8,7 +8,7 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
 {
     public $sMajixClass = 'Radio';
     public $aLibs = [
-        'rdt_radio_class' => 'res/js/radio.js',
+        'rdt_radio_class' => 'Resources/Public/JavaScript/widgets/radio/radio.js',
     ];
 
     public $sDefaultLabelClass = 'label-radio';

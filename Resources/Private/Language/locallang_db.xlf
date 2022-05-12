@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-12T07:12:43Z" product-name="mkforms">
+		<header/>
+		<body>
+			<trans-unit id="plugin.mkforms.label" resname="plugin.mkforms.label" >
+				<source>MKFORMS</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.tab.common" resname="plugin.mkforms.flexform.tab.common" >
+				<source>Common</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.tab.TSSetup" resname="plugin.mkforms.flexform.tab.TSSetup" >
+				<source>TS Setup</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.tab.generic" resname="plugin.mkforms.flexform.tab.generic" >
+				<source>Generic Form</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.tssetup" resname="plugin.mkforms.flexform.tssetup" >
+				<source>plugin.tx_mkforms.</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.xml" resname="plugin.mkforms.flexform.xml" >
+				<source>XML</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.redirect" resname="plugin.mkforms.flexform.redirect" >
+				<source>Redirect after full submit</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.redirect.pid" resname="plugin.mkforms.flexform.redirect.pid" >
+				<source>Redirect page</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.redirect.qualifier" resname="plugin.mkforms.flexform.redirect.qualifier" >
+				<source>Redirect qualifier</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.template" resname="plugin.mkforms.flexform.template" >
+				<source>Template</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.action" resname="plugin.mkforms.flexform.action" >
+				<source>Action</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.action.FormBase" resname="plugin.mkforms.flexform.action.FormBase" >
+				<source>Generic Form</source>
+			</trans-unit>
+			<trans-unit id="plugin.mkforms.flexform.viewClassName" resname="plugin.mkforms.flexform.viewClassName" >
+				<source>View</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

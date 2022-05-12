@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2022-05-12T07:09:22Z" product-name="mkforms">
+		<header/>
+		<body>
+			<trans-unit id="filetypedesc.allfiles" resname="filetypedesc.allfiles" >
+				<source>All files</source>
+			</trans-unit>
+			<trans-unit id="buttonbrowse.image_url" resname="buttonbrowse.image_url" >
+				<source>EXT:mkforms/widgets/swfupload/res/img/XPButtonBrowseText_61x22.png</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

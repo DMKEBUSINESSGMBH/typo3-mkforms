@@ -168,7 +168,7 @@ class tx_mkforms_util_FormFill
      */
     public function getStaticCountries($params, tx_mkforms_forms_Base $form)
     {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables', true);
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables');
 
         $config = \Sys25\RnBase\Domain\Model\DataModel::getInstance($params);
 

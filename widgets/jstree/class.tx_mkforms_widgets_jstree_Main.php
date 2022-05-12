@@ -7,8 +7,8 @@
 class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_jstree_class' => 'res/js/jstree.js',
-        'rdt_jstree_lib_class' => 'res/lib/js/AxentTree.js',
+        'rdt_jstree_class' => 'Resources/Public/JavaScript/widgets/jstree/jstree.js',
+        'rdt_jstree_lib_class' => 'Resources/Public/JavaScript/widgets/jstree/lib/js/AxentTree.js',
     ];
 
     public $sMajixClass = 'JsTree';
@@ -27,7 +27,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
         $this->oForm->getJSLoader()->loadScriptaculousDragDrop();
 
         $this->oForm->additionalHeaderData(
-            '<link rel="stylesheet" type="text/css" href="'.$this->sExtWebPath.'res/lib/css/tree.css" />',
+            '<link rel="stylesheet" type="text/css" href="'.$this->sExtWebPath.'Resources/Public/JavaScript/widgets/jstree/lib/css/tree.css" />',
             'rdt_jstree_lib_css'
         );
 

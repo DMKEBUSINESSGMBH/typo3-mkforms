@@ -7,8 +7,8 @@
 class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_accordion_lib' => 'res/js/accordion-fixed.js',
-        'rdt_accordion_class' => 'res/js/accordion.js',
+        'rdt_accordion_lib' => 'Resources/Public/JavaScript/widgets/accordion/accordion-fixed.js',
+        'rdt_accordion_class' => 'Resources/Public/JavaScript/widgets/accordion/accordion.js',
     ];
 
     public $sMajixClass = 'Accordion';

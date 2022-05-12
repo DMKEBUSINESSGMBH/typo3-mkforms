@@ -7,7 +7,7 @@
 class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 {
     public $aLibs = [
-        'rdt_link_class' => 'res/js/link.js',
+        'rdt_link_class' => 'Resources/Public/JavaScript/widgets/link/link.js',
     ];
     public $bCustomIncludeScript = true;
 
