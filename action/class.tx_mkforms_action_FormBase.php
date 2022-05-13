@@ -31,7 +31,7 @@
  *
  * @author     Michael Wagner
  */
-class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
+class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\AbstractAction
 {
     /**
      * Form data.
@@ -70,16 +70,15 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
     protected $errors = [];
 
     /**
-     * Start the dance...
-     *
-     * @param \Sys25\RnBase\Frontend\Request\Parameters     $parameters
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
-     * @param ArrayObject              $viewData
-     *
-     * @return string
+     * @var \Sys25\RnBase\Frontend\Request\RequestInterface
      */
-    public function handleRequest(&$parameters, &$configurations, &$viewData)
+    protected $request;
+
+    public function handleRequest(Sys25\RnBase\Frontend\Request\RequestInterface $request)
     {
+        $this->request = $request;
+        $configurations = $this->request->getConfigurations();
+        $viewData = $this->request->getViewContext();
         $this->form = tx_mkforms_forms_Factory::createForm('generic');
         $confId = $this->getConfId();
 
@@ -193,7 +192,8 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
 
         // Flatten array
         if ($flattenData) {
-            $data = tx_mkforms_util_FormBase::flatArray2MultipleTableStructure($data, $form, $this->getConfigurations(), $confId);
+            $configurations = $this->request->getConfigurations();
+            $data = tx_mkforms_util_FormBase::flatArray2MultipleTableStructure($data, $form, $configurations, $confId);
         }
 
         // Hook to handle data
@@ -319,11 +319,11 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         );
 
         $confId = $this->getConfId();
-
+        $configurations = $this->request->getConfigurations();
         if (!is_array($data) || empty($data)) {
             $data = [];
             // @see self::flatArray2MultipleTableStructure -> addfields
-            $addFields = $this->getConfigurations()->get($confId.'addfields.', true);
+            $addFields = $configurations->get($confId.'addfields.', true);
             // Felder setzen, überschreiben oder löschen
             if (is_array($addFields) && count($addFields)) {
                 $data = tx_mkforms_util_FormBase::addFields($data, $addFields);
@@ -335,7 +335,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         $this->preFilledForm = tx_mkforms_util_FormBase::multipleTableStructure2FlatArray(
             $data,
             $form,
-            $this->getConfigurations(),
+            $configurations,
             $confId
         );
 
@@ -371,10 +371,10 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
         // Of course, the respective data handler has to handle
         // complex data types in the right way.
         $sParamName = ($this->useTemplateNameAsPrefillParamName()) ? $this->getTemplateName() : 'uid';
-        $uid = $this->getParameters()->get($sParamName);
+        $uid = $this->request->getParameters()->get($sParamName);
 
         // Use parameter "uid", if available
-        return $uid ? $uid : false;        // FALSE as default - DON'T use NULL!!!
+        return $uid ?: false;        // FALSE as default - DON'T use NULL!!!
     }
 
     /**
@@ -404,9 +404,7 @@ class tx_mkforms_action_FormBase extends tx_rnbase_action_BaseIOC
      */
     protected function getViewClassName()
     {
-        $class = $this->getConfigurations()->get($this->getConfId().'viewClassName');
-
-        return $class ? $class : 'tx_mkforms_view_Form';
+        return 'tx_mkforms_view_Form';
     }
 
     /**

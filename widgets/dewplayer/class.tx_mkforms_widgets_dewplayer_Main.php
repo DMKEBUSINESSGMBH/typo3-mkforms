@@ -19,7 +19,9 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
         $bAutoReplay = $this->oForm->_defaultFalse('/autoreplay', $this->aElement);
         $sBgColor = (false !== ($sTempColor = $this->_navConf('/bgcolor'))) ? $sTempColor : 'FFFFFF';
 
-        $sMoviePath = $this->sExtWebPath.'res/dewplayer.swf';
+        $sMoviePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Flash/dewplayer.swf')
+        );
 
         $sColor = str_replace('#', '', $sBgColor);
         $sMoviePath .= '?bgcolor='.$sColor;

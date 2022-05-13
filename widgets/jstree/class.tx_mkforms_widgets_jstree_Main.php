@@ -26,8 +26,13 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
     {
         $this->oForm->getJSLoader()->loadScriptaculousDragDrop();
 
+        $cssPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+                'EXT:mkforms/Resources/Public/JavaScript/widgets/jstree/lib/css/tree.css'
+            )
+        );
         $this->oForm->additionalHeaderData(
-            '<link rel="stylesheet" type="text/css" href="'.$this->sExtWebPath.'Resources/Public/JavaScript/widgets/jstree/lib/css/tree.css" />',
+            '<link rel="stylesheet" type="text/css" href="'.$cssPath.'" />',
             'rdt_jstree_lib_css'
         );
 
@@ -50,7 +55,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
         ];
     }
 
-    public function &_fetchData()
+    public function _fetchData()
     {
         if (false === ($mData = $this->_navConf('/data')) || !$this->oForm->isRunneable($mData)) {
             $this->oForm->mayday('RENDERLET JSTREE <b>'.$this->_getName().'</b> - requires <b>/data</b> to be properly set with a runneable. Check your XML conf.');

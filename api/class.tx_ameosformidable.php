@@ -45,10 +45,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $sExtPath = null;    // server abs path to formidable
 
-    public $sExtRelPath = null;    // server path to formidable, relative to server root
-
-    public $sExtWebPath = null;    // web path to formidable
-
     public $_aValidators = null;
 
     public $_aDataSources = null;
@@ -240,6 +236,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     private $sSessionId;
 
     /**
+     * @var bool
+     */
+    public $bInlineEvents;
+
+    /**
      * @var tx_mkforms_util_Config
      */
     private $config = null;
@@ -253,7 +254,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      *
      * @return TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
-    public function &getCObj()
+    public function getCObj()
     {
         if (!is_object($this->cObj)) {
             // Das cObj schein beim cachen verloren zu gehen
@@ -374,8 +375,6 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
          *
          */
         $this->sExtPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms');
-        $this->sExtRelPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix($this->sExtPath);
-        $this->sExtWebPath = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath;
 
         // TODO: Der Zugriff auf conf wird durch \Sys25\RnBase\Configuration\Processor ersetzt
         $this->setConfigurations($configurations, $confid);
@@ -652,7 +651,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public function initAPI(&$oParent)
     {
         $this->_oParent = &$oParent;
-        $this->formid = \Sys25\RnBase\Utility\T3General::shortMD5(rand());
+        $this->formid = md5(rand());
     }
 
     /**
@@ -1876,7 +1875,7 @@ SANDBOXCLASS;
         return $mData;
     }
 
-    public function &getRdtForTemplateMethod($mData)
+    public function getRdtForTemplateMethod($mData)
     {
         // returns the renderlet object corresponding to what's asked in the template
         // if none corresponds, then FALSE is returned
@@ -3367,7 +3366,7 @@ JAVASCRIPT;
 
     public function _substLLLInHtml($sHtml)
     {
-        if ('L' === $sHtml[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sHtml, 'LLL:')) {
+        if ('L' === ($sHtml[0] ?? '') && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sHtml, 'LLL:')) {
             return $this->getConfigXML()->getLLLabel($sHtml);
         }
 
@@ -3702,7 +3701,7 @@ JAVASCRIPT;
             $sStr = $this->getConfTS('misc.safelockseed');
         }
 
-        return \Sys25\RnBase\Utility\T3General::shortMD5(
+        return md5(
             $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr
         );
     }
@@ -3715,13 +3714,13 @@ JAVASCRIPT;
     /**
      * Das wird nirgendwo aufgerufen...
      */
-    public function checkSafeLock($sStr = false, $sLock)
+    public function checkSafeLock($sStr = false, $sLock = null)
     {
         if (false === $sStr) {
             $sStr = $this->getConfTS('misc.safelockseed');
         }
 
-        return \Sys25\RnBase\Utility\T3General::shortMD5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr) === $sLock;
+        return md5($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'].'||'.$sStr) === $sLock;
     }
 
     public function _watchOutDB($rRes, $sSql = false)
@@ -4121,7 +4120,7 @@ JAVASCRIPT;
                 $oRequest->denyService('Unknown Event ID '.$sEventId);
             }
 
-            if (false !== $oThrower && $this->_isTrueVal($this->aAjaxEvents[$sEventId]['event']['syncvalue'])) {
+            if (false !== $oThrower && $this->_isTrueVal($this->aAjaxEvents[$sEventId]['event']['syncvalue'] ?? false)) {
                 // Das Element wird auf den aktuellen Wert gesetzt
                 $oThrower->setValue($oRequest->aRequest['params']['sys_syncvalue']);
                 unset($oRequest->aRequest['params']['sys_syncvalue']);
@@ -4135,8 +4134,8 @@ JAVASCRIPT;
                     $iNbParams = count($aArgs);
                 }
 
+                $aArgs = [];
                 if (false === $oThrower) {
-                    $aArgs = [];
                     $aArgs[0] = $this->aAjaxEvents[$sEventId]['event']; // Wir ersetzen den ersten Parameter
                     $aArgs[1] = $oRequest->aRequest['params'];
 
@@ -4148,7 +4147,6 @@ JAVASCRIPT;
                 // logic: for back-compat, when trueargs is empty, we pass parameters as we always did
                 // if trueargs set, we replicate arguments
 
-                $aArgs = is_array($aArgs) ? $aArgs : [];
                 if (!$iNbParams) {
                     array_unshift($aArgs, $oRequest->aRequest['params']);
                 }
@@ -4298,7 +4296,7 @@ JAVASCRIPT;
         }
     }
 
-    public function &getFromContext($sFormId)
+    public function getFromContext($sFormId)
     {
         $sExecMode = tx_mkforms_util_Div::getEnvExecMode();
         if ('EID' === $sExecMode) {
@@ -4875,7 +4873,7 @@ JAVASCRIPT;
         return $aRes;
     }
 
-    public function &cb($sName)
+    public function cb($sName)
     {
         if (array_key_exists($sName, $this->aCB)) {
             return $this->aCB[$sName];
@@ -4892,12 +4890,12 @@ JAVASCRIPT;
         return $this->oMajixEvent;
     }
 
-    public function &getMajixSender()
+    public function getMajixSender()
     {
         return $this->getMajixThrower();
     }
 
-    public function &getMajixThrower()
+    public function getMajixThrower()
     {
         if (false !== $this->oMajixEvent) {
             return $this->oMajixEvent->getThrower();
@@ -4911,7 +4909,7 @@ JAVASCRIPT;
         $this->aCurrentRdtStack[] = &$oRdt;
     }
 
-    public function &getCurrentRdt()
+    public function getCurrentRdt()
     {
         if (empty($this->aCurrentRdtStack)) {
             return false;
@@ -4920,7 +4918,7 @@ JAVASCRIPT;
         return $this->aCurrentRdtStack[(count($this->aCurrentRdtStack) - 1)];
     }
 
-    public function &pullCurrentRdt()
+    public function pullCurrentRdt()
     {
         if (empty($this->aCurrentRdtStack)) {
             return false;
@@ -5087,7 +5085,7 @@ JAVASCRIPT;
      *
      * @return formidable_mainrenderlet
      */
-    public function &rdt($sName)
+    public function rdt($sName)
     {
         return $this->getWidget($sName);
     }
@@ -5136,7 +5134,7 @@ JAVASCRIPT;
      *
      * @throws tx_mkforms_exception_DataSourceNotFound
      */
-    public function &getDataSource($name)
+    public function getDataSource($name)
     {
         if (!array_key_exists($name, $this->aODataSources)) {
             throw new tx_mkforms_exception_DataSourceNotFound('Missing DS: '.$name);

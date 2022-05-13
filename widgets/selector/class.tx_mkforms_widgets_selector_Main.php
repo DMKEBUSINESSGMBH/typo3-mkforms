@@ -26,8 +26,18 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
     public $oButtonMoveBottom = false;
     public $oCustomRenderlet = false;
 
+    /**
+     * @var string
+     */
+    protected $publicImagesPath;
+
     public function _render()
     {
+        $this->publicImagesPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+                'EXT:mkforms/Resources/Public/Images/widgets/selector'
+            )
+        );
         $this->initAvailable();
         $this->initSelected();
         $this->initButtonRemove();
@@ -254,7 +264,7 @@ PHP;
 
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/remove.gif',
+                'path' => $this->publicImagesPath.'/remove.gif',
                 'onclick-999' => [            // 999 to avoid overruling by potential customly defined event
                     'runat' => 'client',
                     'userobj' => [
@@ -299,7 +309,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/top.gif',
+                'path' => $this->publicImagesPath.'/top.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [
@@ -344,7 +354,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/up.gif',
+                'path' => $this->publicImagesPath.'/up.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [
@@ -387,7 +397,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/down.gif',
+                'path' => $this->publicImagesPath.'/down.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [
@@ -431,7 +441,7 @@ PHP;
 PHP;
             $aConf = [
                 'type' => 'IMAGE',
-                'path' => $this->sExtPath.'Resources/Public/Images/widgets/selector/bottom.gif',
+                'path' => $this->publicImagesPath.'/bottom.gif',
                 'onclick-999' => [
                     'runat' => 'client',
                     'userobj' => [

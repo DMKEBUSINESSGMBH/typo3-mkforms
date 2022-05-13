@@ -17,7 +17,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
     public $iTotalRows = 0;
 
-    public function &_fetchData($aConfig = [], $aFilters = [])
+    public function _fetchData($aConfig = [], $aFilters = [])
     {
         $this->aConfig = &$aConfig;
         $this->aFilters = &$aFilters;
@@ -26,7 +26,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
         return [
             'numrows' => $this->iTotalRows,
-            'results' => &$this->aSource,
+            'results' => $this->aSource,
         ];
     }
 
@@ -34,7 +34,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
     {
         if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
             $params = ['config' => $aConfig, 'filters' => $aFilters];
-            $this->aSource = &$this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
+            $this->aSource = $this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
 
             if (!is_array($this->aSource)) {
                 $this->aSource = [];
@@ -85,7 +85,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
             reset($aKeys);
             foreach ($aKeys as $sKey) {
-                $this->aPosByUid[$this->aSource[$sKey]['uid']] = $k;
+                $this->aPosByUid[$this->aSource[$sKey]['uid'] ?? 0] = $k;
                 ++$k;
             }
 

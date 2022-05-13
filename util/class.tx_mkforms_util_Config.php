@@ -83,19 +83,19 @@ class tx_mkforms_util_Config
             if (is_array($curZone) && array_key_exists($aPath[$i], $curZone)) {
                 $curZone = $curZone[$aPath[$i]];
                 if (is_string($curZone)) {
-                    if ('X' === $curZone[0] && 'XPATH:' === substr($curZone, 0, 6)) {
+                    if ('X' === ($curZone[0] ?? '') && 'XPATH:' === substr($curZone, 0, 6)) {
                         $curZone = $this->xPath($curZone);
-                    } elseif ('T' === $curZone[0] && 'TS:' === substr($curZone, 0, 3)) {
+                    } elseif ('T' === ($curZone[0] ?? '') && 'TS:' === substr($curZone, 0, 3)) {
                         $sTsPointer = $curZone;
                         $curZone = substr($curZone, 3);
                         if (AMEOSFORMIDABLE_TS_FAILED === ($curZone = $this->getTS($curZone, true))) {
                             tx_mkforms_util_Div::mayday('The typoscript pointer <b>'.$sTsPointer.'</b> evaluation has failed, as the pointed property does not exists within the current Typoscript template');
                         }
-                    } elseif ('T' === $curZone[0] && 'TCA:' === substr($curZone, 0, 4)) {
+                    } elseif ('T' === ($curZone[0] ?? '') && 'TCA:' === substr($curZone, 0, 4)) {
                         $curZone = $this->getTcaVal($curZone);
-                    } elseif ('L' === $curZone[0] && 'LLL:' === substr($curZone, 0, 4)) {
+                    } elseif ('L' === ($curZone[0] ?? '') && 'LLL:' === substr($curZone, 0, 4)) {
                         $curZone = $this->getLLLabel($curZone);
-                    } elseif ('E' === $curZone[0] && 'X' === $curZone[1] && 'EXTCONF:' === substr($curZone, 0, 8)) {
+                    } elseif ('E' === ($curZone[0] ?? '') && 'X' === $curZone[1] && 'EXTCONF:' === substr($curZone, 0, 8)) {
                         $curZone = $this->getExtConfVal($curZone);
                     }
                 }
@@ -461,7 +461,7 @@ class tx_mkforms_util_Config
         foreach ($aDefaultXml as $key => $value) {
             if ('.' == substr($key, strlen($key) - 1, 1)) {
                 $key_1 = substr($key, 0, strlen($key) - 1);
-                if (!is_array($aXmlConf[$key_1])) {
+                if (!is_array($aXmlConf[$key_1] ?? null)) {
                     $aXmlConf[$key_1] = [];
                 }
                 $aXmlConf[$key_1] = $this->loadDefaultXmlConf($aXmlConf[$key_1], $value);

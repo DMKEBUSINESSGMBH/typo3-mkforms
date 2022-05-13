@@ -378,7 +378,7 @@ class formidable_mainvalidator extends formidable_mainobject
             $mDependsOn = $this->getForm()->getRunnable()->callRunnable($mDependsOn);
 
             // Der Validator wird nur ausgeführt, wenn das Flag-Widget einen Wert hat.
-            $widget = &$this->getForm()->getWidget($mDependsOn);
+            $widget = $this->getForm()->getWidget($mDependsOn);
 
             if ($widget) {
                 $negate = false;
@@ -584,7 +584,7 @@ class formidable_mainvalidator extends formidable_mainobject
      */
     public function _oneRdtHasAValue($mValue, $sRdt)
     {
-        $widget = &$this->getForm()->getWidget($sRdt);
+        $widget = $this->getForm()->getWidget($sRdt);
 
         // abhähniges feld existiert, ist geklickt oder widget selbst ist nicht leer
         if (($widget && $widget->getValue()) || !empty($mValue)) {

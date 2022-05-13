@@ -64,6 +64,7 @@ class formidableajax
             'thrower' => \Sys25\RnBase\Utility\T3General::_GP('thrower'),
             'arguments' => \Sys25\RnBase\Utility\T3General::_GP('arguments'),
             'trueargs' => \Sys25\RnBase\Utility\T3General::_GP('trueargs'),
+            'pageId' => (int) \Sys25\RnBase\Utility\T3General::_GP('pageId'),
         ];
 
         $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -86,7 +87,7 @@ class formidableajax
         $aHibernation = &$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
 
         // Die TSFE muss vor dem Form wieder hergestellt werden, damit die LANG stimmt
-        $this->initTSFE($formid, $sesMgr, $aHibernation);
+        $this->initTSFE($formid, $sesMgr, $aHibernation, $this->aRequest['pageId']);
 
         // Das Formular aus der Session holen.
         $start = microtime(true);
@@ -136,18 +137,19 @@ class formidableajax
      * @param string                      $formid
      * @param tx_mkforms_session_IManager $sesMgr
      * @param array                       $aHibernation
+     * @param int                         $pageId
      *
      * @todo no support for virtualizeFE option since typo3 9.5 right now. If no support is needed/added this method can be
      * removed when making mkforms compatible to TYPO3 11.
      */
-    private function initTSFE($formid, $sesMgr, $aHibernation)
+    private function initTSFE($formid, $sesMgr, $aHibernation, int $pageId)
     {
         if ($this->aConf['virtualizeFE']) {
             // Hier wird eine TSFE erstellt. Das hängt vom jeweiligen Ajax-Call ab.
             $start = microtime(true);
             // Der sesMgr verwendet hier das FORM um die PID zu ermitteln
-            $feConfig = $sesMgr->restoreFeConfig($formid);
-            $feSetup = $sesMgr->restoreFeSetup($formid);
+            $feConfig = $sesMgr->restoreFeConfig($formid, $pageId);
+            $sesMgr->restoreFeSetup($formid, $pageId);
             // Das dauert hier echt lang. Ca. 70% der Init-Zeit
             $this->ttTimes['fecrest'] = microtime(true) - $start;
             $context = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
@@ -367,7 +369,7 @@ class formidableajax
         return false;
     }
 
-    public function &getThrower()
+    public function getThrower()
     {
         if (false !== ($sWho = $this->getWhoThrown())) {
             if (array_key_exists($sWho, $this->oForm->aORenderlets)) {
@@ -421,6 +423,16 @@ class formidableajax
 
             return new \TYPO3\CMS\Core\Http\HtmlResponse($this->handleRequest());
         } catch (Exception $e) {
+            if (ini_get('display_errors')) {
+                \TYPO3\CMS\Core\Utility\DebugUtility::debug(
+                    [
+                        'da',
+                        $e->getMessage(),
+                        \Sys25\RnBase\Utility\Logger::isWarningEnabled(),
+                    ],
+                    __METHOD__.' Zeile:'.__LINE__
+                );
+            }
             if (\Sys25\RnBase\Utility\Logger::isWarningEnabled()) {
                 $request = $this instanceof formidableajax ? $this->getRequestData() : 'unkown';
                 $widgets = $this instanceof formidableajax && is_object($this->getForm()) ? $this->getForm()->getWidgetNames() : [];

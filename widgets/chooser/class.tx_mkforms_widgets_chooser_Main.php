@@ -19,7 +19,7 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
             ],
         ];
 
-        $sFuncName = '_formidableRdtChooser'.\Sys25\RnBase\Utility\T3General::shortMd5($this->oForm->formid.$this->_getName());
+        $sFuncName = '_formidableRdtChooser'.md5($this->oForm->formid.$this->_getName());
         $sElementId = $this->_getElementHtmlId();
 
         $sMode = $this->_navConf('/submitmode');
@@ -52,7 +52,7 @@ class tx_mkforms_widgets_chooser_Main extends formidable_mainrenderlet
 JAVASCRIPT;
 
         $this->oForm->additionalHeaderData(
-            $this->oForm->inline2TempFile($sScript, 'js', 'Chooser '.$sHtmlId.' stuff')
+            $this->oForm->inline2TempFile($sScript, 'js', 'Chooser '.$this->_getElementHtmlId().' stuff')
         );
 
         $aItems = $this->_getItems();

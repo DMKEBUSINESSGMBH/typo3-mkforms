@@ -93,7 +93,7 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
      *
      * @return tx_mkforms_action_FormBase
      */
-    private static function &getAction($execute = true)
+    private static function getAction($execute = true)
     {
         $configArray = self::getStaticTS();
 

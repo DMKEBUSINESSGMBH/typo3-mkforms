@@ -14,6 +14,11 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         'widget_listersel_class' => 'Resources/Public/JavaScript/widgets/listerselect/listersel.js',
     ];
 
+    /**
+     * @var array
+     */
+    protected $aSubWidgets;
+
     public function _render()
     {
         $lister = $this->getParent();
@@ -31,7 +36,7 @@ class tx_mkforms_widgets_listerselect_Main extends formidable_mainrenderlet
         $selected = ($rowId == $this->getValue()) ? ' checked="checked" ' : '';
 
         $sInput = '<input type="radio" name="'.$this->_getElementHtmlName().'" id="'.$sId.'" value="'.$rowId.'" '.$selected.$this->_getAddInputParams().' />';
-        $sCaption = $this->getForm()->getConfigXML()->getLLLabel($aItem['caption']);
+        $sCaption = $this->getForm()->getConfigXML()->getLLLabel($this->getConfigValue('/caption'));
         $sLabelStart = '<label for="'.$sId.'">';
         $sLabelEnd = '</label>';
         $sLabel = $sLabelStart.$sCaption.$sLabelEnd;

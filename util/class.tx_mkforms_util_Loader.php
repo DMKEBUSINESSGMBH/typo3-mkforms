@@ -67,7 +67,7 @@ class tx_mkforms_util_Loader
      *
      * @return object
      */
-    public function &makeObject($aElement, $objectType, $sXPath, $form, $sNamePrefix = false, $aOParent = [])
+    public function makeObject($aElement, $objectType, $sXPath, $form, $sNamePrefix = false, $aOParent = [])
     {
         $objectKey = $aElement['type'];
         $aObj = self::loadObject($objectKey, $objectType, $form);

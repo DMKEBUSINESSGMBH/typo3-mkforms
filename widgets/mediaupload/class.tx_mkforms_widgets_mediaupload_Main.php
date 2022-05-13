@@ -690,8 +690,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         $oJsLoader = $this->getForm()->getJSLoader();
         // JS-Lib ermitteln
-        $sFile = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').$this->sExtRelPath.'Resources/Public/JavaScript/widgets/mediaupload/ajaxfileupload.js';
-
+        $sFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+                'EXT:mkforms/Resources/Public/JavaScript/widgets/mediaupload/ajaxfileupload.js'
+            )
+        );
         $oJsLoader->additionalHeaderData(
             '<script src="'.$oJsLoader->getScriptPath($sFile).'"></script>',
             'mkforms_mediaupload_includeonce'
@@ -766,7 +769,7 @@ INITSCRIPT;
         $sUploadUrl = tx_mkforms_util_Div::removeEndingSlash(
             \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')
         ).
-            '/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+            '/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         tx_mkforms_session_Factory::getSessionManager()->initialize();
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [

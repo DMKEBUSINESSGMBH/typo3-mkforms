@@ -38,6 +38,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
     private $form;
 
     /**
+     * @var bool
+     */
+    private $bStoreParentInSession;
+
+    /**
      * {@inheritdoc}
      *
      * @see tx_mkforms_session_IManager::initialize()
@@ -115,9 +120,9 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             $sLang = \Sys25\RnBase\Utility\Environment::getCurrentLanguageKey();
             $sessData['lang'] = $sLang;
             $sessData['spamProtectEmailAddresses'] = $GLOBALS['TSFE']->spamProtectEmailAddresses;
-            $sessData['spamProtectEmailAddresses_atSubst'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_atSubst'];
-            $sessData['spamProtectEmailAddresses_lastDotSubst'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_lastDotSubst'];
-            $sessData['formidable_tsconfig'] = $GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.'];
+            $sessData['spamProtectEmailAddresses_atSubst'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_atSubst'] ?? '';
+            $sessData['spamProtectEmailAddresses_lastDotSubst'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_lastDotSubst'] ?? '';
+            $sessData['formidable_tsconfig'] = $GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.'] ?? [];
         }
         $sessData['parent'] = false;
 
@@ -177,7 +182,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         return false;
     }
 
-    public function restoreFeConfig($formId)
+    public function restoreFeConfig($formId, int $pageId)
     {
         $this->initializeSessionArray();
 
@@ -193,11 +198,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
 
+        $form = $this->getForm();
         // Wir holen uns die pageID von dem Formular.
         // Bei AjaxCalls steht im TSFE keine oder die falsche ID!
-        $iPageId = $this->getForm()->iPageId;
-        $iPageId = $iPageId ? $iPageId : $GLOBALS['TSFE']->id;
-        $serData = $cache->get($this->getPageFormKey($formId, $iPageId));
+        $pageId = $form ? $form->iPageId : $pageId;
+        $serData = $cache->get($this->getPageFormKey($formId, $pageId));
         if (!$serData) {
             return false;
         }
@@ -238,7 +243,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         return false;
     }
 
-    public function restoreFeSetup($formId)
+    public function restoreFeSetup($formId, int $pageId)
     {
         $this->initializeSessionArray();
 
@@ -254,11 +259,11 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
 
         $cache = \Sys25\RnBase\Cache\CacheManager::getCache('mkforms');
 
+        $form = $this->getForm();
         // Wir holen uns die pageID von dem Formular.
         // Bei AjaxCalls steht im TSFE keine oder die falsche ID!
-        $iPageId = $this->getForm()->iPageId;
-        $iPageId = $iPageId ? $iPageId : $GLOBALS['TSFE']->id;
-        $serData = $cache->get($this->getPageFormKey($formId, $iPageId, 'setup'));
+        $pageId = $form ? $form->iPageId : $pageId;
+        $serData = $cache->get($this->getPageFormKey($formId, $pageId, 'setup'));
         if (!$serData) {
             return false;
         }

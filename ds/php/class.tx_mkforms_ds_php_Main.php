@@ -93,7 +93,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
         return $aSet;
     }
 
-    public function &_fetchData($aConfig = [], $aFilters = [])
+    public function _fetchData($aConfig = [], $aFilters = [])
     {
         $aResults = [];
         $iNumRows = 0;

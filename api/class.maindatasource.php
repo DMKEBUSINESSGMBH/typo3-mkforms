@@ -218,9 +218,9 @@ abstract class formidable_maindatasource extends formidable_mainobject
      *
      * @return array
      */
-    abstract public function &_fetchData($aConfig = [], $aFilters = []);
+    abstract public function _fetchData($aConfig = [], $aFilters = []);
 
-    public function &fetchData($aConfig = [], $aFilters = [])
+    public function fetchData($aConfig = [], $aFilters = [])
     {
         return $this->_fetchData($aConfig, $aFilters);
     }

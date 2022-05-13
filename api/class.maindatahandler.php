@@ -507,7 +507,7 @@ class formidable_maindatahandler extends formidable_mainobject
             $aPost = \Sys25\RnBase\Utility\T3General::_POST();
 
             $aPost = is_array($aPost[$form_id]) ? $aPost[$form_id] : [];
-            $aFiles = is_array($GLOBALS['_FILES'][$form_id]) ? $GLOBALS['_FILES'][$form_id] : [];
+            $aFiles = is_array($GLOBALS['_FILES'][$form_id] ?? null) ? $GLOBALS['_FILES'][$form_id] : [];
             $aP = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
 
             \Sys25\RnBase\Utility\T3General::stripSlashesOnArray($aP);
@@ -959,7 +959,7 @@ class formidable_maindatahandler extends formidable_mainobject
                 $mRes = null;
 
                 if ($this->getForm()->getWidget($sAbsName)->hasDataBridge()) {
-                    $oDataSet = &$this->getForm()->getWidget($sAbsName)->dbridged_getCurrentDsetObject();
+                    $oDataSet = $this->getForm()->getWidget($sAbsName)->dbridged_getCurrentDsetObject();
 
                     // sure that dataset is anchored, as we already tested it to be in noSubmit_edit
                     $aData = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(// allowing GET to set values

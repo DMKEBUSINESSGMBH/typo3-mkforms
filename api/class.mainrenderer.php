@@ -55,7 +55,7 @@ TEMPLATE;
 
     public function _wrapIntoForm($html)
     {
-        $oForm = &$this->getForm();
+        $oForm = $this->getForm();
         $iFormId = $oForm->getFormId();
 
         if (!empty($this->getForm()->getDataHandler()->newEntryId)) {
@@ -412,7 +412,7 @@ TEMPLATE;
                 // Hier werden die Parameter für einen Ajax-Request verarbeitet.
 
                 $sParam = $param['get'];
-                $sAs = $param['as'];
+                $sAs = $param['as'] ?? null;
                 if (\Sys25\RnBase\Utility\T3General::isFirstPartOfStr($sParam, 'rowData::')) {
                     $sParamName = substr($sParam, 9);
                     $aRowParams[$sParamName] = '';
@@ -516,7 +516,7 @@ TEMPLATE;
         return 'Formidable.executeInlineJs('.$this->getForm()->array2json($aJson).');';
     }
 
-    public function _getClientEvent($sObjectId, $aEvent = [], $aEventData, $sEvent)
+    public function _getClientEvent($sObjectId, $aEvent = [], $aEventData = [], $sEvent = '')
     {
         if (empty($aEventData)) {
             $aEventData = [];
@@ -655,7 +655,7 @@ TEMPLATE;
             if (false !== $sStyle) {
                 reset($this->getForm()->aORenderlets);
                 foreach ($this->getForm()->aORenderlets as $sName => $notNeeded) {
-                    $oRdt = &$this->getForm()->aORenderlets[$sName];
+                    $oRdt = $this->getForm()->aORenderlets[$sName];
                     $sStyle = str_replace(
                         [
                             '#'.$sName,

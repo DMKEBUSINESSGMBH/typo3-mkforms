@@ -74,7 +74,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         // thwoerID without iterating id
         $sThrower = $this->_getElementHtmlId(false, true, false);
 
-        $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+        $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
             'requester' => [
@@ -127,7 +127,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         return $aHtmlBag;
     }
 
-    public function &_getRowsSubpart($sTemplate)
+    public function _getRowsSubpart($sTemplate)
     {
         $aRowsTmpl = [];
         if (false !== ($sAltRows = $this->_navConf('/template/alternaterows'))) {
@@ -157,7 +157,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         return $aRowsTmpl;
     }
 
-    public function &_getTemplate()
+    public function _getTemplate()
     {
         if (false !== ($aTemplate = $this->_navConf('/template'))) {
             $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
@@ -239,7 +239,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         }
     }
 
-    public function &_refineRow($aData)
+    public function _refineRow($aData)
     {
         $sText = preg_quote($this->aConfig['searchText'], '/');
 
@@ -409,7 +409,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
     public function _getElementHtmlName($sName = false)
     {
         $sRes = parent::_getElementHtmlName($sName);
-        $aData = &$this->oForm->oDataHandler->_getListData();
+        $aData = $this->oForm->oDataHandler->_getListData();
 
         if (!empty($aData)) {
             $sRes .= '['.$aData['uid'].']';
@@ -421,7 +421,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
     public function _getElementHtmlNameWithoutFormId($sName = false)
     {
         $sRes = parent::_getElementHtmlNameWithoutFormId($sName);
-        $aData = &$this->oForm->oDataHandler->_getListData();
+        $aData = $this->oForm->oDataHandler->_getListData();
 
         if (!empty($aData)) {
             $sRes .= '['.$aData['uid'].']';

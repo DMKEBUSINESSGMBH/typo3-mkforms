@@ -128,7 +128,7 @@ class tx_mkforms_util_Runnable
     {
         foreach ($aUserObjParams as $index => $aParam) {
             if (is_array($aParam)) {
-                $name = $aParam['name'];
+                $name = $aParam['name'] ?? '';
                 // Scalar values are set in attribute "value"
                 if (isset($aParam['value'])) {
                     $value = $aParam['value'];
@@ -197,7 +197,6 @@ class tx_mkforms_util_Runnable
                 .'	}'
                 .'}';
 
-            set_error_handler([&$form, '__catchEvalException']);
             eval($sClass);
             $oObj = new $sClassName();
 
@@ -256,7 +255,7 @@ class tx_mkforms_util_Runnable
             return;
         }
 
-        $form = &$this->getForm();
+        $form = $this->getForm();
 
         if (!method_exists($oExtension, $method)) {
             $sObject = ('this' == $extension) ? '$this (<b>'.get_class($this->getForm()->getParent()).'</b>)' : $extension;
@@ -497,7 +496,7 @@ class tx_mkforms_util_Runnable
                 if ('php' === $aCB['type']) {
                     if ('EID' === tx_mkforms_util_Div::getEnvExecMode()) {
                         $this->aCodeBehinds['php'][$aCB['name']]['object'] = unserialize($this->aCodeBehinds['php'][$aCB['name']]['object']);
-                        $this->aCodeBehinds['php'][$aCB['name']]['object']->oForm = &$this->getForm();
+                        $this->aCodeBehinds['php'][$aCB['name']]['object']->oForm = $this->getForm();
                     } else {
                         $this->aCodeBehinds['php'][$aCB['name']] = $aCB;
                     }
@@ -510,7 +509,7 @@ class tx_mkforms_util_Runnable
         }
     }
 
-    private function &buildJsCbObject($aCB)
+    private function buildJsCbObject($aCB)
     {
         // den loader benutzen, damit die klasse beim ajax geladen wird
         $oJsCb = $this->getForm()->getObjectLoader()->makeInstance(
@@ -529,7 +528,7 @@ class tx_mkforms_util_Runnable
 
         // check for this (form object)
         if ('this' === strtolower($sCBRef)) {
-            $oCB = &$this->getForm()->getParent();
+            $oCB = $this->getForm()->getParent();
 
             return [
                 'type' => 'php',
@@ -549,7 +548,7 @@ class tx_mkforms_util_Runnable
         $aParts = explode(':', $sCBRef);
 
         $sFileRef = $sPrefix.$aParts[0];
-        $sFilePath = tx_mkforms_util_Div::toServerPath($sFileRef);
+        $sFilePath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sFileRef);
 
         // determining type of the CB
         $sFileExt = strtolower(array_pop(\Sys25\RnBase\Utility\T3General::revExplode('.', $sFileRef, 2)));
@@ -584,7 +583,7 @@ class tx_mkforms_util_Runnable
                     }
                     if (class_exists($sClass)) {
                         $oCB = new $sClass();
-                        $oCB->oForm = &$this->getForm();
+                        $oCB->oForm = $this->getForm();
                         if (method_exists($oCB, 'init')) {
                             $oCB->init($this->getForm());    // changed: avoid call-time pass-by-reference
                         }
@@ -632,7 +631,7 @@ class tx_mkforms_util_Runnable
      *
      * @return string
      */
-    private function &callCodeBehind($aCB)
+    private function callCodeBehind($aCB)
     {
         $aArgs = func_get_args();
         $cbConfig = $aArgs[0];
@@ -653,7 +652,7 @@ class tx_mkforms_util_Runnable
         if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sCBRef, 'rdt(')) {
             $bCbRdt = true;
             $aCbRdtArgs = $this->getForm()->getTemplateTool()->parseTemplateMethodArgs($aExec[0]['args']);
-            if (false === ($oRdt = &$this->getForm()->getWidget($aCbRdtArgs[0]))) {
+            if (false === ($oRdt = $this->getForm()->getWidget($aCbRdtArgs[0]))) {
                 tx_mkforms_util_Div::mayday('CodeBehind '.$sCBRef.': Refers to an undefined renderlet', $this->getForm());
             }
         }

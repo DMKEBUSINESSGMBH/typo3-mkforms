@@ -66,7 +66,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
         return $sSignature;
     }
 
-    public function &_fetchData($aConfig = [], $aFilters = [])
+    public function _fetchData($aConfig = [], $aFilters = [])
     {
         $this->initDb();
 
@@ -127,7 +127,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                 $this->oDb->sql_pconnect($sHost, $sUser, $sPassword);
                 $this->oDb->sql_select_db($sDbName);
             } else {
-                $this->oDb = &\Sys25\RnBase\Database\Connection::getInstance();
+                $this->oDb = \Sys25\RnBase\Database\Connection::getInstance();
             }
         }
     }

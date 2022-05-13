@@ -59,16 +59,19 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
         $sSafeLock = $this->_getSessionDataHashKey();
         $sThrower = $sHtmlId;
 
-        $sUrl = tx_mkforms_util_Div::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+        $sUrl = tx_mkforms_util_Div::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
         $sButtonUrl = $this->oForm->getConfigXML()->getLLLabel('LLL:EXT:mkforms/Resources/Private/Language/Widgets/Swfupload/locallang.xlf:buttonbrowse.image_url');
 
+        $flashPlayerPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Flash/swfupload.swf')
+        );
         $aConf = [
             'buttonBrowseId' => $this->oButtonBrowse->_getElementHtmlId(),
             'buttonUploadId' => $this->oButtonUpload->_getElementHtmlId(),
             'listQueueId' => $this->oListQueue->_getElementHtmlId(),
             'swfupload_config' => [
                 'upload_url' => $sUrl,
-                'flash_url' => $this->sExtWebPath.'Resources/Public/Flash/swfupload.swf',
+                'flash_url' => $flashPlayerPath,
                 'file_post_name' => 'rdt_swfupload',
                 'file_size_limit' => $this->getMaxUploadSize(),    // KiloBytes
 

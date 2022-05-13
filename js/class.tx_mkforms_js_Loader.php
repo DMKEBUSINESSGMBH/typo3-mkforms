@@ -20,6 +20,9 @@ class tx_mkforms_js_Loader
 {
     private static $isLoaded = false;
 
+    /**
+     * @var tx_ameosformidable
+     */
     protected $oForm = null;
 
     protected $bLoadScriptaculous = false;
@@ -37,6 +40,11 @@ class tx_mkforms_js_Loader
     protected $aHeadersWhenInjectNonStandard = [];    // stores the headers when they have to be injected in the page content at given marker
 
     protected $aCodeBehindJsIncludes = [];
+
+    /**
+     * @var tx_mkforms_forms_IJSFramework
+     */
+    protected $jsWrapper;
 
     private function __construct($form)
     {
@@ -136,8 +144,8 @@ class tx_mkforms_js_Loader
      */
     public function addCodeBehind($ref, $sFilePath)
     {
-        $path = tx_mkforms_util_Div::removeStartingSlash(tx_mkforms_util_Div::toRelPath($sFilePath));
-        $path = $this->getAbsRefPrefix().$path;
+        $serverPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($sFilePath);
+        $path = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
         $this->aCodeBehindJsIncludes[$ref] = '<script src="'.
             $this->getForm()->getJSLoader()->getScriptPath($path).'"></script>';
     }
@@ -187,9 +195,9 @@ class tx_mkforms_js_Loader
                 'Urls' => [
                     'Ajax' => [
                         'event' => tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()).'/?mkformsAjaxId='
-                            .tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxevent',
+                            .tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object=tx_ameosformidable&servicekey=ajaxevent',
                         'service' => tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()).'/?mkformsAjaxId='
-                            .tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxservice',
+                            .tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object=tx_ameosformidable&servicekey=ajaxservice',
                     ],
                 ],
                 'MajixSpinner' => (false !== ($aSpinner = $this->oForm->_navConf('/meta/majixspinner'))) ? $aSpinner : [],
@@ -256,16 +264,13 @@ JAVASCRIPT;
      */
     private function _includeBaseFramework()
     {
-        $absRefPrefix = $this->getAbsRefPrefix();
-        $includes = $this->getJSFramework()->getBaseIncludes($absRefPrefix);
+        $includes = $this->getJSFramework()->getBaseIncludes('');
         $ext = 'mkforms';
 
         // JSON stringifier
         // http://www.thomasfrank.se/downloadableJS/jsonStringify.js
-        $pagePath = $absRefPrefix.
-            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($ext)).
-            'Resources/Public/JavaScript/json/json.js';
-        $serverPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($ext).'Resources/Public/JavaScript/json/json.js';
+        $serverPath = GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/json/json.js');
+        $pagePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
         $includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 
         foreach ($includes as $include) {
@@ -354,12 +359,10 @@ JAVASCRIPT;
 
     private function _includeJSFramework()
     {
-        $sPath = $this->getAbsRefPrefix().
-            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
-            ).
-            'Resources/Public/JavaScript/framework.js';
-        $tag = '<script src="'.$this->getScriptPath($sPath).'"></script>';
+        $pagePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/framework.js')
+        );
+        $tag = '<script src="'.$this->getScriptPath($pagePath).'"></script>';
         $this->additionalHeaderData(
             $tag,
             'tx_ameosformidable_jsframework',
@@ -384,8 +387,8 @@ JAVASCRIPT;
      */
     private function includeFormidablePath()
     {
-        $sPath = $this->getAbsRefPrefix().\TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
+        $sPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'Resources/Public'
         );
         $sScript
             = <<<JAVASCRIPT
@@ -433,10 +436,9 @@ JAVASCRIPT;
     {
         if (true === $this->bLoadtooltip) {
             // tooltip css
-            $mkformsPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
+            $sPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+                GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/tooltip/tooltips.css')
             );
-            $sPath = $this->getAbsRefPrefix().$mkformsPath.'Resources/Public/JavaScript/tooltip/tooltips.css';
 
             $this->additionalHeaderData(
                 '<link rel="stylesheet" type="text/css" href="'.$sPath.'" />',
@@ -447,7 +449,9 @@ JAVASCRIPT;
             );
 
             // tooltip js
-            $sPath = $this->getAbsRefPrefix().$mkformsPath.'Resources/Public/JavaScript/tooltip/tooltips.js';
+            $sPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+                GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/tooltip/tooltips.js')
+            );
 
             $this->additionalHeaderData(
                 '<script src="'.$sPath.'"></script>',
@@ -728,16 +732,15 @@ JAVASCRIPT;
         $sScriptErw = '.'.$sScriptErw;
         // soll minimierte Version genutzt werden
         if ($this->minified()) {
-            $sSitePath = $this->getAbsRefPrefix().\TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
-            );
+            $publicResourcesPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'Resources/Public/JavaScript';
+            $sSitePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($publicResourcesPath);
             $sFile = substr($sPath, strlen($sSitePath), strrpos($sPath, $sScriptErw) - strlen($sSitePath));
             // prüfen ob gzip genutzt werden soll, wenn ja auf datei prüfen.
-            if ($this->gziped() && file_exists(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').$sFile.'.min'.$sScriptErw.'.php')) {
+            if ($this->gziped() && file_exists($publicResourcesPath.$sFile.'.min'.$sScriptErw.'.php')) {
                 $sGZipPath = $sSitePath.$sFile.'.min'.$sScriptErw.'.php';
                 $newPath = $sGZipPath;
             } // prüfen ob minimiertes js verfügbar ist.
-            elseif (file_exists(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').$sFile.'.min'.$sScriptErw)) {
+            elseif (file_exists($publicResourcesPath.$sFile.'.min'.$sScriptErw)) {
                 $sMinPath = $sSitePath.$sFile.'.min'.$sScriptErw;
                 $newPath = $sMinPath;
             }

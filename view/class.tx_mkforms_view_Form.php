@@ -27,32 +27,43 @@
  *
  * @author Michael Wagner
  */
-class tx_mkforms_view_Form extends tx_rnbase_view_Base
+class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
+    /**
+     * @var \Sys25\RnBase\Frontend\Request\RequestInterface
+     */
+    protected $request;
+
+    public function render($view, Sys25\RnBase\Frontend\Request\RequestInterface $request)
+    {
+        $this->request = $request;
+
+        return parent::render($view, $request);
+    }
+
     /**
      * Do the output rendering.
      *
-     * @param string                    $template
-     * @param ArrayObject               $viewData
-     * @param \Sys25\RnBase\Configuration\Processor  $configurations
-     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
+     * @param string                     $template
+     * @param RequestInterface           $configurations
+     * @param \tx_rnbase_util_FormatUtil $formatter
      *
      * @return mixed Ready rendered output or HTTP redirect
      */
-    // @codingStandardsIgnoreStart (interface/abstract mistake)
-    public function createOutput($template, &$viewData, &$configurations, &$formatter, $redirectToLogin = false)
+    protected function createOutput($template, Sys25\RnBase\Frontend\Request\RequestInterface $request, $formatter)
     {
-        // @codingStandardsIgnoreEnd
         // Winn konfiguriert, einen redirekt nach erfolgreichem absenden der form durchführen
-        $this->handleRedirect($viewData, $configurations);
+        $viewData = $this->request->getViewContext();
+        $this->handleRedirect();
 
-        $confId = $this->getController()->getConfId();
+        $confId = $this->request->getConfId();
 
         $markerArray = $subpartArray = $wrappedSubpartArray = [];
 
         // Wir holen die Daten von der Action ab
         // @TODO: mal auslagern! (handleFormData)
-        if ($data = &$viewData->offsetGet('formData')) {
+        $data = null;
+        if ($viewData->offsetExists('formData') && ($data = $viewData->offsetGet('formData'))) {
             // Successfully filled in form?
             if (is_array($data)) {
                 // else:
@@ -195,12 +206,12 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
      * @param ArrayObject              $viewData
      * @param \Sys25\RnBase\Configuration\Processor $configurations
      */
-    // @codingStandardsIgnoreStart (interface/abstract mistake)
-    protected function handleRedirect(&$viewData, &$configurations)
+    protected function handleRedirect()
     {
-        // @codingStandardsIgnoreEnd
+        $viewData = $this->request->getViewContext();
+        $configurations = $this->request->getConfigurations();
 
-        $confId = $this->getController()->getConfId();
+        $confId = $this->request->getConfId();
         if ((
             // redirect if fully submitted
             $viewData->offsetGet('fullySubmitted')
@@ -246,13 +257,8 @@ class tx_mkforms_view_Form extends tx_rnbase_view_Base
      *
      * @return string
      */
-    public function getMainSubpart(&$viewData)
+    public function getMainSubpart(Sys25\RnBase\Frontend\View\ContextInterface $viewData)
     {
-        $controller = $this->getController();
-        if ($controller instanceof tx_rnbase_action_BaseIOC) {
-            $subpart = $this->getController()->getConfigurations()->get($this->getController()->getConfId().'mainSubpart');
-        }
-
-        return $subpart ? $subpart : '###DATA###';
+        return $this->request->getConfigurations()->get($this->request->getConfId().'mainSubpart') ?: '###DATA###';
     }
 }

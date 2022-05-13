@@ -197,7 +197,7 @@ class tx_mkforms_ds_contentrepository_Main extends formidable_maindatasource
         $oSession->commit();
     }
 
-    public function &getObject($sKey)
+    public function getObject($sKey)
     {
         return $this->oRepo->findOneByUid($sKey);
     }

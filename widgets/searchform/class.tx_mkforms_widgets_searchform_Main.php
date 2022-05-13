@@ -433,7 +433,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         }
     }
 
-    public function &_getFilters()
+    public function _getFilters()
     {
         $this->_initFilters();
         reset($this->aFilters);
@@ -441,12 +441,12 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         return $this->aFilters;
     }
 
-    public function &fetchData($aConfig = [])
+    public function fetchData($aConfig = [])
     {
         return $this->_fetchData($aConfig);
     }
 
-    public function &_fetchData($aConfig = [])
+    public function _fetchData($aConfig = [])
     {
         return $this->processAfterSearch(
             $this->oDataSource->_fetchData(

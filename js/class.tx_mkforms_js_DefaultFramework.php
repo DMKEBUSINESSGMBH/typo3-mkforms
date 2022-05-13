@@ -42,8 +42,6 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
 
     private function loadIncludes($confId, $absRefPrefix)
     {
-        $server = $absRefPrefix;
-
         // TODO: Wir benötigen den Pfad für die URL und den absoluten Serverpfad.
         // Ob das wirklich so ist, muss aber noch geklärt werden: minify und zip
         $jsCore = $this->getConf($confId);
@@ -52,12 +50,8 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
             return $ret;
         }
         foreach ($jsCore as $key => $jsPath) {
-            $pagePath = $jsPath;
-            if (tx_mkforms_util_Div::isExtensionPath($jsPath)) {
-                $pagePath = tx_mkforms_util_Div::getRelExtensionPath($jsPath);
-            }
-            $pagePath = $server.$pagePath;
-            $serverPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($jsPath);
+            $serverPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($jsPath);
+            $pagePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
             $ret[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, $key);
         }
 

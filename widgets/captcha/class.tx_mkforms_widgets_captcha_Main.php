@@ -47,7 +47,9 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
     {
         $this->_MakeCaptchaConfig();
 
-        $_SESSION['cryptdir'] = $this->sExtRelPath.'res/lib/';
+        $_SESSION['cryptdir'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Captcha/')
+        );
         $iSID = session_id();
 
         $aCaptcha = [];

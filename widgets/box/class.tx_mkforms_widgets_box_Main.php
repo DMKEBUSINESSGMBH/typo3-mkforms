@@ -21,7 +21,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        $sHtml = ($this->oForm->isRunneable($this->aElement['html'])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->_navConf('/html');
+        $sHtml = ($this->oForm->isRunneable($this->aElement['html'] ?? '')) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->_navConf('/html');
         $sHtml = $this->oForm->_substLLLInHtml($sHtml);
 
         $sMode = $this->_navConf('/mode');
@@ -55,7 +55,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
 
         if ('inline' !== $sMode) {
             $sBegin = '<'.$sMode." id='".$this->_getElementHtmlId()."' ".$this->_getAddInputParams().'>';
-            $sEnd = '</'.$sMode.'>'.$sHidden;
+            $sEnd = '</'.$sMode.'>';
         } else {
             $sBegin = '<!--BEGIN:BOX:inline:'.$this->_getElementHtmlId().'-->';
             $sEnd = '<!--END:BOX:inline:'.$this->_getElementHtmlId().'-->';
@@ -163,7 +163,7 @@ Droppables.add("'.$sHtmlId.'", '.$sJson.');
         }
 
         $aHtmlBag = [
-            '__compiled' => $this->_displayLabel($sLabel).$sBegin.$sHtml.$sCompiledChilds.$sEnd,
+            '__compiled' => $this->_displayLabel('').$sBegin.$sHtml.$sCompiledChilds.$sEnd,
             'html' => $sHtml,
             'box.' => [
                 'begin' => $sBegin,

@@ -256,7 +256,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 if (!array_key_exists($sDsToUse, $this->oForm->aODataSources)) {
                     $this->oForm->mayday('RENDERLET LISTER <b>'.$this->_getName().'</b> - refers to undefined datasource \''.$sDsToUse."'. Check your XML conf.");
                 } else {
-                    $this->oDataStream = &$this->getForm()->getDataSource($sDsToUse);
+                    $this->oDataStream = $this->getForm()->getDataSource($sDsToUse);
                     $this->sDsType = 'datasource';
                 }
             }
@@ -526,7 +526,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         }
 
         if (true === $this->oForm->_defaultFalse('/cachehash', $this->aElement)) {
-            $aFullParams['cHash'] = \Sys25\RnBase\Utility\T3General::shortMD5(
+            $aFullParams['cHash'] = md5(
                 serialize(
                     \Sys25\RnBase\Utility\T3General::cHashParams(
                         \Sys25\RnBase\Utility\T3General::implodeArrayForUrl('', $aFullParams)
@@ -557,7 +557,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         }
     }
 
-    public function &_fetchData($aConfig = false, $aFilters = false)
+    public function _fetchData($aConfig = false, $aFilters = false)
     {
         if (false === $aConfig) {
             $this->_initDataStream(); // Datenquelle laden
@@ -584,7 +584,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         return $this->getDataSource()->fetchData($aConfig, $aFilters);
     }
 
-    public function &_renderList(&$aRows)
+    public function _renderList(&$aRows)
     {
         $aTemplate = $this->_getTemplate();
         $this->_renderList_displayRows($aTemplate, $aRows);
@@ -1004,7 +1004,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         }
     }
 
-    public function &_getTemplate()
+    public function _getTemplate()
     {
         $aRes = [
             'default' => false,
@@ -1208,7 +1208,7 @@ ERRORMESSAGE;
         $this->oForm->mayday($sMessage);
     }
 
-    public function &_getDefaultPager()
+    public function _getDefaultPager()
     {
         $sPath = $this->sExtPath.'Resources/Private/Templates/Widgets/Lister/default-template.html';
         $sSubPart = '###LISTPAGER###';
@@ -1219,7 +1219,7 @@ ERRORMESSAGE;
         );
     }
 
-    public function &_buildDefaultTemplate($sCssPrefix = '.ameosformidable-rdtlister-defaultwrap')
+    public function _buildDefaultTemplate($sCssPrefix = '.ameosformidable-rdtlister-defaultwrap')
     {
         $aRes = [
             'default' => true,
@@ -1254,7 +1254,9 @@ ERRORMESSAGE;
             ),
             [
                 'PREFIX' => $sCssPrefix,
-                'EXTPATH' => '/'.$this->sExtRelPath,
+                'EXTPATH' => \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public')
+                ),
             ],
             [],
             false
@@ -1358,7 +1360,7 @@ ERRORMESSAGE;
                         $bAnonymous = true;
                     }
 
-                    $oRdt = &$this->getForm()->_makeRenderlet(
+                    $oRdt = $this->getForm()->_makeRenderlet(
                         $aColumns[$sTagName],
                         $this->sXPath.'columns/'.$sTagName.'/',
                         $bChilds = true,
@@ -1389,7 +1391,7 @@ ERRORMESSAGE;
         if ($bAddCurRow) {
             // TODO: Das sollte sicher überarbeitet werden...
             // wird das überheupt benötigt?
-            $aData = &$this->getForm()->getDataHandler()->_getListData();
+            $aData = $this->getForm()->getDataHandler()->_getListData();
             if (!empty($aData)) {
                 $uidColumn = $this->getUidColumn();
                 $sRes .= '['.$aData[$uidColumn].']';
@@ -1417,7 +1419,7 @@ ERRORMESSAGE;
         if ($bAddCurRow) {
             // TODO: Das sollte sicher überarbeitet werden...
             // wird das überheupt benötigt?
-            $aData = &$this->oForm->oDataHandler->_getListData();
+            $aData = $this->oForm->oDataHandler->_getListData();
             if (!empty($aData)) {
                 $uidColumn = $this->getUidColumn();
                 $sRes .= '['.$aData[$uidColumn].']';
@@ -1536,7 +1538,7 @@ ERRORMESSAGE;
      *
      * @return array
      */
-    public function &_refineRow(&$aRow)
+    public function _refineRow(&$aRow)
     {
         $sUid = $aRow[$this->getUidColumn()];
 

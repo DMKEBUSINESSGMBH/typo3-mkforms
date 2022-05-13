@@ -121,7 +121,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
          * Aktualisiert die Statusnachicht mit der Erfolgsmeldung.
          * <param get="setStatusMessage::status__statusSaved|LLL:label_form_saved" />
          */
-        foreach (self::explodeParam($params['setStatusMessage']) as $message) {
+        foreach (self::explodeParam($params['setStatusMessage'] ?? '') as $message) {
             if ($widget = $form->getWidget($message[0])) {
                 if (!empty($message[1])) { // wenn eine nachricht enthalten, ggf LLL ersetzen und dann ausgeben
                     self::setValueToWidget($widget, $form->getConfig()->getLLLabel($message[1]), $widget->_isSubmitted());

@@ -96,7 +96,7 @@ config.tx_mkforms {
                 }
             }
         }
-        date.css = EXT:mkforms/widgets/date/res/lib/js_calendar/calendar-system.css
+        date.css = EXT:mkforms/Resources/Public/JavaScript/widgets/date/lib/js_calendar/calendar-system.css
     }
 
     actionlets {

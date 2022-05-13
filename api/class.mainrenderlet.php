@@ -592,7 +592,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
         $mHtml = [
             '__compiled' => $sCompiled,
-            'additionalinputparams' => $this->_getAddInputParams($sId),
+            'additionalinputparams' => $this->_getAddInputParams($this->_getElementHtmlId()),
             'value' => $mValue,
             'value.' => [
                 'nl2br' => nl2br((string) $mValue),
@@ -975,7 +975,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         return $this->aStatics['elementHtmlIdWithoutFormId'][$sId];
     }
 
-    public function &getIterableAncestor()
+    public function getIterableAncestor()
     {
         if ($this->hasParent()) {
             if ($this->oRdtParent->isIterable()) {
@@ -988,7 +988,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         return false;
     }
 
-    public function &getIteratingAncestor()
+    public function getIteratingAncestor()
     {
         if ($this->hasParent()) {
             if ($this->oRdtParent->isIterable() && $this->oRdtParent->isIterating()) {
@@ -1001,7 +1001,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         return false;
     }
 
-    public function &getDataBridgeAncestor()
+    public function getDataBridgeAncestor()
     {
         if ($this->hasParent()) {
             if ($this->oRdtParent->isDataBridge()) {
@@ -1953,6 +1953,7 @@ TOOLTIP;
         $sFunction = implode(";\n", $aEvents);
         $sElementId = $this->_getElementHtmlId();
 
+        $sAppend = '';
         if ('click' === $sEventHandler && 'LINK' === $this->_getType()) {
             $sAppend = 'MKWrapper.stopEvent(event);';
         }
@@ -2096,6 +2097,7 @@ JAVASCRIPT;
             }
 
             $aDb = $this->_navConf('/db/');
+            $aDbItems = [];
             if (is_array($aDb)) {
                 // Get database table
                 if (false !== ($mTable = $this->_navConf('/db/table/'))) {
@@ -2621,8 +2623,13 @@ JAVASCRIPT;
 
         reset($aLibs);
         foreach ($aLibs as $sKey => $sLib) {
+            $publicFilePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+                \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+                    'EXT:mkforms/'.$sLib
+                )
+            );
             $oJsLoader->additionalHeaderData(
-                '<script src="'.$oJsLoader->getScriptPath($this->sExtWebPath.$sLib).'"></script>',
+                '<script src="'.$oJsLoader->getScriptPath($publicFilePath).'"></script>',
                 $sKey
             );
         }
@@ -2664,7 +2671,6 @@ JAVASCRIPT;
                     '_rdts' => $aChildsIds,
                     'parent' => $sParentId,
                     'error' => $this->getError(),
-                    'abswebpath' => $this->sExtWebPath,
                 ],
                 $aConfig
             )
@@ -2920,7 +2926,7 @@ JAVASCRIPT;
                 if (!$this->shouldAutowrap()) {
                     $sCompiled .= "\n".$aBag['__compiled'];
                 } else {
-                    $sCompiled .= "\n<div class='".$this->getForm()->sDefaultWrapClass."-rdtwrap'>".$aBag['__compiled']
+                    $sCompiled .= "\n<div class='".$this->getForm()->sDefaultWrapClass."-rdtwrap'>".($aBag['__compiled'] ?? '')
                         .'</div>';
                 }
             }
@@ -4108,7 +4114,7 @@ JAVASCRIPT;
         return $this->aDataSetSignatures[$this->_getElementHtmlId()];
     }
 
-    public function &dbridge_getCurrentDsetObject()
+    public function dbridge_getCurrentDsetObject()
     {
         return $this->oDataSource->aODataSets[$this->dbridge_getCurrentDsetSignature()];
     }
@@ -4118,7 +4124,7 @@ JAVASCRIPT;
         return $this->oDataBridge->dbridge_getCurrentDsetSignature();
     }
 
-    public function &dbridged_getCurrentDsetObject()
+    public function dbridged_getCurrentDsetObject()
     {
         return $this->oDataBridge->dbridge_getCurrentDsetObject();
     }

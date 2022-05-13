@@ -523,7 +523,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_persistHidden($mData, $aParams)
     {
-        if (false !== ($oRdt = &$this->oForm->getRdtForTemplateMethod($mData))) {
+        if (false !== ($oRdt = $this->oForm->getRdtForTemplateMethod($mData))) {
             return $oRdt->persistHidden();
         }
 
@@ -542,7 +542,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
 
     public function method_hasErrors($mData, $aParams)
     {
-        if (false !== ($oRdt = &$this->oForm->getRdtForTemplateMethod($mData))) {
+        if (false !== ($oRdt = $this->oForm->getRdtForTemplateMethod($mData))) {
             return $oRdt->hasDeepError();
         } else {
             return !$this->oForm->oDataHandler->_allIsValid();

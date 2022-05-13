@@ -43,7 +43,7 @@ class tx_mkforms_util_FormBase
     protected static function getParent(tx_ameosformidable $form, $method = false)
     {
         $oParent = $form->getParent();
-        if ($method && (!method_exists($oParent, $method) || !is_callable([$oParent, $method]))) {
+        if ($method && (!is_object($oParent) || !method_exists($oParent, $method) || !is_callable([$oParent, $method]))) {
             return null;
         }
 
@@ -161,7 +161,7 @@ class tx_mkforms_util_FormBase
      *
      * @return \Sys25\RnBase\Configuration\Processor
      */
-    protected static function &getConfigurations(tx_ameosformidable &$form, Sys25\RnBase\Configuration\Processor &$configurations = null)
+    protected static function getConfigurations(tx_ameosformidable $form, Sys25\RnBase\Configuration\Processor $configurations = null)
     {
         if (!is_object($configurations)) {
             $configurations = (is_object($oParent = self::getParent($form, 'getConfiguration'))) ? $oParent->getConfiguration() : $form->getConfigurations();
@@ -284,7 +284,7 @@ class tx_mkforms_util_FormBase
             $flattenData = self::addFields($flattenData, $aAddFields);
         }
 
-        if ($configurations->get($confId.'addPostVars', true) || $data['addPostVars']) {
+        if ($configurations->get($confId.'addPostVars', true) || ($data['addPostVars'] ?? false)) {
             $flattenData['addpostvars'] = $form->getAddPostVars();
         }
 
@@ -521,21 +521,17 @@ class tx_mkforms_util_FormBase
         }
 
         foreach ($tmp as $fieldname => $data) {
-            if (1 == count($data['tables']) && $data['tables'][0] == $defaultPrefix) {
-                $res[$fieldname] = $data['value'];
-            } else {
-                sort($data['tables']);
-                /*
-                 * @FIXME: hier kann es bei mehr als 2 Tabellen mehrere varianten geben.
-                 * $data['tables'] = array('tabelle1','tabelle2','tabelle3');
-                 * Momentan wird nur tabelle1-tabelle2-tabelle3-feld = ausgegeben.
-                 * richtig wäre zusätzlich noch
-                 * 	tabelle1-tabelle2-feld
-                 * 	tabelle1-tabelle3-feld
-                 * 	tabelle2-tabelle3-feld
-                 */
-                $res[implode($separator, $data['tables']).$separator.$fieldname] = $data['value'];
-            }
+            sort($data['tables']);
+            /*
+             * @FIXME: hier kann es bei mehr als 2 Tabellen mehrere varianten geben.
+             * $data['tables'] = array('tabelle1','tabelle2','tabelle3');
+             * Momentan wird nur tabelle1-tabelle2-tabelle3-feld = ausgegeben.
+             * richtig wäre zusätzlich noch
+             * 	tabelle1-tabelle2-feld
+             * 	tabelle1-tabelle3-feld
+             * 	tabelle2-tabelle3-feld
+             */
+            $res[implode($separator, $data['tables']).$separator.$fieldname] = $data['value'];
         }
 
         return $res;

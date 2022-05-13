@@ -119,7 +119,7 @@ class tx_mkforms_util_Templates
                 --$iOpened;
                 $sTrimArg = trim($aCurrent[$iCurrent]['args']);
                 $aCurrent[$iCurrent]['args'] = $sTrimArg;
-                $aCurrent[$iCurrent]['rec'] = ('"' !== $sTrimArg[0] && false !== strpos($sTrimArg, '('));
+                $aCurrent[$iCurrent]['rec'] = (strlen($sTrimArg) && '"' !== $sTrimArg[0] && false !== strpos($sTrimArg, '('));
             }
 
             if (0 !== $iOpened) {
@@ -479,13 +479,14 @@ class tx_mkforms_util_Templates
         \Sys25\RnBase\Frontend\Marker\Templates::disableSubstCache();
         $markerArray = $subpartArray = $wrappedSubpartArray = $params = [];
         // check for Module markers
+        $formatter = $this->getForm()->getConfigurations()->getFormatter();
         \Sys25\RnBase\Frontend\Marker\BaseMarker::callModules(
             $sHtml,
             $markerArray,
             $subpartArray,
             $wrappedSubpartArray,
             $params,
-            $this->getForm()->getConfigurations()->getFormatter()
+            $formatter
         );
         // render the module markers
         $sHtml = \Sys25\RnBase\Frontend\Marker\BaseMarker::substituteMarkerArrayCached(

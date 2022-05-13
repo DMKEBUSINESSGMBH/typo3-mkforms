@@ -2,15 +2,14 @@
 
 class formidable_mainobject
 {
+    /**
+     * @var tx_ameosformidable
+     */
     public $oForm = null;
 
     public $aElement = null;
 
     public $sExtPath = null;
-
-    public $sExtRelPath = null;
-
-    public $sExtWebPath = null;
 
     public $aObjectType = null;
 
@@ -35,9 +34,6 @@ class formidable_mainobject
         $this->aObjectType = $aObjectType;
 
         $this->sExtPath = $aObjectType['PATH'] ?? '';
-        $this->sExtRelPath = $aObjectType['RELPATH'] ?? '';
-        $absRefPrefix = $oForm->getJSLoader()->getAbsRefPrefix();
-        $this->sExtWebPath = $absRefPrefix.$this->sExtRelPath;
 
         $this->sXPath = $sXPath;
 
@@ -52,7 +48,7 @@ class formidable_mainobject
      *
      * @return tx_ameosformidable
      */
-    protected function &getForm()
+    protected function getForm()
     {
         return $this->oForm;
     }
@@ -248,7 +244,7 @@ class formidable_mainobject
      * Alternativer Aufruf:
      * return $this->getForm()->getRunnable()->callRunnable($mMixed, $this);.
      */
-    public function &callRunneable($mMixed)
+    public function callRunneable($mMixed)
     {
         $aArgs = func_get_args();
         if ($this->getForm()->getRunnable()->isUserObj($mMixed)) {

@@ -138,7 +138,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         return $aHtmlBag;
     }
 
-    public function &_renderList()
+    public function _renderList()
     {
         if ($this->aDatasource) {        // if this ticker has a datasource that must be used to generate his content
             if (0 == $this->aDatasource['numrows']) {
@@ -179,7 +179,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         return $sHtml;
     }
 
-    public function &_refineRow($aData)
+    public function _refineRow($aData)
     {
         array_push($this->oForm->oDataHandler->__aListData, $aData);
         foreach ($this->aChilds as $sName => $oChild) {
@@ -191,7 +191,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         return $aCurRow;
     }
 
-    public function &_getRowsSubpart($sTemplate)
+    public function _getRowsSubpart($sTemplate)
     {
         $aRowsTmpl = [];
 
@@ -213,7 +213,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         return $aRowsTmpl;
     }
 
-    public function &_getTemplate()
+    public function _getTemplate()
     {
         if (false !== ($aTemplate = $this->_navConf('/template'))) {
             $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
@@ -288,7 +288,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     public function _getElementHtmlName($sName = false)
     {
         $sRes = parent::_getElementHtmlName($sName);
-        $aData = &$this->oForm->oDataHandler->_getListData();
+        $aData = $this->oForm->oDataHandler->_getListData();
 
         if (!empty($aData)) {
             $sRes .= '['.$aData['uid'].']';
@@ -300,7 +300,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     public function _getElementHtmlNameWithoutFormId($sName = false)
     {
         $sRes = parent::_getElementHtmlNameWithoutFormId($sName);
-        $aData = &$this->oForm->oDataHandler->_getListData();
+        $aData = $this->oForm->oDataHandler->_getListData();
 
         if (!empty($aData)) {
             $sRes .= '['.$aData['uid'].']';
@@ -309,11 +309,11 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         return $sRes;
     }
 
-    public function _getElementHtmlId($sId = false)
+    public function _getElementHtmlId($sId = false, $withForm = true, $withIteratingId = true, $t = false)
     {
-        $sRes = parent::_getElementHtmlId($sId);
+        $sRes = parent::_getElementHtmlId($sId, $withForm, $withIteratingId, $t);
 
-        $aData = &$this->oForm->oDataHandler->_getListData();
+        $aData = $this->oForm->oDataHandler->_getListData();
         if (!empty($aData)) {
             $sRes .= AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN.$aData['uid'].AMEOSFORMIDABLE_NESTED_SEPARATOR_END;
         }
