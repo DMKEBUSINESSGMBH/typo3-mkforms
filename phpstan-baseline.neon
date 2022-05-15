@@ -1,0 +1,387 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class DMK\\\\Mkforms\\\\Middleware\\\\HeaderInjection referenced with incorrect case\\: DMK\\\\MkForms\\\\Middleware\\\\HeaderInjection\\.$#"
+			count: 1
+			path: Configuration/RequestMiddlewares.php
+
+		-
+			message: "#^Access to an undefined property formidable_inlineconfmethods\\:\\:\\$oForm\\.$#"
+			count: 6
+			path: api/class.inlineconfmethods.php
+
+		-
+			message: "#^Call to an undefined method formidable_maindatasource\\:\\:setSyncData\\(\\)\\.$#"
+			count: 2
+			path: api/class.maindatasource.php
+
+		-
+			message: "#^Access to an undefined property formidable_mainobject\\:\\:\\$conf\\.$#"
+			count: 1
+			path: api/class.mainobject.php
+
+		-
+			message: "#^Call to static method getTCAlabelField\\(\\) on an unknown class tx_staticinfotables_div\\.$#"
+			count: 1
+			path: api/class.mainrenderlet.php
+
+		-
+			message: "#^Method formidable_mainrenderlet\\:\\:initDependancies\\(\\) should return unknown_type but return statement is missing\\.$#"
+			count: 1
+			path: api/class.mainrenderlet.php
+
+		-
+			message: "#^Undefined variable\\: \\$aSkinFeed$#"
+			count: 1
+			path: api/class.mainrenderlet.php
+
+		-
+			message: "#^Undefined variable\\: \\$bPlain$#"
+			count: 1
+			path: api/class.mainrenderlet.php
+
+		-
+			message: "#^Undefined variable\\: \\$isSubXml$#"
+			count: 1
+			path: api/class.mainrenderlet.php
+
+		-
+			message: "#^Undefined variable\\: \\$sClass$#"
+			count: 1
+			path: api/class.mainrenderlet.php
+
+		-
+			message: "#^Access to an undefined property formidable_mainscriptingmethods\\:\\:\\$oForm\\.$#"
+			count: 4
+			path: api/class.mainscriptingmethods.php
+
+		-
+			message: "#^Method formidable_mainvalidator\\:\\:validate\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: api/class.mainvalidator.php
+
+		-
+			message: "#^Method formidable_mainvalidator\\:\\:validateWidget\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: api/class.mainvalidator.php
+
+		-
+			message: "#^Access to an undefined property formidable_templatemethods\\:\\:\\$oForm\\.$#"
+			count: 33
+			path: api/class.templatemethods.php
+
+		-
+			message: "#^Access to an undefined property tx_ameosformidable\\:\\:\\$__sEvalTemp\\.$#"
+			count: 3
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Access to an undefined property tx_ameosformidable\\:\\:\\$_aSubXmlCache\\.$#"
+			count: 1
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Access to an undefined property tx_ameosformidable\\:\\:\\$bReliableXML\\.$#"
+			count: 1
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Access to an undefined property tx_ameosformidable\\:\\:\\$end_tstamp\\.$#"
+			count: 2
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Access to an undefined property tx_ameosformidable\\:\\:\\$sDefaultLLLPrefix\\.$#"
+			count: 2
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Access to an undefined property tx_ameosformidable\\:\\:\\$sDefaultWrapClass\\.$#"
+			count: 1
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Call to static method fromPath\\(\\) on an unknown class Swift_Attachment\\.$#"
+			count: 1
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Instantiated class CSV not found\\.$#"
+			count: 1
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Method tx_ameosformidable\\:\\:handleAjaxRequest\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Undefined variable\\: \\$sType$#"
+			count: 2
+			path: api/class.tx_ameosformidable.php
+
+		-
+			message: "#^Call to an undefined static method tx_ameosformidable\\:\\:toServerPath\\(\\)\\.$#"
+			count: 2
+			path: api/class.tx_ameosformidable_pi.php
+
+		-
+			message: "#^Access to an undefined property user_ameosformidable_cobj\\:\\:\\$oForm\\.$#"
+			count: 1
+			path: api/class.user_ameosformidable_cobj.php
+
+		-
+			message: "#^Undefined variable\\: \\$incFile$#"
+			count: 1
+			path: api/class.user_ameosformidable_cobj.php
+
+		-
+			message: "#^Method tx_mkforms_dh_db_Main\\:\\:_processAfterCreation\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: dh/db/class.tx_mkforms_dh_db_Main.php
+
+		-
+			message: "#^Undefined variable\\: \\$oForm$#"
+			count: 1
+			path: dh/dbmm/class.tx_mkforms_dh_dbmm_Main.php
+
+		-
+			message: "#^Call to static method getMailService\\(\\) on an unknown class tx_mkmailer_util_ServiceRegistry\\.$#"
+			count: 1
+			path: dh/mail/class.tx_mkforms_dh_mail_Main.php
+
+		-
+			message: "#^Class tx_mkmailer_models_Template not found\\.$#"
+			count: 1
+			path: dh/mail/class.tx_mkforms_dh_mail_Main.php
+
+		-
+			message: "#^Access to an undefined property formidableajax\\:\\:\\$ttStart\\.$#"
+			count: 1
+			path: remote/formidableajax.php
+
+		-
+			message: "#^Access to an undefined property formidableajax\\:\\:\\$ttTimes\\.$#"
+			count: 2
+			path: remote/formidableajax.php
+
+		-
+			message: "#^Method formidableajax\\:\\:denyService\\(\\) invoked with 0 parameters, 1 required\\.$#"
+			count: 1
+			path: remote/formidableajax.php
+
+		-
+			message: "#^Instantiated class Tx_Fluid_Compatibility_ObjectFactory not found\\.$#"
+			count: 1
+			path: renderer/fluid/class.tx_mkforms_renderer_fluid_Main.php
+
+		-
+			message: "#^Call to an undefined static method tx_mkforms_tests_action_FormBaseTest\\:\\:assertInternalType\\(\\)\\.$#"
+			count: 6
+			path: tests/action/class.tx_mkforms_tests_action_FormBaseTest.php
+
+		-
+			message: "#^Call to an undefined static method tx_mkforms_tests_api_tx_ameosformidableTest\\:\\:assertInternalType\\(\\)\\.$#"
+			count: 1
+			path: tests/api/class.tx_mkforms_tests_api_tx_ameosformidableTest.php
+
+		-
+			message: "#^Array has 11 duplicate keys with value 'line 121' \\('line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__, 'line ' \\. __LINE__\\)\\.$#"
+			count: 1
+			path: tests/util/class.tx_mkforms_tests_util_DivTest.php
+
+		-
+			message: "#^Undefined variable\\: \\$timetrackingWidget$#"
+			count: 1
+			path: tests/validator/timetracking/class.tx_mkforms_tests_validator_timetracking_MainTest.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_util_Config\\:\\:\\$_xmlPath\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_util_Config\\:\\:\\$form\\.$#"
+			count: 5
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_util_Config\\:\\:\\$sLastXPathError\\.$#"
+			count: 2
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Call to an undefined method tx_mkforms_util_Config\\:\\:_isTrueVal\\(\\)\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Call to an undefined method tx_mkforms_util_Config\\:\\:_matchCondition\\(\\)\\.$#"
+			count: 2
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Call to an undefined method tx_mkforms_util_Config\\:\\:_matchConditions\\(\\)\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Call to an undefined method tx_mkforms_util_Config\\:\\:_substituteDynaXml\\(\\)\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Call to an undefined method tx_mkforms_util_Config\\:\\:absolutizeXPath\\(\\)\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Call to an undefined method tx_mkforms_util_Config\\:\\:getTcaVal\\(\\)\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Method tx_mkforms_util_Config\\:\\:compileConfig\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Config.php
+
+		-
+			message: "#^Undefined variable\\: \\$sPath$#"
+			count: 1
+			path: util/class.tx_mkforms_util_FormBase.php
+
+		-
+			message: "#^Static call to instance method tx_mkforms_util_FormBaseAjax\\:\\:evalSecureExpression\\(\\)\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_FormBaseAjax.php
+
+		-
+			message: "#^Undefined variable\\: \\$table$#"
+			count: 1
+			path: util/class.tx_mkforms_util_FormFill.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_util_Json\\:\\:\\$use\\.$#"
+			count: 5
+			path: util/class.tx_mkforms_util_Json.php
+
+		-
+			message: "#^Method tx_mkforms_util_Json\\:\\:decode\\(\\) should return boollean but return statement is missing\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Json.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_util_Runnable\\:\\:\\$__sEvalTemp\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Runnable.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_util_Runnable\\:\\:\\$aCB\\.$#"
+			count: 2
+			path: util/class.tx_mkforms_util_Runnable.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_util_Runnable\\:\\:\\$aLastTs\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Runnable.php
+
+		-
+			message: "#^Undefined variable\\: \\$oCbObj$#"
+			count: 2
+			path: util/class.tx_mkforms_util_Runnable.php
+
+		-
+			message: "#^Undefined variable\\: \\$sName$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Runnable.php
+
+		-
+			message: "#^Call to an undefined method tx_mkforms_util_Templates\\:\\:getLLLabel\\(\\)\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_Templates.php
+
+		-
+			message: "#^Call to function unset\\(\\) contains undefined variable \\$tempTagValue\\.$#"
+			count: 1
+			path: util/class.tx_mkforms_util_XMLParser.php
+
+		-
+			message: "#^Method tx_mkforms_validator_db_Main\\:\\:validate\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: validator/db/class.tx_mkforms_validator_db_Main.php
+
+		-
+			message: "#^Method tx_mkforms_validator_file_Main\\:\\:validate\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: validator/file/class.tx_mkforms_validator_file_Main.php
+
+		-
+			message: "#^Method tx_mkforms_validator_num_Main\\:\\:validate\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: validator/num/class.tx_mkforms_validator_num_Main.php
+
+		-
+			message: "#^Method tx_mkforms_validator_preg_Main\\:\\:validate\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: validator/preg/class.tx_mkforms_validator_preg_Main.php
+
+		-
+			message: "#^Method tx_mkforms_validator_timetracking_Main\\:\\:validate\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: validator/timetracking/class.tx_mkforms_validator_timetracking_Main.php
+
+		-
+			message: "#^Static method Sys25\\\\RnBase\\\\Utility\\\\Strings\\:\\:trimExplode\\(\\) invoked with 1 parameter, 2\\-4 required\\.$#"
+			count: 1
+			path: widgets/box/class.tx_mkforms_widgets_box_Main.php
+
+		-
+			message: "#^Undefined variable\\: \\$sScript$#"
+			count: 1
+			path: widgets/captcha/class.tx_mkforms_widgets_captcha_Main.php
+
+		-
+			message: "#^Method tx_mkforms_widgets_chooser_Main\\:\\:_render\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: widgets/chooser/class.tx_mkforms_widgets_chooser_Main.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_widgets_lister_Main\\:\\:\\$__aCurRow\\.$#"
+			count: 4
+			path: widgets/lister/class.tx_mkforms_widgets_lister_Main.php
+
+		-
+			message: "#^Access to an undefined property tx_mkforms_widgets_lister_Main\\:\\:\\$aTemplate\\.$#"
+			count: 2
+			path: widgets/lister/class.tx_mkforms_widgets_lister_Main.php
+
+		-
+			message: "#^Undefined variable\\: \\$sMessage$#"
+			count: 1
+			path: widgets/lister/class.tx_mkforms_widgets_lister_Main.php
+
+		-
+			message: "#^Method tx_mkforms_widgets_listerselect_Main\\:\\:addSelectorId\\(\\) should return unknown_type but return statement is missing\\.$#"
+			count: 1
+			path: widgets/listerselect/class.tx_mkforms_widgets_listerselect_Main.php
+
+		-
+			message: "#^Undefined variable\\: \\$sLabel$#"
+			count: 1
+			path: widgets/searchform/class.tx_mkforms_widgets_searchform_Main.php
+
+		-
+			message: "#^Undefined variable\\: \\$sLabel$#"
+			count: 1
+			path: widgets/tab/class.tx_mkforms_widgets_tab_Main.php
+
+		-
+			message: "#^Undefined variable\\: \\$sLabel$#"
+			count: 1
+			path: widgets/tabpanel/class.tx_mkforms_widgets_tabpanel_Main.php
+
+		-
+			message: "#^Undefined variable\\: \\$aChildsBag$#"
+			count: 1
+			path: widgets/ticker/class.tx_mkforms_widgets_ticker_Main.php
+
