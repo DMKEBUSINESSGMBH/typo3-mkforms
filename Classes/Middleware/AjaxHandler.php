@@ -58,7 +58,6 @@ class AjaxHandler implements MiddlewareInterface
         } else {
             $this->dispatcher = GeneralUtility::makeInstance(Dispatcher::class);
         }
-
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -76,5 +75,4 @@ class AjaxHandler implements MiddlewareInterface
 
         return $this->dispatcher->dispatch($request) ?? new NullResponse();
     }
-
 }
