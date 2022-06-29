@@ -83,6 +83,9 @@
         ]
     },
     "extra": {
+        "branch-alias": {
+            "dev-9.5": "9.5.x-dev"
+        },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "extension-key": "mkforms",
