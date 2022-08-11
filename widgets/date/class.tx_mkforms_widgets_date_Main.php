@@ -394,11 +394,10 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         }
 
         $oJsLoader->additionalHeaderData(
-                '<script src="'.$oJsLoader->getScriptPath($resourcesPath.'/js_calendar/calendar.js').'"></script>'.
-                '<script src="'.$oJsLoader->getScriptPath($sLangFile).'"></script>'.
-                '<script src="'.$oJsLoader->getScriptPath($resourcesPath.'/js_calendar/calendar-setup.js').'"></script>'.
-                $css
-            ,
+            '<script src="'.$oJsLoader->getScriptPath($resourcesPath.'/js_calendar/calendar.js').'"></script>'.
+            '<script src="'.$oJsLoader->getScriptPath($sLangFile).'"></script>'.
+            '<script src="'.$oJsLoader->getScriptPath($resourcesPath.'/js_calendar/calendar-setup.js').'"></script>'.
+            $css,
             'mkforms_date_includeonce'
         );
     }
