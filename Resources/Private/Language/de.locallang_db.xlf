@@ -3,58 +3,6 @@
 	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2022-05-12T07:12:43Z" product-name="mkforms">
 		<header/>
 		<body>
-			<trans-unit id="plugin.mkforms.label" resname="plugin.mkforms.label"  approved="yes">
-				<source>MKFORMS</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.tab.common" resname="plugin.mkforms.flexform.tab.common"  approved="yes">
-				<source>Common</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.tab.TSSetup" resname="plugin.mkforms.flexform.tab.TSSetup"  approved="yes">
-				<source>TS Setup</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.tab.generic" resname="plugin.mkforms.flexform.tab.generic"  approved="yes">
-				<source>Generic Form</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.tssetup" resname="plugin.mkforms.flexform.tssetup"  approved="yes">
-				<source>plugin.tx_mkforms.</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.xml" resname="plugin.mkforms.flexform.xml"  approved="yes">
-				<source>XML</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.redirect" resname="plugin.mkforms.flexform.redirect"  approved="yes">
-				<source>Redirect after full submit</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.redirect.pid" resname="plugin.mkforms.flexform.redirect.pid"  approved="yes">
-				<source>Redirect page</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.redirect.qualifier" resname="plugin.mkforms.flexform.redirect.qualifier"  approved="yes">
-				<source>Redirect qualifier</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.template" resname="plugin.mkforms.flexform.template"  approved="yes">
-				<source>Template</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.action" resname="plugin.mkforms.flexform.action"  approved="yes">
-				<source>Action</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.action.FormBase" resname="plugin.mkforms.flexform.action.FormBase"  approved="yes">
-				<source>Generic Form</source>
-				<target/>
-			</trans-unit>
-			<trans-unit id="plugin.mkforms.flexform.viewClassName" resname="plugin.mkforms.flexform.viewClassName"  approved="yes">
-				<source>View</source>
-				<target/>
-			</trans-unit>
 		</body>
 	</file>
 </xliff>
