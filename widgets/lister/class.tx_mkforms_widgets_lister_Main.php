@@ -328,7 +328,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
     public function getPageForLineNumber($iNum)
     {
         if (0 !== (int) $this->aLimitAndSort['rowsperpage']) {
-            $iPageMax = (ceil($iNum / $this->aLimitAndSort['rowsperpage']));
+            $iPageMax = ceil($iNum / $this->aLimitAndSort['rowsperpage']);
         } else {
             $iPageMax = 0;
         }
@@ -865,7 +865,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 $sMoreBefore = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###MORE_BEFORE###');
                 $sMoreAfter = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###MORE_AFTER###');
                 if (true === $this->aPager['alwaysfullwidth']) {
-                    if ('' === trim(($sLinkDisabled = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###DISABLED###')))) {
+                    if ('' === trim($sLinkDisabled = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###DISABLED###'))) {
                         $this->oForm->mayday(
                             'RENDERLET '.$this->_getType().' <b>'.$this->_getName().'</b> - In your pager\'s template, you have to provide a <b>###DISABLED###</b> subpart inside the <b>###WINDOW###</b> subpart when defining <b>/window/alwaysFullWidth=TRUE</b>'
                         );
@@ -960,7 +960,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     $sCssClass = 'sort-no';
                     $sSortSymbol = '';
 
-                    if (($this->aLimitAndSort['sortby'] === $sColumn)) {
+                    if ($this->aLimitAndSort['sortby'] === $sColumn) {
                         if ('desc' === $this->aLimitAndSort['sortdir']) {
                             $sNewDir = 'asc';
                             $sLabelDir = ((true === $this->aTemplate['default']) ? ' [Z-a]' : '');
@@ -984,7 +984,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                         $sAccesTitle = '{LLL:EXT:mkforms/Resources/Private/Language/Widgets/Lister/locallang.xlf:sort} {LLL:EXT:mkforms/Resources/Private/Language/Widgets/Lister/locallang.xlf:sort.'.$sNewDir.'}';
                     }
 
-                    if (false == ($this->defaultFalse('pager/sort/useunicodegeometricshapes'))) {
+                    if (false == $this->defaultFalse('pager/sort/useunicodegeometricshapes')) {
                         $sSortSymbol = '';
                     }
 

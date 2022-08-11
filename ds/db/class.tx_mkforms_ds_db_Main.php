@@ -107,19 +107,19 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             if (false !== ($aLink = $this->_navConf('/link'))) {
                 $this->oDb = \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection();
 
-                if ($this->oForm->isRunneable(($sHost = $aLink['host']))) {
+                if ($this->oForm->isRunneable($sHost = $aLink['host'])) {
                     $sHost = $this->callRunneable($sHost);
                 }
 
-                if ($this->oForm->isRunneable(($sUser = $aLink['user']))) {
+                if ($this->oForm->isRunneable($sUser = $aLink['user'])) {
                     $sUser = $this->callRunneable($sUser);
                 }
 
-                if ($this->oForm->isRunneable(($sPassword = $aLink['password']))) {
+                if ($this->oForm->isRunneable($sPassword = $aLink['password'])) {
                     $sPassword = $this->callRunneable($sPassword);
                 }
 
-                if ($this->oForm->isRunneable(($sDbName = $aLink['dbname']))) {
+                if ($this->oForm->isRunneable($sDbName = $aLink['dbname'])) {
                     $sDbName = $this->callRunneable($sDbName);
                 }
 

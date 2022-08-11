@@ -908,7 +908,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
         if (array_key_exists('AMEOSFORMIDABLE_ADDPOSTVARS', $aRawPost) && '' !== trim($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS'])) {
             if (!is_array(
-                ($aAddPostVars = tx_mkforms_util_Json::getInstance()->decode($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS']))
+                $aAddPostVars = tx_mkforms_util_Json::getInstance()->decode($aRawPost['AMEOSFORMIDABLE_ADDPOSTVARS'])
             )
             ) {
                 $aAddPostVars = false;
@@ -1880,7 +1880,7 @@ SANDBOXCLASS;
         // returns the renderlet object corresponding to what's asked in the template
         // if none corresponds, then FALSE is returned
 
-        if ((is_object($mData) && ($mData instanceof formidable_mainrenderlet))) {
+        if (is_object($mData) && ($mData instanceof formidable_mainrenderlet)) {
             return $mData;
         }
 
@@ -2496,7 +2496,7 @@ SANDBOXCLASS;
             $this->checkPoint(['after-js-inclusion', 'after-validation', 'end']);
         }
 
-        $this->setStoreFormInSession(($this->storeFormInSession || $this->_defaultFalse('/meta/keepinsession')));
+        $this->setStoreFormInSession($this->storeFormInSession || $this->_defaultFalse('/meta/keepinsession'));
 
         if (true === $this->storeFormInSession && !$this->isTestMode()) {
             $sesMgr = tx_mkforms_session_Factory::getSessionManager();
@@ -3461,7 +3461,7 @@ JAVASCRIPT;
                 $aKeys
             );
 
-            $iNeighbourPos = (int) $iPos + ($iDirection);
+            $iNeighbourPos = (int) $iPos + $iDirection;
 
             if (array_key_exists($iNeighbourPos, $aKeys)) {
                 if (false !== $bKey) {
@@ -3478,9 +3478,9 @@ JAVASCRIPT;
                     }
                 } else {
                     if (false !== $bKey) {
-                        return $aKeys[(count($aKeys) - 1)];
+                        return $aKeys[count($aKeys) - 1];
                     } else {
-                        return $aData[$aKeys[(count($aKeys) - 1)]];
+                        return $aData[$aKeys[count($aKeys) - 1]];
                     }
                 }
             }
@@ -4535,7 +4535,7 @@ JAVASCRIPT;
         }
 
         header('Location: '.$sUrl);
-        exit();
+        exit;
     }
 
     public function reloadCurrentUrl()
@@ -4557,7 +4557,7 @@ JAVASCRIPT;
         header('Content-Disposition: attachment; filename='.$sFileName);
         header('Content-Transfer-Encoding: binary');
         fpassthru(fopen($sAbsPath, 'r'));
-        exit();
+        exit;
     }
 
     public function isUserObj($mMixed)
@@ -4659,7 +4659,7 @@ JAVASCRIPT;
         for ($k = 0; $k < $iLength; ++$k) {
             $sType = ('cons' === $sType) ? 'voy' : 'cons';
             $iNbLetters = strlen($aLetters[$sType]);
-            $sPassword .= $aLetters[$sType][rand(0, ($iNbLetters - 1))];
+            $sPassword .= $aLetters[$sType][rand(0, $iNbLetters - 1)];
         }
 
         return $sPassword;
@@ -4687,7 +4687,7 @@ JAVASCRIPT;
     public function getPreviousAjaxRequest()
     {
         if (!empty($this->aAjaxArchive)) {
-            return $this->aAjaxArchive[(count($this->aAjaxArchive) - 1)];
+            return $this->aAjaxArchive[count($this->aAjaxArchive) - 1];
         }
 
         return false;
@@ -4915,7 +4915,7 @@ JAVASCRIPT;
             return false;
         }
 
-        return $this->aCurrentRdtStack[(count($this->aCurrentRdtStack) - 1)];
+        return $this->aCurrentRdtStack[count($this->aCurrentRdtStack) - 1];
     }
 
     public function pullCurrentRdt()

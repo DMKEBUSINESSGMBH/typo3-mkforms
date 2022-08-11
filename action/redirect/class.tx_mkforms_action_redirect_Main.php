@@ -34,7 +34,7 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
                 header('HTTP/1.1 303 See Other');
                 header('Status: 303 See Other');
                 header('Location: '.$sUrl);
-                exit();
+                exit;
             }
         }
     }

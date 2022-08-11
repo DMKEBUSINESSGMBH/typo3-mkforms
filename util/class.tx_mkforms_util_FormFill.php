@@ -97,8 +97,8 @@ class tx_mkforms_util_FormFill
 
                 // Use another table?
                 $tab = isset($params['dependsOn']['dbtable']) ? $params['dependsOn']['dbtable'] : (
-                        is_array($table) ? $table['tablename'] : $table
-                    );
+                    is_array($table) ? $table['tablename'] : $table
+                );
                 if (isset($params['options']['where'])
                     && $params['options']['where']
                 ) {

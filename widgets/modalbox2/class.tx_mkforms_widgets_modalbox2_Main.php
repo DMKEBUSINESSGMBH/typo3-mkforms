@@ -59,7 +59,7 @@ class tx_mkforms_widgets_modalbox2_Main extends formidable_mainrenderlet
                 $aAddedEvents[$sKey] = $this->oForm->aRdtEvents[$sKey];
                 unset($this->oForm->aRdtEvents[$sKey]);
                 // unset because if rendered in a lister,
-                    // we need to be able to detect the new events even if they were already declared by other loops in the lister
+                // we need to be able to detect the new events even if they were already declared by other loops in the lister
             }
 
             $aConfig['attachevents'] = $aAddedEvents;

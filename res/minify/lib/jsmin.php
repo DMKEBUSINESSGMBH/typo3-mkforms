@@ -81,11 +81,11 @@ class JSMin
     {
         switch ($d) {
             case 1:
-                  $this->output[] = $this->a;
+                $this->output[] = $this->a;
 
-                  // no break
+                // no break
             case 2:
-                  $this->a = $this->b;
+                $this->a = $this->b;
 
                 if ("'" === $this->a || '"' === $this->a) {
                     while (true) {
@@ -109,12 +109,12 @@ class JSMin
 
                 // no break
             case 3:
-                  $this->b = $this->next();
+                $this->b = $this->next();
 
                 if ('/' === $this->b && (
-                      '(' === $this->a || ',' === $this->a || '=' === $this->a ||
-                      ':' === $this->a || '[' === $this->a || '!' === $this->a ||
-                      '&' === $this->a || '|' === $this->a || '?' === $this->a)) {
+                    '(' === $this->a || ',' === $this->a || '=' === $this->a ||
+                    ':' === $this->a || '[' === $this->a || '!' === $this->a ||
+                    '&' === $this->a || '|' === $this->a || '?' === $this->a)) {
                     $this->output[] = $this->a;
                     $this->output[] = $this->b;
 

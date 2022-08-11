@@ -37,19 +37,19 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
 
                 default:
                     $iStepToGo = $iStep;
-                }
+            }
 
             $sUid = '';
 
             if (array_key_exists('uid', $this->aElement)) {
                 switch ($this->aElement['uid']) {
-                        case 'follow':
-                            $sUid = $this->oForm->oDataHandler->_currentEntryId();
-                            break;
+                    case 'follow':
+                        $sUid = $this->oForm->oDataHandler->_currentEntryId();
+                        break;
 
-                        default:
-                            $sUid = $this->aElement['uid'];
-                        }
+                    default:
+                        $sUid = $this->aElement['uid'];
+                }
             }
 
             $sStepperId = $this->oForm->_getStepperId();
@@ -74,7 +74,7 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
 
             if (!is_null($sUrl)) {
                 header('Location: '.$sUrl);
-                exit();
+                exit;
             }
         }
     }

@@ -101,11 +101,11 @@ class formidable_mainvalidator extends formidable_mainobject
              *
              ***********************************************************************/
 
-            if ((('m' === $sKey[0]) && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'maxsize')
+            if (('m' === $sKey[0]) && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'maxsize')
                 && !\Sys25\RnBase\Utility\Strings::isFirstPartOfStr(
                     $sKey,
                     'maxsizebychars'
-                ))
+                )
             ) {
                 $iMaxSize = (int) $this->_navConf('/'.$sKey.'/value/');
 
@@ -421,7 +421,7 @@ class formidable_mainvalidator extends formidable_mainobject
                     );
                 }
 
-                if (($inArray != $negate)) {
+                if ($inArray != $negate) {
                     return false;
                 }
             }
@@ -503,7 +503,7 @@ class formidable_mainvalidator extends formidable_mainobject
 
     public function _isAuthentified()
     {
-        return is_array(($aUser = $GLOBALS['TSFE']->fe_user->user)) && array_key_exists('uid', $aUser)
+        return is_array($aUser = $GLOBALS['TSFE']->fe_user->user) && array_key_exists('uid', $aUser)
             && (int) $aUser['uid'] > 0;
     }
 

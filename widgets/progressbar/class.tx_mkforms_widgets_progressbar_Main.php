@@ -201,7 +201,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
         $iWidth = $this->getPxWidth();
 
         if (false !== $iWidth) {
-            $iStepWidth = round((($iWidth * $this->getPercent()) / 100), 0);
+            $iStepWidth = round(($iWidth * $this->getPercent()) / 100, 0);
             $aStyles['width'] = $iStepWidth.'px';
         }
 

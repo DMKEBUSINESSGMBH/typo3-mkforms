@@ -225,7 +225,7 @@ class tx_mkforms_util_Runnable
             return $sRes;
         }
 
-        if (false !== ($this->getConfig()->get('/userobj/cobj', $aUserobj))) {
+        if (false !== $this->getConfig()->get('/userobj/cobj', $aUserobj)) {
             return $this->getCObj()->cObjGetSingle($aUserobj['userobj']['cobj'], $aUserobj['userobj']['cobj.']);
         }
 

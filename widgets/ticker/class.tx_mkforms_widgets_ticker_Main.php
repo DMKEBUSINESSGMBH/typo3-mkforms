@@ -169,7 +169,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 false
             );
             $sHtml .= $this->sSeparatorHtml;
-        } elseif (false !== ($this->_navConf('/html'))) {        // if this ticker has a html as content
+        } elseif (false !== $this->_navConf('/html')) {        // if this ticker has a html as content
             $sHtml = ($this->oForm->isRunneable($this->aElement['html'])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->_navConf('/html');
             $sHtml = $this->oForm->_substLLLInHtml($sHtml).$this->sSeparatorHtml;
         } else {

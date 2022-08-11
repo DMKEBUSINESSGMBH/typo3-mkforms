@@ -455,7 +455,7 @@ TEMPLATE;
                             // wir wollen alle Daten, nicht nur von dem ersten Feld!
                             $sAs = $widget->getAbsName();
                             $aParams[] = 'rowInput::'.$sAs.'::'.$widget->_getElementHtmlId(/* def */
-                                    false, /* def */
+                                false, /* def */
                                 true, /* no iterating id */
                                 false
                             );

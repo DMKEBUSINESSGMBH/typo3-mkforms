@@ -105,7 +105,7 @@ class tx_mkforms_util_AutoLoad
         : ' konnte mit der unserializeCallbackFunc nicht geladen werden!'
                     )
                 )
-            );
+                );
 
         // noch loggen
         // warning ins log schreiben, wenn die klasse geladen wurde

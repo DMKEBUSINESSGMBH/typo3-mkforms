@@ -212,7 +212,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
         $configurations = $this->request->getConfigurations();
 
         $confId = $this->request->getConfId();
-        if ((
+        if (
             // redirect if fully submitted
             $viewData->offsetGet('fullySubmitted')
             // if there are no validation errors
@@ -222,7 +222,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
                 $configurations->getBool($confId.'redirect') ||
                 $configurations->get($confId.'redirect.pid')
             )
-        )) {
+        ) {
             // Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
             $GLOBALS['TSFE']->fe_user->storeSessionData();
 

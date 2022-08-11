@@ -50,12 +50,12 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
                     }
                 } else {
                     if (false === $bSelected && (
-                            (
-                                !$strictCheck && $aItem['value'] == $sValue
-                            ) || (
-                                $strictCheck && $aItem['value'] === $sValue
-                            )
+                        (
+                            !$strictCheck && $aItem['value'] == $sValue
+                        ) || (
+                            $strictCheck && $aItem['value'] === $sValue
                         )
+                    )
                     ) {
                         $bSelected = true;
                         $sSelected = ' selected="selected" ';

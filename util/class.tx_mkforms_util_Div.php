@@ -543,7 +543,7 @@ ERRORMESSAGE;
         // removes the leading slash so the path _really_ is relative
         $sPath = self::removeStartingSlash(self::toRelPath($sPath));
 
-        if (file_exists($sPath) && is_dir($sPath) && ('/' !== $sPath[(strlen($sPath) - 1)])) {
+        if (file_exists($sPath) && is_dir($sPath) && ('/' !== $sPath[strlen($sPath) - 1])) {
             $sPath .= '/';
         }
 

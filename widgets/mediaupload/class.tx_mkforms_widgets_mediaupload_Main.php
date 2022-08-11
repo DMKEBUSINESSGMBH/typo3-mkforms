@@ -339,7 +339,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         // In Set Value kommt die Anzahl der Zuordnungen rein!
         // Bei nur einer erlaubten Zuordnung muss die ggf. vorhandene Datei dereferenziert werden
-        if ($this->getForm()->isRunneable(($storageId = $this->_navConf('/data/storage/')))) {
+        if ($this->getForm()->isRunneable($storageId = $this->_navConf('/data/storage/'))) {
             $storageId = (int) $this->getForm()->getRunnable()->callRunnableWidget($this, $storageId);
         }
         if (!is_numeric($storageId)) {
@@ -467,7 +467,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     public function getTargetDir()
     {
         $oFileTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
-        if ($this->oForm->isRunneable(($sTargetDir = $this->_navConf('/data/targetdir/')))) {
+        if ($this->oForm->isRunneable($sTargetDir = $this->_navConf('/data/targetdir/'))) {
             $sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
         }
 
@@ -498,7 +498,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getRefTable()
     {
-        if ($this->oForm->isRunneable(($uid = $this->_navConf('/data/reftable/')))) {
+        if ($this->oForm->isRunneable($uid = $this->_navConf('/data/reftable/'))) {
             $tableName = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
         } else {
             $tableName = $this->_navConf('/data/reftable/', $this->aElement);
@@ -538,7 +538,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getBeUserId()
     {
-        if ($this->oForm->isRunneable(($uid = $this->_navConf('/data/beuser/')))) {
+        if ($this->oForm->isRunneable($uid = $this->_navConf('/data/beuser/'))) {
             $uid = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
         }
         $uid = (int) $uid;

@@ -9,7 +9,7 @@ abstract class formidable_maindatasource extends formidable_mainobject
         // page should never be negative
         $iPage = $iPage < 0 ? 0 : $iPage;
 
-        $iOffset = ($iPage) * $iRowsPerPage;    // counting the offset
+        $iOffset = $iPage * $iRowsPerPage;    // counting the offset
         $iNbDisplayed = $iRowsPerPage;
 
         if (false !== $bMax) {

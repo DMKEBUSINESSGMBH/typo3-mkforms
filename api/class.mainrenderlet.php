@@ -507,7 +507,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public function render($bForceReadonly = false)
     {
-        if ((false !== ($oIterating = $this->getIteratingAncestor()))) {
+        if (false !== ($oIterating = $this->getIteratingAncestor())) {
             $this->doBeforeIteratingRender($oIterating);
         } else {
             $this->doBeforeNonIteratingRender($oIterating);
@@ -1729,7 +1729,7 @@ TOOLTIP;
                                 $this->getAbsName(),
                                 $mEvent,
                                 $sEventId,
-                                (false === $aTempListData ? [] : $aTempListData)
+                                false === $aTempListData ? [] : $aTempListData
                             );
 
                             break;
@@ -2122,7 +2122,7 @@ JAVASCRIPT;
                     }
                 }
 
-                if ((true === $this->_defaultFalse('/db/static/')) && (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables'))) {
+                if ((true === $this->_defaultFalse('/db/static/')) && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
                     // If it is a static table
                     $aDbItems = $this->_getItemsStaticTable($mTable, $mValueField, $mWhere);
                 } else {
@@ -2387,7 +2387,7 @@ JAVASCRIPT;
                             reset($aWords);
                             foreach ($aWords as $sKey => $sWord) {
                                 if ('s' === strtolower(substr($sWord, -1, 1))) {
-                                    $aWords[$sKey] = substr($sWord, 0, (strlen($sWord) - 1));
+                                    $aWords[$sKey] = substr($sWord, 0, strlen($sWord) - 1);
                                 }
                             }
                         }
@@ -2532,7 +2532,7 @@ JAVASCRIPT;
      */
     public function _readOnly()
     {
-        return ($this->_isTrue('/readonly/')) || $this->i18n_shouldNotTranslate();
+        return $this->_isTrue('/readonly/') || $this->i18n_shouldNotTranslate();
     }
 
     public function _searchable()

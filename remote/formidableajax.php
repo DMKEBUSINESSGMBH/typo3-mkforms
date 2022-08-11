@@ -418,7 +418,7 @@ class formidableajax
         try {
             if (false === $this->init()) {
                 $this->denyService(); // Damit wird der Prozess beendet.
-                exit();
+                exit;
             }
 
             return new \TYPO3\CMS\Core\Http\HtmlResponse($this->handleRequest());

@@ -348,7 +348,7 @@ class tx_mkforms_util_XMLParser
                         }
                         break;
 
-                    // Close tag
+                        // Close tag
                     case 'close':
                         // Memorize array
                         $tempXML = $xml;
@@ -367,7 +367,7 @@ class tx_mkforms_util_XMLParser
                         reset($xml);
                         break;
 
-                    // Complete tag
+                        // Complete tag
                     case 'complete':
                         // Check for base64
                         if ($val['attributes']['base64'] ?? false) {
@@ -390,16 +390,16 @@ class tx_mkforms_util_XMLParser
                                     // Force variable type
                                     $xml[$tagName] = (int) $xml[$tagName];
                                     break;
-                                // Double
+                                    // Double
                                 case 'double':
                                     $xml[$tagName] = (float) $xml[$tagName];
                                     break;
-                                // Boolean
+                                    // Boolean
                                 case 'boolean':
                                     // Force type
                                     $xml[$tagName] = (bool) $xml[$tagName];
                                     break;
-                                // Array
+                                    // Array
                                 case 'array':
                                     // Create an empty array
                                     $xml[$tagName] = [];

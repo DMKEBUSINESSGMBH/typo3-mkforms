@@ -550,7 +550,7 @@ class tx_mkforms_util_FormBase
     {
         foreach ($fields as $fieldKey => $fieldValue) {
             // sub config gefunden, weiter machen!
-            if (('.' === substr($sPath, -1))) {
+            if ('.' === substr($sPath, -1)) {
                 continue;
             }
             // wenn es ein array ist, weiterleiten

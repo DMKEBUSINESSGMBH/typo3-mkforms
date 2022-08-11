@@ -182,7 +182,7 @@ INITSCRIPT;
     {
         $oFileTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
 
-        if ($this->oForm->isRunneable(($sTargetDir = $this->_navConf('/data/targetdir/')))) {
+        if ($this->oForm->isRunneable($sTargetDir = $this->_navConf('/data/targetdir/'))) {
             $sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
         }
 

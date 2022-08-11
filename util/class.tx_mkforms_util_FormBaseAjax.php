@@ -159,7 +159,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                     if (!empty($action['command']) && ($widget = $form->getWidget($action['renderlet'])) &&
                         // condition prüfen
                         (empty($action['conditions']) || $foo = self::evalSecureExpression($action['conditions'], $form))
-                        ) {
+                    ) {
                         /*
                          * 'refresh' gibt es nicht als majixAction.
                          * 'refresh' führt repaint aus, aktualisiert allerdings vorher die Daten des Renderlets

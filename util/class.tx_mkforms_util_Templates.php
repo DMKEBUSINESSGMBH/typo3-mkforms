@@ -281,7 +281,7 @@ class tx_mkforms_util_Templates
             foreach ($aArgs as $sArg) {
                 $sTrimArg = trim($sArg);
 
-                if ((('"' === $sTrimArg[0] && '"' === $sTrimArg[(strlen($sTrimArg) - 1)])) || (("'" === $sTrimArg[0] && "'" === $sTrimArg[(strlen($sTrimArg) - 1)]))) {
+                if (('"' === $sTrimArg[0] && '"' === $sTrimArg[strlen($sTrimArg) - 1]) || ("'" === $sTrimArg[0] && "'" === $sTrimArg[strlen($sTrimArg) - 1])) {
                     $aParams[] = substr($sTrimArg, 1, -1);
                 } elseif (is_numeric($sTrimArg)) {
                     $aParams[] = ($sTrimArg + 0);
@@ -553,7 +553,7 @@ class tx_mkforms_util_Templates
 
         $iCount = count($GLOBALS['tx_ameosformidable'][$formId]['aTags']);
 
-        return $GLOBALS['tx_ameosformidable'][$formId]['aTags'][($iCount - 1)];
+        return $GLOBALS['tx_ameosformidable'][$formId]['aTags'][$iCount - 1];
     }
 
     /**
@@ -582,7 +582,7 @@ class tx_mkforms_util_Templates
             $sTrimExpr = trim($aExp['expr']);
 
             if (true === $aExp['rec']) {
-                if ('"' == $sTrimExpr[0] && '"' == $sTrimExpr[(strlen($sTrimExpr) - 1)]) {
+                if ('"' == $sTrimExpr[0] && '"' == $sTrimExpr[strlen($sTrimExpr) - 1]) {
                     $aValue = substr($sTrimExpr, 1, -1);
                 } else {
                     $aBeforeValue = $aValue;
@@ -598,7 +598,7 @@ class tx_mkforms_util_Templates
                     $aValue = $this->resolveScripting($sInterpreter, $sExecString, $aBeforeValue);
                 }
             } else {
-                if ('"' == $sTrimExpr[0] && '"' == $sTrimExpr[(strlen($sTrimExpr) - 1)]) {
+                if ('"' == $sTrimExpr[0] && '"' == $sTrimExpr[strlen($sTrimExpr) - 1]) {
                     $aValue = substr($sTrimExpr, 1, -1);
                 } else {
                     $sExecString = $aExp['expr'];
@@ -606,7 +606,7 @@ class tx_mkforms_util_Templates
                         $sExecString .= '('.trim($aExp['args']).')';
                     }
 
-                    if (array_key_exists(($i + 1), $aRes)) {
+                    if (array_key_exists($i + 1, $aRes)) {
                         $aNextExp = $aRes[$i + 1];
                         $sNextExecString = $aNextExp['expr'];
                         if (false !== $aNextExp['args']) {

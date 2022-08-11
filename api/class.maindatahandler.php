@@ -48,7 +48,7 @@ class formidable_maindatahandler extends formidable_mainobject
         }
 
         if ($this->i18n()) {
-            if ((false === $this->i18n_getDefLangUid())) {
+            if (false === $this->i18n_getDefLangUid()) {
                 tx_mkforms_util_Div::mayday('DATAHANDLER: <b>/i18n/use</b> is active but no <b>/i18n/defLangUid</b> given');
             }
         }

@@ -15,9 +15,9 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
     {
         $sPath = $this->_getPath();
         if (false !== $sPath || (
-                is_array($this->_navConf('/imageconf/')) &&
-                $this->defaultFalse('/imageconf/forcegeneration')
-            )
+            is_array($this->_navConf('/imageconf/')) &&
+            $this->defaultFalse('/imageconf/forcegeneration')
+        )
         ) {
             $sTag = false;
             $aSize = false;

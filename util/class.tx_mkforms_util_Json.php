@@ -243,8 +243,8 @@ class tx_mkforms_util_Json
                 $strlen_var = strlen($var);
 
                //
-               // Iterate over every character in the string,
-               // escaping with a slash or encoding to UTF-8 where necessary
+                // Iterate over every character in the string,
+                // escaping with a slash or encoding to UTF-8 where necessary
                //
                 for ($c = 0; $c < $strlen_var; ++$c) {
                     $ord_var_c = ord($var[$c]);
@@ -273,11 +273,11 @@ class tx_mkforms_util_Json
                             $ascii .= '\\'.$var[$c];
                             break;
 
-                        // http://www.fileformat.info/info/unicode/char/2028/index.htm
-                        // Unicode Character 'LINE SEPARATOR' (U+2028)
-                        // Dieser Char zerstört das Javascript
-                        // und wird erstmal durch einen normalen umbruch ersetzt!
-                        // @TODO: spezielles encoding fürs javascript?
+                            // http://www.fileformat.info/info/unicode/char/2028/index.htm
+                            // Unicode Character 'LINE SEPARATOR' (U+2028)
+                            // Dieser Char zerstört das Javascript
+                            // und wird erstmal durch einen normalen umbruch ersetzt!
+                            // @TODO: spezielles encoding fürs javascript?
                         case 0xE2 == $ord_var_c && 0x80 == ord($var[$c + 1]) && 0xA8 == ord($var[$c + 2]):
                             $c += 2;
                             $ascii .= '\n';
@@ -294,23 +294,23 @@ class tx_mkforms_util_Json
                 return '"'.$ascii.'"';
 
             case 'array':
-               /*
-                * As per JSON spec if any array key is not an integer
-                * we must treat the the whole array as an object. We
-                * also try to catch a sparsely populated associative
-                * array with numeric keys here because some JS engines
-                * will create an array with empty indexes up to
-                * max_index which can cause memory issues and because
-                * the keys, which may be relevant, will be remapped
-                * otherwise.
-                *
-                * As per the ECMA and JSON specification an object may
-                * have any string as a property. Unfortunately due to
-                * a hole in the ECMA specification if the key is a
-                * ECMA reserved word or starts with a digit the
-                * parameter is only accessible using ECMAScript's
-                * bracket notation.
-                */
+                /*
+                 * As per JSON spec if any array key is not an integer
+                 * we must treat the the whole array as an object. We
+                 * also try to catch a sparsely populated associative
+                 * array with numeric keys here because some JS engines
+                 * will create an array with empty indexes up to
+                 * max_index which can cause memory issues and because
+                 * the keys, which may be relevant, will be remapped
+                 * otherwise.
+                 *
+                 * As per the ECMA and JSON specification an object may
+                 * have any string as a property. Unfortunately due to
+                 * a hole in the ECMA specification if the key is a
+                 * ECMA reserved word or starts with a digit the
+                 * parameter is only accessible using ECMAScript's
+                 * bracket notation.
+                 */
 
                 // treat as a JSON object
 
@@ -475,8 +475,8 @@ class tx_mkforms_util_Json
 
                             case preg_match('/\\\u[0-9A-F]{4}/i', substr($chrs, $c, 6)):
                                 // single, escaped unicode character
-                                $utf16 = chr(hexdec(substr($chrs, ($c + 2), 2)))
-                                       .chr(hexdec(substr($chrs, ($c + 4), 2)));
+                                $utf16 = chr(hexdec(substr($chrs, $c + 2, 2)))
+                                       .chr(hexdec(substr($chrs, $c + 4, 2)));
                                 $utf8 .= $this->utf162utf8($utf16);
                                 $c += 5;
                                 break;
@@ -565,7 +565,7 @@ class tx_mkforms_util_Json
                         if (($c == $strlen_chrs) || ((',' == $chrs[$c]) && (SERVICES_JSON_SLICE == $top['what']))) {
                             // found a comma that is not inside a string, array, etc.,
                             // OR we've reached the end of the character list
-                            $slice = substr($chrs, $top['where'], ($c - $top['where']));
+                            $slice = substr($chrs, $top['where'], $c - $top['where']);
                             array_push($stk, ['what' => SERVICES_JSON_SLICE, 'where' => ($c + 1), 'delim' => false]);
                             // print("Found split at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
 
