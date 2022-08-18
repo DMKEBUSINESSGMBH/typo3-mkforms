@@ -121,9 +121,9 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     /**
      * @param string $validationKey
      *
-     * @throws InvalidArgumentException
-     *
      * @return int
+     *
+     * @throws InvalidArgumentException
      */
     protected function getThresholdByValidationKey($validationKey)
     {

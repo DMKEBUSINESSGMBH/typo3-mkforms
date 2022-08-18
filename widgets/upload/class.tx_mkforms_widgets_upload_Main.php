@@ -82,7 +82,6 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
             $sValueCvs = implode(', ', $aValues);
             $sLinkCvs = implode(', ', $aLinks);
 
-
             if (('' !== trim($sValue)) && (true === $this->defaultTrue('showlink'))) {
                 if ('' !== trim($sLinkCvs)) {
                     $sValuePreview = $sLinkCvs.'<br />';

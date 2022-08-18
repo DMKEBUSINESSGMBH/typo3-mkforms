@@ -33,9 +33,9 @@ class tx_mkforms_util_DamUpload
      * @param array                 $formParameters
      * @param tx_mkforms_forms_Base $form
      *
-     * @throws RuntimeException
-     *
      * @return array
+     *
+     * @throws RuntimeException
      */
     public function getUploadsByWidget($formParameters, tx_mkforms_forms_Base $form)
     {

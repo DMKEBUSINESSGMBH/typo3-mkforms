@@ -657,9 +657,9 @@ class tx_mkforms_util_FormBase
      * @param array                 $params
      * @param tx_mkforms_forms_Base $form
      *
-     * @throws InvalidArgumentException
-     *
      * @return bool
+     *
+     * @throws InvalidArgumentException
      */
     public static function getConfigurationValue(array $params, tx_mkforms_forms_Base $form)
     {
