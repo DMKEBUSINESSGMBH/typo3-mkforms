@@ -231,7 +231,7 @@ class formidableajax
 
         $this->archiveRequest($this->aRequest);
 
-        if (false === ($sCharset = $this->oForm->_navConf('charset', $this->oForm->aAjaxEvents[$this->aRequest['eventid']]['event']))) {
+        if (false === ($sCharset = $this->oForm->_navConf('charset', $this->oForm->aAjaxEvents[$this->aRequest['eventid']]['event'] ?? []))) {
             if (false === ($sCharset = $this->oForm->_navConf('/meta/ajaxcharset'))) {
                 $sCharset = 'UTF-8';
             }

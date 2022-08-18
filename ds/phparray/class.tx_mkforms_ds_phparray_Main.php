@@ -50,7 +50,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
     public function _sortSource()
     {
-        if ('' !== trim($this->aConfig['sortcolumn'])) {
+        if ('' !== trim($this->aConfig['sortcolumn'] ?? '')) {
             $aSorted = [];
 
             reset($this->aSource);
@@ -96,14 +96,14 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
     public function _limitSource()
     {
         $aLimit = $this->_getRecordWindow(
-            $this->aConfig['page'],
-            $this->aConfig['perpage']
+            $this->aConfig['page'] ?? 0,
+            $this->aConfig['perpage'] ?? 0
         );
 
         $this->aSource = array_slice(
             $this->aSource,
-            $aLimit['offset'],
-            $aLimit['nbdisplayed']
+            $aLimit['offset'] ?? 0,
+            $aLimit['nbdisplayed'] ?? 0
         );
     }
 

@@ -92,7 +92,7 @@ class tx_mkforms_util_FormFill
         if (isset($params['dependsOn']) && (empty($params['dependsOn']['dbfield']) || empty($params['dependsOn']['formfield']))) {
             throw new InvalidArgumentException('tx_mkforms_util_FormFill->getRowsFromDataBase():'.' Wenn du $params["dependsOn"] angibst musst du auch $params["dependsOn"]["dbfield"] und $params["dependsOn"]["formfield"] angeben!');
         } else {
-            if ($widget = $form->getWidget($params['dependsOn']['formfield'])) {
+            if ($widget = ($form->getWidget($params['dependsOn']['formfield'] ?? null))) {
                 $val = $widget->getValue();
 
                 // Use another table?

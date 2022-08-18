@@ -126,7 +126,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
         }
         $sessData['parent'] = false;
 
-        if (is_array($GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId])) {
+        if (is_array($GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId] ?? null)) {
             $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId] = array_merge($GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId], $sessData);
         } else {
             $GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formId] = $sessData;
