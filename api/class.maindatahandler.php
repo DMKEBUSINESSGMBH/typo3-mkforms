@@ -506,7 +506,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
             $aPost = \Sys25\RnBase\Utility\T3General::_POST();
 
-            $aPost = is_array($aPost[$form_id]) ? $aPost[$form_id] : [];
+            $aPost = is_array($aPost[$form_id] ?? null) ? $aPost[$form_id] : [];
             $aFiles = is_array($GLOBALS['_FILES'][$form_id] ?? null) ? $GLOBALS['_FILES'][$form_id] : [];
             $aP = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
 
