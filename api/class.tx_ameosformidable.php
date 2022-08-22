@@ -241,6 +241,11 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     public $bInlineEvents;
 
     /**
+     * @var string
+     */
+    public $sDefaultLLLPrefix;
+
+    /**
      * @var tx_mkforms_util_Config
      */
     private $config = null;
