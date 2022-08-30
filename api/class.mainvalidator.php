@@ -393,7 +393,7 @@ class formidable_mainvalidator extends formidable_mainobject
                 }
 
                 // IteratingId bei einem Renderlet im Lister setzen.
-                if ($widget->getParent()->iteratingChilds) {
+                if ($widget->getParent() && $widget->getParent()->iteratingChilds) {
                     $widget->setIteratingId($oRdt->getIteratingId());
                 }
 
