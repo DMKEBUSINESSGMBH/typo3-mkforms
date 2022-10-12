@@ -17,9 +17,9 @@ Fork von ameos\_formidable
 
 Bei **MKFORMS** handelt es sich um einen Fork der TYPO3-Extension **ameos\_formidable**. Ein Ziel der Entwicklung ist es weitestgehend kompatibel zu dieser Extension zu bleiben. Das Format der XML-Datei wird dabei nur in dringenden Fällen geändert, nach Möglichkeit aber höchstens erweitert. Die Dokumentation und die Beispiele für ameos\_formidable sollten daher fast immer funktionieren.
 
--   <http://formidable.typo3.ug/>
--   <http://formidable.typo3.ug/reference.html>
--   <http://wiki.typo3.org/index.php/Formidable_documentation>
+-   [http://formidable.typo3.ug/](https://web.archive.org/web/20181119062444/http://formidable.typo3.ug/)
+-   [http://formidable.typo3.ug/reference.html](https://web.archive.org/web/20160506002926/http://formidable.typo3.ug/reference.html)
+-   [http://wiki.typo3.org/index.php/Formidable_documentation](https://web.archive.org/web/20100706081508/http://wiki.typo3.org/index.php/Formidable_documentation)
 
 [Zur Online Dokumentation](Documentation/README.md)
 -------------------------------------------------
