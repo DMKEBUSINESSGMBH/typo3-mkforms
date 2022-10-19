@@ -40,6 +40,7 @@ class FormView extends BaseView
      * {@inheritdoc}
      *
      * @see \Sys25\RnBase\Frontend\View\Marker\BaseView::createOutput()
+     *
      * @codingStandardsIgnoreStart (interface/abstract mistake)
      */
     public function createOutput($template, RequestInterface $request, $formatter)

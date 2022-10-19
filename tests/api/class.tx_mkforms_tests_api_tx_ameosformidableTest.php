@@ -55,7 +55,9 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
 
     /**
      * @expectedException \RuntimeException
+     *
      * @expectedExceptionCode 2001
+     *
      * @expectedExceptionMessage Das Formular ist nicht valide
      */
     public function testRenderThrowsExceptionIfRequestTokenIsNotSet()
@@ -66,7 +68,9 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
 
     /**
      * @expectedException \RuntimeException
+     *
      * @expectedExceptionCode 2001
+     *
      * @expectedExceptionMessage Das Formular ist nicht valide
      */
     public function testRenderThrowsExceptionIfRequestTokenIsInvalid()
@@ -143,6 +147,7 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
 
     /**
      * @group unit
+     *
      * @dataProvider dataProviderIsCsrfProtectionActive
      */
     public function testIsCsrfProtectionActive($typoScriptConfiguration, $expectedReturn)
@@ -210,6 +215,7 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
 
     /**
      * @group unit
+     *
      * @dataProvider dataProviderIsCsrfProtectionActive
      */
     public function testIsCsrfProtectionActiveWhenPluginIsNoUserInt($typoScriptConfiguration)

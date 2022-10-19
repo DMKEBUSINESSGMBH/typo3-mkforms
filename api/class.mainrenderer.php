@@ -68,13 +68,13 @@ TEMPLATE;
         $hidden_custom = $this->_getHiddenCustom();
 
         $sSysHidden = '<input type="hidden" name="'.$iFormId.'[AMEOSFORMIDABLE_SERVEREVENT]" id="'.$iFormId
-            .'_AMEOSFORMIDABLE_SERVEREVENT" />'.'<input type="hidden" name="'.$iFormId
+            .'_AMEOSFORMIDABLE_SERVEREVENT" /><input type="hidden" name="'.$iFormId
             .'[AMEOSFORMIDABLE_SERVEREVENT_PARAMS]" id="'.$iFormId.'_AMEOSFORMIDABLE_SERVEREVENT_PARAMS" />'
             .'<input type="hidden" name="'.$iFormId.'[AMEOSFORMIDABLE_SERVEREVENT_HASH]" id="'.$iFormId
-            .'_AMEOSFORMIDABLE_SERVEREVENT_HASH" />'.'<input type="hidden" name="'.$iFormId
+            .'_AMEOSFORMIDABLE_SERVEREVENT_HASH" /><input type="hidden" name="'.$iFormId
             .'[AMEOSFORMIDABLE_ADDPOSTVARS]" id="'.$iFormId.'_AMEOSFORMIDABLE_ADDPOSTVARS" />'
             .'<input type="hidden" name="'.$iFormId.'[AMEOSFORMIDABLE_VIEWSTATE]" id="'.$iFormId
-            .'_AMEOSFORMIDABLE_VIEWSTATE" />'.'<input type="hidden" name="'.$iFormId.'[AMEOSFORMIDABLE_SUBMITTED]" id="'
+            .'_AMEOSFORMIDABLE_VIEWSTATE" /><input type="hidden" name="'.$iFormId.'[AMEOSFORMIDABLE_SUBMITTED]" id="'
             .$iFormId.'_AMEOSFORMIDABLE_SUBMITTED"  value="'.AMEOSFORMIDABLE_EVENT_SUBMIT_FULL.'"/>'
             .'<input type="hidden" name="'.$iFormId.'[AMEOSFORMIDABLE_SUBMITTER]" id="'.$iFormId
             .'_AMEOSFORMIDABLE_SUBMITTER" />';
@@ -135,7 +135,7 @@ TEMPLATE;
 
             $xssSafeUrl = htmlspecialchars($formAction);
             $formBegin
-                = $wrapForm[0].'<form enctype="'.$oForm->getFormEnctype().'" '.' action="'.$xssSafeUrl
+                = $wrapForm[0].'<form enctype="'.$oForm->getFormEnctype().'"  action="'.$xssSafeUrl
                 .'" '.$formid.$formonsubmit.$formcustom.' method="'.$oForm->getFormMethod().'">';
             $formEnd = '</form>'.$wrapForm[1];
         } else {

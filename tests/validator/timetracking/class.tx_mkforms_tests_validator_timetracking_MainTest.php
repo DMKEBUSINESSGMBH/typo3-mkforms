@@ -42,7 +42,9 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
 
     /**
      * @group unit
+     *
      * @expectedException \InvalidArgumentException
+     *
      * @expectedExceptionMessage Please provide the threshold parameter for the tooFast validation
      */
     public function testValidateThrowsExceptionIfValidationForTooFastButNoThresholdConfigured()
@@ -109,7 +111,9 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
 
     /**
      * @group unit
+     *
      * @expectedException \InvalidArgumentException
+     *
      * @expectedExceptionMessage Please provide the threshold parameter for the tooFast validation
      */
     public function testValidateThrowsExceptionIfValidationForTooSlowButNoThresholdConfigured()

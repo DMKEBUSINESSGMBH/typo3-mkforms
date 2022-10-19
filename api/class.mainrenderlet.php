@@ -2678,7 +2678,7 @@ JAVASCRIPT;
 
         $sScript
             =
-            'Formidable.Context.Forms["'.$this->oForm->formid.'"]'.'.Objects["'.$sHtmlId.'"] = new Formidable.Classes.'
+            'Formidable.Context.Forms["'.$this->oForm->formid.'"].Objects["'.$sHtmlId.'"] = new Formidable.Classes.'
             .$sClass.'('.PHP_EOL.$sJson.PHP_EOL.')';
 
         $this->getForm()->attachInitTask(
@@ -2690,8 +2690,7 @@ JAVASCRIPT;
         // attach post init script?
         if (!empty($this->sAttachPostInitTask)) {
             $this->getForm()->attachPostInitTask(
-                'Formidable.f("'.$this->oForm->formid.'")'.'.o("'.$this->_getElementHtmlIdWithoutFormId().'")'.'.'
-                .$this->sAttachPostInitTask.'();'.PHP_EOL,
+                'Formidable.f("'.$this->oForm->formid.'").o("'.$this->_getElementHtmlIdWithoutFormId().'").'.$this->sAttachPostInitTask.'();'.PHP_EOL,
                 'postinit '.$sClass.' '.$sHtmlId.' initialization',
                 $this->_getElementHtmlId()
             );

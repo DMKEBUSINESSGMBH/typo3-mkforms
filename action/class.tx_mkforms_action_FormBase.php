@@ -147,8 +147,8 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
 
         if (!empty($this->errors)) {
             return '<div style="border:2px solid red; padding:10px; margin: 10px 0; color:red; background: wheat;">'
-            .'<h1>MKFORMS - ACTION - FORMBASE</h1>'.'<p>incomplete typoscript configuration found for "'.$confId.'"</p>'
-            .'<ul><li>'.implode('</li><li>', $this->errors).'</li><ul>'.'</div>';
+            .'<h1>MKFORMS - ACTION - FORMBASE</h1><p>incomplete typoscript configuration found for "'.$confId.'"</p>'
+            .'<ul><li>'.implode('</li><li>', $this->errors).'</li><ul></div>';
         }
 
         // wurde ein xml gesetzt

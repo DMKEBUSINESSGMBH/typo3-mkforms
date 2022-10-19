@@ -263,7 +263,9 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
 
     /**
      * @expectedException \RuntimeException
+     *
      * @expectedExceptionCode 2001
+     *
      * @expectedExceptionMessage Das Formular ist nicht valide
      */
     public function testProcessFormThrowsExceptionWithInvalidRequestToken()

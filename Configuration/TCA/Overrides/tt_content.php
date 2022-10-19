@@ -8,7 +8,7 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['tx_mkforms']
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
     [
-        'LLL:EXT:'.'mkforms'.'/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.label',
+        'LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.label',
         'tx_mkforms',
         'EXT:mkforms/Resources/Public/Icons/Extension.gif',
     ],

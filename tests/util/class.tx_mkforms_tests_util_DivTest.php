@@ -101,6 +101,7 @@ class tx_mkforms_tests_util_DivTest extends \Sys25\RnBase\Testing\BaseTestCase
      * @param string $expected
      *
      * @group unit
+     *
      * @dataProvider providerCleanupFileName
      */
     public function testCleanupFileName($rawFile, $expectedFile)

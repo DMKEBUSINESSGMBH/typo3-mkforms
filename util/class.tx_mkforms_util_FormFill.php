@@ -87,10 +87,10 @@ class tx_mkforms_util_FormFill
     {
         // erstmal prüfen ob alle notwendigen params gesetzt wurden
         if (empty($params['table']) || empty($params['valueField']) || empty($params['captionField'])) {
-            throw new InvalidArgumentException('tx_mkforms_util_FormFill->getRowsFromDataBase():'.' Bitte gib die Parameter "table", "valueField" und "captionField" an.');
+            throw new InvalidArgumentException('tx_mkforms_util_FormFill->getRowsFromDataBase(): Bitte gib die Parameter "table", "valueField" und "captionField" an.');
         }
         if (isset($params['dependsOn']) && (empty($params['dependsOn']['dbfield']) || empty($params['dependsOn']['formfield']))) {
-            throw new InvalidArgumentException('tx_mkforms_util_FormFill->getRowsFromDataBase():'.' Wenn du $params["dependsOn"] angibst musst du auch $params["dependsOn"]["dbfield"] und $params["dependsOn"]["formfield"] angeben!');
+            throw new InvalidArgumentException('tx_mkforms_util_FormFill->getRowsFromDataBase(): Wenn du $params["dependsOn"] angibst musst du auch $params["dependsOn"]["dbfield"] und $params["dependsOn"]["formfield"] angeben!');
         } else {
             if ($widget = $form->getWidget($params['dependsOn']['formfield'] ?? null)) {
                 $val = $widget->getValue();

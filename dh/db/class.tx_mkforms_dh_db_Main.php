@@ -481,7 +481,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                 ) {
                     if ($this->tableName() === $this->oForm->aAddPostVars[$sKey]['params']['tablename'] && $this->tableName()) {
                         $sOurSafeLock = $this->oForm->_getSafeLock(
-                            'requestNewI18n'.':'.$this->oForm->aAddPostVars[$sKey]['params']['tablename'].':'
+                            'requestNewI18n:'.$this->oForm->aAddPostVars[$sKey]['params']['tablename'].':'
                             .$this->oForm->aAddPostVars[$sKey]['params']['recorduid'].':'
                             .$this->oForm->aAddPostVars[$sKey]['params']['languid']
                         );

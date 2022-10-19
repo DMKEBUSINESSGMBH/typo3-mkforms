@@ -825,10 +825,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $aLocation = array_shift($aTrace);
 
             $this->_debug(
-                'User called FORMidable<br>'.'<br>&#149; In :<br>'.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$aLocation['file'].':'
-                .$aLocation['line'].'<br>&#149; At :<br>'.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$aLocation['class']
-                .$aLocation['type'].$aLocation['function'].'<br>&#149; With args: <br>'.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                .tx_mkforms_util_Div::viewMixed($aLocation['args']).((false !== $iForcedEntryId) ?
+                'User called FORMidable<br><br>&#149; In :<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$aLocation['file'].':'
+                .$aLocation['line'].'<br>&#149; At :<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$aLocation['class']
+                .$aLocation['type'].$aLocation['function'].'<br>&#149; With args: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.tx_mkforms_util_Div::viewMixed($aLocation['args']).((false !== $iForcedEntryId) ?
                     '<br>&#149; Edition of entry '.$iForcedEntryId.' requested' : ''),
                 'INITIALIZATION OF FORMIDABLE'
             );
@@ -934,7 +933,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
                     && 'requestEdition' === $this->aAddPostVars[$sKey]['action']
                 ) {
                     $sOurSafeLock = $this->_getSafeLock(
-                        'requestEdition'.':'.$this->aAddPostVars[$sKey]['params']['tablename'].':'
+                        'requestEdition:'.$this->aAddPostVars[$sKey]['params']['tablename'].':'
                         .$this->aAddPostVars[$sKey]['params']['recorduid']
                     );
                     $sTheirSafeLock = $this->aAddPostVars[$sKey]['params']['hash'];
@@ -2469,8 +2468,7 @@ SANDBOXCLASS;
                 );
             } else {
                 $this->additionalHeaderData(
-                    "<!-- BEGIN:Formidable '".$this->formid."' initialization-->\n"."<script>\n"
-                    .$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid."' initialization-->\n"
+                    "<!-- BEGIN:Formidable '".$this->formid."' initialization-->\n<script>\n".$sJs."\n</script>\n<!-- END:Formidable '".$this->formid."' initialization-->\n"
                 );
             }
 
@@ -2485,7 +2483,7 @@ SANDBOXCLASS;
             } else {
                 $this->additionalHeaderData(
                     "<!-- BEGIN:Formidable '".$this->formid."' post-initialization-->\n"
-                    ."<script>\n".$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid
+                    ."<script>\n".$sJs."\n</script>\n<!-- END:Formidable '".$this->formid
                     ."' post-initialization-->\n"
                 );
             }
@@ -4479,7 +4477,7 @@ JAVASCRIPT;
                 'tablename' => $sTableName,
                 'recorduid' => $iRecordUid,
                 'languid' => $iLangUid,
-                'hash' => $this->_getSafeLock('requestNewI18n'.':'.$sTableName.':'.$iRecordUid.':'.$iLangUid),
+                'hash' => $this->_getSafeLock('requestNewI18n:'.$sTableName.':'.$iRecordUid.':'.$iLangUid),
             ],
             $this->formid
         );
@@ -4497,7 +4495,7 @@ JAVASCRIPT;
                 [
                     'tablename' => $sTableName,
                     'recorduid' => $iRecordUid,
-                    'hash' => $this->_getSafeLock('requestEdition'.':'.$sTableName.':'.$iRecordUid),
+                    'hash' => $this->_getSafeLock('requestEdition:'.$sTableName.':'.$iRecordUid),
                 ],
                 $this->formid
             );
@@ -4816,7 +4814,7 @@ JAVASCRIPT;
     public function div_arrayToCsvFile($aData, $sFilePath = false, $sFSep = ';', $sLSep = "\r\n", $sStringWrap = '"')
     {
         if (false === $sFilePath) {
-            $sFilePath = \Sys25\RnBase\Utility\T3General::tempnam('csv-'.strftime('%Y.%m.%d-%Hh%Mm%Ss'.'-')).'.csv';
+            $sFilePath = \Sys25\RnBase\Utility\T3General::tempnam('csv-'.strftime('%Y.%m.%d-%Hh%Mm%Ss-')).'.csv';
         } else {
             $sFilePath = tx_mkforms_util_Div::toServerPath($sFilePath);
         }
