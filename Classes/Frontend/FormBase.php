@@ -148,10 +148,7 @@ class FormBase extends AbstractAction
             // if there are no validation errors
             && !$this->form->hasValidationErrors()
             // and redirect configured
-            && (
-                $configurations->getBool($confId.'redirect') ||
-                $configurations->get($confId.'redirect.pid')
-            )
+            && strlen($configurations->get($confId.'redirect.pid')) > 0
         ) {
             // Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
             $GLOBALS['TSFE']->fe_user->storeSessionData();

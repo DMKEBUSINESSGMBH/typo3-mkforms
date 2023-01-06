@@ -97,15 +97,6 @@
 					</TCEforms>
 					</generic.xml>
 
-					<generic.redirect>
-						<TCEforms>
-							<exclude>1</exclude>
-							<label>LLL:EXT:mkforms/Resources/Private/Language/locallang_db.xlf:plugin.mkforms.flexform.redirect</label>
-							<config>
-								<type>check</type>
-							</config>
-						</TCEforms>
-					</generic.redirect>
 					<generic.redirect.pid>
 						<TCEforms>
 							<exclude>1</exclude>

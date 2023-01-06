@@ -218,10 +218,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
             // if there are no validation errors
             && !$viewData->offsetGet('hasValidationErrors')
             // and redirect configured
-            && (
-                $configurations->getBool($confId.'redirect') ||
-                $configurations->get($confId.'redirect.pid')
-            )
+            && strlen($configurations->get($confId.'redirect.pid')) > 0
         ) {
             // Speichern wir die Sessiondaten vor dem Redirect? Die würden sonst verloren gehen!
             $GLOBALS['TSFE']->fe_user->storeSessionData();

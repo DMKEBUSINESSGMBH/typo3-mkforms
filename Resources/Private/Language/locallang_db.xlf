@@ -25,7 +25,7 @@
 				<source>Redirect after full submit</source>
 			</trans-unit>
 			<trans-unit id="plugin.mkforms.flexform.redirect.pid" resname="plugin.mkforms.flexform.redirect.pid" >
-				<source>Redirect page</source>
+				<source>Redirect page (0 means redirect to current page, empty string means no redirect at all)</source>
 			</trans-unit>
 			<trans-unit id="plugin.mkforms.flexform.redirect.qualifier" resname="plugin.mkforms.flexform.redirect.qualifier" >
 				<source>Redirect qualifier</source>
