@@ -144,7 +144,7 @@ class tx_mkforms_util_XMLParser
 
             if (self::$useCache) {
                 if (!@is_dir(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sCacheDir)) {
-                    GeneralUtility::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/', $sCacheDir);
+                    GeneralUtility::mkdir_deep(\Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/'.$sCacheDir);
                 }
                 tx_mkforms_util_Div::fileWriteBin(
                     $sCachePath,
