@@ -1,9 +1,37 @@
 Changelog
 =========
 
-9.5.1
+11.0.0
 -----
 
+- support for TYPO3 10.4 and 11.5 and PHP 7.4 and 8.0 only
+
+10.1.1 - 10.1.4
+-----
+
+- bugfixes
+
+10.1.0
+-----
+
+- Require rn_base >= 1.15.0
+
+10.0.1 - 10.0.3
+-----
+
+- support for PHP 7.2, 7.3 and 7.4 only
+- bugfixes (thanks to Oliver Klee)
+
+10.0.0
+-----
+
+- support for TYPO3 9.5 and 10.4 only
+
+
+9.5.1 - 9.5.4
+-----
+
+-   bugfixes
 -   add suggest information for mksanitizedparameters
 -   Fix autoloading for datasources in non-Composer installation
 
@@ -26,11 +54,11 @@ Changelog
 3.0.23
 -----
 
--   PHP 7.2 compatibility fixed if $errors is no array 
--   fixed PHP 7.2 deprecations 
--   removed not longer needed lib 
--   New base class for plugins 
--   Fix some method visibility 
+-   PHP 7.2 compatibility fixed if $errors is no array
+-   fixed PHP 7.2 deprecations
+-   removed not longer needed lib
+-   New base class for plugins
+-   Fix some method visibility
 -   fixed no onchange event when using Renderlet::DATE
 -   new view class for plugin and bugfix in js
 -   Trigger validation for CHECKBOX widget if no item selected
@@ -51,12 +79,12 @@ Changelog
 3.0.21
 -----
 
--   avoid htmlspecialchars being used twice when value of widget is sanitized 
+-   avoid htmlspecialchars being used twice when value of widget is sanitized
 
 3.0.19
 -----
 
--   replaced old IMG_RESOURCE() method 
+-   replaced old IMG_RESOURCE() method
 
 3.0.18
 -----
@@ -67,7 +95,7 @@ Changelog
 -----
 
 -   several cleanups and bugfixes (see git commit history on github)
--   Stop using the deprecated removeXSS method 
+-   Stop using the deprecated removeXSS method
 -   dropped support for TYPO3 < 6.2
 
 3.0.16
@@ -81,7 +109,7 @@ Changelog
 -----
 
 -   disable csrf protection when plugin is cached
--   don't start a session unless necessary 
+-   don't start a session unless necessary
 -   dont save creation timestamp in session when plugin not USER_INT
 -   introduced new checkpoint for validators after render
 -   added option to prefix configuration id with configuration id of form when getting TS configuration in forms
