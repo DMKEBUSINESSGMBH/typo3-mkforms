@@ -199,8 +199,8 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         return [
             'counter' => $this->aConfig['searchCounter'],
             'html' => [
-                'before' => trim($aParts[0]),
-                'after' => trim($aParts[1]),
+                'before' => trim($aParts[0] ?? ''),
+                'after' => trim($aParts[1] ?? ''),
                 'childs' => $aRowsHtml,
             ],
             'results' => count($aRowsHtml),
@@ -212,6 +212,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         $aLimitAndSort = $this->initLimitAndSort();
         $aFilters = $this->initFilters();
         $this->initSearchDS($aFilters, $aLimitAndSort);
+        $aRowsHtml = [];
 
         if ($this->aDatasource && $this->aDatasource['numrows']) {        // if there is some items to render
             $iNbAlt = count($this->aRowsSubpart);
