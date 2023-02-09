@@ -207,7 +207,7 @@ class tx_mkforms_util_Runnable
             } catch (Exception  $e) {
                 $verbose = (int) \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'verboseMayday');
 
-                $ret = 'UNCAUGHT EXCEPTION FOR VIEW: '.get_class($oCbObj)."\r\n";
+                $ret = 'UNCAUGHT EXCEPTION FOR VIEW: '.get_class($oObj)."\r\n";
 
                 if ($verbose) {
                     $ret .= "\r\n".$e->__toString();
@@ -220,7 +220,6 @@ class tx_mkforms_util_Runnable
             }
 
             unset($this->__sEvalTemp);
-            restore_error_handler();
 
             return $sRes;
         }
