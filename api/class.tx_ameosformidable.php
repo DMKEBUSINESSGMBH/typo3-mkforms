@@ -5240,7 +5240,7 @@ JAVASCRIPT;
     {
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 
-        return $sessionData['creationTimestamp'][$this->getFormId()];
+        return $sessionData['creationTimestamp'][$this->getFormId()] ?? 0;
     }
 
     /**
