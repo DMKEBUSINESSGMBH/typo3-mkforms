@@ -101,7 +101,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             'caption' => implode(', ', $aSelectedCaptions),
             'input' => $sInput,
             'select.' => ['begin' => $sInputBegin, 'end' => $sInputEnd],
-            'itemcount' => count($sOptionsListBag),
+            'itemcount' => count($sOptionsListBag ?? []),
             'items.' => $sOptionsListBag,
         ];
 
