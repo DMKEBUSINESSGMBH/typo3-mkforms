@@ -31,11 +31,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 
         $aSelectedCaptions = [];
         $bSelected = false;
+        $aHtml = [];
+        $sOptionsListBag = [];
 
         if (count($aItems) > 0) {
-            $aHtml = [];
-            $sOptionsListBag = [];
-
             foreach ($aItems as $aItem) {
                 $sSelected = '';
                 $value = $aItem['value'];
@@ -101,7 +100,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
             'caption' => implode(', ', $aSelectedCaptions),
             'input' => $sInput,
             'select.' => ['begin' => $sInputBegin, 'end' => $sInputEnd],
-            'itemcount' => count($sOptionsListBag ?? []),
+            'itemcount' => count($sOptionsListBag),
             'items.' => $sOptionsListBag,
         ];
 
