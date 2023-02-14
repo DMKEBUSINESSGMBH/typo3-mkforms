@@ -95,7 +95,7 @@ class tx_mkforms_util_Config
                         $curZone = $this->getTcaVal($curZone);
                     } elseif ('L' === ($curZone[0] ?? '') && 'LLL:' === substr($curZone, 0, 4)) {
                         $curZone = $this->getLLLabel($curZone);
-                    } elseif ('E' === ($curZone[0] ?? '') && 'X' === $curZone[1] && 'EXTCONF:' === substr($curZone, 0, 8)) {
+                    } elseif ('E' === ($curZone[0] ?? '') && 'X' === ($curZone[1] ?? '') && 'EXTCONF:' === substr($curZone, 0, 8)) {
                         $curZone = $this->getExtConfVal($curZone);
                     }
                 }

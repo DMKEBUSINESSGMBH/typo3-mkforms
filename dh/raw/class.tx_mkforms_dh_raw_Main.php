@@ -25,7 +25,7 @@ class tx_mkforms_dh_raw_Main extends formidable_maindatahandler
 
         foreach (array_keys($aData) as $key) {
             if (!is_array($aData[$key])) {
-                if (is_object($this->oForm->aORenderlets[$path.$key])
+                if (is_object($this->oForm->aORenderlets[$path.$key] ?? null)
                     && $this->oForm->aORenderlets[$path.$key]->_renderOnly()
                 ) {
                     unset($aData[$key]);
