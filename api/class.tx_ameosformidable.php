@@ -5230,7 +5230,7 @@ JAVASCRIPT;
     {
         $aSessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
 
-        return $aSessionData['requestToken'][$this->getFormId()];
+        return $aSessionData['requestToken'][$this->getFormId()] ?? '';
     }
 
     /**

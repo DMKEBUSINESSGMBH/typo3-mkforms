@@ -241,7 +241,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
     protected function createRedirectLink($viewData, $configurations, $confId)
     {
         // @codingStandardsIgnoreStart (interface/abstract mistake)
-        $params = $viewData->offsetGet('redirect_parameters');
+        $params = $viewData->offsetExists('redirect_parameters') ? $viewData->offsetGet('redirect_parameters') : [];
         $link = $configurations->createLink();
         $link->initByTS($configurations, $confId.'redirect.', is_array($params) ? $params : []);
 
