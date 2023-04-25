@@ -890,4 +890,12 @@ ERRORMESSAGE;
 
         return $tsArray;
     }
+
+    public static function getCurrentBaseUrl(): string
+    {
+        $request = $GLOBALS['TYPO3_REQUEST'];
+        $language = $request->getAttribute('language') ?? $request->getAttribute('site')->getDefaultLanguage();
+
+        return self::removeEndingSlash((string) $language->getBase());
+    }
 }

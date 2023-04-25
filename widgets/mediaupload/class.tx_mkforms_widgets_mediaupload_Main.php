@@ -766,9 +766,7 @@ INITSCRIPT;
         $sServiceKey = 'upload'; // Die Daten sind in der ext_localconf vordefiniert.
         $sFormId = $this->getForm()->getFormId();
         $sSafeLock = $this->_getSessionDataHashKey();
-        $sUploadUrl = tx_mkforms_util_Div::removeEndingSlash(
-            \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')
-        ).
+        $sUploadUrl = tx_mkforms_util_Div::getCurrentBaseUrl().
             '/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         tx_mkforms_session_Factory::getSessionManager()->initialize();
