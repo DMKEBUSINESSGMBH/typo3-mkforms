@@ -74,7 +74,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         // thwoerID without iterating id
         $sThrower = $this->_getElementHtmlId(false, true, false);
 
-        $sSearchUrl = tx_mkforms_util_Div::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
+        $sSearchUrl = tx_mkforms_util_Div::getCurrentBaseUrl().'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
 
         $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$sObject][$sServiceKey][$sSafeLock] = [
             'requester' => [

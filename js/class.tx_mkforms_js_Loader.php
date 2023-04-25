@@ -186,10 +186,10 @@ class tx_mkforms_js_Loader
             'Misc' => [
                 'Urls' => [
                     'Ajax' => [
-                        'event' => tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()).'/?mkformsAjaxId='
-                            .tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxevent',
-                        'service' => tx_mkforms_util_Div::removeEndingSlash($this->getAbsRefPrefix()).'/?mkformsAjaxId='
-                            .tx_mkforms_util_Div::getAjaxEId().'&object=tx_ameosformidable&servicekey=ajaxservice',
+                        'event' => tx_mkforms_util_Div::getCurrentBaseUrl().'/?mkformsAjaxId='
+                            .tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object=tx_ameosformidable&servicekey=ajaxevent',
+                        'service' => tx_mkforms_util_Div::getCurrentBaseUrl().'/?mkformsAjaxId='
+                            .tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object=tx_ameosformidable&servicekey=ajaxservice',
                     ],
                 ],
                 'MajixSpinner' => (false !== ($aSpinner = $this->oForm->_navConf('/meta/majixspinner'))) ? $aSpinner : [],
