@@ -70,7 +70,7 @@ class tx_mkforms_util_Templates
      */
     public function parseTemplate($templatePath, $templateMarker, $aTags = [], $aExclude = [], $bClearNotUsed = true, $aLabels = [])
     {
-        // $tempUrl : the path of the template for use with \Sys25\RnBase\Utility\T3General::getUrl()
+        // $tempUrl : the path of the template for use with \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl()
         // $tempMarker :  the template subpart marker
         // $aTags : the marker array for substitution
         // $aExclude : tag names that should not be substituted
@@ -81,7 +81,7 @@ class tx_mkforms_util_Templates
         $templatePath = tx_mkforms_util_Div::toServerPath($templatePath);
 
         return $this->parseTemplateCode(
-            \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(\Sys25\RnBase\Utility\T3General::getUrl($templatePath), $templateMarker),
+            \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(\TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($templatePath), $templateMarker),
             $aTags,
             $aExclude,
             $bClearNotUsed,

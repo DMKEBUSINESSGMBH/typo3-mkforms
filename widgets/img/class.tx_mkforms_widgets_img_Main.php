@@ -74,7 +74,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                     if (!file_exists($sTempFilePath)) {
                         \Sys25\RnBase\Utility\T3General::writeFileToTypo3tempDir(
                             $sTempFilePath,
-                            \Sys25\RnBase\Utility\T3General::getUrl($sAbsWebPath)
+                            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sAbsWebPath)
                         );
                     }
 

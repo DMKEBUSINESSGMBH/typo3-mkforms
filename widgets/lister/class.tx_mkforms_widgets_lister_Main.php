@@ -1062,7 +1062,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             if (file_exists($aTemplate['path'])) {
                 if (is_readable($aTemplate['path'])) {
                     $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                        \Sys25\RnBase\Utility\T3General::getUrl($aTemplate['path']),
+                        \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($aTemplate['path']),
                         $aTemplate['subpart']
                     );
 
@@ -1119,7 +1119,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 if (file_exists($aPagerTemplate['path'])) {
                     if (is_readable($aPagerTemplate['path'])) {
                         $aRes['pager'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                            \Sys25\RnBase\Utility\T3General::getUrl($aPagerTemplate['path']),
+                            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($aPagerTemplate['path']),
                             $aPagerTemplate['subpart']
                         );
 
@@ -1214,7 +1214,7 @@ ERRORMESSAGE;
         $sSubPart = '###LISTPAGER###';
 
         return \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-            \Sys25\RnBase\Utility\T3General::getUrl($sPath),
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
             $sSubPart
         );
     }
@@ -1241,7 +1241,7 @@ ERRORMESSAGE;
         $sSubpart = '###LIST###';
 
         $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-            \Sys25\RnBase\Utility\T3General::getUrl($sPath),
+            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
             $sSubpart
         );
 
@@ -1249,7 +1249,7 @@ ERRORMESSAGE;
 
         $aRes['styles'] = $this->_parseThrustedTemplateCode(
             \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                \Sys25\RnBase\Utility\T3General::getUrl($sPath),
+                \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
                 '###STYLES###'
             ),
             [

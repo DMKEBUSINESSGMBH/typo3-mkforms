@@ -230,7 +230,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             }
 
             $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                \Sys25\RnBase\Utility\T3General::getUrl($sPath),
+                \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
                 $sSubpart
             );
 

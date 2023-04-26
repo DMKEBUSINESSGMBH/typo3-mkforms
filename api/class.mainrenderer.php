@@ -644,7 +644,7 @@ TEMPLATE;
                 if (true === $this->_defaultFalse('/style/rewrite')) {
                     if (!tx_mkforms_util_Div::isAbsWebPath($sUrl)) {
                         $sUrl = tx_mkforms_util_Div::toServerPath($sUrl);
-                        $sStyle = \Sys25\RnBase\Utility\T3General::getUrl($sUrl);
+                        $sStyle = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sUrl);
                         $sUrl = false;
                     }
                 }

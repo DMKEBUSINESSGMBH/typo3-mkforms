@@ -2828,7 +2828,7 @@ JAVASCRIPT;
         if (file_exists($aTemplate['path'])) {
             if (is_readable($aTemplate['path'])) {
                 $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                    \Sys25\RnBase\Utility\T3General::getUrl($aTemplate['path']),
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($aTemplate['path']),
                     $aTemplate['subpart']
                 );
 
@@ -3174,7 +3174,7 @@ JAVASCRIPT;
                                         );
                                     if (file_exists($sSrc) && is_readable($sSrc)) {
                                         $this->aSkin['template']['full'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                                            \Sys25\RnBase\Utility\T3General::getUrl($sSrc),
+                                            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sSrc),
                                             $this->aSkin['submanifest']['resources']['template']['subpart']
                                         );
 
