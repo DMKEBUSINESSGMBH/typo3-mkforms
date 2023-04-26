@@ -4841,7 +4841,7 @@ JAVASCRIPT;
     {
         $aRes = [];
 
-        if (false !== ($sHeaders = \Sys25\RnBase\Utility\T3General::getUrl($sUrl, 2))) {
+        if (false !== ($sHeaders = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sUrl))) {
             $aHeaders = \Sys25\RnBase\Utility\Strings::trimExplode("\n", $sHeaders);
 
             reset($aHeaders);

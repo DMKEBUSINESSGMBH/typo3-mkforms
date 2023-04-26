@@ -50,7 +50,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
 
                 if (false !== ($sSubpart = $this->getTemplateSubpart())) {
                     $mHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                        \Sys25\RnBase\Utility\T3General::getUrl($sPath),
+                        \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
                         $sSubpart
                     );
 
@@ -58,7 +58,7 @@ class tx_mkforms_renderer_template_Main extends formidable_mainrenderer
                         $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'".$sPath."'</b> with subpart marker ".$sSubpart.' <b>returned an empty string</b> - Check your template');
                     }
                 } else {
-                    $mHtml = \Sys25\RnBase\Utility\T3General::getUrl($sPath);
+                    $mHtml = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath);
                     if ('' == trim($mHtml)) {
                         $this->getForm()->mayday("RENDERER TEMPLATE - The given template <b>'".$sPath."'</b> with no subpart marker <b>returned an empty string</b> - Check your template");
                     }

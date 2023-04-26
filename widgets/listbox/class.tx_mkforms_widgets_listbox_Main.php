@@ -31,10 +31,10 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
 
         $aSelectedCaptions = [];
         $bSelected = false;
+        $sOptionsListBag = [];
 
         if (count($aItems) > 0) {
             $aHtml = [];
-            $sOptionsListBag = [];
 
             foreach ($aItems as $aItem) {
                 $sSelected = '';

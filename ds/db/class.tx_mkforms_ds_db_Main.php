@@ -86,7 +86,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             $rows = \Sys25\RnBase\Database\Connection::getInstance()->doQuery($sSql);
 
             if ($rows) {
-                $iNumRows = count($rows);
+                $iNumRows = $rows->num_rows;
 
                 foreach ($rows as $aRs) {
                     $aResults[] = $aRs;
