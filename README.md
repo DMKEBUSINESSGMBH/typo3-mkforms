@@ -46,5 +46,15 @@ Obwohl **ameos\_formidable** einen extrem hohen Entwicklungsgrad hat, gibt es ei
 -   generischer Datahandler
 -   verbesserter userfunc Ausruf innerhalb von Formularen
 
+Breaking Changes since 10.4
+---------------------------
+- template paths have changed and need to be changed in all xml files and TypoScript configuration:
+  - EXT:mkforms/templates/formonly.html is now EXT:mkforms/Resources/Private/Templates/formonly.html
+    - May be used in plugins. So use this SQL query to migrate old paths in plugins:
+      ```sql
+      UPDATE tt_content SET pi_flexform = REPLACE(pi_flexform, 'mkforms/templates/formonly.html', 'mkforms/Resources/Private/Templates/formonly.html');
+      ```
+  - EXT:mkforms/widgets/lister/res/html/default-template.html is now EXT:mkforms/Resources/Private/Templates/Widgets/Lister/default-template.html
+
 
 
