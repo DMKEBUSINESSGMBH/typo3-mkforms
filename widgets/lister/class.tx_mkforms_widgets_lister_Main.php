@@ -1210,7 +1210,9 @@ ERRORMESSAGE;
 
     public function &__getDefaultPager()
     {
-        $sPath = $this->sExtPath.'res/html/default-template.html';
+        $sPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+            'EXT:mkforms/Resources/Private/Templates/Widgets/Lister/default-template.html'
+        );
         $sSubPart = '###LISTPAGER###';
 
         return \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
@@ -1237,7 +1239,9 @@ ERRORMESSAGE;
             ],
         ];
 
-        $sPath = $this->sExtPath.'res/html/default-template.html';
+        $sPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+            'EXT:mkforms/Resources/Private/Templates/Widgets/Lister/default-template.html'
+        );
         $sSubpart = '###LIST###';
 
         $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
