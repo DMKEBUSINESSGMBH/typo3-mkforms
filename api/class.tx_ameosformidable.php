@@ -1994,7 +1994,11 @@ SANDBOXCLASS;
                 $curZone[$aPath[$i]] = [];
             }
 
-            $curZone = &$curZone[$aPath[$i]];
+            if ($curZone[$aPath[$i]] ?? null) {
+                $curZone = &$curZone[$aPath[$i]];
+            } else {
+                $curZone = null;
+            }
 
             if ($i === ($iSize - 1)) {
                 $mBackup = $curZone;
