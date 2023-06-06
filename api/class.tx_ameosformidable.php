@@ -1994,7 +1994,7 @@ SANDBOXCLASS;
                 $curZone[$aPath[$i]] = [];
             }
 
-            if ($curZone[$aPath[$i]] ?? null) {
+            if (isset($aPath[$i]) && isset($curZone[$aPath[$i]])) {
                 $curZone = &$curZone[$aPath[$i]];
             } else {
                 $curZone = null;
