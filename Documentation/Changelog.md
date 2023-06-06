@@ -1,10 +1,32 @@
 Changelog
 =========
 
-11.1.1 - 11.1.3
+11.0.7
 -----
 
-- bugfixes
+- fix for last fix for PHP 8.0
+
+11.0.6
+-----
+
+- fix some deprecations
+- fix lister widget
+- fix for PHP 8.0
+
+11.0.5
+-----
+
+- fix majix actions
+
+11.0.4
+-----
+
+- fix redirect after submit configured through TypoScript
+
+11.0.1 - 11.0.3
+-----
+
+- fixes for PHP 8.0
 
 11.0.0
 -----
