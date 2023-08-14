@@ -36,13 +36,15 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
      *
      * @param bool $bShouldProcess
      *
+     * @return string
+     *
      * @TODO: die einzelnen engines sollten ausgelagert werden!
      */
     public function _doTheMagic($bShouldProcess = true)
     {
         // Nur, wenn das Formular abgesendet wurde
         if (!($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid())) {
-            return;
+            return '';
         }
 
         $data = $this->getFlattenFormData();
@@ -51,7 +53,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         if ($this->defaultFalse('/debugdata')) {
             \Sys25\RnBase\Utility\Debug::debug($data, 'Flatten Data for Model:');
 
-            return;
+            return '';
         }
 
         $engine = $this->findEngine();
@@ -66,6 +68,8 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
                 $this->_navConf('/onsuccess')
             );
         }
+
+        return '';
     }
 
     /**

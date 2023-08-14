@@ -58,9 +58,14 @@ class formidable_maindatahandler extends formidable_mainobject
      * Processes data returned by the HTML Form after validation, and only if validated
      * Note that this is only the 'abstract' definition of this function
      *  as it must be overloaded in the specialized DataHandlers.
+     *
+     * @param bool $bShouldProcess
+     *
+     * @return string
      */
     public function _doTheMagic($bShouldProcess = true)
     {
+        return '';
     }
 
     /**
