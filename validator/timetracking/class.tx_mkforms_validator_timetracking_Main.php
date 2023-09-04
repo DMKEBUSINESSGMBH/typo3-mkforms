@@ -65,8 +65,8 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     protected function formSendTooFast($validationKey, formidable_mainrenderlet $renderlet)
     {
         $formSendTooFast = false;
-        if ('t' === $validationKey[0] &&
-            \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($validationKey, 'toofast')
+        if ('t' === $validationKey[0]
+            && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($validationKey, 'toofast')
         ) {
             $timeNeededToSendForm = $GLOBALS['EXEC_TIME'] - $this->getForm()->getCreationTimestamp();
             if ($timeNeededToSendForm < $this->getThresholdByValidationKey($validationKey)) {
@@ -87,8 +87,8 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
     protected function formSendTooSlow($validationKey, formidable_mainrenderlet $renderlet)
     {
         $formSendTooSlow = false;
-        if ('t' === $validationKey[0] &&
-            \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($validationKey, 'tooslow')
+        if ('t' === $validationKey[0]
+            && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($validationKey, 'tooslow')
         ) {
             if ($this->getForm()->getCreationTimestamp() <
                 ($GLOBALS['EXEC_TIME'] - $this->getThresholdByValidationKey($validationKey))

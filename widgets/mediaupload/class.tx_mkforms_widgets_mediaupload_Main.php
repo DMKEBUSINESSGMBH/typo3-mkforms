@@ -33,13 +33,13 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
     /**
      * folgendes brauch man um eine Liste der DAM/FAL Uploads auszugeben:.
-                            <userobj>
-                                <php><![CDATA[/*<?php
+     * <userobj>
+     * <php><![CDATA[/*<?php.
      */
     /**
      * diese zeile entfernen.
-                                    return $currentFile['file_path'] . $currentFile['file_name'];
-                                /*?>
+     * return $currentFile['file_path'] . $currentFile['file_name'];
+     * /*?>.
      */
 
     /**
@@ -218,8 +218,8 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         // es wurden wahrscheinlich noch keine referenzen angelegt, sondern nur
         // dateien hochgeladen
-        if ((empty($mediaFiles) || empty($mediaFiles['files'])) &&
-            !empty($uploadedFileIds)
+        if ((empty($mediaFiles) || empty($mediaFiles['files']))
+            && !empty($uploadedFileIds)
         ) {
             $mediaFiles = \Sys25\RnBase\Utility\TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
 
@@ -235,8 +235,8 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $deleteWidgetName = $this->getForm()->_navConf('/deletewidget', $this->aElement);
         if (!empty($mediaFiles)) {
             foreach ($mediaFiles as $uid => $mediaInfo) {
-                if ($deleteWidgetName &&
-                    ($deleteWidget = $this->getForm()->getWidget($deleteWidgetName))
+                if ($deleteWidgetName
+                    && ($deleteWidget = $this->getForm()->getWidget($deleteWidgetName))
                 ) {
                     $deleteWidget->setIteratingId($uid);
                     if ($deleteWidget->getValue()) {
@@ -303,11 +303,11 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
     /**
      * ALGORITHM of file management.
-                        1.1.1: multiple == TRUE
-                            1.1.1.1: data *are not* stored in database (creation mode)
-                                1.1.1.1.1: setValue to backupdata . newfilename
-                            1.1.1.2: data *are* stored in database
-                                1.1.1.2.1: setValue to storeddata . newfilename
+     * 1.1.1: multiple == TRUE
+     * 1.1.1.1: data *are not* stored in database (creation mode)
+     * 1.1.1.1.1: setValue to backupdata . newfilename
+     * 1.1.1.2: data *are* stored in database
+     * 1.1.1.2.1: setValue to storeddata . newfilename.
      */
     private function handleUpload($aData)
     {
@@ -425,17 +425,17 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     }
 
     /**
-            2: file has not been uploaded
-                2.1: data *are not* stored in database, as it's a creation mode not fully completed yet.
-                        2.1.2.1: setValue to backupdata
-                2.2: data *are* stored in database
-                        2.2.1: formdata is a string
-                            2.2.1.1: formdata != storeddata ( value has been set by some server event with setValue )
-                                2.2.1.1.1: no need to setValue as it already contains what we need
-                            2.2.1.2: formdata == storeddata
-                                2.2.1.2.1: setValue to storeddata
-                        2.2.2: formdata is an array, and error!=0 ( form submitted but no file given)
-                            2.2.2.1: setValue to storeddata
+     * 2: file has not been uploaded
+     * 2.1: data *are not* stored in database, as it's a creation mode not fully completed yet.
+     * 2.1.2.1: setValue to backupdata
+     * 2.2: data *are* stored in database
+     * 2.2.1: formdata is a string
+     * 2.2.1.1: formdata != storeddata ( value has been set by some server event with setValue )
+     * 2.2.1.1.1: no need to setValue as it already contains what we need
+     * 2.2.1.2: formdata == storeddata
+     * 2.2.1.2.1: setValue to storeddata
+     * 2.2.2: formdata is an array, and error!=0 ( form submitted but no file given)
+     * 2.2.2.1: setValue to storeddata.
      */
     public function handleNoUpload($aData)
     {

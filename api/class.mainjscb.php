@@ -4,7 +4,7 @@ class formidable_mainjscb
 {
     public $aConf = [];
 
-    public $oForm = null;
+    public $oForm;
 
     public function init(&$oForm, $aConf)
     {

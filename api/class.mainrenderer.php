@@ -2,7 +2,7 @@
 
 class formidable_mainrenderer extends formidable_mainobject
 {
-    public $aCustomHidden = null;
+    public $aCustomHidden;
 
     public $bFormWrap = true;
 

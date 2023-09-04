@@ -32,7 +32,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
     /**
      * @var array list of fields that are m:n relations as key/mm-table pairs
      */
-    public $mmFields = null;
+    public $mmFields;
 
     /**
      * @var array containing the data to insert into m:n tables using the

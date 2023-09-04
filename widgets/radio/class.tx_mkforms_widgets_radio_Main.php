@@ -23,9 +23,9 @@ class tx_mkforms_widgets_radio_Main extends formidable_mainrenderlet
         $aItems = $this->_getItems();
         $aSubRdts = [];
 
-        if (null === $sCurValue &&
-            $this->_defaultFalse('/data/firstactive') &&
-            !empty($aItems)
+        if (null === $sCurValue
+            && $this->_defaultFalse('/data/firstactive')
+            && !empty($aItems)
         ) {
             $sCurValue = reset($aItems);
             $sCurValue = $sCurValue['value'];

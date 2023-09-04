@@ -8,7 +8,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 {
     public $bArrayValue = true;
     public $aUploaded = false;    // array if file has just been uploaded
-    public $bUseDam = null;    // will be set to TRUE or FALSE, depending on /dam/use=boolean, default FALSE
+    public $bUseDam;    // will be set to TRUE or FALSE, depending on /dam/use=boolean, default FALSE
 
     public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
     {

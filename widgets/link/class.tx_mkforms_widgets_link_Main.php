@@ -27,8 +27,8 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 'parameter' => $sValue,
                 'additionalParams' => '',
             ]);
-        } elseif ((false !== ($iPageId = $this->_navConf('pageid'))) ||
-            (false !== ($iPageId = $this->_navConf('pid')))
+        } elseif ((false !== ($iPageId = $this->_navConf('pageid')))
+            || (false !== ($iPageId = $this->_navConf('pid')))
         ) {
             if ($this->oForm->isRunneable($iPageId)) {
                 $iPageId = $this->getForm()->getRunnable()->callRunnableWidget($this, $iPageId);

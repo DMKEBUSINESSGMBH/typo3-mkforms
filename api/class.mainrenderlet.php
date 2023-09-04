@@ -23,7 +23,7 @@ class formidable_mainrenderlet extends formidable_mainobject
 
     public $aSkin = false;
 
-    public $iteratingId = null;
+    public $iteratingId;
 
     public $iteratingChilds = false;
 
@@ -98,7 +98,7 @@ class formidable_mainrenderlet extends formidable_mainobject
     /**
      * @var bool
      */
-    protected $forceSanitization = null;
+    protected $forceSanitization;
 
     public function _init(&$oForm, $aElement, $aObjectType, $sXPath, $sNamePrefix = false)
     {
@@ -623,6 +623,7 @@ class formidable_mainrenderlet extends formidable_mainobject
         if (false === $this->isVisible() || $this->_shouldHideBecauseDependancyEmpty()) {
             $aAdditionalParams['style'] = 'display: none;';
         }
+
         // an die htmlid ein _readonly hängen,
         // um später gezieht drauf zugreifen zu können
         // und den code valide zu halten, da das hiddenfield die gleiche id trägt.

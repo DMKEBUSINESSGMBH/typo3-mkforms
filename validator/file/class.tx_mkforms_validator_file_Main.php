@@ -6,7 +6,7 @@
  */
 class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 {
-    public $oFileFunc = null; // object for basics file function
+    public $oFileFunc; // object for basics file function
 
     /**
      * (non-PHPdoc).
@@ -92,9 +92,9 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesize') &&
-                    \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizekb') &&
-                    \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
+            if ('f' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesize')
+                    && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizekb')
+                    && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'filesizemb')) {
                 $mSize = $this->_navConf('/'.$sKey.'/value');
 
                 if ($this->oForm->isRunneable($mSize)) {

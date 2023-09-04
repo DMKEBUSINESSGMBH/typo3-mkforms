@@ -2,7 +2,7 @@
 
 class formidable_templatemethods extends formidable_mainscriptingmethods
 {
-    private static $cache = null;
+    private static $cache;
 
     /**
      * @return \Sys25\RnBase\Cache\CacheInterface

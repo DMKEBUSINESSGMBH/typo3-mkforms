@@ -37,29 +37,29 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $bInitFromTs = false;
 
-    public $_xmlData = null;
+    public $_xmlData;
 
-    public $_xmlPath = null;
+    public $_xmlPath;
 
-    public $_aConf = null; // Das ist die XML-Konfiguration
+    public $_aConf; // Das ist die XML-Konfiguration
 
-    public $sExtPath = null;    // server abs path to formidable
+    public $sExtPath;    // server abs path to formidable
 
-    public $_aValidators = null;
+    public $_aValidators;
 
-    public $_aDataSources = null;
+    public $_aDataSources;
 
-    public $_aDataHandlers = null;
+    public $_aDataHandlers;
 
-    public $_aRenderers = null;
+    public $_aRenderers;
 
-    public $_aRenderlets = null;
+    public $_aRenderlets;
 
-    public $_aActionlets = null;
+    public $_aActionlets;
 
-    public $oRenderer = null;
+    public $oRenderer;
 
-    public $oDataHandler = null;
+    public $oDataHandler;
 
     /**
      * @var formidable_mainrenderlet[]
@@ -68,9 +68,9 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $aODataSources = [];
 
-    public $oSandBox = null;        // stores sandbox for xml-level user-defined 'macros'
+    public $oSandBox;        // stores sandbox for xml-level user-defined 'macros'
 
-    public $oJs = null;
+    public $oJs;
 
     public $aInitTasksUnobtrusive = [];
 
@@ -98,13 +98,13 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $aDebug = [];
 
-    public $start_tstamp = null;
+    public $start_tstamp;
 
     public $formid = '';
 
-    public $_oParent = null;
+    public $_oParent;
 
-    public $oParent = null;        // alias for _oParent ...
+    public $oParent;        // alias for _oParent ...
 
     protected $_useGP = false;
 
@@ -122,7 +122,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     public $aLastTs = [];
 
-    public $cObj = null;
+    public $cObj;
 
     protected $storeFormInSession = false;    // whether or not to keep FORM in session for further use (ex: processing ajax events)
 
@@ -217,15 +217,15 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     private $bIsFullySubmitted = false;
 
-    private $configurations = null;
+    private $configurations;
 
-    private $confid = null;
+    private $confid;
 
-    private $runnable = null;
+    private $runnable;
 
-    private $validationTool = null;
+    private $validationTool;
 
-    private $templateTool = null;
+    private $templateTool;
 
     /**
      * Session id des fe users.
@@ -248,7 +248,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     /**
      * @var tx_mkforms_util_Config
      */
-    private $config = null;
+    private $config;
 
     public function __construct()
     {

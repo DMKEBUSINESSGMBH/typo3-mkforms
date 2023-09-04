@@ -275,6 +275,7 @@ class tx_mkforms_util_XMLParser
             $error = 'XML error: '.xml_error_string(xml_get_error_code($parser)).' at line '.xml_get_current_line_number($parser);
             // Free XML parser
             xml_parser_free($parser);
+
             // Return error
             return $error;
         } else {
@@ -376,8 +377,7 @@ class tx_mkforms_util_XMLParser
                         } else {
                             // Add value (force string)
                             if ('' != array_key_exists('value', $val)
-                                &&
-                                '0' != $tagName
+                                && '0' != $tagName
                             ) {
                                 $xml[$tagName] = (string) $val['value'];
                             } else {
@@ -426,6 +426,7 @@ class tx_mkforms_util_XMLParser
                         break;
                 }
             }
+
             // Return the array of the XML root element
             return $xml;
         }

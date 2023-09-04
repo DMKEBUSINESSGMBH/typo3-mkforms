@@ -179,8 +179,7 @@ class tx_mkforms_widgets_listbox_Main extends formidable_mainrenderlet
     public function _getDefaultValue()
     {
         if ($this->_defaultFalse('/data/defaultvalue/first/')
-            ||
-            ('' === $this->_navConf('/data/defaultvalue/first/'))    // slick tag <first />
+            || ('' === $this->_navConf('/data/defaultvalue/first/'))    // slick tag <first />
         ) {
             // on renvoie la valeur du premier item
             if (false !== ($sFirstValue = $this->getFirstItemValue())) {

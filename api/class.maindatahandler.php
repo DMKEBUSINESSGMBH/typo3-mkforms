@@ -2,11 +2,11 @@
 
 class formidable_maindatahandler extends formidable_mainobject
 {
-    public $entryId = null;
+    public $entryId;
 
-    public $forcedId = null;        // wether $entryId id forced by the PHP, or not
+    public $forcedId;        // wether $entryId id forced by the PHP, or not
 
-    public $newEntryId = null;
+    public $newEntryId;
 
     public $bDataHandlerOnSubmit = false;    // fills an empty field with data from the datahendler
 
@@ -307,7 +307,7 @@ class formidable_maindatahandler extends formidable_mainobject
             if (array_key_exists($sAbsName, $this->getForm()->aORenderlets)) {
                 if ($this->getForm()->useNewDataStructure()) {
                     $this->getForm()->mayday('not implemented yet:'.__FILE__.':'.__LINE__);
-                // data will be stored under abs name
+                    // data will be stored under abs name
                 } else {
                     if (!$this->getForm()->getWidget($sAbsName)->_renderOnly()
                         && !$this->getForm()

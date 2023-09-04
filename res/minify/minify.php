@@ -511,8 +511,8 @@ class Minify
             }
 
             // Does the server name match the local server name?
-            if (!isset($parsedUrl['host']) ||
-              $parsedUrl['host'] != $_SERVER['SERVER_NAME']) {
+            if (!isset($parsedUrl['host'])
+              || $parsedUrl['host'] != $_SERVER['SERVER_NAME']) {
                 exit('Non-local URL not supported: '.
                   $file);
             }
@@ -527,11 +527,11 @@ class Minify
         // Ensure that the file exists, that the path is under the base directory,
         // that the file's extension is either '.css' or '.js', and that the file is
         // actually readable.
-        if (!$filepath ||
-        !is_file($filepath) ||
-        !is_readable($filepath) ||
-        !preg_match('/^'.preg_quote(MINIFY_BASE_DIR, '/').'/', $filepath) ||
-        !preg_match('/\.(?:css|js)$/iD', $filepath)) {
+        if (!$filepath
+        || !is_file($filepath)
+        || !is_readable($filepath)
+        || !preg_match('/^'.preg_quote(MINIFY_BASE_DIR, '/').'/', $filepath)
+        || !preg_match('/\.(?:css|js)$/iD', $filepath)) {
             // Even when the file exists, we still throw a
             // MinifyFileNotFoundException in order to try to prevent an information
             // disclosure vulnerability.

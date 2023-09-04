@@ -69,7 +69,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     {
         $this->_initDescendants(true);    // done in _init(), re-done here to filter out unprocessed rdts
         $this->_initCriterias();    // if submitted, take from post ; if not, take from session
-                                    // and inject values into renderlets
+        // and inject values into renderlets
         $this->_initFilters();
         $this->_initDataSource();
     }
@@ -318,9 +318,9 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     {
         if (true === $this->oForm->oDataHandler->_isSubmitted()) {
             foreach ($this->aDescendants as $sAbsName) {
-                if (array_key_exists($sAbsName, $this->oForm->aORenderlets) &&
-                    $this->oForm->aORenderlets[$sAbsName]->hasSubmitted() &&
-                    $this->oForm->oDataHandler->_isSearchSubmitted()) {    // the mode is not determined by the renderlet anymore, but rather by the datahandler (one common submit per page, anyway)
+                if (array_key_exists($sAbsName, $this->oForm->aORenderlets)
+                    && $this->oForm->aORenderlets[$sAbsName]->hasSubmitted()
+                    && $this->oForm->oDataHandler->_isSearchSubmitted()) {    // the mode is not determined by the renderlet anymore, but rather by the datahandler (one common submit per page, anyway)
                     return true;
                 }
             }

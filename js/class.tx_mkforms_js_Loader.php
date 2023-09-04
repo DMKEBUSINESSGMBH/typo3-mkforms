@@ -23,7 +23,7 @@ class tx_mkforms_js_Loader
     /**
      * @var tx_ameosformidable
      */
-    protected $oForm = null;
+    protected $oForm;
 
     protected $bLoadScriptaculous = false;
 

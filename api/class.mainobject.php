@@ -5,18 +5,18 @@ class formidable_mainobject
     /**
      * @var tx_ameosformidable
      */
-    public $oForm = null;
+    public $oForm;
 
-    public $aElement = null;
+    public $aElement;
 
-    public $sExtPath = null;
+    public $sExtPath;
 
-    public $aObjectType = null;
+    public $aObjectType;
 
     /**
      * @var string|null
      */
-    public $sXPath = null;
+    public $sXPath;
 
     public $sNamePrefix = false;
 

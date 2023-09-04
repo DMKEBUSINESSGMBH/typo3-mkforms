@@ -34,14 +34,14 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
-    protected $_objectManager = null;
+    protected $_objectManager;
     /**
      * the viewhelper class to use.
      * it was build by the viewhelper config from xml.
      *
      * @var string
      */
-    protected $_viewHelperClass = null;
+    protected $_viewHelperClass;
 
     /**
      * erzeugt den object manager, um die helper zu instanzieren.

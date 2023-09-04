@@ -55,7 +55,7 @@ class JSMin
     public $input = '';
     public $inputIndex = 0;
     public $inputLength = 0;
-    public $lookAhead = null;
+    public $lookAhead;
     public $output = [];
 
     // -- Public Static Methods --------------------------------------------------
@@ -112,9 +112,9 @@ class JSMin
                 $this->b = $this->next();
 
                 if ('/' === $this->b && (
-                    '(' === $this->a || ',' === $this->a || '=' === $this->a ||
-                    ':' === $this->a || '[' === $this->a || '!' === $this->a ||
-                    '&' === $this->a || '|' === $this->a || '?' === $this->a)) {
+                    '(' === $this->a || ',' === $this->a || '=' === $this->a
+                    || ':' === $this->a || '[' === $this->a || '!' === $this->a
+                    || '&' === $this->a || '|' === $this->a || '?' === $this->a)) {
                     $this->output[] = $this->a;
                     $this->output[] = $this->b;
 

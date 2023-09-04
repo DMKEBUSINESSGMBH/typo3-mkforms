@@ -156,9 +156,9 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                     break;
 
                 default:
-                    if (!empty($action['command']) && ($widget = $form->getWidget($action['renderlet'])) &&
+                    if (!empty($action['command']) && ($widget = $form->getWidget($action['renderlet']))
                         // condition prüfen
-                        (empty($action['conditions']) || $foo = self::evalSecureExpression($action['conditions'], $form))
+                        && (empty($action['conditions']) || $foo = self::evalSecureExpression($action['conditions'], $form))
                     ) {
                         /*
                          * 'refresh' gibt es nicht als majixAction.
@@ -338,6 +338,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         } else {
             throw new Exception('tx_mkhogafe_forms_php_base->evalSecureExpression(): invalid / insecure expression!');
         }
+
         // Return evaluated expression
         return eval('return '.$expr.';');
     }

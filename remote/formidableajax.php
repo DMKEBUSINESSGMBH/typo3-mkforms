@@ -12,7 +12,7 @@ class formidableajax
     /**
      * @var tx_ameosformidable
      */
-    public $oForm = null;
+    public $oForm;
 
     public function getRequestData()
     {
@@ -41,8 +41,8 @@ class formidableajax
         }
         // requested service exists
 
-        if (!is_array($GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']]) ||
-            !array_key_exists($this->aRequest['safelock'], $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']])
+        if (!is_array($GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']])
+            || !array_key_exists($this->aRequest['safelock'], $GLOBALS['_SESSION']['ameos_formidable']['ajax_services'][$this->aRequest['object']][$this->aRequest['servicekey']])
         ) {
             $this->denyService('no safelock');
         }
