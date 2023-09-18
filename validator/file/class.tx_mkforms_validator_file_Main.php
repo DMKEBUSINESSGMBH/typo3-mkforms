@@ -231,7 +231,7 @@ class tx_mkforms_validator_file_Main extends formidable_mainvalidator
 
             switch ($sType) {
                 case 'kilobyte':
-                    $iMaxFileSize = $iMaxFileSize * 1024;
+                    $iMaxFileSize *= 1024;
                     break;
 
                 case 'megabyte':
