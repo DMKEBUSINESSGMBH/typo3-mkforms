@@ -21,6 +21,9 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+
 /**
  * Formidable API.
  *
@@ -559,7 +562,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             );
         }
 
-        if (false === $this->sDefaultLLLPrefix && ($this->oParent instanceof \TYPO3\CMS\Frontend\Plugin\AbstractPlugin)) {
+        if (false === $this->sDefaultLLLPrefix && $this->oParent instanceof AbstractPlugin) {
             if ($this->oParent->scriptRelPath) {
                 $sLLPhp = 'EXT:'.$this->oParent->extKey.'/'.dirname($this->oParent->scriptRelPath).'/locallang.php';
                 $sLLXml = 'EXT:'.$this->oParent->extKey.'/'.dirname($this->oParent->scriptRelPath).'/locallang.xml';
@@ -3346,7 +3349,7 @@ JAVASCRIPT;
     public function _getParentExtSitePath()
     {
         if (TYPO3_MODE === 'FE') {
-            $sExtKey = (is_subclass_of($this->_oParent, \TYPO3\CMS\Frontend\Plugin\AbstractPlugin::class)) ? $this->_oParent->extKey : 'mkforms';
+            $sExtKey = $this->_oParent instanceof AbstractPlugin ? $this->_oParent->extKey : 'mkforms';
         } else {
             $sExtKey = $GLOBALS['_EXTKEY'];
         }
