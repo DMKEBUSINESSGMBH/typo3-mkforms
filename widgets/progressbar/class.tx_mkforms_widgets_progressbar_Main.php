@@ -59,7 +59,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public function getMaxValue()
     {
-        if (false !== ($mMax = $this->_navConf('/max'))) {
+        if (false !== ($mMax = $this->getConfigValue('/max'))) {
             $mMax = $this->getForm()->getRunnable()->callRunnable($mMax);
         }
 
@@ -68,7 +68,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public function getMinValue()
     {
-        if (false !== ($mMin = $this->_navConf('/min'))) {
+        if (false !== ($mMin = $this->getConfigValue('/min'))) {
             $mMin = $this->getForm()->getRunnable()->callRunnable($mMin);
         }
 
@@ -121,7 +121,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
     {
         if (false === $this->aSteps) {
             $aResSteps = [];
-            if (false !== ($aSteps = $this->_navConf('/steps'))) {
+            if (false !== ($aSteps = $this->getConfigValue('/steps'))) {
                 foreach ($aSteps as $aStep) {
                     $aResSteps[$aStep['value']] = [
                         'value' => $aStep['value'],
@@ -169,7 +169,7 @@ class tx_mkforms_widgets_progressbar_Main extends formidable_mainrenderlet
 
     public function getPxWidth()
     {
-        if (false !== ($mWidth = $this->_navConf('/width'))) {
+        if (false !== ($mWidth = $this->getConfigValue('/width'))) {
             $mWidth = (int) $this->getForm()->getRunnable()->callRunnable($mWidth);
 
             if (0 === ($mWidth = (int) $mWidth)) {

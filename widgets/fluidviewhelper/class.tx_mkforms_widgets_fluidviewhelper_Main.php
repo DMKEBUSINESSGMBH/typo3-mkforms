@@ -67,7 +67,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     protected function getViewHelperClass()
     {
         if (null === $this->_viewHelperClass) {
-            $helperClass = $this->_navConf('/viewhelper');
+            $helperClass = $this->getConfigValue('/viewhelper');
             try {
                 $viewHelper = $this->getObjectManager()->get($helperClass);
             } catch (\TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
@@ -109,7 +109,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
      */
     protected function getParams()
     {
-        $params = $this->_navConf('/params');
+        $params = $this->getConfigValue('/params');
         $params = is_array($params) ? $params : [];
 
         return $this->getForm()->getRunnable()->parseParams($params);

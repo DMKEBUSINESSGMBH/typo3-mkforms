@@ -144,7 +144,7 @@ class tx_mkforms_js_Loader
 
     private function includeAdditional()
     {
-        if (false === ($sLibs = $this->getForm()->getConfig()->get('/meta/libs'))) {
+        if (false === ($sLibs = $this->getForm()->getConfigXML()->get('/meta/libs'))) {
             return;
         }
 

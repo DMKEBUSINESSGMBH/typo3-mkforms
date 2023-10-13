@@ -17,7 +17,7 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
 
         $bAutoStart = $this->oForm->_defaultFalse('/autostart', $this->aElement);
         $bAutoReplay = $this->oForm->_defaultFalse('/autoreplay', $this->aElement);
-        $sBgColor = (false !== ($sTempColor = $this->_navConf('/bgcolor'))) ? $sTempColor : 'FFFFFF';
+        $sBgColor = (false !== ($sTempColor = $this->getConfigValue('/bgcolor'))) ? $sTempColor : 'FFFFFF';
 
         $sMoviePath = $this->sExtWebPath.'res/dewplayer.swf';
 
@@ -78,7 +78,7 @@ FLASHOBJECT;
 
     public function _getPath()
     {
-        if (false !== ($sPath = $this->_navConf('/path'))) {
+        if (false !== ($sPath = $this->getConfigValue('/path'))) {
             if ($this->oForm->isRunneable($sPath)) {
                 $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
             }

@@ -38,7 +38,7 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
      */
     public function validate(&$renderlet)
     {
-        $validationKeys = array_keys($this->_navConf('/'));
+        $validationKeys = array_keys($this->getConfigValue('/'));
         reset($validationKeys);
 
         foreach ($validationKeys as $validationKey) {
@@ -113,7 +113,7 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
             $renderlet->getAbsName(),
             'TIMERACKING:'.$validationKey,
             $this->getForm()->getConfigXML()->getLLLabel(
-                $this->_navConf('/'.$validationKey.'/message')
+                $this->getConfigValue('/'.$validationKey.'/message')
             )
         );
     }
@@ -127,7 +127,7 @@ class tx_mkforms_validator_timetracking_Main extends formidable_mainvalidator
      */
     protected function getThresholdByValidationKey($validationKey)
     {
-        $threshold = $this->_navConf('/'.$validationKey.'/threshold');
+        $threshold = $this->getConfigValue('/'.$validationKey.'/threshold');
         if ($this->getForm()->isRunneable($threshold)) {
             $threshold = $this->getForm()->getRunnable()->callRunnableWidget($this, $threshold);
         }

@@ -52,7 +52,7 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
 
     public function &_fetchData()
     {
-        if (false === ($mData = $this->_navConf('/data')) || !$this->oForm->isRunneable($mData)) {
+        if (false === ($mData = $this->getConfigValue('/data')) || !$this->oForm->isRunneable($mData)) {
             $this->oForm->mayday('RENDERLET JSTREE <b>'.$this->_getName().'</b> - requires <b>/data</b> to be properly set with a runneable. Check your XML conf.');
         }
 

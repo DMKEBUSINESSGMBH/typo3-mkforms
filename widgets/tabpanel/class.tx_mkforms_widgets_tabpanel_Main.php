@@ -40,7 +40,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
             'tabs' => $aTabs,
         ];
 
-        if (false !== ($aUserConfig = $this->_navConf('config'))) {
+        if (false !== ($aUserConfig = $this->getConfigValue('config'))) {
             if (array_key_exists('activeclassname', $aUserConfig)) {
                 $aConfig['activeClassName'] = $aUserConfig['activeclassname'];
             }
@@ -62,7 +62,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
         $aChilds = $this->renderChildsBag();
 
         $hideIfChildsBagCount = [];
-        if (false !== $this->_navConf('hideifchildsbagcount')) {
+        if (false !== $this->getConfigValue('hideifchildsbagcount')) {
             $hideIfChildsBagCount = $this->_navConf('hideifchildsbagcount');
             $hideIfChildsBagCount = \Sys25\RnBase\Utility\Strings::trimExplode(',', $hideIfChildsBagCount);
             $hideIfChildsBagCount = array_flip($hideIfChildsBagCount);

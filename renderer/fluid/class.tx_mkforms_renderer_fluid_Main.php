@@ -43,7 +43,7 @@ class tx_mkforms_renderer_fluid_Main extends formidable_mainrenderer
 
     private function getTemplatePath()
     {
-        $sPath = $this->_navConf('/template/path/');
+        $sPath = $this->getConfigValue('/template/path/');
         if ($this->oForm->isRunneable($sPath)) {
             $sPath = $this->callRunneable(
                 $sPath

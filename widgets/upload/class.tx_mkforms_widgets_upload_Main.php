@@ -50,7 +50,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        if ((false === $this->_navConf('/data/targetdir')) && (false === $this->_navConf('/data/targetfile'))) {
+        if ((false === $this->getConfigValue('/data/targetdir')) && (false === $this->getConfigValue('/data/targetfile'))) {
             $this->oForm->mayday('renderlet:UPLOAD[name='.$this->_getName().'] You have to provide either <b>/data/targetDir</b> or <b>/data/targetFile</b> for renderlet:UPLOAD to work properly.');
         }
 
@@ -317,7 +317,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
     {
         if (AMEOSFORMIDABLE_VALUE_NOT_SET === $this->aStatics['targetdir']) {
             $this->aStatics['targetdir'] = false;
-            if (false !== ($mTargetDir = $this->_navConf('/data/targetdir'))) {
+            if (false !== ($mTargetDir = $this->getConfigValue('/data/targetdir'))) {
                 if ($this->oForm->isRunneable($mTargetDir)) {
                     $mTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $mTargetDir);
                 }
@@ -341,7 +341,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 
     public function getTargetFile()
     {
-        if (false !== ($mTargetFile = $this->_navConf('/data/targetfile'))) {
+        if (false !== ($mTargetFile = $this->getConfigValue('/data/targetfile'))) {
             if ($this->oForm->isRunneable($mTargetFile)) {
                 $mTargetFile = $this->getForm()->getRunnable()->callRunnableWidget($this, $mTargetFile);
             }

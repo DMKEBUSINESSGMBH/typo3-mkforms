@@ -21,10 +21,10 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        $sHtml = ($this->oForm->isRunneable($this->aElement['html'])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->_navConf('/html');
+        $sHtml = ($this->oForm->isRunneable($this->aElement['html'])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->getConfigValue('/html');
         $sHtml = $this->oForm->_substLLLInHtml($sHtml);
 
-        $sMode = $this->_navConf('/mode');
+        $sMode = $this->getConfigValue('/mode');
         if (false === $sMode) {
             $sMode = 'div';
         } else {
@@ -72,7 +72,7 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
             ]
         );
 
-        if (false !== ($mDraggable = $this->_navConf('/draggable'))) {
+        if (false !== ($mDraggable = $this->getConfigValue('/draggable'))) {
             $aConf = [];
 
             if (is_array($mDraggable)) {
@@ -80,11 +80,11 @@ class tx_mkforms_widgets_box_Main extends formidable_mainrenderlet
                     $bDraggable = true;
                     $aConf['revert'] = $this->_defaultFalse('/draggable/revert');
 
-                    if (false !== ($sHandle = $this->_navConf('/draggable/handle'))) {
+                    if (false !== ($sHandle = $this->getConfigValue('/draggable/handle'))) {
                         $aConf['handle'] = $this->oForm->aORenderlets[$sHandle]->_getElementHtmlId();
                     }
 
-                    if (false !== ($sConstraint = $this->_navConf('/draggable/constraint'))) {
+                    if (false !== ($sConstraint = $this->getConfigValue('/draggable/constraint'))) {
                         $aConf['constraint'] = strtolower($sConstraint);
                     }
                 }
@@ -105,29 +105,29 @@ new Draggable("'.$sHtmlId.'", '.$sJson.');
             }
         }
 
-        if (false !== ($mDroppable = $this->_navConf('/droppable'))) {
+        if (false !== ($mDroppable = $this->getConfigValue('/droppable'))) {
             $aConf = [];
 
             if (is_array($mDroppable)) {
                 if (true === $this->_defaultTrue('/droppable/use')) {
                     $bDroppable = true;
 
-                    if (false !== ($sAccept = $this->_navConf('/droppable/accept'))) {
+                    if (false !== ($sAccept = $this->getConfigValue('/droppable/accept'))) {
                         $aConf['accept'] = $sAccept;
                     }
 
-                    if (false !== ($sContainment = $this->_navConf('/droppable/containment'))) {
+                    if (false !== ($sContainment = $this->getConfigValue('/droppable/containment'))) {
                         $aConf['containment'] = \Sys25\RnBase\Utility\Strings::trimExplode($sContainment);
                         foreach ($aConf['containment'] as $iKey => &$value) {
                             $value = $this->oForm->aORenderlets[$value]->_getElementHtmlId();
                         }
                     }
 
-                    if (false !== ($sHoverClass = $this->_navConf('/droppable/hoverclass'))) {
+                    if (false !== ($sHoverClass = $this->getConfigValue('/droppable/hoverclass'))) {
                         $aConf['hoverclass'] = $sHoverClass;
                     }
 
-                    if (false !== ($sOverlap = $this->_navConf('/droppable/overlap'))) {
+                    if (false !== ($sOverlap = $this->getConfigValue('/droppable/overlap'))) {
                         $aConf['overlap'] = $sOverlap;
                     }
 
@@ -258,7 +258,7 @@ Droppables.add("'.$sHtmlId.'", '.$sJson.');
 
     public function hasValue()
     {
-        return false !== $this->_navConf('/data/value') || false !== $this->_navConf('/data/defaultvalue');
+        return false !== $this->getConfigValue('/data/value') || false !== $this->getConfigValue('/data/defaultvalue');
     }
 
     public function _searchable()
@@ -283,7 +283,7 @@ Droppables.add("'.$sHtmlId.'", '.$sJson.');
 
     public function processBeforeDisplay($aChilds)
     {
-        if (false !== ($aBeforeDisplay = $this->_navConf('/beforedisplay')) && $this->oForm->isRunneable($aBeforeDisplay)) {
+        if (false !== ($aBeforeDisplay = $this->getConfigValue('/beforedisplay')) && $this->oForm->isRunneable($aBeforeDisplay)) {
             $aChilds = $this->getForm()->getRunnable()->callRunnableWidget($this, $aBeforeDisplay, $aChilds);
         }
 

@@ -11,7 +11,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
 
     public function writable()
     {
-        return false !== $this->_navConf('/set');
+        return false !== $this->getConfigValue('/set');
     }
 
     public function initDataSet($sKey)
@@ -24,7 +24,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
         } else {
             // existing record to grab
 
-            if (false === $this->_navConf('/get')) {
+            if (false === $this->getConfigValue('/get')) {
                 $oDataSet->initAnchored(
                     $this,
                     [],
@@ -53,7 +53,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
 
     public function getSyncData($sKey)
     {
-        if (false !== ($aGet = $this->_navConf('/get'))) {
+        if (false !== ($aGet = $this->getConfigValue('/get'))) {
             if ($this->oForm->isRunneable($aGet)) {
                 $aGet = $this->callRunneable(
                     $aGet,
@@ -76,7 +76,7 @@ class tx_mkforms_ds_php_Main extends formidable_maindatasource
 
     public function setSyncData($sSignature, $sKey, $aData)
     {
-        if (false !== ($aSet = $this->_navConf('/set'))) {
+        if (false !== ($aSet = $this->getConfigValue('/set'))) {
             if ($this->oForm->isRunneable($aSet)) {
                 $aSet = $this->callRunneable(
                     $aSet,

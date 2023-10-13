@@ -63,7 +63,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
      */
     public function _doTheMagic($bShouldProcess = true)
     {
-        if (!$bShouldProcess || !$this->_allIsValid()) {
+        if (!$bShouldProcess || !$this->getForm()->getValidationTool()->isAllValid()) {
             return;
         }
 

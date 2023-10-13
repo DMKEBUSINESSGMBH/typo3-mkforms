@@ -433,18 +433,18 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
          */
 
         // TODO: alle Vorkommen suchen!
-        // $this->bDebug -> $this->getConfig()->isDebug()
+        // $this->bDebug -> $this->getConfigXML()->isDebug()
 
         $database = \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection();
         $database->store_lastBuiltQuery = true;
-        if ($this->getConfig()->isDebug()) {
+        if ($this->getConfigXML()->isDebug()) {
             $database->debugOutput = true;
         }
 
         /***** INIT FORM SIGNATURE *****
          *
          */
-        $this->formid = $this->getConfig()->get('/meta/form/formid');
+        $this->formid = $this->getConfigXML()->get('/meta/form/formid');
 
         if ($this->getRunnable()->isRunnable($this->formid)) {
             $this->formid = $this->getRunnable()->callRunnable($this->formid);
@@ -502,7 +502,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             } else {
                 $this->forceEntryId($iForcedEntryId);
             }
-        } elseif (false !== ($mUid = $this->getConfig()->get('/control/datahandler/editentry'))) {
+        } elseif (false !== ($mUid = $this->getConfigXML()->get('/control/datahandler/editentry'))) {
             $mUid = $this->getRunnable()->callRunnable($mUid);
             if (false !== ($iCurrentEntryId = $this->getDataHandler()->_currentEntryId())) {
                 if ($mUid != $iCurrentEntryId) {
@@ -526,7 +526,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $aServerEventParams = $this->_getServerEventParams();
             if (array_key_exists('_sys_earlybird', $aServerEventParams)) {
                 $aEarlyBird = $aServerEventParams['_sys_earlybird'];
-                $aEvent = $this->getConfig()->get($aEarlyBird['xpath'], $this->_aConf);
+                $aEvent = $this->getConfigXML()->get($aEarlyBird['xpath'], $this->_aConf);
                 $this->getRunnable()->callRunnable($aEvent, $aServerEventParams);
             }
         }
@@ -539,7 +539,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
          *
          */
         // TODO: Hier geht's weiter: das muss in die Config!
-        $this->getConfig()->compileConfig($this->aTempDebug);
+        $this->getConfigXML()->compileConfig($this->aTempDebug);
 
         /***** GRABBING SERVER EVENTS *****/
 
@@ -551,7 +551,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         // AND THEREFORE NEITHER ALL OBJECTS CONFIGURED BY THIS XML
         // (END OF XML PRE-COMPILATION)
 
-        $this->sDefaultLLLPrefix = $this->getConfig()->get('/meta/defaultlll');
+        $this->sDefaultLLLPrefix = $this->getConfigXML()->get('/meta/defaultlll');
 
         if ($this->getRunnable()->isRunnable($this->sDefaultLLLPrefix)) {
             $this->sDefaultLLLPrefix = $this->getRunnable()->callRunnable(
@@ -574,12 +574,12 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             }
         }
 
-        $this->sDefaultWrapClass = $this->getConfig()->get('/meta/defaultwrapclass');
+        $this->sDefaultWrapClass = $this->getConfigXML()->get('/meta/defaultwrapclass');
         if (false === $this->sDefaultWrapClass) {
             // set classes for all new xml versions to mkforms
             $this->sDefaultWrapClass = 'mkforms-rdrstd';
             // for older forms leave as formidable!
-            if (2000000 > \Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger($this->getConfig()->get('/version'))) {
+            if (2000000 > \Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger($this->getConfigXML()->get('/version'))) {
                 $this->sDefaultWrapClass = 'formidable-rdrstd';
             }
         }
@@ -589,7 +589,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         $this->checkPoint(['after-compilation', 'before-init', 'before-init-renderer']);
 
         $this->sFormAction = false;
-        if (false !== ($sAction = $this->getConfig()->get('/meta/form/action'))) {
+        if (false !== ($sAction = $this->getConfigXML()->get('/meta/form/action'))) {
             $sAction = $this->getRunnable()->callRunnable($sAction);
             if (false !== $sAction) {
                 $this->sFormAction = trim($sAction);
@@ -602,7 +602,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $this->_createSandBox($sSandClass);
         }
 
-        if (false !== ($aOnInit = $this->getConfig()->get('/meta/oninit')) && $this->getRunnable()->isRunnable($aOnInit)) {
+        if (false !== ($aOnInit = $this->getConfigXML()->get('/meta/oninit')) && $this->getRunnable()->isRunnable($aOnInit)) {
             $this->getRunnable()->callRunnable($aOnInit);
         }
 
@@ -806,7 +806,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
 
     private function makeCallDebug($iForcedEntryId)
     {
-        if ($this->getConfig()->isDebug()) {
+        if ($this->getConfigXML()->isDebug()) {
             $aTrace = debug_backtrace();
             $aLocation = array_shift($aTrace);
 
@@ -857,7 +857,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
             $sRes = $this->sFormAction;
         }
 
-        if (false !== ($sAnchor = $this->getConfig()->get('/meta/form/actionanchor'))) {
+        if (false !== ($sAnchor = $this->getConfigXML()->get('/meta/form/actionanchor'))) {
             if ($this->getRunnable()->isRunnable($sAnchor)) {
                 $sAnchor = $this->getRunnable()->callRunnable($sAnchor);
             }
@@ -971,7 +971,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      */
     private function _processMetaCheckPoints(&$aPoints, array $options = [])
     {
-        $aMeta = $this->getConfig()->get('/meta');
+        $aMeta = $this->getConfigXML()->get('/meta');
 
         if (!is_array($aMeta)) {
             $aMeta[0] = $aMeta;
@@ -980,7 +980,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         reset($aKeys);
         foreach ($aKeys as $sKey) {
             if ('o' == $sKey[0] && 'n' == $sKey[1] && ('oncheckpoint' === substr($sKey, 0, 12))) {
-                $sWhen = $this->getConfig()->get('/meta/'.$sKey.'/when');
+                $sWhen = $this->getConfigXML()->get('/meta/'.$sKey.'/when');
                 if (in_array($sWhen, $aPoints)) {
                     if ($this->getRunnable()->isRunnable($aMeta[$sKey])) {
                         $this->getRunnable()->callRunnable($aMeta[$sKey]);
@@ -1659,7 +1659,7 @@ SANDBOXCLASS;
      */
     public function _initDataHandler($iForcedEntryId = false)
     {
-        if (false !== ($aConfDataHandler = $this->getConfig()->get('/control/datahandler/'))) {
+        if (false !== ($aConfDataHandler = $this->getConfigXML()->get('/control/datahandler/'))) {
             $this->oDataHandler = &$this->_makeDataHandler($aConfDataHandler);
         } else {
             $this->oDataHandler = &$this->_makeDefaultDataHandler();
@@ -1710,7 +1710,7 @@ SANDBOXCLASS;
      */
     public function _initRenderer()
     {
-        if (false !== ($aConfRenderer = $this->getConfig()->get('/control/renderer/'))) {
+        if (false !== ($aConfRenderer = $this->getConfigXML()->get('/control/renderer/'))) {
             $this->oRenderer = &$this->_makeRenderer($aConfRenderer);
         } else {
             $this->_makeDefaultRenderer();
@@ -1723,12 +1723,12 @@ SANDBOXCLASS;
     public function _initDataSources()
     {
         $this->_makeDataSources(
-            $this->getConfig()->get('/control/datasources/'),
+            $this->getConfigXML()->get('/control/datasources/'),
             '/control/datasources/'
         );
 
         $this->_makeDataSources(
-            $this->getConfig()->get('/control/'),
+            $this->getConfigXML()->get('/control/'),
             '/control/'
         );
     }
@@ -1764,7 +1764,7 @@ SANDBOXCLASS;
     public function _initRenderlets()
     {
         $this->_makeRenderlets(
-            $this->getConfig()->get('/elements/'),
+            $this->getConfigXML()->get('/elements/'),
             '/elements/',
             $bChilds = false,
             $this    // not used, but required as passing params by ref is not possible with default param value
@@ -1934,12 +1934,12 @@ SANDBOXCLASS;
      */
     public function _navConf($path, $aConf = -1, $sSep = '/')
     {
-        return $this->getConfig()->get($path, $aConf, $sSep);
+        return $this->getConfigXML()->get($path, $aConf, $sSep);
     }
 
     public function navDef($sPath, $mDefault, $aConf = -1)
     {
-        if (false !== ($aTemp = $this->getConfig()->get($sPath, $aConf))) {
+        if (false !== ($aTemp = $this->getConfigXML()->get($sPath, $aConf))) {
             return $aTemp;
         }
 
@@ -1948,7 +1948,7 @@ SANDBOXCLASS;
 
     public function navDeepData($sPath, $aData)
     {
-        return $this->getConfig()->get($sPath, $aData);
+        return $this->getConfigXML()->get($sPath, $aData);
     }
 
     public function setDeepData($path, &$aConf, $mValue, $bMergeIfArray = false)
@@ -2080,10 +2080,8 @@ SANDBOXCLASS;
             unset($aParts[0]);
 
             $sPath = $aParts[1];
-            $aPath = explode('/', $sPath);
-            $sTable = $aPath[0];
 
-            return $this->getConfig()->get($sPath, $GLOBALS['TCA']);
+            return $this->getConfigXML()->get($sPath, $GLOBALS['TCA']);
         }
 
         return false;
@@ -2381,12 +2379,10 @@ SANDBOXCLASS;
                         $sStyle = str_replace('#'.$sName, '#'.$this->aORenderlets[$sName]->_getElementCssId(), $sStyle);
                     }
 
-                    $this->additionalHeaderData(
-                        $this->inline2TempFile(
-                            $sStyle,
-                            'css',
-                            'Exported style-tags of "'.$this->formid.'"'
-                        )
+                    $this->getJSLoader()->inline2TempFile(
+                        $sStyle,
+                        'css',
+                        'Exported style-tags of "'.$this->formid.'"'
                     );
                 }
             }
@@ -2398,7 +2394,7 @@ SANDBOXCLASS;
 
         $this->_debug($aHtmlBag, 'FORMIDABLE CORE - RETURN');
 
-        if ($this->getConfig()->isDebug() || $this->bDebug) {
+        if ($this->getConfigXML()->isDebug() || $this->bDebug) {
             $debug = $this->debug();
         }
 
@@ -2450,11 +2446,9 @@ SANDBOXCLASS;
             $sJs .= implode("\n", $this->aInitTasksOutsideLoad);
 
             if (false === $this->shouldGenerateScriptAsInline()) {
-                $this->additionalHeaderData(
-                    $this->inline2TempFile($sJs, 'js', 'Formidable \''.$this->formid.'\' initialization')
-                );
+                $this->getJSLoader()->inline2TempFile($sJs, 'js', 'Formidable \''.$this->formid.'\' initialization');
             } else {
-                $this->additionalHeaderData(
+                $this->getJSLoader()->additionalHeaderData(
                     "<!-- BEGIN:Formidable '".$this->formid."' initialization-->\n"."<script>\n"
                     .$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid."' initialization-->\n"
                 );
@@ -2465,11 +2459,9 @@ SANDBOXCLASS;
 
             $sJs = "MKWrapper.onDOMReady(function() {\n".implode('', $this->aPostInitTasks)."\n});";
             if (false === $this->shouldGenerateScriptAsInline()) {
-                $this->additionalHeaderData(
-                    $this->inline2TempFile($sJs, 'js', 'Formidable \''.$this->formid.'\ post-initialization')
-                );
+                $this->getJSLoader()->inline2TempFile($sJs, 'js', 'Formidable \''.$this->formid.'\ post-initialization');
             } else {
-                $this->additionalHeaderData(
+                $this->getJSLoader()->additionalHeaderData(
                     "<!-- BEGIN:Formidable '".$this->formid."' post-initialization-->\n"
                     ."<script>\n".$sJs."\n</script>\n"."<!-- END:Formidable '".$this->formid
                     ."' post-initialization-->\n"
@@ -2536,7 +2528,7 @@ SANDBOXCLASS;
 
     public function fetchAjaxServices()
     {
-        $aMeta = $this->getConfig()->get('/meta');
+        $aMeta = $this->getConfigXML()->get('/meta');
         if (!is_array($aMeta)) {
             $aMeta[0] = $aMeta;
         }
@@ -2549,7 +2541,7 @@ SANDBOXCLASS;
 
         reset($aServices);
         foreach ($aServices as $sServiceKey) {
-            if (false !== ($mService = $this->getConfig()->get('/meta/'.$sServiceKey))) {
+            if (false !== ($mService = $this->getConfigXML()->get('/meta/'.$sServiceKey))) {
                 $sName = array_key_exists('name', $mService) ? trim(strtolower($mService['name'])) : '';
                 $sServiceId = $this->getAjaxServiceId($mService['name']);
 
@@ -3083,7 +3075,7 @@ JAVASCRIPT;
                     if (false !== $this->sDefaultLLLPrefix) {
                         // trying to automap the error message
                         $sKey = 'LLL:'.$sElementName.'.error.'.$sType;
-                        $sMessage = $this->getConfig()->getLLLabel($sKey);
+                        $sMessage = $this->getConfigXML()->getLLLabel($sKey);
                     }
                 }
 
@@ -3138,7 +3130,7 @@ JAVASCRIPT;
 
     public function _executeActionletsByPath($sPath, $aRendered, $sForm)
     {
-        $aActionlets = $this->getConfig()->get($sPath);
+        $aActionlets = $this->getConfigXML()->get($sPath);
 
         if (is_array($aActionlets)) {
             foreach ($aActionlets as $sKey => $aActionlet) {
@@ -3308,7 +3300,7 @@ JAVASCRIPT;
      */
     public function _getLLLabelTag($aLabel)
     {
-        return $this->getConfig()->getLLLabel(
+        return $this->getConfigXML()->getLLLabel(
             str_replace(['{', '}'], '', array_pop($aLabel))
         );
     }
@@ -3508,7 +3500,7 @@ JAVASCRIPT;
     public function _isTrue($sPath, $aConf = -1)
     {
         return $this->_isTrueVal(
-            $this->getConfig()->get(
+            $this->getConfigXML()->get(
                 $sPath,
                 $aConf
             )
@@ -3520,7 +3512,7 @@ JAVASCRIPT;
      */
     public function _isFalse($sPath, $aConf = -1)
     {
-        $mValue = $this->getConfig()->get(
+        $mValue = $this->getConfigXML()->get(
             $sPath,
             $aConf
         );
@@ -3562,7 +3554,7 @@ JAVASCRIPT;
 
     public function _defaultTrue($sPath, $aConf = -1)
     {
-        if (false !== $this->getConfig()->get($sPath, $aConf)) {
+        if (false !== $this->getConfigXML()->get($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return true;    // TRUE as a default
@@ -3571,7 +3563,7 @@ JAVASCRIPT;
 
     public function _defaultFalse($sPath, $aConf = -1)
     {
-        if (false !== $this->getConfig()->get($sPath, $aConf)) {
+        if (false !== $this->getConfigXML()->get($sPath, $aConf)) {
             return $this->_isTrue($sPath, $aConf);
         } else {
             return false;    // FALSE as a default
@@ -3792,7 +3784,7 @@ JAVASCRIPT;
         $sDebugSendMail = trim($GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.']['debugSendMail']);
 
         if (is_object($this)) {
-            if (false !== ($sXmlDebugSendMail = $this->getConfig()->get('/meta/debugsendmail'))) {
+            if (false !== ($sXmlDebugSendMail = $this->getConfigXML()->get('/meta/debugsendmail'))) {
                 $sDebugSendMail = $sXmlDebugSendMail;
             }
         }
@@ -3856,8 +3848,7 @@ JAVASCRIPT;
      */
     public function arrayToRdtItems($aData, $sCaptionMap = false, $sValueMap = false)
     {
-        // alias for _arrayToRdtItems()
-        return $this->_arrayToRdtItems($aData, $sCaptionMap, $sValueMap);
+        return \tx_mkforms_util_Div::arrayToRdtItems($aData, $sCaptionMap, $sValueMap);
     }
 
     /**
@@ -3903,7 +3894,7 @@ JAVASCRIPT;
     {
         reset($aItems);
 
-        return $this->_arrayToRdtItems($aItems, '0', '1');
+        return \tx_mkforms_util_Div::arrayToRdtItems($aItems, '0', '1');
     }
 
     public function _parseTsInBE($iTemplateUid, $iPageId)

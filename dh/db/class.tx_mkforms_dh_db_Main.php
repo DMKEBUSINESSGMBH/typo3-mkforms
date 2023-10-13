@@ -57,7 +57,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
                 $this->refreshAllData();
             }
 
-            if ($bShouldProcess && $this->_allIsValid()) {
+            if ($bShouldProcess && $this->getForm()->getValidationTool()->isAllValid()) {
                 // il n'y a aucune erreur de validation
                 // on peut traiter les donnes
                 // on met a jour / insere l'enregistrement dans la base de donnees
@@ -287,7 +287,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
      */
     protected function _processBeforeInsertion($aData)
     {
-        if (false !== ($aUserObj = $this->_navConf('/process/beforeinsertion/'))) {
+        if (false !== ($aUserObj = $this->getConfigValue('/process/beforeinsertion/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $aData = $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -312,7 +312,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
      */
     protected function _processAfterInsertion($aData)
     {
-        if (false !== ($aUserObj = $this->_navConf('/process/afterinsertion/'))) {
+        if (false !== ($aUserObj = $this->getConfigValue('/process/afterinsertion/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -331,7 +331,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
      */
     protected function _processBeforeCreation($aData)
     {
-        if (false !== ($aUserObj = $this->_navConf('/process/beforecreation/'))) {
+        if (false !== ($aUserObj = $this->getConfigValue('/process/beforecreation/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $aData = $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -358,7 +358,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
      */
     protected function _processAfterCreation($aData)
     {
-        if (false !== ($aUserObj = $this->_navConf('/process/aftercreation/'))) {
+        if (false !== ($aUserObj = $this->getConfigValue('/process/aftercreation/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -370,7 +370,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
     protected function _processBeforeEdition($aData)
     {
-        if (false !== ($aUserObj = $this->_navConf('/process/beforeedition/'))) {
+        if (false !== ($aUserObj = $this->getConfigValue('/process/beforeedition/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $aData = $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,
@@ -390,7 +390,7 @@ class tx_mkforms_dh_db_Main extends formidable_maindatahandler
 
     protected function _processAfterEdition($aData)
     {
-        if (false !== ($aUserObj = $this->_navConf('/process/afteredition/'))) {
+        if (false !== ($aUserObj = $this->getConfigValue('/process/afteredition/'))) {
             if ($this->getForm()->getRunnable()->isRunnable($aUserObj)) {
                 $this->getForm()->getRunnable()->callRunnable(
                     $aUserObj,

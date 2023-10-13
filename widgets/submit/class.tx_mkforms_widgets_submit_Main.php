@@ -10,7 +10,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
     {
         $sLabel = $this->getLabel();
         $sValue = $sLabel ? ' value="'.$sLabel.'"' : '';
-        if (false !== ($sPath = $this->_navConf('/path'))) {
+        if (false !== ($sPath = $this->getConfigValue('/path'))) {
             $sPath = tx_mkforms_util_Div::toWebPath(
                 $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath)
             );
@@ -24,7 +24,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
 
     public function getSubmitMode()
     {
-        $sMode = $this->_navConf('/mode');
+        $sMode = $this->getConfigValue('/mode');
         if ($this->oForm->isRunneable($sMode)) {
             $sMode = $this->getForm()->getRunnable()->callRunnableWidget($this, $sMode);
         }
@@ -52,15 +52,15 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
             $this->_getElementHtmlNameWithoutFormId() => '1',        // to simulate default browser behaviour
         ];
 
-        if ('refresh' == $sMode || false !== $this->_navConf('/refresh')) {
+        if ('refresh' == $sMode || false !== $this->getConfigValue('/refresh')) {
             $sOnclick = $this->oForm->oRenderer->_getRefreshSubmitEvent();
-        } elseif ('draft' == $sMode || false !== $this->_navConf('/draft')) {
+        } elseif ('draft' == $sMode || false !== $this->getConfigValue('/draft')) {
             $sOnclick = $this->oForm->oRenderer->_getDraftSubmitEvent();
-        } elseif ('test' == $sMode || false !== $this->_navConf('/test')) {
+        } elseif ('test' == $sMode || false !== $this->getConfigValue('/test')) {
             $sOnclick = $this->oForm->oRenderer->_getTestSubmitEvent();
-        } elseif ('clear' == $sMode || false !== $this->_navConf('/clear')) {
+        } elseif ('clear' == $sMode || false !== $this->getConfigValue('/clear')) {
             $sOnclick = $this->oForm->oRenderer->_getClearSubmitEvent();
-        } elseif ('search' == $sMode || false !== $this->_navConf('/search')) {
+        } elseif ('search' == $sMode || false !== $this->getConfigValue('/search')) {
             $sOnclick = $this->oForm->oRenderer->_getSearchSubmitEvent();
         } else {
             $sOnclick = $this->oForm->oRenderer->_getFullSubmitEvent();
@@ -70,7 +70,7 @@ class tx_mkforms_widgets_submit_Main extends formidable_mainrenderlet
         $sAddPostVars .= $sOnclick;
 
         // prüfe Confirm und füge if hinzu
-        if (false !== ($sConfirm = $this->_navConf('/confirm'))) {
+        if (false !== ($sConfirm = $this->getConfigValue('/confirm'))) {
             $sAddPostVars = 'if(confirm(\''.$sConfirm.'\')){'.$sAddPostVars.'}';
         }
 

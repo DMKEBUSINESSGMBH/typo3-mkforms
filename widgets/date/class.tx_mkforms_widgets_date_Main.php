@@ -94,7 +94,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
     public function getEmptyString()
     {
-        if (false !== ($sEmptyString = $this->_navConf('/data/datetime/emptystring'))) {
+        if (false !== ($sEmptyString = $this->getConfigValue('/data/datetime/emptystring'))) {
             if ($this->oForm->isRunneable($sEmptyString)) {
                 $sEmptyString = $this->getForm()->getRunnable()->callRunnableWidget($this, $sEmptyString);
             }
@@ -122,7 +122,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
 
     protected function _getFormat()
     {
-        $mFormat = $this->_navConf('/data/datetime/format/');
+        $mFormat = $this->getConfigValue('/data/datetime/format/');
 
         if ($this->oForm->isRunneable($mFormat)) {
             $mFormat = $this->getForm()->getRunnable()->callRunnableWidget($this, $mFormat);
@@ -293,10 +293,10 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
                 // il s'agit d'un champ timestamp
                 // on convertit le timestamp en date lisible
 
-                $elementname = $this->_navConf('/name/');
+                $elementname = $this->getConfigValue('/name/');
                 $format = $this->_getFormat();
 
-                if (false !== ($locale = $this->_navConf('/data/datetime/locale/'))) {
+                if (false !== ($locale = $this->getConfigValue('/data/datetime/locale/'))) {
                     $sCurrentLocale = setlocale(LC_TIME, 0);
 
                     // From the documentation of setlocale: "If locale is zero or "0", the locale setting
@@ -345,8 +345,8 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         }
 
         $sFieldName = $sFieldPrefix.$sName;
-        $sComparison = (false !== ($sTemp = $this->_navConf('/sql/comparison'))) ? $sTemp : '=';
-        $sComparison = (false !== ($sTemp = $this->_navConf('/search/comparison'))) ? $sTemp : $sComparison;
+        $sComparison = (false !== ($sTemp = $this->getConfigValue('/sql/comparison'))) ? $sTemp : '=';
+        $sComparison = (false !== ($sTemp = $this->getConfigValue('/search/comparison'))) ? $sTemp : $sComparison;
 
         $sSql = '(('.$sFieldName." - '".$sValue."') ".$sComparison.' 0)';
 

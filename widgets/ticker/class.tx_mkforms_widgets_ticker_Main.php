@@ -27,69 +27,69 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
         $this->_initLimitAndSort();
         $this->_initDatasource();
 
-        if (false === ($sWidth = $this->_navConf('/width'))) {
+        if (false === ($sWidth = $this->getConfigValue('/width'))) {
             $sWidth = '450';
         }
 
-        if (false === ($sHeight = $this->_navConf('/height'))) {
+        if (false === ($sHeight = $this->getConfigValue('/height'))) {
             $sHeight = '18';
         }
 
-        if (false === ($sScrollMode = $this->_navConf('/scrolling/mode')) || ('horizontal' !== $sScrollMode && 'vertical' !== $sScrollMode)) {
+        if (false === ($sScrollMode = $this->getConfigValue('/scrolling/mode')) || ('horizontal' !== $sScrollMode && 'vertical' !== $sScrollMode)) {
             $sScrollMode = 'horizontal';
         }
 
         switch ($sScrollMode) {
             case 'horizontal':
-                if (false === ($sScrollDirection = $this->_navConf('/scrolling/direction')) || ('left' !== $sScrollDirection && 'right' !== $sScrollDirection)) {
+                if (false === ($sScrollDirection = $this->getConfigValue('/scrolling/direction')) || ('left' !== $sScrollDirection && 'right' !== $sScrollDirection)) {
                     $sScrollDirection = 'left';
                 }
                 $this->sSeparatorHtml = "<div id='".$this->_getElementHtmlId().".clear' style='border:medium none; clear:both; font-size:1px; height:1px; line-height:1px;'><hr style='position:absolute; top:-50000px;' /></div>";
                 break;
             case 'vertical':
-                if (false === ($sScrollDirection = $this->_navConf('/scrolling/direction')) || ('top' !== $sScrollDirection && 'bottom' !== $sScrollDirection)) {
+                if (false === ($sScrollDirection = $this->getConfigValue('/scrolling/direction')) || ('top' !== $sScrollDirection && 'bottom' !== $sScrollDirection)) {
                     $sScrollDirection = 'top';
                 }
                 break;
         }
 
-        if (false === ($sScrollStartDelay = $this->_navConf('/scrolling/startdelay'))) {
+        if (false === ($sScrollStartDelay = $this->getConfigValue('/scrolling/startdelay'))) {
             $sScrollStartDelay = '2500';
         }
 
-        if (false === ($sScrollNextDelay = $this->_navConf('/scrolling/nextdelay'))) {
+        if (false === ($sScrollNextDelay = $this->getConfigValue('/scrolling/nextdelay'))) {
             $sScrollNextDelay = '100';
         }
 
-        if (false === ($sScrollAmount = $this->_navConf('/scrolling/amount'))) {
+        if (false === ($sScrollAmount = $this->getConfigValue('/scrolling/amount'))) {
             $sScrollAmount = ('top' === $sScrollDirection || 'left' === $sScrollDirection) ? -1 : 1;
         } else {
             $sScrollAmount = ('top' === $sScrollDirection || 'left' === $sScrollDirection) ? -($sScrollAmount) : $sScrollAmount;
         }
 
-        if (false === ($sScrollOverflow = $this->_navConf('/scrolling/overflow'))) {
+        if (false === ($sScrollOverflow = $this->getConfigValue('/scrolling/overflow'))) {
             $sScrollOverflow = 'hidden';
         }
 
-        if (false === ($sOffsetTop = $this->_navConf('/offsettop'))) {
+        if (false === ($sOffsetTop = $this->getConfigValue('/offsettop'))) {
             $sOffsetTop = '0';
         }
 
-        if (false === ($sOffsetLeft = $this->_navConf('/offsetleft'))) {
+        if (false === ($sOffsetLeft = $this->getConfigValue('/offsetleft'))) {
             $sOffsetLeft = '0';
         }
 
-        if (false === ($sBackground = $this->_navConf('/background'))) {
+        if (false === ($sBackground = $this->getConfigValue('/background'))) {
             $sBackground = 'none';
         }
-        if (false === ($sBgColor = $this->_navConf('/bgcolor'))) {
+        if (false === ($sBgColor = $this->getConfigValue('/bgcolor'))) {
             $sBgColor = 'transparent';
         }
 
-        if (false === ($sBorder = $this->_navConf('/border'))) {
+        if (false === ($sBorder = $this->getConfigValue('/border'))) {
             $sBorder = 'none';
         }
-        if (false === ($sBorderColor = $this->_navConf('/bordercolor'))) {
+        if (false === ($sBorderColor = $this->getConfigValue('/bordercolor'))) {
             $sBorderColor = 'white';
         }
 
@@ -97,9 +97,9 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             'width' => $sWidth,
             'height' => $sHeight,
             'item' => [
-                'width' => $this->_navConf('/itemwidth'),
-                'height' => $this->_navConf('/itemheight'),
-                'style' => $this->_navConf('/itemstyle'),
+                'width' => $this->getConfigValue('/itemwidth'),
+                'height' => $this->getConfigValue('/itemheight'),
+                'style' => $this->getConfigValue('/itemstyle'),
             ],
             'scroll' => [
                 'mode' => $sScrollMode,
@@ -107,7 +107,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 'startDelay' => $sScrollStartDelay,
                 'nextDelay' => $sScrollNextDelay,
                 'amount' => $sScrollAmount,
-                'stop' => (bool) $this->oForm->_isTrueVal($this->_navConf('/scrolling/stop')),
+                'stop' => (bool) $this->oForm->_isTrueVal($this->getConfigValue('/scrolling/stop')),
                 'overflow' => $sScrollOverflow,
             ],
             'offset' => [
@@ -120,7 +120,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
             'bordercolor' => $sBorderColor,
         ];
 
-        $sLabel = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/label'));
+        $sLabel = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/label'));
 
         $sHtml = $this->_renderList();
         $sBox1 = "<div id='".$this->_getElementHtmlId().".1'>".$sHtml.'</div>';
@@ -169,8 +169,8 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
                 false
             );
             $sHtml .= $this->sSeparatorHtml;
-        } elseif (false !== ($this->_navConf('/html'))) {        // if this ticker has a html as content
-            $sHtml = ($this->oForm->isRunneable($this->aElement['html'])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->_navConf('/html');
+        } elseif (false !== ($this->getConfigValue('/html'))) {        // if this ticker has a html as content
+            $sHtml = ($this->oForm->isRunneable($this->aElement['html'])) ? $this->getForm()->getRunnable()->callRunnableWidget($this, $this->aElement['html']) : $this->getConfigValue('/html');
             $sHtml = $this->oForm->_substLLLInHtml($sHtml).$this->sSeparatorHtml;
         } else {
             $this->oForm->mayday('RENDERLET TICKER <b>'.$this->_getName().'</b> requires /datasource or /html to be properly set. Please check your XML configuration');
@@ -195,9 +195,9 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
     {
         $aRowsTmpl = [];
 
-        if (false !== ($sAltRows = $this->_navConf('/template/alternaterows')) && $this->oForm->isRunneable($sAltRows)) {
+        if (false !== ($sAltRows = $this->getConfigValue('/template/alternaterows')) && $this->oForm->isRunneable($sAltRows)) {
             $sAltList = $this->getForm()->getRunnable()->callRunnableWidget($this, $sAltRows);
-        } elseif (false === ($sAltList = $this->_navConf('/template/alternaterows'))) {
+        } elseif (false === ($sAltList = $this->getConfigValue('/template/alternaterows'))) {
             $this->oForm->mayday('RENDERLET TICKER <b>'.$this->_getName().'</b> requires /template/alternaterows to be properly set. Please check your XML configuration');
         }
 
@@ -215,7 +215,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
     public function &_getTemplate()
     {
-        if (false !== ($aTemplate = $this->_navConf('/template'))) {
+        if (false !== ($aTemplate = $this->getConfigValue('/template'))) {
             $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
                 $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
@@ -249,7 +249,7 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
     public function _initDatasource()
     {
-        if (false !== ($sDsToUse = $this->_navConf('/datasource/use'))) {
+        if (false !== ($sDsToUse = $this->getConfigValue('/datasource/use'))) {
             if (!array_key_exists($sDsToUse, $this->oForm->aODataSources)) {
                 $this->oForm->mayday('RENDERLET TICKER <b>'.$this->_getName()."</b> - refers to undefined datasource '".$sDsToUse."'. Check your XML conf.");
             } else {
@@ -261,15 +261,15 @@ class tx_mkforms_widgets_ticker_Main extends formidable_mainrenderlet
 
     public function _initLimitAndSort()
     {
-        if (false === ($sLimit = $this->_navConf('/datasource/limit'))) {
+        if (false === ($sLimit = $this->getConfigValue('/datasource/limit'))) {
             $sLimit = '5';
         }
 
-        if (false === ($sSortBy = $this->_navConf('/datasource/orderby'))) {
+        if (false === ($sSortBy = $this->getConfigValue('/datasource/orderby'))) {
             $sSortBy = 'tstamp';
         }
 
-        if (false === ($sSortDir = $this->_navConf('/datasource/orderdir'))) {
+        if (false === ($sSortDir = $this->getConfigValue('/datasource/orderdir'))) {
             $sSortDir = 'DESC';
         }
 

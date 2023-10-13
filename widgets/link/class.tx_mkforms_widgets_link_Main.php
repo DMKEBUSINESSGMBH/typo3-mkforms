@@ -27,8 +27,8 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 'parameter' => $sValue,
                 'additionalParams' => '',
             ]);
-        } elseif ((false !== ($iPageId = $this->_navConf('pageid'))) ||
-            (false !== ($iPageId = $this->_navConf('pid')))
+        } elseif ((false !== ($iPageId = $this->getConfigValue('pageid'))) ||
+            (false !== ($iPageId = $this->getConfigValue('pid')))
         ) {
             if ($this->oForm->isRunneable($iPageId)) {
                 $iPageId = $this->getForm()->getRunnable()->callRunnableWidget($this, $iPageId);
@@ -40,10 +40,10 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
                 'forceAbsoluteUrl' => $absoluteUrl,
             ]);
         } else {
-            $sUrl = $this->_navConf('/href');
+            $sUrl = $this->getConfigValue('/href');
 
             if (false === $sUrl) {
-                $sUrl = $this->_navConf('/url');
+                $sUrl = $this->getConfigValue('/url');
             }
 
             if ($this->oForm->isRunneable($sUrl)) {
@@ -62,7 +62,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
             }
         }
 
-        if (false !== ($sAnchor = $this->_navConf('/anchor'))) {
+        if (false !== ($sAnchor = $this->getConfigValue('/anchor'))) {
             if ($this->oForm->isRunneable($sAnchor)) {
                 $sAnchor = $this->getForm()->getRunnable()->callRunnableWidget($this, $sAnchor);
             }
@@ -158,7 +158,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
 
         $this->includeScripts([
             // Timeout in ms
-            'followTimeout' => false === ($timeout = $this->_navConf('/followtimeout')) ? 0 : (int) $timeout,
+            'followTimeout' => false === ($timeout = $this->getConfigValue('/followtimeout')) ? 0 : (int) $timeout,
         ]);
 
         return $aHtmlBag;
@@ -193,7 +193,7 @@ class tx_mkforms_widgets_link_Main extends formidable_mainrenderlet
     public function _getAddInputParamsArray($aAdditional = [])
     {
         $aAddParams = parent::_getAddInputParamsArray();
-        if (false !== ($sTarget = $this->_navConf('/target'))) {
+        if (false !== ($sTarget = $this->getConfigValue('/target'))) {
             $aAddParams[] = ' target="'.$sTarget.'" ';
         }
 

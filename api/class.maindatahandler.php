@@ -43,7 +43,7 @@ class formidable_maindatahandler extends formidable_mainobject
         if (!is_null($dhos = $oForm->getConfTS('datahandleronsubmit'))) {
             $this->bDataHandlerOnSubmit = $this->isTrueVal($dhos);
         }
-        if (false !== ($dhos = $this->_navConf('/datahandleronsubmit'))) {
+        if (false !== ($dhos = $this->getConfigValue('/datahandleronsubmit'))) {
             $this->bDataHandlerOnSubmit = $this->isTrueVal($dhos);
         }
 
@@ -216,7 +216,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function getThisFormData($sName)
     {
-        $oRdt = $this->getForm()->rdt($sName);
+        $oRdt = $this->getForm()->getWidget($sName);
         $sAbsName = $oRdt->getAbsName();
         $sAbsPath = str_replace(AMEOSFORMIDABLE_NESTED_SEPARATOR_BEGIN, '/', $sAbsName);
 
@@ -230,7 +230,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function _processBeforeRender($aData)
     {
-        if (false !== ($mRunneable = $this->_navConf('/process/beforerender/'))) {
+        if (false !== ($mRunneable = $this->getConfigValue('/process/beforerender/'))) {
             if ($this->getForm()->isRunneable($mRunneable)) {
                 $aData = $this->callRunneable(
                     $mRunneable,
@@ -416,7 +416,7 @@ class formidable_maindatahandler extends formidable_mainobject
         $this->__aStoredData = []; // Ist notwendig, da direkt auf das Array zugegriffen wird!
         $this->__aStoredData = $this->getStoredData();
         // Jetzt initRecord abfahren
-        if (false !== ($val = $this->getForm()->getConfig()->get('/control/datahandler/initrecord'))) {
+        if (false !== ($val = $this->getForm()->getConfigXML()->get('/control/datahandler/initrecord'))) {
             $this->__aStoredData = $this->getForm()->getRunnable()->callRunnable($val, $this->__aStoredData);
         }
     }
@@ -455,7 +455,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function alterVirginData($aData)
     {
-        if (false !== ($mRun = $this->_navConf('/altervirgindata'))) {
+        if (false !== ($mRun = $this->getConfigValue('/altervirgindata'))) {
             if ($this->getForm()->isRunneable($mRun)) {
                 return $this->callRunneable($mRun, $aData);
             }
@@ -466,7 +466,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function alterSubmittedData($aData)
     {
-        if (false !== ($mRun = $this->_navConf('/altersubmitteddata'))) {
+        if (false !== ($mRun = $this->getConfigValue('/altersubmitteddata'))) {
             if ($this->getForm()->isRunneable($mRun)) {
                 return $this->callRunneable($mRun, $aData);
             }
@@ -618,8 +618,8 @@ class formidable_maindatahandler extends formidable_mainobject
     {
         // http://lists.netfielders.de/pipermail/typo3-at/2005-November/007373.html
 
-        if (false !== $this->getForm()->rdt('sys_language_uid')) {
-            return $this->getForm()->rdt('sys_language_uid')->getValue();
+        if (false !== $this->getForm()->getWidget('sys_language_uid')) {
+            return $this->getForm()->getWidget('sys_language_uid')->getValue();
         } else {
             return $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'];
         }
@@ -652,7 +652,7 @@ class formidable_maindatahandler extends formidable_mainobject
 
     public function i18n_getDefLangUid()
     {
-        return $this->_navConf('/i18n/deflanguid');
+        return $this->getConfigValue('/i18n/deflanguid');
     }
 
     public function getT3Languages()

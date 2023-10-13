@@ -40,7 +40,7 @@ class formidable_mainvalidator extends formidable_mainobject
     public function validateWidget(&$oRdt, $mValue)
     {
         $sAbsName = $oRdt->getAbsName();
-        $aKeys = array_keys($this->_navConf('/'));
+        $aKeys = array_keys($this->getConfigValue('/'));
         reset($aKeys);
         foreach ($aKeys as $sKey) {
             if ($oRdt->hasError()) {
@@ -58,7 +58,7 @@ class formidable_mainvalidator extends formidable_mainobject
 
             if ('r' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'required')) {
                 if ($this->_isEmpty($oRdt, $mValue)) {
-                    if (false !== ($mMessage = $this->_navConf('/'.$sKey.'/message'))
+                    if (false !== ($mMessage = $this->getConfigValue('/'.$sKey.'/message'))
                         && $this->oForm->isRunneable(
                             $mMessage
                         )
@@ -84,7 +84,7 @@ class formidable_mainvalidator extends formidable_mainobject
 
             if ('a' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'authentified')) {
                 if (!$this->_isAuthentified()) {
-                    $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                    $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:authentified',
@@ -107,10 +107,10 @@ class formidable_mainvalidator extends formidable_mainobject
                     'maxsizebychars'
                 ))
             ) {
-                $iMaxSize = (int) $this->_navConf('/'.$sKey.'/value/');
+                $iMaxSize = (int) $this->getConfigValue('/'.$sKey.'/value/');
 
                 if ($this->_isTooLong($mValue, $iMaxSize)) {
-                    $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                    $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:maxsize',
@@ -128,11 +128,11 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ('m' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'maxsizebychars')) {
-                $iMaxSize = (int) $this->_navConf('/'.$sKey.'/value/');
-                $sEncoding = $this->_navConf('/'.$sKey.'/encoding/');
+                $iMaxSize = (int) $this->getConfigValue('/'.$sKey.'/value/');
+                $sEncoding = $this->getConfigValue('/'.$sKey.'/encoding/');
 
                 if ($this->_isTooLongByChars($mValue, $iMaxSize, $sEncoding)) {
-                    $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                    $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:maxsizebychars',
@@ -150,10 +150,10 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ('o' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'onerdthasavalue')) {
-                $sRdt = $this->_navConf('/'.$sKey.'/rdt/');
+                $sRdt = $this->getConfigValue('/'.$sKey.'/rdt/');
 
                 if ($this->_oneRdtHasAValue($mValue, $sRdt)) {
-                    $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                    $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:onerdthasalvaue',
@@ -171,10 +171,10 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ('m' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'minsize')) {
-                $iMinSize = (int) $this->_navConf('/'.$sKey.'/value/');
+                $iMinSize = (int) $this->getConfigValue('/'.$sKey.'/value/');
 
                 if ($this->_isTooSmall($mValue, $iMinSize)) {
-                    $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                    $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:minsize',
@@ -192,10 +192,10 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ('s' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'size')) {
-                $iSize = (int) $this->_navConf('/'.$sKey.'/value/');
+                $iSize = (int) $this->getConfigValue('/'.$sKey.'/value/');
 
                 if (!$this->_sizeIs($mValue, $iSize)) {
-                    $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                    $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:size',
@@ -213,13 +213,13 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ('s' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'sameas')) {
-                $sameas = trim($this->_navConf('/'.$sKey.'/value/'));
+                $sameas = trim($this->getConfigValue('/'.$sKey.'/value/'));
 
                 if (array_key_exists($sameas, $this->oForm->aORenderlets)) {
                     $samevalue = $this->oForm->aORenderlets[$sameas]->getValue();
 
                     if (!$this->_isSameAs($mValue, $samevalue)) {
-                        $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                        $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                         $this->oForm->_declareValidationError(
                             $sAbsName,
                             'STANDARD:sameas',
@@ -239,7 +239,7 @@ class formidable_mainvalidator extends formidable_mainobject
 
             if ('e' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'email')) {
                 if (!$this->_isEmail($mValue)) {
-                    $message = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                    $message = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:email',
@@ -279,7 +279,7 @@ class formidable_mainvalidator extends formidable_mainobject
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'STANDARD:unique',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'))
                     );
 
                     break;
@@ -293,7 +293,7 @@ class formidable_mainvalidator extends formidable_mainobject
              ***********************************************************************/
 
             if ('c' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'custom')) {
-                $mCustom = $this->_navConf('/'.$sKey);
+                $mCustom = $this->getConfigValue('/'.$sKey);
                 if ($this->oForm->isRunneable($mCustom)) {
                     if (true !== ($mResult = $this->getForm()->getRunnable()->callRunnable(
                         $mCustom,
@@ -303,7 +303,7 @@ class formidable_mainvalidator extends formidable_mainobject
                         if (is_string($mResult)) {
                             $message = $this->getForm()->getConfigXML()->getLLLabel($mResult);
                         } else {
-                            $message = $this->getForm()->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'));
+                            $message = $this->getForm()->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'));
                         }
 
                         $this->oForm->_declareValidationError(
@@ -338,7 +338,7 @@ class formidable_mainvalidator extends formidable_mainobject
                 return false;
             }
         }
-        if (false !== ($mSkipIf = $this->_navConf('/'.$sKey.'/skipif'))) {
+        if (false !== ($mSkipIf = $this->getConfigValue('/'.$sKey.'/skipif'))) {
             $mSkipIf = \Sys25\RnBase\Utility\Strings::trimExplode(',', $mSkipIf);
             if (in_array($mValue, $mSkipIf)) {
                 return false;
@@ -374,7 +374,7 @@ class formidable_mainvalidator extends formidable_mainobject
         ) {
             return false;
         }
-        if (false !== ($mDependsOn = $this->_navConf('/'.$sKey.'/dependson'))) {
+        if (false !== ($mDependsOn = $this->getConfigValue('/'.$sKey.'/dependson'))) {
             $mDependsOn = $this->getForm()->getRunnable()->callRunnable($mDependsOn);
 
             // Der Validator wird nur ausgeführt, wenn das Flag-Widget einen Wert hat.
@@ -383,7 +383,7 @@ class formidable_mainvalidator extends formidable_mainobject
             if ($widget) {
                 $negate = false;
                 //@TODO: dependsonifnot integrieren
-                if (false !== ($aDependsOnIf = $this->_navConf('/'.$sKey.'/dependsonif'))) {
+                if (false !== ($aDependsOnIf = $this->getConfigValue('/'.$sKey.'/dependsonif'))) {
                     $aDependsOnIf = $this->getForm()->getRunnable()->callRunnable($aDependsOnIf);
                     $aDependsOnIf = is_array($aDependsOnIf) ? $aDependsOnIf : \Sys25\RnBase\Utility\Strings::trimExplode(',', $aDependsOnIf, 1);
                     $negate = true;
@@ -517,8 +517,8 @@ class formidable_mainvalidator extends formidable_mainobject
     {
         $sDeleted = '';
 
-        if (false !== ($sTable = $this->_navConf('/unique/tablename'))) {
-            if (false === ($sField = $this->_navConf('/unique/field'))) {
+        if (false !== ($sTable = $this->getConfigValue('/unique/tablename'))) {
+            if (false === ($sField = $this->getConfigValue('/unique/field'))) {
                 $sField = $oRdt->getName();
             }
 

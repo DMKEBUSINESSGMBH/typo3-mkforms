@@ -339,7 +339,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         // In Set Value kommt die Anzahl der Zuordnungen rein!
         // Bei nur einer erlaubten Zuordnung muss die ggf. vorhandene Datei dereferenziert werden
-        if ($this->getForm()->isRunneable(($storageId = $this->_navConf('/data/storage/')))) {
+        if ($this->getForm()->isRunneable(($storageId = $this->getConfigValue('/data/storage/')))) {
             $storageId = (int) $this->getForm()->getRunnable()->callRunnableWidget($this, $storageId);
         }
         if (!is_numeric($storageId)) {
@@ -390,7 +390,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getEntryId()
     {
-        $entryId = $this->getForm()->getConfig()->get('/data/refuid/', $this->aElement);
+        $entryId = $this->getForm()->getConfigXML()->get('/data/refuid/', $this->aElement);
         if ($entryId) {
             $entryId = $this->getForm()->getRunnable()->callRunnable($entryId);
 
@@ -467,7 +467,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     public function getTargetDir()
     {
         $oFileTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
-        if ($this->oForm->isRunneable(($sTargetDir = $this->_navConf('/data/targetdir/')))) {
+        if ($this->oForm->isRunneable(($sTargetDir = $this->getConfigValue('/data/targetdir/')))) {
             $sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
         }
 
@@ -478,7 +478,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
     public function getTargetFile()
     {
-        if (false !== ($mTargetFile = $this->_navConf('/data/targetfile'))) {
+        if (false !== ($mTargetFile = $this->getConfigValue('/data/targetfile'))) {
             if ($this->oForm->isRunneable($mTargetFile)) {
                 $mTargetFile = $this->getForm()->getRunnable()->callRunnableWidget($this, $mTargetFile);
             }
@@ -498,10 +498,10 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getRefTable()
     {
-        if ($this->oForm->isRunneable(($uid = $this->_navConf('/data/reftable/')))) {
+        if ($this->oForm->isRunneable(($uid = $this->getConfigValue('/data/reftable/')))) {
             $tableName = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
         } else {
-            $tableName = $this->_navConf('/data/reftable/', $this->aElement);
+            $tableName = $this->getConfigValue('/data/reftable/', $this->aElement);
         }
 
         return (strlen($tableName)) ? $tableName : $this->getDataHandler()->tableName();
@@ -514,7 +514,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getMaxObjects()
     {
-        $maxobjects = $this->_navConf('/data/maxobjects/', $this->aElement);
+        $maxobjects = $this->getConfigValue('/data/maxobjects/', $this->aElement);
 
         return (strlen($maxobjects)) ? $maxobjects : false;
     }
@@ -526,7 +526,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getRefField()
     {
-        $fieldName = $this->_navConf('/data/reffield/', $this->aElement);
+        $fieldName = $this->getConfigValue('/data/reffield/', $this->aElement);
 
         return strlen($fieldName) ? $fieldName : $this->getAbsName();
     }
@@ -538,7 +538,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getBeUserId()
     {
-        if ($this->oForm->isRunneable(($uid = $this->_navConf('/data/beuser/')))) {
+        if ($this->oForm->isRunneable(($uid = $this->getConfigValue('/data/beuser/')))) {
             $uid = $this->getForm()->getRunnable()->callRunnableWidget($this, $uid);
         }
         $uid = (int) $uid;
@@ -684,7 +684,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             return;
         }
 
-        if (!$this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
+        if (!$this->getForm()->getConfigXML()->defaultFalse('/ajaxupload', $this->aElement)) {
             return;
         }
 
@@ -706,7 +706,8 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     protected function getMajixClass()
     {
-        return ($this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) ? 'MediaUpload' : 'RdtBaseClass';
+        return ($this->getForm()->getConfigXML()->defaultFalse('/ajaxupload', $this->aElement))
+            ? 'MediaUpload' : 'RdtBaseClass';
     }
 
     /**
@@ -716,7 +717,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     protected function getJSLibs()
     {
-        if ($this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
+        if ($this->getForm()->getConfigXML()->defaultFalse('/ajaxupload', $this->aElement)) {
             return $this->aLibs;
         }
 
@@ -730,7 +731,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function includeScripts($aConf = [])
     {
-        if ($this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
+        if ($this->getForm()->getConfigXML()->defaultFalse('/ajaxupload', $this->aElement)) {
             // Die Config um weitere Werte erweitern
             $url = $this->createUploadUrl();
             $aConf = [
@@ -738,17 +739,17 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             ];
         }
         parent::includeScripts($aConf);
-        if (!$this->getForm()->getConfig()->defaultFalse('/ajaxupload', $this->aElement)) {
+        if (!$this->getForm()->getConfigXML()->defaultFalse('/ajaxupload', $this->aElement)) {
             return;
         }
 
-        $button = $this->getForm()->getConfig()->get('/ajaxbutton', $this->aElement);
+        $button = $this->getForm()->getConfigXML()->get('/ajaxbutton', $this->aElement);
         if ($button) {
             $button = $this->getForm()->getWidget($button);
         }
         $button = $button ? $button->_getElementHtmlId() : '';
 
-        $sAbsName = $this->_getElementHtmlIdWithoutFormId();
+        $sAbsName = $this->getElementHtmlId();
 
         $sInitScript = <<<INITSCRIPT
         Formidable.f("{$this->getForm()->getFormId()}").o("{$sAbsName}").initAjaxUpload('{$button}');
@@ -795,7 +796,7 @@ INITSCRIPT;
         }
 
         //Validieren
-        if ($validate = $this->_navConf('/validate')) {
+        if ($validate = $this->getConfigValue('/validate')) {
             $errors = $this->getForm()->getValidationTool()->validateWidgets4Ajax(
                 [$this->getName() => $myData]
             );

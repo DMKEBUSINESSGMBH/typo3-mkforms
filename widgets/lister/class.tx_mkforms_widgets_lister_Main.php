@@ -88,7 +88,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         $aData = $this->fetchListerData();
         if (0 === (int) $aData['numrows']) {
-            if (false !== ($mEmpty = $this->_navConf('/ifempty'))) {
+            if (false !== ($mEmpty = $this->getConfigValue('/ifempty'))) {
                 if (is_array($mEmpty)) {
                     if (false === $this->getForm()->_defaultTrue('/process', $mEmpty)) {
                         // nicht verarbeiten!
@@ -110,7 +110,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     }
 
                     // einen wrap um die leer nachricht?
-                    if (false !== ($mWrap = $this->_navConf('/wrap', $mEmpty))) {
+                    if (false !== ($mWrap = $this->getConfigValue('/wrap', $mEmpty))) {
                         $mWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWrap);
                         $sOut = str_replace('|', $sOut, $mWrap);
                     }
@@ -228,7 +228,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function isInline()
     {
-        return 'inline' === $this->_navConf('/mode');
+        return 'inline' === $this->getConfigValue('/mode');
     }
 
     /**
@@ -249,8 +249,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             return;
         }
 
-        if (false === ($sDsToUse = $this->_navConf('/searchform/use'))) {
-            if (false === ($sDsToUse = $this->_navConf('/datasource/use'))) {
+        if (false === ($sDsToUse = $this->getConfigValue('/searchform/use'))) {
+            if (false === ($sDsToUse = $this->getConfigValue('/datasource/use'))) {
                 $this->oForm->mayday('RENDERLET LISTER <b>'.$this->_getName().'</b> - requires <b>/datasource/use</b> OR <b>/searchform/use</b> to be properly set. Check your XML conf.');
             } else {
                 if (!array_key_exists($sDsToUse, $this->oForm->aODataSources)) {
@@ -292,7 +292,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
             $iRowsPerPage = 5;    // default value
 
-            if (false !== ($mRowsPerPage = $this->_navConf('/pager/rows/perpage'))) {
+            if (false !== ($mRowsPerPage = $this->getConfigValue('/pager/rows/perpage'))) {
                 if ($this->oForm->isRunneable($mRowsPerPage)) {
                     $mRowsPerPage = $this->getForm()->getRunnable()->callRunnableWidget($this, $mRowsPerPage);
                 }
@@ -385,10 +385,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         $aWindow = [];
 
-        if (false !== ($mWindow = $this->_navConf('/pager/window')) && $iNumRows > 0) {
+        if (false !== ($mWindow = $this->getConfigValue('/pager/window')) && $iNumRows > 0) {
             if ($this->oForm->isRunneable($mWindow)) {
                 $iWindowWidth = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWindow);
-            } elseif (is_array($mWindow) && (false !== ($mWidth = $this->_navConf('/pager/window/width')))) {
+            } elseif (is_array($mWindow) && (false !== ($mWidth = $this->getConfigValue('/pager/window/width')))) {
                 if ($this->oForm->isRunneable($mWidth)) {
                     $mWidth = $this->getForm()->getRunnable()->callRunnableWidget($this, $mWidth);
                 }
@@ -576,8 +576,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         $aFilters = is_array($aFilters) ? $aFilters : [];
 
         // zusätzliche parameter besorgen
-        $aParams = $this->_navConf('/datasource/config');
-        $aParams = false === $aParams ? $this->_navConf('/datasource/params') : $aParams;
+        $aParams = $this->getConfigValue('/datasource/config');
+        $aParams = false === $aParams ? $this->getConfigValue('/datasource/params') : $aParams;
         $aConfig = is_array($aParams) ? $this->getForm()->getRunnable()
                 ->parseParams($aParams, $aConfig) : $aConfig;
 
@@ -759,7 +759,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function rowWrap($sHtmlRow)
     {
-        if (false !== ($sWrap = $this->_navConf('/columns/wrap'))) {
+        if (false !== ($sWrap = $this->getConfigValue('/columns/wrap'))) {
             if ($this->oForm->isRunneable($sWrap)) {
                 $sWrap = $this->getForm()->getRunnable()->callRunnableWidget($this, $sWrap);
             }
@@ -774,7 +774,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function processBeforeRender($aRow)
     {
-        if (false !== ($aBeforeRender = $this->_navConf('/beforerender')) && $this->oForm->isRunneable($aBeforeRender)) {
+        if (false !== ($aBeforeRender = $this->getConfigValue('/beforerender')) && $this->oForm->isRunneable($aBeforeRender)) {
             $aRow = $this->getForm()->getRunnable()->callRunnableWidget($this, $aBeforeRender, $aRow);
         }
 
@@ -783,7 +783,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
     public function processBeforeDisplay($aRow)
     {
-        if (false !== ($aBeforeDisplay = $this->_navConf('/beforedisplay')) && $this->oForm->isRunneable($aBeforeDisplay)) {
+        if (false !== ($aBeforeDisplay = $this->getConfigValue('/beforedisplay')) && $this->oForm->isRunneable($aBeforeDisplay)) {
             $aRow = $this->getForm()->getRunnable()->callRunnableWidget($this, $aBeforeDisplay, $aRow);
         }
 
@@ -814,7 +814,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         $sHtmlId = $this->_getElementHtmlId();
         $sPagerHtmlId = $sHtmlId.'_pager';
 
-        if (false !== ($mHtml = $this->_navConf('/pager/html'))) {
+        if (false !== ($mHtml = $this->getConfigValue('/pager/html'))) {
             if ($this->oForm->isRunneable($mHtml)) {
                 $mHtml = $this->getForm()->getRunnable()->callRunnableWidget($this, $mHtml, $this->aPager);
             }
@@ -1015,7 +1015,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             'alternaterows' => false,
         ];
 
-        if ((false === ($aTemplate = $this->_navConf('/template'))) || (true === ($this->bNoTemplate = $this->_defaultFalse('/template/notemplate')))) {
+        if ((false === ($aTemplate = $this->getConfigValue('/template'))) || (true === ($this->bNoTemplate = $this->_defaultFalse('/template/notemplate')))) {
             if (false === $this->bNoTemplate) {
                 // no template defined, building default lister template
                 $aRes = $this->__buildDefaultTemplate();
@@ -1097,7 +1097,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
             /* get pager */
 
-            if (false !== ($aPagerTemplate = $this->_navConf('/pager/template'))) {
+            if (false !== ($aPagerTemplate = $this->getConfigValue('/pager/template'))) {
                 if (is_array($aPagerTemplate) && array_key_exists('path', $aPagerTemplate)) {
                     if ($this->oForm->isRunneable($aPagerTemplate['path'])) {
                         $aPagerTemplate['path'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $aPagerTemplate['path']);
@@ -1343,11 +1343,11 @@ ERRORMESSAGE;
         }
 
         $this->aOColumns = [];
-        if (false !== ($aColumns = $this->_navConf('/columns')) && is_array($aColumns)) {
+        if (false !== ($aColumns = $this->getConfigValue('/columns')) && is_array($aColumns)) {
             $aColKeys = array_keys($aColumns);
             reset($aColKeys);
             foreach ($aColKeys as $sTagName) {
-                if ($this->getForm()->getConfig()->defaultTrue('/process', $aColumns[$sTagName])) {
+                if ($this->getForm()->getConfigXML()->defaultTrue('/process', $aColumns[$sTagName])) {
                     // Das "renderlet:" aus dem Type entfernen
                     $aColumns[$sTagName]['type'] = str_replace('renderlet:', '', $aColumns[$sTagName]['type']);
 
@@ -1659,8 +1659,8 @@ ERRORMESSAGE;
                     'col' => $sCol,
                     'dir' => $sDir,
                 ];
-            } elseif (false !== $this->_navConf('/pager/sort')) {
-                if (false !== ($sSortCol = $this->_navConf('/pager/sort/column'))) {
+            } elseif (false !== $this->getConfigValue('/pager/sort')) {
+                if (false !== ($sSortCol = $this->getConfigValue('/pager/sort/column'))) {
                     if ($this->oForm->isRunneable($sSortCol)) {
                         $aRes['col'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $sSortCol);
                     } else {
@@ -1668,7 +1668,7 @@ ERRORMESSAGE;
                     }
                 }
 
-                if (false !== ($sSortDir = $this->_navConf('/pager/sort/direction'))) {
+                if (false !== ($sSortDir = $this->getConfigValue('/pager/sort/direction'))) {
                     if ($this->oForm->isRunneable($sSortDir)) {
                         $aRes['dir'] = $this->getForm()->getRunnable()->callRunnableWidget($this, $sSortDir);
                     } else {
@@ -1747,7 +1747,7 @@ ERRORMESSAGE;
     public function getUidColumn()
     {
         if (!$this->uidColumn) {
-            $uidColumn = $this->getForm()->getConfig()->get('/uidcolumn', $this->aElement);
+            $uidColumn = $this->getForm()->getConfigXML()->get('/uidcolumn', $this->aElement);
             $this->uidColumn = (false !== $uidColumn) ? $uidColumn : 'uid';
         }
 

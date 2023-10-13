@@ -11,7 +11,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
         $sAbsName = $oRdt->getAbsName();
         $mValue = $oRdt->getValue();
 
-        $aKeys = array_keys($this->_navConf('/'));
+        $aKeys = array_keys($this->getConfigValue('/'));
         reset($aKeys);
         foreach ($aKeys as $sKey) {
             // Prüfen ob eine Validierung aufgrund des Dependson Flags statt finden soll
@@ -33,7 +33,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'DB:unique',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'))
                     );
 
                     break;
@@ -52,7 +52,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
                     $this->oForm->_declareValidationError(
                         $sAbsName,
                         'DB:differsfromdb',
-                        $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/'.$sKey.'/message/'))
+                        $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/'.$sKey.'/message/'))
                     );
 
                     break;
@@ -68,8 +68,8 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
      */
     public function _isUnique(&$oRdt, $value)
     {
-        if (false !== ($sTable = $this->_navConf('/unique/tablename'))) {
-            if (false === ($sField = $this->_navConf('/unique/field'))) {
+        if (false !== ($sTable = $this->getConfigValue('/unique/tablename'))) {
+            if (false === ($sField = $this->getConfigValue('/unique/field'))) {
                 $sField = $oRdt->getName();
             }
             $aDhConf = $this->oForm->_navConf('/control/datahandler/');
@@ -130,8 +130,8 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
     {
         $sDeleted = '';
 
-        if (false !== ($sTable = $this->_navConf('/differsfromdb/tablename'))) {
-            if (false === ($sField = $this->_navConf('/differsfromdb/field'))) {
+        if (false !== ($sTable = $this->getConfigValue('/differsfromdb/tablename'))) {
+            if (false === ($sField = $this->getConfigValue('/differsfromdb/field'))) {
                 $sField = $oRdt->getName();
             }
 

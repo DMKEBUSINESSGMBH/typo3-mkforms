@@ -32,7 +32,7 @@ class tx_mkforms_ds_phparray_Main extends formidable_maindatasource
 
     private function initBinding($aConfig, $aFilters)
     {
-        if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->_navConf('/bindsto')))) {
+        if ($this->getForm()->getRunnable()->isRunnable(($aBindsTo = $this->getConfigValue('/bindsto')))) {
             $params = ['config' => $aConfig, 'filters' => $aFilters];
             $this->aSource = &$this->getForm()->getRunnable()->callRunnable($aBindsTo, $params, $this);
 

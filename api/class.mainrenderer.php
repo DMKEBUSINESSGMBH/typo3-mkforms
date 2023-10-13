@@ -628,7 +628,7 @@ TEMPLATE;
 
     public function renderStyles()
     {
-        if (false !== ($mStyle = $this->_navConf('/style'))) {
+        if (false !== ($mStyle = $this->getConfigValue('/style'))) {
             $sUrl = false;
             $sStyle = false;
 
@@ -801,7 +801,7 @@ TEMPLATE;
             return $sMessage;
         }
 
-        if (false !== ($sErrWrap = $this->_navConf('/template/errortagwrap'))) {
+        if (false !== ($sErrWrap = $this->getConfigValue('/template/errortagwrap'))) {
             if ($this->getForm()->isRunneable($sErrWrap)) {
                 $sErrWrap = $this->callRunneable($sErrWrap);
             }
@@ -825,7 +825,7 @@ TEMPLATE;
         } else {
             $errorMessages = implode('<br />', $aMessages);
         }
-        if ($errorMessages && false !== ($sErrContainerWrap = $this->_navConf('/template/errorcontainerwrap'))) {
+        if ($errorMessages && false !== ($sErrContainerWrap = $this->getConfigValue('/template/errorcontainerwrap'))) {
             $errorMessages = str_replace('|', $errorMessages, $sErrContainerWrap);
         }
 

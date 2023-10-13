@@ -23,44 +23,44 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet
     public function _render()
     {
         $aConf = [];
-        if (false !== ($sSpeed = $this->_navConf('/speed'))) {
+        if (false !== ($sSpeed = $this->getConfigValue('/speed'))) {
             $aConf['resizeSpeed'] = (int) $sSpeed;
         }
 
-        if (false !== ($sClassToggle = $this->_navConf('/classtoggle'))) {
+        if (false !== ($sClassToggle = $this->getConfigValue('/classtoggle'))) {
             $aConf['classNames']['toggle'] = $sClassToggle;
         } else {
             $aConf['classNames']['toggle'] = 'accordion_toggle';
         }
 
-        if (false !== ($sClassToggleActive = $this->_navConf('/classtoggleactive'))) {
+        if (false !== ($sClassToggleActive = $this->getConfigValue('/classtoggleactive'))) {
             $aConf['classNames']['toggleActive'] = $sClassToggleActive;
         } else {
             $aConf['classNames']['toggleActive'] = 'accordion_toggle_active';
         }
 
-        if (false !== ($sClassContent = $this->_navConf('/classcontent'))) {
+        if (false !== ($sClassContent = $this->getConfigValue('/classcontent'))) {
             $aConf['classNames']['content'] = $sClassContent;
         } else {
             $aConf['classNames']['content'] = 'accordion_content';
         }
 
-        if (false !== ($sWidth = $this->_navConf('/width'))) {
+        if (false !== ($sWidth = $this->getConfigValue('/width'))) {
             $aConf['defaultSize']['width'] = $sWidth;
         }
 
-        if (false !== ($sHeight = $this->_navConf('/height'))) {
+        if (false !== ($sHeight = $this->getConfigValue('/height'))) {
             $aConf['defaultSize']['height'] = $sHeight;
         }
 
-        if (false !== ($sDirection = $this->_navConf('/direction'))) {
+        if (false !== ($sDirection = $this->getConfigValue('/direction'))) {
             $aConf['direction'] = $sDirection;
         }
 
         // Gibt an, ob alle geöffneten Accordionelemende geschlossen werden sollen, befor das geklickte geöffnet wird.
         $aConf['closeactive'] = $this->defaultTrue('/closeactive');
 
-        if (false !== ($sEvent = $this->_navConf('/event'))) {
+        if (false !== ($sEvent = $this->getConfigValue('/event'))) {
             $sEvent = strtolower(trim($sEvent));
             if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sEvent, 'on')) {
                 $sEvent = substr($sEvent, 2);

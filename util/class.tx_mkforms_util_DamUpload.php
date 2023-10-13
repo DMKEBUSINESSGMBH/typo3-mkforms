@@ -46,7 +46,7 @@ class tx_mkforms_util_DamUpload
         $damWidget = $form->getWidget($formParameters['damWidget']);
 
         if ($form->getDataHandler()->_isSubmitted()) {
-            $damPics = $damWidget->getUploadedDamPics();
+            $damPics = $damWidget->getUploadedMediaFiles();
         } else {
             $damPics = $damWidget->getReferencedMedia();
         }

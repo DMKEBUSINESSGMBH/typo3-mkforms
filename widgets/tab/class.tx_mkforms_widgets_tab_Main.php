@@ -8,7 +8,7 @@ class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
 {
     public function _render()
     {
-        if (false === ($sContentAbsName = $this->_navConf('/content'))) {
+        if (false === ($sContentAbsName = $this->getConfigValue('/content'))) {
             $this->oForm->mayday('renderlet:TAB <b>'.$this->getAbsName().'</b> - requires <b>/content</b> to be set to the absolute name of a renderlet.');
         }
 

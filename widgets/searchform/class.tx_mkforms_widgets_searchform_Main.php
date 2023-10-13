@@ -81,12 +81,12 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function isRemoteSender()
     {
-        return 'sender' === $this->_navConf('/remote/mode');
+        return 'sender' === $this->getConfigValue('/remote/mode');
     }
 
     public function isRemoteReceiver()
     {
-        return 'receiver' === $this->_navConf('/remote/mode');
+        return 'receiver' === $this->getConfigValue('/remote/mode');
     }
 
     public function _initDataSource()
@@ -96,7 +96,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
         }
 
         if (false === $this->oDataSource) {
-            if (false === ($sDsToUse = $this->_navConf('/datasource/use'))) {
+            if (false === ($sDsToUse = $this->getConfigValue('/datasource/use'))) {
                 $this->oForm->mayday('RENDERLET SEARCHFORM - requires /datasource/use to be properly set. Check your XML conf.');
             } elseif (!array_key_exists($sDsToUse, $this->oForm->aODataSources)) {
                 $this->oForm->mayday("RENDERLET SEARCHFORM - refers to undefined datasource '".$sDsToUse."'. Check your XML conf.");
@@ -130,7 +130,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     public function getRemoteSenderFormId()
     {
         if ($this->isRemoteReceiver()) {
-            if (false !== ($sSenderFormId = $this->_navConf('/remote/senderformid'))) {
+            if (false !== ($sSenderFormId = $this->getConfigValue('/remote/senderformid'))) {
                 return $sSenderFormId;
             }
         }
@@ -141,7 +141,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
     public function getRemoteSenderAbsName()
     {
         if ($this->isRemoteReceiver()) {
-            if (false !== ($sSenderAbsName = $this->_navConf('/remote/senderabsname'))) {
+            if (false !== ($sSenderAbsName = $this->getConfigValue('/remote/senderabsname'))) {
                 return $sSenderAbsName;
             }
         }
@@ -352,7 +352,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function processBeforeSearch($aCriterias)
     {
-        if (false !== ($aBeforeSearch = $this->_navConf('/beforesearch')) && $this->oForm->isRunneable($aBeforeSearch)) {
+        if (false !== ($aBeforeSearch = $this->getConfigValue('/beforesearch')) && $this->oForm->isRunneable($aBeforeSearch)) {
             $aCriterias = $this->getForm()->getRunnable()->callRunnableWidget($this, $aBeforeSearch, $aCriterias);
         }
 
@@ -365,7 +365,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
     public function processAfterSearch($aResults)
     {
-        if (false !== ($aAfterSearch = $this->_navConf('/aftersearch')) && $this->oForm->isRunneable($aAfterSearch)) {
+        if (false !== ($aAfterSearch = $this->getConfigValue('/aftersearch')) && $this->oForm->isRunneable($aAfterSearch)) {
             $aResults = $this->getForm()->getRunnable()->callRunnableWidget($this, $aAfterSearch, $aResults);
         }
 

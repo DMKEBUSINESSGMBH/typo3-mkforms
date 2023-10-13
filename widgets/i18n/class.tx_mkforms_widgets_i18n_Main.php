@@ -68,7 +68,7 @@ EVENT;
                             ],
                         ];
 
-                        if (false !== ($aCustomConf = $this->_navConf('/stdbutton'))) {
+                        if (false !== ($aCustomConf = $this->getConfigValue('/stdbutton'))) {
                             $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                 $aConf,
                                 $aCustomConf
@@ -115,7 +115,7 @@ EVENT;
 
     public function _getFlag($sPath, $bExists, $aLang)
     {
-        if (false !== ($aFlags = $this->_navConf('/flags'))) {
+        if (false !== ($aFlags = $this->getConfigValue('/flags'))) {
             $aDefinition = false;
 
             foreach ($aFlags as $aFlag) {

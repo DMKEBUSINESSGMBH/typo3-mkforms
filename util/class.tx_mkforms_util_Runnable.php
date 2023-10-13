@@ -165,19 +165,19 @@ class tx_mkforms_util_Runnable
      */
     private function callUserObj($aUserobj, $aParams = [], $contextObj = false)
     {
-        if (!is_array($this->getConfig()->get('/userobj/', $aUserobj))) {
+        if (!is_array($this->getConfigXML()->get('/userobj/', $aUserobj))) {
             return;
         }
         // Das ContextObj ist der zweite Parameter im Aufruf. Normalerweise das Form, es kann aber auch das betroffene Objekt sein.
-        $contextObj = 'relative' == $this->getConfig()->get('/userobj/context/', $aUserobj) ? $contextObj : $this->getForm();
+        $contextObj = 'relative' == $this->getConfigXML()->get('/userobj/context/', $aUserobj) ? $contextObj : $this->getForm();
 
         // Weitere Parameter können per XML übergeben werden
-        $aUserObjParams = $this->getConfig()->get('/userobj/params/', $aUserobj);
+        $aUserObjParams = $this->getConfigXML()->get('/userobj/params/', $aUserobj);
         if (false !== $aUserObjParams && is_array($aUserObjParams)) {
             $aParams = $this->parseParams($aUserObjParams, $aParams);
         }
 
-        if (false !== ($mPhp = $this->getConfig()->get('/userobj/php', $aUserobj))) {
+        if (false !== ($mPhp = $this->getConfigXML()->get('/userobj/php', $aUserobj))) {
             $sPhp = (is_array($mPhp) && array_key_exists('__value', $mPhp)) ? $mPhp['__value'] : $mPhp;
 
             $sClassName = uniqid('tempcl').rand(1, 1000);
@@ -226,16 +226,16 @@ class tx_mkforms_util_Runnable
             return $sRes;
         }
 
-        if (false !== ($this->getConfig()->get('/userobj/cobj', $aUserobj))) {
+        if (false !== ($this->getConfigXML()->get('/userobj/cobj', $aUserobj))) {
             return $this->getCObj()->cObjGetSingle($aUserobj['userobj']['cobj'], $aUserobj['userobj']['cobj.']);
         }
 
-        if (false !== ($sTs = $this->getConfig()->get('/userobj/ts', $aUserobj))) {
+        if (false !== ($sTs = $this->getConfigXML()->get('/userobj/ts', $aUserobj))) {
             return $this->callTyposcript($aUserobj, $sTs, $aParams);
         }
 
-        if (false !== ($sJs = $this->getConfig()->get('/userobj/js', $aUserobj))) {
-            if (false !== ($aParams = $this->getConfig()->get('/userobj/params', $aUserobj))) {
+        if (false !== ($sJs = $this->getConfigXML()->get('/userobj/js', $aUserobj))) {
+            if (false !== ($aParams = $this->getConfigXML()->get('/userobj/params', $aUserobj))) {
                 if ($this->getForm()->isRunneable($aParams)) {
                     $aParams = $this->getForm()->callRunneable($aParams);
                 }
@@ -246,9 +246,9 @@ class tx_mkforms_util_Runnable
         }
         // Jetzt den normalen Fall abarbeiten
 
-        $extension = $this->getConfig()->get('/userobj/extension/', $aUserobj);
-        $method = $this->getConfig()->get('/userobj/method/', $aUserobj);
-        $mode = $this->getConfig()->get('/userobj/loadmode', $aUserobj);
+        $extension = $this->getConfigXML()->get('/userobj/extension/', $aUserobj);
+        $method = $this->getConfigXML()->get('/userobj/method/', $aUserobj);
+        $mode = $this->getConfigXML()->get('/userobj/loadmode', $aUserobj);
 
         $oExtension = (0 == strcasecmp($extension, 'this')) ? $this->getForm()->getParent() : \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($extension);
 
@@ -260,7 +260,7 @@ class tx_mkforms_util_Runnable
 
         if (!method_exists($oExtension, $method)) {
             $sObject = ('this' == $extension) ? '$this (<b>'.get_class($this->getForm()->getParent()).'</b>)' : $extension;
-            tx_mkforms_util_Div::mayday($this->getConfig()->get('/type/', $aUserobj).' <b>'.$this->getConfig()->get('/name/', $aUserobj).'</b> : callback method <b>'.$method.'</b> of the Object <b>'.$sObject.'</b> doesn\'t exist');
+            tx_mkforms_util_Div::mayday($this->getConfigXML()->get('/type/', $aUserobj).' <b>'.$this->getConfigXML()->get('/name/', $aUserobj).'</b> : callback method <b>'.$method.'</b> of the Object <b>'.$sObject.'</b> doesn\'t exist');
         }
 
         try {
@@ -322,7 +322,7 @@ class tx_mkforms_util_Runnable
         }
         $oParser->setup['params.'] = tx_mkforms_util_Div::addDots($aParams);
 
-        if (false !== ($aUserObjParams = $this->getConfig()->get('/userobj/params', $aUserobj))) {
+        if (false !== ($aUserObjParams = $this->getConfigXML()->get('/userobj/params', $aUserobj))) {
             if (is_array($aUserObjParams)) {
                 if ($this->getForm()->isRunneable($aUserObjParams)) {
                     $aUserObjParams = $this->getForm()->getRunnable()->callRunnable($aUserObjParams);
@@ -426,7 +426,7 @@ class tx_mkforms_util_Runnable
      */
     public function initCodeBehinds()
     {
-        $aMetas = $this->getConfig()->get('/meta');
+        $aMetas = $this->getConfigXML()->get('/meta');
 
         if ('EID' === tx_mkforms_util_Div::getEnvExecMode()) {
             $this->aCodeBehinds['js'] = [];
@@ -715,7 +715,7 @@ class tx_mkforms_util_Runnable
         $aArgs = tx_mkforms_util_Div::array_insert($aArgs, 1, ['form' => $this->getForm()]);
 
         // parameter aus dem xml übernehmen
-        $aUserObjParams = $this->getConfig()->get('/params/', $aArgs[0]);
+        $aUserObjParams = $this->getConfigXML()->get('/params/', $aArgs[0]);
         if (false !== $aUserObjParams && is_array($aUserObjParams)) {
             $aArgs[0] = $this->parseParams($aUserObjParams, $aArgs[0]);
         }

@@ -18,11 +18,11 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
     public function initDataSet($sKey)
     {
-        if (false === ($this->sTable = $this->_navConf('/table'))) {
+        if (false === ($this->sTable = $this->getConfigValue('/table'))) {
             $this->oForm->mayday("datasource:DB[name='".$this->getName()."'] You have to provide <b>/table</b>.");
         }
 
-        if (false === ($this->sKey = $this->_navConf('/key'))) {
+        if (false === ($this->sKey = $this->getConfigValue('/key'))) {
             $this->sKey = 'uid';
         }
 
@@ -104,7 +104,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
     public function initDb()
     {
         if (false === $this->oDb) {
-            if (false !== ($aLink = $this->_navConf('/link'))) {
+            if (false !== ($aLink = $this->getConfigValue('/link'))) {
                 $this->oDb = \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection();
 
                 if ($this->oForm->isRunneable(($sHost = $aLink['host']))) {
@@ -141,7 +141,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
     public function beforeSqlExec($sSql, $aConfig, $aFilters)
     {
-        if (false !== ($mUserobj = $this->_navConf('/beforesqlexec'))) {
+        if (false !== ($mUserobj = $this->getConfigValue('/beforesqlexec'))) {
             if ($this->oForm->isRunneable($mUserobj)) {
                 $sSql = $this->callRunneable(
                     $mUserobj,
@@ -159,7 +159,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
     public function beforeSqlFilter($aConfig, $aFilters)
     {
-        if (false !== ($mUserobj = $this->_navConf('/beforesqlfilter'))) {
+        if (false !== ($mUserobj = $this->getConfigValue('/beforesqlfilter'))) {
             if ($this->oForm->isRunneable($mUserobj)) {
                 $aFilters = $this->callRunneable(
                     $mUserobj,
@@ -183,20 +183,20 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             return false;
         }
 
-        if (false !== ($sTable = $this->_navConf('/table'))) {
+        if (false !== ($sTable = $this->getConfigValue('/table'))) {
             $sSqlBase = 'SELECT ';
-            if (false !== ($sFields = $this->_navConf('/fields'))) {
+            if (false !== ($sFields = $this->getConfigValue('/fields'))) {
                 $sSqlBase .= $sFields.' ';
             } else {
                 $sSqlBase .= '* ';
             }
             $sSqlBase .= 'FROM '.$sTable.' ';
 
-            if (false !== ($aWheres = $this->_navConf('/wheres'))) {
+            if (false !== ($aWheres = $this->getConfigValue('/wheres'))) {
                 $sSqlBase .= 'WHERE TRUE '.$this->_getAdditionalWheres($aWheres);
             }
         } else {
-            $sSqlBase = $this->_navConf('/sql');
+            $sSqlBase = $this->getConfigValue('/sql');
 
             if ($this->oForm->isRunneable($sSqlBase)) {
                 $sSqlBase = $this->callRunneable($sSqlBase);
@@ -287,7 +287,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
         if ($this->aODataSets[$sSignature]->isFloating()) {
             if ($this->aODataSets[$sSignature]->needsToBeWritten()) {
-                if (false !== ($mBefore = $this->_navConf('/beforecreation'))) {
+                if (false !== ($mBefore = $this->getConfigValue('/beforecreation'))) {
                     if ($this->oForm->isRunneable($mBefore)) {
                         $this->callRunneable(
                             $mBefore,
@@ -319,7 +319,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                     );
                 }
 
-                if (false !== ($mAfter = $this->_navConf('/aftercreation'))) {
+                if (false !== ($mAfter = $this->getConfigValue('/aftercreation'))) {
                     if ($this->oForm->isRunneable($mAfter)) {
                         $this->callRunneable(
                             $mAfter,
@@ -331,7 +331,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             }
         } else {
             if ($this->aODataSets[$sSignature]->needsToBeWritten()) {
-                if (false !== ($mBefore = $this->_navConf('/beforeedition'))) {
+                if (false !== ($mBefore = $this->getConfigValue('/beforeedition'))) {
                     if ($this->oForm->isRunneable($mBefore)) {
                         $this->callRunneable(
                             $mBefore,
@@ -352,7 +352,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                     $aData
                 );
 
-                if (false !== ($mAfter = $this->_navConf('/afteredition'))) {
+                if (false !== ($mAfter = $this->getConfigValue('/afteredition'))) {
                     if ($this->oForm->isRunneable($mAfter)) {
                         $this->callRunneable(
                             $mAfter,

@@ -13,7 +13,7 @@ class formidable_mainactionlet extends formidable_mainobject
      */
     protected function shouldProcess()
     {
-        $mProcess = $this->_navConf('/process');
+        $mProcess = $this->getConfigValue('/process');
 
         if (false !== $mProcess) {
             if ($this->getForm()->isRunneable($mProcess)) {

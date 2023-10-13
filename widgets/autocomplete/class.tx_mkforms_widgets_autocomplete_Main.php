@@ -40,30 +40,30 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         $this->sTemplate = $this->_getTemplate();
         $this->aRowsSubpart = $this->_getRowsSubpart($this->sTemplate);
 
-        if (false === ($sTimeObserver = $this->_navConf('/timeobserver'))) {
+        if (false === ($sTimeObserver = $this->getConfigValue('/timeobserver'))) {
             $sTimeObserver = '0.75';
         }
 
-        if (false === ($sSearchType = $this->_navConf('/searchtype'))) {
+        if (false === ($sSearchType = $this->getConfigValue('/searchtype'))) {
             $sSearchType = 'inside';
         }
 
-        if (false === ($sSearchOnFields = $this->_navConf('/searchonfields'))) {
+        if (false === ($sSearchOnFields = $this->getConfigValue('/searchonfields'))) {
             $this->oForm->mayday('RENDERLET AUTOCOMPLETE <b>'.$this->_getName().'</b> requires the /searchonfields to be set. Please check your XML configuration!');
         }
 
-        if (false === ($sItemClass = $this->_navConf('/itemclass'))) {
+        if (false === ($sItemClass = $this->getConfigValue('/itemclass'))) {
             $sItemClass = 'mkforms-autocomplete-item';
         }
 
-        if (false === ($sLoaderClass = $this->_navConf('/loaderclass'))) {
+        if (false === ($sLoaderClass = $this->getConfigValue('/loaderclass'))) {
             $sLoaderClass = 'mkforms-autocomplete-loader';
         }
-        if (false === ($sChildsClass = $this->_navConf('/listclass'))) {
+        if (false === ($sChildsClass = $this->getConfigValue('/listclass'))) {
             $sChildsClass = 'mkforms-autocomplete-list';
         }
 
-        if (false === ($sSelectedItemClass = $this->_navConf('/selecteditemclass'))) {
+        if (false === ($sSelectedItemClass = $this->getConfigValue('/selecteditemclass'))) {
             $sSelectedItemClass = 'selected';
         }
 
@@ -83,7 +83,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
             ],
         ];
 
-        $sLabel = $this->oForm->getConfigXML()->getLLLabel($this->_navConf('/label'));
+        $sLabel = $this->oForm->getConfigXML()->getLLLabel($this->getConfigValue('/label'));
         $sValue = $this->getValue(); // hier steckt bei buhl ab und zu ein array drinn, warum!? lister? #2439
         $sValueForHtml = $this->getValueForHtml($sValue);
 
@@ -112,13 +112,13 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
             'searchFields' => $sSearchOnFields,
             'searchUrl' => $sSearchUrl,
             'item' => [
-                'width' => $this->_navConf('/itemwidth'),
-                'height' => $this->_navConf('/itemheight'),
-                'style' => $this->_navConf('/itemstyle'),
+                'width' => $this->getConfigValue('/itemwidth'),
+                'height' => $this->getConfigValue('/itemheight'),
+                'style' => $this->getConfigValue('/itemstyle'),
                 'class' => $sItemClass,
             ],
             'selectedItemClass' => $sSelectedItemClass,
-            'jsExtend' => $this->_navConf('/jsextend', false),
+            'jsExtend' => $this->getConfigValue('/jsextend', false),
             'selectionRequired' => $this->defaultFalse('/selectionrequired'),
             'hideItemListOnLeave' => $this->defaultTrue('/hideitemlistonleave'),
         ];
@@ -130,7 +130,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
     public function &_getRowsSubpart($sTemplate)
     {
         $aRowsTmpl = [];
-        if (false !== ($sAltRows = $this->_navConf('/template/alternaterows'))) {
+        if (false !== ($sAltRows = $this->getConfigValue('/template/alternaterows'))) {
             if ($this->oForm->isRunneable($sAltRows)) {
                 $sAltRows = $this->oForm->isRunneable($sAltRows);
             }
@@ -159,7 +159,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     public function &_getTemplate()
     {
-        if (false !== ($aTemplate = $this->_navConf('/template'))) {
+        if (false !== ($aTemplate = $this->getConfigValue('/template'))) {
             $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
                 $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
@@ -323,13 +323,13 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     private function initSearchDS($aFilters, $aLimitAndSort)
     {
-        if (false === ($sDsToUse = $this->_navConf('/datasource/use'))) {
+        if (false === ($sDsToUse = $this->getConfigValue('/datasource/use'))) {
             return;
         }
 
         // zusätzliche parameter besorgen
-        $aConfig = $this->_navConf('/datasource/config');
-        $aConfig = false === $aConfig ? $this->_navConf('/datasource/params') : $aConfig;
+        $aConfig = $this->getConfigValue('/datasource/config');
+        $aConfig = false === $aConfig ? $this->getConfigValue('/datasource/params') : $aConfig;
         $aConfig = is_array($aConfig) ? $this->getForm()->getRunnable()
                 ->parseParams($aConfig, $aLimitAndSort) : $aLimitAndSort;
 
@@ -346,21 +346,21 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
         // dont set filters if set to false!
         $aFilters = [];
 
-        if (false === ($sLimit = $this->_navConf('/datasource/limit'))) {
+        if (false === ($sLimit = $this->getConfigValue('/datasource/limit'))) {
             $sLimit = '5';
         }
         if (!$this->isFalseVal($sLimit)) {
             $aFilters['perpage'] = $sLimit;
         }
 
-        if (false === ($sSortBy = $this->_navConf('/datasource/orderby'))) {
+        if (false === ($sSortBy = $this->getConfigValue('/datasource/orderby'))) {
             $sSortBy = 'tstamp';
         }
         if (!$this->isFalseVal($sSortBy)) {
             $aFilters['sortcolumn'] = $sSortBy;
         }
 
-        if (false === ($sSortDir = $this->_navConf('/datasource/orderdir'))) {
+        if (false === ($sSortDir = $this->getConfigValue('/datasource/orderdir'))) {
             $sSortDir = 'DESC';
         }
         if (!$this->isFalseVal($sSortDir)) {
@@ -432,19 +432,19 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     public function _checkRequiredProperties()
     {
-        if (false === $this->_navConf('/datasource/use')) {
+        if (false === $this->getConfigValue('/datasource/use')) {
             $this->oForm->mayday('The renderlet:autocomplete <b>'.$this->_getName().'</b> requires /datasource/use to be properly set. Please check your XML configuration');
         }
-        if (false === $this->_navConf('/template/path')) {
+        if (false === $this->getConfigValue('/template/path')) {
             $this->oForm->mayday('The renderlet:autocomplete <b>'.$this->_getName().'</b> requires /template/path to be properly set. Please check your XML configuration');
         }
-        if (false === $this->_navConf('/template/subpart')) {
+        if (false === $this->getConfigValue('/template/subpart')) {
             $this->oForm->mayday('The renderlet:autocomplete <b>'.$this->_getName().'</b> requires /template/subpart to be properly set. Please check your XML configuration');
         }
-        if (false === $this->_navConf('/template/alternaterows')) {
+        if (false === $this->getConfigValue('/template/alternaterows')) {
             $this->oForm->mayday('The renderlet:autocomplete <b>'.$this->_getName().'</b> requires /template/alternaterows to be properly set. Please check your XML configuration');
         }
-        if (false === ($aChilds = $this->_navConf('/childs'))) {
+        if (false === ($aChilds = $this->getConfigValue('/childs'))) {
             $this->oForm->mayday('The renderlet:autocomplete <b>'.$this->_getName().'</b> requires /childs to be properly set. Please check your XML configuration');
         } elseif (!is_array($aChilds)) {
             $this->oForm->mayday('The renderlet:autocomplete <b>'.$this->_getName().'</b> requires at least one child to be properly set. Please check your XML configuration: define a renderlet:* as child.');

@@ -159,7 +159,7 @@ PHP;
                 'style' => 'width: 100%;',    // 100% of TD
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/available'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/available'))) {
                 if (!is_array($aCustomConf)) {
                     $aCustomConf = [];
                 }
@@ -193,7 +193,7 @@ PHP;
             $aConf = [
                 'style' => 'width: 100%;',    //	100% of TD
             ];
-            if (false !== ($aCustomConf = $this->_navConf('/selected'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/selected'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -221,7 +221,7 @@ PHP;
     public function initCustomRenderlet()
     {
         if (false === $this->oCustomRenderlet) {
-            if (false !== ($aConf = $this->_navConf('/customrenderlet'))) {
+            if (false !== ($aConf = $this->getConfigValue('/customrenderlet'))) {
                 $aConf['name'] = $this->_getName().'_customrenderlet';
                 $this->oCustomRenderlet = $this->oForm->_makeRenderlet(
                     $aConf,
@@ -263,7 +263,7 @@ PHP;
                 ],
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/buttonremove'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/buttonremove'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -308,7 +308,7 @@ PHP;
                 ],
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/buttontop'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/buttontop'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -353,7 +353,7 @@ PHP;
                 ],
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/buttonup'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/buttonup'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -396,7 +396,7 @@ PHP;
                 ],
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/buttondown'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/buttondown'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
@@ -440,7 +440,7 @@ PHP;
                 ],
             ];
 
-            if (false !== ($aCustomConf = $this->_navConf('/buttonbottom'))) {
+            if (false !== ($aCustomConf = $this->getConfigValue('/buttonbottom'))) {
                 $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf

@@ -328,7 +328,7 @@ class tx_mkforms_util_Div
      */
     public static function debug($variable, $name, $form, $bAnalyze = true)
     {
-        if ($form->getConfig()->isDebug() || $form->bDebug) {
+        if ($form->getConfigXML()->isDebug() || $form->bDebug) {
             $aTrace = debug_backtrace();
             $aLocation = array_shift($aTrace);
             $aTrace1 = array_shift($aTrace);
@@ -350,7 +350,7 @@ class tx_mkforms_util_Div
             $aDebug[] = "<a href='javascript:void(Formidable.f(\"".$form->formid.'").toggleBacktrace('.$numcall."))'>Toggle details</a><br>";
             $aDebug[] = "<div id='".$form->formid.'_formidable_call'.$numcall."_backtrace' style='display: none; background-color: #FFFFCC' >";
 
-            if (!$form->getConfig()->isDebugLight()) {
+            if (!$form->getConfigXML()->isDebugLight()) {
                 $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call 0: </b>".str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aLocation['file']).':'.$aLocation['line'].' | <b>'.$aTrace1['class'].$aTrace1['type'].$aTrace1['function'].'</b></span><br>'.self::viewMixed($aTrace1['args']);
                 $aDebug[] = '<hr/>';
                 $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call -1: </b>".str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace1['file']).':'.$aTrace1['line'].' | <b>'.$aTrace2['class'].$aTrace2['type'].$aTrace2['function'].'</b></span><br>'.self::viewMixed($aTrace2['args']);
