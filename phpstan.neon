@@ -1,0 +1,75 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+  parallel:
+      # Don't be overly greedy on machines with more CPU's to be a good neighbor especially on CI
+      maximumNumberOfProcesses: 5
+
+  level: 0
+
+  bootstrapFiles:
+    - .Build/vendor/autoload.php
+
+  paths:
+    - action
+    - api
+    - Classes
+    - dh
+    - ds
+    - exception
+    - forms
+    - hooks
+    - remote
+    - renderer
+    - session
+    - tests
+    - util
+    - validator
+    - view
+    - widgets
+
+  scanDirectories:
+    - action
+    - api
+    - Classes
+    - dh
+    - ds
+    - exception
+    - forms
+    - hooks
+    - remote
+    - renderer
+    - session
+    - tests
+    - util
+    - validator
+    - view
+    - widgets
+
+  # These files create errors for PHPStan. We need to fix those before we can include them.
+  excludePaths:
+    - Classes/Frontend/FormBase.php
+    - action/class.tx_mkforms_action_FormBase.php
+    - api/class.tx_ameosformidable.php
+    - api/class.tx_ameosformidable_pi.php
+    - ds/contentrepository/class.tx_mkforms_ds_contentrepository_Main.php
+    - tests/action/class.tx_mkforms_tests_action_FormBaseTest.php
+    - tests/api/class.tx_mkforms_tests_api_maindatahandlerTest.php
+    - tests/api/class.tx_mkforms_tests_api_mainrendererTest.php
+    - tests/api/class.tx_mkforms_tests_api_mainrenderletTest.php
+    - tests/api/class.tx_mkforms_tests_api_mainvalidatorTest.php
+    - tests/api/class.tx_mkforms_tests_api_tx_ameosformidableTest.php
+    - tests/util/class.tx_mkforms_tests_util_DivTest.php
+    - tests/util/class.tx_mkforms_tests_util_FormBaseAjaxTest.php
+    - tests/util/class.tx_mkforms_tests_util_FormBaseTest.php
+    - tests/util/class.tx_mkforms_tests_util_FormFillTest.php
+    - tests/util/class.tx_mkforms_tests_util_JsonTest.php
+    - tests/util/class.tx_mkforms_tests_util_TemplatesTest.php
+    - tests/validator/timetracking/class.tx_mkforms_tests_validator_timetracking_MainTest.php
+    - tests/widgets/class.tx_mkforms_tests_widgets_fluidviewhelperTest.php
+    - tests/widgets/class.tx_mkforms_tests_widgets_text_MainTest.php
+    - widgets/mediaupload/class.tx_mkforms_widgets_mediaupload_Main.php
+    - widgets/progressbar/class.tx_mkforms_widgets_progressbar_Main.php
+    - widgets/swfupload/class.tx_mkforms_widgets_swfupload_Main.php
+    - widgets/ticker/class.tx_mkforms_widgets_ticker_Main.php
