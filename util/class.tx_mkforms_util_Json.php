@@ -604,7 +604,7 @@ class tx_mkforms_util_Json
                         } elseif ((('"' == $chrs[$c]) || ("'" == $chrs[$c])) && (SERVICES_JSON_IN_STR != $top['what'])) {
                             // found a quote, and we are not inside a string
                             array_push($stk, ['what' => SERVICES_JSON_IN_STR, 'where' => $c, 'delim' => $chrs[$c]]);
-                            // print("Found start of string at {$c}\n");
+                        // print("Found start of string at {$c}\n");
                         } elseif (($chrs[$c] == $top['delim'])
                                  && (SERVICES_JSON_IN_STR == $top['what'])
                                  && (1 != (strlen(substr($chrs, 0, $c)) - strlen(rtrim(substr($chrs, 0, $c), '\\'))) % 2)) {
@@ -612,31 +612,31 @@ class tx_mkforms_util_Json
                             // we know that it's not escaped becase there is _not_ an
                             // odd number of backslashes at the end of the string so far
                             array_pop($stk);
-                            // print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
+                        // print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
                         } elseif (('[' == $chrs[$c])
                                  && in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-bracket, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_ARR, 'where' => $c, 'delim' => false]);
-                            // print("Found start of array at {$c}\n");
+                        // print("Found start of array at {$c}\n");
                         } elseif ((']' == $chrs[$c]) && (SERVICES_JSON_IN_ARR == $top['what'])) {
                             // found a right-bracket, and we're in an array
                             array_pop($stk);
-                            // print("Found end of array at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                        // print("Found end of array at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         } elseif (('{' == $chrs[$c])
                                  && in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a left-brace, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_OBJ, 'where' => $c, 'delim' => false]);
-                            // print("Found start of object at {$c}\n");
+                        // print("Found start of object at {$c}\n");
                         } elseif (('}' == $chrs[$c]) && (SERVICES_JSON_IN_OBJ == $top['what'])) {
                             // found a right-brace, and we're in an object
                             array_pop($stk);
-                            // print("Found end of object at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
+                        // print("Found end of object at {$c}: ".substr($chrs, $top['where'], (1 + $c - $top['where']))."\n");
                         } elseif (('/*' == $substr_chrs_c_2)
                                  && in_array($top['what'], [SERVICES_JSON_SLICE, SERVICES_JSON_IN_ARR, SERVICES_JSON_IN_OBJ])) {
                             // found a comment start, and we are in an array, object, or slice
                             array_push($stk, ['what' => SERVICES_JSON_IN_CMT, 'where' => $c, 'delim' => false]);
                             ++$c;
-                            // print("Found start of comment at {$c}\n");
+                        // print("Found start of comment at {$c}\n");
                         } elseif (('*/' == $substr_chrs_c_2) && (SERVICES_JSON_IN_CMT == $top['what'])) {
                             // found a comment end, and we're in one now
                             array_pop($stk);
