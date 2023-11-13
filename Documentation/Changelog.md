@@ -1,6 +1,14 @@
 Changelog
 =========
 
+11.0.8
+-----
+
+- fix image renderlet
+- fix rn_base requirement
+- coding style fixes
+- changed extension naming
+
 11.0.7
 -----
 
