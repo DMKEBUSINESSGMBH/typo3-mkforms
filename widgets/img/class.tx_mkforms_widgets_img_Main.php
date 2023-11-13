@@ -164,10 +164,12 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             $sLabel = $this->getLabel();
 
             if (false === $sTag) {
+                $sWidth = '';
                 if (isset($aHtmlBag['filesize.']['width'])) {
                     $sWidth = ' width="'.$aHtmlBag['filesize.']['width'].'" ';
                 }
 
+                $sHeight = '';
                 if (isset($aHtmlBag['filesize.']['height'])) {
                     $sHeight = ' height="'.$aHtmlBag['filesize.']['height'].'" ';
                 }
@@ -239,7 +241,7 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
         }
 
         if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sPath, 'EXT:')) {
-            $sPath = $this->oForm->_removeStartingSlash(
+            $sPath = tx_mkforms_util_Div::removeStartingSlash(
                 tx_mkforms_util_Div::toRelPath(
                     \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath)
                 )

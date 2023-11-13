@@ -552,7 +552,7 @@ ERRORMESSAGE;
 
     public static function removeStartingSlash($sPath)
     {
-        return ('/' === $sPath[0]) ? substr($sPath, 1) : $sPath;
+        return ltrim($sPath, '/');
     }
 
     public static function removeEndingSlash($sPath)
