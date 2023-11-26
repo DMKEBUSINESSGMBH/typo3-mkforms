@@ -1,0 +1,59 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+  parallel:
+      # Don't be overly greedy on machines with more CPU's to be a good neighbor especially on CI
+      maximumNumberOfProcesses: 5
+
+  level: 0
+
+  bootstrapFiles:
+    - .Build/vendor/autoload.php
+
+  paths:
+    - Classes
+    - Configuration
+    - action
+    - api
+    - dh
+    - ds
+    - exception
+    - forms
+    - js
+    - remote
+    - renderer
+    - session
+    - tests
+    - util
+    - validator
+    - view
+    - widgets
+
+  scanDirectories:
+    - Classes
+    - Configuration
+    - action
+    - api
+    - dh
+    - ds
+    - exception
+    - forms
+    - js
+    - remote
+    - renderer
+    - session
+    - tests
+    - util
+    - validator
+    - view
+    - widgets
+
+  # These files create errors for PHPStan. We need to fix those before we can include them.
+  excludePaths:
+    - Classes/Frontend/FormBase.php
+    - action/class.tx_mkforms_action_FormBase.php
+    - ds/contentrepository/class.tx_mkforms_ds_contentrepository_Main.php
+    - widgets/mediaupload/class.tx_mkforms_widgets_mediaupload_Main.php
+    - widgets/progressbar/class.tx_mkforms_widgets_progressbar_Main.php
+    - widgets/swfupload/class.tx_mkforms_widgets_swfupload_Main.php
