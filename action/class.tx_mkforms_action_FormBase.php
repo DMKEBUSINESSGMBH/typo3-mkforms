@@ -70,7 +70,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
     protected $errors = [];
 
     /**
-     * @var \Sys25\RnBase\Frontend\Request\RequestInterface
+     * @var Sys25\RnBase\Frontend\Request\RequestInterface
      */
     protected $request;
 
@@ -120,7 +120,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
     /**
      * Gibt den Pfad zum XML zurück.
      *
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return string
@@ -133,7 +133,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
     /**
      * Wir prüfen die Konfiguration.
      *
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return array

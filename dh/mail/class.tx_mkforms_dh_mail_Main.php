@@ -123,7 +123,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
      *
      * @param array $record
      *
-     * @return \Sys25\RnBase\Domain\Model\BaseModel
+     * @return Sys25\RnBase\Domain\Model\BaseModel
      */
     private function getDataModel(array $record)
     {
@@ -293,7 +293,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     /**
      * Sends a mail via mkmailer.
      *
-     * @param \Sys25\RnBase\Domain\Model\DataInterface $model
+     * @param Sys25\RnBase\Domain\Model\DataInterface $model
      */
     protected function sendMkmailer(
         Sys25\RnBase\Domain\Model\DataInterface $model
@@ -365,7 +365,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
      * Parses the content of the mail.
      *
      * @param object                               $content With setter for subject contenttext, contenthtml
-     * @param \Sys25\RnBase\Domain\Model\DataInterface $model
+     * @param Sys25\RnBase\Domain\Model\DataInterface $model
      */
     protected function parseMail(
         $content,
@@ -398,7 +398,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
      * Parses the data into the content.
      *
      * @param string                               $content
-     * @param \Sys25\RnBase\Domain\Model\DataInterface $model
+     * @param Sys25\RnBase\Domain\Model\DataInterface $model
      * @param string                               $fieldId
      *
      * @return string

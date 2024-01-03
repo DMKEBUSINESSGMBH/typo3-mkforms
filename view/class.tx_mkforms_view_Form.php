@@ -30,7 +30,7 @@
 class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
 {
     /**
-     * @var \Sys25\RnBase\Frontend\Request\RequestInterface
+     * @var Sys25\RnBase\Frontend\Request\RequestInterface
      */
     protected $request;
 
@@ -46,7 +46,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
      *
      * @param string                     $template
      * @param RequestInterface           $configurations
-     * @param \tx_rnbase_util_FormatUtil $formatter
+     * @param tx_rnbase_util_FormatUtil $formatter
      *
      * @return mixed Ready rendered output or HTTP redirect
      */
@@ -157,7 +157,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
      * @param array                     $markerArray
      * @param array                     $subpartArray
      * @param array                     $wrappedSubpartArray
-     * @param \Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
+     * @param Sys25\RnBase\Frontend\Marker\FormatUtil $formatter
      * @param string                    $template
      *
      * @return string
@@ -204,7 +204,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
      * in einem eigenen View überschrieben werden.
      *
      * @param ArrayObject              $viewData
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Sys25\RnBase\Configuration\Processor $configurations
      */
     protected function handleRedirect()
     {
@@ -233,7 +233,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
      * Erzeugt den Link für den Redirect. Kind-Klassen haben die Möglchkeit diese Methode zu überschreiben.
      *
      * @param ArrayObject              $viewData
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      */
     // @codingStandardsIgnoreStart (interface/abstract mistake)

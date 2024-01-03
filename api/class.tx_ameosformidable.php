@@ -277,7 +277,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     /**
      * Return the typoscript configurations object.
      *
-     * @return \Sys25\RnBase\Configuration\Processor
+     * @return Sys25\RnBase\Configuration\Processor
      */
     public function getConfigurations()
     {
@@ -309,7 +309,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
     /**
      * Set TS-Configuration. This is either the given instance or a new instance based on config.tx_mkforms.
      *
-     * @param \Sys25\RnBase\Configuration\Processor $config
+     * @param Sys25\RnBase\Configuration\Processor $config
      * @param string                   $confid
      */
     public function setConfigurations($config, $confid)
@@ -363,7 +363,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
      * @param                          object          Parent extension using FORMidable
      * @param                          mixed           Absolute path to the XML configuration file
      * @param int                      $iForcedEntryId :
-     * @param \Sys25\RnBase\Configuration\Processor $configurations TS-Configuration
+     * @param Sys25\RnBase\Configuration\Processor $configurations TS-Configuration
      * @param string                   $confid         ;
      */
     public function init(&$oParent, $mXml, $iForcedEntryId = false, $configurations = false, $confid = '')
@@ -1587,7 +1587,7 @@ SANDBOXCLASS;
      * @param object                        $oParent        ref to parent object (usually plugin)
      * @param array                         $aConf          typoscript array
      * @param int|bool                      $iForcedEntryId UID to edit (if any)
-     * @param \Sys25\RnBase\Configuration\Processor|bool $configurations
+     * @param Sys25\RnBase\Configuration\Processor|bool $configurations
      * @param string                        $confid
      */
     public function initFromTs($oParent, array $aConf, $iForcedEntryId = false, $configurations = false, $confid = '')

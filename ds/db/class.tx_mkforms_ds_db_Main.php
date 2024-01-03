@@ -8,7 +8,7 @@
 class tx_mkforms_ds_db_Main extends formidable_maindatasource
 {
     /**
-     * @var \Sys25\RnBase\Database\Connection
+     * @var Sys25\RnBase\Database\Connection
      */
     public $oDb = false;
 

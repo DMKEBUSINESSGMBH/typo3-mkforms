@@ -157,9 +157,9 @@ class tx_mkforms_util_FormBase
      * Liefert das Konfigurations-Objekt.
      *
      * @param tx_ameosformidable       $form
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Sys25\RnBase\Configuration\Processor $configurations
      *
-     * @return \Sys25\RnBase\Configuration\Processor
+     * @return Sys25\RnBase\Configuration\Processor
      */
     protected static function getConfigurations(tx_ameosformidable $form, Sys25\RnBase\Configuration\Processor $configurations = null)
     {
@@ -192,7 +192,7 @@ class tx_mkforms_util_FormBase
     }
 
     /**
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return string
@@ -210,7 +210,7 @@ class tx_mkforms_util_FormBase
      *
      * @param array                    $data
      * @param tx_ameosformidable       $form
-     * @param \Sys25\RnBase\Configuration\Processor $configurations
+     * @param Sys25\RnBase\Configuration\Processor $configurations
      * @param string                   $confId
      *
      * @return array

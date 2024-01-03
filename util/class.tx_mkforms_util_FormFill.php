@@ -42,7 +42,7 @@ class tx_mkforms_util_FormFill
      * * 'dependsOn':       Optional:   Array of options for dependent fields: array('formfieldname' => form fields which's value is used, 'dbfield' => dedicated database field, 'dbtable'(optional) => real name of the table of the dedicated database field (needed for complex searches with JOINs; otherwise $params['table'] is used.)). Note that either used table needs to be defined in $TCA!
      * * 'debug':           Optional:   Flag whether SQL query is executed in debug mode
      *
-     * @see \Sys25\RnBase\Database\Connection::getInstance()->doSelect
+     * @see Sys25\RnBase\Database\Connection::getInstance()->doSelect
      *
      * Complete example:
      *  <params>

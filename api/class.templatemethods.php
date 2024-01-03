@@ -5,7 +5,7 @@ class formidable_templatemethods extends formidable_mainscriptingmethods
     private static $cache;
 
     /**
-     * @return \Sys25\RnBase\Cache\CacheInterface
+     * @return Sys25\RnBase\Cache\CacheInterface
      */
     private function getCache()
     {

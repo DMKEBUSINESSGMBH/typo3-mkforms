@@ -424,7 +424,7 @@ class FormBase extends AbstractAction
     /**
      * Returns configurations instance for current request.
      *
-     * @return \Sys25\RnBase\Configuration\ConfigurationInterface
+     * @return ConfigurationInterface
      */
     protected function getConfigurations()
     {

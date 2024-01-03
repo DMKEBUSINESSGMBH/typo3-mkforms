@@ -180,7 +180,7 @@ class tx_mkforms_util_Loader
      *
      * @return object instance of the class or false if it fails
      *
-     * @see         \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance
+     * @see         TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance
      * @see         load()
      */
     public function makeInstance($sClass, $sPath = false)

@@ -39,7 +39,7 @@ class FormView extends BaseView
     /**
      * {@inheritdoc}
      *
-     * @see \Sys25\RnBase\Frontend\View\Marker\BaseView::createOutput()
+     * @see BaseView::createOutput()
      *
      * @codingStandardsIgnoreStart (interface/abstract mistake)
      */

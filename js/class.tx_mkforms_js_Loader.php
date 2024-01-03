@@ -144,7 +144,7 @@ class tx_mkforms_js_Loader
      */
     public function addCodeBehind($ref, $sFilePath)
     {
-        $serverPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($sFilePath);
+        $serverPath = GeneralUtility::getFileAbsFileName($sFilePath);
         $path = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
         $this->aCodeBehindJsIncludes[$ref] = '<script src="'.
             $this->getForm()->getJSLoader()->getScriptPath($path).'"></script>';
@@ -504,7 +504,7 @@ JAVASCRIPT;
         if (!$this->jsWrapper) {
             $wrapperClass = $this->getForm()->getConfTS('jslib');
             $wrapperClass = $wrapperClass ? $wrapperClass : 'tx_mkforms_js_DefaultFramework';
-            $this->jsWrapper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            $this->jsWrapper = GeneralUtility::makeInstance(
                 $wrapperClass,
                 $this->getForm()->getConfigurations(),
                 $this->getForm()->getConfId().'jsframework.'
@@ -599,7 +599,7 @@ JAVASCRIPT;
         if ($sKey && !array_key_exists($sKey, $this->headerKeys)) {
             $this->headerKeys[$sKey] = 1;
         }
-        if (\Sys25\RnBase\Utility\Environment::isFrontend()) {
+        if (Environment::isFrontend()) {
             if ($this->mayUseStandardHeaderInjection()) {
                 $aHeaders = &$GLOBALS['TSFE']->additionalHeaderData;
             } else {

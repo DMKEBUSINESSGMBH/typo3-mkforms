@@ -32,7 +32,7 @@
 class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     * @var TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected $_objectManager;
     /**
@@ -46,7 +46,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     /**
      * erzeugt den object manager, um die helper zu instanzieren.
      *
-     * @return \TYPO3\CMS\Extbase\Object\ObjectManager
+     * @return TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected function getObjectManager()
     {
@@ -91,7 +91,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     /**
      * creates the view helper.
      *
-     * @return \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+     * @return TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     protected function getViewHelper()
     {

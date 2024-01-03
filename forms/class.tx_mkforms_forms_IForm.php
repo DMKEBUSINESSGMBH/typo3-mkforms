@@ -31,7 +31,7 @@ interface tx_mkforms_forms_IForm
      * @param                          object          Parent extension using FORMidable
      * @param                          mixed           Absolute path to the XML configuration file
      * @param int                      $iForcedEntryId :
-     * @param \Sys25\RnBase\Configuration\Processor $configurations TS-Configuration
+     * @param Sys25\RnBase\Configuration\Processor $configurations TS-Configuration
      * @param string                   $confid         ;
      */
     public function init(&$oParent, $mXml, $iForcedEntryId = false, $configurations = false, $confid = '');
@@ -41,7 +41,7 @@ interface tx_mkforms_forms_IForm
     /**
      * Return the typoscript configurations object.
      *
-     * @return \Sys25\RnBase\Configuration\Processor
+     * @return Sys25\RnBase\Configuration\Processor
      */
     public function getConfigurations();
 
