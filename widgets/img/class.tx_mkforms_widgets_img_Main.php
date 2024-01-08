@@ -46,8 +46,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
 
                 $aInfosPath = parse_url($sAbsWebPath);
 
-                $aInfosFile = \Sys25\RnBase\Utility\T3General::split_fileref($sAbsWebPath);
-                if (strtolower($aInfosPath['host']) !== strtolower(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_HOST_ONLY'))) {
+                $aInfosFile = Sys25\RnBase\Utility\T3General::split_fileref($sAbsWebPath);
+                if (strtolower($aInfosPath['host']) !== strtolower(Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_HOST_ONLY'))) {
                     if (true === $bReprocess) {
                         // we have to make a local copy of the image to enable TS processing
                         $aHeaders = $this->oForm->div_getHeadersForUrl($sAbsWebPath);
@@ -69,12 +69,12 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                     }
 
                     $sTempFileName = $aInfosFile['filebody'].$aInfosFile['fileext'].'-'.$sSignature.'.'.$aInfosFile['fileext'];
-                    $sTempFilePath = \Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/assets/'.$sTempFileName;
+                    $sTempFilePath = Sys25\RnBase\Utility\Environment::getPublicPath().'typo3temp/assets/'.$sTempFileName;
 
                     if (!file_exists($sTempFilePath)) {
-                        \Sys25\RnBase\Utility\T3General::writeFileToTypo3tempDir(
+                        Sys25\RnBase\Utility\T3General::writeFileToTypo3tempDir(
                             $sTempFilePath,
-                            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sAbsWebPath)
+                            TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sAbsWebPath)
                         );
                     }
 
@@ -84,13 +84,13 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
                 } else {
                     // it's an local image given as an absolute web url
                     // trying to convert pathes to handle the image as a local one
-                    if (\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_DIR') == substr($sAbsWebPath, 0, strlen(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_DIR')))) {
-                        $sTrimmedWebPath = substr($sAbsWebPath, strlen(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_DIR')));
+                    if (Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_DIR') == substr($sAbsWebPath, 0, strlen(Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_DIR')))) {
+                        $sTrimmedWebPath = substr($sAbsWebPath, strlen(Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_DIR')));
                     } else {
                         $sTrimmedWebPath = $aInfosPath['path'];
                     }
 
-                    $sAbsServerPath = \Sys25\RnBase\Utility\Environment::getPublicPath().tx_mkforms_util_Div::removeStartingSlash($sTrimmedWebPath);
+                    $sAbsServerPath = Sys25\RnBase\Utility\Environment::getPublicPath().tx_mkforms_util_Div::removeStartingSlash($sTrimmedWebPath);
                     $sRelWebPath = tx_mkforms_util_Div::removeStartingSlash($sTrimmedWebPath);
                 }
 
@@ -196,8 +196,8 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             return $sPath;
         } else {
             // FAL-Referenz?
-            if (\Sys25\RnBase\Utility\Math::isInteger($sPath) && $this->defaultFalse('/treatidasreference')) {
-                $reference = \Sys25\RnBase\Utility\TSFAL::getFileReferenceById($sPath);
+            if (Sys25\RnBase\Utility\Math::isInteger($sPath) && $this->defaultFalse('/treatidasreference')) {
+                $reference = Sys25\RnBase\Utility\TSFAL::getFileReferenceById($sPath);
                 $sPath = $reference->getForLocalProcessing(false);
             } elseif (false !== ($mFolder = $this->_navConf('/folder'))) {
                 if ($this->oForm->isRunneable($mFolder)) {
@@ -240,10 +240,10 @@ class tx_mkforms_widgets_img_Main extends formidable_mainrenderlet
             $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
         }
 
-        if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sPath, 'EXT:')) {
+        if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sPath, 'EXT:')) {
             $sPath = tx_mkforms_util_Div::removeStartingSlash(
                 tx_mkforms_util_Div::toRelPath(
-                    \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath)
+                    Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath)
                 )
             );
         }

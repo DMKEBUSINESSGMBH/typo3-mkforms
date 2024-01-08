@@ -6,9 +6,9 @@
  * @author  René Nitzsche <rene@system25.de>
  * @author  Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
-    require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dam', 'lib/class.tx_dam.php');
-    require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dam', 'lib/class.tx_dam_db.php');
+if (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
+    require_once TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dam', 'lib/class.tx_dam.php');
+    require_once TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dam', 'lib/class.tx_dam_db.php');
 } else {
 }
 
@@ -153,7 +153,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             // wir müssen die renderlets noch refreshen damit der Lister neue Daten bekommt
             // es gibt keine anderen weg als das formular neu zu rendern
             if (isset($options['renderedRenderlets'])) {
-                $options['renderedRenderlets'] = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $options['renderedRenderlets'] = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $this->getForm()->_renderElements(),
                     $this->getForm()->aPreRendered
                 );
@@ -179,7 +179,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey('ses', 'mkforms');
         $sessionIdForCurrentWidget = $this->getSessionIdForCurrentWidget();
         if ($uploadedFileIdsFromSession = $sessionData[$sessionIdForCurrentWidget.'_fileIds']) {
-            $uploadedFileIds = \Sys25\RnBase\Utility\Strings::trimExplode(',', $uploadedFileIdsFromSession);
+            $uploadedFileIds = Sys25\RnBase\Utility\Strings::trimExplode(',', $uploadedFileIdsFromSession);
         }
 
         if ($valid && (is_array($aData) && 0 == $aData['error'])) {
@@ -221,7 +221,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         if ((empty($mediaFiles) || empty($mediaFiles['files']))
             && !empty($uploadedFileIds)
         ) {
-            $mediaFiles = \Sys25\RnBase\Utility\TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
+            $mediaFiles = Sys25\RnBase\Utility\TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
 
             foreach ($mediaFiles as $uid => $mediaInfo) {
                 // wird benötigt um in handleCreation die Referenzen anlegen zu können
@@ -273,7 +273,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
     {
         $ret = [];
         if (false !== ($sTargetFile = $this->getTargetFile())) {
-            $ret['sTargetDir'] = \Sys25\RnBase\Utility\T3General::dirname($sTargetFile);
+            $ret['sTargetDir'] = Sys25\RnBase\Utility\T3General::dirname($sTargetFile);
             $ret['sName'] = basename($sTargetFile);
             $ret['sTarget'] = $sTargetFile;
         } else {
@@ -343,10 +343,10 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
             $storageId = (int) $this->getForm()->getRunnable()->callRunnableWidget($this, $storageId);
         }
         if (!is_numeric($storageId)) {
-            throw new \InvalidArgumentException('No uid for Storage given (/data/storage/).');
+            throw new InvalidArgumentException('No uid for Storage given (/data/storage/).');
         }
 
-        $fileObject = \Sys25\RnBase\Utility\TSFAL::indexProcess($sTarget, $storageId);
+        $fileObject = Sys25\RnBase\Utility\TSFAL::indexProcess($sTarget, $storageId);
         $mediaUid = $fileObject->getUid();
 
         // save mediauid
@@ -466,12 +466,12 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function getTargetDir()
     {
-        $oFileTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
+        $oFileTool = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
         if ($this->oForm->isRunneable($sTargetDir = $this->_navConf('/data/targetdir/'))) {
             $sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
         }
 
-        return \Sys25\RnBase\Utility\T3General::fixWindowsFilePath(
+        return Sys25\RnBase\Utility\T3General::fixWindowsFilePath(
             $oFileTool->slashPath($sTargetDir)
         );
     }
@@ -584,13 +584,13 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
      */
     public function deleteFile($file, $mediaUid)
     {
-        $refCount = \Sys25\RnBase\Utility\TSFAL::getReferencesCount($mediaUid);
+        $refCount = Sys25\RnBase\Utility\TSFAL::getReferencesCount($mediaUid);
         $tableName = 'sys_file';
 
         // wir löschen die Datei nur wenn keine Refrenzen mehr vorhanden sind
         if (0 === $refCount) {
             @unlink($this->getFullServerPath($file));
-            \Sys25\RnBase\Database\Connection::getInstance()->doDelete($tableName, 'uid = '.$mediaUid);
+            Sys25\RnBase\Database\Connection::getInstance()->doDelete($tableName, 'uid = '.$mediaUid);
         }
     }
 
@@ -607,9 +607,9 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $fieldName = $this->getRefField();
         $itemId = $this->getEntryId();
 
-        \Sys25\RnBase\Utility\TSFAL::addReference($tableName, $fieldName, $itemId, $mediaUid);
+        Sys25\RnBase\Utility\TSFAL::addReference($tableName, $fieldName, $itemId, $mediaUid);
 
-        return \Sys25\RnBase\Utility\TSFAL::getImageCount($tableName, $fieldName, $itemId);
+        return Sys25\RnBase\Utility\TSFAL::getImageCount($tableName, $fieldName, $itemId);
     }
 
     /**
@@ -622,7 +622,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $tableName = trim($this->getRefTable());
         $fieldName = $this->getRefField();
         $itemId = $this->getEntryId();
-        \Sys25\RnBase\Utility\TSFAL::deleteReferences($tableName, $fieldName, $itemId);
+        Sys25\RnBase\Utility\TSFAL::deleteReferences($tableName, $fieldName, $itemId);
     }
 
     /**
@@ -639,7 +639,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
         $tableName = trim($this->getRefTable());
         $fieldName = $this->getRefField();
 
-        return \Sys25\RnBase\Utility\TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
+        return Sys25\RnBase\Utility\TSFAL::getReferencesFileInfo($tableName, $this->getEntryId(), $fieldName);
     }
 
     /**
@@ -662,7 +662,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
                 $this->getForm()->mayday('NO BE User id given!');
             }
             unset($BE_USER);
-            $BE_USER = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getFrontendBackendUserAuthenticationClass());
+            $BE_USER = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getFrontendBackendUserAuthenticationClass());
             $BE_USER->setBeUserByUid($beUserId);
             $BE_USER->fetchGroupData();
             $BE_USER->backendSetUC();
@@ -673,7 +673,7 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         if (!$GLOBALS['LANG']) {
             // Bei Ajax-Calls fehlt das Objekt
-            $GLOBALS['LANG'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
+            $GLOBALS['LANG'] = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
             $GLOBALS['LANG']->init($BE_USER->uc['lang']);
         }
     }
@@ -690,8 +690,8 @@ class tx_mkforms_widgets_mediaupload_Main extends formidable_mainrenderlet
 
         $oJsLoader = $this->getForm()->getJSLoader();
         // JS-Lib ermitteln
-        $sFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+        $sFile = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
                 'EXT:mkforms/Resources/Public/JavaScript/widgets/mediaupload/ajaxfileupload.js'
             )
         );

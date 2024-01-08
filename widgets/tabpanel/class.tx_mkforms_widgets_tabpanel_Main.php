@@ -64,7 +64,7 @@ class tx_mkforms_widgets_tabpanel_Main extends formidable_mainrenderlet
         $hideIfChildsBagCount = [];
         if (false !== $this->_navConf('hideifchildsbagcount')) {
             $hideIfChildsBagCount = $this->_navConf('hideifchildsbagcount');
-            $hideIfChildsBagCount = \Sys25\RnBase\Utility\Strings::trimExplode(',', $hideIfChildsBagCount);
+            $hideIfChildsBagCount = Sys25\RnBase\Utility\Strings::trimExplode(',', $hideIfChildsBagCount);
             $hideIfChildsBagCount = array_flip($hideIfChildsBagCount);
         }
 

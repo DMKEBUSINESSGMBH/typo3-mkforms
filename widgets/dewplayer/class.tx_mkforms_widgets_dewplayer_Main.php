@@ -19,8 +19,8 @@ class tx_mkforms_widgets_dewplayer_Main extends formidable_mainrenderlet
         $bAutoReplay = $this->oForm->_defaultFalse('/autoreplay', $this->aElement);
         $sBgColor = (false !== ($sTempColor = $this->_navConf('/bgcolor'))) ? $sTempColor : 'FFFFFF';
 
-        $sMoviePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Flash/dewplayer.swf')
+        $sMoviePath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Flash/dewplayer.swf')
         );
 
         $sColor = str_replace('#', '', $sBgColor);
@@ -85,12 +85,12 @@ FLASHOBJECT;
                 $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
             }
 
-            if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sPath, 'EXT:')) {
-                $sPath = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').
+            if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sPath, 'EXT:')) {
+                $sPath = Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').
                     str_replace(
-                        \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
+                        Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
                         '',
-                        \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath)
+                        Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath)
                     );
             }
         }

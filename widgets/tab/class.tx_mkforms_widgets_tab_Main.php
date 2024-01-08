@@ -17,7 +17,7 @@ class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
         }
 
         $sBegin = '<li id="'.$this->_getElementHtmlId().'" '.$this->_getAddInputParams().'>';
-        $sBegin .= '<a class="rdttab" href="'.\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI').'#'.$this->oForm->aORenderlets[$sContentAbsName]->_getElementHtmlId().'">';
+        $sBegin .= '<a class="rdttab" href="'.TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI').'#'.$this->oForm->aORenderlets[$sContentAbsName]->_getElementHtmlId().'">';
 
         $sEnd = '</a>';
         $sEnd .= '</li>';

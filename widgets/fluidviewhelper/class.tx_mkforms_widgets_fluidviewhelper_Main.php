@@ -51,7 +51,7 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
     protected function getObjectManager()
     {
         if (null === $this->_objectManager) {
-            $this->_objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            $this->_objectManager = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
                 'TYPO3\\CMS\\Extbase\\Object\\ObjectManager'
             );
         }
@@ -70,16 +70,16 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
             $helperClass = $this->_navConf('/viewhelper');
             try {
                 $viewHelper = $this->getObjectManager()->get($helperClass);
-            } catch (\TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
+            } catch (TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
                 // try to add the fluid base namespace
                 try {
                     $viewHelper = $this->getObjectManager()->get(
                         '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\'.ucfirst($helperClass).'ViewHelper'
                     );
-                } catch (\TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
+                } catch (TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
                 }
             }
-            if (!$viewHelper instanceof \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper) {
+            if (!$viewHelper instanceof TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper) {
                 throw new Exception('Could not find ViewHelperClass: '.$helperClass);
             }
             $this->_viewHelperClass = get_class($viewHelper);

@@ -93,7 +93,7 @@ class tx_mkforms_util_Json
     public static function getInstance()
     {
         if (!self::$instance) {
-            self::$instance = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
+            self::$instance = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_Json', SERVICES_JSON_LOOSE_TYPE);
         }
 
         return self::$instance;
@@ -235,7 +235,7 @@ class tx_mkforms_util_Json
                 // STRINGS ARE EXPECTED TO BE IN ASCII OR UTF-8 FORMAT
                 // $ascii = addslashes(utf8_encode($var));
 
-                if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($var, 'function(')) {
+                if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr($var, 'function(')) {
                     return $var;
                 }
 

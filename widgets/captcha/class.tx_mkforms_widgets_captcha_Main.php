@@ -47,8 +47,8 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
     {
         $this->_MakeCaptchaConfig();
 
-        $_SESSION['cryptdir'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Captcha/')
+        $_SESSION['cryptdir'] = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Captcha/')
         );
         $iSID = session_id();
 
@@ -109,12 +109,12 @@ class tx_mkforms_widgets_captcha_Main extends formidable_mainrenderlet
                 $sPath = $this->getForm()->getRunnable()->callRunnableWidget($this, $sPath);
             }
 
-            if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sPath, 'EXT:')) {
-                $sPath = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').
+            if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sPath, 'EXT:')) {
+                $sPath = Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL').
                     str_replace(
-                        \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
+                        Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT'),
                         '',
-                        \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath)
+                        Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath)
                     );
             }
         }

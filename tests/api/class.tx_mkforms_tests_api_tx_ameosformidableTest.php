@@ -34,12 +34,12 @@
  *
  * @author hbochmann
  */
-class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_api_tx_ameosformidableTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     protected function setUp(): void
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
-        \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
+        DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', []);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -154,7 +154,7 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
     {
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+            Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 $typoScriptConfiguration
             )
@@ -222,12 +222,12 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
     {
         $form = tx_mkforms_tests_Util::getForm(
             true,
-            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+            Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 $typoScriptConfiguration
             )
         );
-        $contentObjectRendererClass = \Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
+        $contentObjectRendererClass = Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
         $form->getConfigurations()->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER);
         self::assertFalse($form->isCsrfProtectionActive());
     }
@@ -237,6 +237,6 @@ class tx_mkforms_tests_api_tx_ameosformidableTest extends \Sys25\RnBase\Testing\
      */
     public function testGetFormActionWhenActionIsTransparent()
     {
-        self::assertEquals(\Sys25\RnBase\Utility\T3General::getIndpEnv('REQUEST_URI'), tx_mkforms_tests_Util::getForm()->getFormAction());
+        self::assertEquals(Sys25\RnBase\Utility\T3General::getIndpEnv('REQUEST_URI'), tx_mkforms_tests_Util::getForm()->getFormAction());
     }
 }

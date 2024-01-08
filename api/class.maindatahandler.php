@@ -125,7 +125,7 @@ class formidable_maindatahandler extends formidable_mainobject
      */
     public function _GP()
     {
-        return \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+        return Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $this->_G(),
             $this->_P()
         );
@@ -142,7 +142,7 @@ class formidable_maindatahandler extends formidable_mainobject
      */
     public function _PG()
     {
-        return \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+        return Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $this->_P(),
             $this->_G()
         );
@@ -504,13 +504,13 @@ class formidable_maindatahandler extends formidable_mainobject
         if ($this->_isSubmitted() && !$this->_isClearSubmitted()) {
             $form_id = $this->getForm()->formid;
 
-            $aPost = \Sys25\RnBase\Utility\T3General::_POST();
+            $aPost = Sys25\RnBase\Utility\T3General::_POST();
 
             $aPost = is_array($aPost[$form_id] ?? null) ? $aPost[$form_id] : [];
             $aFiles = is_array($GLOBALS['_FILES'][$form_id] ?? null) ? $GLOBALS['_FILES'][$form_id] : [];
-            $aP = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
+            $aP = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aPost, $aFiles);
 
-            \Sys25\RnBase\Utility\T3General::stripSlashesOnArray($aP);
+            Sys25\RnBase\Utility\T3General::stripSlashesOnArray($aP);
 
             if (array_key_exists('AMEOSFORMIDABLE_ENTRYID', $aP) && '' !== trim($aP['AMEOSFORMIDABLE_ENTRYID'])) {
                 return (int) $aP['AMEOSFORMIDABLE_ENTRYID'];
@@ -630,7 +630,7 @@ class formidable_maindatahandler extends formidable_mainobject
         if (false !== ($sTableName = $this->tableName())) {
             $aRecords = [];
 
-            $rows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
+            $rows = Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                 '*',
                 $sTableName,
                 ['where' => "l18n_parent='".$iParentUid."'"]
@@ -660,7 +660,7 @@ class formidable_maindatahandler extends formidable_mainobject
         if (false === $this->aT3Languages) {
             $this->aT3Languages = [];
 
-            $databaseConnection = \Sys25\RnBase\Database\Connection::getInstance();
+            $databaseConnection = Sys25\RnBase\Database\Connection::getInstance();
             $rows = $databaseConnection->doSelect(
                 '*',
                 'sys_language',
@@ -962,7 +962,7 @@ class formidable_maindatahandler extends formidable_mainobject
                     $oDataSet = $this->getForm()->getWidget($sAbsName)->dbridged_getCurrentDsetObject();
 
                     // sure that dataset is anchored, as we already tested it to be in noSubmit_edit
-                    $aData = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(// allowing GET to set values
+                    $aData = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(// allowing GET to set values
                         $oDataSet->getData(),
                         $this->_G()
                     );
@@ -988,7 +988,7 @@ class formidable_maindatahandler extends formidable_mainobject
                     $aStored = $this->_getStoredData();
 
                     if (is_array($aStored)) {
-                        $aData = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(// allowing GET to set values
+                        $aData = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(// allowing GET to set values
                             $aStored,
                             $this->_G()
                         );

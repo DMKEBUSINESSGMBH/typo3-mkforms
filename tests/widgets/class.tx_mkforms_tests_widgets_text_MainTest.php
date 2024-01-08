@@ -29,7 +29,7 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkforms_tests_widgets_text_MainTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_widgets_text_MainTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @group unit

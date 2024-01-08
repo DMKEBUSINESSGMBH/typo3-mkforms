@@ -78,7 +78,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         $result = [];
         $foo = preg_split('/[\s]*,[\s]*/', $param, -1, PREG_SPLIT_NO_EMPTY);
         foreach ($foo as $f) {
-            $bar = \Sys25\RnBase\Utility\Strings::trimExplode('|', $f);
+            $bar = Sys25\RnBase\Utility\Strings::trimExplode('|', $f);
             // Return suboptions as array, but remain scalar value if no suboption was identified
             $result[] = ($forceSubOptionArray || count($bar) > 1) ? $bar : $bar[0];
         }
@@ -471,7 +471,7 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
     {
         // Der Validator wird nur ausgeführt, wenn das Flag-Widget einen Wert hat.
         if (empty($params['dependsonflag'])) {
-            throw \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mklib_exception_InvalidConfiguration', __METHOD__.': Der Parameter $params[\'dependsonflag\'] wurde nicht gesetzt!');
+            throw TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mklib_exception_InvalidConfiguration', __METHOD__.': Der Parameter $params[\'dependsonflag\'] wurde nicht gesetzt!');
         }
 
         return $form->getWidget($params['dependsonflag']);

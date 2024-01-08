@@ -62,7 +62,7 @@ class tx_mkforms_widgets_accordion_Main extends formidable_mainrenderlet
 
         if (false !== ($sEvent = $this->_navConf('/event'))) {
             $sEvent = strtolower(trim($sEvent));
-            if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sEvent, 'on')) {
+            if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sEvent, 'on')) {
                 $sEvent = substr($sEvent, 2);
             }
 

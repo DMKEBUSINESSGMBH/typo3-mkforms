@@ -25,7 +25,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            if ('u' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'unique')) {
+            if ('u' === $sKey[0] && Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'unique')) {
                 // field value has to be unique in the database
                 // checking this
 
@@ -44,7 +44,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
             *
             ***********************************************************************/
 
-            elseif ('d' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'differsfromdb')) {
+            elseif ('d' === $sKey[0] && Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'differsfromdb')) {
                 // field value has to differ from the one in the database
                 // checking this
 
@@ -90,15 +90,15 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
         $value = addslashes($value);
 
         $where = [];
-        $where[] = $sField.' = '.\Sys25\RnBase\Database\Connection::getInstance()->fullQuoteStr($value, '');
+        $where[] = $sField.' = '.Sys25\RnBase\Database\Connection::getInstance()->fullQuoteStr($value, '');
 
         if (true === $this->_defaultFalse('/unique/deleted/')) {
-            $field = \Sys25\RnBase\Backend\Utility\TCA::getDeletedFieldForTable($sTable);
+            $field = Sys25\RnBase\Backend\Utility\TCA::getDeletedFieldForTable($sTable);
             $field = empty($field) ? 'deleted' : $field;
             $where[] = $field.' != 1';
         }
         if (true === $this->_defaultFalse('/unique/disabled/')) {
-            $field = \Sys25\RnBase\Backend\Utility\TCA::getDisabledFieldForTable($sTable);
+            $field = Sys25\RnBase\Backend\Utility\TCA::getDisabledFieldForTable($sTable);
             $field = empty($field) ? 'hidden' : $field;
             $where[] = $field.' != 1';
         }
@@ -108,7 +108,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
             $where[] = $sKey.' != \''.$datahandler->currentId().'\'';
         }
 
-        $rs = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
+        $rs = Sys25\RnBase\Database\Connection::getInstance()->doSelect(
             'count(*) as nbentries',
             $sTable,
             [
@@ -157,7 +157,7 @@ class tx_mkforms_validator_db_Main extends formidable_mainvalidator
         $value = addslashes($value);
 
         $sWhere = $sField.' = \''.$value.'\' AND '.$sKey." = '".$this->oForm->oDataHandler->_currentEntryId()."'".$sDeleted;
-        $rows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
+        $rows = Sys25\RnBase\Database\Connection::getInstance()->doSelect(
             'count(*) as nbentries',
             $sTable,
             ['where' => $sWhere]

@@ -50,8 +50,8 @@ class tx_mkforms_js_DefaultFramework implements tx_mkforms_forms_IJSFramework
             return $ret;
         }
         foreach ($jsCore as $key => $jsPath) {
-            $serverPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($jsPath);
-            $pagePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
+            $serverPath = TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($jsPath);
+            $pagePath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
             $ret[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, $key);
         }
 

@@ -27,7 +27,7 @@
  *
  * @author Michael Wagner <michael.wagner@dmk-ebusiness.de>
  */
-class tx_mkforms_tests_widgets_fluidviewhelperTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_widgets_fluidviewhelperTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @group unit

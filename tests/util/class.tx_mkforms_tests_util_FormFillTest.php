@@ -26,7 +26,7 @@
 /**
  * @author Michael Wagner
  */
-class tx_mkforms_tests_util_FormFillTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_util_FormFillTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @group unit
@@ -64,7 +64,7 @@ class tx_mkforms_tests_util_FormFillTest extends \Sys25\RnBase\Testing\BaseTestC
 
     public function testGetCountries()
     {
-        if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
+        if (!TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
             self::markTestSkipped('Die Extension static_info_tables ist nicht installiert.');
         }
 

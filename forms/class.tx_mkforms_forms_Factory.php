@@ -36,6 +36,6 @@ class tx_mkforms_forms_Factory
      */
     public static function createForm($name)
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_forms_Base', $name);
+        return TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_forms_Base', $name);
     }
 }

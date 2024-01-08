@@ -475,24 +475,24 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         $sEnvMode = tx_mkforms_util_Div::getEnvExecMode();
         if ('BE' === $sEnvMode) {
-            $sBaseUrl = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_URL');
+            $sBaseUrl = Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_URL');
             $aQueryParts = parse_url($sBaseUrl);
             $aParams = [];
             if ($aQueryParts['query']) {
                 parse_str($aQueryParts['query'], $aParams);
             }
         } elseif ('EID' === $sEnvMode) {
-            $sBaseUrl = \Sys25\RnBase\Utility\T3General::getIndpEnv('HTTP_REFERER');
+            $sBaseUrl = Sys25\RnBase\Utility\T3General::getIndpEnv('HTTP_REFERER');
             $aQueryParts = parse_url($sBaseUrl);
             $aParams = [];
             if ($aQueryParts['query']) {
                 parse_str($aQueryParts['query'], $aParams);
             }
         } elseif ('FE' === $sEnvMode) {
-            $aParams = \Sys25\RnBase\Utility\T3General::_GET();
+            $aParams = Sys25\RnBase\Utility\T3General::_GET();
         }
 
-        $aFullParams = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+        $aFullParams = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
             $aParams,
             $aRdtParams
         );
@@ -504,7 +504,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 ],
             ];
 
-            $aRdtParamsExclude = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+            $aRdtParamsExclude = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 $aRdtParamsExclude,
                 $this->oForm->aParamsToRemove
             );
@@ -528,8 +528,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         if (true === $this->oForm->_defaultFalse('/cachehash', $this->aElement)) {
             $aFullParams['cHash'] = md5(
                 serialize(
-                    \Sys25\RnBase\Utility\T3General::cHashParams(
-                        \Sys25\RnBase\Utility\T3General::implodeArrayForUrl('', $aFullParams)
+                    Sys25\RnBase\Utility\T3General::cHashParams(
+                        Sys25\RnBase\Utility\T3General::implodeArrayForUrl('', $aFullParams)
                     )
                 )
             );
@@ -537,7 +537,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
         if ('BE' === $sEnvMode || 'EID' === $sEnvMode) {
             return $this->oForm->xhtmlUrl(
-                \Sys25\RnBase\Utility\T3General::linkThisUrl(
+                Sys25\RnBase\Utility\T3General::linkThisUrl(
                     $sBaseUrl,
                     $aFullParams
                 )
@@ -549,7 +549,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
             return $this->getForm()->getCObj()->typoLink_URL([
                 'parameter' => $GLOBALS['TSFE']->id,
-                'additionalParams' => \Sys25\RnBase\Utility\T3General::implodeArrayForUrl(
+                'additionalParams' => Sys25\RnBase\Utility\T3General::implodeArrayForUrl(
                     '',
                     $aFullParams
                 ),
@@ -652,7 +652,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         if (true !== $this->bNoTemplate) {
             $aAltRows = [];
             $aRowsHtml = [];
-            $sRowsPart = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aTemplate['html'], '###ROWS###');
+            $sRowsPart = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aTemplate['html'], '###ROWS###');
 
             if (true === $aTemplate['default']) {
                 $sAltList = '###ROW1###, ###ROW2###';
@@ -662,9 +662,9 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 $this->oForm->mayday('RENDERLET LISTER <b>'.$this->_getName().'</b> requires /template/alternaterows to be properly set. Please check your XML configuration');
             }
 
-            $aAltList = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sAltList);
+            $aAltList = Sys25\RnBase\Utility\Strings::trimExplode(',', $sAltList);
             foreach ($aAltList as $sAltSubpart) {
-                $aAltRows[] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sRowsPart, $sAltSubpart);
+                $aAltRows[] = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sRowsPart, $sAltSubpart);
             }
 
             $iNbAlt = sizeof($aAltRows);
@@ -745,7 +745,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 }
             }
 
-            $aTemplate['html'] = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
+            $aTemplate['html'] = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
                 $aTemplate['html'],
                 '###ROWS###',
                 implode('', $aRowsHtml),
@@ -838,7 +838,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             foreach ($this->aPager['links'] as $sWhich => $sLink) {
                 if ('' !== $sLink) {
                     $aLinks[$sWhich] = $this->oForm->getTemplateTool()->parseTemplateCode(
-                        \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sPager, '###LINK'.strtoupper($sWhich).'###'),
+                        Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sPager, '###LINK'.strtoupper($sWhich).'###'),
                         [
                             'link' => $sLink,
                             'linkid' => $sHtmlId.'_pagelink_'.strtolower($sWhich),
@@ -851,21 +851,21 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                 }
             }
 
-            $sPager = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKFIRST###', $aLinks['first'], false, false);
-            $sPager = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKPREV###', $aLinks['prev'], false, false);
-            $sPager = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKNEXT###', $aLinks['next'], false, false);
-            $sPager = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKLAST###', $aLinks['last'], false, false);
+            $sPager = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKFIRST###', $aLinks['first'], false, false);
+            $sPager = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKPREV###', $aLinks['prev'], false, false);
+            $sPager = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKNEXT###', $aLinks['next'], false, false);
+            $sPager = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###LINKLAST###', $aLinks['last'], false, false);
 
             // generating window
             $sWindow = '';
             if (!empty($this->aPager['window'])) {
-                $sWindow = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aTemplate['pager'], '###WINDOW###');
-                $sLinkNo = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###NORMAL###');
-                $sLinkAct = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###ACTIVE###');
-                $sMoreBefore = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###MORE_BEFORE###');
-                $sMoreAfter = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###MORE_AFTER###');
+                $sWindow = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aTemplate['pager'], '###WINDOW###');
+                $sLinkNo = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###NORMAL###');
+                $sLinkAct = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###ACTIVE###');
+                $sMoreBefore = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###MORE_BEFORE###');
+                $sMoreAfter = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###MORE_AFTER###');
                 if (true === $this->aPager['alwaysfullwidth']) {
-                    if ('' === trim($sLinkDisabled = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###DISABLED###'))) {
+                    if ('' === trim($sLinkDisabled = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sWindow, '###DISABLED###'))) {
                         $this->oForm->mayday(
                             'RENDERLET '.$this->_getType().' <b>'.$this->_getName().'</b> - In your pager\'s template, you have to provide a <b>###DISABLED###</b> subpart inside the <b>###WINDOW###</b> subpart when defining <b>/window/alwaysFullWidth=TRUE</b>'
                         );
@@ -919,10 +919,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
                 $sLinks = implode(' ', $aLinks);
 
-                $sWindow = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sWindow, '###WINDOWLINKS###', $sLinks, false, false);
+                $sWindow = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sWindow, '###WINDOWLINKS###', $sLinks, false, false);
             }
 
-            $sPager = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###WINDOW###', $sWindow, false, false);
+            $sPager = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($sPager, '###WINDOW###', $sWindow, false, false);
 
             $sPager = '<div id="'.$sPagerHtmlId.'">'.$sPager.'</div>';
         } else {
@@ -951,7 +951,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         foreach ($this->aOColumns as $sColumn => $_) {
             $sSubpart = '###SORT_'.$sColumn.'###';
 
-            if ('' != ($sSortHtml = trim(\Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aTemplate['html'], $sSubpart)))) {
+            if ('' != ($sSortHtml = trim(Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aTemplate['html'], $sSubpart)))) {
                 $sSortHtml = $this->oForm->_substLLLInHtml($sSortHtml);
 
                 if (true === $this->aOColumns[$sColumn]->_defaultTrue('/sort')) {
@@ -993,7 +993,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     $sTag = $sSortHtml;
                 }
 
-                $aTemplate['html'] = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
+                $aTemplate['html'] = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
                     $aTemplate['html'],
                     $sSubpart,
                     $sTag,
@@ -1061,8 +1061,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
             if (file_exists($aTemplate['path'])) {
                 if (is_readable($aTemplate['path'])) {
-                    $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                        \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($aTemplate['path']),
+                    $aRes['html'] = Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                        TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($aTemplate['path']),
                         $aTemplate['subpart']
                     );
 
@@ -1118,8 +1118,8 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
 
                 if (file_exists($aPagerTemplate['path'])) {
                     if (is_readable($aPagerTemplate['path'])) {
-                        $aRes['pager'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($aPagerTemplate['path']),
+                        $aRes['pager'] = Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                            TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($aPagerTemplate['path']),
                             $aPagerTemplate['subpart']
                         );
 
@@ -1210,13 +1210,13 @@ ERRORMESSAGE;
 
     public function _getDefaultPager()
     {
-        $sPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+        $sPath = TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
             'EXT:mkforms/Resources/Private/Templates/Widgets/Lister/default-template.html'
         );
         $sSubPart = '###LISTPAGER###';
 
-        return \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
+        return Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
             $sSubPart
         );
     }
@@ -1239,27 +1239,27 @@ ERRORMESSAGE;
             ],
         ];
 
-        $sPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+        $sPath = TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
             'EXT:mkforms/Resources/Private/Templates/Widgets/Lister/default-template.html'
         );
         $sSubpart = '###LIST###';
 
-        $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
+        $aRes['html'] = Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
             $sSubpart
         );
 
         /* including default styles in external CSS */
 
         $aRes['styles'] = $this->_parseThrustedTemplateCode(
-            \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
+            Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
                 '###STYLES###'
             ),
             [
                 'PREFIX' => $sCssPrefix,
-                'EXTPATH' => \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public')
+                'EXTPATH' => TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+                    TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public')
                 ),
             ],
             [],
@@ -1268,9 +1268,9 @@ ERRORMESSAGE;
 
         /* END of CSS */
 
-        $sTopColumn = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###TOPCOLUMN###');
-        $sDataColumn1 = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###DATACOLUMN1###');
-        $sDataColumn2 = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###DATACOLUMN2###');
+        $sTopColumn = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###TOPCOLUMN###');
+        $sDataColumn1 = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###DATACOLUMN1###');
+        $sDataColumn2 = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($aRes['html'], '###DATACOLUMN2###');
 
         foreach ($this->aOColumns as $sColName => $_) {
             if (true === $this->_defaultTrue('/columns/listheaders')) {
@@ -1312,10 +1312,10 @@ ERRORMESSAGE;
             );
         }
 
-        $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###STYLES###', '', false, false);
-        $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###DATACOLUMN1###', implode('', $aHtml['DATA']['ROW1']), false, false);
-        $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###DATACOLUMN2###', implode('', $aHtml['DATA']['ROW2']), false, false);
-        $aRes['html'] = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###TOPCOLUMN###', implode('', $aHtml['TOP']), false, false);
+        $aRes['html'] = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###STYLES###', '', false, false);
+        $aRes['html'] = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###DATACOLUMN1###', implode('', $aHtml['DATA']['ROW1']), false, false);
+        $aRes['html'] = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###DATACOLUMN2###', implode('', $aHtml['DATA']['ROW2']), false, false);
+        $aRes['html'] = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart($aRes['html'], '###TOPCOLUMN###', implode('', $aHtml['TOP']), false, false);
 
         $aRes['html'] = $this->_parseThrustedTemplateCode(
             $aRes['html'],
@@ -1469,7 +1469,7 @@ ERRORMESSAGE;
     {
         static $ignore = -1;
         if (-1 == $ignore) {
-            $ignore = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkforms', 'listerNameId');
+            $ignore = Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkforms', 'listerNameId');
             $ignore ? 1 : 0;
         }
 

@@ -93,7 +93,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                     $aFormData,
                     'EXECUTION OF DATAHANDLER DB - EDITION MODE in '.$tablename.'['.$keyname.'='.$editEntry.']'
                 );
-                \Sys25\RnBase\Database\Connection::getInstance()->doUpdate(
+                Sys25\RnBase\Database\Connection::getInstance()->doUpdate(
                     $tablename,
                     $keyname." = '".$editEntry."'",
                     $aFormData
@@ -102,20 +102,20 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                 $this->_storeMmRelations($editEntry);
 
                 $this->oForm->_debug(
-                    \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                    Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
                     'DATAHANDLER DB - SQL EXECUTED'
                 );
             } else {
                 // We insert a new record into the database.
                 $this->oForm->_debug($aFormData, 'EXECUTION OF DATAHANDLER DB - INSERTION MODE in '.$tablename);
 
-                $this->newEntryId = \Sys25\RnBase\Database\Connection::getInstance()->doInsert(
+                $this->newEntryId = Sys25\RnBase\Database\Connection::getInstance()->doInsert(
                     $tablename,
                     $aFormData
                 );
 
                 $this->oForm->_debug(
-                    \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
+                    Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection()->debug_lastBuiltQuery,
                     'DATAHANDLER DB - SQL EXECUTED'
                 );
                 $this->oForm->_debug('', 'NEW ENTRY ID ['.$keyname.'='.$this->newEntryId.']');
@@ -155,7 +155,7 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
                 // of related records)?
                 if ($this->__aStoredData[$key] > 0) {
                     $foreignUids = [];
-                    $rows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
+                    $rows = Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                         'uid_foreign',
                         $mmTable,
                         ['where' => 'uid_local = '.$this->_currentEntryId()]
@@ -278,13 +278,13 @@ class tx_mkforms_dh_dbmm_Main extends tx_mkforms_dh_db_Main
     {
         // removes all old m:n records
         foreach ($this->mmFields as $currentTable) {
-            \Sys25\RnBase\Database\Connection::getInstance()->doDelete($currentTable, 'uid_local = '.$uid);
+            Sys25\RnBase\Database\Connection::getInstance()->doDelete($currentTable, 'uid_local = '.$uid);
         }
 
         // creates all new m:n records
         foreach ($this->mmInserts as $currentInsert) {
             $currentInsert['data']['uid_local'] = $uid;
-            \Sys25\RnBase\Database\Connection::getInstance()->doInsert($currentInsert['table'], $currentInsert['data']);
+            Sys25\RnBase\Database\Connection::getInstance()->doInsert($currentInsert['table'], $currentInsert['data']);
         }
     }
 }

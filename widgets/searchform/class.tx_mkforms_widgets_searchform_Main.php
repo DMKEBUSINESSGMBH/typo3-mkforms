@@ -227,7 +227,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
 
             if (true === $bUpdate) {
                 if ($this->_getParamsFromGET()) {
-                    $aGet = (\Sys25\RnBase\Utility\T3General::_GET($sFormId)) ? \Sys25\RnBase\Utility\T3General::_GET($sFormId) : [];
+                    $aGet = (Sys25\RnBase\Utility\T3General::_GET($sFormId)) ? Sys25\RnBase\Utility\T3General::_GET($sFormId) : [];
 
                     foreach ($aGet as $sAbsName => $_) {
                         if (array_key_exists($sAbsName, $this->oForm->aORenderlets)) {
@@ -326,7 +326,7 @@ class tx_mkforms_widgets_searchform_Main extends formidable_mainrenderlet
             }
         } else {
             if ($this->_getParamsFromGET()) {
-                $aGet = (\Sys25\RnBase\Utility\T3General::_GET($this->oForm->formid)) ? \Sys25\RnBase\Utility\T3General::_GET($this->oForm->formid) : [];
+                $aGet = (Sys25\RnBase\Utility\T3General::_GET($this->oForm->formid)) ? Sys25\RnBase\Utility\T3General::_GET($this->oForm->formid) : [];
                 $aIntersect = array_intersect(array_keys($aGet), array_keys($this->oForm->aORenderlets));
 
                 return count($aIntersect) > 0;    // are there get params in url matching at least one criteria in the searchform ?

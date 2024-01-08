@@ -84,7 +84,7 @@ class tx_mkforms_util_Loader
             tx_mkforms_util_Div::mayday('TYPE '.$aElement['type'].' is not associated to any '.$objectType);
         }
 
-        $oObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($aObj['CLASS']);
+        $oObj = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($aObj['CLASS']);
 
         if (!empty($aOParent) && is_object($aOParent[0])) {
             $oObj->setParent($aOParent[0]);
@@ -127,7 +127,7 @@ class tx_mkforms_util_Loader
                 if (true === $aTemp['BASE'] && file_exists($aTemp['PATH'].'ext_localconf.php')) {
                     $aTemp['LOCALCONFPATH'] = $aTemp['PATH'].'ext_localconf.php';
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 if (!class_exists($aTemp['CLASS'])) {
                     throw $e;
                 }
@@ -189,7 +189,7 @@ class tx_mkforms_util_Loader
         $args = func_get_args();
         if ($this->load($args[0], $args[1])) {
             unset($args[1]); // path entfernen
-            $ret = call_user_func_array([\TYPO3\CMS\Core\Utility\GeneralUtility::class, 'makeInstance'], $args);
+            $ret = call_user_func_array([TYPO3\CMS\Core\Utility\GeneralUtility::class, 'makeInstance'], $args);
         }
 
         return $ret;

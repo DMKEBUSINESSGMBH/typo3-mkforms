@@ -205,7 +205,7 @@ class tx_mkforms_util_Runnable
                 $sRes = call_user_func([&$oObj, $sMethodName], $this->getForm(), $aParams);
                 $this->pullUserObjParam();
             } catch (Exception  $e) {
-                $verbose = (int) \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'verboseMayday');
+                $verbose = (int) Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'verboseMayday');
 
                 $ret = 'UNCAUGHT EXCEPTION FOR VIEW: '.get_class($oObj)."\r\n";
 
@@ -248,7 +248,7 @@ class tx_mkforms_util_Runnable
         $method = $this->getConfig()->get('/userobj/method/', $aUserobj);
         $mode = $this->getConfig()->get('/userobj/loadmode', $aUserobj);
 
-        $oExtension = (0 == strcasecmp($extension, 'this')) ? $this->getForm()->getParent() : \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($extension);
+        $oExtension = (0 == strcasecmp($extension, 'this')) ? $this->getForm()->getParent() : TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($extension);
 
         if (!is_object($oExtension)) {
             return;
@@ -272,8 +272,8 @@ class tx_mkforms_util_Runnable
 
             $ret = 'UNCAUGHT EXCEPTION FOR VIEW: '.get_class($oCbObj)."\r\n";
 
-            if (\Sys25\RnBase\Utility\Logger::isWarningEnabled()) {
-                \Sys25\RnBase\Utility\Logger::warn('Method callUserObj() failed.', 'mkforms', ['Exception' => $e->getMessage(), 'XML' => $aUserobj, 'Params' => $aParams, 'Form-ID' => $this->getForm()->getFormId()]);
+            if (Sys25\RnBase\Utility\Logger::isWarningEnabled()) {
+                Sys25\RnBase\Utility\Logger::warn('Method callUserObj() failed.', 'mkforms', ['Exception' => $e->getMessage(), 'XML' => $aUserobj, 'Params' => $aParams, 'Form-ID' => $this->getForm()->getFormId()]);
             }
             $ret .= "\r\n".$e->getMessage();
 
@@ -311,7 +311,7 @@ class tx_mkforms_util_Runnable
 					'.$sTs.'
 				}';
 
-        $oParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getTypoScriptParserClass());
+        $oParser = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getTypoScriptParserClass());
         $oParser->tt_track = 0;    // Do not log time-performance information
         $oParser->setup = $GLOBALS['TSFE']->tmpl->setup;
 
@@ -328,7 +328,7 @@ class tx_mkforms_util_Runnable
                         $aUserObjParams = [];
                     }
                 }
-                $oParser->setup['params.'] = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $oParser->setup['params.'] = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $oParser->setup['params.'],
                     $aUserObjParams
                 );
@@ -339,7 +339,7 @@ class tx_mkforms_util_Runnable
         $this->aLastTs = $oParser->setup['temp.']['ameos_formidable.'];
 
         $sOldCWD = getcwd();        // changing current working directory for use of GIFBUILDER in BE
-        chdir(\Sys25\RnBase\Utility\Environment::getPublicPath());
+        chdir(Sys25\RnBase\Utility\Environment::getPublicPath());
 
         $aRes = $this->getCObj()->cObjGet($oParser->setup['temp.']['ameos_formidable.']);
 
@@ -403,7 +403,7 @@ class tx_mkforms_util_Runnable
 
         if (!empty($this->aForcedUserObjParamsStack)) {
             $aForcedParams = $this->getForcedUserObjParams();
-            $aParams = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aParams, $aForcedParams);
+            $aParams = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule($aParams, $aForcedParams);
         }
 
         return $aParams;
@@ -490,7 +490,7 @@ class tx_mkforms_util_Runnable
         }
         reset($aMetas);
         foreach ($aMetas as $sKey => $notNeeded) {
-            if ('c' === $sKey[0] && 'o' === $sKey[1] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sKey), 'codebehind')) {
+            if ('c' === $sKey[0] && 'o' === $sKey[1] && Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sKey), 'codebehind')) {
                 $aCB = $this->initCodeBehind($aMetas[$sKey]);
                 if ('php' === $aCB['type']) {
                     if ('EID' === tx_mkforms_util_Div::getEnvExecMode()) {
@@ -513,7 +513,7 @@ class tx_mkforms_util_Runnable
         // den loader benutzen, damit die klasse beim ajax geladen wird
         $oJsCb = $this->getForm()->getObjectLoader()->makeInstance(
             'formidable_mainjscb',
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms', 'api/class.mainjscb.php')
+            TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms', 'api/class.mainjscb.php')
         );
         $oJsCb->init($this, $aCB);
 
@@ -537,7 +537,7 @@ class tx_mkforms_util_Runnable
             ];
         }
 
-        if ('E' === $sCBRef[0] && 'X' === $sCBRef[1] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sCBRef, 'EXT:')) {
+        if ('E' === $sCBRef[0] && 'X' === $sCBRef[1] && Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sCBRef, 'EXT:')) {
             $sCBRef = substr($sCBRef, 4);
             $sPrefix = 'EXT:';
         } else {
@@ -547,10 +547,10 @@ class tx_mkforms_util_Runnable
         $aParts = explode(':', $sCBRef);
 
         $sFileRef = $sPrefix.$aParts[0];
-        $sFilePath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sFileRef);
+        $sFilePath = Sys25\RnBase\Utility\T3General::getFileAbsFileName($sFileRef);
 
         // determining type of the CB
-        $sFileExt = strtolower(array_pop(\Sys25\RnBase\Utility\T3General::revExplode('.', $sFileRef, 2)));
+        $sFileExt = strtolower(array_pop(Sys25\RnBase\Utility\T3General::revExplode('.', $sFileRef, 2)));
         switch ($sFileExt) {
             case 'php':
                 if (is_file($sFilePath) && is_readable($sFilePath)) {
@@ -648,7 +648,7 @@ class tx_mkforms_util_Runnable
         // array([expr] => btnUserSave_click,  [rec] => '', [args] => '')
 
         // Es gibt anscheinend den Sonderfall von rdt( als CB -Code...
-        if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sCBRef, 'rdt(')) {
+        if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sCBRef, 'rdt(')) {
             $bCbRdt = true;
             $aCbRdtArgs = $this->getForm()->getTemplateTool()->parseTemplateMethodArgs($aExec[0]['args']);
             if (false === ($oRdt = $this->getForm()->getWidget($aCbRdtArgs[0]))) {
@@ -743,8 +743,8 @@ class tx_mkforms_util_Runnable
                         try {
                             $mRes = call_user_func_array([$oCbObj, $sMethod], $aArgs);
                         } catch (Exception  $e) {
-                            $verbose = (int) \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'verboseMayday');
-                            $dieOnMayday = (int) \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'dieOnMayday');
+                            $verbose = (int) Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'verboseMayday');
+                            $dieOnMayday = (int) Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'dieOnMayday');
 
                             $ret = 'UNCAUGHT EXCEPTION FOR VIEW: '.get_class($oCbObj)."\r\n";
 

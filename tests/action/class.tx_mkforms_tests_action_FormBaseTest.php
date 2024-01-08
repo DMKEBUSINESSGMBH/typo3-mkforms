@@ -25,7 +25,7 @@
  ***************************************************************/
 
 // @TODO: grundfunktionen in base testcase auslagern, um sie in anderen projekten zu nutzen!
-class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_action_FormBaseTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     protected $sCachefile;
 
@@ -34,9 +34,9 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
         set_error_handler(['tx_mkforms_tests_Util', 'errorHandler'], E_WARNING);
 
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
-        \Sys25\RnBase\Utility\Misc::prepareTSFE()->sys_page = \Sys25\RnBase\Utility\TYPO3::getSysPage();
+        Sys25\RnBase\Utility\Misc::prepareTSFE()->sys_page = Sys25\RnBase\Utility\TYPO3::getSysPage();
 
-        $oTestFramework = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Phpunit_Framework', 'mkforms');
+        $oTestFramework = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Phpunit_Framework', 'mkforms');
         $oTestFramework->createFakeFrontEnd();
         // ip lock not necessary
         $GLOBALS['TSFE']->fe_user->lockIP = 0;
@@ -105,10 +105,10 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
         $configArray['generic.']['formconfig.']['loadJsFramework'] = 0;
         $configArray['generic.']['formconfig.']['csrfProtection'] = 1;
 
-        $action = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_action_FormBase');
+        $action = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_action_FormBase');
 
-        $configurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
-        $parameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
+        $configurations = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Configuration\Processor::class);
+        $parameters = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Frontend\Request\Parameters::class);
 
         $configurations->init(
             $configArray,
@@ -118,7 +118,7 @@ class tx_mkforms_tests_action_FormBaseTest extends \Sys25\RnBase\Testing\BaseTes
         );
 
         // the default behaiviour is to have a USER_INT plugin as parent
-        $contentObjectRendererClass = \Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
+        $contentObjectRendererClass = Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
         $configurations->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER_INT);
 
         $configurations->setParameters($parameters);

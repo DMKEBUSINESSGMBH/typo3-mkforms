@@ -33,8 +33,8 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
 
     public function _render()
     {
-        $this->publicImagesPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+        $this->publicImagesPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
                 'EXT:mkforms/Resources/Public/Images/widgets/selector'
             )
         );
@@ -51,7 +51,7 @@ class tx_mkforms_widgets_selector_Main extends formidable_mainrenderlet
             $this->oAvailable->_getItems()
         );
 
-        $aSelected = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getValue());
+        $aSelected = Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getValue());
         $aSelectedItems = [];
 
         foreach ($aSelected as $sValue) {
@@ -174,7 +174,7 @@ PHP;
                     $aCustomConf = [];
                 }
 
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
@@ -204,7 +204,7 @@ PHP;
                 'style' => 'width: 100%;',    //	100% of TD
             ];
             if (false !== ($aCustomConf = $this->_navConf('/selected'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
@@ -274,7 +274,7 @@ PHP;
             ];
 
             if (false !== ($aCustomConf = $this->_navConf('/buttonremove'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
@@ -319,7 +319,7 @@ PHP;
             ];
 
             if (false !== ($aCustomConf = $this->_navConf('/buttontop'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
@@ -364,7 +364,7 @@ PHP;
             ];
 
             if (false !== ($aCustomConf = $this->_navConf('/buttonup'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
@@ -407,7 +407,7 @@ PHP;
             ];
 
             if (false !== ($aCustomConf = $this->_navConf('/buttondown'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
@@ -451,7 +451,7 @@ PHP;
             ];
 
             if (false !== ($aCustomConf = $this->_navConf('/buttonbottom'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );

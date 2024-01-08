@@ -25,6 +25,6 @@
 /**
  * Base-Exception for mkforms.
  */
-class tx_mkforms_exception_Base extends \Sys25\RnBase\Exception\BaseException
+class tx_mkforms_exception_Base extends Sys25\RnBase\Exception\BaseException
 {
 }

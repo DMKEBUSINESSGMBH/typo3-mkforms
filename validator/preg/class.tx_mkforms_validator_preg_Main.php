@@ -58,7 +58,7 @@ class tx_mkforms_validator_preg_Main extends formidable_mainvalidator
             }
 
             // pattern
-            if ('p' === $sKey[0] && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'pattern')) {
+            if ('p' === $sKey[0] && Sys25\RnBase\Utility\Strings::isFirstPartOfStr($sKey, 'pattern')) {
                 $sPattern = $this->_navConf('/'.$sKey.'/value');
 
                 if (!$this->_isValid($sPattern)) {

@@ -70,7 +70,7 @@ class tx_mkforms_action_stepper_Main extends formidable_mainactionlet
                 'AMEOSFORMIDABLE_STEP_HASH' => $this->oForm->_getSafeLock($iStepToGo.$sUid),
             ];
 
-            $sUrl = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_URL');
+            $sUrl = Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_REQUEST_URL');
 
             if (!is_null($sUrl)) {
                 header('Location: '.$sUrl);

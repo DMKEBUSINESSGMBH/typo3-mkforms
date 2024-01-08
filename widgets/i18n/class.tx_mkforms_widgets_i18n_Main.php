@@ -69,7 +69,7 @@ EVENT;
                         ];
 
                         if (false !== ($aCustomConf = $this->_navConf('/stdbutton'))) {
-                            $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                            $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                                 $aConf,
                                 $aCustomConf
                             );

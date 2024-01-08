@@ -41,9 +41,9 @@ class tx_mkforms_tests_Util
         if (is_array($configArray) && !$force) {
             return $configArray;
         }
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
+        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mkforms/static/ts/setup.txt">');
 
-        \Sys25\RnBase\Utility\Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
+        Sys25\RnBase\Utility\Misc::prepareTSFE(); // Ist bei Aufruf aus BE notwendig!
 
         /*
          * pk: Danke mw
@@ -51,7 +51,7 @@ class tx_mkforms_tests_Util
          * um das umzugehen, kann man das RootLine Parameter leer setzen.
          * Siehe: TYPO3\CMS\Backend\Utility\BackendUtility:getPagesTSconfig();
          */
-        $tsConfig = \Sys25\RnBase\Backend\Utility\BackendUtility::getPagesTSconfig(0, '');
+        $tsConfig = Sys25\RnBase\Backend\Utility\BackendUtility::getPagesTSconfig(0, '');
 
         $configArray = $tsConfig['plugin.']['tx_mkforms.'];
         // für referenzen im TS!
@@ -78,10 +78,10 @@ class tx_mkforms_tests_Util
             $oForm->setTestMode();
         }
 
-        $oParameters = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Request\Parameters::class);
+        $oParameters = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Frontend\Request\Parameters::class);
         $oParameters->init('mkforms');
 
-        $oConfigurations = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Configuration\Processor::class);
+        $oConfigurations = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Configuration\Processor::class);
         if (!$aConfigArray) {
             $aConfigArray = self::getDefaultFormConfig($bCsrfProtection);
         }
@@ -94,7 +94,7 @@ class tx_mkforms_tests_Util
         $oConfigurations->setParameters($oParameters);
 
         // the default behaiviour is to have a USER_INT plugin
-        $contentObjectRendererClass = \Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
+        $contentObjectRendererClass = Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
         $oConfigurations->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER_INT);
 
         if (!$parent) {

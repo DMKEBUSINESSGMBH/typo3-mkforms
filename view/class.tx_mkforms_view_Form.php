@@ -27,7 +27,7 @@
  *
  * @author Michael Wagner
  */
-class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
+class tx_mkforms_view_Form extends Sys25\RnBase\Frontend\View\Marker\BaseView
 {
     /**
      * @var Sys25\RnBase\Frontend\Request\RequestInterface
@@ -85,7 +85,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
                      * müssen für den speziellen Fall die add Methoden
                      * oder die globale addAdditionalMarkers Methode angelegt werden!
                      */
-                    if (\Sys25\RnBase\Frontend\Marker\BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
+                    if (Sys25\RnBase\Frontend\Marker\BaseMarker::containsMarker($template, $currentMarkerPrefix)) {
                         $currentSubpartArray = $currentWrappedSubpartArray = [];
                         $currentMarkerArray = $formatter->getItemMarkerArrayWrapped(
                             $values,
@@ -134,7 +134,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
         );
 
         $markerArray['###FORM###'] = $viewData->offsetGet('form');
-        $out = \Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached(
+        $out = Sys25\RnBase\Frontend\Marker\Templates::substituteMarkerArrayCached(
             $template,
             $markerArray,
             $subpartArray,
@@ -183,7 +183,7 @@ class tx_mkforms_view_Form extends \Sys25\RnBase\Frontend\View\Marker\BaseView
             $params = $formatter->getConfigurations()->get(
                 $confId.'links.'.$linkId.'.params.'
             );
-            \Sys25\RnBase\Frontend\Marker\BaseMarker::initLink(
+            Sys25\RnBase\Frontend\Marker\BaseMarker::initLink(
                 $markerArray,
                 $subpartArray,
                 $wrappedSubpartArray,

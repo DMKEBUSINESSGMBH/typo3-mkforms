@@ -62,8 +62,8 @@ class tx_mkforms_widgets_swfupload_Main extends formidable_mainrenderlet
         $sUrl = tx_mkforms_util_Div::getCurrentBaseUrl().'/?mkformsAjaxId='.tx_mkforms_util_Div::getAjaxEId().'&pageId='.$GLOBALS['TSFE']->id.'&object='.$sObject.'&servicekey='.$sServiceKey.'&formid='.$sFormId.'&safelock='.$sSafeLock.'&thrower='.$sThrower;
         $sButtonUrl = $this->oForm->getConfigXML()->getLLLabel('LLL:EXT:mkforms/Resources/Private/Language/Widgets/Swfupload/locallang.xlf:buttonbrowse.image_url');
 
-        $flashPlayerPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Flash/swfupload.swf')
+        $flashPlayerPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/Flash/swfupload.swf')
         );
         $aConf = [
             'buttonBrowseId' => $this->oButtonBrowse->_getElementHtmlId(),
@@ -136,13 +136,13 @@ INITSCRIPT;
 
     public function handleAjaxRequest($oRequest)
     {
-        $oFile = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
+        $oFile = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
         $aFile = $GLOBALS['_FILES']['rdt_swfupload'];
 
         $sFileName = $aFile['name'];
 
         if (false !== $this->_defaultTrue('/usedenypattern')) {
-            if (!\Sys25\RnBase\Utility\T3General::verifyFilenameAgainstDenyPattern($sFileName)) {
+            if (!Sys25\RnBase\Utility\T3General::verifyFilenameAgainstDenyPattern($sFileName)) {
                 exit('FILE EXTENSION DENIED');
             }
         }
@@ -170,7 +170,7 @@ INITSCRIPT;
             }
         }
 
-        \Sys25\RnBase\Utility\T3General::upload_copy_move(
+        Sys25\RnBase\Utility\T3General::upload_copy_move(
             $aFile['tmp_name'],
             $sTarget
         );
@@ -180,13 +180,13 @@ INITSCRIPT;
 
     public function getTargetDir()
     {
-        $oFileTool = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
+        $oFileTool = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getBasicFileUtilityClass());
 
         if ($this->oForm->isRunneable($sTargetDir = $this->_navConf('/data/targetdir/'))) {
             $sTargetDir = $this->getForm()->getRunnable()->callRunnableWidget($this, $sTargetDir);
         }
 
-        return \Sys25\RnBase\Utility\T3General::fixWindowsFilePath(
+        return Sys25\RnBase\Utility\T3General::fixWindowsFilePath(
             $oFileTool->slashPath($sTargetDir)
         );
     }
@@ -239,7 +239,7 @@ PHP;
             ];
 
             if (false !== ($aCustomConf = $this->_navConf('/buttonupload'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );
@@ -273,7 +273,7 @@ PHP;
             ];
 
             if (false !== ($aCustomConf = $this->_navConf('/listqueue'))) {
-                $aConf = \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+                $aConf = Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                     $aConf,
                     $aCustomConf
                 );

@@ -111,7 +111,7 @@ class tx_mkforms_util_FormBase
             return null;
         }
 
-        $ref = \Sys25\RnBase\Utility\TSFAL::getFirstReference($refTable, $refUid, $refField);
+        $ref = Sys25\RnBase\Utility\TSFAL::getFirstReference($refTable, $refUid, $refField);
         if (is_object($ref)) {
             return $ref->getUid();
         }
@@ -259,7 +259,7 @@ class tx_mkforms_util_FormBase
                     $form->setSubmitter($sWidget, $flattenData['submitmode']);
                 } // Datumsfelder zusätzlich für MySQL konvertieren!
                 elseif ('Date' == $oWidget->sMajixClass && $mValue) {
-                    $flattenData[$sWidget.'_mysql'] = \Sys25\RnBase\Utility\Dates::date_tstamp2mysql($mValue);
+                    $flattenData[$sWidget.'_mysql'] = Sys25\RnBase\Utility\Dates::date_tstamp2mysql($mValue);
                 }
                 // den Wert holen
                 // @TODO: siehe todo oben
@@ -603,7 +603,7 @@ class tx_mkforms_util_FormBase
     public static function getRowsFromDataBase(array $params, tx_ameosformidable $form)
     {
         /* @var $formfill tx_mkforms_util_FormFill */
-        $formfill = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_FormFill');
+        $formfill = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_FormFill');
 
         return $formfill->getRowsFromDataBase($params, $form);
     }
@@ -623,7 +623,7 @@ class tx_mkforms_util_FormBase
     public function getItemsFromDb(array $params, tx_ameosformidable $form)
     {
         /* @var $formfill tx_mkforms_util_FormFill */
-        $formfill = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_FormFill');
+        $formfill = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_util_FormFill');
 
         return $formfill->getItemsFromDb($params, $form);
     }

@@ -3,7 +3,7 @@
 return [
     'frontend' => [
         'dmk/mkforms/ajax-handler' => [
-            'target' => \DMK\MkForms\Middleware\AjaxHandler::class,
+            'target' => DMK\MkForms\Middleware\AjaxHandler::class,
             'after' => [
                 'typo3/cms-frontend/prepare-tsfe-rendering',
             ],
@@ -12,7 +12,7 @@ return [
             ],
         ],
         'dmk/mkforms/header-injection' => [
-            'target' => \DMK\MkForms\Middleware\HeaderInjection::class,
+            'target' => DMK\MkForms\Middleware\HeaderInjection::class,
             'after' => [
                 'typo3/cms-frontend/tsfe',
             ],

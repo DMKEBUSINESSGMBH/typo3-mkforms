@@ -29,7 +29,7 @@
 /**
  * Array util tests.
  */
-class tx_mkforms_tests_util_FormBaseAjaxTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_util_FormBaseAjaxTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     public function testRepaintDependenciesReturnsCorrectArray()
     {

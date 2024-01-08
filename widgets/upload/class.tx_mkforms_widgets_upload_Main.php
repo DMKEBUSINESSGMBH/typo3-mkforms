@@ -68,7 +68,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
         $sValuePreview = $sValueCvs = $sLinkCvs = $sLis = $sLinkLis = '';
 
         if (!empty($sValue) && $this->defaultTrue('showfilelist')) {
-            $aValues = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getValueForHtml($sValue));
+            $aValues = Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getValueForHtml($sValue));
 
             foreach ($aValues as $url) {
                 $sWebPath = tx_mkforms_util_Div::toWebPath(
@@ -178,7 +178,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
             // a file has just been uploaded
 
             if (false !== ($sTargetFile = $this->getTargetFile())) {
-                $sTargetDir = \Sys25\RnBase\Utility\T3General::dirname($sTargetFile);
+                $sTargetDir = Sys25\RnBase\Utility\T3General::dirname($sTargetFile);
                 $sName = basename($sTargetFile);
                 $sTarget = $sTargetFile;
             } else {
@@ -232,7 +232,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                     }
 
                     if ('' !== $sCurrent) {
-                        $aCurrent = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sCurrent);
+                        $aCurrent = Sys25\RnBase\Utility\Strings::trimExplode(',', $sCurrent);
                         if (!in_array($sCurFile, $aCurrent)) {
                             $aCurrent[] = $sCurFile;
                         }
@@ -277,7 +277,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                 // @see tx_mkforms_widgets_damupload_Main::_render
                 // da gab es auch mal ein Problem und ein Bugfix
                 if (!is_string($sStoredData)) {
-                    \Sys25\RnBase\Utility\Logger::fatal(
+                    Sys25\RnBase\Utility\Logger::fatal(
                         'Der value des Uploadfelds ist kein string, was nie passieren darf!',
                         'mkforms',
                         [
@@ -287,8 +287,8 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
                             '$aData' => $aData,
                             'getValue' => $this->getValue(),
                             'Validierungsfehler' => $this->getForm()->_aValidationErrors,
-                            '$GET' => \Sys25\RnBase\Utility\T3General::_GET(),
-                            '$POST' => \Sys25\RnBase\Utility\T3General::_POST(),
+                            '$GET' => Sys25\RnBase\Utility\T3General::_GET(),
+                            '$POST' => Sys25\RnBase\Utility\T3General::_POST(),
                         ]
                     );
                 }
@@ -360,7 +360,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
 
     public function deleteFile($sFile)
     {
-        $aValues = \Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getValue());
+        $aValues = Sys25\RnBase\Utility\Strings::trimExplode(',', $this->getValue());
         unset($aValues[array_search($sFile, $aValues)]);
         @unlink($this->getFullServerPath($sFile));
         $this->setValue(implode(',', $aValues));
@@ -370,7 +370,7 @@ class tx_mkforms_widgets_upload_Main extends formidable_mainrenderlet
     {
         if (is_null($this->bUseDam)) {
             if (true === $this->oForm->_defaultFalse('/dam/use', $this->aElement)) {
-                if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
+                if (!TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
                     $this->oForm->mayday('renderlet:UPLOAD[name='.$this->_getName()."], can't connect to <b>DAM</b>: <b>EXT:dam is not loaded</b>.");
                 }
 

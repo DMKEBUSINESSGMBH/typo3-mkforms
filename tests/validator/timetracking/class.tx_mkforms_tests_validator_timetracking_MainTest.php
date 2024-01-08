@@ -29,12 +29,12 @@
  * @license         http://www.gnu.org/licenses/lgpl.html
  *                  GNU Lesser General Public License, version 3 or later
  */
-class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_validator_timetracking_MainTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     protected function setUp(): void
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
-        \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
+        DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', []);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -50,7 +50,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testValidateThrowsExceptionIfValidationForTooFastButNoThresholdConfigured()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast-without-threshold');
         $validator->_init(
@@ -69,7 +69,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testValidateSetsNoValidationErrorIfFormNotSendTooFast()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast');
         $validator->_init(
@@ -90,7 +90,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testValidateSetsValidationErrorIfFormSendTooFast()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast');
         $this->setCreationTimestamp($GLOBALS['EXEC_TIME']);
@@ -119,7 +119,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testValidateThrowsExceptionIfValidationForTooSlowButNoThresholdConfigured()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-tooslow-without-threshold');
         $validator->_init(
@@ -138,7 +138,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testValidateSetsNoValidationErrorIfFormNotSendTooSlow()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-tooslow');
         $this->setCreationTimestamp($GLOBALS['EXEC_TIME']);
@@ -159,7 +159,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testValidateSetsValidationErrorIfFormSendTooSlow()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-tooslow');
         $validator->_init(
@@ -184,7 +184,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testValidateSetsNoValidationErrorIfCanNoBeValidated()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-tooslow-with-skipifempty');
         $timetrackingWidget->setValue('');
@@ -206,7 +206,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testGetThresholdByValidationKey()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast');
         $this->setCreationTimestamp(1);
@@ -226,7 +226,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     public function testGetThresholdByValidationKeyWithRunable()
     {
         /* @var $validator tx_mkforms_validator_timetracking_Main */
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast-with-runable-for-threshold');
         $this->setCreationTimestamp(1);
@@ -247,7 +247,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
     {
         return tx_mkforms_tests_Util::getForm(
             true,
-            \Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
+            Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 ['generic.' => ['xml' => 'EXT:mkforms/tests/xml/timetracking.xml']]
             )
@@ -281,7 +281,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
 
     public function testHandleAfterRenderCheckPointInsertsCorrectCreationTimeIntoSession()
     {
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast');
         $validator->_init(
@@ -316,7 +316,7 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
             ]
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
         $timetrackingWidget = $form->getWidget('timetracking-toofast');
         $validator->_init(
@@ -351,9 +351,9 @@ class tx_mkforms_tests_validator_timetracking_MainTest extends \Sys25\RnBase\Tes
 
     public function testHandleAfterRenderCheckPointInsertsNoCreationTimeIntoSessionWhenPluginIsNotUserInt()
     {
-        $validator = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
+        $validator = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_validator_timetracking_Main');
         $form = $this->getForm();
-        $contentObjectRendererClass = \Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
+        $contentObjectRendererClass = Sys25\RnBase\Utility\Typo3Classes::getContentObjectRendererClass();
         $form->getConfigurations()->getCObj()->setUserObjectType($contentObjectRendererClass::OBJECTTYPE_USER);
         // init gets called when the form is initialized. so we need to reset the session data
         // und call init again to see if everything works as expected

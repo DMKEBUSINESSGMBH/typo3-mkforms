@@ -136,7 +136,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
     public function _unFlatten($sData)
     {
         if (!$this->_emptyFormValue($sData)) {
-            return \Sys25\RnBase\Utility\Strings::trimExplode(',', $sData);
+            return Sys25\RnBase\Utility\Strings::trimExplode(',', $sData);
         }
 
         return [];
@@ -145,7 +145,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
     public function _getHumanReadableValue($data)
     {
         if (!is_array($data)) {
-            $data = \Sys25\RnBase\Utility\Strings::trimExplode(',', $data);
+            $data = Sys25\RnBase\Utility\Strings::trimExplode(',', $data);
         }
 
         $aLabels = [];
@@ -166,7 +166,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
     public function _sqlSearchClause($sValues, $sFieldPrefix = '', $sFieldName = '', $bRec = true)
     {
         $aParts = [];
-        $aValues = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sValues);
+        $aValues = Sys25\RnBase\Utility\Strings::trimExplode(',', $sValues);
 
         if (sizeof($aValues) > 0) {
             reset($aValues);
@@ -186,7 +186,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
                         $sOnFields = $aConf['onfields'];
                     }
 
-                    $aFields = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sOnFields);
+                    $aFields = Sys25\RnBase\Utility\Strings::trimExplode(',', $sOnFields);
                     reset($aFields);
                 } else {
                     $aFields = [$this->_getName()];
@@ -194,7 +194,7 @@ class tx_mkforms_widgets_checkbox_Main extends formidable_mainrenderlet
 
                 foreach ($aFields as $sField) {
                     $aParts[] = "FIND_IN_SET('"
-                        .\Sys25\RnBase\Database\Connection::getInstance()->quoteStr($sValue, $sTableName)
+                        .Sys25\RnBase\Database\Connection::getInstance()->quoteStr($sValue, $sTableName)
                         ."', ".$sFieldPrefix.$sField.')';
                 }
             }

@@ -28,14 +28,14 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
         $this->initDb();
 
-        $oDataSet = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindataset');
+        $oDataSet = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindataset');
 
         if ('new' === $sKey) {
             // new record to create
             $oDataSet->initFloating($this);
         } else {
             // existing record to grab
-            $aDataSet = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
+            $aDataSet = Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                 '*',
                 $this->sTable,
                 ['where' => $this->sKey."='".$sKey."'"]
@@ -83,7 +83,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
 
             $sSql = $this->beforeSqlExec($sSql, $aConfig, $aFilters);
 
-            $rows = \Sys25\RnBase\Database\Connection::getInstance()->doQuery($sSql);
+            $rows = Sys25\RnBase\Database\Connection::getInstance()->doQuery($sSql);
 
             if ($rows) {
                 $iNumRows = $rows->num_rows;
@@ -105,7 +105,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
     {
         if (false === $this->oDb) {
             if (false !== ($aLink = $this->_navConf('/link'))) {
-                $this->oDb = \Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection();
+                $this->oDb = Sys25\RnBase\Database\Connection::getInstance()->getDatabaseConnection();
 
                 if ($this->oForm->isRunneable($sHost = $aLink['host'])) {
                     $sHost = $this->callRunneable($sHost);
@@ -127,7 +127,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
                 $this->oDb->sql_pconnect($sHost, $sUser, $sPassword);
                 $this->oDb->sql_select_db($sDbName);
             } else {
-                $this->oDb = \Sys25\RnBase\Database\Connection::getInstance();
+                $this->oDb = Sys25\RnBase\Database\Connection::getInstance();
             }
         }
     }
@@ -209,7 +209,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             if (true === $mEnableFields) {
                 // we have to determine the table name
 
-                $oParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Utility\Typo3Classes::getSqlParserClass());
+                $oParser = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getSqlParserClass());
                 $aParsed = $oParser->parseSQL($sSqlBase);
 
                 if (is_array($aParsed) && 1 == count($aParsed['FROM'])) {
@@ -229,7 +229,7 @@ class tx_mkforms_ds_db_Main extends formidable_maindatasource
             $sEnableFields = '';
         }
 
-        if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtoupper($sSqlBase), 'SELECT')) {
+        if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtoupper($sSqlBase), 'SELECT')) {
             // modify the SQL query to include SQL_CALC_FOUND_ROWS
             $sSqlBase = 'SELECT SQL_CALC_FOUND_ROWS '.substr($sSqlBase, strlen('SELECT'));
         } else {

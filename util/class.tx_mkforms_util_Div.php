@@ -29,7 +29,7 @@ class tx_mkforms_util_Div
 {
     public static function isAbsServerPath($sPath)
     {
-        $sServerRoot = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT');
+        $sServerRoot = Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 
         return substr($sPath, 0, strlen($sServerRoot)) === $sServerRoot;
     }
@@ -51,13 +51,13 @@ class tx_mkforms_util_Div
      */
     public static function getEnvExecMode()
     {
-        if (\Sys25\RnBase\Utility\TYPO3::isCliMode()) {
+        if (Sys25\RnBase\Utility\TYPO3::isCliMode()) {
             return 'CLI';
-        } elseif (\Sys25\RnBase\Utility\Environment::isBackend()) {
+        } elseif (Sys25\RnBase\Utility\Environment::isBackend()) {
             return 'BE';
         }
 
-        return (is_null(\Sys25\RnBase\Utility\T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
+        return (is_null(Sys25\RnBase\Utility\T3General::_GP('mkformsAjaxId'))) ? 'FE' : 'EID';
     }
 
     /**
@@ -133,8 +133,8 @@ class tx_mkforms_util_Div
     {
         $infos = tx_rnbase::getClassInfo($clazzname);
 
-        return \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($infos['extkey'])
+        return TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+            TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($infos['extkey'])
         ).$infos['dir'];
     }
 
@@ -149,7 +149,7 @@ class tx_mkforms_util_Div
     {
         $infos = tx_rnbase::getClassInfo($clazzname);
 
-        return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($infos['extkey']).$infos['dir'];
+        return TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($infos['extkey']).$infos['dir'];
     }
 
     /**
@@ -174,7 +174,7 @@ class tx_mkforms_util_Div
 
         $aDebug[] = '<span class="notice"><strong>debug trail: </strong></span><ol>';
 
-        foreach (\Sys25\RnBase\Utility\Strings::trimExplode('//', \Sys25\RnBase\Utility\Debug::getDebugTrail()) as $bt) {
+        foreach (Sys25\RnBase\Utility\Strings::trimExplode('//', Sys25\RnBase\Utility\Debug::getDebugTrail()) as $bt) {
             $aDebug[] = "\t<li>".$bt.'</li>';
         }
         $aDebug[] = '</ol>';
@@ -182,10 +182,10 @@ class tx_mkforms_util_Div
         $sDebug = implode('', $aDebug);
 
         // email senden
-        $addr = \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'sendEmailOnException');
+        $addr = Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('rn_base', 'sendEmailOnException');
         if ($addr) {
-            $exception = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_exception_Mayday', $msg, -1, $sDebug);
-            \Sys25\RnBase\Utility\Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : __CLASS__, $exception);
+            $exception = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_mkforms_exception_Mayday', $msg, -1, $sDebug);
+            Sys25\RnBase\Utility\Misc::sendErrorMail($addr, $form ? get_class($form).' FormId:'.$form->getFormId() : __CLASS__, $exception);
         }
 
         // beim ajaxcall nur die meldung ausgeben und fertig!
@@ -193,7 +193,7 @@ class tx_mkforms_util_Div
             exit("Formidable::Mayday\n\n".trim(strip_tags($msg)));
         }
 
-        \Sys25\RnBase\Utility\Misc::mayday($sDebug, 'mkforms');
+        Sys25\RnBase\Utility\Misc::mayday($sDebug, 'mkforms');
     }
 
     /**
@@ -265,7 +265,7 @@ class tx_mkforms_util_Div
 
     public static function isDebugIP()
     {
-        return \Sys25\RnBase\Utility\T3General::cmpIP(\Sys25\RnBase\Utility\T3General::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']);
+        return Sys25\RnBase\Utility\T3General::cmpIP(Sys25\RnBase\Utility\T3General::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']);
     }
 
     /**
@@ -303,17 +303,17 @@ class tx_mkforms_util_Div
         $aTrace0 = array_shift($aTrace);
 
         $aDebug = [];
-        $aDebug[] = 'Call  0: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aLocation['file']).':'.$aLocation['line'].' | '.$aTrace1['class'].$aTrace1['type'].$aTrace1['function'];
-        $aDebug[] = 'Call -1: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace1['file']).':'.$aTrace1['line'].' | '.$aTrace2['class'].$aTrace2['type'].$aTrace2['function'];
-        $aDebug[] = 'Call -2: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace2['file']).':'.$aTrace2['line'].' | '.$aTrace3['class'].$aTrace3['type'].$aTrace3['function'];
-        $aDebug[] = 'Call -3: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace3['file']).':'.$aTrace3['line'].' | '.$aTrace4['class'].$aTrace4['type'].$aTrace4['function'];
-        $aDebug[] = 'Call -4: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace4['file']).':'.$aTrace4['line'].' | '.$aTrace5['class'].$aTrace5['type'].$aTrace5['function'];
+        $aDebug[] = 'Call  0: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aLocation['file']).':'.$aLocation['line'].' | '.$aTrace1['class'].$aTrace1['type'].$aTrace1['function'];
+        $aDebug[] = 'Call -1: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace1['file']).':'.$aTrace1['line'].' | '.$aTrace2['class'].$aTrace2['type'].$aTrace2['function'];
+        $aDebug[] = 'Call -2: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace2['file']).':'.$aTrace2['line'].' | '.$aTrace3['class'].$aTrace3['type'].$aTrace3['function'];
+        $aDebug[] = 'Call -3: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace3['file']).':'.$aTrace3['line'].' | '.$aTrace4['class'].$aTrace4['type'].$aTrace4['function'];
+        $aDebug[] = 'Call -4: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace4['file']).':'.$aTrace4['line'].' | '.$aTrace5['class'].$aTrace5['type'].$aTrace5['function'];
 
-        $aDebug[] = 'Call -5: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace5['file']).':'.$aTrace5['line'].' | '.$aTrace6['class'].$aTrace6['type'].$aTrace6['function'];
-        $aDebug[] = 'Call -6: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace6['file']).':'.$aTrace6['line'].' | '.$aTrace7['class'].$aTrace7['type'].$aTrace7['function'];
-        $aDebug[] = 'Call -7: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace7['file']).':'.$aTrace7['line'].' | '.$aTrace8['class'].$aTrace8['type'].$aTrace8['function'];
-        $aDebug[] = 'Call -8: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace8['file']).':'.$aTrace8['line'].' | '.$aTrace9['class'].$aTrace9['type'].$aTrace9['function'];
-        $aDebug[] = 'Call -9: '.str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace9['file']).':'.$aTrace9['line'].' | '.$aTrace0['class'].$aTrace0['type'].$aTrace0['function'];
+        $aDebug[] = 'Call -5: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace5['file']).':'.$aTrace5['line'].' | '.$aTrace6['class'].$aTrace6['type'].$aTrace6['function'];
+        $aDebug[] = 'Call -6: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace6['file']).':'.$aTrace6['line'].' | '.$aTrace7['class'].$aTrace7['type'].$aTrace7['function'];
+        $aDebug[] = 'Call -7: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace7['file']).':'.$aTrace7['line'].' | '.$aTrace8['class'].$aTrace8['type'].$aTrace8['function'];
+        $aDebug[] = 'Call -8: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace8['file']).':'.$aTrace8['line'].' | '.$aTrace9['class'].$aTrace9['type'].$aTrace9['function'];
+        $aDebug[] = 'Call -9: '.str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace9['file']).':'.$aTrace9['line'].' | '.$aTrace0['class'].$aTrace0['type'].$aTrace0['function'];
         self::debug4ajax($aDebug);
     }
 
@@ -351,13 +351,13 @@ class tx_mkforms_util_Div
             $aDebug[] = "<div id='".$form->formid.'_formidable_call'.$numcall."_backtrace' style='display: none; background-color: #FFFFCC' >";
 
             if (!$form->getConfig()->isDebugLight()) {
-                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call 0: </b>".str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aLocation['file']).':'.$aLocation['line'].' | <b>'.$aTrace1['class'].$aTrace1['type'].$aTrace1['function'].'</b></span><br>'.self::viewMixed($aTrace1['args']);
+                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call 0: </b>".str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aLocation['file']).':'.$aLocation['line'].' | <b>'.$aTrace1['class'].$aTrace1['type'].$aTrace1['function'].'</b></span><br>'.self::viewMixed($aTrace1['args']);
                 $aDebug[] = '<hr/>';
-                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call -1: </b>".str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace1['file']).':'.$aTrace1['line'].' | <b>'.$aTrace2['class'].$aTrace2['type'].$aTrace2['function'].'</b></span><br>'.self::viewMixed($aTrace2['args']);
+                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call -1: </b>".str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace1['file']).':'.$aTrace1['line'].' | <b>'.$aTrace2['class'].$aTrace2['type'].$aTrace2['function'].'</b></span><br>'.self::viewMixed($aTrace2['args']);
                 $aDebug[] = '<hr/>';
-                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call -2: </b>".str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace2['file']).':'.$aTrace2['line'].' | <b>'.$aTrace3['class'].$aTrace3['type'].$aTrace3['function'].'</b></span><br>'.self::viewMixed($aTrace3['args']);
+                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call -2: </b>".str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace2['file']).':'.$aTrace2['line'].' | <b>'.$aTrace3['class'].$aTrace3['type'].$aTrace3['function'].'</b></span><br>'.self::viewMixed($aTrace3['args']);
                 $aDebug[] = '<hr/>';
-                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call -3: </b>".str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace3['file']).':'.$aTrace3['line'].' | <b>'.$aTrace4['class'].$aTrace4['type'].$aTrace4['function'].'</b></span><br>'.self::viewMixed($aTrace4['args']);
+                $aDebug[] = "<span style='font-family: verdana;font-size: 9px; font-style: italic;'><b>Call -3: </b>".str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '/', $aTrace3['file']).':'.$aTrace3['line'].' | <b>'.$aTrace4['class'].$aTrace4['type'].$aTrace4['function'].'</b></span><br>'.self::viewMixed($aTrace4['args']);
                 $aDebug[] = '<hr/>';
             }
 
@@ -367,7 +367,7 @@ class tx_mkforms_util_Div
                 if ($bAnalyze) {
                     $aDebug[] = self::viewMixed($variable);
                 } else {
-                    $aDebug[] = \Sys25\RnBase\Utility\Debug::viewArray($variable);
+                    $aDebug[] = Sys25\RnBase\Utility\Debug::viewArray($variable);
                 }
             }
 
@@ -467,7 +467,7 @@ ERRORMESSAGE;
     {
         static $version = null;
         if (null === $version) {
-            $version = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('mkforms');
+            $version = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('mkforms');
         }
 
         return $version;
@@ -477,7 +477,7 @@ ERRORMESSAGE;
     {
         static $version = null;
         if (null === $version) {
-            $version = \Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger(self::getVersion());
+            $version = Sys25\RnBase\Utility\TYPO3::convertVersionNumberToInteger(self::getVersion());
         }
 
         return $version;
@@ -502,11 +502,11 @@ ERRORMESSAGE;
      */
     public static function toWebPath($sPath)
     {
-        if (\Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sPath), 'http://') || \Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sPath), 'https://')) {
+        if (Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sPath), 'http://') || Sys25\RnBase\Utility\Strings::isFirstPartOfStr(strtolower($sPath), 'https://')) {
             return $sPath;
         }
 
-        return self::removeEndingSlash(\Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/'.self::removeStartingSlash(self::toRelPath($sPath));
+        return self::removeEndingSlash(Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL')).'/'.self::removeStartingSlash(self::toRelPath($sPath));
     }
 
     /**
@@ -521,9 +521,9 @@ ERRORMESSAGE;
     public static function toRelPath($sPath)
     {
         if ('EXT:' === substr($sPath, 0, 4)) {
-            $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath);
+            $sPath = Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath);
         }
-        $sPath = str_replace(\Sys25\RnBase\Utility\Environment::getPublicPath(), '', $sPath);
+        $sPath = str_replace(Sys25\RnBase\Utility\Environment::getPublicPath(), '', $sPath);
         if ('/' != ($sPath[0] ?? null)) {
             $sPath = '/'.$sPath;
         }
@@ -547,7 +547,7 @@ ERRORMESSAGE;
             $sPath .= '/';
         }
 
-        return self::removeEndingSlash(\Sys25\RnBase\Utility\Environment::getPublicPath()).'/'.$sPath;
+        return self::removeEndingSlash(Sys25\RnBase\Utility\Environment::getPublicPath()).'/'.$sPath;
     }
 
     public static function removeStartingSlash($sPath)
@@ -604,12 +604,12 @@ ERRORMESSAGE;
 
     public static function mkdirDeep($destination, $deepDir)
     {
-        $allParts = \Sys25\RnBase\Utility\Strings::trimExplode('/', $deepDir, 1);
+        $allParts = Sys25\RnBase\Utility\Strings::trimExplode('/', $deepDir, 1);
         $root = '';
         foreach ($allParts as $part) {
             $root .= $part.'/';
             if (!is_dir($destination.$root)) {
-                \Sys25\RnBase\Utility\T3General::mkdir($destination.$root);
+                Sys25\RnBase\Utility\T3General::mkdir($destination.$root);
                 if (!@is_dir($destination.$root)) {
                     return 'Error: The directory "'.$destination.$root.'" could not be created...';
                 }
@@ -726,9 +726,9 @@ ERRORMESSAGE;
 
         list($extKey, $local) = explode('/', substr($filename, 4), 2);
         $filename = '';
-        if (strcmp($extKey, '') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
-            $filename = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey)
+        if (strcmp($extKey, '') && TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
+            $filename = TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey)
             ).$local;
         }
 
@@ -759,7 +759,7 @@ ERRORMESSAGE;
 
         if (is_string($mParams)) {
             // Das ist der Normalfall. Die Parameter als String
-            $paramArr = \Sys25\RnBase\Utility\Strings::trimExplode('::', $mParams);
+            $paramArr = Sys25\RnBase\Utility\Strings::trimExplode('::', $mParams);
             $aParamsCollection[$paramArr[0]] = (count($paramArr) > 0) ? $paramArr[1] : '';
         } else {
             foreach ($mParams as $mParam) {
@@ -838,7 +838,7 @@ ERRORMESSAGE;
         }
         $cleaned = $name;
         if (function_exists('iconv')) {
-            $charset = \Sys25\RnBase\Utility\Strings::isUtf8String($cleaned) ? 'UTF-8' : 'ISO-8859-1';
+            $charset = Sys25\RnBase\Utility\Strings::isUtf8String($cleaned) ? 'UTF-8' : 'ISO-8859-1';
             $oldLocal = setlocale(LC_ALL, 0);
             setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'deu_deu', 'de', 'ge');
             $cleaned = iconv($charset, 'ASCII//TRANSLIT', $cleaned);

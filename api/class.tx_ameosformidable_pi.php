@@ -1,6 +1,6 @@
 <?php
 
-class tx_ameosformidable_pi extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
+class tx_ameosformidable_pi extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {
     public $extKey = 'ameos_formidable';
 
@@ -63,7 +63,7 @@ class tx_ameosformidable_pi extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     {
         // init+render
 
-        $this->oForm = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ameosformidable');
+        $this->oForm = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ameosformidable');
         if (false === $this->sXmlPath) {
             $this->oForm->initFromTs(
                 $this,

@@ -145,7 +145,7 @@ class tx_mkforms_js_Loader
     public function addCodeBehind($ref, $sFilePath)
     {
         $serverPath = GeneralUtility::getFileAbsFileName($sFilePath);
-        $path = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
+        $path = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
         $this->aCodeBehindJsIncludes[$ref] = '<script src="'.
             $this->getForm()->getJSLoader()->getScriptPath($path).'"></script>';
     }
@@ -156,7 +156,7 @@ class tx_mkforms_js_Loader
             return;
         }
 
-        $aLibs = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sLibs);
+        $aLibs = Sys25\RnBase\Utility\Strings::trimExplode(',', $sLibs);
         reset($aLibs);
         foreach ($aLibs as $sLib) {
             if ('scriptaculous' === $sLib) {
@@ -243,8 +243,8 @@ JAVASCRIPT;
     private function includeDebugStyles()
     {
         if ($this->oForm->bDebug) {
-            $sPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
+            $sPath = TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
             );
             $this->additionalHeaderData(
                 "<link rel='stylesheet' type='text/css' href='".$sPath."Resources/Public/CSS/debug.css' />",
@@ -270,7 +270,7 @@ JAVASCRIPT;
         // JSON stringifier
         // http://www.thomasfrank.se/downloadableJS/jsonStringify.js
         $serverPath = GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/json/json.js');
-        $pagePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
+        $pagePath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($serverPath);
         $includes[] = tx_mkforms_forms_PageInclude::createInstance($pagePath, $serverPath, 'tx_mkforms_json');
 
         foreach ($includes as $include) {
@@ -317,8 +317,8 @@ JAVASCRIPT;
         // scriptaculous
         $sNextAfter = 'tx_ameosformidable_scriptaculous_effects';
 
-        $mkformsPath = \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
+        $mkformsPath = TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+            TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms')
         );
         if (true === $this->bLoadScriptaculousDragDrop) {
             $sPath = $this->getAbsRefPrefix().$mkformsPath.'Resources/Public/JavaScript/scriptaculous/dragdrop.js';
@@ -359,7 +359,7 @@ JAVASCRIPT;
 
     private function _includeJSFramework()
     {
-        $pagePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+        $pagePath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
             GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/framework.js')
         );
         $tag = '<script src="'.$this->getScriptPath($pagePath).'"></script>';
@@ -376,7 +376,7 @@ JAVASCRIPT;
     {
         $absRefPrefix = $this->getForm()->getConfTS('absRefPrefix');
         if (null === $absRefPrefix) {
-            $absRefPrefix = \Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL');
+            $absRefPrefix = Sys25\RnBase\Utility\T3General::getIndpEnv('TYPO3_SITE_URL');
         }
 
         return $absRefPrefix;
@@ -387,8 +387,8 @@ JAVASCRIPT;
      */
     private function includeFormidablePath()
     {
-        $sPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'Resources/Public'
+        $sPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'Resources/Public'
         );
         $sScript
             = <<<JAVASCRIPT
@@ -436,7 +436,7 @@ JAVASCRIPT;
     {
         if (true === $this->bLoadtooltip) {
             // tooltip css
-            $sPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            $sPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
                 GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/tooltip/tooltips.css')
             );
 
@@ -449,7 +449,7 @@ JAVASCRIPT;
             );
 
             // tooltip js
-            $sPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            $sPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
                 GeneralUtility::getFileAbsFileName('EXT:mkforms/Resources/Public/JavaScript/tooltip/tooltips.js')
             );
 
@@ -577,7 +577,7 @@ JAVASCRIPT;
                     GeneralUtility::mkdir_deep($directory);
                 }
                 if (!@is_file(Environment::getPublicPath().$directory.$script)) {
-                    \Sys25\RnBase\Utility\T3General::writeFile(Environment::getPublicPath().$directory.$script, $str);
+                    Sys25\RnBase\Utility\T3General::writeFile(Environment::getPublicPath().$directory.$script, $str);
                 }
             }
         }
@@ -732,8 +732,8 @@ JAVASCRIPT;
         $sScriptErw = '.'.$sScriptErw;
         // soll minimierte Version genutzt werden
         if ($this->minified()) {
-            $publicResourcesPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'Resources/Public/JavaScript';
-            $sSitePath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($publicResourcesPath);
+            $publicResourcesPath = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'Resources/Public/JavaScript';
+            $sSitePath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath($publicResourcesPath);
             $sFile = substr($sPath, strlen($sSitePath), strrpos($sPath, $sScriptErw) - strlen($sSitePath));
             // prüfen ob gzip genutzt werden soll, wenn ja auf datei prüfen.
             if ($this->gziped() && file_exists($publicResourcesPath.$sFile.'.min'.$sScriptErw.'.php')) {

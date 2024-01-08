@@ -49,7 +49,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 
         // wir erzeugen keine E-Mail, nur den debug!
         if ($this->defaultFalse('/debugdata')) {
-            \Sys25\RnBase\Utility\Debug::debug($data, 'Flatten Data for Model:');
+            Sys25\RnBase\Utility\Debug::debug($data, 'Flatten Data for Model:');
 
             return;
         }
@@ -132,10 +132,10 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         if ($class) {
             $class = $this->getForm()->getRunnable()->callRunnable($class);
         } else {
-            $class = \Sys25\RnBase\Domain\Model\DataModel::class;
+            $class = Sys25\RnBase\Domain\Model\DataModel::class;
         }
 
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($class, $record);
+        return TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($class, $record);
     }
 
     /**
@@ -253,7 +253,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
     private function buildTemplateObject()
     {
         /* @var $templateObj tx_mkmailer_models_Template */
-        $templateObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        $templateObj = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_models_Template'
         );
 
@@ -261,7 +261,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         foreach (['subject', 'contenttext', 'contenthtml'] as $key) {
             $content = $this->_navConf('/mkmailer/template/'.$key);
             if (is_array($content)) {
-                $content = \Sys25\RnBase\Frontend\Marker\Templates::getSubpartFromFile(
+                $content = Sys25\RnBase\Frontend\Marker\Templates::getSubpartFromFile(
                     $content['file'],
                     $content['subpart']
                 );
@@ -303,7 +303,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 
         // den E-Mail-Empfänger erzeugen
         /* @var $receiver tx_mkmailer_receiver_Email */
-        $receiver = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        $receiver = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             // @TODO: den receiver konfigurierbar machen!
             'tx_mkmailer_receiver_Email',
             $this->getMailTo()
@@ -313,7 +313,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
 
         // Einen E-Mail-Job anlegen.
         /* @var $job tx_mkmailer_mail_MailJob */
-        $job = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        $job = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             'tx_mkmailer_mail_MailJob',
             [$receiver],
             $templateObj
@@ -323,7 +323,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         // optional kann das überschreiben erzwungen werden.
         if ($this->defaultFalse('/mkmailer/forcemailfrom')) {
             $job->setFrom(
-                \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
                     'tx_mkmailer_mail_Address',
                     $this->getMailFrom(),
                     $this->getMailFromName()
@@ -332,7 +332,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         }
 
         // Hook to handle data before sending
-        \Sys25\RnBase\Utility\Misc::callHook(
+        Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'dh_mail_beforeSpoolMailJob',
             [
@@ -409,7 +409,7 @@ class tx_mkforms_dh_mail_Main extends formidable_maindatahandler
         $fieldId = ''
     ) {
         // @TODO: make marker class configurable
-        $markerClass = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Sys25\RnBase\Frontend\Marker\SimpleMarker::class);
+        $markerClass = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Frontend\Marker\SimpleMarker::class);
         $formatter = $this->getForm()->getConfigurations()->getFormatter();
 
         $itemName = $this->_navConf('/mkmailer/itemname');

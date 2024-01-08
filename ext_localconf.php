@@ -4,12 +4,12 @@ if (!defined('TYPO3')) {
     exit('Access denied.');
 }
 
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mksanitizedparameters')) {
-    require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'ext_rules.php';
+if (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mksanitizedparameters')) {
+    require_once TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'ext_rules.php';
 }
 // Predefine cache
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'] ?? null)
-    && \Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkforms', 'activateCache')
+    && Sys25\RnBase\Configuration\Processor::getExtensionCfgValue('mkforms', 'activateCache')
 ) {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['mkforms'] = [
         'frontend' => 'TYPO3\CMS\Core\Cache\Frontend\VariableFrontend',
@@ -132,4 +132,4 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['rdt_autocomp
 // also könnte ein valider exception code dieser extension 2001 sein
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] = 200;
 
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms', 'Classes/Constants.php');
+require_once TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms', 'Classes/Constants.php');

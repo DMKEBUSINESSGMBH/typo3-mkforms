@@ -31,7 +31,7 @@
  *
  * @author     Michael Wagner
  */
-class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\AbstractAction
+class tx_mkforms_action_FormBase extends Sys25\RnBase\Frontend\Controller\AbstractAction
 {
     /**
      * Form data.
@@ -157,7 +157,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
             $this->errors[] = 'No XML file found (TS: '.$confId.'xml).';
         }
         // existiert das xml
-        $absXmlPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($xmlPath);
+        $absXmlPath = Sys25\RnBase\Utility\T3General::getFileAbsFileName($xmlPath);
         if (empty($absXmlPath) || !file_exists($absXmlPath)) {
             $this->errors[] = 'The given XML file path ('.$xmlPath.') doesn\'t exists.';
         }
@@ -197,7 +197,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
         }
 
         // Hook to handle data
-        \Sys25\RnBase\Utility\Misc::callHook(
+        Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_before_processdata',
             ['data' => &$data],
@@ -216,7 +216,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
         $data = $this->processData($data);
 
         // Hook to handle data
-        \Sys25\RnBase\Utility\Misc::callHook(
+        Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_after_processdata',
             ['data' => &$data],
@@ -301,7 +301,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
         }
 
         // Hook to handle data
-        \Sys25\RnBase\Utility\Misc::callHook(
+        Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_before_filldata',
             ['data' => &$params],
@@ -311,7 +311,7 @@ class tx_mkforms_action_FormBase extends \Sys25\RnBase\Frontend\Controller\Abstr
         $data = $this->fillData($params);
 
         // Hook to handle data
-        \Sys25\RnBase\Utility\Misc::callHook(
+        Sys25\RnBase\Utility\Misc::callHook(
             'mkforms',
             'action_formbase_after_filldata',
             ['data' => &$data],

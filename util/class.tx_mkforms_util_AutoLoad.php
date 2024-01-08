@@ -85,7 +85,7 @@ class tx_mkforms_util_AutoLoad
         $msg = false;
         try { // klasse laden
             // Hook um andere klassen zu laden, xclasses beispielsweise.
-            \Sys25\RnBase\Utility\Misc::callHook(
+            Sys25\RnBase\Utility\Misc::callHook(
                 'mkforms',
                 'autoload_unserialize_callback_func',
                 ['class' => &$sClassName]
@@ -109,11 +109,11 @@ class tx_mkforms_util_AutoLoad
 
         // noch loggen
         // warning ins log schreiben, wenn die klasse geladen wurde
-        if (class_exists($sClassName) && \Sys25\RnBase\Utility\Logger::isWarningEnabled()) {
-            \Sys25\RnBase\Utility\Logger::warn($msg, 'mkforms');
+        if (class_exists($sClassName) && Sys25\RnBase\Utility\Logger::isWarningEnabled()) {
+            Sys25\RnBase\Utility\Logger::warn($msg, 'mkforms');
         } // fatal log schreiben, wenn die klasse nicht geladen werden konnte
-        elseif (!class_exists($sClassName) && \Sys25\RnBase\Utility\Logger::isFatalEnabled()) {
-            \Sys25\RnBase\Utility\Logger::fatal($msg, 'mkforms');
+        elseif (!class_exists($sClassName) && Sys25\RnBase\Utility\Logger::isFatalEnabled()) {
+            Sys25\RnBase\Utility\Logger::fatal($msg, 'mkforms');
         }
     }
 }

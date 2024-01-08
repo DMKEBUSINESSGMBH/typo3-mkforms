@@ -30,12 +30,12 @@
  *
  * @author hbochmann
  */
-class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_api_mainrendererTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     protected function setUp(): void
     {
         self::markTestIncomplete('RuntimeException: The requested database connection named "Default" has not been configured.');
-        \DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
+        DMK\Mklib\Utility\Tests::prepareTSFE(['force' => true, 'initFEuser' => true]);
 
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', []);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -52,7 +52,7 @@ class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTe
     public function testRenderInsertsCorrectRequestTokenIntoHtmlAndSession()
     {
         $form = tx_mkforms_tests_Util::getForm();
-        $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainrenderer');
+        $renderer = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainrenderer');
         $renderer->_init($form, [], [], '');
 
         $rendered = $renderer->_render([]);
@@ -84,7 +84,7 @@ class tx_mkforms_tests_api_mainrendererTest extends \Sys25\RnBase\Testing\BaseTe
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
         $form = tx_mkforms_tests_Util::getForm();
-        $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainrenderer');
+        $renderer = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_mainrenderer');
         $renderer->_init($form, [], [], '');
 
         $rendered = $renderer->_render([]);

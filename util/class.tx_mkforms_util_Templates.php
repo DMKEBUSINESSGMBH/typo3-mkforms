@@ -81,7 +81,7 @@ class tx_mkforms_util_Templates
         $templatePath = tx_mkforms_util_Div::toServerPath($templatePath);
 
         return $this->parseTemplateCode(
-            \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(\TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($templatePath), $templateMarker),
+            Sys25\RnBase\Frontend\Marker\Templates::getSubpart(TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($templatePath), $templateMarker),
             $aTags,
             $aExclude,
             $bClearNotUsed,
@@ -276,7 +276,7 @@ class tx_mkforms_util_Templates
         $aParams = [];
         $sArgs = trim($sArgs);
         if ('' !== $sArgs) {
-            $aArgs = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sArgs);
+            $aArgs = Sys25\RnBase\Utility\Strings::trimExplode(',', $sArgs);
             reset($aArgs);
             foreach ($aArgs as $sArg) {
                 $sTrimArg = trim($sArg);
@@ -401,7 +401,7 @@ class tx_mkforms_util_Templates
      */
     public function parseTemplateCode($sHtml, $aTags, $aExclude = [], $bClearNotUsed = true, $aLabels = [], $bThrusted = false)
     {
-        $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::includeSubTemplates($sHtml);
+        $sHtml = Sys25\RnBase\Frontend\Marker\Templates::includeSubTemplates($sHtml);
 
         if (!isset($this->sPfxBegin)) {
             $this->sPfxBegin = md5(rand());
@@ -426,8 +426,8 @@ class tx_mkforms_util_Templates
         }
         reset($aTags);
         foreach ($aTags as $sName => $mVal) {
-            if ('' !== ($sRdtSubPart = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sHtml, '###'.$sName.'###'))) {
-                $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
+            if ('' !== ($sRdtSubPart = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sHtml, '###'.$sName.'###'))) {
+                $sHtml = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
                     $sHtml,
                     '###'.$sName.'###',
                     $mVal['__compiled'],
@@ -476,11 +476,11 @@ class tx_mkforms_util_Templates
 
         // call module markers, so Labels and Modules can be rendered
         // disable the cache
-        \Sys25\RnBase\Frontend\Marker\Templates::disableSubstCache();
+        Sys25\RnBase\Frontend\Marker\Templates::disableSubstCache();
         $markerArray = $subpartArray = $wrappedSubpartArray = $params = [];
         // check for Module markers
         $formatter = $this->getForm()->getConfigurations()->getFormatter();
-        \Sys25\RnBase\Frontend\Marker\BaseMarker::callModules(
+        Sys25\RnBase\Frontend\Marker\BaseMarker::callModules(
             $sHtml,
             $markerArray,
             $subpartArray,
@@ -489,7 +489,7 @@ class tx_mkforms_util_Templates
             $formatter
         );
         // render the module markers
-        $sHtml = \Sys25\RnBase\Frontend\Marker\BaseMarker::substituteMarkerArrayCached(
+        $sHtml = Sys25\RnBase\Frontend\Marker\BaseMarker::substituteMarkerArrayCached(
             $sHtml,
             $markerArray,
             $subpartArray,
@@ -645,7 +645,7 @@ class tx_mkforms_util_Templates
         // TODO: Was ist das??
         // wird für template scripting benötigt
         // Bsp.: <!-- ###jobads-subtype.formData("jobads-maintype").equals(501) perimeter### begin-->
-        $oMethods = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_'.$sInterpreter);
+        $oMethods = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_'.$sInterpreter);
         $oMethods->_init($this->form);
 
         return $oMethods->process($sMethod, $mData, $sArgs);

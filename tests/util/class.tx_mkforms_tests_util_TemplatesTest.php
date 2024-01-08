@@ -25,7 +25,7 @@
 /**
  * benötigte Klassen einbinden.
  */
-class tx_mkforms_tests_util_TemplatesTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_util_TemplatesTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     /**
      * @group unit

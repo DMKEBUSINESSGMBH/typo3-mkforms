@@ -26,8 +26,8 @@ class tx_mkforms_widgets_jstree_Main extends formidable_mainrenderlet
     {
         $this->oForm->getJSLoader()->loadScriptaculousDragDrop();
 
-        $cssPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+        $cssPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
                 'EXT:mkforms/Resources/Public/JavaScript/widgets/jstree/lib/css/tree.css'
             )
         );

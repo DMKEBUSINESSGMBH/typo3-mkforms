@@ -30,11 +30,11 @@
  *
  * @author hbochmann
  */
-class tx_mkforms_tests_api_maindatahandlerTest extends \Sys25\RnBase\Testing\BaseTestCase
+class tx_mkforms_tests_api_maindatahandlerTest extends Sys25\RnBase\Testing\BaseTestCase
 {
     public function setUp(): void
     {
-        require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'/ext_localconf.php';
+        require_once TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms').'/ext_localconf.php';
     }
 
     public function testGetRdtValueSubmitEditionRemovesValuesOfNoneWidgets()
@@ -83,7 +83,7 @@ class tx_mkforms_tests_api_maindatahandlerTest extends \Sys25\RnBase\Testing\Bas
         $_POST['radioTestForm'] = $sData;
 
         $oForm = tx_mkforms_tests_Util::getForm();
-        $oHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindatahandler');
+        $oHandler = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('formidable_maindatahandler');
         $oHandler->_init($oForm, [], [], '');
 
         // einzelnes renderlet

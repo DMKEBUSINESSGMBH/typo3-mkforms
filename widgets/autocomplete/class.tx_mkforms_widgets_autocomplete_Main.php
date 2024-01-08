@@ -141,12 +141,12 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
             }
         }
 
-        $aAltList = \Sys25\RnBase\Utility\Strings::trimExplode(',', $sAltRows);
+        $aAltList = Sys25\RnBase\Utility\Strings::trimExplode(',', $sAltRows);
         if (sizeof($aAltList) > 0) {
-            $sRowsPart = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sTemplate, '###ROWS###');
+            $sRowsPart = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sTemplate, '###ROWS###');
 
             foreach ($aAltList as $sAltSubpart) {
-                $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sRowsPart, $sAltSubpart);
+                $sHtml = Sys25\RnBase\Frontend\Marker\Templates::getSubpart($sRowsPart, $sAltSubpart);
                 if (empty($sHtml)) {
                     $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template with subpart marquer <b>'".$sAltSubpart."'</b> returned an empty string - Please check your template!");
                 }
@@ -160,7 +160,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
     public function _getTemplate()
     {
         if (false !== ($aTemplate = $this->_navConf('/template'))) {
-            $sPath = \Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
+            $sPath = Sys25\RnBase\Utility\T3General::getFileAbsFileName($this->oForm->_navConf('/path', $aTemplate));
             if (!file_exists($sPath)) {
                 $this->oForm->mayday('renderlet:'.$this->_getType().'[name='.$this->getName()."] - The given template file path (<b>'".$sPath."'</b>) doesn't exists.");
             } elseif (is_dir($sPath)) {
@@ -173,8 +173,8 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                 $sSubpart = $this->getName();
             }
 
-            $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
-                \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
+            $sHtml = Sys25\RnBase\Frontend\Marker\Templates::getSubpart(
+                TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($sPath),
                 $sSubpart
             );
 
@@ -190,9 +190,9 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
 
     public function handleAjaxRequest($oRequest)
     {
-        $this->aConfig['searchType'] = \Sys25\RnBase\Utility\T3General::_GP('searchType');
-        $this->aConfig['searchText'] = \Sys25\RnBase\Utility\T3General::_GP('searchText');
-        $this->aConfig['searchCounter'] = (int) \Sys25\RnBase\Utility\T3General::_GP('searchCounter');
+        $this->aConfig['searchType'] = Sys25\RnBase\Utility\T3General::_GP('searchType');
+        $this->aConfig['searchText'] = Sys25\RnBase\Utility\T3General::_GP('searchText');
+        $this->aConfig['searchCounter'] = (int) Sys25\RnBase\Utility\T3General::_GP('searchCounter');
 
         $this->renderList($aParts, $aRowsHtml);
 
@@ -228,7 +228,7 @@ class tx_mkforms_widgets_autocomplete_Main extends formidable_mainrenderlet
                 $aRowsHtml[] = trim($sRowHtml);
             }
 
-            $sHtml = \Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
+            $sHtml = Sys25\RnBase\Frontend\Marker\Templates::substituteSubpart(
                 trim($this->sTemplate),
                 '###ROWS###',
                 '###ROWS###',

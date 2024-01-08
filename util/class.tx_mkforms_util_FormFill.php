@@ -106,7 +106,7 @@ class tx_mkforms_util_FormFill
                 }
 
                 $params['options']['where'] .= $params['dependsOn']['dbfield'].'='.
-                \Sys25\RnBase\Database\Connection::getInstance()->fullQuoteStr($val, $tab);
+                Sys25\RnBase\Database\Connection::getInstance()->fullQuoteStr($val, $tab);
             }
         }
 
@@ -124,7 +124,7 @@ class tx_mkforms_util_FormFill
         if (empty($params['dependsOn'])
             || (!empty($params['dependsOn']) && !empty($val))
         ) {
-            $rows = \Sys25\RnBase\Database\Connection::getInstance()->doSelect(
+            $rows = Sys25\RnBase\Database\Connection::getInstance()->doSelect(
                 $params['valueField'].' as __value__,'.$params['captionField'].' as __caption__',
                 $table,
                 isset($params['options']) ? $params['options'] : [],
@@ -166,9 +166,9 @@ class tx_mkforms_util_FormFill
      */
     public function getStaticCountries($params, tx_mkforms_forms_Base $form)
     {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables');
+        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables');
 
-        $config = \Sys25\RnBase\Domain\Model\DataModel::getInstance($params);
+        $config = Sys25\RnBase\Domain\Model\DataModel::getInstance($params);
 
         $captionField = (
             $config->hasCaptionField() ? $config->getCaptionField() : 'cn_short_en'
@@ -189,7 +189,7 @@ class tx_mkforms_util_FormFill
 
         // sort some countries to top of the list.
         if ($config->hasAddTopCountries()) {
-            $topCountries = \Sys25\RnBase\Utility\Strings::intExplode(',', $config->getAddTopCountries());
+            $topCountries = Sys25\RnBase\Utility\Strings::intExplode(',', $config->getAddTopCountries());
             foreach ($topCountries as &$topCountry) {
                 foreach ($countries as $countryKey => $country) {
                     if ($country['value'] != $topCountry) {

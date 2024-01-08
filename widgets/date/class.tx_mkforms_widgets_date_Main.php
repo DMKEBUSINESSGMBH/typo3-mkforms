@@ -43,8 +43,8 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         $sLabel = $this->getLabel();
 
         $sTriggerId = $this->getTriggerId();
-        $resourcesPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+        $resourcesPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
                 'EXT:mkforms/Resources/Public/JavaScript/widgets/date/lib'
             )
         );
@@ -373,9 +373,9 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
             return;
         }
 
-        $sLang = ('default' != \Sys25\RnBase\Utility\Environment::getCurrentLanguageKey()) ?? 'en';
-        $resourcesPath = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
+        $sLang = ('default' != Sys25\RnBase\Utility\Environment::getCurrentLanguageKey()) ?? 'en';
+        $resourcesPath = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(
+            TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName(
                 'EXT:mkforms/Resources/Public/JavaScript/widgets/date/lib'
             )
         );
@@ -388,7 +388,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
         $oJsLoader = $this->getForm()->getJSLoader();
         $css = '';
         if ($cssFile = $this->getForm()->getConfTS('renderlets.date.css')) {
-            $cssFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(\Sys25\RnBase\Utility\Files::getFileAbsFileName($cssFile));
+            $cssFile = TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(Sys25\RnBase\Utility\Files::getFileAbsFileName($cssFile));
             $cssFile = $oJsLoader->getScriptPath($cssFile, 'css');
             $css = empty($cssFile) ? '' : '<link rel="stylesheet" type="text/css" media="all" href="'.$cssFile.'" />';
         }

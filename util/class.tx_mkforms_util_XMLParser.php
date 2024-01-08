@@ -295,7 +295,7 @@ class tx_mkforms_util_XMLParser
                 }
 
                 // Get the tag name (without prefix if specified)
-                $tagName = ($prefix && \Sys25\RnBase\Utility\Strings::isFirstPartOfStr($val['tag'], $prefix)) ? substr($val['tag'], strlen($prefix)) : $val['tag'];
+                $tagName = ($prefix && Sys25\RnBase\Utility\Strings::isFirstPartOfStr($val['tag'], $prefix)) ? substr($val['tag'], strlen($prefix)) : $val['tag'];
                 if (false === $bPlain) {
                     $aTagName = explode(
                         ':',
