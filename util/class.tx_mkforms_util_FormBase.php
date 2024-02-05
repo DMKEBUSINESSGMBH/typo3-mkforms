@@ -161,7 +161,7 @@ class tx_mkforms_util_FormBase
      *
      * @return Sys25\RnBase\Configuration\Processor
      */
-    protected static function getConfigurations(tx_ameosformidable $form, Sys25\RnBase\Configuration\Processor $configurations = null)
+    protected static function getConfigurations(tx_ameosformidable $form, ?Sys25\RnBase\Configuration\Processor $configurations = null)
     {
         if (!is_object($configurations)) {
             $configurations = (is_object($oParent = self::getParent($form, 'getConfiguration'))) ? $oParent->getConfiguration() : $form->getConfigurations();
@@ -218,7 +218,7 @@ class tx_mkforms_util_FormBase
     public static function flatArray2MultipleTableStructure(
         array $data,
         tx_ameosformidable &$form,
-        Sys25\RnBase\Configuration\Processor &$configurations = null,
+        ?Sys25\RnBase\Configuration\Processor &$configurations = null,
         $confId = ''
     ) {
         // Konfiguration und Id besorgen, falls nicht übergeben.
@@ -306,7 +306,7 @@ class tx_mkforms_util_FormBase
     public static function multipleTableStructure2FlatArray(
         array $data,
         tx_ameosformidable &$form,
-        Sys25\RnBase\Configuration\Processor &$configurations = null,
+        ?Sys25\RnBase\Configuration\Processor &$configurations = null,
         $confId = ''
     ) {
         // Konfiguration und Id besorgen, falls nicht übergeben.
