@@ -42,39 +42,39 @@ class tx_mkforms_tests_util_DivTest extends Sys25\RnBase\Testing\BaseTestCase
     public function testGetSetupByKeys()
     {
         $aConfig = [
-                'lib.' => [
-                    'mkforms.' => [
-                        'formbase.' => [
-                            'testmode' => 1,
-                        ],
-                    ],
-                    'mkextension.' => [
-                        'installed' => 1,
+            'lib.' => [
+                'mkforms.' => [
+                    'formbase.' => [
+                        'testmode' => 1,
                     ],
                 ],
-                'plugin.' => [
-                    'tx_mkforms' => 'USER_INT',
-                    'tx_mkforms.' => [
-                        'genericTemplate' => 'EXT:mkforms/Resources/Private/Templates/formonly.html',
-                    ],
-                    'tx_mkextension.' => [
-                        'extensionTemplate' => 'EXT:mkextension/templates/template.html',
+                'mkextension.' => [
+                    'installed' => 1,
+                ],
+            ],
+            'plugin.' => [
+                'tx_mkforms' => 'USER_INT',
+                'tx_mkforms.' => [
+                    'genericTemplate' => 'EXT:mkforms/Resources/Private/Templates/formonly.html',
+                ],
+                'tx_mkextension.' => [
+                    'extensionTemplate' => 'EXT:mkextension/templates/template.html',
+                ],
+            ],
+            'config.' => [
+                'tx_mkforms.' => [
+                    'cache.' => [
+                        'tsPaths' => 0,
                     ],
                 ],
-                'config.' => [
-                    'tx_mkforms.' => [
-                        'cache.' => [
-                            'tsPaths' => 0,
-                        ],
-                    ],
-                ],
-            ];
+            ],
+        ];
         $aWill = [
-                'lib' => 1,
-                'plugin.' => [
-                    'tx_mkforms' => 1,
-                ],
-            ];
+            'lib' => 1,
+            'plugin.' => [
+                'tx_mkforms' => 1,
+            ],
+        ];
         $aArray = tx_mkforms_util_Div::getSetupByKeys($aConfig, $aWill);
         self::assertTrue(array_key_exists('lib.', $aArray), 'lib. not found in array.');
         self::assertTrue(array_key_exists('mkforms.', $aArray['lib.']), 'lib.mkforms. not found in array.');

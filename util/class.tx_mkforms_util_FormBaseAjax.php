@@ -134,11 +134,11 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
         $displayActions = [];
         foreach (self::explodeParam($params['majixActionsAfterFinish']) as $option) {
             $displayActions[] = [
-                                        'renderlet' => $option[0],
-                                        'command' => $option[1],
-                                        'params' => isset($option[2]) ? [$option[2]] : [],
-                                        'conditions' => isset($option[3]) ? $option[3] : null,
-                                ];
+                'renderlet' => $option[0],
+                'command' => $option[1],
+                'params' => isset($option[2]) ? [$option[2]] : [],
+                'conditions' => isset($option[3]) ? $option[3] : null,
+            ];
         }
         // actions rendern
         foreach ($displayActions as $action) {
@@ -147,9 +147,9 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                     // die action der form aufrufen
                     $return[] = call_user_func_array(
                         [
-                                                        $form,
-                                                        'majix'.ucfirst($action['command']),
-                                                    ],
+                            $form,
+                            'majix'.ucfirst($action['command']),
+                        ],
                         $action['params']
                     );
 
@@ -184,9 +184,9 @@ class tx_mkforms_util_FormBaseAjax extends tx_mkforms_util_FormBase
                             // Just call the requested action
                             $return[] = call_user_func_array(
                                 [
-                                                                $widget,
-                                                                'majix'.ucfirst($action['command']),
-                                                            ],
+                                    $widget,
+                                    'majix'.ucfirst($action['command']),
+                                ],
                                 $action['params']
                             );
                         }

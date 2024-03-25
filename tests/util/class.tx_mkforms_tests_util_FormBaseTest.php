@@ -74,9 +74,9 @@ class tx_mkforms_tests_util_FormBaseTest extends Sys25\RnBase\Testing\BaseTestCa
             Sys25\RnBase\Utility\Arrays::mergeRecursiveWithOverrule(
                 tx_mkforms_tests_Util::getDefaultFormConfig(true),
                 ['myConf.' => [
-                        'path' => 'TEXT',
-                        'path.' => ['value' => 'textvalue'],
-                    ],
+                    'path' => 'TEXT',
+                    'path.' => ['value' => 'textvalue'],
+                ],
                 ]
             )
         );

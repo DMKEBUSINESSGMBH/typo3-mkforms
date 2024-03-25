@@ -1777,11 +1777,11 @@ TOOLTIP;
                             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxevent'][$this->_getSessionDataHashKey(
                             )]
                                 = [
-                                'requester' => [
-                                    'name' => 'tx_ameosformidable',
-                                    'xpath' => '/',
-                                ],
-                            ];
+                                    'requester' => [
+                                        'name' => 'tx_ameosformidable',
+                                        'xpath' => '/',
+                                    ],
+                                ];
 
                             break;
 
@@ -1805,10 +1805,10 @@ TOOLTIP;
 
                                     $this->oForm->aOnloadEvents['client']['onload:'.$this->_getElementHtmlIdWithoutFormId()]
                                         = [
-                                        'name' => $this->_getElementHtmlId(),
-                                        'event' => $mEvent,
-                                        'eventdata' => $aEvent,
-                                    ];
+                                            'name' => $this->_getElementHtmlId(),
+                                            'event' => $mEvent,
+                                            'eventdata' => $aEvent,
+                                        ];
                                 }
                             }
                             break;
@@ -1852,10 +1852,10 @@ TOOLTIP;
 
                                 $this->getForm()->aOnloadEvents['client']['onload:'.$this->_getElementHtmlIdWithoutFormId()]
                                     = [
-                                    'name' => $this->_getElementHtmlId(),
-                                    'event' => $mEvent,
-                                    'eventdata' => $aEvent,
-                                ];
+                                        'name' => $this->_getElementHtmlId(),
+                                        'event' => $mEvent,
+                                        'eventdata' => $aEvent,
+                                    ];
                             }
                             break;
 

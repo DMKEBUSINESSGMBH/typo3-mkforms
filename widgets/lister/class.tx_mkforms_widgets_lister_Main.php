@@ -93,9 +93,9 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     if (false === $this->getForm()->_defaultTrue('/process', $mEmpty)) {
                         // nicht verarbeiten!
                         return [
-                                '__compiled' => '',
-                                'pager.' => ['numrows' => 0],
-                            ];
+                            '__compiled' => '',
+                            'pager.' => ['numrows' => 0],
+                        ];
                     }
 
                     if (false !== $this->getForm()->_navConf('/message', $mEmpty)) {
@@ -566,10 +566,10 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
             $this->_initLimitAndSort();
 
             $aConfig = [
-                    'page' => ($this->aLimitAndSort['curpage'] - 1),
-                    'perpage' => $this->aLimitAndSort['rowsperpage'],
-                    'sortcolumn' => $this->aLimitAndSort['sortby'],
-                    'sortdirection' => $this->aLimitAndSort['sortdir'],
+                'page' => ($this->aLimitAndSort['curpage'] - 1),
+                'perpage' => $this->aLimitAndSort['rowsperpage'],
+                'sortcolumn' => $this->aLimitAndSort['sortby'],
+                'sortdirection' => $this->aLimitAndSort['sortdir'],
             ];
         }
 

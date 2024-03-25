@@ -379,15 +379,15 @@ class tx_mkforms_util_Json
     public function reduce_string($str)
     {
         $str = preg_replace([
-                // eliminate single line comments in '// ...' form
-                '#^\s*//(.+)$#m',
+            // eliminate single line comments in '// ...' form
+            '#^\s*//(.+)$#m',
 
-                // eliminate multi-line comments in '/* ... */' form, at start of string
-                '#^\s*/\*(.+)\*/#Us',
+            // eliminate multi-line comments in '/* ... */' form, at start of string
+            '#^\s*/\*(.+)\*/#Us',
 
-                // eliminate multi-line comments in '/* ... */' form, at end of string
-                '#/\*(.+)\*/\s*$#Us',
-            ], '', $str);
+            // eliminate multi-line comments in '/* ... */' form, at end of string
+            '#/\*(.+)\*/\s*$#Us',
+        ], '', $str);
 
         // eliminate extraneous space
         return trim($str);
@@ -540,8 +540,8 @@ class tx_mkforms_util_Json
                     }
 
                     array_push($stk, ['what' => SERVICES_JSON_SLICE,
-                                           'where' => 0,
-                                           'delim' => false, ]);
+                        'where' => 0,
+                        'delim' => false, ]);
 
                     $chrs = substr($str, 1, -1);
                     $chrs = $this->reduce_string($chrs);

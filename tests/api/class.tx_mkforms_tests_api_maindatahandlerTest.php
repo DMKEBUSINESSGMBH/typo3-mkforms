@@ -40,46 +40,46 @@ class tx_mkforms_tests_api_maindatahandlerTest extends Sys25\RnBase\Testing\Base
     public function testGetRdtValueSubmitEditionRemovesValuesOfNoneWidgets()
     {
         $sData = [
-                'fieldset' => [
-                    'texte' => [
-                        'input' => [
-                            'widget-text' => 'Eins',
-                        ],
-                        'widget-thatDoesNotExistInTheXml1' => 'valueThatShouldBeRemoved1',
+            'fieldset' => [
+                'texte' => [
+                    'input' => [
+                        'widget-text' => 'Eins',
                     ],
-                    'widget-checkbox' => [
-                        'item-5' => '6',
-                        'item-8' => '9',
-                    ],
-                    'widgetlister' => [
-                        1 => [
-                            'listerdata-uid' => 1,
-                            'listerdata-title' => 'Titel 1',
-                            'listerdata-thatdoednotexists' => 'Titel 1',
-                        ],
-                        2 => [
-                            'listerdata-uid' => 2,
-                            'listerdata-title' => 'Titel 2',
-                        ],
-                        3 => [
-                            'listerdata-uid' => 3,
-                            'listerdata-title' => 'Titel 3',
-                        ],
-                        4 => [
-                            'listerdata-uid' => 4,
-                            'listerdata-title' => 'Titel 4',
-                        ],
-                        5 => [
-                            'listerdata-uid' => 5,
-                            'listerdata-title' => 'Titel 5',
-                        ],
-                        'selected' => '5',
+                    'widget-thatDoesNotExistInTheXml1' => 'valueThatShouldBeRemoved1',
+                ],
+                'widget-checkbox' => [
+                    'item-5' => '6',
+                    'item-8' => '9',
+                ],
+                'widgetlister' => [
+                    1 => [
+                        'listerdata-uid' => 1,
+                        'listerdata-title' => 'Titel 1',
                         'listerdata-thatdoednotexists' => 'Titel 1',
                     ],
-                    'widget-thatDoesNotExistInTheXml2' => 'valueThatShouldBeRemoved2',
+                    2 => [
+                        'listerdata-uid' => 2,
+                        'listerdata-title' => 'Titel 2',
+                    ],
+                    3 => [
+                        'listerdata-uid' => 3,
+                        'listerdata-title' => 'Titel 3',
+                    ],
+                    4 => [
+                        'listerdata-uid' => 4,
+                        'listerdata-title' => 'Titel 4',
+                    ],
+                    5 => [
+                        'listerdata-uid' => 5,
+                        'listerdata-title' => 'Titel 5',
+                    ],
+                    'selected' => '5',
+                    'listerdata-thatdoednotexists' => 'Titel 1',
                 ],
-                'widget-thatDoesNotExistInTheXml3' => 'valueThatShouldBeRemoved3',
-            ];
+                'widget-thatDoesNotExistInTheXml2' => 'valueThatShouldBeRemoved2',
+            ],
+            'widget-thatDoesNotExistInTheXml3' => 'valueThatShouldBeRemoved3',
+        ];
         $_POST['radioTestForm'] = $sData;
 
         $oForm = tx_mkforms_tests_Util::getForm();

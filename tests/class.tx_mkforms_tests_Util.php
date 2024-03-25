@@ -118,9 +118,9 @@ class tx_mkforms_tests_Util
             'generic.' => [
                 'xml' => 'EXT:mkforms/tests/xml/renderlets.xml',
                 'addfields.' => [
-                        'widget-addfield' => 'addfield feld',
-                        'widget-remove' => 'unset',
-                    ],
+                    'widget-addfield' => 'addfield feld',
+                    'widget-remove' => 'unset',
+                ],
                 'fieldSeparator' => '-',
                 'addPostVars' => 1,
                 'formconfig.' => [
@@ -166,8 +166,8 @@ class tx_mkforms_tests_Util
             'ses',
             'mkforms',
             ['requestToken' => [
-                    $formId => $requestToken,
-                ],
+                $formId => $requestToken,
+            ],
             ]
         );
         $GLOBALS['TSFE']->fe_user->storeSessionData();

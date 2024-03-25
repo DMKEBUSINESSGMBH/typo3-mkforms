@@ -133,61 +133,61 @@ class tx_mkforms_tests_action_FormBaseTest extends Sys25\RnBase\Testing\BaseTest
     public function testProcessForm()
     {
         $sData = [
-                'fieldset' => [
-                    'texte' => [
-                        'input' => [
-                            'widget-text' => 'Eins',
-                            'widget1-widget2-text' => 'Zwei',
-                        ],
-                        'area' => [
-                            'textarea' => 'Sehr Lang!',
-                        ],
+            'fieldset' => [
+                'texte' => [
+                    'input' => [
+                        'widget-text' => 'Eins',
+                        'widget1-widget2-text' => 'Zwei',
                     ],
-                    'widget-remove' => 'sollte entfernt werden',
-                    'widget-radiobutton' => '3',
-                    'widget-listbox' => '7',
-                    'widget-checkbox' => [
-                        'item-5' => '6',
-                        'item-8' => '9',
-                    ],
-                    'widget-date' => '426204000',
-                    'widgetlister' => [
-                        1 => [
-                            'listerdata-uid' => 1,
-                            'listerdata-title' => 'Titel 1',
-                            'listerdata-notInXml' => 'Titel 1',
-                        ],
-                        2 => [
-                            'listerdata-uid' => 2,
-                            'listerdata-title' => 'Titel 2',
-                        ],
-                        3 => [
-                            'listerdata-uid' => 3,
-                            'listerdata-title' => 'Titel 3',
-                        ],
-                        4 => [
-                            'listerdata-uid' => 4,
-                            'listerdata-title' => 'Titel 4',
-                        ],
-                        5 => [
-                            'listerdata-uid' => 5,
-                            'listerdata-title' => 'Titel 5',
-                        ],
-                        'selected' => '5',
-                        'notInXml' => 'Titel 1',
+                    'area' => [
+                        'textarea' => 'Sehr Lang!',
                     ],
                 ],
-                'widget-submit' => 'Daten absenden',
-                'widget-thatDoesNotExistInTheXml' => 'valueThatShouldBeRemoved',
-                'AMEOSFORMIDABLE_SERVEREVENT' => '',
-                'AMEOSFORMIDABLE_SERVEREVENT_PARAMS' => '',
-                'AMEOSFORMIDABLE_SERVEREVENT_HASH' => '',
-                'AMEOSFORMIDABLE_ADDPOSTVARS' => '[{"action":"formData","params":{"widget-submit":"1"}}]',
-                'AMEOSFORMIDABLE_VIEWSTATE' => '',
-                'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
-                'AMEOSFORMIDABLE_SUBMITTER' => '',
-                'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->generateRequestToken(),
-            ];
+                'widget-remove' => 'sollte entfernt werden',
+                'widget-radiobutton' => '3',
+                'widget-listbox' => '7',
+                'widget-checkbox' => [
+                    'item-5' => '6',
+                    'item-8' => '9',
+                ],
+                'widget-date' => '426204000',
+                'widgetlister' => [
+                    1 => [
+                        'listerdata-uid' => 1,
+                        'listerdata-title' => 'Titel 1',
+                        'listerdata-notInXml' => 'Titel 1',
+                    ],
+                    2 => [
+                        'listerdata-uid' => 2,
+                        'listerdata-title' => 'Titel 2',
+                    ],
+                    3 => [
+                        'listerdata-uid' => 3,
+                        'listerdata-title' => 'Titel 3',
+                    ],
+                    4 => [
+                        'listerdata-uid' => 4,
+                        'listerdata-title' => 'Titel 4',
+                    ],
+                    5 => [
+                        'listerdata-uid' => 5,
+                        'listerdata-title' => 'Titel 5',
+                    ],
+                    'selected' => '5',
+                    'notInXml' => 'Titel 1',
+                ],
+            ],
+            'widget-submit' => 'Daten absenden',
+            'widget-thatDoesNotExistInTheXml' => 'valueThatShouldBeRemoved',
+            'AMEOSFORMIDABLE_SERVEREVENT' => '',
+            'AMEOSFORMIDABLE_SERVEREVENT_PARAMS' => '',
+            'AMEOSFORMIDABLE_SERVEREVENT_HASH' => '',
+            'AMEOSFORMIDABLE_ADDPOSTVARS' => '[{"action":"formData","params":{"widget-submit":"1"}}]',
+            'AMEOSFORMIDABLE_VIEWSTATE' => '',
+            'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
+            'AMEOSFORMIDABLE_SUBMITTER' => '',
+            'MKFORMS_REQUEST_TOKEN' => self::getAction()->getForm()->generateRequestToken(),
+        ];
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', ['requestToken' => [self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken()]]);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 
@@ -271,9 +271,9 @@ class tx_mkforms_tests_action_FormBaseTest extends Sys25\RnBase\Testing\BaseTest
     public function testProcessFormThrowsExceptionWithInvalidRequestToken()
     {
         $sData = [
-                'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
-                'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid',
-            ];
+            'AMEOSFORMIDABLE_SUBMITTED' => 'AMEOSFORMIDABLE_EVENT_SUBMIT_FULL',
+            'MKFORMS_REQUEST_TOKEN' => 'iAmInvalid',
+        ];
         $GLOBALS['TSFE']->fe_user->setKey('ses', 'mkforms', ['requestToken' => [self::getAction()->getForm()->getFormId() => self::getAction()->getForm()->generateRequestToken()]]);
         $GLOBALS['TSFE']->fe_user->storeSessionData();
 

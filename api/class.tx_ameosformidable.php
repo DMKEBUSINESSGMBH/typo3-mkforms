@@ -2589,11 +2589,11 @@ SANDBOXCLASS;
             $GLOBALS['_SESSION']['ameos_formidable']['ajax_services']['tx_ameosformidable']['ajaxservice'][$this->_getSessionDataHashKey(
             )]
                 = [
-                'requester' => [
-                    'name' => 'tx_ameosformidable',
-                    'xpath' => '/',
-                ],
-            ];
+                    'requester' => [
+                        'name' => 'tx_ameosformidable',
+                        'xpath' => '/',
+                    ],
+                ];
         }
     }
 
