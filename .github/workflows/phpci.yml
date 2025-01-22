@@ -145,7 +145,7 @@ jobs:
 
         runs-on: "ubuntu-latest"
 
-        needs: ["php-lint", "php-qs"]
+        needs: ["php-lint", "php-cs", "php-compatibility"]
 
         strategy:
             fail-fast: false
