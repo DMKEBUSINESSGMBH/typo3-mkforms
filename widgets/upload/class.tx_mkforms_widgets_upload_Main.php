@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_upload' for the 'ameos_formidable' extension.
  *

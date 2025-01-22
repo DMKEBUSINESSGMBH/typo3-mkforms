@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Minify - Combines, minifies, and caches JavaScript and CSS files on demand.
  *

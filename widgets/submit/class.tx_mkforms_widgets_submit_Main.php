@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_submit' for the 'ameos_formidable' extension.
  *

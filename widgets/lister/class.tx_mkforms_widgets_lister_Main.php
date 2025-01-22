@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_lister' for the 'ameos_formidable' extension.
  *

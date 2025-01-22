@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdr_template' for the 'ameos_formidable' extension.
  *

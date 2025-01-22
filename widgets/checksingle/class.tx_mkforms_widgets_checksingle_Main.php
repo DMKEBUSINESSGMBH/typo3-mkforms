@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_checksingle' for the 'ameos_formidable' extension.
  *

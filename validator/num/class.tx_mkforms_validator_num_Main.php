@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'va_num' for the 'ameos_formidable' extension.
  *

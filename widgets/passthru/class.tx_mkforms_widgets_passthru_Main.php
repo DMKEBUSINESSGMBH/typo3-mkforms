@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_passthru' for the 'ameos_formidable' extension.
  *

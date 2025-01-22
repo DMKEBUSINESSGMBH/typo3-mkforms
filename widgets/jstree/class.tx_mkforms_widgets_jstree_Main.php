@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_jstree' for the 'ameos_formidable' extension.
  *

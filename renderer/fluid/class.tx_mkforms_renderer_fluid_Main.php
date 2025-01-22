@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'tx_fluid' for the 'ameos_formidable' extension.
  *

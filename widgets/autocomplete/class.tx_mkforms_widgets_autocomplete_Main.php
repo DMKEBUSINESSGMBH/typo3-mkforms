@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_autocomplete' for the 'ameos_formidable' extension.
  *

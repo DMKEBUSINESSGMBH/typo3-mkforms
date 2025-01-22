@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdr_void' for the 'ameos_formidable' extension.
  *

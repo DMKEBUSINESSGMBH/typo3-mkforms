@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_date' for the 'ameos_formidable' extension.
  *

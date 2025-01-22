@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_mediaupload' for the 'mkforms' extension.
  * Based on original rdt_upload from Jerome Schneider <typo3dev@ameos.com>.
