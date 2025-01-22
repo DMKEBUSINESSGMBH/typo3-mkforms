@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_modalbox2' for the 'ameos_formidable' extension.
  *

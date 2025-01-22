@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'va_std' for the 'ameos_formidable' extension.
  *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_accordion' for the 'ameos_formidable' extension.
  *

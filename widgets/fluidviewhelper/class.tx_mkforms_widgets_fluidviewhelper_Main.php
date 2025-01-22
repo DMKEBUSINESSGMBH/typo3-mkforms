@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -32,32 +33,12 @@
 class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
 {
     /**
-     * @var TYPO3\CMS\Extbase\Object\ObjectManager
-     */
-    protected $_objectManager;
-    /**
      * the viewhelper class to use.
      * it was build by the viewhelper config from xml.
      *
      * @var string
      */
     protected $_viewHelperClass;
-
-    /**
-     * erzeugt den object manager, um die helper zu instanzieren.
-     *
-     * @return TYPO3\CMS\Extbase\Object\ObjectManager
-     */
-    protected function getObjectManager()
-    {
-        if (null === $this->_objectManager) {
-            $this->_objectManager = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                'TYPO3\\CMS\\Extbase\\Object\\ObjectManager'
-            );
-        }
-
-        return $this->_objectManager;
-    }
 
     /**
      * creates the view helper class name.
@@ -69,15 +50,12 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
         if (null === $this->_viewHelperClass) {
             $helperClass = $this->_navConf('/viewhelper');
             try {
-                $viewHelper = $this->getObjectManager()->get($helperClass);
-            } catch (TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
+                $viewHelper = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($helperClass);
+            } catch (Exception $e) {
                 // try to add the fluid base namespace
-                try {
-                    $viewHelper = $this->getObjectManager()->get(
-                        '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\'.ucfirst($helperClass).'ViewHelper'
-                    );
-                } catch (TYPO3\CMS\Extbase\Object\Container\Exception\UnknownObjectException $e) {
-                }
+                $viewHelper = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                    '\\TYPO3\\CMS\\Fluid\\ViewHelpers\\'.ucfirst($helperClass).'ViewHelper'
+                );
             }
             if (!$viewHelper instanceof TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper) {
                 throw new Exception('Could not find ViewHelperClass: '.$helperClass);
@@ -88,15 +66,9 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
         return $this->_viewHelperClass;
     }
 
-    /**
-     * creates the view helper.
-     *
-     * @return TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
-     */
-    protected function getViewHelper()
+    protected function getViewHelper(): TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
     {
-        $helperClass = $this->getViewHelperClass();
-        $viewHelper = $this->getObjectManager()->get($helperClass);
+        $viewHelper = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($this->getViewHelperClass());
         $viewHelper->setArguments($this->getArguments());
 
         return $viewHelper;
@@ -150,6 +122,11 @@ class tx_mkforms_widgets_fluidviewhelper_Main extends formidable_mainrenderlet
      */
     public function _render()
     {
+        throw new RuntimeException('
+            This widget needs a refactoring. It seems like this widget did not support
+            arbitrary ViewHelper but only those that inherited \TYPO3\CMS\Fluid\Core\Widget\AbstractWidgetViewHelper
+            which is gone in the mean time.
+        ');
         $label = $this->getLabel();
 
         try {

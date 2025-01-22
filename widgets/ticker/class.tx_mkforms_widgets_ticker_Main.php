@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_ticker' for the 'ameos_formidable' extension.
  *

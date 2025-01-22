@@ -85,6 +85,8 @@ class tx_mkforms_util_Json
 {
     private static $instance;
 
+    private $use;
+
     /**
      * Returns an instance of this class.
      *

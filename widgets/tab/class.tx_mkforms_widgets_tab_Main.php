@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_box' for the 'ameos_formidable' extension.
  *

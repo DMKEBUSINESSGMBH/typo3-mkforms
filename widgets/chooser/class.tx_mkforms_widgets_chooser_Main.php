@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_chooser' for the 'ameos_formidable' extension.
  *

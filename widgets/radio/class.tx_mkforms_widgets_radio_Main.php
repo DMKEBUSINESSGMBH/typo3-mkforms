@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_radio' for the 'ameos_formidable' extension.
  *

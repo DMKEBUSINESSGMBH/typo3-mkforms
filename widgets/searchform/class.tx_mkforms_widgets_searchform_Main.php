@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_searchform' for the 'ameos_formidable' extension.
  *

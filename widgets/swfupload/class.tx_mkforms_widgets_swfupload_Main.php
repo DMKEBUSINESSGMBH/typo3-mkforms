@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_swfupload' for the 'ameos_formidable' extension.
  *

@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -119,7 +120,7 @@ class tx_mkforms_session_MixedSessionManager implements tx_mkforms_session_IMana
             $sessData['pageid'] = $GLOBALS['TSFE']->id;
             $sLang = Sys25\RnBase\Utility\Environment::getCurrentLanguageKey();
             $sessData['lang'] = $sLang;
-            $sessData['spamProtectEmailAddresses'] = $GLOBALS['TSFE']->spamProtectEmailAddresses;
+            $sessData['spamProtectEmailAddresses'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses'] ?? '';
             $sessData['spamProtectEmailAddresses_atSubst'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_atSubst'] ?? '';
             $sessData['spamProtectEmailAddresses_lastDotSubst'] = $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_lastDotSubst'] ?? '';
             $sessData['formidable_tsconfig'] = $GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.'] ?? [];

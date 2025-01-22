@@ -86,9 +86,6 @@ class formidableajax
         // Hier wird ein Array mit verschiedenen Objekten und Daten aus der Session geladen.
         $aHibernation = &$GLOBALS['_SESSION']['ameos_formidable']['hibernate'][$formid];
 
-        // Die TSFE muss vor dem Form wieder hergestellt werden, damit die LANG stimmt
-        $this->initTSFE($formid, $sesMgr, $aHibernation, $this->aRequest['pageId']);
-
         // Das Formular aus der Session holen.
         $start = microtime(true);
         $this->oForm = $sesMgr->restoreForm($formid);
@@ -103,10 +100,6 @@ class formidableajax
 
         $sesMgr->setForm($this->oForm);
         $formid = $this->oForm->getFormId();
-
-        if ($this->aConf['initBEuser']) {
-            $this->_initBeUser();
-        }
 
         $start = microtime(true);
         $aRdtKeys = array_keys($this->oForm->aORenderlets);
@@ -131,48 +124,6 @@ class formidableajax
         $this->ttTimes['init'] = microtime(true) - $this->ttStart;
 
         return true;
-    }
-
-    /**
-     * @param string                      $formid
-     * @param tx_mkforms_session_IManager $sesMgr
-     * @param array                       $aHibernation
-     * @param int                         $pageId
-     *
-     * @todo no support for virtualizeFE option since typo3 9.5 right now. If no support is needed/added this method can be
-     * removed when making mkforms compatible to TYPO3 11.
-     */
-    private function initTSFE($formid, $sesMgr, $aHibernation, int $pageId)
-    {
-        if ($this->aConf['virtualizeFE']) {
-            // Hier wird eine TSFE erstellt. Das hängt vom jeweiligen Ajax-Call ab.
-            $start = microtime(true);
-            // Der sesMgr verwendet hier das FORM um die PID zu ermitteln
-            $feConfig = $sesMgr->restoreFeConfig($formid, $pageId);
-            $sesMgr->restoreFeSetup($formid, $pageId);
-            // Das dauert hier echt lang. Ca. 70% der Init-Zeit
-            $this->ttTimes['fecrest'] = microtime(true) - $start;
-            $context = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Core\Context\Context::class);
-            $context->setAspect(
-                'language',
-                new TYPO3\CMS\Core\Context\LanguageAspect(
-                    $aHibernation['sys_language_uid'],
-                    $aHibernation['sys_language_content'],
-                    $context->getAspect('language')->getOverlayType(),
-                    $context->getAspect('language')->getFallbackChain()
-                )
-            );
-
-            $GLOBALS['TSFE']->config = $feConfig;
-            $GLOBALS['TSFE']->tmpl->setup['config.']['sys_language_uid'] = $aHibernation['sys_language_uid'];
-            $GLOBALS['TSFE']->tmpl->setup['config.']['tx_ameosformidable.'] = $aHibernation['formidable_tsconfig'];
-
-            $GLOBALS['TSFE']->config['config']['language'] = $aHibernation['lang'];
-            $GLOBALS['TSFE']->id = $aHibernation['pageid'];
-            $GLOBALS['TSFE']->spamProtectEmailAddresses = $aHibernation['spamProtectEmailAddresses'];
-            $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_atSubst'] = $aHibernation['spamProtectEmailAddresses_atSubst'];
-            $GLOBALS['TSFE']->config['config']['spamProtectEmailAddresses_lastDotSubst'] = $aHibernation['spamProtectEmailAddresses_lastDotSubst'];
-        }
     }
 
     public function handleRequest(): string
@@ -260,99 +211,6 @@ class formidableajax
     {
         header('Content-Type: text/plain; charset=UTF-8');
         exit('{/* SERVICE DENIED: '.$sMessage.' */}');
-    }
-
-    /**
-     * @return Exception|object|string
-     *
-     * @todo no support since typo3 9.5 right now. If no support is needed/added this method can be
-     * removed when making mkforms compatible to TYPO3 11.
-     */
-    public function _initBeUser()
-    {
-        global $BE_USER, $_COOKIE;
-
-        $TSFE = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            Sys25\RnBase\Utility\Typo3Classes::getTypoScriptFrontendControllerClass(),
-            $GLOBALS['TYPO3_CONF_VARS'],
-            0,
-            0
-        );
-        $TSFE->connectToDB();
-
-        // *********
-        // BE_USER
-        // *********
-        $BE_USER = '';
-        if ($_COOKIE['be_typo_user']) {        // If the backend cookie is set, we proceed and checks if a backend user is logged in.
-            // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-            $BE_USER = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
-            $BE_USER->lockIP = $GLOBALS['TYPO3_CONF_VARS']['BE']['lockIP'];
-            $BE_USER->start();            // Object is initialized
-            $BE_USER->unpack_uc('');
-            if ($BE_USER->user['uid']) {
-                $BE_USER->fetchGroupData();
-                $TSFE->beUserLogin = 1;
-            }
-            if ($BE_USER->checkLockToIP() && $BE_USER->checkBackendAccessSettingsFromInitPhp()) {
-                $BE_USER->extInitFeAdmin();
-                if ($BE_USER->extAdmEnabled) {
-                    $LANG = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
-                    $LANG->init($BE_USER->uc['lang']);
-
-                    $BE_USER->extSaveFeAdminConfig();
-                    // Setting some values based on the admin panel
-                    $TSFE->forceTemplateParsing = $BE_USER->extGetFeAdminValue('tsdebug', 'forceTemplateParsing');
-                    $TSFE->displayEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayIcons');
-                    $TSFE->displayFieldEditIcons = $BE_USER->extGetFeAdminValue('edit', 'displayFieldIcons');
-
-                    if (Sys25\RnBase\Utility\T3General::_GP('ADMCMD_editIcons')) {
-                        $TSFE->displayFieldEditIcons = 1;
-                        $BE_USER->uc['TSFE_adminConfig']['edit_editNoPopup'] = 1;
-                    }
-                    if (Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simUser')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateUserGroup'] = (int) Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simUser');
-                        $BE_USER->ext_forcePreview = 1;
-                    }
-                    if (Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simTime')) {
-                        $BE_USER->uc['TSFE_adminConfig']['preview_simulateDate'] = (int) Sys25\RnBase\Utility\T3General::_GP('ADMCMD_simTime');
-                        $BE_USER->ext_forcePreview = 1;
-                    }
-
-                    // Include classes for editing IF editing module in Admin Panel is open
-                    if (($BE_USER->extAdmModuleEnabled('edit') && $BE_USER->extIsAdmMenuOpen('edit')) || 1 == $TSFE->displayEditIcons) {
-                        $TSFE->includeTCA();
-                        if ($BE_USER->extIsEditAction()) {
-                            $BE_USER->extEditAction();
-                        }
-                        if ($BE_USER->extIsFormShown()) {
-                        }
-                    }
-
-                    if ($TSFE->forceTemplateParsing || $TSFE->displayEditIcons || $TSFE->displayFieldEditIcons) {
-                        $TSFE->set_no_cache();
-                    }
-                }
-            } else {    // Unset the user initialization.
-                $BE_USER = '';
-                $TSFE->beUserLogin = 0;
-            }
-        } elseif ($TSFE->ADMCMD_preview_BEUSER_uid) {
-            // the value this->formfield_status is set to empty in order to disable login-attempts to the backend account through this script
-            $BE_USER = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(Sys25\RnBase\Utility\Typo3Classes::getFrontendBackendUserAuthenticationClass());    // New backend user object
-            $BE_USER->userTS_dontGetCached = 1;
-            $BE_USER->setBeUserByUid($TSFE->ADMCMD_preview_BEUSER_uid);
-            $BE_USER->unpack_uc('');
-            if ($BE_USER->user['uid']) {
-                $BE_USER->fetchGroupData();
-                $TSFE->beUserLogin = 1;
-            } else {
-                $BE_USER = '';
-                $TSFE->beUserLogin = 0;
-            }
-        }
-
-        return $BE_USER;
     }
 
     public function getWhoThrown()

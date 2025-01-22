@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Hannes Bochmann
  *
@@ -24,9 +25,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
-/**
+/*
  * benötigte Klassen einbinden.
  */
+
+use PHPUnit\Framework\SkippedTestError;
+
 /**
  * Statische Hilfsmethoden für Tests.
  */
@@ -73,6 +77,7 @@ class tx_mkforms_tests_Util
         $parent = null,
         $oForm = null
     ) {
+        throw new SkippedTestError('TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath() is called which fails since TYPO3 12.4. This means the unit tests need to be converted to functional tests.');
         if (null == $oForm) {
             $oForm = tx_mkforms_forms_Factory::createForm('generic');
             $oForm->setTestMode();

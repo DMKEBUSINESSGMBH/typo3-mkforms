@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'dh_db' for the 'ameos_formidable' extension.
  *

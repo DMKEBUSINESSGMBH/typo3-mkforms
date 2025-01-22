@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'listerselect' for the 'mkforms' extension.
  * Auswahl von Datensätzen innerhalb eines Listers.

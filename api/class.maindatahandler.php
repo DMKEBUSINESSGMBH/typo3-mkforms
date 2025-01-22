@@ -1,5 +1,8 @@
 <?php
 
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 class formidable_maindatahandler extends formidable_mainobject
 {
     public $entryId;
@@ -660,15 +663,13 @@ class formidable_maindatahandler extends formidable_mainobject
         if (false === $this->aT3Languages) {
             $this->aT3Languages = [];
 
-            $databaseConnection = Sys25\RnBase\Database\Connection::getInstance();
-            $rows = $databaseConnection->doSelect(
-                '*',
-                'sys_language',
-                ['where' => '1=1'.$databaseConnection->enableFields('sys_language')]
-            );
-
-            foreach ($rows as $aRs) {
-                $this->aT3Languages[$aRs['uid']] = $aRs;
+            $sites = GeneralUtility::makeInstance(SiteFinder::class)->getAllSites();
+            foreach ($sites as $site) {
+                foreach ($site->getAllLanguages() as $languageId => $language) {
+                    if (!isset($this->aT3Languages[$languageId])) {
+                        $this->aT3Languages[$languageId] = (array) $language;
+                    }
+                }
             }
         }
 

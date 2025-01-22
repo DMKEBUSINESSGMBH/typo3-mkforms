@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_txtarea' for the 'ameos_formidable' extension.
  *

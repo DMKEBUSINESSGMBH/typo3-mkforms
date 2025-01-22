@@ -32,16 +32,16 @@ $EM_CONF['mkforms'] = [
     'CGLcompliance_note' => '',
     'constraints' => [
         'depends' => [
-            'rn_base' => '1.15.0-',
-            'typo3' => '10.4.25-11.5.99',
+            'rn_base' => '1.17.0-',
+            'typo3' => '11.5.7-12.4.99',
         ],
         'conflicts' => [
             'ameos_formidable' => '',
         ],
         'suggests' => [
-            'mkmailer' => '11.0.0-',
-            'mklib' => '11.0.0-',
-            'mksanitizedparameters' => '11.0.0-',
+            'mkmailer' => '12.0.0-',
+            'mklib' => '12.0.0-',
+            'mksanitizedparameters' => '12.0.0-',
         ],
     ],
     'autoload' => [
@@ -68,5 +68,4 @@ $EM_CONF['mkforms'] = [
             'tests/',
         ],
     ],
-    '_md5_values_when_last_written' => '',
 ];

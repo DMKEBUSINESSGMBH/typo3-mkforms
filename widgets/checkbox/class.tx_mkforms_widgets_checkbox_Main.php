@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_checkbox' for the 'ameos_formidable' extension.
  *

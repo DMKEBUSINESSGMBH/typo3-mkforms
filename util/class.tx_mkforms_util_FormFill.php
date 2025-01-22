@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Michael Wagner
  *
@@ -60,8 +61,6 @@ class tx_mkforms_util_FormFill
      * @param array                 $params
      * @param tx_mkforms_forms_Base $form
      *
-     * @todo    Eigene Exceptions nutzen (nicht von mklib)
-     *
      * @return array
      */
     public function getItemsFromDb(array $params, tx_mkforms_forms_Base $form)
@@ -78,8 +77,6 @@ class tx_mkforms_util_FormFill
      *
      * @param array                 $params
      * @param tx_mkforms_forms_Base $form
-     *
-     * @todo Eigene Exceptions nutzen (nicht von mklib)
      *
      * @return array
      */

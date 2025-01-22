@@ -19,8 +19,8 @@ class tx_mkforms_action_redirect_Main extends formidable_mainactionlet
         if (false !== ($mPage = $this->_navConf('/pageid'))) {
             $mPage = $this->callRunneable($mPage);
             $sUrl = $this->getForm()->getCObj()->typoLink_URL(['parameter' => $mPage]);
-            if (!Sys25\RnBase\Utility\T3General::isFirstPartOfStr($sUrl, 'http://') && '' !== trim($GLOBALS['TSFE']->baseUrl)) {
-                $sUrl = tx_mkforms_util_Div::removeEndingSlash($GLOBALS['TSFE']->baseUrl).'/'.$sUrl;
+            if (!Sys25\RnBase\Utility\T3General::isFirstPartOfStr($sUrl, 'http://') && '' !== trim($GLOBALS['TSFE']->config['config']['baseUrl'] ?? '')) {
+                $sUrl = tx_mkforms_util_Div::removeEndingSlash($GLOBALS['TSFE']->config['config']['baseUrl']).'/'.$sUrl;
             }
         } else {
             $sUrl = $this->_navConf('/url');

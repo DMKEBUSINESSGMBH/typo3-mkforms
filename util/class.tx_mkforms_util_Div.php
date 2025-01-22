@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -51,7 +52,7 @@ class tx_mkforms_util_Div
      */
     public static function getEnvExecMode()
     {
-        if (Sys25\RnBase\Utility\TYPO3::isCliMode()) {
+        if (TYPO3\CMS\Core\Core\Environment::isCli()) {
             return 'CLI';
         } elseif (Sys25\RnBase\Utility\Environment::isBackend()) {
             return 'BE';

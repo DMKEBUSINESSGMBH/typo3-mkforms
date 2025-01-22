@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_progressbar' for the 'ameos_formidable' extension.
  *

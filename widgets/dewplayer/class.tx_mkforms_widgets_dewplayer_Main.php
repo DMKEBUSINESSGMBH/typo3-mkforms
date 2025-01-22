@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'rdt_dewplayer' for the 'ameos_formidable' extension.
  *

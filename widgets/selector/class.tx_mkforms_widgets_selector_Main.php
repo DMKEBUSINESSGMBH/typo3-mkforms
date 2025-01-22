@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin 'tx_rdtselector' for the 'ameos_formidable' extension.
  *

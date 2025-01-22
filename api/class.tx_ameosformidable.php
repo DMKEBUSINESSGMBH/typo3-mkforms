@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -619,11 +620,7 @@ class tx_ameosformidable implements tx_mkforms_forms_IForm
         /* @var \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication $frontendUser */
         $frontendUser = $GLOBALS['TSFE']->fe_user ?? null;
         if ($frontendUser) {
-            if (Sys25\RnBase\Utility\TYPO3::isTYPO115OrHigher()) {
-                $sessionId = $frontendUser->getSession()->getIdentifier();
-            } else {
-                $sessionId = $frontendUser->id;
-            }
+            $sessionId = $frontendUser->getSession()->getIdentifier();
         }
         $this->setSessionId($sessionId ?? 0);
 
@@ -4704,27 +4701,6 @@ JAVASCRIPT;
     {
         if (false !== ($aPrevRequest = $this->getPreviousAjaxRequest())) {
             return $aPrevRequest['params'];
-        }
-
-        return false;
-    }
-
-    public function div_autoLogin($iUserId)
-    {
-        if ('FE' === tx_mkforms_util_Div::getEnvExecMode()) {
-            $users = Sys25\RnBase\Database\Connection::getInstance()->doSelect(
-                '*',
-                'fe_users',
-                ['where' => 'uid=\''.$iUserId.'\'']
-            );
-
-            if ($users[0]) {
-                $GLOBALS['TSFE']->fe_user->createUserSession($users[0]);
-                $GLOBALS['TSFE']->fe_user->loginSessionStarted = true;
-                $GLOBALS['TSFE']->fe_user->user = $GLOBALS['TSFE']->fe_user->fetchUserSession();
-
-                return true;
-            }
         }
 
         return false;

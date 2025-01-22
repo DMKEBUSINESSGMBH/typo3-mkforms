@@ -133,3 +133,12 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['ajax_services']['rdt_autocomp
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['mkforms']['baseExceptionCode'] = 200;
 
 require_once TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('mkforms', 'Classes/Constants.php');
+
+if ($_POST['mkformsAjaxId'] ?? $_GET['mkformsAjaxId'] ?? 0) {
+    Sys25\RnBase\Utility\CHashUtility::addExcludedParametersForCacheHash([
+        'mkformsAjaxId',
+        'pageId',
+        'object',
+        'servicekey',
+    ]);
+}
