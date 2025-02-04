@@ -541,6 +541,9 @@ ERRORMESSAGE;
      */
     public static function toServerPath($sPath)
     {
+        if ('EXT:' === substr($sPath, 0, 4)) {
+            return Sys25\RnBase\Utility\T3General::getFileAbsFileName($sPath);
+        }
         // removes the leading slash so the path _really_ is relative
         $sPath = self::removeStartingSlash(self::toRelPath($sPath));
 
