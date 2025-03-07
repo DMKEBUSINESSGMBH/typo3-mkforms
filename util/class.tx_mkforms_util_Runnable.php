@@ -711,7 +711,7 @@ class tx_mkforms_util_Runnable
         }
 
         // forms object has to be the second parameter in php callbacks!!!
-        $aArgs = tx_mkforms_util_Div::array_insert($aArgs, 1, ['form' => $this->getForm()]);
+        $aArgs = tx_mkforms_util_Div::array_insert($aArgs, 1, [$this->getForm()]);
 
         // parameter aus dem xml übernehmen
         $aUserObjParams = $this->getConfig()->get('/params/', $aArgs[0]);
