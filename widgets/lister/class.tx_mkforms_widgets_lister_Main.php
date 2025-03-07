@@ -537,10 +537,12 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         }
 
         if ('BE' === $sEnvMode || 'EID' === $sEnvMode) {
+            $uri = new TYPO3\CMS\Core\Http\Uri($sBaseUrl);
+            $newQuery = http_build_query($aFullParams);
+
             return $this->oForm->xhtmlUrl(
-                Sys25\RnBase\Utility\T3General::linkThisUrl(
-                    $sBaseUrl,
-                    $aFullParams
+                (string) $uri->withQuery(
+                    '' !== $uri->getQuery() ? $uri->getQuery().'&'.$newQuery : $newQuery
                 )
             );
         } elseif ('FE' === $sEnvMode) {
