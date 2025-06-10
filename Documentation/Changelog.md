@@ -1,6 +1,12 @@
 Changelog
 =========
 
+12.0.0
+-----
+
+- Add support for TYPO3 12.4
+- Drop support for TYPO3 10.4
+
 11.0.8
 -----
 
