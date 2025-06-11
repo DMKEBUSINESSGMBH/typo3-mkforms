@@ -257,7 +257,7 @@ class tx_mkforms_util_XMLParser
             if ($result[1]) {
                 // Charset found in the XML declaration
                 $charset = $result[1];
-            } elseif ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']) {
+            } elseif ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?? null) {
                 // Force charset to Typo3 configuration if defined
                 $charset = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
             } else {

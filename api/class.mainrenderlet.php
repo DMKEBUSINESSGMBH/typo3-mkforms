@@ -687,7 +687,7 @@ class formidable_mainrenderlet extends formidable_mainobject
             return $sLabel;
         }
 
-        $sHtmlId = (false !== $aConfig && $aConfig['sId']) ? $aConfig['sId'] : $this->_getElementHtmlId();
+        $sHtmlId = (false !== $aConfig && ($aConfig['sId'] ?? null)) ? $aConfig['sId'] : $this->_getElementHtmlId();
         $sLabelId = $sHtmlId.'_label';
         $aClasses = [];
         $aClasses[] = $this->sDefaultLabelClass;
@@ -696,6 +696,7 @@ class formidable_mainrenderlet extends formidable_mainobject
             $aClasses[] = $sLabelId;
         }
 
+        $forAttribute = '';
         if (false !== $this->defaultTrue('/labelfor', $aConfig)) {
             $forAttribute = !$this->_readOnly() ? ' for="'.$sHtmlId.'"' : '';
         }

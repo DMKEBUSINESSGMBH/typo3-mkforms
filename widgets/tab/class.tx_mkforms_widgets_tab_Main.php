@@ -23,6 +23,7 @@ class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
         $sEnd = '</a>';
         $sEnd .= '</li>';
 
+        $aChilds = [];
         if ($this->hasChilds()) {
             $aChilds = $this->renderChildsBag();
             $sCompiledChilds = $this->renderChildsCompiled(
@@ -33,7 +34,7 @@ class tx_mkforms_widgets_tab_Main extends formidable_mainrenderlet
         }
 
         $aHtmlBag = [
-            '__compiled' => $this->_displayLabel($sLabel).$sBegin.$sCompiledChilds.$sEnd,
+            '__compiled' => $this->_displayLabel('').$sBegin.$sCompiledChilds.$sEnd,
             'childs' => $aChilds,
         ];
 

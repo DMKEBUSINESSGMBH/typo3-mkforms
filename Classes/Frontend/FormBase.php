@@ -126,7 +126,11 @@ class FormBase extends AbstractAction
         // Set Errors
         $request->getViewContext()->offsetSet('errors', !empty($this->errors) ? $this->configCheck($configurations, $confId) : false);
 
-        $this->handleRedirect($request->getViewContext()->offsetGet('redirect_parameters'), $this->form, $configurations, $confId);
+        $redirectParameters = [];
+        if ($request->getViewContext()->offsetExists('redirect_parameters')) {
+            $redirectParameters = $request->getViewContext()->offsetGet('redirect_parameters');
+        }
+        $this->handleRedirect($redirectParameters, $this->form, $configurations, $confId);
     }
 
     /**
