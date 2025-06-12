@@ -4,6 +4,7 @@ Changelog
 12.0.2
 -----
 - Fixed more PHP warnings
+- Make compatible with newest rn_base version
 
 12.0.1
 -----
