@@ -758,8 +758,9 @@ JAVASCRIPT;
         $this->oForm = $form;
     }
 
-    public function unsetForm()
+    public function cleanBeforeSession()
     {
         unset($this->oForm);
+        unset($this->jsWrapper);
     }
 }

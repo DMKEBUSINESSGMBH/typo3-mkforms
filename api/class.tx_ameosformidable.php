@@ -4063,7 +4063,7 @@ JAVASCRIPT;
         // die wiederrum enthält ein CObj. Wenn nun ameos_formidable
         // installiert ist, sind im CObj Hooks enthalten, die zu Fehlern beim
         // wiederherstellen der Form führen.
-        $this->oJs->unsetForm();
+        $this->oJs->cleanBeforeSession();
         unset($this->_oParent);
         unset($this->oParent);
         unset($this->oMajixEvent);
