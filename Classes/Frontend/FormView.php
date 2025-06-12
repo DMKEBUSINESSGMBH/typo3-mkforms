@@ -52,6 +52,7 @@ class FormView extends BaseView
 
         // Wir holen die Daten von der Action ab
         // @TODO: mal auslagern! (handleFormData)
+        $data = [];
         if ($viewData->offsetExists('formData') && ($data = $viewData->offsetGet('formData'))) {
             // Successfully filled in form?
             if (is_array($data)) {
