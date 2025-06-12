@@ -254,7 +254,7 @@ class tx_mkforms_util_XMLParser
             // ereg('^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"',substr($data,0,200),$result);
             preg_match('/^[[:space:]]*<\?xml[^>]*encoding[[:space:]]*=[[:space:]]*"([^"]*)"/', substr($data, 0, 200), $result);
             // Check result
-            if ($result[1]) {
+            if ($result[1] ?? null) {
                 // Charset found in the XML declaration
                 $charset = $result[1];
             } elseif ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?? null) {
