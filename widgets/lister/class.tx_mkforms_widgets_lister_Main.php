@@ -90,6 +90,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
         $aData = $this->fetchListerData();
         if (0 === (int) $aData['numrows']) {
             if (false !== ($mEmpty = $this->_navConf('/ifempty'))) {
+                $sOut = '';
                 if (is_array($mEmpty)) {
                     if (false === $this->getForm()->_defaultTrue('/process', $mEmpty)) {
                         // nicht verarbeiten!
@@ -168,7 +169,7 @@ class tx_mkforms_widgets_lister_Main extends formidable_mainrenderlet
                     'column' => $this->aLimitAndSort['sortby'],
                     'direction' => $this->aLimitAndSort['sortdir'],
                 ],
-                'pages' => $this->aPager['numrows'],
+                'pages' => $this->aPager['numrows'] ?? 0,
                 'repaintfirst' => $this->synthetizeAjaxEventCb(
                     'onclick',
                     "rdt('".$this->getAbsName()."').repaintFirst()",
