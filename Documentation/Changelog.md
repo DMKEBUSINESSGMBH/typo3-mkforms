@@ -1,6 +1,10 @@
 Changelog
 =========
 
+12.0.4
+-----
+- Fixed minor bug
+
 12.0.3
 -----
 - Fixed PHP warnings
