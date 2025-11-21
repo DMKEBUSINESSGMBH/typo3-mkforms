@@ -720,6 +720,7 @@ class tx_mkforms_util_Runnable
         }
 
         // Jetzt der Aufruf
+        $mRes = '';
         switch ($sType) {
             case 'php':
                 array_shift($aArgs);
@@ -782,7 +783,7 @@ class tx_mkforms_util_Runnable
 
         $this->pullUserObjParam();
 
-        return $mRes;
+        return (string) $mRes;
     }
 
     /**
