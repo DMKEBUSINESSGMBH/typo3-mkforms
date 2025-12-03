@@ -223,7 +223,7 @@ class tx_mkforms_widgets_date_Main extends formidable_mainrenderlet
      *
      * @return int the date as a UNIX timestamp
      */
-    private function _date2tstamp($dateAsString, $dateFormat)
+    protected function _date2tstamp($dateAsString, $dateFormat)
     {
         /* @var string[] $dateFormatSeparators */
         $dateFormatSeparators = [];
