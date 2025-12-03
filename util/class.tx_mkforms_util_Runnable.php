@@ -629,7 +629,7 @@ class tx_mkforms_util_Runnable
      *
      * @param array $aCB Array mit der Konfiguration des CB aus dem XML
      *
-     * @return string
+     * @return string|array
      */
     private function callCodeBehind($aCB)
     {
@@ -720,7 +720,6 @@ class tx_mkforms_util_Runnable
         }
 
         // Jetzt der Aufruf
-        $mRes = '';
         switch ($sType) {
             case 'php':
                 array_shift($aArgs);
@@ -783,7 +782,7 @@ class tx_mkforms_util_Runnable
 
         $this->pullUserObjParam();
 
-        return (string) $mRes;
+        return $mRes ?? '';
     }
 
     /**
