@@ -1,6 +1,10 @@
 Changelog
 =========
 
+12.0.5
+-----
+- Fixed some minor bugs
+
 12.0.4
 -----
 - Fixed minor bug
